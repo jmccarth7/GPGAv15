@@ -1,0 +1,15 @@
+module GA_Parameters
+
+implicit none
+
+! GA routine-specific variables that can be modified
+integer (kind=4), parameter :: n_GA_Generations = 200
+integer (kind=4), parameter :: n_GA_Individuals = 9
+
+! Note: The next 4 parameters must add up to 1.0
+real (kind=4), parameter :: GA_Elitist_Probability=0.1   ! Keeps the top n_GP_Elitists of the Best Fit Individuals from Generation to Generation
+real (kind=4), parameter :: GA_Asexual_Reproduction_Probability=0.4   ! probability of asexual reproduction
+real (kind=4), parameter :: GA_Crossover_Probability = 0.4  ! probability of sexual crossing of binary string 
+real (kind=4), parameter :: GA_Mutation_Probability = 0.1   ! probability of mutation in binary string
+
+end module GA_Parameters

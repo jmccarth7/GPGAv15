@@ -1,0 +1,9 @@
+module GP_Data
+
+use GP_Parameters
+
+implicit none
+
+real (kind=8) :: Data_Array(0:n_Time_Steps,n_CODE_Equations)
+
+end module GP_Data
