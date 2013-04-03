@@ -11,12 +11,13 @@ integer(kind=4),parameter :: output_unit = 20
 
 
 !integer(kind=4), parameter :: n_GP_individuals=1
-!integer(kind=4), allocatable :: n_GP_individuals
+integer(kind=4) :: n_GP_individuals
+integer(kind=4) :: n_GP_Generations                                                                                                                       
 
 integer(kind=4) :: i_GP_individual
 integer(kind=4) :: i_GP_Best_Parent                                                                                                                      
 integer(kind=4) :: i_GP_Generation                                                                                                                       
-integer(kind=4) :: i_GP_Individual                                                                                                                       
+!integer(kind=4) :: i_GP_Individual
 integer(kind=4) :: j_GP_Individual                                                                                                                       
 integer(kind=4) :: i_Tree                                                                                                                                
 integer(kind=4) :: i_Node          
@@ -35,8 +36,8 @@ integer(kind=4) :: i_level
 integer(kind=4) :: i_function
 integer(kind=4) :: i_CODE_equation
 integer(kind=4) :: j_CODE_equation
-integer(kind=4) :: i_tree
-integer(kind=4) :: i_node
+!integer(kind=4) :: i_tree
+!integer(kind=4) :: i_node
 integer(kind=4) :: i_node_left
 integer(kind=4) :: i_node_right
 integer(kind=4) :: n_parameters
@@ -55,19 +56,19 @@ integer, parameter :: str_len = 80
 
 ! GP Probability of a Tree being assigned
 !real (kind=4), parameter :: GP_Tree_Probability=0.5 ! Estimated from previous work by Joel Cohen
-real(kind=8), parameter :: GP_Tree_Probability !=0.5 ! Estimated from previous work by Joel Cohen
+real(kind=8) :: GP_Tree_Probability !=0.5 ! Estimated from previous work by Joel Cohen
 
 ! Note: The next 4 parameters must add up to 1.0
 
 ! Keeps the top n_GP_Elitists of the Best Fit Individuals from Generation to Generation
 !real (kind=4), parameter :: GP_Elitist_Probability = 0.1 
-real(kind=8), parameter :: GP_Elitist_Probability  != 0.1  
+real(kind=8) :: GP_Elitist_Probability  != 0.1  
 
 !real (kind=4), parameter :: GP_Asexual_Reproduction_Probability = 0.4   ! probability of asexual reproduction
-real(kind=8), parameter :: GP_Asexual_Reproduction_Probability  != 0.4   ! probability of asexual reproduction
+real(kind=8) :: GP_Asexual_Reproduction_Probability  != 0.4   ! probability of asexual reproduction
 
 !real (kind=4), parameter :: GP_Crossover_Probability = 0.4   ! probability of sexual crossing of binary string 
-real(kind=8), parameter :: GP_Crossover_Probability  != 0.4   ! probability of sexual crossing of binary string 
+real(kind=8) :: GP_Crossover_Probability  != 0.4   ! probability of sexual crossing of binary string 
 
 !real (kind=4), parameter :: GP_Mutation_Probability = 0.1    ! probability of mutation in binary string
 real(kind=8) :: GP_Mutation_Probability  != 0.1               ! probability of mutation in binary string

@@ -47,6 +47,7 @@ real(kind=8), allocatable, dimension(:) :: output_array
 
 real (kind=8) :: ssum, ssum2, totobs, cff
 
+real (kind=8) :: xcount 
 !----------------------------------------------------------------------------------------
 
 
@@ -120,6 +121,9 @@ call MPI_BCAST( GP_Mutation_Probability, 1,    &
 
 call MPI_BCAST( n_gp_individuals, 1,    &
                 MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
+
+call MPI_BCAST( n_gp_generations, 1,    &
+                MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
 !------------------------------------------------------------------
 
 ! wait until everybody has the values
@@ -154,21 +158,23 @@ if( myid == 0 )then
                                  GA_save_elites_Probability
 
     write(6,'(A,1x, E15.7)') '0: GP_Tree_Probability ', &
-                                 GP_Tree_Probability  
-                                                                                                                                                         
+                                 GP_Tree_Probability
+
     write(6,'(A,1x, E15.7)') '0: GP_Elitist_Probability ', &
-                                 GP_Elitist_Probability  
-                                                                                                                                                         
+                                 GP_Elitist_Probability
+
     write(6,'(A,1x, E15.7)') '0: GP_Asexual_Reproduction_Probability ', &
-                                 GP_Asexual_Reproduction_Probability  
-                                                                                                                                                         
+                                 GP_Asexual_Reproduction_Probability
+
     write(6,'(A,1x, E15.7)') '0: GP_Crossover_Probability ', &
-                                 GP_Crossover_Probability 
+                                 GP_Crossover_Probability
 
     write(6,'(A,1x, E15.7)') '0: GP_Mutation_Probability ', &
-                                 GP_Mutation_Probability  
+                                 GP_Mutation_Probability
     write(6,'(A,1x,I10)')    '0: n_gp_individuals           ', &
                                  n_gp_individuals
+    write(6,'(A,1x,I10)')    '0: n_gp_generations           ', &
+                                 n_gp_generations
 
 endif ! myid == 0
 !------------------------------------------------------------------
@@ -205,6 +211,26 @@ allocate(  GP_Child_Individual_SSE(n_GP_Individuals) )
 allocate(  GP_Individual_Ranked_Fitness(n_GP_Individuals) )
 allocate(  GP_Integrated_Ranked_Fitness(n_GP_Individuals) )
 allocate(  Run_GP_Calculate_Fitness(n_GP_Individuals) )
+
+! must be kept for re-evaluations of next generations
+!real(kind=8) :: GA_Adult_Individual_SSE(n_GA_Individuals)
+allocate( GA_Adult_Individual_SSE(n_GA_Individuals) )
+
+! must be kept for re-evaluations of next generations
+!real(kind=8) :: GA_Child_Individual_SSE(n_GA_Individuals)
+allocate( GA_Child_Individual_SSE(n_GA_Individuals) )
+
+! needed to support sexual and "tournament-style" reproduction
+!real(kind=8) :: GA_Integrated_SSE(n_GA_Individuals)
+allocate( GA_Integrated_SSE(n_GA_Individuals) )
+
+! must be kept for re-evaluations of next generations
+!real(kind=8) :: GA_Individual_Ranked_Fitness(n_GA_Individuals)
+allocate( GA_Individual_Ranked_Fitness(n_GA_Individuals) )
+
+! must be kept for re-evaluations of next generations
+!real(kind=8) :: GA_Integrated_Ranked_Fitness(n_GA_Individuals)
+allocate( GA_Integrated_Ranked_Fitness(n_GA_Individuals) )
 
 
 allocate(  GP_Population_Parameter_Solution(n_GP_individuals,n_maximum_number_parameters) )
@@ -454,22 +480,24 @@ if( myid == 0 )then
     write(*,'(A,1x,E15.7)') '0: GA_save_elites_Probability  ', &
                                 GA_save_elites_Probability
 
-    write(6,'(A,1x, E15.7)') '0: GP_Tree_Probability ', &                                                                                                
-                                 GP_Tree_Probability                                                                                                     
-                                                                                                                                                         
-    write(6,'(A,1x, E15.7)') '0: GP_Elitist_Probability ', &                                                                                             
-                                 GP_Elitist_Probability                                                                                                  
-                                                                                                                                                         
-    write(6,'(A,1x, E15.7)') '0: GP_Asexual_Reproduction_Probability ', &                                                                                
-                                 GP_Asexual_Reproduction_Probability                                                                                     
-                                                                                                                                                         
-    write(6,'(A,1x, E15.7)') '0: GP_Crossover_Probability ', &                                                                                           
-                                 GP_Crossover_Probability                                                                                                
-                                                                                                                                                         
-    write(6,'(A,1x, E15.7)') '0: GP_Mutation_Probability ', &                                                                                            
-                                 GP_Mutation_Probability                                                                                                 
-    write(6,'(A,1x,I10)')    '0: n_gp_individuals           ', &                                                                                         
-                                 n_gp_individuals                   
+    write(6,'(A,1x, E15.7)') '0: GP_Tree_Probability ', &
+                                 GP_Tree_Probability
+
+    write(6,'(A,1x, E15.7)') '0: GP_Elitist_Probability ', &
+                                 GP_Elitist_Probability
+
+    write(6,'(A,1x, E15.7)') '0: GP_Asexual_Reproduction_Probability ', &
+                                 GP_Asexual_Reproduction_Probability
+
+    write(6,'(A,1x, E15.7)') '0: GP_Crossover_Probability ', &
+                                 GP_Crossover_Probability
+
+    write(6,'(A,1x, E15.7)') '0: GP_Mutation_Probability ', &
+                                 GP_Mutation_Probability
+    write(6,'(A,1x,I10)')    '0: n_gp_individuals           ', &
+                                 n_gp_individuals
+    write(6,'(A,1x,I10)')    '0: n_gp_generations           ', &
+                                 n_gp_generations
 
     !write(*,'(A)') '0: code calls lmdif for all individuals and generations '
     write(*,'(A)') '0: code calls lmdif only for best individual on last generation'
@@ -526,16 +554,16 @@ endif ! myid == 0
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 ! Number of Carry-Over Elitists
-n_GP_Elitists=int(GP_Elitist_Probability*n_GP_individuals)                           
+n_GP_Elitists=int(GP_Elitist_Probability*n_GP_individuals)
 
 ! Number of GP Fitness Proportionate Reproduction
-n_GP_Asexual_Reproductions=int(GP_Asexual_Reproduction_Probability*n_GP_individuals) 
+n_GP_Asexual_Reproductions=int(GP_Asexual_Reproduction_Probability*n_GP_individuals)
 
 ! Number of GP Sexual Crossovers
-n_GP_Crossovers=int(GP_Crossover_Probability*n_GP_individuals)                              
+n_GP_Crossovers=int(GP_Crossover_Probability*n_GP_individuals)
 
 ! Number of GP Mutations
-n_GP_Mutations=n_GP_Individuals-(n_GP_Elitists+n_GP_Crossovers+n_GP_Asexual_Reproductions)  
+n_GP_Mutations=n_GP_Individuals-(n_GP_Elitists+n_GP_Crossovers+n_GP_Asexual_Reproductions)
 
 if( n_GP_Elitists + &
     n_GP_Asexual_Reproductions + &
@@ -554,6 +582,8 @@ elseif(n_GP_Elitists + &
 endif !   n_GP_Elitists + ...
 
 do i_GP_Generation=1,n_GP_Generations
+
+
   write(*,*) 'GP Generation # ',i_GP_Generation,' is underway',n_Nodes*n_Trees
 
   GP_Child_Population_Node_Type=GP_Adult_Population_Node_Type        ! Matrix Operation
@@ -563,12 +593,12 @@ do i_GP_Generation=1,n_GP_Generations
 
   ! randomly create the initial tree arrays for each individual and send them all to GA_lmdif for parameter optimization
 
-  if( i_GP_Generation .eq. 1) then  
+  if( i_GP_Generation .eq. 1) then
 
       Run_GP_Calculate_Fitness=.true. ! determines if the new GP child has to be sent to GA_lmdif for parameter optimization
       call GP_Tree_Build              ! initialize the GP_Adult_Population_Node_Type array with random trees
 
-  else 
+  else
 
       ! create the next 'generation' of tree structures using either:
       !    i)  Copy the top n_GP_Elitists individuals into the next generation
@@ -583,7 +613,7 @@ do i_GP_Generation=1,n_GP_Generations
     !   ii) Carry out "GP Fitness-Proportionate Reproduction"
     if (n_GP_Asexual_Reproductions .gt. 0) call GP_Fitness_Proportionate_Asexual_Reproduction
 
-    !  iii) Carry out "GP Tree Crossover" Operations Using Tournament-Style 
+    !  iii) Carry out "GP Tree Crossover" Operations Using Tournament-Style
     !       Sexual Reproduction Selection and randomly use it to replace the new children
     if (n_GP_Crossovers .gt. 0) call GP_Tournament_Style_Sexual_Reproduction
 
@@ -599,8 +629,8 @@ do i_GP_Generation=1,n_GP_Generations
 
 
 
-! sweep through all the GP_Adult_Population_Node_Type 
-! to replace function nodes that have both terminals set as parameters 
+! sweep through all the GP_Adult_Population_Node_Type
+! to replace function nodes that have both terminals set as parameters
 ! and set the node to a parameter itself
 
   call GP_Clean_Tree_Nodes
@@ -653,18 +683,18 @@ do  i_GP_individual=1,n_GP_individuals
     !-------------------------------------------------------------------------------------
 
 
-      cff=0.
-      icount=0.
+      cff=0.0d0
+      xcount=0.0d0
       do i_Node=1,n_Nodes
         do i_Tree=1,n_Trees
 
             if (GP_Individual_Node_Type(i_Node,i_Tree) .ne. GP_Node_Type_Answer(i_Node,i_Tree)) then
               if (GP_Node_Type_Answer(i_Node,i_Tree) .eq. -9999 .or. GP_Individual_Node_Type(i_Node,i_Tree) .eq. -9999.) then
-                cff=1.
-                icount=icount+cff
+                cff=1.0d0
+                xcount=xcount+cff
               else
                 cff=float(GP_Individual_Node_Type(i_Node,i_Tree)-GP_Node_Type_Answer(i_Node,i_Tree))**2
-                icount=icount+cff
+                xcount=xcount+cff
               endif
             endif
 
@@ -672,7 +702,7 @@ do  i_GP_individual=1,n_GP_individuals
       enddo
 
 
-      GP_Child_Individual_SSE(i_GP_Individual)=icount
+      GP_Child_Individual_SSE(i_GP_Individual)=xcount
 
       !off GP_Child_Individual_SSE(i_GP_individual)=GA_Individual_Lowest_SSE  ! from the GA_lmdif routine output
 
@@ -782,12 +812,12 @@ do  i_GP_individual=1,n_GP_individuals
   ! calculate the total population's SSE
 
   cff=0.0
-  do i_GP_Individual=1,n_GP_Individuals  
+  do i_GP_Individual=1,n_GP_Individuals
     cff=cff+GP_Child_Individual_SSE(i_GP_Individual)
   enddo
 
   ! calculate a normalized ranking of the errors (higher individual SSE == lower value/ranking)
-  do i_GP_Individual=1,n_GP_Individuals 
+  do i_GP_Individual=1,n_GP_Individuals
     GP_Individual_Ranked_Fitness(i_GP_Individual)=(cff-GP_Child_Individual_SSE(i_GP_Individual))/cff
   enddo
 
@@ -795,7 +825,7 @@ do  i_GP_individual=1,n_GP_individuals
   ! calculate the sum of the rankings
 
   cff=0.0
-  do i_GP_Individual=1,n_GP_Individuals  
+  do i_GP_Individual=1,n_GP_Individuals
     cff=cff+GP_Individual_Ranked_Fitness(i_GP_Individual)
     GP_Integrated_Ranked_Fitness(i_GP_Individual)=cff
   enddo
@@ -803,7 +833,7 @@ do  i_GP_individual=1,n_GP_individuals
 
   ! normalize to the integrated ranking values so that the ranking integration ranges from [0. to 1.]
 
-  do i_GP_Individual=1,n_GP_Individuals 
+  do i_GP_Individual=1,n_GP_Individuals
     GP_Integrated_Ranked_Fitness(i_GP_Individual) = &
     GP_Integrated_Ranked_Fitness(i_GP_Individual)/GP_Integrated_Ranked_Fitness(n_GP_Individuals)
   enddo
@@ -902,6 +932,25 @@ deallocate(  GP_Individual_Ranked_Fitness )
 deallocate(  GP_Integrated_Ranked_Fitness )
 deallocate(  Run_GP_Calculate_Fitness )
 
+! must be kept for re-evaluations of next generations
+!real(kind=8) :: GA_Adult_Individual_SSE(n_GA_Individuals)
+deallocate( GA_Adult_Individual_SSE )
+
+! must be kept for re-evaluations of next generations
+!real(kind=8) :: GA_Child_Individual_SSE(n_GA_Individuals)
+deallocate( GA_Child_Individual_SSE )
+
+! needed to support sexual and "tournament-style" reproduction
+!real(kind=8) :: GA_Integrated_SSE(n_GA_Individuals)
+deallocate( GA_Integrated_SSE )
+
+! must be kept for re-evaluations of next generations
+!real(kind=8) :: GA_Individual_Ranked_Fitness(n_GA_Individuals)
+deallocate( GA_Individual_Ranked_Fitness )
+
+! must be kept for re-evaluations of next generations
+!real(kind=8) :: GA_Integrated_Ranked_Fitness(n_GA_Individuals)
+deallocate( GA_Integrated_Ranked_Fitness )
 
 deallocate(  GP_Population_Parameter_Solution )
 deallocate(  GP_Individual_Parameter_Solution )

@@ -77,7 +77,8 @@ WRITE(6,'(A//)' )&
 
 ! defaults 
 
-n_GP_individuals=9
+n_GP_individuals = 9
+n_GP_generations = 1
 
 GP_Tree_Probability=0.5d0 
                                                                                                                                 
@@ -307,6 +308,21 @@ do
         READ(Aline(len('n_gp_individuals')+1:), * )  n_gp_individuals
 
         write(6,'(A,1x,I6)') 'rcntl: n_gp_individuals = ', n_gp_individuals 
+
+
+
+!--------------------------------------------------------------------
+
+
+!N_GP_generations
+
+    elseif( Aline(1:len('n_gp_generations')) == "N_GP_GENERATIONS" .or.     &
+            Aline(1:len('n_gp_generations')) == "n_gp_generations" ) then
+
+        READ(Aline(len('n_gp_generations')+1:), * )  n_gp_generations
+
+        write(6,'(A,1x,I6)') 'rcntl: n_gp_generations = ', n_gp_generations 
+
 
 
 

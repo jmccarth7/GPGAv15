@@ -11,12 +11,13 @@ integer(kind=4) :: n_GP_Asexual_Reproductions
 integer(kind=4) :: n_GP_Crossovers
 integer(kind=4) :: n_GP_Mutations
 
-! GP_Node_Parameters_Answer(n_Nodes,n_Trees)                                                                                              
-real(kind=8), allocatable, dimension(:,:)  :: GP_Node_Parameters_Answer(n_Nodes,n_Trees)                                                                                              
-! GP_Node_Type_Answer(n_Nodes,n_Trees)                                                                                                 
+! GP_Node_Parameters_Answer(n_Nodes,n_Trees)
+real(kind=8), allocatable, dimension(:,:)  :: GP_Node_Parameters_Answer
+
+! GP_Node_Type_Answer(n_Nodes,n_Trees)
 integer(kind=4), allocatable, dimension(:,:)  :: GP_Node_Type_Answer
 
-! GP_Node_Type_for_Plotting(9,n_Nodes,n_Trees)        
+! GP_Node_Type_for_Plotting(9,n_Nodes,n_Trees)
 integer(kind=4), allocatable, dimension(:,:,:)  :: GP_Node_Type_for_Plotting
 
 !real(kind=8) :: GP_Population_Node_Parameters(n_GP_individuals,n_nodes,n_trees)
@@ -59,8 +60,6 @@ real(kind=8),allocatable,dimension(:)         :: GP_Population_Fitness
 !integer(kind=4) :: GP_Population_Node_Type(n_GP_individuals,n_nodes,n_trees)
 integer(kind=4),allocatable,dimension(:,:,:) :: GP_Population_Node_Type
 
-!integer(kind=4) :: GP_Individual_Node_Type(n_nodes,n_trees)
-integer(kind=4),allocatable,dimension(:,:)   :: GP_Individual_Node_Type
 
 !------------------------------------------------------------------------------
 
@@ -69,9 +68,6 @@ integer(kind=4),allocatable,dimension(:,:) :: Runga_Kutta_Node_Type
 
 !real(kind=8) :: Runga_Kutta_Node_Parameters(n_nodes,n_trees)
 real(kind=8),allocatable,dimension(:,:)       :: Runga_Kutta_Node_Parameters
-
-!integer(kind=4) :: Runga_Kutta_Node_Type(n_nodes,n_trees)
-integer(kind=4),allocatable,dimension(:,:)   :: Runga_Kutta_Node_Type
 
 !real (kind=8) :: Runga_Kutta_Initial_Conditions(n_CODE_equations)
 real (kind=8),allocatable,dimension(:)        :: Runga_Kutta_Initial_Conditions
@@ -83,19 +79,23 @@ real(kind=8),allocatable, dimension(:,:) :: Runga_Kutta_Solution
 
 real(kind=8) :: GP_Individual_Lowest_SSE
 
+!---------------------------------------------------------------------------
+
 ! must be kept for re-evaluations of next generations >>>
 
-! GP_Adult_Individual_SSE(n_GP_Individuals)       
-! GP_Child_Individual_SSE(n_GP_Individuals)       
-! GP_Individual_Ranked_Fitness(n_GP_Individuals)  
-! GP_Integrated_Ranked_Fitness(n_GP_Individuals)  
+! GP_Adult_Individual_SSE(n_GP_Individuals)
+! GP_Child_Individual_SSE(n_GP_Individuals)
+! GP_Individual_Ranked_Fitness(n_GP_Individuals)
+! GP_Integrated_Ranked_Fitness(n_GP_Individuals)
 
 real(kind=8),allocatable, dimension(:) :: GP_Adult_Individual_SSE
 real(kind=8),allocatable, dimension(:) :: GP_Child_Individual_SSE
 real(kind=8),allocatable, dimension(:) :: GP_Individual_Ranked_Fitness
 real(kind=8),allocatable, dimension(:) :: GP_Integrated_Ranked_Fitness
+
 ! must be kept for re-evaluations of next generations <<<
 
+!---------------------------------------------------------------------------
 
 !logical, dimension(n_GP_Individuals) :: Run_GP_Calculate_Fitness
 logical, allocatable, dimension(:) :: Run_GP_Calculate_Fitness
