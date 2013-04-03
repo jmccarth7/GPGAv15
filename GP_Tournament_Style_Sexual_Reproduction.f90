@@ -1,6 +1,7 @@
 subroutine GP_Tournament_Style_Sexual_Reproduction
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-!  randomly choose two 'parents' using the Tournament-Style Selection and cross the parameter strings to create two new 'children' parameter strings
+! randomly choose two 'parents' using the Tournament-Style Selection 
+! and cross the parameter strings to create two new 'children' parameter strings
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 use GP_Parameters
@@ -27,86 +28,134 @@ logical CROSS
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 i_GP_Individual=n_GP_Elitists+n_GP_Asexual_Reproductions
+
+
 do i_GP_Crossover=1,n_GP_Crossovers
+
+
   i_GP_Individual=i_GP_Individual+1
 
+
+  !----------------------------------------------------------------------
+
 ! pick the male parent for sexual crossing of parameter strings
+
   call random_number(cff) ! uniform random number generator
   k_GP_Individual_Male(1)=1+int(cff*float(n_GP_Individuals-1))
+
   call random_number(cff) ! uniform random number generator
   k_GP_Individual_Male(2)=1+int(cff*float(n_GP_Individuals-1))
-  if (k_GP_Individual_Male(2) .eq. k_GP_Individual_Male(1)) then
-    if (k_GP_Individual_Male(1) .ne. n_GP_Individuals) then
+
+  if( k_GP_Individual_Male(2) .eq. k_GP_Individual_Male(1)) then
+
+    if( k_GP_Individual_Male(1) .ne. n_GP_Individuals) then
       k_GP_Individual_Male(2)=k_GP_Individual_Male(1)+1
     else
       k_GP_Individual_Male(2)=k_GP_Individual_Male(1)-1
-    endif
-  endif
+    endif !   k_GP_Individual_Male(1) .ne. n_GP_Individuals
+
+  endif !   k_GP_Individual_Male(2) .eq. k_GP_Individual_Male(1)
+
 ! select the individual of the two with the best fitness
-  if (GP_Individual_Ranked_Fitness(k_GP_Individual_Male(2)) .gt. GP_Individual_Ranked_Fitness(k_GP_Individual_Male(1))) then
-    k_GP_Individual_Male(1)=k_GP_Individual_Male(2)
-  endif
+
+  if( GP_Individual_Ranked_Fitness(k_GP_Individual_Male(2)) .gt. &
+      GP_Individual_Ranked_Fitness(k_GP_Individual_Male(1))) then
+
+      k_GP_Individual_Male(1)=k_GP_Individual_Male(2)
+
+  endif !   GP_Individual_Ranked_Fitness(k_GP_Individual_Male(2)) .gt....
+
+
+  !----------------------------------------------------------------------
 
 ! pick the female parent for sexual crossing of parent parameter strings
+
   call Random_Number(cff) ! uniform random number generator
   k_GP_Individual_Female(1)=1+int(cff*float(n_GP_Individuals-1))
+
   call Random_Number(cff) ! uniform random number generator
   k_GP_Individual_Female(2)=1+int(cff*float(n_GP_Individuals-1))
-  if (k_GP_Individual_Female(2) .eq. k_GP_Individual_Female(1)) then
-    if (k_GP_Individual_Female(1) .ne. N_GP_Individuals) then
+
+  if( k_GP_Individual_Female(2) .eq. k_GP_Individual_Female(1)) then
+
+    if( k_GP_Individual_Female(1) .ne. N_GP_Individuals) then
       k_GP_Individual_Female(2)=k_GP_Individual_Female(1)+1
     else
       k_GP_Individual_Female(2)=k_GP_Individual_Female(1)-1
-    endif
-  endif
-! select the individual of the two with the best fitness
-  if (GP_Individual_Ranked_Fitness(k_GP_Individual_Female(2)) .gt. GP_Individual_Ranked_Fitness(k_GP_Individual_Female(1))) then
-    k_GP_Individual_Female(1)=k_GP_Individual_Female(2)
-  endif
+    endif !   k_GP_Individual_Female(1) .ne. N_GP_Individuals
 
-! randomly choose which tree structures from the male and female GP_CODEs will participate in the genetic crossovers
-! Find out haw many trees there are in each GP_CODE
+  endif !   k_GP_Individual_Female(2) .eq. k_GP_Individual_Female(1)
+
+  ! select the individual of the two with the best fitness
+
+  if( GP_Individual_Ranked_Fitness(k_GP_Individual_Female(2)) .gt. &
+      GP_Individual_Ranked_Fitness(k_GP_Individual_Female(1))) then
+
+      k_GP_Individual_Female(1)=k_GP_Individual_Female(2)
+
+  endif !   GP_Individual_Ranked_Fitness(k_GP_Individual_Female(2)) ...
+
+
+  !----------------------------------------------------------------------
+
+  ! randomly choose which tree structures from the male and female GP_CODEs 
+  ! will participate in the genetic crossovers
+  ! Find out how many trees there are in each GP_CODE
+
   i_Node_Count=0
   do i_Tree=1,n_Trees
-    if (GP_Adult_Population_Node_Type(k_GP_Individual_Male(1),1,i_Tree) .ne. -9999) i_Node_Count=i_Node_Count+1
-  enddo
-  if (i_Node_Count .gt. 0) then
+    if( GP_Adult_Population_Node_Type(k_GP_Individual_Male(1),1,i_Tree) .ne. -9999) i_Node_Count=i_Node_Count+1
+  enddo ! i_tree
+
+  if( i_Node_Count .gt. 0) then
     CROSS=.true.  ! there is at least one Tree structure to cross with
     call Random_Number(cff) ! uniform random number generator
     icff=1+int(cff*float(i_Node_Count-1))  ! pick a tree
     i_Node_Count=0
     do i_Tree=1,n_Trees
-      if (GP_Adult_Population_Node_Type(k_GP_Individual_Male(1),1,i_Tree) .ne. -9999) then
+      if( GP_Adult_Population_Node_Type(k_GP_Individual_Male(1),1,i_Tree) .ne. -9999) then
         i_Node_Count=i_Node_Count+1
-        if (i_Node_Count .eq. icff) i_Male_Tree=i_Tree
-      endif
-    enddo
+        if( i_Node_Count .eq. icff) i_Male_Tree=i_Tree
+      endif !   GP_Adult_Population_Node_Type(k_GP_Individual_Male(1),1,i_Tree)...
+    enddo  ! i_tree
+
   else
+
     CROSS=.false. ! there are no Trees on this GP_CODE
-  endif
+
+  endif !   i_Node_Count .gt. 0
     
-  if (CROSS) then
+  if( CROSS) then
+
     i_Node_Count=0
     do i_Tree=1,n_Trees
-      if (GP_Adult_Population_Node_Type(k_GP_Individual_FeMale(1),1,i_Tree) .ne. -9999) i_Node_Count=i_Node_Count+1
-    enddo
-    if (i_Node_Count .gt. 0) then
+      if( GP_Adult_Population_Node_Type(k_GP_Individual_FeMale(1),1,i_Tree) .ne. -9999) i_Node_Count=i_Node_Count+1
+    enddo ! i_tree
+
+    if( i_Node_Count .gt. 0) then
+
       CROSS=.true.
+
       call Random_Number(cff) ! uniform random number generator
       icff=1+int(cff*float(i_Node_Count-1))  ! pick tree
+
       i_Node_Count=0
       do i_Tree=1,n_Trees
-        if (GP_Adult_Population_Node_Type(k_GP_Individual_Female(1),1,i_Tree) .ne. -9999) then
+        if( GP_Adult_Population_Node_Type(k_GP_Individual_Female(1),1,i_Tree) .ne. -9999) then
           i_Node_Count=i_Node_Count+1
-          if (i_Node_Count .eq. icff) i_Female_Tree=i_Tree
-        endif
-      enddo
-    else
-      CROSS=.false.
-    endif
-  endif
+          if( i_Node_Count .eq. icff) i_Female_Tree=i_Tree
+        endif !GP_Adult_Population_Node_Type(k_GP_Individual_Female(1),1,i_Tree) ...
+      enddo ! i_tree
 
-  if (CROSS) then
+    else
+
+      CROSS=.false.
+
+    endif !   i_Node_Count .gt. 0
+
+  endif ! CROSS
+
+  if( CROSS) then
 
     call Random_Number(cff) ! uniform random number generator
 !    i_Male_Tree=1+int(cff*float(n_Trees-1))  ! pick a location from 1 to n_Trees
@@ -123,9 +172,9 @@ do i_GP_Crossover=1,n_GP_Crossovers
     GP_Child_Population_Node_Type(i_GP_Individual,1:n_Nodes,i_Male_Tree)=Parent_Tree_Swap_Node_Type(1:n_Nodes,1)
     Run_GP_Calculate_Fitness(i_GP_Individual)=.true.
 
-  endif
+  endif ! CROSS
 
-enddo
+enddo !  i_GP_Crossover
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 return

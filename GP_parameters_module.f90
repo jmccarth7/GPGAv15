@@ -33,9 +33,12 @@ integer(kind=4),allocatable,dimension(:,:)  :: linked_parms
 
 integer(kind=4) :: i_level
 integer(kind=4) :: i_function
-integer(kind=4) :: i_CODE_equation,j_CODE_equation
+integer(kind=4) :: i_CODE_equation
+integer(kind=4) :: j_CODE_equation
 integer(kind=4) :: i_tree
-integer(kind=4) :: i_node,i_node_left,i_node_right
+integer(kind=4) :: i_node
+integer(kind=4) :: i_node_left
+integer(kind=4) :: i_node_right
 integer(kind=4) :: n_parameters
 
 ! this decides what the tree's shape needs to be like, i.e. bush or logpole pine
@@ -51,13 +54,23 @@ integer, parameter :: str_len = 80
 ! n_maximum_number_parameters = n_CODE_equations +  n_nodes
 
 ! GP Probability of a Tree being assigned
-real (kind=4), parameter :: GP_Tree_Probability=0.5 ! Estimated from previous work by Joel Cohen
+!real (kind=4), parameter :: GP_Tree_Probability=0.5 ! Estimated from previous work by Joel Cohen
+real(kind=8), parameter :: GP_Tree_Probability !=0.5 ! Estimated from previous work by Joel Cohen
 
 ! Note: The next 4 parameters must add up to 1.0
-real (kind=4), parameter :: GP_Elitist_Probability = 0.1                ! Keeps the top n_GP_Elitists of the Best Fit Individuals from Generation to Generation
-real (kind=4), parameter :: GP_Asexual_Reproduction_Probability = 0.4   ! probability of asexual reproduction
-real (kind=4), parameter :: GP_Crossover_Probability = 0.4              ! probability of sexual crossing of binary string 
-real (kind=4), parameter :: GP_Mutation_Probability = 0.1               ! probability of mutation in binary string
+
+! Keeps the top n_GP_Elitists of the Best Fit Individuals from Generation to Generation
+!real (kind=4), parameter :: GP_Elitist_Probability = 0.1 
+real(kind=8), parameter :: GP_Elitist_Probability  != 0.1  
+
+!real (kind=4), parameter :: GP_Asexual_Reproduction_Probability = 0.4   ! probability of asexual reproduction
+real(kind=8), parameter :: GP_Asexual_Reproduction_Probability  != 0.4   ! probability of asexual reproduction
+
+!real (kind=4), parameter :: GP_Crossover_Probability = 0.4   ! probability of sexual crossing of binary string 
+real(kind=8), parameter :: GP_Crossover_Probability  != 0.4   ! probability of sexual crossing of binary string 
+
+!real (kind=4), parameter :: GP_Mutation_Probability = 0.1    ! probability of mutation in binary string
+real(kind=8) :: GP_Mutation_Probability  != 0.1               ! probability of mutation in binary string
 
 !old >>>>>>>>
 !  NOTE: in the next 2 parameters:  
@@ -116,8 +129,8 @@ integer :: i_parameter
 
 real(kind=8) :: dt !  = 1.0D+1/(24.0D+0*60.0D+0)   ! [d^-1; 10 minute time step]
 
-!off real (kind=8), parameter :: dt = 1.0D+0/(24.0D+0*60.0D+0)   ! [d^-1; 1 minute time step]
-real (kind=8), parameter :: dt = 10.0D+0/(24.0D+0*60.0D+0)   ! [d^-1; 10 minute time step]
+!!!off real (kind=8), parameter :: dt = 1.0D+0/(24.0D+0*60.0D+0)   ! [d^-1; 1 minute time step]
+!!real (kind=8), parameter :: dt = 10.0D+0/(24.0D+0*60.0D+0)   ! [d^-1; 10 minute time step]
 
 
 

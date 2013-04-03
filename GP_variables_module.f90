@@ -6,10 +6,10 @@ implicit none
 
 real(kind=8) :: Individual_Fitness
 
-integer (kind=4) :: n_GP_Elitists
-integer (kind=4) :: n_GP_Asexual_Reproductions
-integer (kind=4) :: n_GP_Crossovers
-integer (kind=4) :: n_GP_Mutations
+integer(kind=4) :: n_GP_Elitists
+integer(kind=4) :: n_GP_Asexual_Reproductions
+integer(kind=4) :: n_GP_Crossovers
+integer(kind=4) :: n_GP_Mutations
 
 ! GP_Node_Parameters_Answer(n_Nodes,n_Trees)                                                                                              
 real(kind=8), allocatable, dimension(:,:)  :: GP_Node_Parameters_Answer(n_Nodes,n_Trees)                                                                                              
@@ -45,9 +45,6 @@ integer(kind=4),allocatable,dimension(:,:) :: Parent_Tree_Swap_Node_Type
 ! GP_Individual_Node_Type(n_Nodes,n_Trees)
 integer(kind=4),allocatable,dimension(:,:) :: GP_Individual_Node_Type
 
-! Runga_Kutta_Node_Type(n_Nodes,n_Trees)
-integer(kind=4),allocatable,dimension(:,:) :: Runga_Kutta_Node_Type
-
 real(kind=8),allocatable,dimension(:)         :: GP_Individual_Parameter_Solution
 
 !real(kind=8) :: GP_Population_Initial_Conditions(n_GP_individuals,n_CODE_equations)
@@ -59,25 +56,26 @@ real(kind=8),allocatable,dimension(:)         :: GP_Individual_Initial_Condition
 !real(kind=8) :: GP_Population_Fitness(n_GP_individuals)
 real(kind=8),allocatable,dimension(:)         :: GP_Population_Fitness
 
-!integer (kind=4) :: GP_Population_Node_Type(n_GP_individuals,n_nodes,n_trees)
-integer (kind=4),allocatable,dimension(:,:,:) :: GP_Population_Node_Type
+!integer(kind=4) :: GP_Population_Node_Type(n_GP_individuals,n_nodes,n_trees)
+integer(kind=4),allocatable,dimension(:,:,:) :: GP_Population_Node_Type
 
-!integer (kind=4) :: GP_Individual_Node_Type(n_nodes,n_trees)
-integer (kind=4),allocatable,dimension(:,:)   :: GP_Individual_Node_Type
+!integer(kind=4) :: GP_Individual_Node_Type(n_nodes,n_trees)
+integer(kind=4),allocatable,dimension(:,:)   :: GP_Individual_Node_Type
 
 !------------------------------------------------------------------------------
+
+! Runga_Kutta_Node_Type(n_Nodes,n_Trees)
+integer(kind=4),allocatable,dimension(:,:) :: Runga_Kutta_Node_Type
 
 !real(kind=8) :: Runga_Kutta_Node_Parameters(n_nodes,n_trees)
 real(kind=8),allocatable,dimension(:,:)       :: Runga_Kutta_Node_Parameters
 
-!integer (kind=4) :: Runga_Kutta_Node_Type(n_nodes,n_trees)
-integer (kind=4),allocatable,dimension(:,:)   :: Runga_Kutta_Node_Type
+!integer(kind=4) :: Runga_Kutta_Node_Type(n_nodes,n_trees)
+integer(kind=4),allocatable,dimension(:,:)   :: Runga_Kutta_Node_Type
 
-real (kind=8) :: Runga_Kutta_Initial_Conditions(n_CODE_Equations)
 !real (kind=8) :: Runga_Kutta_Initial_Conditions(n_CODE_equations)
 real (kind=8),allocatable,dimension(:)        :: Runga_Kutta_Initial_Conditions
 
-real (kind=8) :: Runga_Kutta_Solution(0:n_Time_Steps,n_CODE_Equations)
 !real (kind=8) :: Runga_Kutta_Solution(0:n_time_steps,n_CODE_equations)
 real(kind=8),allocatable, dimension(:,:) :: Runga_Kutta_Solution
 
