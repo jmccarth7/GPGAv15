@@ -1,0 +1,60 @@
+! Lotka_Volterra_Example_Set_Up
+!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+! This is the tree representation of the CODE System
+!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+! this examples is a simple Lotka-Volterra model.
+
+! dP/dt = (grow * P)  - (graze * P * Z)
+! dZ/dt = (graze * P * Z) - ((1 - efficiency) * graze * P *  Z) - (amort * Z)
+! [Note: In this example, the (1-efficiency) parameter is set to a new unique paramater, 'effic']
+
+!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+! 1: [ 3, 0,-1, N, N, N, N, N, N, N, N, N, N, N, N]
+! 2: [ N, N, N, N, N, N, N, N, N, N, N, N, N, N, N]
+! 3: [ N, N, N, N, N, N, N, N, N, N, N, N, N, N, N]
+! 4: [ 3, 0, 3, N, N,-1,-2, N, N, N, N, N, N, N, N]
+! 5: [ 1, 3, 3, 0,-2, 3, 3, N, N, N, N, 0,-2, 0,-1]
+! 6: [ N, N, N, N, N, N, N, N, N, N, N, N, N, N, N]
+!    [01,02,03,04,05,06,07,08,09,10,11,12,13,14,15]
+
+!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+! This term is calculated in units of [mg N d-1]
+GP_Individual_Node_Type(1,1)=3   ! '*'
+GP_Individual_Node_Type(2,1)=0            ! prey growth rate
+GP_Individual_Node_Parameters(2,1)=5.599795  ! 0.4    ! [0.04, 0.4; prey growth rate [d-1]
+GP_Individual_Node_Type(3,1)=-1  ! Phyto
+
+GP_Individual_Node_Type(1,4)=3   ! '*'
+GP_Individual_Node_Type(2,4)=0            ! predator biomass-specific feeding rate [d-1]
+GP_Individual_Node_Parameters(2,4)=1.56521 ! 0.02   ! [0.0005, 0.02; predator biomass-specific feeding rate [d-1]
+
+GP_Individual_Node_Type(3,4)=3   ! '*'
+GP_Individual_Node_Type(6,4)=-1  ! Phyto
+GP_Individual_Node_Type(7,4)=-2  ! Zoo
+
+GP_Individual_Node_Type(1,5)=1   ! '+'
+GP_Individual_Node_Type(2,5)=3   ! '*'
+GP_Individual_Node_Type(3,5)=3   ! '*'
+GP_Individual_Node_Type(4,5)=0           ! predator biomass-specific mortality rate [d-1]
+GP_Individual_Node_Parameters(4,5)=0.8346865E-06  ! 0.6   ! [0.1, 0.6; predator biomass-specific mortality rate [d-1]
+
+GP_Individual_Node_Type(5,5)=-2  ! Zoo
+GP_Individual_Node_Type(6,5)=3   ! '*'
+GP_Individual_Node_Type(7,5)=3   ! '*'
+GP_Individual_Node_Type(12,5)=0           ! predator assimilation efficiency [fraction 0<==>1]
+GP_Individual_Node_Parameters(12,5)=0.2416847E+01  ! 0.5   ! [0.2, 0.5; predator assimilation efficiency [fraction 0<==>1]
+
+GP_Individual_Node_Type(13,5)=-2 ! Zoo
+GP_Individual_Node_Type(14,5)=0           ! predator biomass-specific feeding rate [d-1]
+GP_Individual_Node_Parameters(14,5)=0.2585400E+00  ! 0.02  ! [0.0005, 0.02; predator biomass-specific feeding rate [d-1]
+GP_Individual_Node_Type(15,5)=-1 ! Phytoplankton
+
+!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+! Initial Conditions
+Runga_Kutta_Initial_Conditions(1)=19.66561  ! 30.0D+0  ! [prey]         [mmol N m-3]
+Runga_Kutta_Initial_Conditions(2)=0.3960451  ! 2.0D+0   ! [preditor]     [mmol N m-3]
+
+!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
