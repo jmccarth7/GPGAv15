@@ -5,7 +5,7 @@ use mpi
 use mpi_module
 use GP_parameters_module
 use GP_variables_module
-use Runga_Kutta_Variables_module
+use Runge_Kutta_Variables_module
 
 implicit none
 

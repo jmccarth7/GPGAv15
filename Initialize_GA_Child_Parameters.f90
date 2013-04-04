@@ -23,6 +23,7 @@ integer(kind=4) :: i
 
 Run_GA_lmdif=.true.
 
+write(6,'(/A,1x, I6/)')  'Init: n_parameters ', n_Parameters
 
 !write(6,'(/A/)') &
 !      'Init:  i_GA_individual  child parameters(i_GA_individual,:)  '

@@ -1,4 +1,4 @@
-module Runga_Kutta_Variables_module
+module Runge_Kutta_Variables_module
 
 use GP_Parameters_module
 
@@ -27,7 +27,7 @@ real(kind=8),allocatable, dimension( : ) :: b_tmp
 
 !--------------------------------------------------------------------
 
-! Runga-Kutta specific work arrays
+! Runge-Kutta specific work arrays
 
 !real(kind=8) :: kval(4,n_CODE_equations)
 real(kind=8),allocatable, dimension( : , : ) :: kval
@@ -51,9 +51,9 @@ real(kind=8) :: left_node_value,right_node_value
 integer (kind=4) :: icff
 integer (kind=4) :: iter
 
-real(kind=8),dimension(4) :: Runga_Kutta_Time_Step
+real(kind=8),dimension(4) :: Runge_Kutta_Time_Step
 
-data Runga_Kutta_Time_Step /0.0D+0,0.5D+0,0.5D+0,1.0D+0/  ! fraction of R-K time step
+data Runge_Kutta_Time_Step /0.0D+0,0.5D+0,0.5D+0,1.0D+0/  ! fraction of R-K time step
 
 
-end module Runga_Kutta_Variables_module
+end module Runge_Kutta_Variables_module

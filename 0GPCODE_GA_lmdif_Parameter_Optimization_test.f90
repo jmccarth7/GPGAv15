@@ -16,7 +16,7 @@ use GA_Parameters_module
 use GP_Variables_module
 use GA_Variables_module
 use GP_Data_module
-use Runga_Kutta_Variables_module
+use Runge_Kutta_Variables_module
 
 
 implicit none
@@ -47,7 +47,7 @@ real(kind=8), allocatable, dimension(:) :: output_array
 
 real (kind=8) :: ssum, ssum2, totobs, cff
 
-real (kind=8) :: xcount 
+real (kind=8) :: xcount
 !----------------------------------------------------------------------------------------
 
 
@@ -76,6 +76,9 @@ if( myid == 0 )then
     ! and broadcast the values read to the other cpu's
 
     call read_cntl_stuff( )
+
+    open( unit_gp_out, form = 'unformatted', access='sequential', &
+          status = 'unknown' )
 
 endif !   myid == 0
 
@@ -182,98 +185,95 @@ endif ! myid == 0
 ! allocate variable dimension arrays
 
 allocate( individual_elites( n_GA_individuals )  )
-allocate( individual_SSE( n_GA_individuals )  )
-allocate( integrated_SSE( n_GA_individuals )  )
-allocate( individual_ranked_fitness( n_GA_individuals )  )
-allocate( integrated_ranked_fitness( n_GA_individuals )  )
 allocate( fitness_expectation_value( n_GA_individuals )  )
+
 allocate( Run_GA_lmdif( n_GA_individuals )  )
+
 allocate( Data_Array( 0:n_time_steps, n_CODE_equations )  )
 allocate( Data_Variance( n_CODE_equations )  )
-allocate( Runga_Kutta_Solution( 0:n_time_steps, n_CODE_equations )  )
 
-allocate(  GP_Population_Node_Parameters(n_GP_individuals,n_nodes,n_trees) )
-allocate(  GP_Individual_Node_Parameters(n_nodes,n_trees) )
-allocate(  Runga_Kutta_Node_Parameters(n_nodes,n_trees) )
+allocate( Parent_Tree_Swap_Node_Type(n_Nodes,2) )
+allocate( Run_GP_Calculate_Fitness(n_GP_Individuals) )
 
-allocate(  GP_Node_Parameters_Answer(n_Nodes,n_Trees) )
-allocate(  GP_Node_Type_Answer(n_Nodes,n_Trees) )
-allocate(  GP_Node_Type_for_Plotting(9, n_Nodes,n_Trees) )
-allocate(  GP_Population_Parameter_Solution(n_GP_individuals,n_maximum_number_parameters) )
-allocate(  GP_Solution(0:n_Time_Steps,n_CODE_Equations) )
-allocate(  GP_Adult_Population_Node_Type(n_GP_Individuals,n_Nodes,n_Trees) )
-allocate(  GP_Child_Population_Node_Type(n_GP_Individuals,n_Nodes,n_Trees) )
-allocate(  Parent_Tree_Swap_Node_Type(n_Nodes,2) )
-allocate(  GP_Population_Fitness(n_GP_individuals) )
-allocate(  Runga_Kutta_Solution(0:n_time_steps,n_CODE_equations) )
-allocate(  GP_Adult_Individual_SSE(n_GP_Individuals) )
-allocate(  GP_Child_Individual_SSE(n_GP_Individuals) )
-allocate(  GP_Individual_Ranked_Fitness(n_GP_Individuals) )
-allocate(  GP_Integrated_Ranked_Fitness(n_GP_Individuals) )
-allocate(  Run_GP_Calculate_Fitness(n_GP_Individuals) )
-
-! must be kept for re-evaluations of next generations
-!real(kind=8) :: GA_Adult_Individual_SSE(n_GA_Individuals)
 allocate( GA_Adult_Individual_SSE(n_GA_Individuals) )
-
-! must be kept for re-evaluations of next generations
-!real(kind=8) :: GA_Child_Individual_SSE(n_GA_Individuals)
 allocate( GA_Child_Individual_SSE(n_GA_Individuals) )
 
-! needed to support sexual and "tournament-style" reproduction
-!real(kind=8) :: GA_Integrated_SSE(n_GA_Individuals)
+allocate( individual_SSE( n_GA_individuals )  )
+
 allocate( GA_Integrated_SSE(n_GA_Individuals) )
+allocate( integrated_SSE( n_GA_individuals )  )
 
-! must be kept for re-evaluations of next generations
-!real(kind=8) :: GA_Individual_Ranked_Fitness(n_GA_Individuals)
 allocate( GA_Individual_Ranked_Fitness(n_GA_Individuals) )
+allocate( individual_ranked_fitness( n_GA_individuals )  )
 
-! must be kept for re-evaluations of next generations
-!real(kind=8) :: GA_Integrated_Ranked_Fitness(n_GA_Individuals)
 allocate( GA_Integrated_Ranked_Fitness(n_GA_Individuals) )
+allocate( integrated_ranked_fitness( n_GA_individuals )  )
 
 
-allocate(  GP_Population_Parameter_Solution(n_GP_individuals,n_maximum_number_parameters) )
-allocate(  GP_Individual_Parameter_Solution(n_maximum_number_parameters) )
+allocate( GP_Population_Parameter_Solution(n_GP_individuals,n_maximum_number_parameters) )
+allocate( GP_Population_Initial_Conditions(n_GP_individuals,n_CODE_equations) )
+allocate( GP_Population_Node_Type(n_GP_individuals,n_nodes,n_trees) )
+allocate( GP_Population_Node_Parameters(n_GP_individuals,n_nodes,n_trees) )
+allocate( GP_Population_Fitness(n_GP_individuals) )
 
-allocate(  GP_Population_Initial_Conditions(n_GP_individuals,n_CODE_equations) )
-allocate(  GP_Individual_Initial_Conditions(n_CODE_equations) )
+allocate( GP_Individual_Parameter_Solution(n_maximum_number_parameters) )
+allocate( GP_Individual_Initial_Conditions(n_CODE_equations) )
+allocate( GP_Individual_Node_Type(n_nodes,n_trees) )
+allocate( GP_Individual_Node_Parameters(n_nodes,n_trees) )
 
-allocate(  GP_Population_Fitness(n_GP_individuals) )
+allocate( GP_Node_Parameters_Answer(n_Nodes,n_Trees) )
+allocate( GP_Node_Type_Answer(n_Nodes,n_Trees) )
+allocate( GP_Node_Type_for_Plotting(9, n_Nodes,n_Trees) )
 
-allocate(  GP_Population_Node_Type(n_GP_individuals,n_nodes,n_trees) )
-allocate(  GP_Individual_Node_Type(n_nodes,n_trees) )
-allocate(  Runga_Kutta_Node_Type(n_nodes,n_trees) )
+allocate( GP_Solution(0:n_Time_Steps,n_CODE_Equations) )
 
-allocate(  Runga_Kutta_Initial_Conditions(n_CODE_equations) )
+allocate( GP_Adult_Population_Node_Type(n_GP_Individuals,n_Nodes,n_Trees) )
+allocate( GP_Child_Population_Node_Type(n_GP_Individuals,n_Nodes,n_Trees) )
 
+allocate( GP_Adult_Individual_SSE(n_GP_Individuals) )
+allocate( GP_Child_Individual_SSE(n_GP_Individuals) )
 
-allocate(  Node_Values(n_nodes,n_trees) )
-allocate(  Tree_Evaluation(n_nodes,n_trees) )
+allocate( GP_Individual_Ranked_Fitness(n_GP_Individuals) )
+allocate( GP_Integrated_Ranked_Fitness(n_GP_Individuals) )
 
-allocate(  Tree_Value(n_trees) )
-
-allocate(  Node_Eval_Type(n_nodes,n_trees) )
-
-allocate(  bioflo(0:n_CODE_equations,0:n_CODE_equations) )
-allocate(  b_tmp(n_CODE_equations) )
-
-! Runga-Kutta specific work arrays
-allocate(  kval(4,n_CODE_equations) )
-allocate(  btmp(n_CODE_equations) )
-allocate(  fbio(n_CODE_equations) )
+!allocate( GP_Population_Fitness(n_GP_individuals) )
 
 
-allocate(  node_type_string( n_nodes, n_trees ) )
-allocate(  node_parameters_string( n_nodes, n_trees ) )
-allocate(  tree_evaluation_string( n_nodes, n_trees ) )
+
+allocate( Node_Values(n_nodes,n_trees) )
+allocate( Tree_Evaluation(n_nodes,n_trees) )
+
+allocate( Tree_Value(n_trees) )
+
+allocate( Node_Eval_Type(n_nodes,n_trees) )
+
+
+
+
+allocate( Runge_Kutta_Solution( 0:n_time_steps, n_CODE_equations )  )
+allocate( Runge_Kutta_Node_Parameters(n_nodes,n_trees) )
+allocate( Runge_Kutta_Node_Type(n_nodes,n_trees) )
+allocate( Runge_Kutta_Initial_Conditions(n_CODE_equations) )
+
+allocate( bioflo(0:n_CODE_equations,0:n_CODE_equations) )
+allocate( b_tmp(n_CODE_equations) )
+
+! Runge-Kutta specific work arrays
+allocate( kval(4,n_CODE_equations) )
+allocate( btmp(n_CODE_equations) )
+allocate( fbio(n_CODE_equations) )
+
+
+allocate( node_type_string( n_nodes, n_trees ) )
+allocate( node_parameters_string( n_nodes, n_trees ) )
+allocate( tree_evaluation_string( n_nodes, n_trees ) )
 
 allocate( answer( n_maximum_number_parameters ) )
 allocate( output_array( n_maximum_number_parameters ) )
 
-allocate(  linked_parms( 2, n_linked_parms_dim ) )
+allocate( linked_parms( 2, n_linked_parms_dim ) )
 
-allocate(  Node_Probability( n_levels ) )
+allocate( Node_Probability( n_levels ) )
 
 
 !------------------------------------------------------------------
@@ -303,7 +303,10 @@ GP_Node_Parameters_Answer=GP_Individual_Node_Parameters                   ! Matr
 do i_GP_Individual=1,9
   GP_Node_Type_for_Plotting(i_GP_Individual,1:n_Nodes,1:n_Trees)=GP_Node_Type_Answer(1:n_Nodes,1:n_Trees)
 enddo
-write(50) GP_Node_Type_for_Plotting
+
+if( myid == 0 )then
+    write(unit_gp_out) GP_Node_Type_for_Plotting
+endif ! myid == 0
 
 
 
@@ -325,10 +328,10 @@ GP_Population_Node_Type(1,1:n_nodes,1:n_trees)=GP_Individual_Node_Type(1:n_nodes
 
 ! initialize the biological data fields
 
-Runga_Kutta_Solution(0,1:n_CODE_equations)=Runga_Kutta_Initial_Conditions ! Array Assignment
+Runge_Kutta_Solution(0,1:n_CODE_equations)=Runge_Kutta_Initial_Conditions ! Array Assignment
 
-Runga_Kutta_Node_Parameters = GP_Individual_Node_Parameters  ! Matrix Operation
-Runga_Kutta_Node_Type=GP_Individual_Node_Type                ! Matrix Operation
+Runge_Kutta_Node_Parameters = GP_Individual_Node_Parameters  ! Matrix Operation
+Runge_Kutta_Node_Type=GP_Individual_Node_Type                ! Matrix Operation
 
 
 !------------------------------------------------------------------------
@@ -337,10 +340,10 @@ Runga_Kutta_Node_Type=GP_Individual_Node_Type                ! Matrix Operation
 
 
 
-! run the Runga-Kutta model only once with proc 0
+! run the Runge-Kutta model only once with proc 0
 
 if( myid == 0 )then
-    call Runga_Kutta_Box_Model
+    call Runge_Kutta_Box_Model
 endif ! myid == 0
 
 !------------------------------------------------------------------------
@@ -350,20 +353,20 @@ endif ! myid == 0
 message_len = ( n_time_steps + 1 ) * n_CODE_equations
 
 if( myid == 0 )then
-    write(6,'(/A/)') '0: time_step   Runga_Kutta_Solution(time_step,1:n_CODE_equations)'
+    write(6,'(/A/)') '0: time_step   Runge_Kutta_Solution(time_step,1:n_CODE_equations)'
     do  i = 0, n_time_steps
-        write(6,'(I6,8(1x,E15.7))') i, Runga_Kutta_Solution(i,1:n_CODE_equations)
+        write(6,'(I6,8(1x,E15.7))') i, Runge_Kutta_Solution(i,1:n_CODE_equations)
     enddo ! i
-    !write(6,'(A,1x,I10)') '0: Runga_Kutta message length message_len = ', message_len
+    !write(6,'(A,1x,I10)') '0: Runge_Kutta message length message_len = ', message_len
 endif ! myid == 0
 
 
-call MPI_BCAST( Runga_Kutta_Solution, message_len,    &
+call MPI_BCAST( Runge_Kutta_Solution, message_len,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
 
 
-Data_Array=Runga_Kutta_Solution          ! Matrix Operation
+Data_Array=Runge_Kutta_Solution          ! Matrix Operation
 
 
 !--------------------------------------------------------------------------------
@@ -433,7 +436,7 @@ n_parameters = 0
 
 do  i_CODE_equation=1,n_CODE_equations
     n_parameters=n_parameters+1
-    answer(n_parameters)=Runga_Kutta_Initial_Conditions(i_CODE_equation)
+    answer(n_parameters)=Runge_Kutta_Initial_Conditions(i_CODE_equation)
 enddo ! i_CODE_equation
 
 
@@ -550,7 +553,6 @@ endif ! myid == 0
 ! run the hybrid Genetic Algorithm/lmdif optimization routine for the parameters
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-!write(6,'(/A,1x,I6/)')'0: n_GP_individuals ', n_GP_individuals
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ! run the Genetic Programming optimization routine for the Binary Tree Evolution
 ! with the embedded GA_lmdif parameter optimization scheme
@@ -566,314 +568,407 @@ n_GP_Asexual_Reproductions=int(GP_Asexual_Reproduction_Probability*n_GP_individu
 n_GP_Crossovers=int(GP_Crossover_Probability*n_GP_individuals)
 
 ! Number of GP Mutations
-n_GP_Mutations=n_GP_Individuals-(n_GP_Elitists+n_GP_Crossovers+n_GP_Asexual_Reproductions)
+n_GP_Mutations = n_GP_Individuals - &
+                 ( n_GP_Elitists + n_GP_Crossovers + n_GP_Asexual_Reproductions )
 
-if( n_GP_Elitists + &
+if( myid == 0 )then
+
+    write(6,'(/A,1x,I6/)') '0: n_GP_individuals ', n_GP_individuals
+
+    write(6,'(A,1x,F10.6)') '0: GP_Elitist_Probability   ', &
+                                GP_Elitist_Probability
+    write(6,'(A,1x,F10.6)') '0: GP_Crossover_Probability ', &
+                                GP_Crossover_Probability
+    write(6,'(A,1x,F10.6)') '0: GP_Asexual_Reproduction_Probability ', &
+                                GP_Asexual_Reproduction_Probability
+    write(6,'(A,1x,F10.6)') '0: GP_Mutation_Probability  ', &
+                                GP_Mutation_Probability
+
+    write(6,'(/A,1x,I6)') '0: n_GP_Elitists   ', n_GP_Elitists
+    write(6,'(A,1x,I6)')  '0: n_GP_Crossovers ', n_GP_Crossovers
+    write(6,'(A,1x,I6)')  '0: n_GP_Asexual_Reproductions ',  &
+                              n_GP_Asexual_Reproductions
+    write(6,'(A,1x,I6/)') '0: n_GP_Mutations  ', n_GP_Mutations
+
+endif ! myid == 0
+
+if( n_GP_Elitists              + &
     n_GP_Asexual_Reproductions + &
-    n_GP_Crossovers + &
-    n_GP_Mutations              .gt. n_GP_Individuals) then
-    write(*,*) 'Sum of n_GP_Elitists+n_Asexual_Reproduction+n_GP_Crossovers+n_GP_Mutations is too high'
-    stop
-elseif(n_GP_Elitists + &
-       n_GP_Asexual_Reproductions + &
-       n_GP_Crossovers + &
-       n_GP_Mutations                  .lt. n_GP_Individuals) then
+    n_GP_Crossovers            + &
+    n_GP_Mutations                 .gt. n_GP_Individuals) then
 
-    write(*,*) 'Sum of n_GP_Elitists+n_Asexual_Reproduction+n_GP_Crossovers+n_GP_Mutations is too low'
+    write(*,*) 'Sum of n_GP_Elitists + n_Asexual_Reproduction + &
+                      &n_GP_Crossovers + n_GP_Mutations is too high'
+    stop
+
+elseif( n_GP_Elitists              + &
+        n_GP_Asexual_Reproductions + &
+        n_GP_Crossovers            + &
+        n_GP_Mutations                 .lt. n_GP_Individuals) then
+
+    write(*,*) 'Sum of n_GP_Elitists + n_Asexual_Reproduction + &
+                      &n_GP_Crossovers + n_GP_Mutations is too low'
     stop
 
 endif !   n_GP_Elitists + ...
 
-do i_GP_Generation=1,n_GP_Generations
 
 
-  write(*,*) 'GP Generation # ',i_GP_Generation,' is underway',n_Nodes*n_Trees
-
-  GP_Child_Population_Node_Type=GP_Adult_Population_Node_Type        ! Matrix Operation
-
-  Run_GP_Calculate_Fitness=.false.  ! determines if the new GP child has to be sent to GA_lmdif for parameter optimization
-
-
-  ! randomly create the initial tree arrays for each individual and send them all to GA_lmdif for parameter optimization
-
-  if( i_GP_Generation .eq. 1) then
-
-      Run_GP_Calculate_Fitness=.true. ! determines if the new GP child has to be sent to GA_lmdif for parameter optimization
-      call GP_Tree_Build              ! initialize the GP_Adult_Population_Node_Type array with random trees
-
-  else
-
-      ! create the next 'generation' of tree structures using either:
-      !    i)  Copy the top n_GP_Elitists individuals into the next generation
-      !   ii)  GP Fitness-Proportionate Asexual Reproduction;
-      !  iii)  GP Tournament-Style Sexual Reproduction, and;
-      !   iv)  GP Mutation
-
-    !   i) move the top n_GP_Elitists into the next generation
-
-    if (n_GP_Elitists .gt. 0) call GP_Elitists
-
-    !   ii) Carry out "GP Fitness-Proportionate Reproduction"
-    if (n_GP_Asexual_Reproductions .gt. 0) call GP_Fitness_Proportionate_Asexual_Reproduction
-
-    !  iii) Carry out "GP Tree Crossover" Operations Using Tournament-Style
-    !       Sexual Reproduction Selection and randomly use it to replace the new children
-    if (n_GP_Crossovers .gt. 0) call GP_Tournament_Style_Sexual_Reproduction
-
-    !   iv) Carry out "GP Parameter Mutation" Operations
-    if (n_GP_Mutations .gt. 0)  call GP_Mutations
-
-    !   move the children into adulthood
-
-    GP_Adult_Population_Node_Type=GP_Child_Population_Node_Type      ! Matrix Operation
-
-  endif ! i_GP_Generation .eq. 1
+!------------------------------------------------------------------------------
 
 
 
-
-! sweep through all the GP_Adult_Population_Node_Type
-! to replace function nodes that have both terminals set as parameters
-! and set the node to a parameter itself
-
-  call GP_Clean_Tree_Nodes
-
-
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-! GA_lmdif subroutine segment
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-
-do  i_GP_individual=1,n_GP_individuals
-
-    !write(6,'(/A,1x,I6/)')'0: i_GP_individual ', i_GP_individual
-    !write(6,'(A,1x,I6)')'0: n_nodes = ', n_nodes
-    !write(6,'(A,1x,I6)')'0: n_trees = ', n_trees
-
-    GP_Individual_Node_Parameters = 0.0 ! these get set randomly in the GA-lmdif search algorithm
-
-    if( Run_GP_Calculate_Fitness(i_GP_Individual) ) then
-
-      GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) = &
-        GP_Adult_Population_Node_Type(i_GP_Individual,1:n_Nodes,1:n_Trees)
-
-      !     calculate how many parameters total to fit for the specific individual CODE
-
-      n_Parameters=0
-      do i_Tree=1,n_Trees
-        do i_Node=1,n_Nodes
-           if (GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0) then  ! there is a set parameter
-             n_Parameters=n_Parameters+1
-          endif
-        enddo
-      enddo
-
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-! THIS IS WHERE YOU NEED TO INSERT THE GA_LMDIF CALL AND LINK THE SSE OUTPUT TO THE ARRAY AT THE END
-! ALSO, THE OPTIMAL PARAMETER SETS FROM THE BEST CHILD NEEDS TO BE PULLED OUT
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-    !-------------------------------------------------------------------------------------
-
-    !write(*,'(/A,1x,I6/)') 'going to GPCODE_GA_lmdif_Parameter_Optimization routine', myid
-
-    call GPCODE_GA_lmdif_Parameter_Optimization()
-
-    !write(*,'(/A,1x,I6/)') 'coming from the GPCODE_GA_lmdif_Parameter_Optimization routine', myid
-
-    GP_population_fitness(i_GP_individual)=individual_fitness
-
-    !-------------------------------------------------------------------------------------
-
-
-      cff=0.0d0
-      xcount=0.0d0
-      do i_Node=1,n_Nodes
-        do i_Tree=1,n_Trees
-
-            if (GP_Individual_Node_Type(i_Node,i_Tree) .ne. GP_Node_Type_Answer(i_Node,i_Tree)) then
-              if (GP_Node_Type_Answer(i_Node,i_Tree) .eq. -9999 .or. GP_Individual_Node_Type(i_Node,i_Tree) .eq. -9999.) then
-                cff=1.0d0
-                xcount=xcount+cff
-              else
-                cff=float(GP_Individual_Node_Type(i_Node,i_Tree)-GP_Node_Type_Answer(i_Node,i_Tree))**2
-                xcount=xcount+cff
-              endif
-            endif
-
-        enddo
-      enddo
-
-
-      GP_Child_Individual_SSE(i_GP_Individual)=xcount
-
-      !off GP_Child_Individual_SSE(i_GP_individual)=GA_Individual_Lowest_SSE  ! from the GA_lmdif routine output
-
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+do  i_GP_Generation=1,n_GP_Generations
 
 
     if( myid == 0 )then
+        write(*,'(A,1x,I6,1x,A,1x,I6)') &
+              '0: GP Generation # ',i_GP_Generation,&
+                ' is underway.   n_Nodes * n_Trees = ', n_Nodes*n_Trees
+    endif ! myid == 0
 
-        write(6,'(/A)') '0: after GPCODE_GA_lmdif_Parameter_Optimization routine'
-
-        write(6,'(/A,1x,I6, 1x, E15.7)')&
-              '0: i_GP_individual, GP_population_fitness(i_GP_individual) ', &
-                  i_GP_individual, GP_population_fitness(i_GP_individual)
-
-        !--------------------------------------------------------------------------------
-
-        ! print side-by-side comparisons of starting values and values from optimization
-
-        !write(6,'(/A/)') '0:  individual initial condition       output value '
-        write(6,'(/A/)') '0:   truth value           output value '
-        do  i_CODE_equation=1,n_CODE_equations
-            write(6,'(I6,1x, E20.10, 4x, E20.10)') &
-                  i_CODE_equation, &
-                  Runga_Kutta_Initial_Conditions(i_CODE_equation),  &
-                  GP_individual_initial_conditions(i_CODE_equation)
-
-                  output_array( i_CODE_equation ) = GP_individual_initial_conditions(i_CODE_equation)
-            !write(output_unit,'(E24.16)') &
-            !      GP_individual_initial_conditions(i_CODE_equation)
-        enddo ! i_CODE_equation
-
-        !--------------------------------------------------------------------------------
+    GP_Child_Population_Node_Type=GP_Adult_Population_Node_Type        ! Matrix Operation
 
 
-        !write(6,'(/A/)') '0:  node  tree  initial_node_parameter        output_value '
+    ! Run_GP_Calculate_Fitness determines if the new GP child
+    ! has to be sent to GA_lmdif for parameter optimization
 
-        !do  i_tree=1,n_trees
-        !    do  i_node=1,n_nodes
-        !        if( abs( GP_population_node_parameters(i_GP_individual,i_node,i_tree) ) > &
-        !                 1.0d-20   )then
-
-        !            write(6,'(2(1x,I6), 1x, E20.10, 4x, E20.10)') &
-        !                  i_node, i_tree, &
-        !                  GP_population_node_parameters(i_GP_individual,i_node,i_tree), &
-        !                  GP_individual_node_parameters(i_node,i_tree)
-        !        endif
-        !    enddo ! i_node
-        !enddo  ! i_tree
-
-    endif !  myid == 0
-
-    !-------------------------------------------------------------------------------------
-!     set the GA_lmdif-optimized initial condition array
-      GP_Population_Initial_Conditions(i_GP_Individual,1:n_CODE_Equations) = &
-        GP_Individual_Initial_Conditions(1:n_CODE_Equations) ! Matrix Operation
-
-!     set the GA_lmdif-optimized CODE parameter set array
-      GP_Population_Node_Parameters(i_GP_Individual,1:n_Nodes,1:n_Trees) = &
-        GP_Individual_Node_Parameters(1:n_Nodes,1:n_Trees) ! Martix Operation
-
-    endif !   Run_GP_Calculate_Fitness(i_GP_Individual)
+    Run_GP_Calculate_Fitness=.false.
 
 
+    ! randomly create the initial tree arrays for each individual and
+    ! send them all to GA_lmdif for parameter optimization
+
+    if( i_GP_Generation .eq. 1) then
+
+        ! determines if the new GP child
+        !has to be sent to GA_lmdif for parameter optimization
+  
+        Run_GP_Calculate_Fitness=.true.
+  
+        ! initialize the GP_Adult_Population_Node_Type array with random trees
+  
+        call GP_Tree_Build
 
 
+    else
+  
+        ! create the next 'generation' of tree structures using either:
+        !    i)  Copy the top n_GP_Elitists individuals into the next generation
+        !   ii)  GP Fitness-Proportionate Asexual Reproduction;
+        !  iii)  GP Tournament-Style Sexual Reproduction, and;
+        !   iv)  GP Mutation
+  
+        !   i) move the top n_GP_Elitists into the next generation
+  
+        if( n_GP_Elitists .gt. 0) call GP_Elitists
+  
+        !   ii) Carry out "GP Fitness-Proportionate Reproduction"
+  
+        if( n_GP_Asexual_Reproductions .gt. 0) call GP_Fitness_Proportionate_Asexual_Reproduction
+  
+        !  iii) Carry out "GP Tree Crossover" Operations Using Tournament-Style
+        !       Sexual Reproduction Selection and randomly use it to replace the new children
+  
+        if( n_GP_Crossovers .gt. 0) call GP_Tournament_Style_Sexual_Reproduction
+  
+        !   iv) Carry out "GP Parameter Mutation" Operations
+  
+        if( n_GP_Mutations .gt. 0)  call GP_Mutations
+  
+        !   move the children into adulthood
+  
+        GP_Adult_Population_Node_Type=GP_Child_Population_Node_Type      ! Matrix Operation
+  
+    endif ! i_GP_Generation .eq. 1
+  
+  
+  
+  
+    ! sweep through all the GP_Adult_Population_Node_Type
+    ! to replace function nodes that have both terminals set as parameters
+    ! and set the node to a parameter itself
+  
+    call GP_Clean_Tree_Nodes
+  
+  
+    !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    ! GA_lmdif subroutine segment
+    !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-    !-------------------------------------------------------------------------------------
 
+    do  i_GP_individual=1,n_GP_individuals
+    
+        if( myid == 0 )then
+            write(6,'(/A,1x,I6/)')'0: i_GP_individual ', i_GP_individual
+            write(6,'(A,1x,I6)')'0: n_nodes = ', n_nodes
+            write(6,'(A,1x,I6)')'0: n_trees = ', n_trees
+        endif !  myid == 0
+    
+        GP_Individual_Node_Parameters = 0.0 ! these get set randomly in the GA-lmdif search algorithm
+    
+        if( Run_GP_Calculate_Fitness(i_GP_Individual) ) then
+    
+            GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) = &
+              GP_Adult_Population_Node_Type(i_GP_Individual,1:n_Nodes,1:n_Trees)
+    
+            !     calculate how many parameters total to fit for the specific individual CODE
+    
+            n_GP_Parameters=0
+            do  i_Tree=1,n_Trees
+                do  i_Node=1,n_Nodes
+                    if( GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0) then  ! there is a set parameter
+                        n_GP_Parameters=n_GP_Parameters+1
+                    endif ! GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0
+                enddo ! i_node
+            enddo ! i_tree
+    
+            if( myid == 0 )then
+                write(6,'(A,1x,I6)')'0: n_GP_parameters = ', n_GP_parameters
+            endif !  myid == 0
+    
+            !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            ! THIS IS WHERE YOU NEED TO INSERT THE GA_LMDIF CALL AND
+            ! LINK THE SSE OUTPUT TO THE ARRAY AT THE END
+            ! ALSO, THE OPTIMAL PARAMETER SETS FROM THE BEST CHILD NEED TO BE PULLED OUT
+            !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    
+            !-------------------------------------------------------------------------------------
+    
+            !write(*,'(/A,1x,I6/)') 'going to GPCODE_GA_lmdif_Parameter_Optimization routine', myid
+    
+            call GPCODE_GA_lmdif_Parameter_Optimization()
+    
+            !write(*,'(/A,1x,I6/)') 'coming from the GPCODE_GA_lmdif_Parameter_Optimization routine', myid
+    
+            GP_population_fitness(i_GP_individual)=individual_fitness
+    
+            !-------------------------------------------------------------------------------------
+    
+    
+            cff=0.0d0
+            xcount=0.0d0
+            do  i_Node=1,n_Nodes
+                do  i_Tree=1,n_Trees
+    
+                    if( GP_Individual_Node_Type(i_Node,i_Tree) .ne. &
+                        GP_Node_Type_Answer(i_Node,i_Tree)             ) then
+    
+                      if( GP_Node_Type_Answer(i_Node,i_Tree)     .eq. -9999  .or. &
+                          GP_Individual_Node_Type(i_Node,i_Tree) .eq. -9999         ) then
+    
+                          cff=1.0d0
+                          xcount=xcount+cff
+    
+                      else
+    
+                          cff = dble( GP_Individual_Node_Type(i_Node,i_Tree) -  &
+                                      GP_Node_Type_Answer(i_Node,i_Tree)            )**2
+                          xcount=xcount+cff
+    
+                      endif !   GP_Node_Type_Answer(i_Node,i_Tree) .eq. -9999 ...
+    
+                    endif !   GP_Individual_Node_Type(i_Node,i_Tree) .ne. ...
+    
+                enddo ! i_tree
+            enddo  ! i_node
+    
+            
+    
+            GP_Child_Individual_SSE(i_GP_Individual)=xcount
+
+            if( myid == 0 )then
+                write(6,'(A,1x,I6,1x,E15.7)') &
+                      '0: i_GP_Individual, GP_Child_Individual_SSE(i_GP_Individual) ', &
+                          i_GP_Individual, GP_Child_Individual_SSE(i_GP_Individual)
+
+            endif ! myid == 0 
+    
+            !off GP_Child_Individual_SSE(i_GP_individual)=GA_Individual_Lowest_SSE  ! from the GA_lmdif routine output
+    
+            !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    
+    
+            if( myid == 0 )then
+    
+                write(6,'(/A)') '0: after GPCODE_GA_lmdif_Parameter_Optimization routine'
+    
+                write(6,'(/A,1x,I6, 1x, E15.7)')&
+                      '0: i_GP_individual, GP_population_fitness(i_GP_individual) ', &
+                          i_GP_individual, GP_population_fitness(i_GP_individual)
+    
+                !--------------------------------------------------------------------------------
+    
+                ! print side-by-side comparisons of starting values and values from optimization
+    
+                !write(6,'(/A/)') '0:  individual initial condition       output value '
+                write(6,'(/A/)') '0:   truth value           output value '
+    
+                do  i_CODE_equation=1,n_CODE_equations
+    
+                    write(6,'(I6,1x, E20.10, 4x, E20.10)') &
+                          i_CODE_equation, &
+                          Runge_Kutta_Initial_Conditions(i_CODE_equation),  &
+                          GP_individual_initial_conditions(i_CODE_equation)
+    
+                          output_array( i_CODE_equation ) = &
+                                   GP_individual_initial_conditions(i_CODE_equation)
+                    !write(output_unit,'(E24.16)') &
+                    !      GP_individual_initial_conditions(i_CODE_equation)
+    
+                enddo ! i_CODE_equation
+    
+                !--------------------------------------------------------------------------------
+    
+    
+                !write(6,'(/A/)') '0:  node  tree  initial_node_parameter        output_value '
+    
+                !do  i_tree=1,n_trees
+                !    do  i_node=1,n_nodes
+                !        if( abs( GP_population_node_parameters(i_GP_individual,i_node,i_tree) ) > &
+                !                 1.0d-20   )then
+    
+                !            write(6,'(2(1x,I6), 1x, E20.10, 4x, E20.10)') &
+                !                  i_node, i_tree, &
+                !                  GP_population_node_parameters(i_GP_individual,i_node,i_tree), &
+                !                  GP_individual_node_parameters(i_node,i_tree)
+                !        endif
+                !    enddo ! i_node
+                !enddo  ! i_tree
+    
+            endif !  myid == 0
+    
+            !-------------------------------------------------------------------------------------
+    
+    
+            ! set the GA_lmdif-optimized initial condition array
+    
+            GP_Population_Initial_Conditions(i_GP_Individual,1:n_CODE_Equations) = &
+                GP_Individual_Initial_Conditions(1:n_CODE_Equations) ! Matrix Operation
+    
+            ! set the GA_lmdif-optimized CODE parameter set array
+    
+            GP_Population_Node_Parameters(i_GP_Individual,1:n_Nodes,1:n_Trees) = &
+                GP_Individual_Node_Parameters(1:n_Nodes,1:n_Trees) ! Martix Operation
+    
+    
+    
+        endif !   Run_GP_Calculate_Fitness(i_GP_Individual)
+    
+    
+    
+    
+    
+        !-------------------------------------------------------------------------------------
+    
+        if( myid == 0 )then
+    
+            write(6,'(/A/)') '0: after loading GP_Population arrays with GP_individual array values '
+            write(6,'(/A/)') '0:  node  tree  GP_pop_node_parameter   GP_individual_node_parameter '
+    
+            nop = n_CODE_equations
+            do  i_tree=1,n_trees
+                do  i_node=1,n_nodes
+                    if( abs( GP_population_node_parameters(i_GP_individual,i_node,i_tree) ) >  &
+                               1.0d-20   )then
+    
+                        write(6,'(2(1x,I6), 1x, E20.10, 4x, E20.10)') &
+                              i_node, i_tree, &
+                              GP_population_node_parameters(i_GP_individual,i_node,i_tree), &
+                              GP_individual_node_parameters(i_node,i_tree)
+                        nop = nop + 1
+                        output_array(nop) = GP_individual_node_parameters(i_node,i_tree)
+                    endif
+                enddo ! i_node
+            enddo  ! i_tree
+    
+    
+            ! output written to output_unit  in subroutine GP*n
+    
+            close( output_unit )
+    
+    
+        endif !  myid == 0
+    
+    enddo !   i_GP_individual
+    
+    
+    !write(*,*) GP_Child_Individual_SSE
+    write(*,*) '0: GP_Child_Individual_SSE ', GP_Child_Individual_SSE
+    
+    !---------------------------------------------------------------------------------------------------
+    
+    ! fitness reset region
+    
+    ! calculate the total population's SSE
+    
+    cff=0.0d0
+    do  i_GP_Individual=1,n_GP_Individuals
+        cff=cff+GP_Child_Individual_SSE(i_GP_Individual)
+    enddo
+    
+    ! calculate a normalized ranking of the errors (higher individual SSE == lower value/ranking)
+    do  i_GP_Individual=1,n_GP_Individuals
+        GP_Individual_Ranked_Fitness(i_GP_Individual)=(cff-GP_Child_Individual_SSE(i_GP_Individual))/cff
+    enddo
+    
+    
+    ! calculate the sum of the rankings
+    
+    cff=0.0
+    do  i_GP_Individual=1,n_GP_Individuals
+        cff=cff+GP_Individual_Ranked_Fitness(i_GP_Individual)
+        GP_Integrated_Ranked_Fitness(i_GP_Individual)=cff
+    enddo
+    
+    
+    ! normalize to the integrated ranking values so that the ranking integration ranges from [0. to 1.]
+    
+    do  i_GP_Individual=1,n_GP_Individuals
+        GP_Integrated_Ranked_Fitness(i_GP_Individual) = &
+        GP_Integrated_Ranked_Fitness(i_GP_Individual)/GP_Integrated_Ranked_Fitness(n_GP_Individuals)
+    enddo
+    
+    
+    !write(*,*) i_GP_Generation,'MAIN',GP_Individual_Ranked_Fitness(1)
+    write(*,*) '0: i_GP_Generation, MAIN GP_Individual_Ranked_Fitness(1) ', &
+                   i_GP_Generation,      GP_Individual_Ranked_Fitness(1)
+    
+    
+    !---------------------------------------------------------------------------------------------------
+    
+    i_GP_Best_Parent=1
+    cff=GP_Individual_Ranked_Fitness(1)
+    do  i_GP_Individual=2,n_GP_individuals
+        if( GP_Individual_Ranked_Fitness(i_GP_individual) .gt. cff) then
+            cff=GP_Individual_Ranked_Fitness(i_GP_individual)
+            i_GP_Best_Parent=i_GP_Individual
+        endif
+    enddo
+    
+    write(*,*) '0: i_GP_Generation, i_GP_Best_Parent ', &                        
+                   i_GP_Generation, i_GP_Best_Parent
+
+    GP_Adult_Individual_SSE=GP_Child_Individual_SSE
+    
+    write(*,*) '0: SSE = ',GP_Adult_Individual_SSE
+    write(*,*)
+    write(*,*) '0: Fitness out= ',GP_Individual_Ranked_Fitness
+    ! stop
+    
+    !off if( i_GP_Generation .eq. 3) Stop
+    
+    do i_GP_Individual=1,n_GP_individuals
+       GP_Node_Type_for_Plotting(i_GP_Individual,1:n_Nodes,1:n_Trees) = &
+       GP_Adult_Population_Node_Type(i_GP_Individual,1:n_Nodes,1:n_Trees)
+    
+       !off  GP_Node_Type_for_Plotting(i_GP_Individual,1:n_Nodes,1:n_Trees)=GP_Node_Type_Answer(1:n_Nodes,1:n_Trees)
+    
+    enddo ! i_GP_individual
+    
     if( myid == 0 )then
-
-        write(6,'(/A/)') '0: after loading GP_Population arrays with GP_individual array values '
-        write(6,'(/A/)') '0:  node  tree  GP_pop_node_parameter   GP_individual_node_parameter     '
-
-        nop = n_CODE_equations
-        do  i_tree=1,n_trees
-            do  i_node=1,n_nodes
-                if( abs( GP_population_node_parameters(i_GP_individual,i_node,i_tree) ) >  &
-                           1.0d-20   )then
-
-                    write(6,'(2(1x,I6), 1x, E20.10, 4x, E20.10)') &
-                          i_node, i_tree, &
-                          GP_population_node_parameters(i_GP_individual,i_node,i_tree), &
-                          GP_individual_node_parameters(i_node,i_tree)
-                    nop = nop + 1
-                    output_array(nop) = GP_individual_node_parameters(i_node,i_tree)
-                endif
-            enddo ! i_node
-        enddo  ! i_tree
-
-
-        ! output written to output_unit  in subroutine GP*n
-
-        close( output_unit )
-
-
-    endif !  myid == 0
-
-  enddo !   i_GP_individual
-
-
-  write(*,*) GP_Child_Individual_SSE
-
-!---------------------------------------------------------------------------------------------------
-
-! fitness reset region
-
-  ! calculate the total population's SSE
-
-  cff=0.0
-  do i_GP_Individual=1,n_GP_Individuals
-    cff=cff+GP_Child_Individual_SSE(i_GP_Individual)
-  enddo
-
-  ! calculate a normalized ranking of the errors (higher individual SSE == lower value/ranking)
-  do i_GP_Individual=1,n_GP_Individuals
-    GP_Individual_Ranked_Fitness(i_GP_Individual)=(cff-GP_Child_Individual_SSE(i_GP_Individual))/cff
-  enddo
-
-
-  ! calculate the sum of the rankings
-
-  cff=0.0
-  do i_GP_Individual=1,n_GP_Individuals
-    cff=cff+GP_Individual_Ranked_Fitness(i_GP_Individual)
-    GP_Integrated_Ranked_Fitness(i_GP_Individual)=cff
-  enddo
-
-
-  ! normalize to the integrated ranking values so that the ranking integration ranges from [0. to 1.]
-
-  do i_GP_Individual=1,n_GP_Individuals
-    GP_Integrated_Ranked_Fitness(i_GP_Individual) = &
-    GP_Integrated_Ranked_Fitness(i_GP_Individual)/GP_Integrated_Ranked_Fitness(n_GP_Individuals)
-  enddo
-
-
-  write(*,*) i_GP_Generation,'MAIN',GP_Individual_Ranked_Fitness(1)
-
-
-!---------------------------------------------------------------------------------------------------
-
-  i_GP_Best_Parent=1
-  cff=GP_Individual_Ranked_Fitness(1)
-  do i_GP_Individual=2,n_GP_individuals
-    if (GP_Individual_Ranked_Fitness(i_GP_individual) .gt. cff) then
-      cff=GP_Individual_Ranked_Fitness(i_GP_individual)
-      i_GP_Best_Parent=i_GP_Individual
-    endif
-  enddo
-
-  GP_Adult_Individual_SSE=GP_Child_Individual_SSE
-
-! write(*,*) 'SSE = ',GP_Adult_Individual_SSE
-! write(*,*)
-! write(*,*) 'Fitness out= ',GP_Individual_Ranked_Fitness
-! stop
-
-!off if (i_GP_Generation .eq. 3) Stop
-
-do i_GP_Individual=1,9
-  GP_Node_Type_for_Plotting(i_GP_Individual,1:n_Nodes,1:n_Trees) = &
-  GP_Adult_Population_Node_Type(i_GP_Individual,1:n_Nodes,1:n_Trees)
-
-!off  GP_Node_Type_for_Plotting(i_GP_Individual,1:n_Nodes,1:n_Trees)=GP_Node_Type_Answer(1:n_Nodes,1:n_Trees)
-
-enddo ! i_GP_individual
-
-write(50) GP_Node_Type_for_Plotting
+        write(unit_gp_out) GP_Node_Type_for_Plotting
+    endif ! myid == 0
 
 
 
@@ -894,7 +989,7 @@ endif ! myid == 0
 
 !if( myid == 0 )then
 !    Lplot = .true.
-!    if( Lplot ) call plot_results(Runga_Kutta_Solution,n_time_steps, n_CODE_equations )
+!    if( Lplot ) call plot_results(Runge_Kutta_Solution,n_time_steps, n_CODE_equations )
 !endif ! myid == 0
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -912,88 +1007,71 @@ deallocate( fitness_expectation_value )
 deallocate( Run_GA_lmdif )
 deallocate( Data_Array  )
 deallocate( Data_Variance )
-deallocate( Runga_Kutta_Solution  )
 
-deallocate(  GP_Population_Node_Parameters )
-deallocate(  GP_Individual_Node_Parameters )
-deallocate(  Runga_Kutta_Node_Parameters )
+deallocate( GP_Population_Node_Parameters )
+deallocate( GP_Individual_Node_Parameters )
 
 
-deallocate(  GP_Node_Parameters_Answer )
-deallocate(  GP_Node_Type_Answer )
-deallocate(  GP_Node_Type_for_Plotting )
-deallocate(  GP_Population_Parameter_Solution )
-deallocate(  GP_Solution )
-deallocate(  GP_Adult_Population_Node_Type )
-deallocate(  GP_Child_Population_Node_Type )
-deallocate(  Parent_Tree_Swap_Node_Type )
-deallocate(  GP_Population_Fitness )
-deallocate(  Runga_Kutta_Solution )
-deallocate(  GP_Adult_Individual_SSE )
-deallocate(  GP_Child_Individual_SSE )
-deallocate(  GP_Individual_Ranked_Fitness )
-deallocate(  GP_Integrated_Ranked_Fitness )
-deallocate(  Run_GP_Calculate_Fitness )
+deallocate( GP_Node_Parameters_Answer )
+deallocate( GP_Node_Type_Answer )
+deallocate( GP_Node_Type_for_Plotting )
+deallocate( GP_Solution )
+deallocate( GP_Adult_Population_Node_Type )
+deallocate( GP_Child_Population_Node_Type )
+deallocate( Parent_Tree_Swap_Node_Type )
+deallocate( GP_Adult_Individual_SSE )
+deallocate( GP_Child_Individual_SSE )
+deallocate( GP_Individual_Ranked_Fitness )
+deallocate( GP_Integrated_Ranked_Fitness )
+deallocate( Run_GP_Calculate_Fitness )
 
-! must be kept for re-evaluations of next generations
-!real(kind=8) :: GA_Adult_Individual_SSE(n_GA_Individuals)
 deallocate( GA_Adult_Individual_SSE )
-
-! must be kept for re-evaluations of next generations
-!real(kind=8) :: GA_Child_Individual_SSE(n_GA_Individuals)
 deallocate( GA_Child_Individual_SSE )
-
-! needed to support sexual and "tournament-style" reproduction
-!real(kind=8) :: GA_Integrated_SSE(n_GA_Individuals)
 deallocate( GA_Integrated_SSE )
-
-! must be kept for re-evaluations of next generations
-!real(kind=8) :: GA_Individual_Ranked_Fitness(n_GA_Individuals)
 deallocate( GA_Individual_Ranked_Fitness )
-
-! must be kept for re-evaluations of next generations
-!real(kind=8) :: GA_Integrated_Ranked_Fitness(n_GA_Individuals)
 deallocate( GA_Integrated_Ranked_Fitness )
 
-deallocate(  GP_Population_Parameter_Solution )
-deallocate(  GP_Individual_Parameter_Solution )
+deallocate( GP_Population_Parameter_Solution )
+deallocate( GP_Individual_Parameter_Solution )
 
-deallocate(  GP_Population_Initial_Conditions )
-deallocate(  GP_Individual_Initial_Conditions )
+deallocate( GP_Population_Initial_Conditions )
+deallocate( GP_Individual_Initial_Conditions )
 
-deallocate(  GP_Population_Fitness )
+deallocate( GP_Population_Fitness )
 
-deallocate(  GP_Population_Node_Type )
-deallocate(  GP_Individual_Node_Type )
-deallocate(  Runga_Kutta_Node_Type )
+deallocate( GP_Population_Node_Type )
+deallocate( GP_Individual_Node_Type )
 
-deallocate(  Runga_Kutta_Initial_Conditions )
-
-
-deallocate(  Node_Values )
-deallocate(  Tree_Evaluation )
-
-deallocate(  Tree_Value )
-
-deallocate(  Node_Eval_Type )
-
-deallocate(  bioflo )
-deallocate(  b_tmp )
-
-deallocate(  kval )
-deallocate(  btmp )
-deallocate(  fbio )
+deallocate( Runge_Kutta_Node_Type )
+deallocate( Runge_Kutta_Node_Parameters )
+deallocate( Runge_Kutta_Initial_Conditions )
+deallocate( Runge_Kutta_Solution )
 
 
-deallocate(  node_type_string )
-deallocate(  node_parameters_string )
-deallocate(  tree_evaluation_string )
-deallocate(  linked_parms )
+deallocate( Node_Values )
+deallocate( Tree_Evaluation )
+
+deallocate( Tree_Value )
+
+deallocate( Node_Eval_Type )
+
+deallocate( bioflo )
+deallocate( b_tmp )
+
+deallocate( kval )
+deallocate( btmp )
+deallocate( fbio )
+
+
+deallocate( node_type_string )
+deallocate( node_parameters_string )
+deallocate( tree_evaluation_string )
+deallocate( linked_parms )
 
 deallocate( answer )
 deallocate( output_array )
 
-deallocate(  Node_Probability )
+deallocate( Node_Probability )
 
 !------------------------------------------------------------------
 

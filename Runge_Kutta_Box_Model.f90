@@ -1,6 +1,6 @@
-subroutine Runga_Kutta_Box_Model
+subroutine Runge_Kutta_Box_Model
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-! carry out a prescribed Runga-Kutta numerical integration
+! carry out a prescribed Runge-Kutta numerical integration
 ! using the GP architecture to solve a coupled system of equations
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
@@ -10,7 +10,7 @@ use mpi_module
 
 use GP_Parameters_module
 use GP_Variables_module
-use Runga_Kutta_Variables_module
+use Runge_Kutta_Variables_module
 
 implicit none
 
@@ -28,9 +28,9 @@ character(str_len), dimension(n_trees) ::  tree_value_string
 
 do i_time_step=1,n_time_steps
 
-  b_tmp = Runga_Kutta_Solution(i_time_step-1,1:n_CODE_equations)  ! Array Assignment
+  b_tmp = Runge_Kutta_Solution(i_time_step-1,1:n_CODE_equations)  ! Array Assignment
 
-  ! carry out a Runga-Kutta time step
+  ! carry out a Runge-Kutta time step
 
   do iter=1,4
 
@@ -40,8 +40,8 @@ do i_time_step=1,n_time_steps
 
     tree_value=0.0D+0
 
-    Tree_Evaluation = Runga_Kutta_Node_Parameters       ! Matrix Assignment
-    Node_Eval_Type  = Runga_Kutta_Node_Type             ! Matrix Assignment
+    Tree_Evaluation = Runge_Kutta_Node_Parameters       ! Matrix Assignment
+    Node_Eval_Type  = Runge_Kutta_Node_Type             ! Matrix Assignment
 
     do i_tree=1,n_trees
       do i_level=n_levels-1,1,-1   ! move up the tree structure from level "n_level-1" to level "1"
@@ -246,7 +246,7 @@ do i_time_step=1,n_time_steps
 
                CASE DEFAULT
 
-                 write(*,*) 'wrong case number chosen in Runga Kutta evaluations'
+                 write(*,*) 'wrong case number chosen in Runge Kutta evaluations'
                  stop 'RK bad case number'
 
             END SELECT
@@ -380,17 +380,17 @@ do i_time_step=1,n_time_steps
 
   !   Array Assignment with no negative values
 
-  !Runga_Kutta_Solution(i_time_step,1:n_CODE_equations) = max(b_tmp,0.0d+0) 
+  !Runge_Kutta_Solution(i_time_step,1:n_CODE_equations) = max(b_tmp,0.0d+0) 
 
   ! NPZ model 
 
-  Runga_Kutta_Solution(i_time_step,1:n_CODE_equations) = max( b_tmp, 0.0d0 )
+  Runge_Kutta_Solution(i_time_step,1:n_CODE_equations) = max( b_tmp, 0.0d0 )
 
   !---------------------------------------------------------------------------
 
   !write(6,'(A,2(1x,I6),12(1x,E15.7))') &
   !      'RKBM: myid, i_time_step, RK_Soln ', &
-  !             myid, i_time_step, Runga_Kutta_Solution(i_time_step,1:n_CODE_equations)
+  !             myid, i_time_step, Runge_Kutta_Solution(i_time_step,1:n_CODE_equations)
 
 
 
@@ -398,5 +398,5 @@ enddo ! i_time_step
 
 
 return
-end subroutine Runga_Kutta_Box_Model
+end subroutine Runge_Kutta_Box_Model
 !234567890123456789012345678901234567890123456789012345678901234567890

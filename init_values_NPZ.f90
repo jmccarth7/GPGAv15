@@ -28,7 +28,7 @@ use mpi
 use mpi_module
 use GP_parameters_module
 use GP_variables_module
-use Runga_Kutta_Variables_module
+use Runge_Kutta_Variables_module
 
 implicit none
 
@@ -153,9 +153,9 @@ enddo ! i_tree
 
 
 
-Runga_Kutta_Initial_Conditions( iNO3 )   = 1.6D0   ! [NO3]            [mmol N m-3]
-Runga_Kutta_Initial_Conditions( iphyto ) = 0.3D0   ! [Phytoplankton]  [mmol N m-3]
-Runga_Kutta_Initial_Conditions( izoo )   = 0.1D0   ! [Zooplankton]    [mmol N m-3]
+Runge_Kutta_Initial_Conditions( iNO3 )   = 1.6D0   ! [NO3]            [mmol N m-3]
+Runge_Kutta_Initial_Conditions( iphyto ) = 0.3D0   ! [Phytoplankton]  [mmol N m-3]
+Runge_Kutta_Initial_Conditions( izoo )   = 0.1D0   ! [Zooplankton]    [mmol N m-3]
 
 
 

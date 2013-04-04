@@ -9,6 +9,7 @@ implicit none
 
 integer(kind=4),parameter :: output_unit = 20
 
+integer(kind=4),parameter :: unit_gp_out = 50 
 
 !integer(kind=4), parameter :: n_GP_individuals=1
 integer(kind=4) :: n_GP_individuals
@@ -22,6 +23,7 @@ integer(kind=4) :: j_GP_Individual
 integer(kind=4) :: i_Tree
 integer(kind=4) :: i_Node
 
+integer(kind=4) :: n_GP_parameters
 
 character(30) :: model
 
@@ -40,6 +42,8 @@ integer(kind=4) :: j_CODE_equation
 !integer(kind=4) :: i_node
 integer(kind=4) :: i_node_left
 integer(kind=4) :: i_node_right
+
+
 integer(kind=4) :: n_parameters
 
 ! this decides what the tree's shape needs to be like, i.e. bush or logpole pine

@@ -54,7 +54,7 @@ GP_Individual_Node_Type(15,5)=-1 ! Phytoplankton
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 ! Initial Conditions
-Runga_Kutta_Initial_Conditions(1)=19.66561  ! 30.0D+0  ! [prey]         [mmol N m-3]
-Runga_Kutta_Initial_Conditions(2)=0.3960451  ! 2.0D+0   ! [preditor]     [mmol N m-3]
+Runge_Kutta_Initial_Conditions(1)=19.66561  ! 30.0D+0  ! [prey]         [mmol N m-3]
+Runge_Kutta_Initial_Conditions(2)=0.3960451  ! 2.0D+0   ! [preditor]     [mmol N m-3]
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

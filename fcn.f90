@@ -37,10 +37,10 @@ integer (kind=4) :: iflag
 
 do i_CODE_equation=1,n_CODE_equations
 
-  Runga_Kutta_Solution(0,i_CODE_equation)=dabs(x(i_CODE_equation))
+  Runge_Kutta_Solution(0,i_CODE_equation)=dabs(x(i_CODE_equation))
 
-  if( isnan( Runga_Kutta_Solution(0,i_CODE_equation) ) .or. &
-        abs( Runga_Kutta_Solution(0,i_CODE_equation) )  > 1.0D20  )then
+  if( isnan( Runge_Kutta_Solution(0,i_CODE_equation) ) .or. &
+        abs( Runge_Kutta_Solution(0,i_CODE_equation) )  > 1.0D20  )then
 
       L_bad_result = .TRUE.
       iflag = -1
@@ -54,7 +54,7 @@ enddo !  i_CODE_equation
 ! set the node_parameters array from the parameter array
 
 
-Runga_Kutta_Node_Parameters = 0.
+Runge_Kutta_Node_Parameters = 0.
 
 i_parameter=n_CODE_equations
 
@@ -64,10 +64,10 @@ do i_tree=1,n_trees
     if (GP_Individual_Node_Type(i_node,i_tree) .eq. 0) then  ! set the node_parameter
 
       i_parameter=i_parameter+1
-      Runga_Kutta_Node_Parameters(i_node,i_tree)=dabs(x(i_parameter))
+      Runge_Kutta_Node_Parameters(i_node,i_tree)=dabs(x(i_parameter))
 
-      if( isnan( Runga_Kutta_Node_Parameters(i_node,i_tree) )  .or. &
-            abs( Runga_Kutta_Node_Parameters(i_node,i_tree) ) > 1.0D20 ) then
+      if( isnan( Runge_Kutta_Node_Parameters(i_node,i_tree) )  .or. &
+            abs( Runge_Kutta_Node_Parameters(i_node,i_tree) ) > 1.0D20 ) then
 
           L_bad_result = .TRUE.
           iflag = -1
@@ -84,18 +84,18 @@ enddo  ! i_tree
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-!  Runga_Kutta_Box_Model runs the RK process using the parameters
+!  Runge_Kutta_Box_Model runs the RK process using the parameters
 !  set above
 
 
 L_bad_result = .FALSE.
 
-call Runga_Kutta_Box_Model
+call Runge_Kutta_Box_Model
 
 
 if( L_bad_result ) then
     !write(6,'(A,1x,I6,4x,L1)') &
-    !      'fcn: aft call Runga_Kutta_Box_Model  myid, L_bad_result = ', &
+    !      'fcn: aft call Runge_Kutta_Box_Model  myid, L_bad_result = ', &
     !                                            myid, L_bad_result
     iflag = -1
     return
@@ -119,7 +119,7 @@ do i_time_step=1,n_time_steps
         !write(6,'(A,2(1x,I6), 3(1x,E15.7))') &
         !      'fcn: myid, i_eqn, RK_soln, data_array, var ', &
         !            myid, i_CODE_equation,                   &
-        !            Runga_Kutta_Solution(i_time_step,i_CODE_equation), &
+        !            Runge_Kutta_Solution(i_time_step,i_CODE_equation), &
         !            Data_Array(i_time_step,i_CODE_equation), &
         !            data_variance(i_CODE_equation)
 
@@ -129,7 +129,7 @@ do i_time_step=1,n_time_steps
 
         fvec(i_time_step) = fvec(i_time_step)  +                                  &
             (   Data_Array(i_time_step,i_CODE_equation) -                         &
-                  Runga_Kutta_Solution(i_time_step,i_CODE_equation)   )**2  /     &
+                  Runge_Kutta_Solution(i_time_step,i_CODE_equation)   )**2  /     &
                                                         Data_Variance(i_CODE_equation)
 
     !else

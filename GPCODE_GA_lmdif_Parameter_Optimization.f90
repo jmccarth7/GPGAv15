@@ -78,6 +78,7 @@ logical :: L_stop_run
 if( myid == 0 )then
     write(6,'(A,1x,E15.7)') 'GP_GA_opt: dt ', dt
     write(6,'(A)') 'GP_GA_opt: ok to here'
+    write(6,'(A,1x,I10)') 'GP_GA_opt:  n_parameters = ', n_parameters
 endif ! myid == 0
 
 
@@ -103,7 +104,13 @@ endif
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 CALL RANDOM_SEED(size = n_seed)
-ALLOCATE(seed(n_seed))
+
+if( .not. allocated( seed ) )then
+
+    ALLOCATE(seed(n_seed))
+
+endif ! .not. allocated( seed )
+
 CALL SYSTEM_CLOCK(COUNT=clock)
 seed = clock + 37 * (/ (i_seed - 1, i_seed = 1, n_seed) /)
 
@@ -120,8 +127,11 @@ if( GA_Crossover_Probability+GA_Mutation_Probability .gt. 1.0d0 ) then
 endif !   GA_Crossover_Probability+GA_Mutation_Probability .gt. 1.0d0
 
 
-n_GA_Crossovers = int(GA_Crossover_Probability * n_GA_individuals)  ! calculate the number of GA Crossovers
-n_GA_Mutations  = int(GA_Mutation_Probability  * n_GA_individuals)  ! calculate the number of GA Mutations
+! calculate the number of GA Crossovers
+n_GA_Crossovers = int(GA_Crossover_Probability * n_GA_individuals)
+
+! calculate the number of GA Mutations
+n_GA_Mutations  = int(GA_Mutation_Probability  * n_GA_individuals)
 
 
 ! calculate the number of GA elites
@@ -151,9 +161,12 @@ chunk =     n_GA_individuals / ( numprocs - 1 )
 
 
 if( myid == 0 )then
+
     write(6,'(/A,2(1x,I6))')'GP_GA_opt: n_GA_individuals, numprocs ', &
                                         n_GA_individuals, numprocs
     write(6,'(A,1x,I6/)')'GP_GA_opt: chunk ',  chunk
+    write(6,'(A,1x,I6/)')'GP_GA_opt: n_parameters ', n_parameters
+
 endif ! myid == 0
 
 !-----------------------------------------------------------------------------
@@ -196,6 +209,7 @@ do  i_GA_generation=1,n_GA_Generations
                       i_GA_individual, &
                       child_parameters(i_GA_individual,1:n_parameters)
             enddo ! i_GA_individual
+
 
 
         else
@@ -316,21 +330,27 @@ do  i_GA_generation=1,n_GA_Generations
 
     endif ! myid == 0
 
+    !!!call MPI_FINALIZE(ierr)  ! debug only
+
+    !!!stop  ! debug only
 
     !------------------------------------------------------------------------
 
     !  broadcast child parameters
 
 
-    !write(6,'(/A,1x,I6/)') &
-    ! 'GP_GA_opt:  broadcast child parameters i_GA_generation ', i_GA_generation
+    write(6,'(/A,1x,I6)') &
+     'GP_GA_opt:  broadcast child parameters i_GA_generation ', i_GA_generation
 
     child_number =  n_GA_Individuals * n_Parameters
+
+    write(6,'(A,1x,I6/)') &
+     'GP_GA_opt:  child_number = ', child_number
 
     call MPI_BCAST( Child_Parameters,  child_number,    &
                        MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
-    !write(6,'(/A,1x,I10/)') 'GP_GA_opt:  broadcast ierr = ', ierr
+    write(6,'(/A,1x,I10/)') 'GP_GA_opt: child  broadcast ierr = ', ierr
 
     call MPI_BARRIER( MPI_COMM_WORLD, ierr )
 
@@ -338,19 +358,19 @@ do  i_GA_generation=1,n_GA_Generations
 
     ! broadcast Run_GA_lmdif
 
-    !write(6,'(/A,1x,I6/)') &
-    !      'GP_GA_opt:  broadcast Run_GA_lmdif i_GA_generation ', i_GA_generation
+    write(6,'(/A,1x,I6)') &
+          'GP_GA_opt:  broadcast Run_GA_lmdif i_GA_generation ', i_GA_generation
 
     call MPI_BCAST( Run_GA_lmdif,  n_GA_Individuals,    &
                         MPI_LOGICAL, 0, MPI_COMM_WORLD, ierr )
 
-    !write(6,'(/A,1x,I10/)') 'GP_GA_opt:  broadcast ierr = ', ierr
+    write(6,'(A,1x,I10/)') 'GP_GA_opt: Run_GA_lmdif  broadcast ierr = ', ierr
 
     call MPI_BARRIER( MPI_COMM_WORLD, ierr )
 
-    !write(6,'(A,2(1x,I6))') &
-    !'GP_GA_opt: after child bcast and barrier i_GA_generation, myid = ', &
-    !                                          i_GA_generation, myid
+    write(6,'(A,2(1x,I6))') &
+    'GP_GA_opt: after child bcast and barrier i_GA_generation, myid = ', &
+                                              i_GA_generation, myid
 
 
     !------------------------------------------------------------------------
@@ -412,12 +432,12 @@ do  i_GA_generation=1,n_GA_Generations
                            MPI_DOUBLE_PRECISION, iproc,  itag, MPI_COMM_WORLD, MPI_STAT,  ierr )
 
 
-            !write(6,'(A,2(1x,I6),A,1x,I6)') &
-            !      'GP_ga_opt: i_GA_individual, i_GA_generation  ', &
-            !                  i_GA_individual, i_GA_generation, &
-            !       ' message received from proc ', iproc
+            write(6,'(A,2(1x,I6),A,1x,I6)') &
+                  'GP_ga_opt: i_GA_individual, i_GA_generation  ', &
+                              i_GA_individual, i_GA_generation, &
+                   ' message received from proc ', iproc
 
-            !write(6,'(A,6(1x,I6))') 'GP_ga_opt: MPI_STAT ', MPI_STAT
+            write(6,'(A,6(1x,I6))') 'GP_ga_opt: MPI_STAT ', MPI_STAT
 
             child_parameters(i_GA_individual,1:n_parameters) =  &
                                  buffer_recv(1:n_parameters)
@@ -431,18 +451,18 @@ do  i_GA_generation=1,n_GA_Generations
             call MPI_RECV( individual_quality(i_GA_individual), 1, &
                            MPI_INTEGER, iproc,  itag2, MPI_COMM_WORLD, MPI_STAT,  ierr )
 
-            !write(6,'(A,3(1x,I6))') &
-            ! 'GP_ga_opt: myid, i_GA_individual, individual_quality ', &
-            !             myid, i_GA_individual, individual_quality(i_GA_individual)
+            write(6,'(A,3(1x,I6))') &
+             'GP_ga_opt: myid, i_GA_individual, individual_quality ', &
+                         myid, i_GA_individual, individual_quality(i_GA_individual)
 
             !-------------------------------------------------------------------------------------
 
             call MPI_RECV( individual_SSE(i_GA_individual), 1, &
                            MPI_DOUBLE_PRECISION, iproc, itag3, MPI_COMM_WORLD, ierr )
 
-            !write(6,'(A,3(1x,I6),1x,E15.7)') &
-            ! 'GP_ga_opt: myid, i_GA_individual, i_GA_generation, individual_SSE ', &
-            !             myid, i_GA_individual, i_GA_generation, individual_SSE(i_GA_individual)
+            write(6,'(A,3(1x,I6),1x,E15.7)') &
+             'GP_ga_opt: myid, i_GA_individual, i_GA_generation, individual_SSE ', &
+                         myid, i_GA_individual, i_GA_generation, individual_SSE(i_GA_individual)
 
             !-------------------------------------------------------------------------------------
 
@@ -520,24 +540,24 @@ do  i_GA_generation=1,n_GA_Generations
                                    MPI_DOUBLE_PRECISION, 0, itag, MPI_COMM_WORLD, ierr )
 
 
-                    !write(6,'(A,2(1x,I6),1x,A,1x,I6,1x,A)') &
-                    !      'GP_ga_opt: i_GA_generation, i_GA_individual', &
-                    !                  i_GA_generation, i_GA_individual,  &
-                    !             '    message sent from proc', myid, '  to proc 0'
+                    write(6,'(A,2(1x,I6),1x,A,1x,I6,1x,A)') &
+                          'GP_ga_opt: i_GA_generation, i_GA_individual', &
+                                      i_GA_generation, i_GA_individual,  &
+                                 '    message sent from proc', myid, '  to proc 0'
 
                     !-------------------------------------------------------------------------
 
                     call MPI_SEND( individual_quality(i_GA_individual), 1, &
                                    MPI_INTEGER, 0, itag2, MPI_COMM_WORLD, ierr )
 
-                    !write(6,'(A,3(1x,I6))') &
-                    !      'GP_GA_opt: myid, i_GA_individual, individual_quality ', &
-                    !                  myid, i_GA_individual, individual_quality(i_GA_individual)
+                    write(6,'(A,3(1x,I6))') &
+                          'GP_GA_opt: myid, i_GA_individual, individual_quality ', &
+                                      myid, i_GA_individual, individual_quality(i_GA_individual)
 
-                    !write(6,'(A,2(1x,I6),1x,A,1x,I6,1x,A)') &
-                    !      'GP_ga_opt: i_GA_generation, i_GA_individual', &
-                    !                  i_GA_generation, i_GA_individual,  &
-                    !             '    message2 sent from proc', myid, '  to proc 0'
+                    write(6,'(A,2(1x,I6),1x,A,1x,I6,1x,A)') &
+                          'GP_ga_opt: i_GA_generation, i_GA_individual', &
+                                      i_GA_generation, i_GA_individual,  &
+                                 '    message2 sent from proc', myid, '  to proc 0'
 
                     !--------------------------------------------------------------------------
 
@@ -959,18 +979,18 @@ endif ! myid == 0
 ! broadcast individual_fitness
 
 
-!write(6,'(/A,1x,I6)') 'broadcast individual_fitness myid = ', myid
+write(6,'(/A,1x,I6)') 'broadcast individual_fitness myid = ', myid
 
 message_len = 1
 call MPI_BCAST( individual_fitness, message_len,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
-!write(6,'(/A,1x,I6)') 'broadcast individual_fitness  ierr = ', ierr
+write(6,'(/A,1x,I6)') 'broadcast individual_fitness  ierr = ', ierr
 
 
 call MPI_BARRIER( MPI_COMM_WORLD, ierr )
 
-!write(6,'(/A,1x,I6)') 'aft individual_fitness barrier  myid = ', myid
+write(6,'(/A,1x,I6)') 'aft individual_fitness barrier  myid = ', myid
 
 
 !------------------------------------------------------------------------
@@ -978,18 +998,18 @@ call MPI_BARRIER( MPI_COMM_WORLD, ierr )
 ! broadcast GP_Individual_Node_Parameters
 
 
-!write(6,'(/A,1x,I6)') 'broadcast GP_Individual_Node_Parameters  myid = ', myid
+write(6,'(/A,1x,I6)') 'broadcast GP_Individual_Node_Parameters  myid = ', myid
 
 message_len = n_trees * n_nodes
 
 call MPI_BCAST( GP_Individual_Node_Parameters, message_len,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
-!write(6,'(/A,1x,I6)') 'broadcast GP_Individual_Node_Parameters  ierr = ', ierr
+write(6,'(/A,1x,I6)') 'broadcast GP_Individual_Node_Parameters  ierr = ', ierr
 
 call MPI_BARRIER( MPI_COMM_WORLD, ierr )
 
-!write(6,'(/A,1x,I6)') 'aft GP_Individual_Node_Parameters barrier  myid = ', myid
+write(6,'(/A,1x,I6)') 'aft GP_Individual_Node_Parameters barrier  myid = ', myid
 
 
 !------------------------------------------------------------------------
@@ -997,18 +1017,18 @@ call MPI_BARRIER( MPI_COMM_WORLD, ierr )
 ! broadcast GP_Individual_Initial_Conditions
 
 
-!write(6,'(/A,1x,I6)') 'broadcast GP_Individual_Initial_Conditions myid = ', myid
+write(6,'(/A,1x,I6)') 'broadcast GP_Individual_Initial_Conditions myid = ', myid
 
 message_len = n_CODE_equations
 
 call MPI_BCAST( GP_Individual_Initial_Conditions, message_len,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
-!write(6,'(/A,1x,I6)') 'broadcast GP_Individual_Initial_Conditions ierr = ', ierr
+write(6,'(/A,1x,I6)') 'broadcast GP_Individual_Initial_Conditions ierr = ', ierr
 
 call MPI_BARRIER( MPI_COMM_WORLD, ierr )
 
-!write(6,'(/A,1x,I6)') 'aft GP_Individual_Initial_Conditions barrier  myid = ', myid
+write(6,'(/A,1x,I6)') 'aft GP_Individual_Initial_Conditions barrier  myid = ', myid
 
 
 !------------------------------------------------------------------------

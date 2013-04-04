@@ -17,8 +17,8 @@ integer(kind=4) :: i_GP_Crossover
 integer(kind=4) :: i_GP_Crossover_Point
 integer(kind=4),dimension(2) :: k_GP_Individual_Male
 integer(kind=4),dimension(2) :: k_GP_Individual_Female
-integer(kind=4),dimension(n_Parameters) :: Child_One_Tree
-integer(kind=4),dimension(n_Parameters) :: Child_Two_Tree
+!integer(kind=4),dimension(n_GP_Parameters) :: Child_One_Tree
+!integer(kind=4),dimension(n_GP_Parameters) :: Child_Two_Tree
 integer(kind=4) :: i_Male_Tree
 integer(kind=4) :: i_Female_Tree
 !integer(kind=4) :: i_GP_Individual
@@ -111,10 +111,14 @@ do i_GP_Crossover=1,n_GP_Crossovers
   enddo ! i_tree
 
   if( i_Node_Count .gt. 0) then
+
     CROSS=.true.  ! there is at least one Tree structure to cross with
+
     call Random_Number(cff) ! uniform random number generator
     icff=1+int(cff*float(i_Node_Count-1))  ! pick a tree
+
     i_Node_Count=0
+
     do i_Tree=1,n_Trees
       if( GP_Adult_Population_Node_Type(k_GP_Individual_Male(1),1,i_Tree) .ne. -9999) then
         i_Node_Count=i_Node_Count+1

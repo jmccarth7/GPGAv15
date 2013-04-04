@@ -32,7 +32,7 @@ use mpi
 use mpi_module
 use GP_parameters_module
 use GP_variables_module
-use Runga_Kutta_Variables_module
+use Runge_Kutta_Variables_module
 
 implicit none
 
@@ -129,11 +129,11 @@ enddo ! i_tree
 
 
 ! Initial Conditions
-Runga_Kutta_Initial_Conditions(1) = 30.0D+0  ! [prey]         [mmol N m-3]
-Runga_Kutta_Initial_Conditions(2) = 2.0D+0   ! [predator]     [mmol N m-3]
+Runge_Kutta_Initial_Conditions(1) = 30.0D+0  ! [prey]         [mmol N m-3]
+Runge_Kutta_Initial_Conditions(2) = 2.0D+0   ! [predator]     [mmol N m-3]
 
-!write(6,'(A,1x,I6, 2(1x,F10.2))') 'ivLV: myid, Runga_Kutta_Initial_Conditions(1:2) ', &
-!                                         myid, Runga_Kutta_Initial_Conditions(1:2)
+!write(6,'(A,1x,I6, 2(1x,F10.2))') 'ivLV: myid, Runge_Kutta_Initial_Conditions(1:2) ', &
+!                                         myid, Runge_Kutta_Initial_Conditions(1:2)
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 

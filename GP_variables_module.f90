@@ -63,17 +63,17 @@ integer(kind=4),allocatable,dimension(:,:,:) :: GP_Population_Node_Type
 
 !------------------------------------------------------------------------------
 
-! Runga_Kutta_Node_Type(n_Nodes,n_Trees)
-integer(kind=4),allocatable,dimension(:,:) :: Runga_Kutta_Node_Type
+! Runge_Kutta_Node_Type(n_Nodes,n_Trees)
+integer(kind=4),allocatable,dimension(:,:) :: Runge_Kutta_Node_Type
 
-!real(kind=8) :: Runga_Kutta_Node_Parameters(n_nodes,n_trees)
-real(kind=8),allocatable,dimension(:,:)       :: Runga_Kutta_Node_Parameters
+!real(kind=8) :: Runge_Kutta_Node_Parameters(n_nodes,n_trees)
+real(kind=8),allocatable,dimension(:,:)       :: Runge_Kutta_Node_Parameters
 
-!real (kind=8) :: Runga_Kutta_Initial_Conditions(n_CODE_equations)
-real (kind=8),allocatable,dimension(:)        :: Runga_Kutta_Initial_Conditions
+!real (kind=8) :: Runge_Kutta_Initial_Conditions(n_CODE_equations)
+real (kind=8),allocatable,dimension(:)        :: Runge_Kutta_Initial_Conditions
 
-!real (kind=8) :: Runga_Kutta_Solution(0:n_time_steps,n_CODE_equations)
-real(kind=8),allocatable, dimension(:,:) :: Runga_Kutta_Solution
+!real (kind=8) :: Runge_Kutta_Solution(0:n_time_steps,n_CODE_equations)
+real(kind=8),allocatable, dimension(:,:) :: Runge_Kutta_Solution
 
 !------------------------------------------------------------------------------
 

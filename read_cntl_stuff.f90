@@ -16,7 +16,7 @@ IMPLICIT NONE
 
 integer(kind=4) :: istat
 
-integer(kind=4), parameter :: cntl_unitnum  = 50
+integer(kind=4), parameter :: cntl_unitnum  = 501
 integer(kind=4), parameter :: line_length   = 150
 
 CHARACTER(line_length) :: Aline
@@ -31,7 +31,7 @@ real(kind=8) :: dt_min
 
 ! open the control input file 
 
-open( unit = cntl_unitnum, file = 'GPCODE_cntl', form = 'formatted',&
+open( unit = cntl_unitnum, file = 'GPGACODE_cntl', form = 'formatted',&
       status = 'old' )
 
 
@@ -55,7 +55,7 @@ do
     READ( cntl_unitnum, '(A)', IOSTAT = istat ) Aline
     if( istat > 0 ) then
         WRITE(6,*) &
-        'rcntl: ERROR *** Problem reading GPCODE_cntl &
+        'rcntl: ERROR *** Problem reading GPGACODE_cntl &
                              &in subroutine read_cntl_stuff'
         STOP 'bad read 1 cntl file'
    endif
@@ -105,7 +105,7 @@ do
 
     if( istat > 0 ) then
         WRITE(6,'(/A/)') &
-         'rcntl: ERROR *** Problem reading GPCODE_cntl.'
+         'rcntl: ERROR *** Problem reading GPGACODE_cntl.'
         STOP 'bad read 2 cntl file'
     endif
     if( istat < 0 ) then
