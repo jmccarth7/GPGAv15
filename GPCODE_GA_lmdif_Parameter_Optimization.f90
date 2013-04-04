@@ -821,6 +821,8 @@ if( myid == 0  )then
     if( individual_ranked_fitness(i_GA_best_parent) < individual_ranked_fitness_best_1 )then
 
 
+        individual_fitness = individual_ranked_fitness_best_1 
+
         ! choose the parameters of the best parent from the RK fcn integration
 
         write(6,'(/A)')'GP_GA_opt: set the GA-optimized initial condition array '
@@ -894,6 +896,8 @@ if( myid == 0  )then
 
 
     else  ! lmdif is best
+
+        individual_fitness = individual_ranked_fitness(i_GA_best_parent)
 
 
         ! choose the lmdif output

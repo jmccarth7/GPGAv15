@@ -286,19 +286,21 @@ allocate( Node_Probability( n_levels ) )
 
 
 GP_Population_Node_Type=-9999
+
 ! blank/set the values [0. = zero-valued parameter; -9999 = blank node type]
-GP_Individual_Node_Parameters=0.                                          ! Matrix Operation
-GP_Individual_Node_Type=-9999                                             ! Matrix Operation
-GP_Population_Node_Parameters=0.                                          ! Matrix Operation
-GP_Adult_Population_Node_Type=-9999                                       ! Matrix Operation
-GP_Child_Population_Node_Type=-9999                                       ! Matrix Operation
+
+GP_Individual_Node_Parameters=0.                        ! Matrix Operation
+GP_Individual_Node_Type=-9999                           ! Matrix Operation
+GP_Population_Node_Parameters=0.                        ! Matrix Operation
+GP_Adult_Population_Node_Type=-9999                     ! Matrix Operation
+GP_Child_Population_Node_Type=-9999                     ! Matrix Operation
 
 include 'Lotka_Volterra_Example_Set_Up.f901'
 !off include 'Franks_etal_NPZ_Mar_Bio_Example_Set_Up.f901'
 
 ! set the desired 'twin experiment' population node type and parameter using the info from the set up file
-GP_Node_Type_Answer=GP_Individual_Node_Type                               ! Matrix Operation
-GP_Node_Parameters_Answer=GP_Individual_Node_Parameters                   ! Matrix Operation
+GP_Node_Type_Answer=GP_Individual_Node_Type             ! Matrix Operation
+GP_Node_Parameters_Answer=GP_Individual_Node_Parameters ! Matrix Operation
 
 do i_GP_Individual=1,9
   GP_Node_Type_for_Plotting(i_GP_Individual,1:n_Nodes,1:n_Trees)=GP_Node_Type_Answer(1:n_Nodes,1:n_Trees)
@@ -573,10 +575,10 @@ n_GP_Crossovers = nint(GP_Crossover_Probability*n_GP_individuals)
 n_GP_Mutations = n_GP_Individuals - &
                  ( n_GP_Elitists + n_GP_Crossovers + n_GP_Asexual_Reproductions )
 
-!n_GP_Mutations = min( GP_Mutation_probablility * n_GP_individuals , n_GP_Mutations )
+!n_GP_Mutations = min( nint( GP_Mutation_Probability * n_GP_individuals ) , n_GP_Mutations )
 write(6,'(A,1x,i6,1x,I6)') &
-      '0: n_GP_Mutations, min(GP_Mutation_probablility*n_GP_individuals,n_GP_Mutations) ', &
-          n_GP_Mutations, min(GP_Mutation_probablility*n_GP_individuals,n_GP_Mutations) 
+      '0: n_GP_Mutations, min(nint(GP_Mutation_Probability*n_GP_individuals),n_GP_Mutations) ', &
+          n_GP_Mutations, min(nint(GP_Mutation_Probability*n_GP_individuals),n_GP_Mutations) 
 
 if( myid == 0 )then
 
@@ -637,6 +639,7 @@ do  i_GP_Generation=1,n_GP_Generations
               '0: GP Generation # ',i_GP_Generation,&
                 ' is underway.   n_Nodes * n_Trees = ', n_Nodes*n_Trees
     endif ! myid == 0
+
 
     GP_Child_Population_Node_Type=GP_Adult_Population_Node_Type        ! Matrix Operation
 
@@ -754,6 +757,14 @@ do  i_GP_Generation=1,n_GP_Generations
     
             GP_population_fitness(i_GP_individual)=individual_fitness
     
+
+            if( myid == 0 )then
+                write(6,'(A,2(1x,I6),1x,E15.7)') &
+                      '0: i_GP_generation, i_GP_Individual, GP_population_fitness(i_GP_individual)', &
+                          i_GP_generation, i_GP_Individual, GP_population_fitness(i_GP_individual)  
+
+            endif ! myid == 0 
+    
             !-------------------------------------------------------------------------------------
     
     
@@ -773,9 +784,22 @@ do  i_GP_Generation=1,n_GP_Generations
     
                       else
     
-                          cff = dble( GP_Individual_Node_Type(i_Node,i_Tree) -  &
-                                      GP_Node_Type_Answer(i_Node,i_Tree)            )**2
+                          cff = dble( GP_Individual_Node_Type(i_Node,i_Tree) -       &
+                                          GP_Node_Type_Answer(i_Node,i_Tree)  )**2
                           xcount=xcount+cff
+                          if( myid == 0 )then
+                              write(6,'(A,2(1x,I6))') &
+                                    '0: i_GP_generation, i_GP_Individual ', &
+                                        i_GP_generation, i_GP_Individual
+                              write(6,'(A,2(1x,I6),3(1x,E15.7))') &
+                                '0: i_node, i_tree, &
+                                   &GP_Individual_Node_Type, &
+                                   &GP_Node_Type_Answer, cff ',&
+                                    i_node, i_tree, &
+                                    GP_Individual_Node_Type(i_Node,i_Tree), &
+                                    GP_Node_Type_Answer(i_Node,i_Tree), cff
+
+                          endif ! myid == 0 
     
                       endif !   GP_Node_Type_Answer(i_Node,i_Tree) .eq. -9999 ...
     
@@ -785,13 +809,12 @@ do  i_GP_Generation=1,n_GP_Generations
             enddo  ! i_node
     
             
-    
             GP_Child_Individual_SSE(i_GP_Individual)=xcount
 
             if( myid == 0 )then
-                write(6,'(A,1x,I6,1x,E15.7)') &
-                      '0: i_GP_Individual, GP_Child_Individual_SSE(i_GP_Individual) ', &
-                          i_GP_Individual, GP_Child_Individual_SSE(i_GP_Individual)
+                write(6,'(A,2(1x,I6),1x,E15.7)') &
+                      '0: i_GP_generation, i_GP_Individual, GP_Child_Individual_SSE(i_GP_Individual) ', &
+                          i_GP_generation, i_GP_Individual, GP_Child_Individual_SSE(i_GP_Individual)
 
             endif ! myid == 0 
     
@@ -804,9 +827,9 @@ do  i_GP_Generation=1,n_GP_Generations
     
                 write(6,'(/A)') '0: after GPCODE_GA_lmdif_Parameter_Optimization routine'
     
-                write(6,'(/A,1x,I6, 1x, E15.7)')&
-                      '0: i_GP_individual, GP_population_fitness(i_GP_individual) ', &
-                          i_GP_individual, GP_population_fitness(i_GP_individual)
+                write(6,'(/A,2(1x,I6), 1x, E15.7)')&
+                      '0: i_GP_generation, i_GP_individual, GP_population_fitness(i_GP_individual) ', &
+                          i_GP_generation, i_GP_individual, GP_population_fitness(i_GP_individual)
     
                 !--------------------------------------------------------------------------------
     
@@ -832,20 +855,20 @@ do  i_GP_Generation=1,n_GP_Generations
                 !--------------------------------------------------------------------------------
     
     
-                !write(6,'(/A/)') '0:  node  tree  initial_node_parameter        output_value '
+                write(6,'(/A/)') '0:  node  tree  initial_node_parameter        output_value '
     
-                !do  i_tree=1,n_trees
-                !    do  i_node=1,n_nodes
-                !        if( abs( GP_population_node_parameters(i_GP_individual,i_node,i_tree) ) > &
-                !                 1.0d-20   )then
-    
-                !            write(6,'(2(1x,I6), 1x, E20.10, 4x, E20.10)') &
-                !                  i_node, i_tree, &
-                !                  GP_population_node_parameters(i_GP_individual,i_node,i_tree), &
-                !                  GP_individual_node_parameters(i_node,i_tree)
-                !        endif
-                !    enddo ! i_node
-                !enddo  ! i_tree
+                do  i_tree=1,n_trees
+                    do  i_node=1,n_nodes
+                        if( abs( GP_population_node_parameters(i_GP_individual,i_node,i_tree) ) > &
+                                 1.0d-20   )then
+   
+                            write(6,'(2(1x,I6), 1x, E20.10, 4x, E20.10)') &
+                                  i_node, i_tree, &
+                                  GP_population_node_parameters(i_GP_individual,i_node,i_tree), &
+                                  GP_individual_node_parameters(i_node,i_tree)
+                        endif
+                    enddo ! i_node
+                enddo  ! i_tree
     
             endif !  myid == 0
     
@@ -870,6 +893,10 @@ do  i_GP_Generation=1,n_GP_Generations
     
     
     
+        !-------------------------------------------------------------------------------------
+        if( myid == 0 )then
+            call GP_fitness_reset
+        endif ! myid == 0 
         !-------------------------------------------------------------------------------------
     
         if( myid == 0 )then
@@ -905,9 +932,13 @@ do  i_GP_Generation=1,n_GP_Generations
     
     
     !write(*,*) GP_Child_Individual_SSE
-    write(*,'(/A/(5(1x,E15.7)))') '0: GP_Child_Individual_SSE = ',&
-                                      GP_Child_Individual_SSE
+    if( myid == 0 )then
+        write(6,'(A,1x,I6)') '0: i_GP_generation ',  i_GP_generation
+
+        write(6,'(/A/(5(1x,E15.7)))') '0: GP_Child_Individual_SSE = ',&
+                                          GP_Child_Individual_SSE
     
+    endif ! myid == 0 
     !---------------------------------------------------------------------------------------------------
     
     ! fitness reset region
@@ -918,10 +949,17 @@ do  i_GP_Generation=1,n_GP_Generations
     do  i_GP_Individual=1,n_GP_Individuals
         cff=cff+GP_Child_Individual_SSE(i_GP_Individual)
     enddo
+
+    if( myid == 0 )then
+        write(6,'(A,1x,I6)') '0: i_GP_generation ',  i_GP_generation
+        write(6,'(/A,1x,E15.7)') '0: sum of all GP_Child_Individual_SSE = ', cff  
+    
+    endif ! myid == 0 
     
     ! calculate a normalized ranking of the errors (higher individual SSE == lower value/ranking)
     do  i_GP_Individual=1,n_GP_Individuals
-        GP_Individual_Ranked_Fitness(i_GP_Individual)=(cff-GP_Child_Individual_SSE(i_GP_Individual))/cff
+        GP_Individual_Ranked_Fitness(i_GP_Individual) = &
+             ( cff - GP_Child_Individual_SSE(i_GP_Individual) ) / cff
     enddo
     
     
@@ -942,11 +980,13 @@ do  i_GP_Generation=1,n_GP_Generations
     enddo
     
     
+    if( myid == 0 )then
     !write(*,*) i_GP_Generation,'MAIN',GP_Individual_Ranked_Fitness(1)
     write(*,'(A,1x,I6,1x,E15.7)') &
           '0: i_GP_Generation, MAIN GP_Individual_Ranked_Fitness(1) ', &
               i_GP_Generation,      GP_Individual_Ranked_Fitness(1)
     
+    endif ! myid == 0 
     
     !---------------------------------------------------------------------------------------------------
     
@@ -959,17 +999,23 @@ do  i_GP_Generation=1,n_GP_Generations
         endif
     enddo
     
-    write(*,'(A,2(1x,I6))') '0: i_GP_Generation, i_GP_Best_Parent ', &                        
-                                i_GP_Generation, i_GP_Best_Parent
+    if( myid == 0 )then
+        write(*,'(A,2(1x,I6))') '0: i_GP_Generation, i_GP_Best_Parent ', &                        
+                                    i_GP_Generation, i_GP_Best_Parent
+    endif ! myid == 0 
 
     GP_Adult_Individual_SSE  =  GP_Child_Individual_SSE
     
-    write(*,'(/A/(5(1x,E15.7)))') '0: GP_Adult_Individual_SSE = ',&
-                                      GP_Adult_Individual_SSE
+    if( myid == 0 )then
+        write(*,'(/A/(5(1x,E15.7)))') '0: GP_Adult_Individual_SSE = ',&
+                                          GP_Adult_Individual_SSE
     
-    write(*,'(/A/(5(1x,E15.7)))') '0: GP_Individual_Ranked_Fitness out= ',&
-                                      GP_Individual_Ranked_Fitness
+        write(*,'(/A/(5(1x,E15.7)))') '0: GP_Individual_Ranked_Fitness out= ',&
+                                          GP_Individual_Ranked_Fitness
     
+    endif ! myid == 0 
+
+
     !off if( i_GP_Generation .eq. 3) Stop
     
     do i_GP_Individual=1,n_GP_individuals

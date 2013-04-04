@@ -6,7 +6,7 @@
 
 ! dP/dt = (grow * P)  - (graze * P * Z)
 ! dZ/dt = (graze * P * Z) - ((1 - efficiency) * graze * P *  Z) - (amort * Z)
-! [Note: In this example, the (1-efficiency) parameter is set to a new unique paramater, 'effic']
+! [Note: In this example, the (1-efficiency) parameter is set to a new unique parameter, 'effic']
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 

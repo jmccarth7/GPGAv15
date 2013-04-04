@@ -54,7 +54,7 @@ do i_GP_Individual=1,n_GP_Individuals       ! for each GP individual
 
 !             should not need to do this but compilers may vary w.r.t. possible rand = 1.
               if( Node_Function .gt. n_Node_Functions) then
-                Node_Function=n_Node_Functions
+                  Node_Function  =   n_Node_Functions
               endif !  Node_Function .gt. n_Node_Functions
 
               GP_Adult_Population_Node_Type(i_GP_Individual,i_Node,i_Tree)=Node_Function
