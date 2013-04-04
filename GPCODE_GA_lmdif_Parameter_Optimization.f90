@@ -339,18 +339,18 @@ do  i_GA_generation=1,n_GA_Generations
     !  broadcast child parameters
 
 
-    write(6,'(/A,1x,I6)') &
-     'GP_GA_opt:  broadcast child parameters i_GA_generation ', i_GA_generation
+    !write(6,'(/A,1x,I6)') &
+    ! 'GP_GA_opt:  broadcast child parameters i_GA_generation ', i_GA_generation
 
     child_number =  n_GA_Individuals * n_Parameters
 
-    write(6,'(A,1x,I6/)') &
-     'GP_GA_opt:  child_number = ', child_number
+    !write(6,'(A,1x,I6/)') &
+    ! 'GP_GA_opt:  child_number = ', child_number
 
     call MPI_BCAST( Child_Parameters,  child_number,    &
                        MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
-    write(6,'(/A,1x,I10/)') 'GP_GA_opt: child  broadcast ierr = ', ierr
+    !write(6,'(/A,1x,I10/)') 'GP_GA_opt: child  broadcast ierr = ', ierr
 
     call MPI_BARRIER( MPI_COMM_WORLD, ierr )
 
@@ -358,19 +358,19 @@ do  i_GA_generation=1,n_GA_Generations
 
     ! broadcast Run_GA_lmdif
 
-    write(6,'(/A,1x,I6)') &
-          'GP_GA_opt:  broadcast Run_GA_lmdif i_GA_generation ', i_GA_generation
+    !write(6,'(/A,1x,I6)') &
+    !      'GP_GA_opt:  broadcast Run_GA_lmdif i_GA_generation ', i_GA_generation
 
     call MPI_BCAST( Run_GA_lmdif,  n_GA_Individuals,    &
                         MPI_LOGICAL, 0, MPI_COMM_WORLD, ierr )
 
-    write(6,'(A,1x,I10/)') 'GP_GA_opt: Run_GA_lmdif  broadcast ierr = ', ierr
+    !write(6,'(A,1x,I10/)') 'GP_GA_opt: Run_GA_lmdif  broadcast ierr = ', ierr
 
     call MPI_BARRIER( MPI_COMM_WORLD, ierr )
 
-    write(6,'(A,2(1x,I6))') &
-    'GP_GA_opt: after child bcast and barrier i_GA_generation, myid = ', &
-                                              i_GA_generation, myid
+    !write(6,'(A,2(1x,I6))') &
+    !'GP_GA_opt: after child bcast and barrier i_GA_generation, myid = ', &
+    !                                          i_GA_generation, myid
 
 
     !------------------------------------------------------------------------
@@ -979,18 +979,18 @@ endif ! myid == 0
 ! broadcast individual_fitness
 
 
-write(6,'(/A,1x,I6)') 'broadcast individual_fitness myid = ', myid
+!write(6,'(/A,1x,I6)') 'broadcast individual_fitness myid = ', myid
 
 message_len = 1
 call MPI_BCAST( individual_fitness, message_len,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
-write(6,'(/A,1x,I6)') 'broadcast individual_fitness  ierr = ', ierr
+!write(6,'(/A,1x,I6)') 'broadcast individual_fitness  ierr = ', ierr
 
 
 call MPI_BARRIER( MPI_COMM_WORLD, ierr )
 
-write(6,'(/A,1x,I6)') 'aft individual_fitness barrier  myid = ', myid
+!write(6,'(/A,1x,I6)') 'aft individual_fitness barrier  myid = ', myid
 
 
 !------------------------------------------------------------------------
@@ -998,18 +998,18 @@ write(6,'(/A,1x,I6)') 'aft individual_fitness barrier  myid = ', myid
 ! broadcast GP_Individual_Node_Parameters
 
 
-write(6,'(/A,1x,I6)') 'broadcast GP_Individual_Node_Parameters  myid = ', myid
+!write(6,'(/A,1x,I6)') 'broadcast GP_Individual_Node_Parameters  myid = ', myid
 
 message_len = n_trees * n_nodes
 
 call MPI_BCAST( GP_Individual_Node_Parameters, message_len,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
-write(6,'(/A,1x,I6)') 'broadcast GP_Individual_Node_Parameters  ierr = ', ierr
+!write(6,'(/A,1x,I6)') 'broadcast GP_Individual_Node_Parameters  ierr = ', ierr
 
 call MPI_BARRIER( MPI_COMM_WORLD, ierr )
 
-write(6,'(/A,1x,I6)') 'aft GP_Individual_Node_Parameters barrier  myid = ', myid
+!write(6,'(/A,1x,I6)') 'aft GP_Individual_Node_Parameters barrier  myid = ', myid
 
 
 !------------------------------------------------------------------------
@@ -1017,18 +1017,18 @@ write(6,'(/A,1x,I6)') 'aft GP_Individual_Node_Parameters barrier  myid = ', myid
 ! broadcast GP_Individual_Initial_Conditions
 
 
-write(6,'(/A,1x,I6)') 'broadcast GP_Individual_Initial_Conditions myid = ', myid
+!write(6,'(/A,1x,I6)') 'broadcast GP_Individual_Initial_Conditions myid = ', myid
 
 message_len = n_CODE_equations
 
 call MPI_BCAST( GP_Individual_Initial_Conditions, message_len,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
-write(6,'(/A,1x,I6)') 'broadcast GP_Individual_Initial_Conditions ierr = ', ierr
+!write(6,'(/A,1x,I6)') 'broadcast GP_Individual_Initial_Conditions ierr = ', ierr
 
 call MPI_BARRIER( MPI_COMM_WORLD, ierr )
 
-write(6,'(/A,1x,I6)') 'aft GP_Individual_Initial_Conditions barrier  myid = ', myid
+!write(6,'(/A,1x,I6)') 'aft GP_Individual_Initial_Conditions barrier  myid = ', myid
 
 
 !------------------------------------------------------------------------

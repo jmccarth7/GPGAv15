@@ -532,7 +532,6 @@ if( myid == 0 )then
     write(6,'(/A)') ' '
     do  i = 1, n_parameters
         write(6,'(A,1x,I6,2x,E24.16)') '0: i, answer(i) ', i, answer(i)
-        !write(6,*) '0: i, answer(i) ', i, answer(i)
     enddo ! i
     write(6,'(/A)') ' '
     !-----------------------------------------------------------------------------
@@ -559,17 +558,25 @@ endif ! myid == 0
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 ! Number of Carry-Over Elitists
-n_GP_Elitists=int(GP_Elitist_Probability*n_GP_individuals)
+!n_GP_Elitists = int(GP_Elitist_Probability*n_GP_individuals)
+n_GP_Elitists = nint(GP_Elitist_Probability*n_GP_individuals)
 
 ! Number of GP Fitness Proportionate Reproduction
-n_GP_Asexual_Reproductions=int(GP_Asexual_Reproduction_Probability*n_GP_individuals)
+!n_GP_Asexual_Reproductions = int(GP_Asexual_Reproduction_Probability*n_GP_individuals)
+n_GP_Asexual_Reproductions = nint(GP_Asexual_Reproduction_Probability*n_GP_individuals)
 
 ! Number of GP Sexual Crossovers
-n_GP_Crossovers=int(GP_Crossover_Probability*n_GP_individuals)
+!n_GP_Crossovers = int(GP_Crossover_Probability*n_GP_individuals)
+n_GP_Crossovers = nint(GP_Crossover_Probability*n_GP_individuals)
 
 ! Number of GP Mutations
 n_GP_Mutations = n_GP_Individuals - &
                  ( n_GP_Elitists + n_GP_Crossovers + n_GP_Asexual_Reproductions )
+
+!n_GP_Mutations = min( GP_Mutation_probablility * n_GP_individuals , n_GP_Mutations )
+write(6,'(A,1x,i6,1x,I6)') &
+      '0: n_GP_Mutations, min(GP_Mutation_probablility*n_GP_individuals,n_GP_Mutations) ', &
+          n_GP_Mutations, min(GP_Mutation_probablility*n_GP_individuals,n_GP_Mutations) 
 
 if( myid == 0 )then
 
@@ -597,18 +604,22 @@ if( n_GP_Elitists              + &
     n_GP_Crossovers            + &
     n_GP_Mutations                 .gt. n_GP_Individuals) then
 
-    write(*,*) 'Sum of n_GP_Elitists + n_Asexual_Reproduction + &
+    write(*,'(/A/)') '0:Sum of n_GP_Elitists + n_Asexual_Reproduction + &
                       &n_GP_Crossovers + n_GP_Mutations is too high'
-    stop
+
+    call MPI_FINALIZE(ierr)
+    stop '0:sum too big'
 
 elseif( n_GP_Elitists              + &
         n_GP_Asexual_Reproductions + &
         n_GP_Crossovers            + &
         n_GP_Mutations                 .lt. n_GP_Individuals) then
 
-    write(*,*) 'Sum of n_GP_Elitists + n_Asexual_Reproduction + &
+    write(*,'(/A/)') '0: Sum of n_GP_Elitists + n_Asexual_Reproduction + &
                       &n_GP_Crossovers + n_GP_Mutations is too low'
-    stop
+
+    call MPI_FINALIZE(ierr)
+    stop '0:sum too small'
 
 endif !   n_GP_Elitists + ...
 
@@ -894,7 +905,8 @@ do  i_GP_Generation=1,n_GP_Generations
     
     
     !write(*,*) GP_Child_Individual_SSE
-    write(*,*) '0: GP_Child_Individual_SSE ', GP_Child_Individual_SSE
+    write(*,'(/A/(5(1x,E15.7)))') '0: GP_Child_Individual_SSE = ',&
+                                      GP_Child_Individual_SSE
     
     !---------------------------------------------------------------------------------------------------
     
@@ -931,8 +943,9 @@ do  i_GP_Generation=1,n_GP_Generations
     
     
     !write(*,*) i_GP_Generation,'MAIN',GP_Individual_Ranked_Fitness(1)
-    write(*,*) '0: i_GP_Generation, MAIN GP_Individual_Ranked_Fitness(1) ', &
-                   i_GP_Generation,      GP_Individual_Ranked_Fitness(1)
+    write(*,'(A,1x,I6,1x,E15.7)') &
+          '0: i_GP_Generation, MAIN GP_Individual_Ranked_Fitness(1) ', &
+              i_GP_Generation,      GP_Individual_Ranked_Fitness(1)
     
     
     !---------------------------------------------------------------------------------------------------
@@ -946,15 +959,16 @@ do  i_GP_Generation=1,n_GP_Generations
         endif
     enddo
     
-    write(*,*) '0: i_GP_Generation, i_GP_Best_Parent ', &                        
-                   i_GP_Generation, i_GP_Best_Parent
+    write(*,'(A,2(1x,I6))') '0: i_GP_Generation, i_GP_Best_Parent ', &                        
+                                i_GP_Generation, i_GP_Best_Parent
 
-    GP_Adult_Individual_SSE=GP_Child_Individual_SSE
+    GP_Adult_Individual_SSE  =  GP_Child_Individual_SSE
     
-    write(*,*) '0: SSE = ',GP_Adult_Individual_SSE
-    write(*,*)
-    write(*,*) '0: Fitness out= ',GP_Individual_Ranked_Fitness
-    ! stop
+    write(*,'(/A/(5(1x,E15.7)))') '0: GP_Adult_Individual_SSE = ',&
+                                      GP_Adult_Individual_SSE
+    
+    write(*,'(/A/(5(1x,E15.7)))') '0: GP_Individual_Ranked_Fitness out= ',&
+                                      GP_Individual_Ranked_Fitness
     
     !off if( i_GP_Generation .eq. 3) Stop
     
