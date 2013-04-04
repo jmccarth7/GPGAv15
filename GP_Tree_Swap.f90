@@ -1,35 +1,49 @@
 subroutine GP_Tree_Swap
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-use GP_Parameters
-use GA_Parameters
-use GP_Variables
-use GA_Variables
+use GP_Parameters_module
+use GA_Parameters_module
+use GP_Variables_module
+use GA_Variables_module
 
 implicit none
 
 real(kind=8) :: cff
 
-integer(kind=4) :: Child_Tree_Swap_Node_Type(n_Nodes,2)
-integer(kind=4) :: Node_Depth(n_nodes,2)
-integer(kind=4) :: i_Parent,i_Child
-integer(kind=4) :: i_Parent_One,i_Parent_Two
-integer(kind=4) :: i_Level,i_Levels
-integer(kind=4) :: i_Parent_Level,i_Child_Level
-integer(kind=4) :: i_Node_at_Level,n_Nodes_at_Level
-integer(kind=4) :: i_Node,j_Node,k_Node
+integer(kind=4),dimension(n_nodes,2)  :: Child_Tree_Swap_Node_Type
+integer(kind=4),dimension(n_nodes,2)  :: Node_Depth
+integer(kind=4) :: i_Parent
+integer(kind=4) :: i_Child
+integer(kind=4) :: i_Parent_One
+integer(kind=4) :: i_Parent_Two
+!integer(kind=4) :: i_Level
+integer(kind=4) :: i_Levels
+integer(kind=4) :: i_Parent_Level
+integer(kind=4) :: i_Child_Level
+integer(kind=4) :: i_Node_at_Level
+integer(kind=4) :: n_Nodes_at_Level
+!integer(kind=4) :: i_Node
+integer(kind=4) :: j_Node
+integer(kind=4) :: k_Node
 integer(kind=4) :: i
 integer(kind=4) :: icnt
 integer(kind=4) :: icff
-integer(kind=4) :: icnt_parent_one_nodes,icnt_parent_two_nodes
-integer(kind=4) :: i_parent_one_swap_node,i_parent_two_swap_node
-integer(kind=4) :: i_parent_swap_node,i_child_swap_node
-integer(kind=4) :: parent_max_swap_level,child_max_swap_level
-integer(kind=4) :: i_parent_node_pt,i_child_node_pt
+integer(kind=4) :: icnt_parent_one_nodes
+integer(kind=4) :: icnt_parent_two_nodes
+integer(kind=4) :: i_parent_one_swap_node
+integer(kind=4) :: i_parent_two_swap_node
+integer(kind=4) :: i_parent_swap_node
+integer(kind=4) :: i_child_swap_node
+integer(kind=4) :: parent_max_swap_level
+integer(kind=4) :: child_max_swap_level
+integer(kind=4) :: i_parent_node_pt
+integer(kind=4) :: i_child_node_pt
 integer(kind=4) :: i_level_node
-integer(kind=4) :: n_parent_one_swap_levels,n_parent_two_swap_levels
-integer(kind=4) :: parent_one_max_swap_level,parent_two_max_swap_level
-integer(kind=4) :: parent_two_swappable_nodes(n_nodes)
+integer(kind=4) :: n_parent_one_swap_levels
+integer(kind=4) :: n_parent_two_swap_levels
+integer(kind=4) :: parent_one_max_swap_level
+integer(kind=4) :: parent_two_max_swap_level
+integer(kind=4),dimension(n_nodes) :: parent_two_swappable_nodes
 
 logical node_not_found
 

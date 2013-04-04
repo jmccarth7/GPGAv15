@@ -1,4 +1,4 @@
-subroutine random_real(bff)
+subroutine random_real2(bff)
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ! This code generates a random number ranging between the full range of
 ! numbers that can be represented in single precision and the numbers

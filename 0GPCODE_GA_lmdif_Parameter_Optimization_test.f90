@@ -273,6 +273,9 @@ allocate( output_array( n_maximum_number_parameters ) )
 
 allocate(  linked_parms( 2, n_linked_parms_dim ) )
 
+allocate(  Node_Probability( n_levels ) )
+
+
 !------------------------------------------------------------------
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ! set the twin experiment 'nature'
@@ -990,6 +993,7 @@ deallocate(  linked_parms )
 deallocate( answer )
 deallocate( output_array )
 
+deallocate(  Node_Probability )
 
 !------------------------------------------------------------------
 

@@ -76,7 +76,7 @@ WRITE(6,'(A//)' )&
 !---------------------------------------------------------------------
 
 ! defaults 
-
+n_Node_Functions = 7
 n_GP_individuals = 9
 n_GP_generations = 1
 
@@ -322,6 +322,23 @@ do
         READ(Aline(len('n_gp_generations')+1:), * )  n_gp_generations
 
         write(6,'(A,1x,I6)') 'rcntl: n_gp_generations = ', n_gp_generations 
+
+
+
+
+!--------------------------------------------------------------------
+
+
+!n_Node_Functions
+
+    elseif( Aline(1:len('n_Node_Functions')) == "n_Node_Functions" .or.     &
+            Aline(1:len('n_Node_Functions')) == "n_node_functions" ) then
+
+        READ(Aline(len('n_Node_Functions')+1:), * )  n_Node_Functions
+
+        write(6,'(A,1x,I6)') 'rcntl: n_Node_Functions = ', n_Node_Functions 
+
+
 
 
 

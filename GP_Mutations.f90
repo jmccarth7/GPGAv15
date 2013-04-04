@@ -4,10 +4,10 @@ subroutine GP_Mutations
 ! The terminals are optimized later on using GA_lmdif.
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-use GP_Parameters
-use GA_Parameters
-use GP_Variables
-use GA_Variables
+use GP_Parameters_module
+use GA_Parameters_module
+use GP_Variables_module
+use GA_Variables_module
 
 implicit none
 
@@ -15,15 +15,15 @@ real(kind=8) :: cff
 
 integer(kind=4) :: i_GP_Mutation
 integer(kind=4) :: i_Tree_Mutation
-integer(kind=4) :: i_Tree
-integer(kind=4) :: i_Node
+!integer(kind=4) :: i_Tree
+!integer(kind=4) :: i_Node
 integer(kind=4) :: i_Swap_Node
 integer(kind=4) :: icnt_Nodes
 integer(kind=4) :: icnt
 integer(kind=4) :: i_GP_Individual_Mutation
 integer(kind=4) :: i_Node_Mutation
 integer(kind=4) :: Node_Function
-integer(kind=4) :: i_GP_Individual
+!integer(kind=4) :: i_GP_Individual
 
 logical Node_Not_Found
 

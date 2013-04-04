@@ -12,6 +12,8 @@ integer :: n_functions
 integer(kind=4) :: n_CODE_equations
 
 
+! number of possible node functions [needed for tree generations/alterations 
+integer(kind=4) :: n_Node_Functions   ! =7              
                                                                                                             
 ! n_trees=((n_CODE_equations+1)**2)-(n_CODE_equations+1)                                                    
 integer(kind=4) :: n_trees

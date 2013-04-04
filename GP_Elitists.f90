@@ -1,10 +1,10 @@
 subroutine GP_Elitists
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-use GP_Parameters
-use GA_Parameters
-use GP_Variables
-use GA_Variables
+use GP_Parameters_module
+use GA_Parameters_module
+use GP_Variables_module
+use GA_Variables_module
 
 implicit none
 

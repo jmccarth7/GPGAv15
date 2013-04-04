@@ -4,24 +4,27 @@ subroutine GP_Tournament_Style_Sexual_Reproduction
 ! and cross the parameter strings to create two new 'children' parameter strings
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-use GP_Parameters
-use GA_Parameters
-use GP_Variables
-use GA_Variables
+use GP_Parameters_module
+use GA_Parameters_module
+use GP_Variables_module
+use GA_Variables_module
 
 implicit none
 
 real (kind=4) :: cff
 
-integer (kind=4) :: i_GP_Crossover,i_GP_Crossover_Point
-integer (kind=4) :: k_GP_Individual_Male(2),k_GP_Individual_Female(2)
-integer (kind=4) :: Child_One_Tree(n_Parameters)
-integer (kind=4) :: Child_Two_Tree(n_Parameters)
-integer (kind=4) :: i_Male_Tree,i_Female_Tree
-integer (kind=4) :: i_GP_Individual
-integer (kind=4) :: i_Node_Count
-integer (kind=4) :: i_Tree
-integer (kind=4) :: icff
+integer(kind=4) :: i_GP_Crossover
+integer(kind=4) :: i_GP_Crossover_Point
+integer(kind=4),dimension(2) :: k_GP_Individual_Male
+integer(kind=4),dimension(2) :: k_GP_Individual_Female
+integer(kind=4),dimension(n_Parameters) :: Child_One_Tree
+integer(kind=4),dimension(n_Parameters) :: Child_Two_Tree
+integer(kind=4) :: i_Male_Tree
+integer(kind=4) :: i_Female_Tree
+!integer(kind=4) :: i_GP_Individual
+integer(kind=4) :: i_Node_Count
+!integer(kind=4) :: i_Tree
+integer(kind=4) :: icff
 
 logical CROSS
 

@@ -1,19 +1,19 @@
 subroutine GP_Tree_Build
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-use GP_Parameters
-use GA_Parameters
-use GP_Variables
-use GA_Variables
+use GP_Parameters_module
+use GA_Parameters_module
+use GP_Variables_module
+use GA_Variables_module
 
 implicit none
 
 real(kind=8) :: cff
 
-integer(kind=4) :: i_GP_Individual
-integer(kind=4) :: i_Node
-integer(kind=4) :: i_Tree
-integer(kind=4) :: i_Level
+!integer(kind=4) :: i_GP_Individual
+!integer(kind=4) :: i_Node
+!integer(kind=4) :: i_Tree
+!integer(kind=4) :: i_Level
 integer(kind=4) :: n_Nodes_at_Level
 integer(kind=4) :: i_Level_Node
 integer(kind=4) :: Node_Function
@@ -24,9 +24,9 @@ integer(kind=4) :: Node_Variable
 
 GP_Adult_Population_Node_Type=-9999 ! set all to null [-9999]
 
-do i_GP_Individual=1,n_GP_Individuals                            ! for each GP individual
+do i_GP_Individual=1,n_GP_Individuals       ! for each GP individual
 
-  do i_Tree=1,n_Trees                                            ! for each GPCODE tree
+  do i_Tree=1,n_Trees                       ! for each GPCODE tree
 
     call random_number(cff) ! uniform random number generator
 

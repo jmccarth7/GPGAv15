@@ -134,8 +134,13 @@ Runga_Kutta_Initial_Conditions(2) = 2.0D+0   ! [predator]     [mmol N m-3]
 
 !write(6,'(A,1x,I6, 2(1x,F10.2))') 'ivLV: myid, Runga_Kutta_Initial_Conditions(1:2) ', &
 !                                         myid, Runga_Kutta_Initial_Conditions(1:2)
+
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+Node_Probability = (/0.8d0,0.6d0,0.4d0,0.d0/)  ! NOTE: Last value MUST BE 0.0!!!]
+
+
+!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 ! This term is calculated in units of [mg N d-1]
 GP_Individual_Node_Type(1,1) = 3   ! '*'

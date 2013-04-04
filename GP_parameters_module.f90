@@ -12,23 +12,23 @@ integer(kind=4),parameter :: output_unit = 20
 
 !integer(kind=4), parameter :: n_GP_individuals=1
 integer(kind=4) :: n_GP_individuals
-integer(kind=4) :: n_GP_Generations                                                                                                                       
+integer(kind=4) :: n_GP_Generations
 
 integer(kind=4) :: i_GP_individual
-integer(kind=4) :: i_GP_Best_Parent                                                                                                                      
-integer(kind=4) :: i_GP_Generation                                                                                                                       
+integer(kind=4) :: i_GP_Best_Parent
+integer(kind=4) :: i_GP_Generation
 !integer(kind=4) :: i_GP_Individual
-integer(kind=4) :: j_GP_Individual                                                                                                                       
-integer(kind=4) :: i_Tree                                                                                                                                
-integer(kind=4) :: i_Node          
+integer(kind=4) :: j_GP_Individual
+integer(kind=4) :: i_Tree
+integer(kind=4) :: i_Node
 
 
 character(30) :: model
 
-integer(kind=4) :: n_linked_parms 
-integer(kind=4) :: n_linked_parms_dim 
+integer(kind=4) :: n_linked_parms
+integer(kind=4) :: n_linked_parms_dim
 
-integer(kind=4),allocatable,dimension(:,:)  :: linked_parms 
+integer(kind=4),allocatable,dimension(:,:)  :: linked_parms
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
@@ -55,33 +55,44 @@ integer, parameter :: str_len = 80
 ! n_maximum_number_parameters = n_CODE_equations +  n_nodes
 
 ! GP Probability of a Tree being assigned
+
 !real (kind=4), parameter :: GP_Tree_Probability=0.5 ! Estimated from previous work by Joel Cohen
 real(kind=8) :: GP_Tree_Probability !=0.5 ! Estimated from previous work by Joel Cohen
+
+! set the parameters for the Lotka Volterra Example
+!real(kind=8), dimension(n_Levels), parameter :: &
+!              Node_Probability = (/0.8d0,0.6d0,0.4d0,0.d0/)  ! NOTE: Last value MUST BE 0.0!!!]
+
+! Node_Probability = !(/0.8d0,0.6d0,0.4d0,0.d0/)  ! NOTE: Last value MUST BE 0.0!!!]
+real(kind=8), allocatable, dimension(:) :: Node_Probability
+!---------------------------------------------------------------------------------------
 
 ! Note: The next 4 parameters must add up to 1.0
 
 ! Keeps the top n_GP_Elitists of the Best Fit Individuals from Generation to Generation
-!real (kind=4), parameter :: GP_Elitist_Probability = 0.1 
-real(kind=8) :: GP_Elitist_Probability  != 0.1  
+!real (kind=4), parameter :: GP_Elitist_Probability = 0.1
+real(kind=8) :: GP_Elitist_Probability  != 0.1
 
-!real (kind=4), parameter :: GP_Asexual_Reproduction_Probability = 0.4   ! probability of asexual reproduction
-real(kind=8) :: GP_Asexual_Reproduction_Probability  != 0.4   ! probability of asexual reproduction
+!real(kind=4),parameter :: GP_Asexual_Reproduction_Probability =0.4 ! prob of asexual reproduction
+real(kind=8) :: GP_Asexual_Reproduction_Probability  != 0.4   ! prob of asexual reproduction
 
-!real (kind=4), parameter :: GP_Crossover_Probability = 0.4   ! probability of sexual crossing of binary string 
-real(kind=8) :: GP_Crossover_Probability  != 0.4   ! probability of sexual crossing of binary string 
+!real(kind=4),parameter :: GP_Crossover_Probability=0.4 ! prob of sexual crossing of binary string
+real(kind=8) :: GP_Crossover_Probability  != 0.4   ! prob of sexual crossing of binary string
 
-!real (kind=4), parameter :: GP_Mutation_Probability = 0.1    ! probability of mutation in binary string
-real(kind=8) :: GP_Mutation_Probability  != 0.1               ! probability of mutation in binary string
+!real (kind=4), parameter :: GP_Mutation_Probability = 0.1 ! prob of mutation in binary string
+real(kind=8) :: GP_Mutation_Probability  != 0.1            ! prob of mutation in binary string
 
 !old >>>>>>>>
-!  NOTE: in the next 2 parameters:  
+!  NOTE: in the next 2 parameters:
 !        GP_Crossover_Probability+GP_Mutation_Probability must be <= 1.
 
-!real(kind=8) :: GP_Crossover_Probability = 0.5d0  ! probability of sexual crossing of binary string
-!real(kind=8) :: GP_Mutation_Probability  = 0.1d0  ! probability of mutation in binary string
+!real(kind=8) :: GP_Crossover_Probability =0.5d0 ! prob of sexual crossing of binary string
+!real(kind=8) :: GP_Mutation_Probability  =0.1d0 ! prob of mutation in binary string
 !old <<<<<<<<
 
-!-------------------------------------------------------------------
+
+!---------------------------------------------------------------------------------------
+
 
 !character(4), dimension( n_nodes, n_trees )       ::  node_type_string
 !character(4), dimension( n_nodes, n_trees )       ::  node_parameters_string
