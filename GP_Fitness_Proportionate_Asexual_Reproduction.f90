@@ -8,7 +8,8 @@ use GA_Variables_module
 
 implicit none
 
-real(kind=8) cff
+real(kind=4) cff
+real(kind=8) dff
 
 integer(kind=4) icff
 integer(kind=4) i_Individual
@@ -21,7 +22,10 @@ logical Carry_On
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+
+
 i_GP_Individual=n_GP_Elitists+n_GP_Asexual_Reproductions
+
 
 do i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
 
@@ -29,7 +33,9 @@ do i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
   call Random_Number(cff) ! uniform random number generator
   Carry_On=.true.
 
-  do j_GP_Individual=1,n_GP_Individuals ! normalize to the maximum values so that the range is from [0. to 1.]
+  ! normalize to the maximum values so that the range is from [0. to 1.]
+
+  do j_GP_Individual=1,n_GP_Individuals 
 
     if( Carry_On) then
 
@@ -44,7 +50,10 @@ do i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
 
   enddo ! j_GP_Individual
 
-  j_GP_Individual=icff  ! index to move over both the parent parameters and the individual fitness levels
+  ! index to move over both the parent parameters and the individual fitness levels
+  j_GP_Individual=icff  
+
+
   GP_Child_Population_Node_Type(i_GP_Individual,1:n_Nodes,1:n_Trees) = &
   GP_Adult_Population_Node_Type(j_GP_Individual,1:n_Nodes,1:n_Trees)
   GP_Child_Individual_SSE(i_GP_Individual)=GP_Adult_Individual_SSE(j_GP_Individual)

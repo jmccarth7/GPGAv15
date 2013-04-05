@@ -840,12 +840,12 @@ if( myid == 0  )then
 
         if( L_stop_run )then
 
-            write( output_unit, '(I6,1x,I6, 12(1x,E15.7))') &
+            write( GA_output_unit, '(I6,1x,I6, 12(1x,E15.7))') &
               i_GA_Generation_last, i_GA_best_parent_1, individual_ranked_fitness_best_1, &
               parent_parameters_best_1(1:n_parameters)
         else
 
-            write( output_unit, '(I6,1x,I6, 12(1x,E15.7))') &
+            write( GA_output_unit, '(I6,1x,I6, 12(1x,E15.7))') &
               n_GA_Generations, i_GA_best_parent_1, individual_ranked_fitness_best_1, &
               parent_parameters_best_1(1:n_parameters)
 
@@ -916,12 +916,12 @@ if( myid == 0  )then
 
         if( L_stop_run )then
 
-            write( output_unit , '(I6,1x,I6, 12(1x,E15.7))') &
+            write( GA_output_unit , '(I6,1x,I6, 12(1x,E15.7))') &
               i_GA_Generation_last, i_GA_best_parent, individual_ranked_fitness(i_GA_best_parent), &
               parent_parameters(i_GA_best_parent, 1:n_parameters)
         else
 
-            write( output_unit , '(I6,1x,I6, 12(1x,E15.7))') &
+            write( GA_output_unit , '(I6,1x,I6, 12(1x,E15.7))') &
               n_GA_Generations, i_GA_best_parent, individual_ranked_fitness(i_GA_best_parent), &
               parent_parameters(i_GA_best_parent, 1:n_parameters)
 

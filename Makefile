@@ -8,6 +8,7 @@ SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 calc_fitness.f90 \
 	GA_variables_module.f90 gaussian_random_number_generator.f90 \
 	GP_Clean_Tree_Nodes.f90 GP_data_module.f90 GP_Elitists.f90 \
 	GP_Fitness_Proportionate_Asexual_Reproduction.f90 \
+	GP_fitness_reset.f90 \
 	GP_model_parameters_module.f90 GP_Mutations.f90 \
 	GP_parameters_module.f90 GP_Tournament_Style_Sexual_Reproduction.f90 \
 	GP_Tree_Build.f90 GP_Tree_Swap.f90 GP_variables_module.f90 \
@@ -28,6 +29,7 @@ OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o calc_fitness.o \
 	gaussian_random_number_generator.o GP_Clean_Tree_Nodes.o \
 	GP_data_module.o GP_Elitists.o \
 	GP_Fitness_Proportionate_Asexual_Reproduction.o \
+	GP_fitness_reset.o \
 	GP_model_parameters_module.o GP_Mutations.o GP_parameters_module.o \
 	GP_Tournament_Style_Sexual_Reproduction.o GP_Tree_Build.o \
 	GP_Tree_Swap.o GP_variables_module.o \
@@ -108,11 +110,22 @@ GP_Clean_Tree_Nodes.o:
 GP_data_module.o: GP_parameters_module.o
 GP_Elitists.o: 
 GP_Fitness_Proportionate_Asexual_Reproduction.o: 
-GP_Mutations.o: 
+GP_fitness_reset: GA_parameters_module.o \
+	GA_variables_module.o GP_data_module.o GP_parameters_module.o \
+	GP_variables_module.o Runge_Kutta_Variables_module.o mpi_module.o 
+GP_Mutations.o: GA_parameters_module.o \
+	GA_variables_module.o GP_parameters_module.o \
+	GP_variables_module.o 
 GP_parameters_module.o: GP_model_parameters_module.o
-GP_Tournament_Style_Sexual_Reproduction.o: 
-GP_Tree_Build.o: 
-GP_Tree_Swap.o: 
+GP_Tournament_Style_Sexual_Reproduction.o: GA_parameters_module.o \
+	GA_variables_module.o GP_parameters_module.o \
+	GP_variables_module.o 
+GP_Tree_Build.o: GA_parameters_module.o \
+	GA_variables_module.o GP_parameters_module.o \
+	GP_variables_module.o 
+GP_Tree_Swap.o: GA_parameters_module.o \
+	GA_variables_module.o GP_parameters_module.o \
+	GP_variables_module.o 
 GP_variables_module.o: GP_parameters_module.o
 GPCODE_GA_lmdif_Parameter_Optimization.o: GA_parameters_module.o \
 	GA_variables_module.o GP_data_module.o GP_parameters_module.o \

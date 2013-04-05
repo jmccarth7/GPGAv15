@@ -8,7 +8,8 @@ use GA_Variables_module
 
 implicit none
 
-real(kind=8) :: cff
+real(kind=4) :: cff
+real(kind=8) :: dff
 
 !integer(kind=4) :: i_GP_Individual
 !integer(kind=4) :: i_Node
@@ -43,14 +44,17 @@ do i_GP_Individual=1,n_GP_Individuals       ! for each GP individual
 
           i_Node=i_Node+1
 
-          if( GP_Adult_Population_Node_Type(i_GP_Individual,i_Node,i_Tree) .eq. 0) then   ! randomly decide function or terminal
+          if( GP_Adult_Population_Node_Type(i_GP_Individual,i_Node,i_Tree) .eq. 0) then   
+
+            ! randomly decide function or terminal
+
             call random_number(cff) ! uniform random number generator
 
 
             if( cff .lt. Node_Probability(i_Level)) then  ! set as a terminal
 
               call random_number(cff) ! uniform random number generator
-              node_function=int(((float(n_Node_Functions)*cff)+1.))
+              node_function=int( float(n_Node_Functions)*cff  + 1.0 )
 
 !             should not need to do this but compilers may vary w.r.t. possible rand = 1.
               if( Node_Function .gt. n_Node_Functions) then
@@ -62,20 +66,37 @@ do i_GP_Individual=1,n_GP_Individuals       ! for each GP individual
 !             set the node vs terminal selection capability for the node inputs at the next level
 
               if( i_Level .lt. N_Levels-1) then
-                GP_Adult_Population_Node_Type(i_GP_Individual,(2*i_Node),i_Tree)=0          ! set the node lowel level inputs to open
-                GP_Adult_Population_Node_Type(i_GP_Individual,((2*i_Node)+1),i_Tree)=0      ! set the node lower level inputs to open
+
+                ! set the node lowel level inputs to open
+                GP_Adult_Population_Node_Type(i_GP_Individual, 2*i_Node    , i_Tree)=0          
+
+                ! set the node lower level inputs to open
+                GP_Adult_Population_Node_Type(i_GP_Individual, 2*i_Node +1 , i_Tree)=0      
+
               else
-                GP_Adult_Population_Node_Type(i_GP_Individual,(2*i_Node),i_Tree)=-1         ! complete setting the node lowest level nodes with terminals
-                GP_Adult_Population_Node_Type(i_GP_Individual,((2*i_Node)+1),i_Tree)=-1     ! complete setting the node lowest level nodes with terminals
+
+                ! complete setting the node lowest level nodes with terminals
+                GP_Adult_Population_Node_Type(i_GP_Individual, 2*i_Node    , i_Tree)=-1         
+
+                ! complete setting the node lowest level nodes with terminals
+                GP_Adult_Population_Node_Type(i_GP_Individual, 2*i_Node +1 , i_Tree)=-1     
+
               endif !   i_Level .lt. N_Levels-1
 
+
             else ! set it as a Parameter or Variable at a later point in the code
-              GP_Adult_Population_Node_Type(i_GP_Individual,i_Node,i_Tree)=-1               ! set a parameter or variable later
+
+              ! set a parameter or variable later
+
+              GP_Adult_Population_Node_Type(i_GP_Individual,i_Node,i_Tree)=-1               
+
+
             endif !   cff .lt. Node_Probability(i_Level)
 
           endif !  GP_Adult_Population_Node_Type(i_GP_Individual,i_Node,i_Tree) .eq. 0
 
         enddo !  i_Level_Node
+
       enddo !  i_Level
 
     endif !   cff .le. GP_Tree_Probability
@@ -84,9 +105,11 @@ do i_GP_Individual=1,n_GP_Individuals       ! for each GP individual
 
 enddo !  i_GP_Individual
 
-!-----------------------------------------------------------------------------------------------------------------
+!--------------------------------------------------------------------------------------------------
 
-! randomly fill the terminals of the GP_Adult_Population_Node_Type array with parameter or variable 'types'
+! randomly fill the terminals of the GP_Adult_Population_Node_Type array 
+! with parameter or variable 'types'
+
 
 do i_GP_Individual=1,n_GP_Individuals
 
@@ -105,20 +128,34 @@ do i_GP_Individual=1,n_GP_Individuals
 
           call random_number(cff)   ! uniform random number generator
 
-          if( cff .le. GP_Set_Terminal_to_Parameter_Probability) then    ! Set the Terminal to a Parameter
+          if( cff .le. GP_Set_Terminal_to_Parameter_Probability) then    
+
+            ! Set the Terminal to a Parameter
 
             call random_number(cff) ! uniform random number generator
-!           should not need to do this but compilers may vary w.r.t. possible rand = 1.
-            Node_Variable=int(((float(n_CODE_Equations)*cff)+1.))  ! One of the OBSERVATIONS, one for each equations N, P, Z, etc.
 
+            ! One of the OBSERVATIONS, one for each equations N, P, Z, etc.
+
+
+            Node_Variable=int( float(n_CODE_Equations)*cff + 1.0 )  
+
+
+            !  should not need to do this but compilers may vary w.r.t. possible rand = 1.
             if( Node_Variable .gt. n_CODE_Equations) then
-              Node_Variable=n_CODE_Equations
+                Node_Variable=n_CODE_Equations
             endif !   Node_Variable .gt. n_CODE_Equations
 
             GP_Adult_Population_Node_Type(i_GP_Individual,i_Node,i_Tree)=-Node_Variable
-          else                      ! set as a random parameter
 
-            GP_Adult_Population_Node_Type(i_GP_Individual,i_Node,i_Tree)=0  ! The setting to zero allows the parameters to be set in GA_lmdif
+
+          else  
+
+            ! set as a random parameter
+
+            ! The setting to zero allows the parameters to be set in GA_lmdif
+
+            GP_Adult_Population_Node_Type(i_GP_Individual,i_Node,i_Tree)=0  
+
 
           endif !   cff .le. GP_Set_Terminal_to_Parameter_Probability
 
