@@ -76,22 +76,22 @@ logical :: L_stop_run
 !----------------------------------------------------------------------
 
 if( myid == 0 )then
+    write(6,'(//A)') 'GP_GA_opt: at entry  '
     write(6,'(A,1x,E15.7)') 'GP_GA_opt: dt ', dt
-    write(6,'(A)') 'GP_GA_opt: ok to here'
-    write(6,'(A,1x,I10)') 'GP_GA_opt:  n_parameters = ', n_parameters
+    write(6,'(A,1x,I10)') 'GP_GA_opt: n_parameters =   ', n_parameters
 endif ! myid == 0
 
 
 if( n_parameters .le. 0) then
     write(6,'(A)')        'GP_GA_opt: ERROR: n_parameters </= 0'
-    write(6,'(A,1x,I10)') 'GP_GA_opt:  n_parameters = ', n_parameters
+    write(6,'(A,1x,I10)') 'GP_GA_opt: n_parameters =   ', n_parameters
     stop
 endif
 
 if( n_time_steps .lt. n_parameters) then
     write(6,'(A)') 'GP_GA_opt: ERROR: n_time_steps < n_parameters'
     write(6,'(A,1x,I10)') 'GP_GA_opt:  n_time_steps = ', n_time_steps
-    write(6,'(A,1x,I10)') 'GP_GA_opt:  n_parameters = ', n_parameters
+    write(6,'(A,1x,I10)') 'GP_GA_opt: n_parameters =   ', n_parameters
     stop
 endif
 
@@ -139,9 +139,9 @@ n_GA_save_elites = int(GA_save_elites_Probability  * n_GA_individuals)
 
 
 if( myid == 0 )then
-    write(6,'(A,1x,I6)')'GP_GA_opt: n_GA_Crossovers  ', n_GA_Crossovers
-    write(6,'(A,1x,I6)')'GP_GA_opt: n_GA_Mutations   ', n_GA_Mutations
-    write(6,'(A,1x,I6)')'GP_GA_opt: n_GA_save_elites ', n_GA_save_elites
+    write(6,'(A,1x,I6)')  'GP_GA_opt: n_GA_Crossovers  ', n_GA_Crossovers
+    write(6,'(A,1x,I6)')  'GP_GA_opt: n_GA_Mutations   ', n_GA_Mutations
+    write(6,'(A,1x,I6)')  'GP_GA_opt: n_GA_save_elites ', n_GA_save_elites
 endif ! myid == 0
 
 
@@ -385,8 +385,8 @@ do  i_GA_generation=1,n_GA_Generations
         write(6,'(/A,1x,I6/)') &
               'GP_GA_opt: begin RK fcn integration segment i_GA_generation ', &
                                                            i_GA_generation
-        write(6,'(A,2(1x,I6)/)') 'GP_GA_opt: myid, n_GA_individuals ', &
-                                             myid, n_GA_individuals
+        write(6,'(A,1x,I6/)') 'GP_GA_opt: n_GA_individuals ', &
+                                          n_GA_individuals
     endif !  myid == 0
 
 
@@ -605,7 +605,7 @@ do  i_GA_generation=1,n_GA_Generations
 
     if( myid == 0  )then
 
-        write(6,'(//A,1x,I6/)') &
+        write(6,'(A,1x,I6)') &
               'GP_GA_opt: call calc_fitness i_GA_generation ', &
                                             i_GA_generation
 
@@ -624,7 +624,7 @@ do  i_GA_generation=1,n_GA_Generations
         !            i_ga_generation, &
         !            real(clock2-clock1,kind=4)/real(ratec,kind=4) , ' seconds'
 
-        write(6,'(/A,1x,I6//)') &
+        write(6,'(/A,1x,I6/)') &
               'GP_GA_opt: aft call calc_fitness i_GA_generation ', &
                                                 i_GA_generation
 

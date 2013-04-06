@@ -67,7 +67,7 @@ logical :: L_stop_run
 
 L_stop_run = .FALSE. 
 
-write(6,'(/A)') 'calcfit:  finished the loop on i_GA_individual  '
+!write(6,'(/A)') 'calcfit:  finished the loop on i_GA_individual  '
 
 do  i_parameter=1,n_parameters
     do  i_GA_individual=1,n_GA_individuals
@@ -435,7 +435,7 @@ write(6,'(A,1x,I6,12(1x,E15.7)/(12(1x,E15.7)))') &
 !if( individual_ranked_fitness(i_GA_Best_Parent) >= 100.0d0 ) then
 if( individual_ranked_fitness(i_GA_Best_Parent) >= 200.0d0 ) then
 
-    L_stop_run = .TRUE. 
+    !L_stop_run = .TRUE. 
 
 endif ! individual_ranked_fitness(i_GA_Best_Parent) >= 100.0d0 
 
