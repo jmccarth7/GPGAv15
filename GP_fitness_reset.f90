@@ -21,19 +21,8 @@ use Runge_Kutta_Variables_module
 
 implicit none
 
-!real (kind=4) :: GP_Node_Parameters_Answer(n_Nodes,n_Trees)
-!integer (kind=4) :: GP_Node_Type_Answer(n_Nodes,n_Trees)
-!integer (kind=4) :: GP_Node_Type_for_Plotting(9,n_Nodes,n_Trees)
-
-!integer(kind=4) :: i_GP_Best_Parent
-!integer(kind=4) :: i_GP_Generation
-!integer(kind=4) :: i_GP_Individual
-!integer(kind=4) :: j_GP_Individual
-!integer(kind=4) :: i_Tree
-!integer(kind=4) :: i_Node
 
 logical bad_node
-
 
 integer :: i
 integer :: nop
@@ -73,11 +62,12 @@ do  i_GP_Individual=1,n_GP_Individuals
     dff=dff+GP_Child_Individual_SSE(i_GP_Individual)
 enddo
 
-write(6,'(A,1x,I6)') 'gpfr: i_GP_generation ',  i_GP_generation
+write(6,'(A,1x,I6)')     'gpfr: i_GP_generation ',  i_GP_generation
 write(6,'(/A,1x,E15.7)') 'gpfr: sum of all GP_Child_Individual_SSE = ', dff
 
 
 ! calculate a normalized ranking of the errors (higher individual SSE == lower value/ranking)
+
 do  i_GP_Individual=1,n_GP_Individuals
     GP_Individual_Ranked_Fitness(i_GP_Individual) = &
          ( dff - GP_Child_Individual_SSE(i_GP_Individual) ) / dff
@@ -85,6 +75,7 @@ enddo
 
 write(6,'(/A)') &
           'gpfr: i_GP_individual, GP_Individual_Ranked_Fitness '
+
 do  i_GP_Individual=1,n_GP_Individuals
     write(6,'(I6,1x,E15.7)') &
           i_GP_individual, GP_Individual_Ranked_Fitness(i_GP_Individual)
@@ -95,17 +86,20 @@ enddo
 
 dff=0.0
 do  i_GP_Individual=1,n_GP_Individuals
+
     dff=dff+GP_Individual_Ranked_Fitness(i_GP_Individual)
+
     GP_Integrated_Ranked_Fitness(i_GP_Individual)=dff
 enddo
 
 !do  i_GP_Individual=1,n_GP_Individuals
 !    write(6,'(A,1x,I6,1x,E15.7)') &
-!          'gpfr: i_GP_individual, GP_Integrated_Ranked_Fitness ', &
-!                 i_GP_individual, GP_Integrated_Ranked_Fitness(i_GP_Individual)
+!    'gpfr: i_GP_individual, GP_Integrated_Ranked_Fitness ', &
+!           i_GP_individual, GP_Integrated_Ranked_Fitness(i_GP_Individual)
 !enddo
 
-! normalize to the integrated ranking values so that the ranking integration ranges from [0. to 1.]
+! normalize to the integrated ranking values so that 
+! the ranking integration ranges from [0. to 1.]
 
 write(6,'(/A)') &
       'gpfr: norm  i_GP_individual, GP_Integrated_Ranked_Fitness '
@@ -113,7 +107,7 @@ write(6,'(/A)') &
 do  i_GP_Individual=1,n_GP_Individuals
 
     GP_Integrated_Ranked_Fitness(i_GP_Individual) = &
-    GP_Integrated_Ranked_Fitness(i_GP_Individual)/GP_Integrated_Ranked_Fitness(n_GP_Individuals)
+    GP_Integrated_Ranked_Fitness(i_GP_Individual) / GP_Integrated_Ranked_Fitness(n_GP_Individuals)
 
     write(6,'(I6,1x,E15.7)') &
           i_GP_individual, GP_Integrated_Ranked_Fitness(i_GP_Individual)
@@ -133,25 +127,34 @@ write(*,'(//A,1x,I6,1x,E15.7/)') &
 
 
 i_GP_Best_Parent=1
+
 dff=GP_Individual_Ranked_Fitness(1)
+
 do  i_GP_Individual=2,n_GP_individuals
+
     if( GP_Individual_Ranked_Fitness(i_GP_individual) .gt. dff) then
         dff=GP_Individual_Ranked_Fitness(i_GP_individual)
         i_GP_Best_Parent=i_GP_Individual
     endif
-enddo
 
-write(*,'(/A,2(1x,I6)/)') 'gpfr: i_GP_Generation, i_GP_Best_Parent ', &
-                                i_GP_Generation, i_GP_Best_Parent
+enddo ! i_GP_Individual
+
+write(*,'(/A,2(1x,I6),1x,E15.7/)') &
+      'gpfr: i_GP_Gen, i_GP_Best_Parent, GP_Indiv_Ranked_Fit(i_GP_Best_Parent) ', &
+             i_GP_Generation, i_GP_Best_Parent, &
+             GP_Individual_Ranked_Fitness(i_GP_Best_Parent)
 
 
 !---------------------------------------------------------------------------
 
 ! fill output array of parameters for best individual and write on GP_output_unit
 
+write(6,'(/A)') &
+          'gpfr: i_CODE_eq  R_K_Init_Cond(i_CODE_eq)  &
+          &GP_indiv_init_cond(i_CODE_eq)'
 do  i_CODE_equation=1,n_CODE_equations
 
-    write(6,'(I6,1x, E20.10, 4x, E20.10)') &
+    write(6,'(6x,I6,7x, E20.10, 10x, E20.10)') &
           i_CODE_equation, &
           Runge_Kutta_Initial_Conditions(i_CODE_equation),  &
           GP_individual_initial_conditions(i_CODE_equation)
@@ -165,17 +168,19 @@ do  i_CODE_equation=1,n_CODE_equations
 enddo ! i_CODE_equation
 
 
+write(6,'(/A)') &
+          'gpfr: i_node, itree, nop, GP_pop_node_params(i_GP_Best_Parent,i_node,i_tree)'
 nop = n_CODE_equations
 do  i_tree=1,n_trees
     do  i_node=1,n_nodes
         if( abs( GP_population_node_parameters(i_GP_Best_Parent,i_node,i_tree) ) >  &
                                                                      1.0d-20   )then
 
-            write(6,'(2(1x,I6), 1x, E20.10, 4x, E20.10)') &
-                  i_node, i_tree, &
+            nop = nop + 1
+            write(6,'(3(1x,I6), 1x, E20.10, 4x, E20.10)') &
+                  i_node, i_tree, nop, &
                   GP_population_node_parameters(i_GP_Best_Parent,i_node,i_tree)
 
-             nop = nop + 1
              output_array(nop) = GP_population_node_parameters(i_GP_Best_Parent,i_node,i_tree)
         endif
 
@@ -183,10 +188,16 @@ do  i_tree=1,n_trees
 enddo  ! i_tree
 
 
-write( GP_output_unit, '(I6,1x,I6, 12(1x,E15.7))') &
+write( GP_output_unit, '(I6,1x,I6,1x,E15.7,1x,I6, 12(1x,E15.7))') &
        i_GP_Generation, i_GP_best_parent, &
        GP_individual_ranked_fitness(i_GP_Best_Parent), &
-       output_array(1:nop) 
+       nop, output_array(1:nop) 
+
+write(6, '(A,1x,I6,1x,I6,1x,E15.7,1x,I6, 12(1x,E15.7))') &
+       'gpfr: i_GP_gen, i_GP_best_parent, GP_indiv_ranked_fit, output_array) ', &
+       i_GP_Generation, i_GP_best_parent, &
+       GP_individual_ranked_fitness(i_GP_Best_Parent), &
+       nop, output_array(1:nop) 
 
 !---------------------------------------------------------------------------
 
@@ -195,12 +206,14 @@ write( GP_output_unit, '(I6,1x,I6, 12(1x,E15.7))') &
 GP_Adult_Individual_SSE  =  GP_Child_Individual_SSE
 
 write(*,'(/A)') &
-      'gpfr: i_GP_Individual, GP_Adult_Individual_SSE, GP_Individual_Ranked_Fitness '
+      'gpfr: i_GP_Indiv, GP_Adult_Indiv_SSE, GP_Indiv_Ranked_Fitness '
 
 do  i_GP_Individual=1,n_GP_individuals
 
-    write(*,'(I6,2(1x,E15.7))') &
-          i_GP_Individual, GP_Adult_Individual_SSE, GP_Individual_Ranked_Fitness
+    write(*,'(6x,I6,2(7x,E15.7))') &
+          i_GP_Individual, &
+          GP_Adult_Individual_SSE(i_GP_Individual), &
+          GP_Individual_Ranked_Fitness(i_GP_Individual)
 
 enddo ! i_GP_individual
 
@@ -210,9 +223,10 @@ enddo ! i_GP_individual
 do i_GP_Individual=1,n_GP_individuals
 
    GP_Node_Type_for_Plotting(i_GP_Individual,1:n_Nodes,1:n_Trees) = &
-   GP_Adult_Population_Node_Type(i_GP_Individual,1:n_Nodes,1:n_Trees)
+        GP_Adult_Population_Node_Type(i_GP_Individual,1:n_Nodes,1:n_Trees)
 
-   !off  GP_Node_Type_for_Plotting(i_GP_Individual,1:n_Nodes,1:n_Trees)=GP_Node_Type_Answer(1:n_Nodes,1:n_Trees)
+   !off  GP_Node_Type_for_Plotting(i_GP_Individual,1:n_Nodes,1:n_Trees) = &
+   !off  GP_Node_Type_Answer(1:n_Nodes,1:n_Trees)
 
 enddo ! i_GP_individual
 
