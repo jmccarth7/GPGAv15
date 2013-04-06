@@ -984,7 +984,7 @@ do  i_GP_Generation=1,n_GP_Generations
             write(6,'(A,1x,I6,4x,L1   )') &
                   '0: i_GP_individual, Run_GP_Calculate_Fitness ', &
                       i_GP_individual, Run_GP_Calculate_Fitness(i_GP_Individual)
-            write(6,'(A//)')'0:-----------------------------------------------------------------'
+            write(6,'(A)')'0:-----------------------------------------------------------------'
         endif !  myid == 0
 
         GP_Individual_Node_Parameters = 0.0 ! these get set randomly in the GA-lmdif search algorithm
@@ -1010,8 +1010,8 @@ do  i_GP_Generation=1,n_GP_Generations
             enddo ! i_tree
 
             if( myid == 0 )then
-                write(6,'(A,3(1x,I6/))')'0: i_GP_individual, n_nodes, n_trees ', &
-                                            i_GP_individual, n_nodes, n_trees
+                write(6,'(/A,3(1x,I6/))')'0: i_GP_individual, n_nodes, n_trees ', &
+                                             i_GP_individual, n_nodes, n_trees
                 write(6,'(A,1x,I6,3x,A,1x,I6/)')'0: for i_GP_Individual', i_GP_Individual, &
                          'the number of parameters is:  n_GP_parameters =  ', n_GP_parameters
             endif !  myid == 0
