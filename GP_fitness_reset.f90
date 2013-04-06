@@ -55,22 +55,32 @@ allocate( output_array( n_maximum_number_parameters ) )
 
 ! fitness reset region
 
+write(6,'(A,1x,I6)')     'gpfr: i_GP_generation ',  i_GP_generation
+
 ! calculate the total population's SSE
 
 dff=0.0d0
 do  i_GP_Individual=1,n_GP_Individuals
+
+    write(6,'(A,1x,I6,1x,E15.7)') 'gpfr: i_GP_Individual, GP_Child_Individual_SSE(i_GP_Individual) ', &
+                                         i_GP_Individual, GP_Child_Individual_SSE(i_GP_Individual) 
+
     dff=dff+GP_Child_Individual_SSE(i_GP_Individual)
 enddo
 
-write(6,'(A,1x,I6)')     'gpfr: i_GP_generation ',  i_GP_generation
 write(6,'(/A,1x,E15.7)') 'gpfr: sum of all GP_Child_Individual_SSE = ', dff
 
 
 ! calculate a normalized ranking of the errors (higher individual SSE == lower value/ranking)
 
 do  i_GP_Individual=1,n_GP_Individuals
-    GP_Individual_Ranked_Fitness(i_GP_Individual) = &
-         ( dff - GP_Child_Individual_SSE(i_GP_Individual) ) / dff
+    if( abs( dff ) > 1.0D-20 )then
+
+        GP_Individual_Ranked_Fitness(i_GP_Individual) = &
+             ( dff - GP_Child_Individual_SSE(i_GP_Individual) ) / dff
+    else
+        GP_Individual_Ranked_Fitness(i_GP_Individual) = 0.0D0
+    endif ! abs( dff ) > 1.0D-20
 enddo
 
 write(6,'(/A)') &
@@ -106,8 +116,12 @@ write(6,'(/A)') &
 
 do  i_GP_Individual=1,n_GP_Individuals
 
-    GP_Integrated_Ranked_Fitness(i_GP_Individual) = &
-    GP_Integrated_Ranked_Fitness(i_GP_Individual) / GP_Integrated_Ranked_Fitness(n_GP_Individuals)
+    if( abs( GP_Integrated_Ranked_Fitness(n_GP_Individuals) ) > 1.0D-20 )then
+        GP_Integrated_Ranked_Fitness(i_GP_Individual) = &
+        GP_Integrated_Ranked_Fitness(i_GP_Individual) / GP_Integrated_Ranked_Fitness(n_GP_Individuals)
+    else
+        GP_Integrated_Ranked_Fitness(i_GP_Individual) = 0.0D0
+    endif ! abs( GP_Integrated_Ranked_Fitness(n_GP_Individuals) ) > 1.0D-20
 
     write(6,'(I6,1x,E15.7)') &
           i_GP_individual, GP_Integrated_Ranked_Fitness(i_GP_Individual)
@@ -169,7 +183,7 @@ enddo ! i_CODE_equation
 
 
 write(6,'(/A)') &
-          'gpfr: i_node, itree, nop, GP_pop_node_params(i_GP_Best_Parent,i_node,i_tree)'
+          'gpfr: i_node  itree  nop  GP_pop_node_params(i_GP_Best_Parent,i_node,i_tree)'
 nop = n_CODE_equations
 do  i_tree=1,n_trees
     do  i_node=1,n_nodes
@@ -177,12 +191,13 @@ do  i_tree=1,n_trees
                                                                      1.0d-20   )then
 
             nop = nop + 1
-            write(6,'(3(1x,I6), 1x, E20.10, 4x, E20.10)') &
+            write(6,'(2x,3(1x,I6), 1x, E20.10, 4x, E20.10)') &
                   i_node, i_tree, nop, &
                   GP_population_node_parameters(i_GP_Best_Parent,i_node,i_tree)
 
              output_array(nop) = GP_population_node_parameters(i_GP_Best_Parent,i_node,i_tree)
-        endif
+
+        endif !   abs( GP_population_node_parameters(i_GP_Best_Parent,i_node,i_tree) ) >...
 
     enddo ! i_node
 enddo  ! i_tree

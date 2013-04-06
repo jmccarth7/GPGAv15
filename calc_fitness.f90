@@ -301,7 +301,7 @@ xn =  real( icount, kind=8 )
 
 if( icount > 0  ) then
     mean_fitness = mean_fitness / xn
-    sigma_fitness = sqrt( var_fitness / xn  - mean_fitness**2  )
+    sigma_fitness = sqrt( abs( var_fitness / xn  - mean_fitness**2 )   )
 else
 
     mean_fitness  =  0.0d0
@@ -348,8 +348,16 @@ enddo ! i_GA_individual
 
 do  i_GA_individual=1,n_GA_individuals
 
-    integrated_ranked_fitness(i_GA_individual)= &
-    integrated_ranked_fitness(i_GA_individual)/integrated_ranked_fitness(n_GA_individuals)
+    if( abs( integrated_ranked_fitness(n_GA_individuals) ) > 1.0D-20 )then
+
+        integrated_ranked_fitness(i_GA_individual) = &
+        integrated_ranked_fitness(i_GA_individual) / &
+                          integrated_ranked_fitness(n_GA_individuals)
+
+    else
+        integrated_ranked_fitness(i_GA_individual) = 0.0D0
+
+    endif ! abs( integrated_ranked_fitness(n_GA_individuals) ) > 1.0D-20
 
 !    write(6,'(I6,1x,E24.16)') &
 !          i_GA_individual, integrated_ranked_fitness(i_GA_individual)

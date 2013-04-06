@@ -21,16 +21,6 @@ use Runge_Kutta_Variables_module
 
 implicit none
 
-!real (kind=4) :: GP_Node_Parameters_Answer(n_Nodes,n_Trees)
-!integer (kind=4) :: GP_Node_Type_Answer(n_Nodes,n_Trees)
-!integer (kind=4) :: GP_Node_Type_for_Plotting(9,n_Nodes,n_Trees)
-
-!integer(kind=4) :: i_GP_Best_Parent
-!integer(kind=4) :: i_GP_Generation
-!integer(kind=4) :: i_GP_Individual
-!integer(kind=4) :: j_GP_Individual
-!integer(kind=4) :: i_Tree
-!integer(kind=4) :: i_Node
 
 logical bad_node
 
@@ -48,6 +38,7 @@ real(kind=8), allocatable, dimension(:) :: output_array
 real (kind=8) :: ssum, ssum2, totobs, dff
 
 real (kind=8) :: xcount
+
 !----------------------------------------------------------------------------------------
 
 
@@ -269,6 +260,7 @@ allocate( Node_Probability( n_levels ) )
 
 
 !------------------------------------------------------------------
+
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ! set the twin experiment 'nature'
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -290,6 +282,10 @@ GP_Child_Population_Node_Type=-9999                     ! Matrix Operation
 !------------------------------------------------------------------
 
 ! fill the model arrays
+
+! sets Runge_Kutta_Initial_Conditions, 
+!      GP_Individual_Node_Type and 
+!      GP_Individual_Node_Parameters
 
 call init_values( 1 )
 
@@ -476,25 +472,25 @@ if( myid == 0 )then
     write(*,'(A,1x,E15.7)') '0: GA_save_elites_Probability  ', &
                                 GA_save_elites_Probability
 
-    write(6,'(A,1x,E15.7)') '0: GP_Tree_Probability         ', &
-                                GP_Tree_Probability
+    !write(6,'(A,1x,E15.7)') '0: GP_Tree_Probability         ', &
+    !                            GP_Tree_Probability
 
-    write(6,'(A,1x,E15.7)') '0: GP_Elitist_Probability      ', &
-                                GP_Elitist_Probability
+    !write(6,'(A,1x,E15.7)') '0: GP_Elitist_Probability      ', &
+    !                            GP_Elitist_Probability
 
-    write(6,'(A,1x,E15.7)') '0: GP_Crossover_Probability    ', &
-                                GP_Crossover_Probability
+    !write(6,'(A,1x,E15.7)') '0: GP_Crossover_Probability    ', &
+    !                            GP_Crossover_Probability
 
-    write(6,'(A,1x,E15.7)') '0: GP_Mutation_Probability     ', &
-                                GP_Mutation_Probability
+    !write(6,'(A,1x,E15.7)') '0: GP_Mutation_Probability     ', &
+    !                            GP_Mutation_Probability
 
-    write(6,'(A,1x,E15.7)') '0: GP_Asexual_Reproduction_Probability ', &
-                                GP_Asexual_Reproduction_Probability
+    !write(6,'(A,1x,E15.7)') '0: GP_Asexual_Reproduction_Probability ', &
+    !                            GP_Asexual_Reproduction_Probability
 
-    write(6,'(/A,1x,I10)')  '0: n_gp_individuals            ', &
-                                n_gp_individuals
-    write(6,'(A,1x,I10)')   '0: n_gp_generations            ', &
-                                n_gp_generations
+    !write(6,'(/A,1x,I10)')  '0: n_gp_individuals            ', &
+    !                            n_gp_individuals
+    !write(6,'(A,1x,I10)')   '0: n_gp_generations            ', &
+    !                            n_gp_generations
 
     !write(*,'(A)') '0: code calls lmdif for all individuals and generations '
     write(*,'(A)') '0: code calls lmdif only for best individual on last generation'
@@ -576,13 +572,16 @@ endif ! myid == 0
 
 if( myid == 0 )then
 
-    write(6,'(/A,1x,I6/)')  '0: n_GP_individuals ', n_GP_individuals
+    write(6,'(/A,1x,I6)')   '0: n_gp_individuals           ', &
+                                n_gp_individuals
+    write(6,'(A,1x,I6/)')   '0: n_gp_generations           ', &
+                                n_gp_generations
 
-    write(6,'(A,1x,F10.6)') '0: GP_Elitist_Probability   ', &
+    write(6,'(A,1x,F10.6)') '0: GP_Elitist_Probability     ', &
                                 GP_Elitist_Probability
-    write(6,'(A,1x,F10.6)') '0: GP_Crossover_Probability ', &
+    write(6,'(A,1x,F10.6)') '0: GP_Crossover_Probability   ', &
                                 GP_Crossover_Probability
-    write(6,'(A,1x,F10.6)') '0: GP_Mutation_Probability  ', &
+    write(6,'(A,1x,F10.6)') '0: GP_Mutation_Probability    ', &
                                 GP_Mutation_Probability
     write(6,'(A,1x,F10.6)') '0: GP_Asexual_Reproduction_Probability ', &
                                 GP_Asexual_Reproduction_Probability
@@ -662,18 +661,19 @@ do  i_GP_Generation=1,n_GP_Generations
 
         if( myid == 0 )then
 
-            ! initialize the GP_Adult_Population_Node_Type array with random trees
-
             write(6,'(A,1x,I6/)') &
               '0: call GP_Tree_Build   Generation = ',i_GP_Generation
 
+            ! initialize the GP_Adult_Population_Node_Type array with random trees
+
             call GP_Tree_Build
 
-            
+            !debug only do  i_GP_individual = 1, n_GP_Individuals
+            !debug only     GP_Adult_Population_Node_Type(i_GP_individual,:,:) = GP_Node_Type_Answer(:,:) ! debug only
+            !debug only enddo 
+
 
         endif ! myid == 0
-
-        !-----------------------------------------------------------------------------
 
         ! send values for GP_Adult_Population_Node_Type to all processors
 
@@ -704,27 +704,39 @@ do  i_GP_Generation=1,n_GP_Generations
             !  iii)  GP Tournament-Style Sexual Reproduction, and;
             !   iv)  GP Mutation
 
+
             !   i) move the top n_GP_Elitists into the next generation
 
-            if( n_GP_Elitists .gt. 0) call GP_Elitists
+            if( n_GP_Elitists .gt. 0 ) then
+                write(6,'(A)')'0:  call GP_Elitists '
+                call GP_Elitists
+            endif !  n_GP_Elitists .gt. 0 
+ 
 
             !   ii) Carry out "GP Fitness-Proportionate Reproduction"
 
-            if( n_GP_Asexual_Reproductions .gt. 0)then
+            if( n_GP_Asexual_Reproductions .gt. 0 )then
+                write(6,'(A)')'0:  call GP_Fitness_Proportionate_Asexual_Reproduction '
                 call GP_Fitness_Proportionate_Asexual_Reproduction
             endif !  n_GP_Asexual_Reproductions .gt. 0
+
 
             !  iii) Carry out "GP Tree Crossover" Operations 
             !       Using Tournament-Style Sexual Reproduction Selection 
             !       and randomly use it to replace the new children
 
-            if( n_GP_Crossovers .gt. 0)then
+            if( n_GP_Crossovers .gt. 0 )then
+                write(6,'(A)')'0:  call GP_Tournament_Style_Sexual_Reproduction '
                 call GP_Tournament_Style_Sexual_Reproduction
             endif !  n_GP_Crossovers .gt. 0
 
+
             !   iv) Carry out "GP Parameter Mutation" Operations
 
-            if( n_GP_Mutations .gt. 0)  call GP_Mutations
+            if( n_GP_Mutations .gt. 0 )then
+                write(6,'(A)')'0:  call GP_Mutations '
+                call GP_Mutations
+            endif !  n_GP_Mutations .gt. 0 
 
 
         endif ! myid == 0
@@ -789,7 +801,6 @@ do  i_GP_Generation=1,n_GP_Generations
 
         !--------------------------------------------------------------------
 
-        ! r*8
         ! GP_Child_Individual_SSE
 
         !if( myid == 0 )then
@@ -846,7 +857,6 @@ do  i_GP_Generation=1,n_GP_Generations
 
         !--------------------------------------------------------------------
 
-        ! logical
 
         ! Run_GP_Calculate_Fitness
 
@@ -871,8 +881,8 @@ do  i_GP_Generation=1,n_GP_Generations
 
         if( myid == 0 )then
             write(6,'(A,1x,I6)') &
-              '0: move child_pop_node_type to adult_pop_node_type    Generation = ',&
-                                                                i_GP_Generation
+              '0: move GP_child_pop_node_type to GP_adult_pop_node_type    Generation = ',&
+                                                                      i_GP_Generation
         endif ! myid == 0
 
         GP_Adult_Population_Node_Type=GP_Child_Population_Node_Type      ! Matrix Operation
@@ -888,23 +898,43 @@ do  i_GP_Generation=1,n_GP_Generations
 
     if( myid == 0 )then
 
+        write(6,'(/A/)')  '0: ############################################################################'
+        write(6,'(A/)')  '0: trees before call to GP_Clean_Tree_Nodes'
+
+
+        !do  i_GP_individual = 1, n_GP_individuals 
+        !    write(6,'(/A)')  ' '
+        !    do  i_Node=1,n_Nodes
+        !        do  i_Tree=1,n_Trees
+        !            write(6,'(A,4(1x,I6))') &
+        !            '0: i_GP_indiv, i_node, i_tree, &
+        !            &GP_Adult_Pop_Node_Type(i_GP_indiv, i_node, i_tree) ',  &
+        !                i_GP_individual, i_node, i_tree, &
+        !                GP_Adult_Population_Node_Type(i_GP_individual, i_node, i_tree) 
+        !        enddo ! i_tree
+        !    enddo  ! i_node
+        !enddo  ! i_GP_individual
+
         do  i_GP_individual = 1, n_GP_individuals 
 
+            write(6,'(/A,1x,I6/)')  '0: i_GP_indiv ', i_GP_individual
+            write(6,'(A)') '0: i_tree nodes '
+            write(6,'(A)') '            1  2  3  4  5  6  7  8  9 10 11 12 13 14 15'
 
-            do  i_Node=1,n_Nodes
-                do  i_Tree=1,n_Trees
+            do  i_Tree=1,n_Trees
 
-                    write(6,'(A,4(1x,I6))') &
-                    '0: i_GP_indiv, i_node, i_tree, &
-                    &GP_Adult_Pop_Node_Type(i_GP_indiv, i_node, i_tree) ',  &
-                        i_GP_individual, i_node, i_tree, &
-                        GP_Adult_Population_Node_Type(i_GP_individual, i_node, i_tree) 
+                write(6,'(I6,4x,20(1x,I2))' ) &
+                     i_tree, GP_Adult_Population_Node_Type(i_GP_individual, 1:n_nodes, i_tree) 
 
-                enddo ! i_tree
-            enddo  ! i_node
-         enddo  ! i_GP_individual
+            enddo ! i_tree
+        enddo  ! i_GP_individual
+
+
+    write(6,'(/A/)')  '0: ############################################################################'
 
     endif !  myid == 0 
+
+
     !-----------------------------------------------------------------------------------------
 
     ! sweep through all the GP_Adult_Population_Node_Type
@@ -917,32 +947,56 @@ do  i_GP_Generation=1,n_GP_Generations
                                         i_GP_Generation
     endif ! myid == 0
 
+
     call GP_Clean_Tree_Nodes
 
 
     !-----------------------------------------------------------------------------------------
 
-    ! print trees after  tree clean
+    ! print trees after call to GP_Clean_Tree_Nodes
 
     if( myid == 0 )then
 
+        write(6,'(/A/)')  '0: ############################################################################'
+
+        write(6,'(/A/)')  '0: trees after call to GP_Clean_Tree_Nodes'
+
+        !do  i_GP_individual = 1, n_GP_individuals 
+        !    write(6,'(/A)')  ' '
+        !    do  i_Node=1,n_Nodes
+        !        do  i_Tree=1,n_Trees
+        !            write(6,'(A,4(1x,I6))') &
+        !            '0: i_GP_indiv, i_node, i_tree, &
+        !            &GP_Adult_Pop_Node_Type(i_GP_indiv, i_node, i_tree) ',  &
+        !                i_GP_individual, i_node, i_tree, &
+        !                GP_Adult_Population_Node_Type(i_GP_individual, i_node, i_tree) 
+        !        enddo ! i_tree
+        !    enddo  ! i_node
+        !enddo  ! i_GP_individual
+
+
+
         do  i_GP_individual = 1, n_GP_individuals 
 
+            write(6,'(/A,1x,I6/)')  '0: i_GP_indiv ', i_GP_individual
+            write(6,'(A)') '0: i_tree nodes '
+            write(6,'(A)') '            1  2  3  4  5  6  7  8  9 10 11 12 13 14 15'
 
-            do  i_Node=1,n_Nodes
-                do  i_Tree=1,n_Trees
+            do  i_Tree=1,n_Trees
 
-                    write(6,'(A,4(1x,I6))') &
-                    '0: i_GP_indiv, i_node, i_tree, &
-                    &GP_Adult_Pop_Node_Type(i_GP_indiv, i_node, i_tree) ',  &
-                        i_GP_individual, i_node, i_tree, &
-                        GP_Adult_Population_Node_Type(i_GP_individual, i_node, i_tree) 
+                write(6,'(I6,4x,20(1x,I2))' ) &
+                     i_tree, GP_Adult_Population_Node_Type(i_GP_individual, 1:n_nodes, i_tree) 
 
-                enddo ! i_tree
-            enddo  ! i_node
-         enddo  ! i_GP_individual
+            enddo ! i_tree
+        enddo  ! i_GP_individual
+
+
+
+
+        write(6,'(/A/)')  '0: ############################################################################'
 
     endif !  myid == 0 
+
     !-----------------------------------------------------------------------------------------
 
 
@@ -1038,6 +1092,17 @@ do  i_GP_Generation=1,n_GP_Generations
             do  i_Node=1,n_Nodes
                 do  i_Tree=1,n_Trees
 
+                    if( myid == 0 )then
+                        write(6,'(A,4(1x,I6),1x,E15.7)') &
+                              '0: i_node, i_tree, &
+                              &GP_Indiv_Node_Type, &
+                              &GP_Node_Type_Answer ',&
+                              i_node, i_tree, &
+                              GP_Individual_Node_Type(i_Node,i_Tree), &
+                              GP_Node_Type_Answer(i_Node,i_Tree)
+
+                    endif ! myid == 0
+
                     if( GP_Individual_Node_Type(i_Node,i_Tree) .ne. &
                         GP_Node_Type_Answer(i_Node,i_Tree)             ) then
 
@@ -1047,25 +1112,46 @@ do  i_GP_Generation=1,n_GP_Generations
                             dff=1.0d0
                             xcount=xcount+dff
 
+                            if( myid == 0 )then
+                                write(6,'(A,4(1x,I6),2(1x,E15.7))') &
+                                      '0: i_node, i_tree, &
+                                      &GP_Indiv_Node_Type, &
+                                      &GP_Node_Type_Answer  dff, xcount ',&
+                                      i_node, i_tree, &
+                                      GP_Individual_Node_Type(i_Node,i_Tree), &
+                                      GP_Node_Type_Answer(i_Node,i_Tree), dff, xcount 
+
+                            endif ! myid == 0
+
                         else
 
                             dff = dble( GP_Individual_Node_Type(i_Node,i_Tree) -       &
                                             GP_Node_Type_Answer(i_Node,i_Tree)  )**2
                             xcount=xcount+dff
-
                             if( myid == 0 )then
-                                !write(6,'(A,2(1x,I6))') &
-                                !      '0: i_GP_generation, i_GP_Individual ', &
-                                !          i_GP_generation, i_GP_Individual
-                                write(6,'(A,4(1x,I6),1x,E15.7)') &
-                                  '0: i_node, i_tree, &
-                                     &GP_Indiv_Node_Type, &
-                                     &GP_Node_Type_Answer, dff ',&
+                                write(6,'(A,4(1x,I6),2(1x,E15.7))') &
+                                      '0: i_node, i_tree, &
+                                      &GP_Indiv_Node_Type, &
+                                      &GP_Node_Type_Answer  dff, xcount ',&
                                       i_node, i_tree, &
                                       GP_Individual_Node_Type(i_Node,i_Tree), &
-                                      GP_Node_Type_Answer(i_Node,i_Tree), dff
+                                      GP_Node_Type_Answer(i_Node,i_Tree), dff, xcount 
 
                             endif ! myid == 0
+
+
+                            !if( myid == 0 )then
+                            !    !write(6,'(A,2(1x,I6))') &
+                            !    !      '0: i_GP_generation, i_GP_Individual ', &
+                            !    !          i_GP_generation, i_GP_Individual
+                            !    write(6,'(A,4(1x,I6),1x,E15.7)') &
+                            !      '0: i_node, i_tree, &
+                            !         &GP_Indiv_Node_Type, &
+                            !         &GP_Node_Type_Answer, dff ',&
+                            !          i_node, i_tree, &
+                            !          GP_Individual_Node_Type(i_Node,i_Tree), &
+                            !          GP_Node_Type_Answer(i_Node,i_Tree), dff
+                            !endif ! myid == 0
 
                         endif !   GP_Node_Type_Answer(i_Node,i_Tree) .eq. -9999 ...
 
@@ -1077,10 +1163,12 @@ do  i_GP_Generation=1,n_GP_Generations
 
             GP_Child_Individual_SSE(i_GP_Individual)=xcount
 
+            !----------------------------------------------------------------------------------------------
+
             if( myid == 0 )then
-                write(6,'(/A,2(1x,I6),1x,E15.7)') &
-                      '0: i_GP_gen, i_GP_Indiv, GP_Child_Indiv_SSE(i_GP_Indiv) ', &
-                          i_GP_generation, i_GP_Individual, GP_Child_Individual_SSE(i_GP_Individual)
+                write(6,'(/A,2(1x,I6),2(1x,E15.7))') &
+                      '0: i_GP_gen, i_GP_Indiv, xcount, GP_Child_Indiv_SSE(i_GP_Indiv) ', &
+                          i_GP_generation, i_GP_Individual, xcount, GP_Child_Individual_SSE(i_GP_Individual)
 
             endif ! myid == 0
 

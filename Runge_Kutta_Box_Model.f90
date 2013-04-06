@@ -269,9 +269,9 @@ do i_time_step=1,n_time_steps
       Tree_Value(i_tree)=Tree_Evaluation(1,i_tree)
 
       !tree_value_string(i_tree) = tree_evaluation_string(1,i_tree)
-      write(6,'(8x, A, 1x,E15.7)') &                                                            
-            'RKBM: tree_eval(1, i_tree )  = ', &                                                      
-             tree_evaluation(1, i_tree )                                                        
+      !write(6,'(8x, A, 1x,E15.7)') &                                                            
+      !      'RKBM: tree_eval(1, i_tree )  = ', &                                                      
+      !       tree_evaluation(1, i_tree )                                                        
       !write(6,'(8x, A, 1x,A    )') &                                                            
       !      'tree_eval(1, i_tree )  = ', &                                                      
       !       trim( tree_evaluation_string( 1, i_tree ) )         
@@ -369,9 +369,9 @@ do i_time_step=1,n_time_steps
   if( any( isnan( b_tmp ) ) .or.  any( abs(b_tmp)  > 1.0d20 ) ) then
 
       L_bad_result = .TRUE.
-      write(6,'(A,2(1x,I6),12(1x,E15.7))') &
-            'RKBM: bad result myid, i_time_step, b_tmp ', &
-                              myid, i_time_step, b_tmp(1:n_CODE_equations)
+      !write(6,'(A,2(1x,I6),12(1x,E15.7))') &
+      !      'RKBM: bad result myid, i_time_step, b_tmp ', &
+      !                        myid, i_time_step, b_tmp(1:n_CODE_equations)
       return
 
   endif !   any( isnan( b_tmp ) ) .or.  any( abs(b_tmp) > 1.0d20
