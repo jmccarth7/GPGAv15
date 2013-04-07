@@ -35,20 +35,20 @@ integer,parameter ::  itag2 = 2
 integer,parameter ::  itag3 = 3
 
 
-real(kind=8) :: parent_parameters(n_GA_individuals,n_parameters)
+real(kind=8),dimension(n_GA_individuals,n_maximum_number_parameters) ::  parent_parameters
+real(kind=8),dimension(n_GA_individuals,n_maximum_number_parameters) ::  child_parameters
 
-real(kind=8) :: child_parameters(n_GA_individuals,n_parameters)
 
 real(kind=8) :: individual_SSE_best_1
 real(kind=8) :: individual_ranked_fitness_best_1
 real(kind=8) :: Individual_Fitness_best_1
 
-real(kind=8),dimension(n_parameters) :: parent_parameters_best_1
+real(kind=8),dimension(n_maximum_number_parameters) :: parent_parameters_best_1
 
 
 
-real(kind=8) :: buffer(n_parameters)
-real(kind=8) :: buffer_recv(n_parameters)
+real(kind=8) :: buffer(n_maximum_number_parameters)
+real(kind=8) :: buffer_recv(n_maximum_number_parameters)
 
 
 integer (kind=4) ::      i
@@ -74,6 +74,10 @@ logical :: L_stop_run
 
 
 !----------------------------------------------------------------------
+
+buffer(1:n_maximum_number_parameters)      = 0.0D0
+buffer_recv(1:n_maximum_number_parameters) = 0.0D0
+
 
 if( myid == 0 )then
     write(6,'(//A)') 'GP_GA_opt: at entry  '
@@ -128,14 +132,14 @@ endif !   GA_Crossover_Probability+GA_Mutation_Probability .gt. 1.0d0
 
 
 ! calculate the number of GA Crossovers
-n_GA_Crossovers = int(GA_Crossover_Probability * n_GA_individuals)
+n_GA_Crossovers = nint(GA_Crossover_Probability * n_GA_individuals)
 
 ! calculate the number of GA Mutations
-n_GA_Mutations  = int(GA_Mutation_Probability  * n_GA_individuals)
+n_GA_Mutations  = nint(GA_Mutation_Probability  * n_GA_individuals)
 
 
 ! calculate the number of GA elites
-n_GA_save_elites = int(GA_save_elites_Probability  * n_GA_individuals)
+n_GA_save_elites = nint(GA_save_elites_Probability  * n_GA_individuals)
 
 
 if( myid == 0 )then
@@ -145,7 +149,7 @@ if( myid == 0 )then
 endif ! myid == 0
 
 
-child_parameters(1:n_GA_individuals,1:n_parameters) = 0.0d0
+child_parameters(1:n_GA_individuals,1:n_maximum_number_parameters) = 0.0d0
 
 
 !-----------------------------------------------------------------------------
@@ -230,8 +234,8 @@ do  i_GA_generation=1,n_GA_Generations
 
             write(6,'(/A)')'GP_GA_opt: call GA_save_elites '
 
-            call GA_save_elites(Parent_Parameters,Child_Parameters, &
-                                                  individual_quality )
+            call GA_save_elites( ) !Parent_Parameters,Child_Parameters, &
+                                   !               individual_quality )
 
             !-------------------------------------------------------------------------------
 
@@ -534,6 +538,7 @@ do  i_GA_generation=1,n_GA_Generations
 
                     !-------------------------------------------------------------------------
 
+                    buffer = 0.0D0
                     buffer(1:n_parameters) = child_parameters(i_GA_individual,1:n_parameters)
 
                     call MPI_SEND( buffer, n_parameters, &

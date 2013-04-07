@@ -27,7 +27,7 @@ integer ::  iflag
 
 ! lmdif arrays and variables
 
-real (kind=8) :: x_LMDIF(n_parameters)
+real (kind=8) :: x_LMDIF(n_maximum_number_parameters)
 real (kind=8) :: fvec(n_time_steps)
 
 
@@ -46,7 +46,7 @@ integer (kind=4) ::   info
 integer(kind=4) :: individual_quality(n_GA_individuals)
 
 
-real(kind=8) :: child_parameters(n_GA_individuals,n_parameters)
+real(kind=8) :: child_parameters(n_GA_individuals,n_maximum_number_parameters)
 
 external :: fcn
 
@@ -54,6 +54,7 @@ external :: fcn
 
 !write(6,'(/A,2(1x,I6)/)') 'setrf: myid, i_GA_indiv ', myid, i_GA_indiv
 
+x_LMDIF(1:n_maximum_number_parameters) = 0.0D0
 
 do  i_parameter=1,n_parameters
 

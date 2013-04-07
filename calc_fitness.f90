@@ -25,8 +25,8 @@ implicit none
 integer,parameter ::  itag = 1
 
 
-real(kind=8) :: parent_parameters(n_GA_individuals,n_parameters)
-real(kind=8) :: child_parameters(n_GA_individuals,n_parameters)
+real(kind=8) :: parent_parameters(n_GA_individuals,n_maximum_number_parameters)
+real(kind=8) :: child_parameters(n_GA_individuals,n_maximum_number_parameters)
 
 
 real(kind=8) :: dble_cff

@@ -904,7 +904,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
         do  i_GP_individual = 1, n_GP_individuals 
 
-            write(6,'(/A,1x,I6/)')  '0: i_GP_indiv ', i_GP_individual
+            write(6,'(/A,1x,I6)')  '0: i_GP_indiv ', i_GP_individual
             write(6,'(A)') '0: i_tree nodes '
             write(6,'(A)') '            1  2  3  4  5  6  7  8  9 10 11 12 13 14 15'
 
@@ -951,7 +951,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
         do  i_GP_individual = 1, n_GP_individuals 
 
-            write(6,'(/A,1x,I6/)')  '0: i_GP_indiv ', i_GP_individual
+            write(6,'(/A,1x,I6)')  '0: i_GP_indiv ', i_GP_individual
             write(6,'(A)') '0: i_tree nodes '
             write(6,'(A)') '            1  2  3  4  5  6  7  8  9 10 11 12 13 14 15'
 

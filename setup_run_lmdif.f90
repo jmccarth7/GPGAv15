@@ -25,7 +25,7 @@ integer, intent(in)  ::  i_GA_indiv
 
 ! lmdif arrays and variables
 
-real (kind=8) :: x_LMDIF(n_parameters)
+real (kind=8) :: x_LMDIF(n_maximum_number_parameters)
 real (kind=8) :: fvec(n_time_steps)
 real (kind=8) :: ftol,xtol,gtol
 
@@ -49,7 +49,7 @@ integer (kind=4) :: ipvt(n_parameters)
 integer(kind=4) :: individual_quality(n_GA_individuals)
 
 
-real(kind=8) :: child_parameters(n_GA_individuals,n_parameters)
+real(kind=8) :: child_parameters(n_GA_individuals,n_maximum_number_parameters)
 
 external :: fcn
 
@@ -112,20 +112,20 @@ ldfjac=n_time_steps
 write(6,'(/A,4(1x,I6))') &
       'setrlm: call lmdif, myid, n_time_steps, n_parameters, i_GA_indiv ', &
                            myid, n_time_steps, n_parameters, i_GA_indiv
-write(6,'(/A/)') 'setrlm: lmdif parameters '
+write(6,'(/A)') 'setrlm: lmdif parameters '
+
+write(6,'(A,3(1x,E15.7))') 'setrlm: ftol, xtol, gtol     ', ftol, xtol, gtol
+!write(6,'(A,1x,E15.7)') 'setrlm: xtol   ', xtol
+!write(6,'(A,1x,E15.7)') 'setrlm: gtol   ', gtol
+write(6,'(A,3(1x,I10))')   'setrlm: mode, nprint, ldfjac ', mode, nprint, ldfjac
+!write(6,'(A,1x,I10)')   'setrlm: nprint ', nprint
+!write(6,'(A,1x,I10)')   'setrlm: ldfjac ', ldfjac
+write(6,'(A,3(1x,E15.7))') 'setrlm: tol,epsfcn, factor   ', tol, epsfcn,factor
+!write(6,'(A,1x,E15.7)') 'setrlm: epsfcn ', epsfcn
+!write(6,'(A,1x,E15.7/)') 'setrlm: factor ', factor
 
 write(6,'(A,1x,I10)')   'setrlm: maxfev ', maxfev
-write(6,'(A,1x,E15.7)') 'setrlm: ftol   ', ftol
-write(6,'(A,1x,E15.7)') 'setrlm: xtol   ', xtol
-write(6,'(A,1x,E15.7)') 'setrlm: gtol   ', gtol
-write(6,'(A,1x,I10)')   'setrlm: mode   ', mode
 write(6,'(A,1x,I10)')   'setrlm: info   ', info
-write(6,'(A,1x,I10)')   'setrlm: nprint ', nprint
-write(6,'(A,1x,I10)')   'setrlm: ldfjac ', ldfjac
-write(6,'(A,1x,E15.7)') 'setrlm: tol    ', tol
-write(6,'(A,1x,E15.7)') 'setrlm: epsfcn ', epsfcn
-write(6,'(A,1x,E15.7/)') 'setrlm: factor ', factor
-
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
