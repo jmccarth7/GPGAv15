@@ -27,7 +27,7 @@ integer ::  iflag
 
 ! lmdif arrays and variables
 
-real (kind=8) :: x_LMDIF(n_parameters)
+real (kind=8) :: x_LMDIF(n_maximum_number_parameters)
 real (kind=8) :: fvec(n_time_steps)
 
 
@@ -46,26 +46,29 @@ integer (kind=4) ::   info
 integer(kind=4) :: individual_quality(n_GA_individuals)
 
 
-real(kind=8) :: child_parameters(n_GA_individuals,n_parameters)
+real(kind=8) :: child_parameters(n_GA_individuals,n_maximum_number_parameters)
 
 external :: fcn
 
 !--------------------------------------------------------------------------------------------
 
-write(6,'(/A,2(1x,I6)/)') 'setrf: myid, i_GA_indiv ', myid, i_GA_indiv
+!write(6,'(/A,2(1x,I6)/)') 'setrf: myid, i_GA_indiv ', myid, i_GA_indiv
 
+x_LMDIF(1:n_maximum_number_parameters) = 0.0D0
 
 do  i_parameter=1,n_parameters
 
     X_LMDIF(i_parameter) = child_parameters(i_GA_indiv,i_parameter)
 
-    write(6,'(A,3(1x,I6),1x,E20.10)') &
-          'setrf:1 myid, i_GA_indiv,i_parameter, child_parameters ', &
-                   myid, i_GA_indiv,i_parameter, &
-                   child_parameters(i_GA_indiv,i_parameter)
-    write(6,'(A,3(1x,I6),1x,E20.10)') &
-          'setrf:1 myid, i_GA_indiv, i_parameter,  X_LMDIF', &
-                   myid, i_GA_indiv, i_parameter,  X_LMDIF(i_parameter)
+    !if( myid == 1 )then
+    !    write(6,'(A,3(1x,I6),1x,E20.10)') &
+    !          'setrf:1 myid, i_GA_indiv,i_parameter, child_parameters ', &
+    !                   myid, i_GA_indiv,i_parameter, &
+    !                   child_parameters(i_GA_indiv,i_parameter)
+    !    write(6,'(A,3(1x,I6),1x,E20.10)') &
+    !          'setrf:1 myid, i_GA_indiv, i_parameter,  X_LMDIF', &
+    !                   myid, i_GA_indiv, i_parameter,  X_LMDIF(i_parameter)
+    !endif ! myid == 1 
 
 enddo ! i_parameter
 
@@ -83,9 +86,11 @@ enddo ! i_parameter
 ! set the child_parameters to -1.0 and go to the next individual
 
 
-write(6,'(/A,4(1x,I10))') &
-      'setrf: call fcn, myid, i_GA_indiv, n_time_steps, n_parameters     ', &
-                        myid, i_GA_indiv, n_time_steps, n_parameters
+!if( myid == 1 )then
+!    write(6,'(/A,4(1x,I10))') &
+!          'setrf: call fcn, myid, i_GA_indiv, n_time_steps, n_parameters     ', &
+!                            myid, i_GA_indiv, n_time_steps, n_parameters
+!endif ! myid == 1 
 
 
 iflag = 1
@@ -94,9 +99,11 @@ call fcn( n_time_steps, n_parameters, x_LMDIF, fvec, iflag )
 info = iflag
 
 
-write(6,'(A,5(1x,I10)/)') &
-          'setrf: aft call fcn myid, i_GA_indiv, n_time_steps, n_parameters, info ', &
-                               myid, i_GA_indiv, n_time_steps, n_parameters, info
+!if( myid == 1 )then
+!    write(6,'(A,5(1x,I10)/)') &
+!              'setrf: aft call fcn myid, i_GA_indiv, n_time_steps, n_parameters, info ', &
+!                                   myid, i_GA_indiv, n_time_steps, n_parameters, info
+!endif ! myid == 1 
 
 
 !----------------------------------------------------------------------------------------

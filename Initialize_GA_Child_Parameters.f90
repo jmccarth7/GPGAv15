@@ -13,7 +13,7 @@ use GP_Data_module
 implicit none
 
 
-real(kind=8) :: Child_Parameters(n_GA_Individuals,n_Parameters)
+real(kind=8) :: Child_Parameters(n_GA_Individuals,n_maximum_number_parameters)
 real(kind=4) :: cff
 real(kind=8) :: dff
 

@@ -25,8 +25,8 @@ implicit none
 integer,parameter ::  itag = 1
 
 
-real(kind=8) :: parent_parameters(n_GA_individuals,n_parameters)
-real(kind=8) :: child_parameters(n_GA_individuals,n_parameters)
+real(kind=8) :: parent_parameters(n_GA_individuals,n_maximum_number_parameters)
+real(kind=8) :: child_parameters(n_GA_individuals,n_maximum_number_parameters)
 
 
 real(kind=8) :: dble_cff
@@ -67,7 +67,7 @@ logical :: L_stop_run
 
 L_stop_run = .FALSE. 
 
-write(6,'(/A)') 'calcfit:  finished the loop on i_GA_individual  '
+!write(6,'(/A)') 'calcfit:  finished the loop on i_GA_individual  '
 
 do  i_parameter=1,n_parameters
     do  i_GA_individual=1,n_GA_individuals
@@ -301,7 +301,7 @@ xn =  real( icount, kind=8 )
 
 if( icount > 0  ) then
     mean_fitness = mean_fitness / xn
-    sigma_fitness = sqrt( var_fitness / xn  - mean_fitness**2  )
+    sigma_fitness = sqrt( abs( var_fitness / xn  - mean_fitness**2 )   )
 else
 
     mean_fitness  =  0.0d0
@@ -348,8 +348,16 @@ enddo ! i_GA_individual
 
 do  i_GA_individual=1,n_GA_individuals
 
-    integrated_ranked_fitness(i_GA_individual)= &
-    integrated_ranked_fitness(i_GA_individual)/integrated_ranked_fitness(n_GA_individuals)
+    if( abs( integrated_ranked_fitness(n_GA_individuals) ) > 1.0D-20 )then
+
+        integrated_ranked_fitness(i_GA_individual) = &
+        integrated_ranked_fitness(i_GA_individual) / &
+                          integrated_ranked_fitness(n_GA_individuals)
+
+    else
+        integrated_ranked_fitness(i_GA_individual) = 0.0D0
+
+    endif ! abs( integrated_ranked_fitness(n_GA_individuals) ) > 1.0D-20
 
 !    write(6,'(I6,1x,E24.16)') &
 !          i_GA_individual, integrated_ranked_fitness(i_GA_individual)
@@ -427,7 +435,7 @@ write(6,'(A,1x,I6,12(1x,E15.7)/(12(1x,E15.7)))') &
 !if( individual_ranked_fitness(i_GA_Best_Parent) >= 100.0d0 ) then
 if( individual_ranked_fitness(i_GA_Best_Parent) >= 200.0d0 ) then
 
-    L_stop_run = .TRUE. 
+    !L_stop_run = .TRUE. 
 
 endif ! individual_ranked_fitness(i_GA_Best_Parent) >= 100.0d0 
 

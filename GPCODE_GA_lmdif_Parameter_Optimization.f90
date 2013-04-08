@@ -35,20 +35,20 @@ integer,parameter ::  itag2 = 2
 integer,parameter ::  itag3 = 3
 
 
-real(kind=8) :: parent_parameters(n_GA_individuals,n_parameters)
+real(kind=8),dimension(n_GA_individuals,n_maximum_number_parameters) ::  parent_parameters
+real(kind=8),dimension(n_GA_individuals,n_maximum_number_parameters) ::  child_parameters
 
-real(kind=8) :: child_parameters(n_GA_individuals,n_parameters)
 
 real(kind=8) :: individual_SSE_best_1
 real(kind=8) :: individual_ranked_fitness_best_1
 real(kind=8) :: Individual_Fitness_best_1
 
-real(kind=8),dimension(n_parameters) :: parent_parameters_best_1
+real(kind=8),dimension(n_maximum_number_parameters) :: parent_parameters_best_1
 
 
 
-real(kind=8) :: buffer(n_parameters)
-real(kind=8) :: buffer_recv(n_parameters)
+real(kind=8) :: buffer(n_maximum_number_parameters)
+real(kind=8) :: buffer_recv(n_maximum_number_parameters)
 
 
 integer (kind=4) ::      i
@@ -75,23 +75,27 @@ logical :: L_stop_run
 
 !----------------------------------------------------------------------
 
+buffer(1:n_maximum_number_parameters)      = 0.0D0
+buffer_recv(1:n_maximum_number_parameters) = 0.0D0
+
+
 if( myid == 0 )then
+    write(6,'(//A)') 'GP_GA_opt: at entry  '
     write(6,'(A,1x,E15.7)') 'GP_GA_opt: dt ', dt
-    write(6,'(A)') 'GP_GA_opt: ok to here'
-    write(6,'(A,1x,I10)') 'GP_GA_opt:  n_parameters = ', n_parameters
+    write(6,'(A,1x,I10)') 'GP_GA_opt: n_parameters =   ', n_parameters
 endif ! myid == 0
 
 
 if( n_parameters .le. 0) then
     write(6,'(A)')        'GP_GA_opt: ERROR: n_parameters </= 0'
-    write(6,'(A,1x,I10)') 'GP_GA_opt:  n_parameters = ', n_parameters
+    write(6,'(A,1x,I10)') 'GP_GA_opt: n_parameters =   ', n_parameters
     stop
 endif
 
 if( n_time_steps .lt. n_parameters) then
     write(6,'(A)') 'GP_GA_opt: ERROR: n_time_steps < n_parameters'
     write(6,'(A,1x,I10)') 'GP_GA_opt:  n_time_steps = ', n_time_steps
-    write(6,'(A,1x,I10)') 'GP_GA_opt:  n_parameters = ', n_parameters
+    write(6,'(A,1x,I10)') 'GP_GA_opt: n_parameters =   ', n_parameters
     stop
 endif
 
@@ -128,24 +132,24 @@ endif !   GA_Crossover_Probability+GA_Mutation_Probability .gt. 1.0d0
 
 
 ! calculate the number of GA Crossovers
-n_GA_Crossovers = int(GA_Crossover_Probability * n_GA_individuals)
+n_GA_Crossovers = nint(GA_Crossover_Probability * n_GA_individuals)
 
 ! calculate the number of GA Mutations
-n_GA_Mutations  = int(GA_Mutation_Probability  * n_GA_individuals)
+n_GA_Mutations  = nint(GA_Mutation_Probability  * n_GA_individuals)
 
 
 ! calculate the number of GA elites
-n_GA_save_elites = int(GA_save_elites_Probability  * n_GA_individuals)
+n_GA_save_elites = nint(GA_save_elites_Probability  * n_GA_individuals)
 
 
 if( myid == 0 )then
-    write(6,'(A,1x,I6)')'GP_GA_opt: n_GA_Crossovers  ', n_GA_Crossovers
-    write(6,'(A,1x,I6)')'GP_GA_opt: n_GA_Mutations   ', n_GA_Mutations
-    write(6,'(A,1x,I6)')'GP_GA_opt: n_GA_save_elites ', n_GA_save_elites
+    write(6,'(A,1x,I6)')  'GP_GA_opt: n_GA_Crossovers  ', n_GA_Crossovers
+    write(6,'(A,1x,I6)')  'GP_GA_opt: n_GA_Mutations   ', n_GA_Mutations
+    write(6,'(A,1x,I6)')  'GP_GA_opt: n_GA_save_elites ', n_GA_save_elites
 endif ! myid == 0
 
 
-child_parameters(1:n_GA_individuals,1:n_parameters) = 0.0d0
+child_parameters(1:n_GA_individuals,1:n_maximum_number_parameters) = 0.0d0
 
 
 !-----------------------------------------------------------------------------
@@ -230,8 +234,8 @@ do  i_GA_generation=1,n_GA_Generations
 
             write(6,'(/A)')'GP_GA_opt: call GA_save_elites '
 
-            call GA_save_elites(Parent_Parameters,Child_Parameters, &
-                                                  individual_quality )
+            call GA_save_elites( ) !Parent_Parameters,Child_Parameters, &
+                                   !               individual_quality )
 
             !-------------------------------------------------------------------------------
 
@@ -385,8 +389,8 @@ do  i_GA_generation=1,n_GA_Generations
         write(6,'(/A,1x,I6/)') &
               'GP_GA_opt: begin RK fcn integration segment i_GA_generation ', &
                                                            i_GA_generation
-        write(6,'(A,2(1x,I6)/)') 'GP_GA_opt: myid, n_GA_individuals ', &
-                                             myid, n_GA_individuals
+        write(6,'(A,1x,I6/)') 'GP_GA_opt: n_GA_individuals ', &
+                                          n_GA_individuals
     endif !  myid == 0
 
 
@@ -534,6 +538,7 @@ do  i_GA_generation=1,n_GA_Generations
 
                     !-------------------------------------------------------------------------
 
+                    buffer = 0.0D0
                     buffer(1:n_parameters) = child_parameters(i_GA_individual,1:n_parameters)
 
                     call MPI_SEND( buffer, n_parameters, &
@@ -605,7 +610,7 @@ do  i_GA_generation=1,n_GA_Generations
 
     if( myid == 0  )then
 
-        write(6,'(//A,1x,I6/)') &
+        write(6,'(A,1x,I6)') &
               'GP_GA_opt: call calc_fitness i_GA_generation ', &
                                             i_GA_generation
 
@@ -624,7 +629,7 @@ do  i_GA_generation=1,n_GA_Generations
         !            i_ga_generation, &
         !            real(clock2-clock1,kind=4)/real(ratec,kind=4) , ' seconds'
 
-        write(6,'(/A,1x,I6//)') &
+        write(6,'(/A,1x,I6/)') &
               'GP_GA_opt: aft call calc_fitness i_GA_generation ', &
                                                 i_GA_generation
 
