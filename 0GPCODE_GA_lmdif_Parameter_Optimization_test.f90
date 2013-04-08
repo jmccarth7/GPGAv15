@@ -925,22 +925,6 @@ do  i_GP_Generation=1,n_GP_Generations
 
     !-----------------------------------------------------------------------------------------
 
-            do  i_Node=1,n_Nodes
-                do  i_Tree=1,n_Trees
-
-                    write(6,'(A,4(1x,I6))') &
-                    '0: i_GP_indiv, i_node, i_tree, &
-                    &GP_Adult_Pop_Node_Type(i_GP_indiv, i_node, i_tree) ',  &
-                        i_GP_individual, i_node, i_tree, &
-                        GP_Adult_Population_Node_Type(i_GP_individual, i_node, i_tree) 
-
-                enddo ! i_tree
-            enddo  ! i_node
-         enddo  ! i_GP_individual
-
-    endif !  myid == 0 
-    !-----------------------------------------------------------------------------------------
-
     ! sweep through all the GP_Adult_Population_Node_Type
     ! to replace function nodes that have both terminals set as parameters
     ! and set the node to a parameter itself
@@ -1008,8 +992,7 @@ do  i_GP_Generation=1,n_GP_Generations
                   '0:-----------------------------------------------------------------'
         endif !  myid == 0
 
-        ! these get set randomly in the GA-lmdif search algorithm
-        GP_Individual_Node_Parameters = 0.0 
+        GP_Individual_Node_Parameters = 0.0 ! these get set randomly in the GA-lmdif search algorithm
 
         if( Run_GP_Calculate_Fitness(i_GP_Individual) ) then
 
