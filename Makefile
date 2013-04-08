@@ -16,7 +16,7 @@ SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 calc_fitness.f90 \
 	init_values.f90 init_values_LV.f90 init_values_NPZ.f90 \
 	Initialize_GA_Child_Parameters.f90 lmdif.f90 lmpar.f90 \
 	median_calc.f90 mpi_module.f90 print4.f90 qrfac.f90 qrsolv.f90 \
-	random_real.f90 random_real2.f90 read_cntl_stuff.f90 \
+	random_real.f90  read_cntl_stuff.f90 \
 	Runge_Kutta_Box_Model.f90 Runge_Kutta_Variables_module.f90 \
 	setup_run_fcn.f90 setup_run_lmdif.f90 sort.f90 sse0_calc.f90 \
 	swap_module.f90
@@ -36,7 +36,7 @@ OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o calc_fitness.o \
 	GPCODE_GA_lmdif_Parameter_Optimization.o indiv_fitness.o \
 	init_values.o init_values_LV.o init_values_NPZ.o \
 	Initialize_GA_Child_Parameters.o lmdif.o lmpar.o median_calc.o \
-	mpi_module.o print4.o qrfac.o qrsolv.o random_real.o random_real2.o \
+	mpi_module.o print4.o qrfac.o qrsolv.o random_real.o  \
 	read_cntl_stuff.o Runge_Kutta_Box_Model.o \
 	Runge_Kutta_Variables_module.o setup_run_fcn.o setup_run_lmdif.o \
 	sort.o sse0_calc.o swap_module.o
@@ -85,8 +85,8 @@ clean:
 
 0GPCODE_GA_lmdif_Parameter_Optimization_test.o: GA_parameters_module.o \
 	GA_variables_module.o GP_data_module.o GP_parameters_module.o \
-	GP_variables_module.o Runge_Kutta_Variables_module.o mpi_module.o \
-	Lotka_Volterra_Example_Set_Up.f901
+	GP_variables_module.o Runge_Kutta_Variables_module.o mpi_module.o
+#Lotka_Volterra_Example_Set_Up.f901
 calc_fitness.o: GA_parameters_module.o GA_variables_module.o \
 	GP_parameters_module.o GP_variables_module.o mpi_module.o
 check_for_elite.o: GA_parameters_module.o GA_variables_module.o \

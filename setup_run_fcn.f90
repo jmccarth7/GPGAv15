@@ -52,20 +52,20 @@ external :: fcn
 
 !--------------------------------------------------------------------------------------------
 
-!write(6,'(/A,1x,I6/)') 'setrf: i_GA_indiv ', i_GA_indiv
+write(6,'(/A,2(1x,I6)/)') 'setrf: myid, i_GA_indiv ', myid, i_GA_indiv
 
 
 do  i_parameter=1,n_parameters
 
     X_LMDIF(i_parameter) = child_parameters(i_GA_indiv,i_parameter)
 
-    !write(6,'(A,3(1x,I6),1x,E20.10)') &
-    !      'setrf:1 myid, i_GA_indiv,i_parameter, child_parameters ', &
-    !               myid, i_GA_indiv,i_parameter, &
-    !               child_parameters(i_GA_indiv,i_parameter)
-    !write(6,'(A,3(1x,I6),1x,E20.10)') &
-    !      'setrf:1 myid, i_GA_indiv, i_parameter,  X_LMDIF', &
-    !               myid, i_GA_indiv, i_parameter,  X_LMDIF(i_parameter)
+    write(6,'(A,3(1x,I6),1x,E20.10)') &
+          'setrf:1 myid, i_GA_indiv,i_parameter, child_parameters ', &
+                   myid, i_GA_indiv,i_parameter, &
+                   child_parameters(i_GA_indiv,i_parameter)
+    write(6,'(A,3(1x,I6),1x,E20.10)') &
+          'setrf:1 myid, i_GA_indiv, i_parameter,  X_LMDIF', &
+                   myid, i_GA_indiv, i_parameter,  X_LMDIF(i_parameter)
 
 enddo ! i_parameter
 
@@ -83,9 +83,9 @@ enddo ! i_parameter
 ! set the child_parameters to -1.0 and go to the next individual
 
 
-!write(6,'(/A,3(1x,I10))') &
-!      'setrf: call fcn, myid, n_time_steps, n_parameters     ', &
-!                        myid, n_time_steps, n_parameters
+write(6,'(/A,4(1x,I10))') &
+      'setrf: call fcn, myid, i_GA_indiv, n_time_steps, n_parameters     ', &
+                        myid, i_GA_indiv, n_time_steps, n_parameters
 
 
 iflag = 1
@@ -94,9 +94,9 @@ call fcn( n_time_steps, n_parameters, x_LMDIF, fvec, iflag )
 info = iflag
 
 
-!write(6,'(A,4(1x,I10)/)') &
-!          'setrf: aft call fcn myid, n_time_steps, n_parameters, info ', &
-!                               myid, n_time_steps, n_parameters, info
+write(6,'(A,5(1x,I10)/)') &
+          'setrf: aft call fcn myid, i_GA_indiv, n_time_steps, n_parameters, info ', &
+                               myid, i_GA_indiv, n_time_steps, n_parameters, info
 
 
 !----------------------------------------------------------------------------------------
@@ -108,11 +108,11 @@ if( info < 0 ) then
     individual_quality( i_GA_indiv ) = -1
     individual_SSE(i_GA_indiv) =  1.0D+12
 
-    !write(6,'(A, 3(1x, I6),  1x,E15.7/)') &
-    !      'setrf:3 myid, i_GA_indiv, quality, SSE ', &
-    !               myid, i_GA_indiv, &
-    !               individual_quality(i_GA_indiv), &
-    !               individual_SSE(i_GA_indiv)
+    write(6,'(A, 3(1x, I6),  1x,E15.7/)') &
+          'setrf:3 myid, i_GA_indiv, quality, SSE ', &
+                   myid, i_GA_indiv, &
+                   individual_quality(i_GA_indiv), &
+                   individual_SSE(i_GA_indiv)
     return
 
 endif ! info < 0

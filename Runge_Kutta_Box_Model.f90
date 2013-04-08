@@ -269,9 +269,9 @@ do i_time_step=1,n_time_steps
       Tree_Value(i_tree)=Tree_Evaluation(1,i_tree)
 
       !tree_value_string(i_tree) = tree_evaluation_string(1,i_tree)
-      !write(6,'(8x, A, 1x,E15.7)') &                                                            
-      !      'tree_eval(1, i_tree )  = ', &                                                      
-      !       tree_evaluation(1, i_tree )                                                        
+      write(6,'(8x, A, 1x,E15.7)') &                                                            
+            'RKBM: tree_eval(1, i_tree )  = ', &                                                      
+             tree_evaluation(1, i_tree )                                                        
       !write(6,'(8x, A, 1x,A    )') &                                                            
       !      'tree_eval(1, i_tree )  = ', &                                                      
       !       trim( tree_evaluation_string( 1, i_tree ) )         
