@@ -41,7 +41,8 @@ do  i_GP_Individual=1,n_GP_Individuals       ! for each GP individual
 
                     i_Node=i_Node+1
 
-                    if( GP_Adult_Population_Node_Type(i_GP_Individual,i_Node,i_Tree) .eq. 0 ) then   
+                    if( GP_Adult_Population_Node_Type(i_GP_Individual,i_Node,i_Tree) &
+                                                                          .eq. 0 ) then   
 
                         ! randomly decide function or terminal
 

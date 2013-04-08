@@ -174,6 +174,8 @@ endif ! myid == 0
 
 ! allocate variable dimension arrays
 
+call allocate_arrays1( )
+
 allocate( individual_elites( n_GA_individuals )  )
 allocate( fitness_expectation_value( n_GA_individuals )  )
 
@@ -695,7 +697,7 @@ do  i_GP_Generation=1,n_GP_Generations
         !-----------------------------------------------------------------------------
 
 
-    else
+    else !  i_GP_Generation > 1               
 
         if( myid == 0 )then
 
@@ -899,7 +901,8 @@ do  i_GP_Generation=1,n_GP_Generations
 
     if( myid == 0 )then
 
-        write(6,'(/A/)')  '0: ############################################################################'
+        write(6,'(/A/)')  &
+              '0: ############################################################################'
         write(6,'(A/)')  '0: trees before call to GP_Clean_Tree_Nodes'
 
 
@@ -918,7 +921,8 @@ do  i_GP_Generation=1,n_GP_Generations
         enddo  ! i_GP_individual
 
 
-    write(6,'(/A/)')  '0: ############################################################################'
+        write(6,'(/A/)') &
+              '0: ############################################################################'
 
     endif !  myid == 0 
 
@@ -980,16 +984,15 @@ do  i_GP_Generation=1,n_GP_Generations
     !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 
+    gp_ind_loop:&
     do  i_GP_individual=1,n_GP_individuals
 
         if( myid == 0 )then
-            write(6,'(//A)')&
+            write(6,'(/A)')&
                   '0:-----------------------------------------------------------------'
             write(6,'(A,1x,I6,4x,L1   )') &
                   '0: i_GP_individual, Run_GP_Calculate_Fitness ', &
                       i_GP_individual, Run_GP_Calculate_Fitness(i_GP_Individual)
-            write(6,'(A)')&
-                  '0:-----------------------------------------------------------------'
         endif !  myid == 0
 
         GP_Individual_Node_Parameters = 0.0 ! these get set randomly in the GA-lmdif search algorithm
@@ -1009,17 +1012,24 @@ do  i_GP_Generation=1,n_GP_Generations
                     if( GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0) then  ! there is a set parameter
                         n_GP_Parameters=n_GP_Parameters+1
                     endif ! GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0
+                    if( myid == 0 )then
+                        write(6,'(/A,4(1x,I6)/)')'0: i_GP_individual, i_node, i_tree, n_GP_parameters ', &
+                                                     i_GP_individual, i_node, i_tree, n_GP_parameters
+                    endif !  myid == 0
 
                 enddo ! i_node
 
             enddo ! i_tree
 
             if( myid == 0 )then
-                write(6,'(/A,3(1x,I6/))')'0: i_GP_individual, n_nodes, n_trees ', &
+                write(6,'(/A,3(1x,I6)/)')'0: i_GP_individual, n_nodes, n_trees ', &
                                              i_GP_individual, n_nodes, n_trees
                 write(6,'(A,1x,I6,3x,A,1x,I6/)')'0: for i_GP_Individual', i_GP_Individual, &
                          'the number of parameters is:  n_GP_parameters =  ', n_GP_parameters
             endif !  myid == 0
+
+
+            if( n_GP_parameters == 0 ) cycle gp_ind_loop
 
             !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             ! THIS IS WHERE YOU NEED TO INSERT THE GA_LMDIF CALL AND
@@ -1063,6 +1073,8 @@ do  i_GP_Generation=1,n_GP_Generations
             endif ! myid == 0
 
             !--------------------------------------------------------------------------------
+
+            ! compute GP_Child_Individual_SSE(i_GP_Individual)
 
             if( myid == 0 )then
                 write(6,'(A)') &
@@ -1194,31 +1206,6 @@ do  i_GP_Generation=1,n_GP_Generations
 
                 enddo ! i_CODE_equation
 
-                !----------------------------------------------------------------------------
-
-                ! print the node parameters (if there are any)
-
-                if( any( abs( GP_population_node_parameters(i_GP_individual,:,:) ) &
-                                                                            > 1.0d-20 ) )then
-
-                    write(6,'(/A/)') &
-                       '0:  node  tree  initial_node_parameter        output_value '
-    
-                    do  i_tree=1,n_trees
-                        do  i_node=1,n_nodes
-                            if( abs( GP_population_node_parameters(i_GP_individual,i_node,i_tree) ) > &
-                                                                                      1.0d-20   )then
-    
-                                write(6,'(2(1x,I6), 1x, E20.10, 4x, E20.10)') &
-                                      i_node, i_tree, &
-                                      GP_population_node_parameters(i_GP_individual,i_node,i_tree), &
-                                      GP_individual_node_parameters(i_node,i_tree)
-                            endif
-                        enddo ! i_node
-                    enddo  ! i_tree
-
-                endif ! any( abs( GP_population_node_parameters(i_GP_individual,:,:) )> 1.0d-20 )
-
             endif !  myid == 0
 
             !-------------------------------------------------------------------------------------
@@ -1244,6 +1231,39 @@ do  i_GP_Generation=1,n_GP_Generations
 
 
             if( myid == 0 )then
+
+                !----------------------------------------------------------------------------
+
+                ! print the node parameters (if there are any)
+
+                write(6,'(/A)')     '0: GP_population_node_parameters(i_GP_individual,:,:) '
+                write(6,'(5(1x,E15.7))')  GP_population_node_parameters(i_GP_individual,:,:) 
+
+                if( any( abs( GP_population_node_parameters(i_GP_individual,:,:) ) &
+                                                                            > 1.0d-20 ) )then
+
+                    write(6,'(/A/)') &
+                       '0:  node  tree  Runge_Kutta_Node_Parameters   GP_population_node_parameters'
+    
+                    do  i_tree=1,n_trees
+                        do  i_node=1,n_nodes
+                            if( abs( GP_population_node_parameters(i_GP_individual,i_node,i_tree) ) > &
+                                                                                      1.0d-20   )then
+    
+                                write(6,'(2(1x,I6), 1x, E20.10, 4x, E20.10)') &
+                                      i_node, i_tree, &
+                                      Runge_Kutta_Node_Parameters(i_node,i_tree), &
+                                      GP_population_node_parameters(i_GP_individual,i_node,i_tree)
+                            endif
+                        enddo ! i_node
+                    enddo  ! i_tree
+
+                endif ! any( abs( GP_population_node_parameters(i_GP_individual,:,:) )> 1.0d-20 )
+
+                !------------------------------------------------------------------------------------------
+
+                write(6,'(/A)') '0:---------------------------------------------------------------'
+
     
                 write(6,'(/A/)')  '0: after loading GP_Pop arrays with GP_indiv array values '
 
@@ -1251,7 +1271,7 @@ do  i_GP_Generation=1,n_GP_Generations
                       '0: i_GP_individual, Run_GP_Calculate_Fitness(i_GP_Individual) ', &
                           i_GP_individual, Run_GP_Calculate_Fitness(i_GP_Individual)
 
-                write(6,'(/A/)') '0:  node  tree  GP_pop_node_parameter   GP_indiv_node_parameter '
+                write(6,'(/A/)') '0:2  node  tree  GP_pop_node_parameter   GP_indiv_node_parameter '
     
                 nop = n_CODE_equations
                 do  i_tree=1,n_trees
@@ -1276,7 +1296,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
         endif !   Run_GP_Calculate_Fitness(i_GP_Individual)
 
-    enddo !   i_GP_individual
+    enddo  gp_ind_loop    !   i_GP_individual
 
 
     !-------------------------------------------------------------------------------------
@@ -1284,6 +1304,8 @@ do  i_GP_Generation=1,n_GP_Generations
     ! do fitness calculations for this GP generation
 
     if( myid == 0 )then
+        write(6,'(/A)')&
+              '0:-----------------------------------------------------------------'
         write(6,'(/A/)') '0: call GP_fitness_reset '
         call GP_fitness_reset
     endif ! myid == 0

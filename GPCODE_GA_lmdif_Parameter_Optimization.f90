@@ -79,10 +79,16 @@ buffer(1:n_maximum_number_parameters)      = 0.0D0
 buffer_recv(1:n_maximum_number_parameters) = 0.0D0
 
 
+
+n_parameters = n_GP_parameters
+
+
+
 if( myid == 0 )then
     write(6,'(//A)') 'GP_GA_opt: at entry  '
     write(6,'(A,1x,E15.7)') 'GP_GA_opt: dt ', dt
-    write(6,'(A,1x,I10)') 'GP_GA_opt: n_parameters =   ', n_parameters
+    write(6,'(A,1x,I10)') 'GP_GA_opt: n_parameters    =   ', n_parameters
+    write(6,'(A,1x,I10)') 'GP_GA_opt: n_GP_parameters =   ', n_GP_parameters
 endif ! myid == 0
 
 
@@ -432,6 +438,7 @@ do  i_GA_generation=1,n_GA_Generations
 
             !-------------------------------------------------------------------------------------
 
+            buffer_recv = 0.0d0
             call MPI_RECV( buffer_recv, n_parameters, &
                            MPI_DOUBLE_PRECISION, iproc,  itag, MPI_COMM_WORLD, MPI_STAT,  ierr )
 
