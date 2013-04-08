@@ -190,13 +190,11 @@ do  i_tree=1,n_trees
     do  i_node=1,n_nodes
         if( abs( GP_population_node_parameters(i_GP_Best_Parent,i_node,i_tree) ) >  &
                                                                      1.0d-20   )then
-
             nop = nop + 1
             write(6,'(2x,3(1x,I6), 1x, E20.10, 4x, E20.10)') &
                   i_node, i_tree, nop, &
                   GP_population_node_parameters(i_GP_Best_Parent,i_node,i_tree)
-
-             output_array(nop) = GP_population_node_parameters(i_GP_Best_Parent,i_node,i_tree)
+            output_array(nop) = GP_population_node_parameters(i_GP_Best_Parent,i_node,i_tree)
 
         endif !   abs( GP_population_node_parameters(i_GP_Best_Parent,i_node,i_tree) ) >...
 
@@ -209,7 +207,7 @@ write( GP_output_unit, '(I6,1x,I6,1x,E15.7,1x,I6, 12(1x,E15.7))') &
        GP_individual_ranked_fitness(i_GP_Best_Parent), &
        nop, output_array(1:nop) 
 
-write(6, '(A,1x,I6,1x,I6,1x,E15.7,1x,I6, 12(1x,E15.7))') &
+write(6, '(//A,1x,I6,1x,I6,1x,E15.7,1x,I6, 12(1x,E15.7))') &
        'gpfr: i_GP_gen, i_GP_best_parent, GP_indiv_ranked_fit, output_array) ', &
        i_GP_Generation, i_GP_best_parent, &
        GP_individual_ranked_fitness(i_GP_Best_Parent), &

@@ -94,7 +94,7 @@ do  i_Node=1,n_Nodes
                 !endif ! myid == 0
 
                 if( myid == 0 )then
-                    write(6,'(3(1x,I6),15X,I6,10x,2(1x,E15.7))') &
+                    write(6,'(5x,3(1x,I6),15X,I6,10x,2(1x,E15.7))') &
                           i_node, i_tree, &
                           GP_Individual_Node_Type(i_Node,i_Tree), &
                           GP_Node_Type_Answer(i_Node,i_Tree), dff, xcount 
