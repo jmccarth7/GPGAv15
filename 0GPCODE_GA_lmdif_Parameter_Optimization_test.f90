@@ -170,98 +170,19 @@ if( myid == 0 )then
                                  n_gp_generations
 
 endif ! myid == 0
+
 !------------------------------------------------------------------
 
 ! allocate variable dimension arrays
 
 call allocate_arrays1( )
 
-allocate( individual_elites( n_GA_individuals )  )
-allocate( fitness_expectation_value( n_GA_individuals )  )
-
-allocate( Run_GA_lmdif( n_GA_individuals )  )
-
-allocate( Data_Array( 0:n_time_steps, n_CODE_equations )  )
-allocate( Data_Variance( n_CODE_equations )  )
-
-allocate( Parent_Tree_Swap_Node_Type(n_Nodes,2) )
-allocate( Run_GP_Calculate_Fitness(n_GP_Individuals) )
-
-allocate( GA_Adult_Individual_SSE(n_GA_Individuals) )
-allocate( GA_Child_Individual_SSE(n_GA_Individuals) )
-
-allocate( individual_SSE( n_GA_individuals )  )
-
-allocate( GA_Integrated_SSE(n_GA_Individuals) )
-allocate( integrated_SSE( n_GA_individuals )  )
-
-allocate( GA_Individual_Ranked_Fitness(n_GA_Individuals) )
-allocate( individual_ranked_fitness( n_GA_individuals )  )
-
-allocate( GA_Integrated_Ranked_Fitness(n_GA_Individuals) )
-allocate( integrated_ranked_fitness( n_GA_individuals )  )
-
-
-allocate( GP_Population_Parameter_Solution(n_GP_individuals,n_maximum_number_parameters) )
-allocate( GP_Population_Initial_Conditions(n_GP_individuals,n_CODE_equations) )
-allocate( GP_Population_Node_Type(n_GP_individuals,n_nodes,n_trees) )
-allocate( GP_Population_Node_Parameters(n_GP_individuals,n_nodes,n_trees) )
-allocate( GP_Population_Fitness(n_GP_individuals) )
-
-allocate( GP_Individual_Parameter_Solution(n_maximum_number_parameters) )
-allocate( GP_Individual_Initial_Conditions(n_CODE_equations) )
-allocate( GP_Individual_Node_Type(n_nodes,n_trees) )
-allocate( GP_Individual_Node_Parameters(n_nodes,n_trees) )
-
-allocate( GP_Node_Parameters_Answer(n_Nodes,n_Trees) )
-allocate( GP_Node_Type_Answer(n_Nodes,n_Trees) )
-allocate( GP_Node_Type_for_Plotting(9, n_Nodes,n_Trees) )
-
-allocate( GP_Solution(0:n_Time_Steps,n_CODE_Equations) )
-
-allocate( GP_Adult_Population_Node_Type(n_GP_Individuals,n_Nodes,n_Trees) )
-allocate( GP_Child_Population_Node_Type(n_GP_Individuals,n_Nodes,n_Trees) )
-
-allocate( GP_Adult_Individual_SSE(n_GP_Individuals) )
-allocate( GP_Child_Individual_SSE(n_GP_Individuals) )
-
-allocate( GP_Individual_Ranked_Fitness(n_GP_Individuals) )
-allocate( GP_Integrated_Ranked_Fitness(n_GP_Individuals) )
-
-allocate( Node_Values(n_nodes,n_trees) )
-allocate( Tree_Evaluation(n_nodes,n_trees) )
-
-allocate( Tree_Value(n_trees) )
-
-allocate( Node_Eval_Type(n_nodes,n_trees) )
-
-allocate( Runge_Kutta_Solution( 0:n_time_steps, n_CODE_equations )  )
-allocate( Runge_Kutta_Node_Parameters(n_nodes,n_trees) )
-allocate( Runge_Kutta_Node_Type(n_nodes,n_trees) )
-allocate( Runge_Kutta_Initial_Conditions(n_CODE_equations) )
-
-allocate( bioflo(0:n_CODE_equations,0:n_CODE_equations) )
-allocate( b_tmp(n_CODE_equations) )
-
-! Runge-Kutta specific work arrays
-allocate( kval(4,n_CODE_equations) )
-allocate( btmp(n_CODE_equations) )
-allocate( fbio(n_CODE_equations) )
-
-
-allocate( node_type_string( n_nodes, n_trees ) )
-allocate( node_parameters_string( n_nodes, n_trees ) )
-allocate( tree_evaluation_string( n_nodes, n_trees ) )
-
-allocate( answer( n_maximum_number_parameters ) )
-allocate( output_array( n_maximum_number_parameters ) )
-
-allocate( linked_parms( 2, n_linked_parms_dim ) )
-
-allocate( Node_Probability( n_levels ) )
-
+allocate( answer( n_maximum_number_parameters ) )                                                                               
+allocate( output_array( n_maximum_number_parameters ) )                                                                         
+                  
 
 !------------------------------------------------------------------
+
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ! set the twin experiment 'nature'
@@ -293,49 +214,13 @@ call init_values( 1 )
 
 
 !------------------------------------------------------------------
-
-!off include 'Lotka_Volterra_Example_Set_Up.f901'  ! replaced with routine init_values
-!off include 'Franks_etal_NPZ_Mar_Bio_Example_Set_Up.f901'
-
 ! set the desired 'twin experiment' population node type 
 ! and parameter using the info from the set up file
 
-GP_Node_Type_Answer       = GP_Individual_Node_Type       ! Matrix Operation
-GP_Node_Parameters_Answer = GP_Individual_Node_Parameters ! Matrix Operation
-
-
-do i_GP_Individual=1,n_GP_individuals
-  GP_Node_Type_for_Plotting(i_GP_Individual,1:n_Nodes,1:n_Trees) = &
-                        GP_Node_Type_Answer(1:n_Nodes,1:n_Trees)
-enddo
-
-if( myid == 0 )then
-    write(unit_gp_out) GP_Node_Type_for_Plotting
-endif ! myid == 0
-
-! set the initial population node type using the info obtained from the set up file
-! set the Initial Conditions, Model Parameters and Node Type for the 'twin experiment case'
-
-GP_Population_Node_Type(1,1:n_nodes,1:n_trees)=GP_Individual_Node_Type(1:n_nodes,1:n_trees)
-
-
-! initialize the biological data fields
-
-Runge_Kutta_Solution(0,1:n_CODE_equations)=Runge_Kutta_Initial_Conditions ! Array Assignment
-
-Runge_Kutta_Node_Parameters = GP_Individual_Node_Parameters  ! Matrix Operation
-Runge_Kutta_Node_Type=GP_Individual_Node_Type                ! Matrix Operation
-
-
-!------------------------------------------------------------------------
-
-
 ! run the Runge-Kutta model only once with proc 0
 
-if( myid == 0 )then
-    call Runge_Kutta_Box_Model
-endif ! myid == 0
 
+call set_answer_arrays( )
 
 !------------------------------------------------------------------------
 
@@ -364,59 +249,10 @@ Data_Array=Runge_Kutta_Solution          ! Matrix Operation
 
 ! compute the data_variance  -- to be used in computing SSE
 
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-! there is some art form wiggle room to this calculation
-! for instance, one can normalize by the variance of the
-! individual observation types to give each observation
-! equal weight, and there are other options that can be considered.
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+call comp_data_variance( ) 
 
-if( myid == 0 )then
-    write(6,'(A)') ' '
-endif
 
-do i_CODE_equation=1,n_CODE_equations
-
-  ssum  = 0.0D+0
-  ssum2 = 0.0D+0
-
-  do  i_time_step=0,n_time_steps
-      ssum  = ssum  +  Data_Array(i_time_step,i_CODE_equation)
-      ssum2 = ssum2 +  Data_Array(i_time_step,i_CODE_equation)**2
-  enddo !   i_time_step
-
-  totobs=dble(n_time_steps+1)
-
-  dff=( (totobs*ssum2)-(ssum**2) ) / ( totobs*(totobs-1.0D+0) )
-
-  if( dff .gt. 0.0D+0) then  ! set variance to observed variance for normalize by the s.d.
-      Data_Variance(i_CODE_equation)=dff
-  else ! set variance to 1.0 for normalization to be 'unaltered'
-      Data_Variance(i_CODE_equation)=1.0D+0
-  endif !   dff .gt. 0.0D+0
-
-  if(  abs( Data_Variance(i_CODE_equation) ) < 1.0D-30 )then
-       write(6,'(/A,1x,I6,2x,E15.7)') &
-       '0: i_CODE_equation, Data_Variance(i_CODE_equation) ', &
-           i_CODE_equation, Data_Variance(i_CODE_equation)
-       write(6,'(A/)') '0: bad data variance -- stopping program '
-       stop 'bad data var'
-
-  endif ! abs( Data_Variance(i_CODE_equation) ) < 1.0D-30
-
-  if( myid == 0 )then
-      write(6,'(A,1x,I6,2x,E15.7)') &
-           '0: i_CODE_equation, Data_Variance(i_CODE_equation) ', &
-               i_CODE_equation, Data_Variance(i_CODE_equation)
-  endif ! myid == 0
-
-enddo !  i_CODE_equation
-
-if( myid == 0 )then
-    write(6,'(A)') ' '
-endif !  myid == 0
-
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+!--------------------------------------------------------------------------------
 
 ! put the desired model parameters in the answer array
 
@@ -474,26 +310,6 @@ if( myid == 0 )then
     write(*,'(A,1x,E15.7)') '0: GA_save_elites_Probability  ', &
                                 GA_save_elites_Probability
 
-    !write(6,'(A,1x,E15.7)') '0: GP_Tree_Probability         ', &
-    !                            GP_Tree_Probability
-
-    !write(6,'(A,1x,E15.7)') '0: GP_Elitist_Probability      ', &
-    !                            GP_Elitist_Probability
-
-    !write(6,'(A,1x,E15.7)') '0: GP_Crossover_Probability    ', &
-    !                            GP_Crossover_Probability
-
-    !write(6,'(A,1x,E15.7)') '0: GP_Mutation_Probability     ', &
-    !                            GP_Mutation_Probability
-
-    !write(6,'(A,1x,E15.7)') '0: GP_Asexual_Reproduction_Probability ', &
-    !                            GP_Asexual_Reproduction_Probability
-
-    !write(6,'(/A,1x,I10)')  '0: n_gp_individuals            ', &
-    !                            n_gp_individuals
-    !write(6,'(A,1x,I10)')   '0: n_gp_generations            ', &
-    !                            n_gp_generations
-
     !write(*,'(A)') '0: code calls lmdif for all individuals and generations '
     write(*,'(A)') '0: code calls lmdif only for best individual on last generation'
 
@@ -547,17 +363,14 @@ endif ! myid == 0
 
 ! Number of Carry-Over Elitists
 
-!n_GP_Elitists = int(GP_Elitist_Probability*n_GP_individuals)
 n_GP_Elitists = nint(GP_Elitist_Probability*n_GP_individuals)
 
 ! Number of GP Fitness Proportionate Reproduction
 
-!n_GP_Asexual_Reproductions = int(GP_Asexual_Reproduction_Probability*n_GP_individuals)
 n_GP_Asexual_Reproductions = nint(GP_Asexual_Reproduction_Probability*n_GP_individuals)
 
 ! Number of GP Sexual Crossovers
 
-!n_GP_Crossovers = int(GP_Crossover_Probability*n_GP_individuals)
 n_GP_Crossovers = nint(GP_Crossover_Probability*n_GP_individuals)
 
 ! Number of GP Mutations
@@ -571,6 +384,7 @@ if( myid == 0 )then
       '0: n_GP_Mut, min(nint(GP_Mut_Prob*n_GP_indiv),n_GP_Mut) ', &
           n_GP_Mutations, min(nint(GP_Mutation_Probability*n_GP_individuals),n_GP_Mutations)
 endif ! myid == 0 
+
 
 if( myid == 0 )then
 
@@ -750,7 +564,6 @@ do  i_GP_Generation=1,n_GP_Generations
 
         ! GP_Child_Population_Node_Type
 
-        message_len = n_GP_Individuals * n_Nodes * n_Trees
 
         !if( myid == 0 )then
         !    write(6,'(A,1x,I6)') &
@@ -758,127 +571,50 @@ do  i_GP_Generation=1,n_GP_Generations
         !                                        i_GP_Generation
         !endif ! myid == 0
 
+        message_len = n_GP_Individuals * n_Nodes * n_Trees
         call MPI_BCAST( GP_Child_Population_Node_Type, message_len,    &
                         MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
 
-        ! wait until everybody has the values
-
-        !call MPI_BARRIER( MPI_COMM_WORLD, ierr )
-
-        !--------------------------------------------------------------------
         ! GP_Adult_Population_Node_Type
 
-        !if( myid == 0 )then
-        !    write(6,'(A,1x,I6)') &
-        !      '0: broadcast  GP_Adult_Population_Node_Type Generation = ',&
-        !                                              i_GP_Generation
-        !endif ! myid == 0
-
         message_len = n_GP_Individuals * n_Nodes * n_Trees
-
         call MPI_BCAST( GP_Adult_Population_Node_Type, message_len,    &
                         MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
 
-        ! wait until everybody has the values
-
-        !call MPI_BARRIER( MPI_COMM_WORLD, ierr )
-
-        !--------------------------------------------------------------------
-
-        !if( myid == 0 )then
-        !    write(6,'(A,1x,I6)') &
-        !      '0: broadcast  Parent_Tree_Swap_Node_Type Generation = ',&
-        !                                           i_GP_Generation
-        !endif ! myid == 0
-
         ! Parent_Tree_Swap_Node_Type
 
-        message_len = 2 * n_Nodes
 
+        message_len = 2 * n_Nodes
         call MPI_BCAST( Parent_Tree_Swap_Node_Type, message_len,    &
                         MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
 
-        ! wait until everybody has the values
-
-        !call MPI_BARRIER( MPI_COMM_WORLD, ierr )
-
-        !--------------------------------------------------------------------
-
         ! GP_Child_Individual_SSE
-
-        !if( myid == 0 )then
-        !    write(6,'(A,1x,I6)') &
-        !      '0: broadcast  GP_Child_Individual_SSE Generation = ',&
-        !                                        i_GP_Generation
-        !endif ! myid == 0
 
         call MPI_BCAST( GP_Child_Individual_SSE, n_GP_individuals,    &
                         MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
-
-        ! wait until everybody has the values
-
-        !call MPI_BARRIER( MPI_COMM_WORLD, ierr )
-
-        !--------------------------------------------------------------------
-
-
         ! GP_Individual_Ranked_Fitness
-
-        !if( myid == 0 )then
-        !    write(6,'(A,1x,I6)') &
-        !      '0: broadcast  GP_Individual_Ranked_Fitness Generation = ', &
-        !                                             i_GP_Generation
-        !endif ! myid == 0
 
         call MPI_BCAST( GP_Individual_Ranked_Fitness, n_GP_individuals,    &
                         MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
-
-        ! wait until everybody has the values
-
-        !call MPI_BARRIER( MPI_COMM_WORLD, ierr )
-
-        !--------------------------------------------------------------------
-
-
         ! GP_Integrated_Ranked_Fitness
-
-        !if( myid == 0 )then
-        !    write(6,'(A,1x,I6)') &
-        !      '0: broadcast  GP_Integrated_Ranked_Fitness Generation = ', &
-        !                                             i_GP_Generation
-        !endif ! myid == 0
 
         call MPI_BCAST( GP_Integrated_Ranked_Fitness, n_GP_individuals,    &
                         MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
-
-        ! wait until everybody has the values
-
-        !call MPI_BARRIER( MPI_COMM_WORLD, ierr )
-
-        !--------------------------------------------------------------------
-
-
-        ! Run_GP_Calculate_Fitness
-
-        !if( myid == 0 )then
-        !    write(6,'(A,1x,I6)') &
-        !      '0: broadcast  Run_GP_Calculate_Fitness  Generation = ', &
-        !                                          i_GP_Generation
-        !endif ! myid == 0
+        ! Run_GP_Calculate_Fitness array
 
         call MPI_BCAST( Run_GP_Calculate_Fitness , n_GP_Individuals,    &
                         MPI_LOGICAL,  0, MPI_COMM_WORLD, ierr )
+
+        !------------------------------------------------------------------------------------
 
         ! wait until everybody has the values
 
         call MPI_BARRIER( MPI_COMM_WORLD, ierr )
 
-
         !------------------------------------------------------------------------------------
-
 
         !   move the children into adulthood
 
@@ -890,8 +626,6 @@ do  i_GP_Generation=1,n_GP_Generations
 
         GP_Adult_Population_Node_Type=GP_Child_Population_Node_Type      ! Matrix Operation
 
-
-
     endif ! i_GP_Generation .eq. 1
 
 
@@ -900,30 +634,13 @@ do  i_GP_Generation=1,n_GP_Generations
     ! print trees before tree clean
 
     if( myid == 0 )then
-
         write(6,'(/A/)')  &
               '0: ############################################################################'
-        write(6,'(A/)')  '0: trees before call to GP_Clean_Tree_Nodes'
 
-
-        do  i_GP_individual = 1, n_GP_individuals 
-
-            write(6,'(/A,1x,I6)')  '0: i_GP_indiv ', i_GP_individual
-            write(6,'(A)') '0: i_tree nodes '
-            write(6,'(A)') '            1  2  3  4  5  6  7  8  9 10 11 12 13 14 15'
-
-            do  i_Tree=1,n_Trees
-
-                write(6,'(I6,4x,20(1x,I2))' ) &
-                     i_tree, GP_Adult_Population_Node_Type(i_GP_individual, 1:n_nodes, i_tree) 
-
-            enddo ! i_tree
-        enddo  ! i_GP_individual
-
+        call print_trees( 0 ) ! trees before call to GP_Clean_Tree_Nodes
 
         write(6,'(/A/)') &
               '0: ############################################################################'
-
     endif !  myid == 0 
 
 
@@ -948,32 +665,13 @@ do  i_GP_Generation=1,n_GP_Generations
     ! print trees after call to GP_Clean_Tree_Nodes
 
     if( myid == 0 )then
-
         write(6,'(/A)')  &
         '0: ############################################################################'
-        write(6,'(A/)')  '0: trees after call to GP_Clean_Tree_Nodes'
 
-
-
-        do  i_GP_individual = 1, n_GP_individuals 
-
-            write(6,'(/A,1x,I6)')  '0: i_GP_indiv ', i_GP_individual
-            write(6,'(A)') '0: i_tree nodes '
-            write(6,'(A)') '            1  2  3  4  5  6  7  8  9 10 11 12 13 14 15'
-
-            do  i_Tree=1,n_Trees
-
-                write(6,'(I6,4x,20(1x,I2))' ) &
-                    i_tree, GP_Adult_Population_Node_Type(i_GP_individual, 1:n_nodes, i_tree) 
-
-            enddo ! i_tree
-        enddo  ! i_GP_individual
-
+        call print_trees( 1 ) ! trees after call to GP_Clean_Tree_Nodes
 
         write(6,'(/A/)')  &
         '0: ############################################################################'
-
-
     endif !  myid == 0 
 
     !-----------------------------------------------------------------------------------------
@@ -1013,8 +711,8 @@ do  i_GP_Generation=1,n_GP_Generations
                         n_GP_Parameters=n_GP_Parameters+1
                     endif ! GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0
                     if( myid == 0 )then
-                        write(6,'(/A,4(1x,I6)/)')'0: i_GP_individual, i_node, i_tree, n_GP_parameters ', &
-                                                     i_GP_individual, i_node, i_tree, n_GP_parameters
+                        write(6,'(A,4(1x,I6))')'0: i_GP_individual, i_node, i_tree, n_GP_parameters ', &
+                                                   i_GP_individual, i_node, i_tree, n_GP_parameters
                     endif !  myid == 0
 
                 enddo ! i_node
@@ -1029,7 +727,15 @@ do  i_GP_Generation=1,n_GP_Generations
             endif !  myid == 0
 
 
-            if( n_GP_parameters == 0 ) cycle gp_ind_loop
+            ! cycle the i_GP_individual loop if there are no GP parameters
+
+            if( n_GP_parameters == 0 ) then
+                if( myid == 0 )then
+                    write(6,'(A,1x,I6)')'0: skipping this i_GP_Individual --&
+                             &  the number of parameters is ', n_GP_parameters
+                endif !  myid == 0
+                cycle gp_ind_loop
+            endif ! n_GP_parameters == 0
 
             !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             ! THIS IS WHERE YOU NEED TO INSERT THE GA_LMDIF CALL AND
@@ -1060,7 +766,7 @@ do  i_GP_Generation=1,n_GP_Generations
             endif ! myid == 0
 
 
-            GP_population_fitness(i_GP_individual)=individual_fitness
+            GP_population_fitness(i_GP_individual) = individual_fitness
 
 
             if( myid == 0 )then
@@ -1076,112 +782,15 @@ do  i_GP_Generation=1,n_GP_Generations
 
             ! compute GP_Child_Individual_SSE(i_GP_Individual)
 
-            if( myid == 0 )then
-                write(6,'(A)') &
-                '0: i_node, i_tree, GP_Indiv_Node_Type, &
-                &GP_Node_Type_Answer  dff           xcount'
-            endif ! myid == 0
+            call comp_GP_child_indiv_sse()
 
-            dff = 0.0d0
-            xcount = 0.0d0
-            do  i_Node=1,n_Nodes
-                do  i_Tree=1,n_Trees
-
-                    !if( myid == 0 )then
-                    !    write(6,'(A,4(1x,I6),1x,E15.7)') &
-                    !          '0: i_node, i_tree, &
-                    !          &GP_Indiv_Node_Type, &
-                    !          &GP_Node_Type_Answer ',&
-                    !          i_node, i_tree, &
-                    !          GP_Individual_Node_Type(i_Node,i_Tree), &
-                    !          GP_Node_Type_Answer(i_Node,i_Tree)
-                    !endif ! myid == 0
-
-                    if( GP_Individual_Node_Type(i_Node,i_Tree) .ne. &
-                        GP_Node_Type_Answer(i_Node,i_Tree)             ) then
-
-                        if( GP_Node_Type_Answer(i_Node,i_Tree)     .eq. -9999  .or. &
-                            GP_Individual_Node_Type(i_Node,i_Tree) .eq. -9999         ) then
-
-                            dff=1.0d0
-                            xcount=xcount+dff
-
-                            !if( myid == 0 )then
-                            !    write(6,'(A,4(1x,I6),2(1x,E15.7))') &
-                            !          '0: i_node, i_tree, &
-                            !          &GP_Indiv_Node_Type, &
-                            !          &GP_Node_Type_Answer  dff, xcount ',&
-                            !          i_node, i_tree, &
-                            !          GP_Individual_Node_Type(i_Node,i_Tree), &
-                            !          GP_Node_Type_Answer(i_Node,i_Tree), dff, xcount 
-                            !endif ! myid == 0
-
-                        else
-
-                            dff = dble( GP_Individual_Node_Type(i_Node,i_Tree) -       &
-                                            GP_Node_Type_Answer(i_Node,i_Tree)  )**2
-                            xcount=xcount+dff
-
-                            !if( myid == 0 )then
-                            !    write(6,'(A,4(1x,I6),2(1x,E15.7))') &
-                            !          '0: i_node, i_tree, &
-                            !          &GP_Indiv_Node_Type, &
-                            !          &GP_Node_Type_Answer  dff, xcount ',&
-                            !          i_node, i_tree, &
-                            !          GP_Individual_Node_Type(i_Node,i_Tree), &
-                            !          GP_Node_Type_Answer(i_Node,i_Tree), dff, xcount 
-                            !endif ! myid == 0
-
-                            if( myid == 0 )then
-                                write(6,'(3(1x,I6),15X,I6,10x,2(1x,E15.7))') &
-                                      i_node, i_tree, &
-                                      GP_Individual_Node_Type(i_Node,i_Tree), &
-                                      GP_Node_Type_Answer(i_Node,i_Tree), dff, xcount 
-                            endif ! myid == 0
-
-
-                            !if( myid == 0 )then
-                            !    !write(6,'(A,2(1x,I6))') &
-                            !    !      '0: i_GP_generation, i_GP_Individual ', &
-                            !    !          i_GP_generation, i_GP_Individual
-                            !    write(6,'(A,4(1x,I6),1x,E15.7)') &
-                            !      '0: i_node, i_tree, &
-                            !         &GP_Indiv_Node_Type, &
-                            !         &GP_Node_Type_Answer, dff ',&
-                            !          i_node, i_tree, &
-                            !          GP_Individual_Node_Type(i_Node,i_Tree), &
-                            !          GP_Node_Type_Answer(i_Node,i_Tree), dff
-                            !endif ! myid == 0
-
-                        endif !   GP_Node_Type_Answer(i_Node,i_Tree) .eq. -9999 ...
-
-                    endif !   GP_Individual_Node_Type(i_Node,i_Tree) .ne. ...
-
-                enddo ! i_tree
-            enddo  ! i_node
-
-
-            GP_Child_Individual_SSE(i_GP_Individual)=xcount
-
-            !---------------------------------------------------------------------------------
-
-            if( myid == 0 )then
-                write(6,'(/A,2(1x,I6),1x,E15.7)') &
-                      '0: i_GP_gen, i_GP_Indiv, GP_Child_Indiv_SSE(i_GP_Indiv) ', &
-                          i_GP_generation, i_GP_Individual, GP_Child_Individual_SSE(i_GP_Individual)
-
-            endif ! myid == 0
-
-            !off GP_Child_Individual_SSE(i_GP_individual)=GA_Individual_Lowest_SSE  ! from the GA_lmdif routine output
-
-            !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
+            !--------------------------------------------------------------------------------
 
             if( myid == 0 )then
 
 
                 write(6,'(/A,2(1x,I6), 1x, E15.7)')&
-                      '0:2 i_GP_gen, i_GP_indiv, GP_pop_fit(i_GP_indiv) ', &
+                      '0:1 i_GP_gen, i_GP_indiv, GP_pop_fit(i_GP_indiv) ', &
                            i_GP_generation, i_GP_individual, &
                            GP_population_fitness(i_GP_individual)
 
@@ -1218,11 +827,14 @@ do  i_GP_Generation=1,n_GP_Generations
 
             if( myid == 0 )then
                 write(6,'(/A,2(1x,I6), 2(1x, E15.7))')&
-                      '0: i_GP_gen, i_GP_indiv, &
+                      '0:3 i_GP_gen, i_GP_indiv, &
                       &GP_Pop_Init_Cond(i_GP_Indiv,1:n_CODE_Eq) ', &
                           i_GP_generation, i_GP_individual, &
                        GP_Population_Initial_Conditions(i_GP_Individual,1:n_CODE_Equations)
             endif !  myid == 0
+
+
+            !-------------------------------------------------------------------------------------
 
             ! set the GA_lmdif-optimized CODE parameter set array
 
@@ -1236,8 +848,8 @@ do  i_GP_Generation=1,n_GP_Generations
 
                 ! print the node parameters (if there are any)
 
-                write(6,'(/A)')     '0: GP_population_node_parameters(i_GP_individual,:,:) '
-                write(6,'(5(1x,E15.7))')  GP_population_node_parameters(i_GP_individual,:,:) 
+                !write(6,'(/A)')     '0: GP_population_node_parameters(i_GP_individual,:,:) '
+                !write(6,'(5(1x,E15.7))')  GP_population_node_parameters(i_GP_individual,:,:) 
 
                 if( any( abs( GP_population_node_parameters(i_GP_individual,:,:) ) &
                                                                             > 1.0d-20 ) )then
@@ -1263,34 +875,38 @@ do  i_GP_Generation=1,n_GP_Generations
                 !------------------------------------------------------------------------------------------
 
                 write(6,'(/A)') '0:---------------------------------------------------------------'
-
-    
                 write(6,'(/A/)')  '0: after loading GP_Pop arrays with GP_indiv array values '
 
                 write(6,'(A,1x,I6,4x,L1)') &
                       '0: i_GP_individual, Run_GP_Calculate_Fitness(i_GP_Individual) ', &
                           i_GP_individual, Run_GP_Calculate_Fitness(i_GP_Individual)
 
-                write(6,'(/A/)') '0:2  node  tree  GP_pop_node_parameter   GP_indiv_node_parameter '
-    
-                nop = n_CODE_equations
-                do  i_tree=1,n_trees
-                    do  i_node=1,n_nodes
-                        if( abs( GP_population_node_parameters(i_GP_individual,i_node,i_tree) ) >  &
-                                                                                         1.0d-20   )then
-    
-                            write(6,'(2(1x,I6), 1x, E20.10, 4x, E20.10)') &
-                                  i_node, i_tree, &
-                                  GP_population_node_parameters(i_GP_individual,i_node,i_tree), &
-                                  GP_individual_node_parameters(i_node,i_tree)
-                            nop = nop + 1
-                            output_array(nop) = GP_individual_node_parameters(i_node,i_tree)
-                        endif
-                    enddo ! i_node
-                enddo  ! i_tree
-    
+!                if( any( abs( GP_population_node_parameters(i_GP_individual,:,:) ) &
+!                                                                            > 1.0d-20 ) )then
+!                    write(6,'(/A/)') &
+!                      '0:4  node  tree nop  GP_pop_node_parameter   GP_indiv_node_parameter '
+!    
+!                    nop = n_CODE_equations
+!                    do  i_tree=1,n_trees
+!                        do  i_node=1,n_nodes
+!                            if( abs( GP_population_node_parameters(i_GP_individual,i_node,i_tree) ) >  &
+!                                                                                             1.0d-20   )then
+!                                nop = nop + 1
+!                                write(6,'(3(1x,I6), 1x, E20.10, 4x, E20.10)') &
+!                                      i_node, i_tree, nop, &
+!                                      GP_population_node_parameters(i_GP_individual,i_node,i_tree), &
+!                                      GP_individual_node_parameters(i_node,i_tree)
+!                                output_array(nop) = GP_individual_node_parameters(i_node,i_tree)
+!                            endif
+!                        enddo ! i_node
+!                    enddo  ! i_tree
+!    
+!                endif ! any( abs( GP_population_node_parameters(i_GP_individual,:,:) )> 1.0d-20 )
+
                 ! output written to output_unit  in subroutine GP*n
-                !close( GA_output_unit )   ! ??
+
+                !write(GP_output_array)   ! ??
+
     
             endif !  myid == 0
 
@@ -1371,80 +987,11 @@ endif ! myid == 0
 
 ! deallocate variable dimension arrays
 
-deallocate( individual_elites )
-deallocate( individual_SSE )
-deallocate( integrated_SSE )
-deallocate( individual_ranked_fitness )
-deallocate( integrated_ranked_fitness )
-deallocate( fitness_expectation_value )
-deallocate( Run_GA_lmdif )
-deallocate( Data_Array  )
-deallocate( Data_Variance )
-
-deallocate( GP_Population_Node_Parameters )
-deallocate( GP_Individual_Node_Parameters )
-
-
-deallocate( GP_Node_Parameters_Answer )
-deallocate( GP_Node_Type_Answer )
-deallocate( GP_Node_Type_for_Plotting )
-deallocate( GP_Solution )
-deallocate( GP_Adult_Population_Node_Type )
-deallocate( GP_Child_Population_Node_Type )
-deallocate( Parent_Tree_Swap_Node_Type )
-deallocate( GP_Adult_Individual_SSE )
-deallocate( GP_Child_Individual_SSE )
-deallocate( GP_Individual_Ranked_Fitness )
-deallocate( GP_Integrated_Ranked_Fitness )
-deallocate( Run_GP_Calculate_Fitness )
-
-deallocate( GA_Adult_Individual_SSE )
-deallocate( GA_Child_Individual_SSE )
-deallocate( GA_Integrated_SSE )
-deallocate( GA_Individual_Ranked_Fitness )
-deallocate( GA_Integrated_Ranked_Fitness )
-
-deallocate( GP_Population_Parameter_Solution )
-deallocate( GP_Individual_Parameter_Solution )
-
-deallocate( GP_Population_Initial_Conditions )
-deallocate( GP_Individual_Initial_Conditions )
-
-deallocate( GP_Population_Fitness )
-
-deallocate( GP_Population_Node_Type )
-deallocate( GP_Individual_Node_Type )
-
-deallocate( Runge_Kutta_Node_Type )
-deallocate( Runge_Kutta_Node_Parameters )
-deallocate( Runge_Kutta_Initial_Conditions )
-deallocate( Runge_Kutta_Solution )
-
-
-deallocate( Node_Values )
-deallocate( Tree_Evaluation )
-
-deallocate( Tree_Value )
-
-deallocate( Node_Eval_Type )
-
-deallocate( bioflo )
-deallocate( b_tmp )
-
-deallocate( kval )
-deallocate( btmp )
-deallocate( fbio )
-
-
-deallocate( node_type_string )
-deallocate( node_parameters_string )
-deallocate( tree_evaluation_string )
-deallocate( linked_parms )
+call deallocate_arrays1( )
 
 deallocate( answer )
 deallocate( output_array )
 
-deallocate( Node_Probability )
 
 !------------------------------------------------------------------
 close( GA_output_unit )
