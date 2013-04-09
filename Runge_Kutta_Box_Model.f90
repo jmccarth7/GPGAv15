@@ -15,13 +15,13 @@ use Runge_Kutta_Variables_module
 implicit none
 
 real(kind=8) :: cff
-                                                                                                                                                                 
-character(str_len) ::  left_node_value_string 
-character(str_len) ::  right_node_value_string 
+
+character(str_len) ::  left_node_value_string
+character(str_len) ::  right_node_value_string
 character(str_len) ::  cff_string
 character(4), dimension( n_nodes,n_trees) ::  node_eval_type_string
 character(str_len), dimension(n_trees) ::  tree_value_string
-                                                                                                                                                                 
+
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 ! start the time stepping loop
@@ -63,8 +63,8 @@ do i_time_step=1,n_time_steps
             if (icff .eq. 0) then
 
               left_node_value=Tree_Evaluation(i_node_left,i_tree)
-              !left_node_value_string = &                                                 
-              !             trim( tree_evaluation_string(i_node_left,i_tree) ) 
+              !left_node_value_string = &
+              !             trim( tree_evaluation_string(i_node_left,i_tree) )
 
             elseif (icff .lt. 0 .and. icff .ne. -9999) then
 
@@ -83,7 +83,7 @@ do i_time_step=1,n_time_steps
             if (icff .eq. 0) then
 
               right_node_value=Tree_Evaluation(i_node_right,i_tree)
-              !right_node_value_string = trim( tree_evaluation_string(i_node_right,i_tree) )                
+              !right_node_value_string = trim( tree_evaluation_string(i_node_right,i_tree) )
 
             elseif (icff .lt. 0 .and. icff .ne. -9999) then
 
@@ -107,7 +107,7 @@ do i_time_step=1,n_time_steps
             ! Type 5: ==> Ivlev Grazing Function ==> (1 - e^-abs(left*right))
             ! Type 6: ==> Michaelis-Menton Term (modified for Forward-Backward)
             !                                    (1 / (abs(LHS) + abs(RHS)))
-            ! Type 7: ==> Mayzaud-Poulet Grazing Function ==> 
+            ! Type 7: ==> Mayzaud-Poulet Grazing Function ==>
             !                     abs(left*right)*(1 -e^-abs(left*right))
 
 
@@ -118,40 +118,40 @@ do i_time_step=1,n_time_steps
 
                  Tree_Evaluation(i_function,i_tree)=left_node_value + right_node_value
 
-                 !tree_evaluation_string(i_function,i_tree) =  &                             
-                 !         trim( left_node_value_string ) // '+' // &                           
-                 !         trim( right_node_value_string )                                      
-                                                                                               
-                 !call print4( i_time_step, icff, &                               
-                 !             left_node_value,  left_node_value_string, &                   
-                 !             right_node_value, right_node_value_string, &                  
-                 !             tree_evaluation )    
+                 !tree_evaluation_string(i_function,i_tree) =  &
+                 !         trim( left_node_value_string ) // '+' // &
+                 !         trim( right_node_value_string )
+
+                 !call print4( i_time_step, icff, &
+                 !             left_node_value,  left_node_value_string, &
+                 !             right_node_value, right_node_value_string, &
+                 !             tree_evaluation )
 
                CASE(2)  ! LHS - RHS
 
                  Tree_Evaluation(i_function,i_tree)=left_node_value-right_node_value
 
-                 !tree_evaluation_string(i_function,i_tree) =  &                             
-                 !                trim( left_node_value_string ) // '-' // &                    
-                 !                trim( right_node_value_string )                               
-                                                                                               
-                 !call print4( i_time_step, icff, &                               
-                 !             left_node_value,  left_node_value_string, &                   
-                 !             right_node_value, right_node_value_string, &                  
-                 !             tree_evaluation )      
+                 !tree_evaluation_string(i_function,i_tree) =  &
+                 !                trim( left_node_value_string ) // '-' // &
+                 !                trim( right_node_value_string )
+
+                 !call print4( i_time_step, icff, &
+                 !             left_node_value,  left_node_value_string, &
+                 !             right_node_value, right_node_value_string, &
+                 !             tree_evaluation )
 
                CASE(3)  ! LHS * RHS
 
                  Tree_Evaluation(i_function,i_tree)=left_node_value*right_node_value
 
-                 !tree_evaluation_string(i_function,i_tree) =  &                             
-                 !                trim( left_node_value_string ) // '*' // &                    
-                 !                trim( right_node_value_string )                               
-                                                                                               
-                 !call print4( i_time_step, icff, &                               
-                 !             left_node_value,  left_node_value_string, &                   
-                 !             right_node_value, right_node_value_string, &                  
-                 !             tree_evaluation )     
+                 !tree_evaluation_string(i_function,i_tree) =  &
+                 !                trim( left_node_value_string ) // '*' // &
+                 !                trim( right_node_value_string )
+
+                 !call print4( i_time_step, icff, &
+                 !             left_node_value,  left_node_value_string, &
+                 !             right_node_value, right_node_value_string, &
+                 !             tree_evaluation )
 
 
                CASE(4)  ! protected: LHS/RHS
@@ -161,9 +161,9 @@ do i_time_step=1,n_time_steps
 
                      Tree_Evaluation(i_function,i_tree)=left_node_value/right_node_value
 
-                     !tree_evaluation_string(i_function,i_tree) =  &                         
-                     !            trim( left_node_value_string) // '/' // &                     
-                     !            trim( right_node_value_string)           
+                     !tree_evaluation_string(i_function,i_tree) =  &
+                     !            trim( left_node_value_string) // '/' // &
+                     !            trim( right_node_value_string)
 
                  else
 
@@ -180,14 +180,14 @@ do i_time_step=1,n_time_steps
                  cff=dabs(left_node_value*right_node_value)
                  Tree_Evaluation(i_function,i_tree)=1.0D+0-dexp(-1.0D+0*cff)
 
-                 !tree_evaluation_string(i_function,i_tree) = &                              
-                 !      '( 1.0-exp(-1.0* abs(' // trim( left_node_value_string )// &             
-                 !      '*' // trim( right_node_value_string) // ') )'                           
-                                                                                               
-                 !call print4( i_time_step, icff, &                               
-                 !             left_node_value,  left_node_value_string, &                   
-                 !             right_node_value, right_node_value_string, &                  
-                 !             tree_evaluation )         
+                 !tree_evaluation_string(i_function,i_tree) = &
+                 !      '( 1.0-exp(-1.0* abs(' // trim( left_node_value_string )// &
+                 !      '*' // trim( right_node_value_string) // ') )'
+
+                 !call print4( i_time_step, icff, &
+                 !             left_node_value,  left_node_value_string, &
+                 !             right_node_value, right_node_value_string, &
+                 !             tree_evaluation )
 
 
                CASE(6)  ! 'Michealis-Menton (abs(RHS) / (abs(LHS) + abs(RHS)))'
@@ -196,23 +196,23 @@ do i_time_step=1,n_time_steps
                  cff=abs(left_node_value)+abs(right_node_value)
                  if (cff .gt. 0.0D+0) then
                      Tree_Evaluation(i_function,i_tree)=abs(right_node_value)/cff
-                                                                                        
-                     !tree_evaluation_string(i_function,i_tree) = &                          
-                     !  'abs('   // trim( right_node_value_string)  // &                     
-                     !   ') / (' // trim( left_node_value_string ) // &                      
-                     !   '+'     // trim( right_node_value_string ) // ')'    
+
+                     !tree_evaluation_string(i_function,i_tree) = &
+                     !  'abs('   // trim( right_node_value_string)  // &
+                     !   ') / (' // trim( left_node_value_string ) // &
+                     !   '+'     // trim( right_node_value_string ) // ')'
 
                  else
                      Tree_Evaluation(i_function,i_tree)=0.0D+0
 
-                     !tree_evaluation_string(i_function,i_tree) = '0.0' 
+                     !tree_evaluation_string(i_function,i_tree) = '0.0'
 
                  endif
 
-                !call print4( i_time_step, icff, &                               
-                !                 left_node_value,  left_node_value_string, &                   
-                !                 right_node_value, right_node_value_string, &                  
-                !                 tree_evaluation )           
+                !call print4( i_time_step, icff, &
+                !                 left_node_value,  left_node_value_string, &
+                !                 right_node_value, right_node_value_string, &
+                !                 tree_evaluation )
 
 
 
@@ -221,28 +221,28 @@ do i_time_step=1,n_time_steps
 
                  cff=dabs(left_node_value*right_node_value)
 
-                 !cff_string = 'abs(' // trim( left_node_value_string ) // &                 
-                 !    '*' // trim( right_node_value_string) // ')'                              
-                 !cff_string = trim( cff_string )                        
+                 !cff_string = 'abs(' // trim( left_node_value_string ) // &
+                 !    '*' // trim( right_node_value_string) // ')'
+                 !cff_string = trim( cff_string )
 
                  Tree_Evaluation(i_function,i_tree)=cff*(1.0D+0-dexp(-1.0D+0*cff))
 
                  !tree_evaluation_string(i_function,i_tree) = trim( cff_string ) // '*' //  &
-                 !     '( 1.0-exp(-1.0*' // trim( cff_string )  // ') )'                        
-                                                                                               
-                 !write(6,'(8x, A, 1x,I2,3(1x,E15.7) )') 'icff, left, right, tree_eval ', & 
-                 !      icff, left_node_value, right_node_value, tree_evaluation(i_function,i_tree)                                                                                        
-                 !write(6,'(8x, A, A )') 'left_node_value_string  ', &                      
-                 !      trim( left_node_value_string )                                      
-                 !write(6,'(8x, A, A )') 'right_node_value_string ', &                      
-                 !      trim( right_node_value_string )                                     
-                 !write(6,'(8x, A, A )') 'tree_evaluation_string  ', &                      
-                 !      trim( tree_evaluation_string(i_function,i_tree) )                   
-                                                                                               
-                 !call print4( i_time_step, icff, &                               
-                 !             left_node_value,  left_node_value_string, &                   
-                 !             right_node_value, right_node_value_string, &                  
-                 !             tree_evaluation )             
+                 !     '( 1.0-exp(-1.0*' // trim( cff_string )  // ') )'
+
+                 !write(6,'(8x, A, 1x,I2,3(1x,E15.7) )') 'icff, left, right, tree_eval ', &
+                 !      icff, left_node_value, right_node_value, tree_evaluation(i_function,i_tree)
+                 !write(6,'(8x, A, A )') 'left_node_value_string  ', &
+                 !      trim( left_node_value_string )
+                 !write(6,'(8x, A, A )') 'right_node_value_string ', &
+                 !      trim( right_node_value_string )
+                 !write(6,'(8x, A, A )') 'tree_evaluation_string  ', &
+                 !      trim( tree_evaluation_string(i_function,i_tree) )
+
+                 !call print4( i_time_step, icff, &
+                 !             left_node_value,  left_node_value_string, &
+                 !             right_node_value, right_node_value_string, &
+                 !             tree_evaluation )
 
                CASE DEFAULT
 
@@ -253,12 +253,12 @@ do i_time_step=1,n_time_steps
 
             Node_Eval_Type(i_function,i_tree)=0  ! now there is a value/variable
 
-            !node_eval_type(i_node_left,i_tree)  = 0                                        
-            !node_eval_type(i_node_right,i_tree) = 0                                        
-            !node_eval_type(i_function,i_tree)   = 0                                        
-            !node_eval_type_string(i_node_left,i_tree)  = ' '                               
-            !node_eval_type_string(i_node_right,i_tree) = ' '                               
-            !node_eval_type_string(i_function,i_tree)   = ' '             
+            !node_eval_type(i_node_left,i_tree)  = 0
+            !node_eval_type(i_node_right,i_tree) = 0
+            !node_eval_type(i_function,i_tree)   = 0
+            !node_eval_type_string(i_node_left,i_tree)  = ' '
+            !node_eval_type_string(i_node_right,i_tree) = ' '
+            !node_eval_type_string(i_function,i_tree)   = ' '
 
           endif !  Node_Eval_Type(i_function,i_tree) .gt. 0
 
@@ -269,12 +269,12 @@ do i_time_step=1,n_time_steps
       Tree_Value(i_tree)=Tree_Evaluation(1,i_tree)
 
       !tree_value_string(i_tree) = tree_evaluation_string(1,i_tree)
-      !write(6,'(8x, A, 1x,E15.7)') &                                                            
-      !      'RKBM: tree_eval(1, i_tree )  = ', &                                                      
-      !       tree_evaluation(1, i_tree )                                                        
-      !write(6,'(8x, A, 1x,A    )') &                                                            
-      !      'tree_eval(1, i_tree )  = ', &                                                      
-      !       trim( tree_evaluation_string( 1, i_tree ) )         
+      !write(6,'(8x, A, 1x,E15.7)') &
+      !      'RKBM: tree_eval(1, i_tree )  = ', &
+      !       tree_evaluation(1, i_tree )
+      !write(6,'(8x, A, 1x,A    )') &
+      !      'tree_eval(1, i_tree )  = ', &
+      !       trim( tree_evaluation_string( 1, i_tree ) )
 
     enddo !  i_tree
 
@@ -285,7 +285,7 @@ do i_time_step=1,n_time_steps
     i_tree=0
     do i_CODE_equation=0,n_CODE_equations   ! source of material   ! orig
 
-      do j_CODE_equation=0,n_CODE_equations ! sink of material   ! orig 
+      do j_CODE_equation=0,n_CODE_equations ! sink of material   ! orig
 
         if (i_CODE_equation .ne. j_CODE_equation) then
 
@@ -298,7 +298,7 @@ do i_time_step=1,n_time_steps
           !'RKBM:1 i_tree, i_code_equation, j_code_equation, &
           !&tree_value(i_tree), bioflo(i_CODE_equation,j_CODE_equation) ', &
           !        i_tree, i_code_equation, j_code_equation, &
-          ! tree_value(i_tree), bioflo(i_CODE_equation,j_CODE_equation) 
+          ! tree_value(i_tree), bioflo(i_CODE_equation,j_CODE_equation)
 
         else
 
@@ -316,13 +316,13 @@ do i_time_step=1,n_time_steps
 
     !   bring in the component flow sources and sinks
 
-    do i_CODE_equation=0,n_CODE_equations   ! source of material ! orig 
+    do i_CODE_equation=0,n_CODE_equations   ! source of material ! orig
 
-      do j_CODE_equation=0,n_CODE_equations ! sink of material   ! orig 
+      do j_CODE_equation=0,n_CODE_equations ! sink of material   ! orig
 
-        if( i_CODE_equation .gt. 0) then    ! orig 
+        if( i_CODE_equation .gt. 0) then    ! orig
           fbio(i_CODE_equation)=fbio(i_CODE_equation)-bioflo(i_CODE_equation,j_CODE_equation)
-        endif !   i_CODE_equation .gt. 0    ! orig 
+        endif !   i_CODE_equation .gt. 0    ! orig
 
         if( j_CODE_equation .gt. 0) then  ! orig
           fbio(j_CODE_equation)=fbio(j_CODE_equation)+bioflo(i_CODE_equation,j_CODE_equation)
@@ -380,9 +380,9 @@ do i_time_step=1,n_time_steps
 
   !   Array Assignment with no negative values
 
-  !Runge_Kutta_Solution(i_time_step,1:n_CODE_equations) = max(b_tmp,0.0d+0) 
+  !Runge_Kutta_Solution(i_time_step,1:n_CODE_equations) = max(b_tmp,0.0d+0)
 
-  ! NPZ model 
+  ! NPZ model
 
   Runge_Kutta_Solution(i_time_step,1:n_CODE_equations) = max( b_tmp, 0.0d0 )
 

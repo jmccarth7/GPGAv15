@@ -14,8 +14,6 @@ real(kind=8) dff
 integer(kind=4) icff
 integer(kind=4) i_Individual
 integer(kind=4) j_Individual
-!integer (kind=4) i_GP_Individual
-!integer (kind=4) j_GP_Individual
 integer(kind=4) i_GP_Asexual_Reproduction
 
 logical Carry_On
@@ -24,8 +22,16 @@ logical Carry_On
 
 
 
-i_GP_Individual=n_GP_Elitists+n_GP_Asexual_Reproductions
+i_GP_Individual = n_GP_Elitists + n_GP_Asexual_Reproductions
 
+                                                                                                                 
+write(6,'(A,2(1x,I6))' ) &                                                                                       
+      'gpfpar: n_GP_Elitists, n_GP_Asexual_Reproductions ', &                                                    
+               n_GP_Elitists, n_GP_Asexual_Reproductions                                                         
+write(6,'(A,1x,I6)' ) &                                                                                          
+      'gpfpar: start i_GP_individual = ', &                                                                      
+               n_GP_Elitists + n_GP_Asexual_Reproductions +1                                                     
+    
 
 do i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
 
@@ -37,7 +43,7 @@ do i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
 
   do j_GP_Individual=1,n_GP_Individuals 
 
-    if( Carry_On) then
+    if( Carry_On ) then
 
       if( cff .le. GP_Integrated_Ranked_Fitness(j_GP_Individual)) then
 
@@ -56,7 +62,9 @@ do i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
 
   GP_Child_Population_Node_Type(i_GP_Individual,1:n_Nodes,1:n_Trees) = &
   GP_Adult_Population_Node_Type(j_GP_Individual,1:n_Nodes,1:n_Trees)
+
   GP_Child_Individual_SSE(i_GP_Individual)=GP_Adult_Individual_SSE(j_GP_Individual)
+
   Run_GP_Calculate_Fitness(i_GP_Individual)=.false.
 
 

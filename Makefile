@@ -19,7 +19,9 @@ SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 calc_fitness.f90 \
 	random_real.f90  read_cntl_stuff.f90 \
 	Runge_Kutta_Box_Model.f90 Runge_Kutta_Variables_module.f90 \
 	setup_run_fcn.f90 setup_run_lmdif.f90 sort.f90 sse0_calc.f90 \
-	swap_module.f90
+	swap_module.f90 allocate_arrays1.f90 comp_GP_child_indiv_sse.f90 \
+	comp_data_variance.f90 deallocate_arrays1.f90 print_trees.f90 \
+	set_answer_arrays.f90
 
 OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o calc_fitness.o \
 	check_for_elite.o clock_module.o enorm.o fcn.o fdjac2.o \
@@ -39,7 +41,12 @@ OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o calc_fitness.o \
 	mpi_module.o print4.o qrfac.o qrsolv.o random_real.o  \
 	read_cntl_stuff.o Runge_Kutta_Box_Model.o \
 	Runge_Kutta_Variables_module.o setup_run_fcn.o setup_run_lmdif.o \
-	sort.o sse0_calc.o swap_module.o
+	sort.o sse0_calc.o swap_module.o \
+	allocate_arrays1.o   comp_GP_child_indiv_sse.o   \
+	comp_data_variance.o   deallocate_arrays1.o  print_trees.o \
+	set_answer_arrays.o  
+
+
 
 LIBS =	
 
@@ -86,6 +93,24 @@ clean:
 0GPCODE_GA_lmdif_Parameter_Optimization_test.o: GA_parameters_module.o \
 	GA_variables_module.o GP_data_module.o GP_parameters_module.o \
 	GP_variables_module.o Runge_Kutta_Variables_module.o mpi_module.o
+allocate_arrays1.o:GA_parameters_module.o \
+        GA_variables_module.o GP_data_module.o GP_parameters_module.o \
+        GP_variables_module.o Runge_Kutta_Variables_module.o mpi_module.o
+comp_GP_child_indiv_sse.o:GA_parameters_module.o \
+        GA_variables_module.o GP_data_module.o GP_parameters_module.o \
+        GP_variables_module.o Runge_Kutta_Variables_module.o mpi_module.o
+comp_data_variance.o:GA_parameters_module.o \
+        GA_variables_module.o GP_data_module.o GP_parameters_module.o \
+        GP_variables_module.o Runge_Kutta_Variables_module.o mpi_module.o
+deallocate_arrays1.o:GA_parameters_module.o \
+        GA_variables_module.o GP_data_module.o GP_parameters_module.o \
+        GP_variables_module.o Runge_Kutta_Variables_module.o mpi_module.o
+print_trees.o:GA_parameters_module.o \
+        GA_variables_module.o GP_data_module.o GP_parameters_module.o \
+        GP_variables_module.o Runge_Kutta_Variables_module.o mpi_module.o
+set_answer_arrays.o:GA_parameters_module.o \
+        GA_variables_module.o GP_data_module.o GP_parameters_module.o \
+        GP_variables_module.o Runge_Kutta_Variables_module.o mpi_module.o
 #Lotka_Volterra_Example_Set_Up.f901
 calc_fitness.o: GA_parameters_module.o GA_variables_module.o \
 	GP_parameters_module.o GP_variables_module.o mpi_module.o

@@ -20,14 +20,10 @@ integer(kind=4) :: i_GP_Crossover_Point
 integer(kind=4),dimension(2) :: k_GP_Individual_Male
 integer(kind=4),dimension(2) :: k_GP_Individual_Female
 
-!integer(kind=4),dimension(n_GP_Parameters) :: Child_One_Tree
-!integer(kind=4),dimension(n_GP_Parameters) :: Child_Two_Tree
 
 integer(kind=4) :: i_Male_Tree
 integer(kind=4) :: i_Female_Tree
-!integer(kind=4) :: i_GP_Individual
 integer(kind=4) :: i_Node_Count
-!integer(kind=4) :: i_Tree
 integer(kind=4) :: icff
 
 logical CROSS
@@ -36,6 +32,13 @@ logical CROSS
 
 i_GP_Individual=n_GP_Elitists+n_GP_Asexual_Reproductions
 
+
+write(6,'(A,2(1x,I6))' ) &
+      'gptssr: n_GP_Elitists, n_GP_Asexual_Reproductions ', &
+               n_GP_Elitists, n_GP_Asexual_Reproductions 
+write(6,'(A,1x,I6)' ) &
+      'gptssr: start i_GP_individual = ', &
+               n_GP_Elitists + n_GP_Asexual_Reproductions +1
 
 do i_GP_Crossover=1,n_GP_Crossovers
 
@@ -118,7 +121,7 @@ do i_GP_Crossover=1,n_GP_Crossovers
     endif !   GP_Adult_Population_Node_Type(k_GP_Individual_Male(1),1,i_Tree)...
   enddo ! i_tree
 
-  write(6,'(A,1x,I6)') 'gpto: i_Node_Count ', i_Node_Count
+  !write(6,'(A,1x,I6)') 'gpto: i_Node_Count ', i_Node_Count
 
 
   if( i_Node_Count .gt. 0) then
