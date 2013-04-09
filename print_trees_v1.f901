@@ -1,4 +1,4 @@
-subroutine print_trees( n_indiv_start, n_indiv_stop, tree_type ) 
+subroutine print_trees( itype ) 
 
 ! program written by: Dr. John R. Moisan [NASA/GSFC] 31 January, 2013
 
@@ -22,24 +22,23 @@ use Runge_Kutta_Variables_module
 implicit none
 
 
-!logical bad_node
+logical bad_node
 
 
-integer,intent(in) :: n_indiv_start
-integer,intent(in) :: n_indiv_stop
-
+integer,intent(in) :: itype 
 integer :: i
+integer :: nop
+integer :: message_len
 
-integer(kind=4), intent(in), &
-        dimension(n_GP_individuals, 1:n_nodes, 1:n_trees) :: tree_type 
+logical :: Lplot
 
-!integer :: nop
-!integer :: message_len
-!logical :: Lplot
+
 !real(kind=8), allocatable, dimension(:) :: answer
 !real(kind=8), allocatable, dimension(:) :: output_array
-!real (kind=8) :: ssum, ssum2, totobs, dff
-!real (kind=8) :: xcount
+
+real (kind=8) :: ssum, ssum2, totobs, dff
+
+real (kind=8) :: xcount
 
 !----------------------------------------------------------------------------------------
 
@@ -48,7 +47,13 @@ integer(kind=4), intent(in), &
 
 
 
-do  i_GP_individual = n_indiv_start, n_indiv_stop
+if( itype == 0 ) then
+    write(6,'(A/)')  '0: trees before call to GP_Clean_Tree_Nodes'
+else
+    write(6,'(A/)')  '0: trees after call to GP_Clean_Tree_Nodes'
+endif ! itype 
+
+do  i_GP_individual = 1, n_GP_individuals 
 
     write(6,'(/A,1x,I6)')  '0: i_GP_indiv ', i_GP_individual
     write(6,'(A)') '0: i_tree nodes '
@@ -57,7 +62,7 @@ do  i_GP_individual = n_indiv_start, n_indiv_stop
     do  i_Tree=1,n_Trees
 
         write(6,'(I6,4x,20(1x,I2))' ) &
-             i_tree, Tree_Type(i_GP_individual, 1:n_nodes, i_tree) 
+             i_tree, GP_Adult_Population_Node_Type(i_GP_individual, 1:n_nodes, i_tree) 
 
     enddo ! i_tree
 enddo  ! i_GP_individual

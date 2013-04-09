@@ -14,8 +14,6 @@ real(kind=8) :: cff
 
 integer(kind=4) :: Ranked_Fitness(n_GP_Individuals)
 integer(kind=4) :: icff
-!integer (kind=4) :: i_GP_Individual
-!integer (kind=4) :: j_GP_Individual
 
 logical Carry_On
 
@@ -28,6 +26,14 @@ Fitness = GP_Individual_Ranked_Fitness
 do  i_GP_Individual=1,n_GP_Individuals
     Ranked_Fitness(i_GP_Individual)=i_GP_Individual
 enddo
+
+write(6,'(/A)')&
+    'gpel: i_GP_Individual, GP_Individual_Ranked_Fitness( i_GP_Individual), Ranked_Fitness(i_GP_Individual) '
+do  i_GP_Individual=1,n_GP_Individuals
+    write(6,'(I6,1x,E15.7,1x,I6)')&
+      i_GP_Individual, GP_Individual_Ranked_Fitness( i_GP_Individual), Ranked_Fitness(i_GP_Individual) 
+enddo
+
 
 ! calculate the fitness rankings
 
@@ -43,6 +49,7 @@ do  i_GP_Individual=1,n_GP_Individuals
             cff=Fitness(j_GP_Individual+1)
             Fitness(j_GP_Individual+1)=Fitness(j_GP_Individual)
             Fitness(j_GP_Individual)=cff
+
             icff=Ranked_Fitness(j_GP_Individual+1)
             Ranked_Fitness(j_GP_Individual+1)=Ranked_Fitness(j_GP_Individual)
             Ranked_Fitness(j_GP_Individual)=icff
@@ -53,19 +60,51 @@ do  i_GP_Individual=1,n_GP_Individuals
 
 enddo ! i_GP_Individual
 
+write(6,'(/A)')'gpel: after sort'
+write(6,'(A)')&
+    'gpel: i_GP_Individual, Fitness( i_GP_Individual), Ranked_Fitness(i_GP_Individual) '
+do  i_GP_Individual=1,n_GP_Individuals
+    write(6,'(I6,1x,E15.7,1x,I6)')&
+           i_GP_Individual, Fitness( i_GP_Individual), Ranked_Fitness(i_GP_Individual) 
+enddo
+
+
 
 ! rerank ALL of the Individuals to keep the code simple and not replicate copies of children
 
 do  i_GP_Individual=1,n_GP_Individuals
+
     GP_Child_Population_Node_Type(i_GP_Individual,1:n_Nodes,1:n_Trees) = &
     GP_Adult_Population_Node_Type(Ranked_Fitness(i_GP_Individual),1:n_Nodes,1:n_Trees)
+
     GP_Child_Individual_SSE(i_GP_Individual)=GP_Adult_Individual_SSE(Ranked_Fitness(i_GP_Individual))
+
     tmp(i_GP_Individual)=GP_Individual_Ranked_Fitness(Ranked_Fitness(i_GP_Individual))
+
 enddo !  i_GP_Individual
+
+
+write(6,'(/A)')'gpel: before re-ranking'
+write(6,'(A)')&
+    'gpel: i_GP_Individual, GP_Individual_Ranked_Fitness(i_GP_Individual) '
+do  i_GP_Individual=1,n_GP_Individuals
+    write(6,'(I6,1x,E15.7)')&
+           i_GP_Individual, GP_Individual_Ranked_Fitness(i_GP_Individual)
+enddo
+
 
 do  i_GP_Individual=1,n_GP_Individuals
     GP_Individual_Ranked_Fitness(i_GP_Individual)=tmp(i_GP_Individual)
 enddo ! i_GP_Individual
+
+
+write(6,'(/A)')'gpel: after  re-ranking'
+write(6,'(A)')&
+    'gpel: i_GP_Individual, GP_Individual_Ranked_Fitness(i_GP_Individual) '
+do  i_GP_Individual=1,n_GP_Individuals
+    write(6,'(I6,1x,E15.7)')&
+           i_GP_Individual, GP_Individual_Ranked_Fitness(i_GP_Individual)
+enddo
 
 
 cff=0.0
@@ -81,6 +120,16 @@ do  i_GP_Individual=1,n_GP_Individuals
     GP_Integrated_Ranked_Fitness(i_GP_Individual) = &
     GP_Integrated_Ranked_Fitness(i_GP_Individual)/GP_Integrated_Ranked_Fitness(n_GP_Individuals)
 enddo ! i_GP_Individual
+
+
+write(6,'(/A)')'gpel: after  re-ranking'
+write(6,'(A)')&
+    'gpel: i_GP_Individual, GP_Integrated_Ranked_Fitness(i_GP_Individual) '
+do  i_GP_Individual=1,n_GP_Individuals
+    write(6,'(I6,1x,E15.7)')&
+           i_GP_Individual, GP_Integrated_Ranked_Fitness(i_GP_Individual)
+enddo
+
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 return

@@ -81,6 +81,10 @@ deallocate( GA_Integrated_Ranked_Fitness )
 deallocate( GP_Population_Parameter_Solution )
 deallocate( GP_Individual_Parameter_Solution )
 
+                                                                                                                 
+deallocate( GP_Individual_N_GP_param )  ! jjm 20130409                                           
+                                                                                                                 
+
 deallocate( GP_Population_Initial_Conditions )
 deallocate( GP_Individual_Initial_Conditions )
 

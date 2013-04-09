@@ -55,12 +55,20 @@ allocate( output_array( n_maximum_number_parameters ) )
 
 ! fitness reset region
 
-write(6,'(A,1x,I6)')     'gpfr: i_GP_generation ',  i_GP_generation
+write(6,'(A,1x,I6/)')     'gpfr: i_GP_generation ',  i_GP_generation
+do  i_GP_Individual=1,n_GP_Individuals
+    write(6,'(A,2(1x,I6))') 'gpfr: i_GP_Individual, GP_Individual_N_GP_param(i_GP_Individual) ', &
+                                   i_GP_Individual, GP_Individual_N_GP_param(i_GP_Individual) 
+enddo
+
+write(6,'(/A)')' '
 
 ! calculate the total population's SSE
 
 dff=0.0d0
 do  i_GP_Individual=1,n_GP_Individuals
+
+    if(  GP_Individual_N_GP_param( i_GP_Individual ) <= 0 ) cycle
 
     write(6,'(A,1x,I6,1x,E15.7)') 'gpfr: i_GP_Individual, GP_Child_Individual_SSE(i_GP_Individual) ', &
                                          i_GP_Individual, GP_Child_Individual_SSE(i_GP_Individual) 
@@ -73,7 +81,12 @@ write(6,'(/A,1x,E15.7)') 'gpfr: sum of all GP_Child_Individual_SSE = ', dff
 
 ! calculate a normalized ranking of the errors (higher individual SSE == lower value/ranking)
 
+GP_Individual_Ranked_Fitness = 0.0d0
+
 do  i_GP_Individual=1,n_GP_Individuals
+
+    if(  GP_Individual_N_GP_param( i_GP_Individual ) <= 0 ) cycle
+
     if( abs( dff ) > 1.0D-20 )then
 
         GP_Individual_Ranked_Fitness(i_GP_Individual) = &
@@ -93,6 +106,8 @@ enddo
 
 
 ! calculate the sum of the rankings
+
+GP_Integrated_Ranked_Fitness = 0.0d0
 
 dff=0.0
 do  i_GP_Individual=1,n_GP_Individuals
@@ -147,6 +162,8 @@ dff=GP_Individual_Ranked_Fitness(1)
 
 do  i_GP_Individual=2,n_GP_individuals
 
+    if(  GP_Individual_N_GP_param( i_GP_Individual ) <= 0 ) cycle
+
     if( GP_Individual_Ranked_Fitness(i_GP_individual) .gt. dff) then
         dff=GP_Individual_Ranked_Fitness(i_GP_individual)
         i_GP_Best_Parent=i_GP_Individual
@@ -194,6 +211,7 @@ do  i_tree=1,n_trees
             write(6,'(2x,3(1x,I6), 1x, E20.10, 4x, E20.10)') &
                   i_node, i_tree, nop, &
                   GP_population_node_parameters(i_GP_Best_Parent,i_node,i_tree)
+
             output_array(nop) = GP_population_node_parameters(i_GP_Best_Parent,i_node,i_tree)
 
         endif !   abs( GP_population_node_parameters(i_GP_Best_Parent,i_node,i_tree) ) >...

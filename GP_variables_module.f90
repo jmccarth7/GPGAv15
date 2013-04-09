@@ -61,6 +61,8 @@ real(kind=8),allocatable,dimension(:)         :: GP_Population_Fitness
 integer(kind=4),allocatable,dimension(:,:,:) :: GP_Population_Node_Type
 
 
+! GP_Individual_N_GP_param
+integer(kind=4),allocatable,dimension(:) :: GP_Individual_N_GP_param
 !------------------------------------------------------------------------------
 
 ! Runge_Kutta_Node_Type(n_Nodes,n_Trees)

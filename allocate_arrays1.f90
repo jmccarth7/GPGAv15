@@ -82,6 +82,10 @@ allocate( GP_Individual_Initial_Conditions(n_CODE_equations) )
 allocate( GP_Individual_Node_Type(n_nodes,n_trees) )
 allocate( GP_Individual_Node_Parameters(n_nodes,n_trees) )
 
+
+allocate( GP_Individual_N_GP_param(n_GP_Individuals) )  ! jjm 20130409
+
+
 allocate( GP_Node_Parameters_Answer(n_Nodes,n_Trees) )
 allocate( GP_Node_Type_Answer(n_Nodes,n_Trees) )
 allocate( GP_Node_Type_for_Plotting(9, n_Nodes,n_Trees) )
@@ -133,87 +137,89 @@ allocate( Node_Probability( n_levels ) )
 
 
 
-individual_elites( n_GA_individuals )  = 0.0d0
-fitness_expectation_value( n_GA_individuals )  = 0.0d0
+individual_elites  = 0.0d0
+fitness_expectation_value  = 0.0d0
 
-Run_GA_lmdif( n_GA_individuals )  = .FALSE.
+Run_GA_lmdif  = .FALSE.
 
-Data_Array( 0:n_time_steps, n_CODE_equations )  = 0.0d0
-Data_Variance( n_CODE_equations )  = 0.0d0
+Data_Array  = 0.0d0
+Data_Variance  = 0.0d0
 
-Parent_Tree_Swap_Node_Type(n_Nodes,2) = 0
-Run_GP_Calculate_Fitness(n_GP_Individuals) = .FALSE.
+Parent_Tree_Swap_Node_Type = 0
+Run_GP_Calculate_Fitness = .FALSE.
 
-GA_Adult_Individual_SSE(n_GA_Individuals) = 0.0d0
-GA_Child_Individual_SSE(n_GA_Individuals) = 0.0d0
+GA_Adult_Individual_SSE = 0.0d0
+GA_Child_Individual_SSE = 0.0d0
 
-individual_SSE( n_GA_individuals )  = 0.0d0
+individual_SSE  = 0.0d0
 
-GA_Integrated_SSE(n_GA_Individuals) = 0.0d0
-integrated_SSE( n_GA_individuals )  = 0.0d0
+GA_Integrated_SSE = 0.0d0
+integrated_SSE  = 0.0d0
 
-GA_Individual_Ranked_Fitness(n_GA_Individuals) = 0.0d0
-individual_ranked_fitness( n_GA_individuals )  = 0.0d0
+GA_Individual_Ranked_Fitness = 0.0d0
+individual_ranked_fitness  = 0.0d0
 
-GA_Integrated_Ranked_Fitness(n_GA_Individuals) = 0.0d0
-integrated_ranked_fitness( n_GA_individuals )  = 0.0d0
+GA_Integrated_Ranked_Fitness = 0.0d0
+integrated_ranked_fitness  = 0.0d0
 
 
-GP_Population_Parameter_Solution(n_GP_individuals,n_maximum_number_parameters) = 0.0d0
-GP_Population_Initial_Conditions(n_GP_individuals,n_CODE_equations) = 0.0d0
-GP_Population_Node_Type(n_GP_individuals,n_nodes,n_trees) = 0
-GP_Population_Node_Parameters(n_GP_individuals,n_nodes,n_trees) = 0.0d0
-GP_Population_Fitness(n_GP_individuals) = 0.0d0
+GP_Population_Parameter_Solution = 0.0d0
+GP_Population_Initial_Conditions = 0.0d0
+GP_Population_Node_Type = 0
+GP_Population_Node_Parameters = 0.0d0
+GP_Population_Fitness = 0.0d0
 
-GP_Individual_Parameter_Solution(n_maximum_number_parameters) = 0.0d0
-GP_Individual_Initial_Conditions(n_CODE_equations) = 0.0d0
-GP_Individual_Node_Type(n_nodes,n_trees) = 0
-GP_Individual_Node_Parameters(n_nodes,n_trees) = 0.0d0
+GP_Individual_Parameter_Solution = 0.0d0
+GP_Individual_Initial_Conditions = 0.0d0
+GP_Individual_Node_Type = 0
+GP_Individual_Node_Parameters = 0.0d0
 
-GP_Node_Parameters_Answer(n_Nodes,n_Trees) = 0.0d0
-GP_Node_Type_Answer(n_Nodes,n_Trees) = 0
-GP_Node_Type_for_Plotting(9, n_Nodes,n_Trees) = 0.0d0
+GP_Individual_N_GP_param = 0
 
-GP_Solution(0:n_Time_Steps,n_CODE_Equations) = 0.0d0
+GP_Node_Parameters_Answer = 0.0d0
+GP_Node_Type_Answer = 0
+GP_Node_Type_for_Plotting = 0.0d0
 
-GP_Adult_Population_Node_Type(n_GP_Individuals,n_Nodes,n_Trees) = 0
-GP_Child_Population_Node_Type(n_GP_Individuals,n_Nodes,n_Trees) = 0
+GP_Solution = 0.0d0
 
-GP_Adult_Individual_SSE(n_GP_Individuals) = 0.0d0
-GP_Child_Individual_SSE(n_GP_Individuals) = 0.0d0
+GP_Adult_Population_Node_Type = 0
+GP_Child_Population_Node_Type = 0
 
-GP_Individual_Ranked_Fitness(n_GP_Individuals) = 0.0d0
-GP_Integrated_Ranked_Fitness(n_GP_Individuals) = 0.0d0
+GP_Adult_Individual_SSE = 0.0d0
+GP_Child_Individual_SSE = 0.0d0
 
-Node_Values(n_nodes,n_trees) = 0.0d0
-Tree_Evaluation(n_nodes,n_trees) = 0.0d0
+GP_Individual_Ranked_Fitness = 0.0d0
+GP_Integrated_Ranked_Fitness = 0.0d0
 
-Tree_Value(n_trees) = 0.0d0
+Node_Values = 0.0d0
+Tree_Evaluation = 0.0d0
 
-Node_Eval_Type(n_nodes,n_trees) = 0
+Tree_Value = 0.0d0
 
-Runge_Kutta_Solution( 0:n_time_steps, n_CODE_equations )  = 0.0d0
-Runge_Kutta_Node_Parameters(n_nodes,n_trees) = 0.0d0
-Runge_Kutta_Node_Type(n_nodes,n_trees) = 0
-Runge_Kutta_Initial_Conditions(n_CODE_equations) = 0.0d0
+Node_Eval_Type = 0
 
-bioflo(0:n_CODE_equations,0:n_CODE_equations) = 0.0d0
-b_tmp(n_CODE_equations) = 0.0d0
+Runge_Kutta_Solution  = 0.0d0
+Runge_Kutta_Node_Parameters = 0.0d0
+Runge_Kutta_Node_Type = 0
+Runge_Kutta_Initial_Conditions = 0.0d0
+
+bioflo = 0.0d0
+b_tmp = 0.0d0
 
 ! Runge-Kutta specific work arrays
-kval(4,n_CODE_equations) = 0.0d0
-btmp(n_CODE_equations) = 0.0d0
-fbio(n_CODE_equations) = 0.0d0
+kval = 0.0d0
+btmp = 0.0d0
+fbio = 0.0d0
 
 
-node_type_string( n_nodes, n_trees ) = ' '
-node_parameters_string( n_nodes, n_trees ) = ' '
-tree_evaluation_string( n_nodes, n_trees ) = ' '
+node_type_string = ' '
+node_parameters_string = ' '
+tree_evaluation_string = ' '
 
 
-linked_parms( 2, n_linked_parms_dim ) = 0.0d0
+linked_parms = 0.0d0
 
-Node_Probability( n_levels ) = 0.0d0
+Node_Probability = 0.0d0
 return
 
 end subroutine allocate_arrays1

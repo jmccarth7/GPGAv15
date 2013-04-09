@@ -16,15 +16,12 @@ real(kind=8) :: cff
 
 integer(kind=4) :: i_GP_Mutation
 integer(kind=4) :: i_Tree_Mutation
-!integer(kind=4) :: i_Tree
-!integer(kind=4) :: i_Node
 integer(kind=4) :: i_Swap_Node
 integer(kind=4) :: icnt_Nodes
 integer(kind=4) :: icnt
 integer(kind=4) :: i_GP_Individual_Mutation
 integer(kind=4) :: i_Node_Mutation
 integer(kind=4) :: Node_Function
-!integer(kind=4) :: i_GP_Individual
 
 logical Node_Not_Found
 
@@ -32,6 +29,14 @@ logical Node_Not_Found
 
 i_GP_Individual=n_GP_Elitists+n_GP_Asexual_Reproductions+n_GP_Crossovers
 
+                                                                                                                 
+write(6,'(A,3(1x,I6))' ) &                                                                                       
+      'gpmut: n_GP_Elitists, n_GP_Asexual_Reproductions, n_GP_Crossovers ', & 
+              n_GP_Elitists, n_GP_Asexual_Reproductions, n_GP_Crossovers     
+write(6,'(A,1x,I6)' ) &                                                                                          
+      'gpmut: start i_GP_individual = ', &                                                                      
+         n_GP_Elitists + n_GP_Asexual_Reproductions + n_GP_Crossovers +1                                                     
+    
 
 do  i_GP_Mutation=1,n_GP_Mutations
 
@@ -87,8 +92,8 @@ do  i_GP_Mutation=1,n_GP_Mutations
         Node_Not_Found=.true.
         do i_Node=1,n_Nodes
            if( Node_Not_Found) then
-               if( GP_Adult_Population_Node_Type(i_GP_Individual_Mutation,i_Node,i_Tree_Mutation) &
-                                                                                     .ge. 0) then
+               if( GP_Adult_Population_Node_Type( &
+                          i_GP_Individual_Mutation,i_Node,i_Tree_Mutation) .ge. 0) then
                    icnt=icnt+1
                    if( icnt .eq. i_Swap_Node) then
                        i_Swap_Node=i_Node
