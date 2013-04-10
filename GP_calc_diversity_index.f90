@@ -48,12 +48,11 @@ do  i_indiv = 1, n_GP_individuals
     ! count the number of nodes on the tree selected for a mutation.  
     ! Only nodes are mutated.
     
-    icnt_Nodes=0
-    
     do  i_tree=1,n_trees
         do  i_Node=1,n_Nodes
     
             if( indiv_node_type(i_indiv, i_Node, i_tree )  > -9999 ) then
+
                 icnt_Nodes=icnt_Nodes+1
     
                 if( indiv_node_type(i_indiv, i_Node, i_tree ) < 0 )then

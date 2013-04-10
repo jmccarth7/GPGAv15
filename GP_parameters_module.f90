@@ -9,6 +9,7 @@ implicit none
 
 integer(kind=4),parameter :: GA_output_unit = 20
 integer(kind=4),parameter :: GP_output_unit = 30
+integer(kind=4),parameter :: GP_summary_output_unit = 40
 
 integer(kind=4),parameter :: unit_gp_out = 50 
 

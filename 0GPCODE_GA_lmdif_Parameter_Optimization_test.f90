@@ -352,6 +352,13 @@ if( myid == 0 )then
           form = 'formatted', access = 'sequential', &
           status = 'unknown' )
 
+    open( GP_summary_output_unit, file='GP_summary_file', &
+          form = 'formatted', access = 'sequential', &
+          status = 'unknown' )
+
+
+    write(GP_summary_output_unit, '(I10)') n_code_equations
+     
 endif ! myid == 0
 
 
@@ -968,12 +975,12 @@ do  i_GP_Generation=1,n_GP_Generations
                 !write(GP_output_array)   ! ??
 
 
+                ! this prints a summary of the initial conditions, parameters and node types
+                ! for this individual after being optimized in GPCODE*opt
+
+                call summary_GP_indiv( i_GP_individual )
+
             endif !  myid == 0
-
-            ! this prints a summary of the initial conditions, parameters and node types
-            ! for this individual after being optimized in GPCODE*opt
-
-            call summary_GP_indiv( i_GP_individual )
 
         endif !   Run_GP_Calculate_Fitness(i_GP_Individual)
 
@@ -1061,6 +1068,7 @@ deallocate( output_array )
 !------------------------------------------------------------------
 close( GA_output_unit )
 close( GP_output_unit )
+close( GP_summary_output_unit )
 close( unit_gp_out )
 !------------------------------------------------------------------
 
