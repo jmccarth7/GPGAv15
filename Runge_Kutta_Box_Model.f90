@@ -8,6 +8,7 @@ subroutine Runge_Kutta_Box_Model
 use mpi
 use mpi_module
 
+use GA_Parameters_module
 use GP_Parameters_module
 use GP_Variables_module
 use Runge_Kutta_Variables_module
@@ -230,13 +231,13 @@ do i_time_step=1,n_time_steps
                  !tree_evaluation_string(i_function,i_tree) = trim( cff_string ) // '*' //  &
                  !     '( 1.0-exp(-1.0*' // trim( cff_string )  // ') )'
 
-                 !write(6,'(8x, A, 1x,I2,3(1x,E15.7) )') 'icff, left, right, tree_eval ', &
+                 !write(GA_print_unit,'(8x, A, 1x,I2,3(1x,E15.7) )') 'icff, left, right, tree_eval ', &
                  !      icff, left_node_value, right_node_value, tree_evaluation(i_function,i_tree)
-                 !write(6,'(8x, A, A )') 'left_node_value_string  ', &
+                 !write(GA_print_unit,'(8x, A, A )') 'left_node_value_string  ', &
                  !      trim( left_node_value_string )
-                 !write(6,'(8x, A, A )') 'right_node_value_string ', &
+                 !write(GA_print_unit,'(8x, A, A )') 'right_node_value_string ', &
                  !      trim( right_node_value_string )
-                 !write(6,'(8x, A, A )') 'tree_evaluation_string  ', &
+                 !write(GA_print_unit,'(8x, A, A )') 'tree_evaluation_string  ', &
                  !      trim( tree_evaluation_string(i_function,i_tree) )
 
                  !call print4( i_time_step, icff, &
@@ -246,7 +247,7 @@ do i_time_step=1,n_time_steps
 
                CASE DEFAULT
 
-                 write(*,*) 'wrong case number chosen in Runge Kutta evaluations'
+                 write(GA_print_unit,*) 'wrong case number chosen in Runge Kutta evaluations'
                  stop 'RK bad case number'
 
             END SELECT
@@ -269,10 +270,10 @@ do i_time_step=1,n_time_steps
       Tree_Value(i_tree)=Tree_Evaluation(1,i_tree)
 
       !tree_value_string(i_tree) = tree_evaluation_string(1,i_tree)
-      !write(6,'(8x, A, 1x,E15.7)') &
+      !write(GA_print_unit,'(8x, A, 1x,E15.7)') &
       !      'RKBM: tree_eval(1, i_tree )  = ', &
       !       tree_evaluation(1, i_tree )
-      !write(6,'(8x, A, 1x,A    )') &
+      !write(GA_print_unit,'(8x, A, 1x,A    )') &
       !      'tree_eval(1, i_tree )  = ', &
       !       trim( tree_evaluation_string( 1, i_tree ) )
 
@@ -294,7 +295,7 @@ do i_time_step=1,n_time_steps
           ! 'dabs' forces flow of material in one direction
           bioflo(i_CODE_equation,j_CODE_equation)=dabs(tree_value(i_tree))
 
-          !write(6,'(A,3(1x,I6),2(2x, E15.7))') &
+          !write(GA_print_unit,'(A,3(1x,I6),2(2x, E15.7))') &
           !'RKBM:1 i_tree, i_code_equation, j_code_equation, &
           !&tree_value(i_tree), bioflo(i_CODE_equation,j_CODE_equation) ', &
           !        i_tree, i_code_equation, j_code_equation, &
@@ -369,7 +370,7 @@ do i_time_step=1,n_time_steps
   if( any( isnan( b_tmp ) ) .or.  any( abs(b_tmp)  > 1.0d20 ) ) then
 
       L_bad_result = .TRUE.
-      !write(6,'(A,2(1x,I6),12(1x,E15.7))') &
+      !write(GA_print_unit,'(A,2(1x,I6),12(1x,E15.7))') &
       !      'RKBM: bad result myid, i_time_step, b_tmp ', &
       !                        myid, i_time_step, b_tmp(1:n_CODE_equations)
       return
@@ -388,7 +389,7 @@ do i_time_step=1,n_time_steps
 
   !---------------------------------------------------------------------------
 
-  !write(6,'(A,2(1x,I6),12(1x,E15.7))') &
+  !write(GA_print_unit,'(A,2(1x,I6),12(1x,E15.7))') &
   !      'RKBM: myid, i_time_step, RK_Soln ', &
   !             myid, i_time_step, Runge_Kutta_Solution(i_time_step,1:n_CODE_equations)
 

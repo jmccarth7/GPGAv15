@@ -23,9 +23,9 @@ integer(kind=4) :: i
 
 Run_GA_lmdif=.true.
 
-write(6,'(/A,1x, I6/)')  'Init: n_parameters ', n_Parameters
+write(GA_print_unit,'(/A,1x, I6/)')  'Init: n_parameters ', n_Parameters
 
-!write(6,'(/A/)') &
+!write(GA_print_unit,'(/A/)') &
 !      'Init:  i_GA_individual  child parameters(i_GA_individual,:)  '
 
 
@@ -81,13 +81,13 @@ do  i_GA_Individual=1,n_GA_Individuals
 
 
 
-        !write(6,'(A,2(1x, I6),1x,E24.16 )') &
+        !write(GA_print_unit,'(A,2(1x, I6),1x,E24.16 )') &
         !     'Init: ', i_GA_individual, i_Parameter, &
         !               child_parameters(i_GA_individual,i_parameter)
 
     enddo ! i_parameter
 
-    !write(6,'(A,1x, I6,1x,12(1x,E15.7))') &
+    !write(GA_print_unit,'(A,1x, I6,1x,12(1x,E15.7))') &
     !     'Init: ', i_GA_individual, child_parameters(i_GA_individual,1:n_parameters)
 
 enddo ! i_ga_individual

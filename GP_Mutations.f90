@@ -30,10 +30,10 @@ logical Node_Not_Found
 i_GP_Individual=n_GP_Elitists+n_GP_Asexual_Reproductions+n_GP_Crossovers
 
                                                                                                                  
-write(6,'(A,3(1x,I6))' ) &                                                                                       
+write(GP_print_unit,'(A,3(1x,I6))' ) &                                                                                       
       'gpmut: n_GP_Elitists, n_GP_Asexual_Reproductions, n_GP_Crossovers ', & 
               n_GP_Elitists, n_GP_Asexual_Reproductions, n_GP_Crossovers     
-write(6,'(A,1x,I6)' ) &                                                                                          
+write(GP_print_unit,'(A,1x,I6)' ) &                                                                                          
       'gpmut: start i_GP_individual = ', &                                                                      
          n_GP_Elitists + n_GP_Asexual_Reproductions + n_GP_Crossovers +1                                                     
     

@@ -45,7 +45,7 @@ real (kind=8) :: xcount
 ! compute GP_Child_Individual_SSE(i_GP_Individual)
 
 if( myid == 0 )then
-    write(6,'(A)') &
+    write(GP_print_unit,'(A)') &
     'cgcsse: i_node, i_tree, GP_Indiv_Node_Type, GP_Node_Type_Answer  dff           xcount'
 endif ! myid == 0
 
@@ -55,7 +55,7 @@ do  i_Node=1,n_Nodes
     do  i_Tree=1,n_Trees
 
         !if( myid == 0 )then
-        !    write(6,'(A,4(1x,I6),1x,E15.7)') &
+        !    write(GP_print_unit,'(A,4(1x,I6),1x,E15.7)') &
         !     'cgcsse: i_node, i_tree, GP_Indiv_Node_Type, GP_Node_Type_Answer ',&
         !         i_node, i_tree, GP_Individual_Node_Type(i_Node,i_Tree), &
         !         GP_Node_Type_Answer(i_Node,i_Tree)
@@ -71,7 +71,7 @@ do  i_Node=1,n_Nodes
                 xcount=xcount+dff
 
                 !if( myid == 0 )then
-                !    write(6,'(A,4(1x,I6),2(1x,E15.7))') &
+                !    write(GP_print_unit,'(A,4(1x,I6),2(1x,E15.7))') &
                 !     'cgcsse: i_node, i_tree, &GP_Indiv_Node_Type, &
                 !     &GP_Node_Type_Answer  dff, xcount ',&
                 !     i_node, i_tree, GP_Individual_Node_Type(i_Node,i_Tree), &
@@ -85,7 +85,7 @@ do  i_Node=1,n_Nodes
                 xcount=xcount+dff
 
                 !if( myid == 0 )then
-                !    write(6,'(A,4(1x,I6),2(1x,E15.7))') &
+                !    write(GP_print_unit,'(A,4(1x,I6),2(1x,E15.7))') &
                 !     'cgcsse: i_node, i_tree, GP_Indiv_Node_Type, &
                 !        &GP_Node_Type_Answer  dff, xcount ',&
                 !         i_node, i_tree, &
@@ -94,7 +94,7 @@ do  i_Node=1,n_Nodes
                 !endif ! myid == 0
 
                 if( myid == 0 )then
-                    write(6,'(5x,3(1x,I6),15X,I6,10x,2(1x,E15.7))') &
+                    write(GP_print_unit,'(5x,3(1x,I6),15X,I6,10x,2(1x,E15.7))') &
                           i_node, i_tree, &
                           GP_Individual_Node_Type(i_Node,i_Tree), &
                           GP_Node_Type_Answer(i_Node,i_Tree), dff, xcount 
@@ -102,10 +102,10 @@ do  i_Node=1,n_Nodes
 
 
                 !if( myid == 0 )then
-                !    write(6,'(A,2(1x,I6))') &
+                !    write(GP_print_unit,'(A,2(1x,I6))') &
                 !          'cgcsse: i_GP_generation, i_GP_Individual ', &
                 !              i_GP_generation, i_GP_Individual
-                !    write(6,'(A,4(1x,I6),1x,E15.7)') &
+                !    write(GP_print_unit,'(A,4(1x,I6),1x,E15.7)') &
                 !      'cgcsse: i_node, i_tree, GP_Indiv_Node_Type, &
                 !         &GP_Node_Type_Answer, dff ',&
                 !          i_node, i_tree, &
@@ -126,7 +126,7 @@ GP_Child_Individual_SSE(i_GP_Individual)=xcount
 !---------------------------------------------------------------------------------
 
 if( myid == 0 )then
-    write(6,'(/A,2(1x,I6),1x,E15.7)') &
+    write(GP_print_unit,'(/A,2(1x,I6),1x,E15.7)') &
           'cgcsse: i_GP_gen, i_GP_Indiv, GP_Child_Indiv_SSE(i_GP_Indiv) ', &
                    i_GP_generation, i_GP_Individual, GP_Child_Individual_SSE(i_GP_Individual)
 endif ! myid == 0

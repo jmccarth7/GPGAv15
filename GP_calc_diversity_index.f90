@@ -30,9 +30,9 @@ integer(kind=4) :: icnt
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-!write(6,'(A)') ' '
-write(6,'(/A,1x,I6)') 'gcdi: i_GP_generation = ', i_GP_generation
-write(6,'(A)') &
+!write(GP_print_unit,'(A)') ' '
+write(GP_print_unit,'(/A,1x,I6)') 'gcdi: i_GP_generation = ', i_GP_generation
+write(GP_print_unit,'(A)') &
       'gcdi: i_indiv, i_diversity, icnt_Nodes, icnt_parms, icnt_vars, icnt_ops'
 
 do  i_indiv = 1, n_GP_individuals
@@ -78,16 +78,16 @@ do  i_indiv = 1, n_GP_individuals
 
     GP_diversity_index( i_indiv ) = i_diversity
     
-    !write(6,'(A,6(1x,I6))') &
+    !write(GP_print_unit,'(A,6(1x,I6))') &
     !      'gcdi: i_indiv, i_diversity, icnt_Nodes, icnt_parms, icnt_vars, icnt_ops', &
     !             i_indiv, i_diversity, icnt_Nodes, icnt_parms, icnt_vars, icnt_ops
-    write(6,'(6(1x,I6))') &
+    write(GP_print_unit,'(6(1x,I6))') &
           i_indiv, i_diversity, icnt_Nodes, icnt_parms, icnt_vars, icnt_ops
 
 enddo  ! i_indiv 
 
-write(6,'(A)') ' '
-write(6,'(A,1x,50(1x,I2))') &
+write(GP_print_unit,'(A)') ' '
+write(GP_print_unit,'(A,1x,50(1x,I2))') &
          'gcdi:GP_diversity_index ',  GP_diversity_index(1:n_GP_individuals) 
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

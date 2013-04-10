@@ -43,14 +43,15 @@ real (kind=4), parameter :: GP_Set_Terminal_to_Parameter_Probability = 0.6
 
 ! GA routine-specific variables that can be modified
 
-integer (kind=4) :: n_GA_Generations !=  1000 !  5000 ! 1000
+integer(kind=4) :: n_GA_Generations !=  1000 !  5000 ! 1000
 
-integer (kind=4) :: i_GA_Generation
+integer(kind=4) :: i_GA_Generation
 
-integer (kind=4) :: n_GA_Individuals !=  500 ! 3  ! 100
+integer(kind=4) :: n_GA_Individuals !=  500 ! 3  ! 100
 
-integer (kind=4) :: i_GA_individual, j_GA_individual
+integer(kind=4) :: i_GA_individual, j_GA_individual
 
+integer(kind=4),parameter :: GA_print_unit = 6
 
 real(kind=8) ::  min_sse
 

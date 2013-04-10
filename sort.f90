@@ -2,6 +2,8 @@ SUBROUTINE sort(n, arr)
 
 !USE nrtype; USE nrutil, ONLY : swap,nrerror
 
+use GA_parameters_module
+use GP_parameters_module
 use swap_module
 
 IMPLICIT NONE
@@ -63,7 +65,8 @@ do
         arr(j)=a
         jstack=jstack+2
         if( jstack > NSTACK ) then
-            write(6,*) 'sort: NSTACK too small'
+            write(GA_print_unit,*) 'sort: NSTACK too small'
+            write(GP_print_unit,*) 'sort: NSTACK too small'
             stop 'stack too small'
         endif 
         if( r-i+1 >= j-l ) then

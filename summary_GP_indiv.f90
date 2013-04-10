@@ -62,12 +62,12 @@ real (kind=8) :: xcount
 ! assume this is called only by cpu 0
 
 
-write(6,'(/A)')&
+write(GP_print_unit,'(/A)')&
       'sgpi: i_GP_generation, i_GP_indiv, i_code_eq, &
             &GP_Pop_Init_Cond(i_GP_Indiv,i_code_eq) '
 do  i_code_eq = 1, n_CODE_Equations
 
-    write(6,'(3(1x,I6), 1x, E15.7)')&
+    write(GP_print_unit,'(3(1x,I6), 1x, E15.7)')&
              i_GP_generation, i_GP_indiv, i_code_eq, &
              GP_Population_Initial_Conditions( i_GP_indiv,i_code_eq )
 
@@ -82,7 +82,7 @@ write(GP_summary_output_unit, '(A)') '> '
 
 
 
-    write(6,'(A)')  'sgpi: i_GP_generation, i_GP_indiv, i_node, i_tree, GP_Indiv_Node_Type '
+    write(GP_print_unit,'(A)')  'sgpi: i_GP_generation, i_GP_indiv, i_node, i_tree, GP_Indiv_Node_Type '
 
 dff = 0.0d0
 xcount = 0.0d0
@@ -92,7 +92,7 @@ do  i_Node=1,n_Nodes
         if( GP_Individual_Node_Type(i_Node,i_Tree) .ne. -9999         ) then
 
 
-            write(6,'(5x,5(1x,I6))') &
+            write(GP_print_unit,'(5x,5(1x,I6))') &
                   i_GP_generation, i_GP_indiv,i_node, i_tree, &
                   GP_Individual_Node_Type(i_Node,i_Tree)
 
@@ -115,13 +115,13 @@ write(GP_summary_output_unit, '(A)') '> '
 
 ! print the node parameters (if there are any)
 
-!write(6,'(/A)')     'sgpi: GP_population_node_parameters(i_GP_indiv,:,:) '
-!write(6,'(5(1x,E15.7))')  GP_population_node_parameters(i_GP_indiv,:,:)
+!write(GP_print_unit,'(/A)')     'sgpi: GP_population_node_parameters(i_GP_indiv,:,:) '
+!write(GP_print_unit,'(5(1x,E15.7))')  GP_population_node_parameters(i_GP_indiv,:,:)
 
 if( any( abs( GP_population_node_parameters(i_GP_indiv,:,:) ) &
                                                             > 1.0d-20 ) )then
 
-    write(6,'(/A/)') &
+    write(GP_print_unit,'(/A/)') &
        'sgpi: i_GP_generation, i_GP_indiv, node  tree  GP_population_node_parameters'
 
     do  i_tree=1,n_trees
@@ -129,7 +129,7 @@ if( any( abs( GP_population_node_parameters(i_GP_indiv,:,:) ) &
             if( abs( GP_population_node_parameters( &
                        i_GP_indiv,i_node,i_tree) ) > 1.0d-20   )then
 
-                write(6,'(4(1x,I6), 1x, E20.10)') &
+                write(GP_print_unit,'(4(1x,I6), 1x, E20.10)') &
                       i_GP_generation, i_GP_indiv,i_node, i_tree, &
                       GP_population_node_parameters(i_GP_indiv,i_node,i_tree)
 

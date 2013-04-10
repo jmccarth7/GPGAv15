@@ -18,8 +18,8 @@ integer,intent(in)  :: icall
 !-------------------------------------------------------------------------
 
 if( myid == 0 )then
-    write(6,'(/A,1x,A)')  'iv: model ', trim(model)
-    write(6,'(A,1x,I6/)') 'iv: icall ', icall 
+    write(GP_print_unit,'(/A,1x,A)')  'iv: model ', trim(model)
+    write(GP_print_unit,'(A,1x,I6/)') 'iv: icall ', icall 
 endif ! myid == 0 
 
 
@@ -44,12 +44,12 @@ endif ! trim(model) == 'NPZ'
 !
 !    do  i_tree = 1, n_trees
 !
-!        write(6,'(/A,1x,i2)') 'i_tree = ', i_tree
-!        write(6,'(32(1x,i2))') GP_Individual_node_type(1:n_nodes, i_tree)
+!        write(GP_print_unit,'(/A,1x,i2)') 'i_tree = ', i_tree
+!        write(GP_print_unit,'(32(1x,i2))') GP_Individual_node_type(1:n_nodes, i_tree)
 !
 !    enddo
 !
-!    write(6,'(/A)') ' '
+!    write(GP_print_unit,'(/A)') ' '
 !
 !
 !    !-------------------------------------------------------------------------------
@@ -61,7 +61,7 @@ endif ! trim(model) == 'NPZ'
 !
 !            if( GP_Individual_Node_Parameters(i_node,i_tree) > 0.0d0 )then
 !
-!                write(6,'(A,2(1x,I6),1x,E15.7)') &
+!                write(GP_print_unit,'(A,2(1x,I6),1x,E15.7)') &
 !                      'iv: i_node, i_tree, GP_Individual_Node_Parameters(i_node,i_tree)  ', &
 !                           i_node, i_tree, GP_Individual_Node_Parameters(i_node,i_tree)
 !

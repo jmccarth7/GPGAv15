@@ -53,7 +53,7 @@ real (kind=8) :: xcount
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 if( myid == 0 )then
-    write(6,'(A)') ' '
+    write(GP_print_unit,'(A)') ' '
 endif
 
 do i_CODE_equation=1,n_CODE_equations
@@ -77,16 +77,16 @@ do i_CODE_equation=1,n_CODE_equations
   endif !   dff .gt. 0.0D+0
 
   if(  abs( Data_Variance(i_CODE_equation) ) < 1.0D-30 )then
-       write(6,'(/A,1x,I6,2x,E15.7)') &
+       write(GP_print_unit,'(/A,1x,I6,2x,E15.7)') &
        '0: i_CODE_equation, Data_Variance(i_CODE_equation) ', &
            i_CODE_equation, Data_Variance(i_CODE_equation)
-       write(6,'(A/)') '0: bad data variance -- stopping program '
+       write(GP_print_unit,'(A/)') '0: bad data variance -- stopping program '
        stop 'bad data var'
 
   endif ! abs( Data_Variance(i_CODE_equation) ) < 1.0D-30
 
   if( myid == 0 )then
-      write(6,'(A,1x,I6,2x,E15.7)') &
+      write(GP_print_unit,'(A,1x,I6,2x,E15.7)') &
            '0: i_CODE_equation, Data_Variance(i_CODE_equation) ', &
                i_CODE_equation, Data_Variance(i_CODE_equation)
   endif ! myid == 0
@@ -94,7 +94,7 @@ do i_CODE_equation=1,n_CODE_equations
 enddo !  i_CODE_equation
 
 if( myid == 0 )then
-    write(6,'(A)') ' '
+    write(GP_print_unit,'(A)') ' '
 endif !  myid == 0
 
 

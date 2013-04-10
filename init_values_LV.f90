@@ -62,14 +62,14 @@ if(  icall  == 0  )then
     n_linked_parms_dim = max( n_linked_parms, 1 )
 
     if( myid == 0 )then
-        write(6,'(A,1x,I6)') 'ivLV: n_levels           ', n_levels
-        write(6,'(A,1x,I6)') 'ivLV: n_functions        ', n_functions
-        write(6,'(A,1x,I6)') 'ivLV: n_CODE_equations   ', n_CODE_equations
-        write(6,'(A,1x,I6)') 'ivLV: n_trees            ', n_trees
-        write(6,'(A,1x,I6)') 'ivLV: n_nodes            ', n_nodes
-        write(6,'(A,1x,I6)') 'ivLV: n_linked_parms     ', n_linked_parms
-        write(6,'(A,1x,I6)') 'ivLV: n_linked_parms_dim ', n_linked_parms_dim
-        write(6,'(/A,1x,I6/)') 'ivLV: n_maximum_number_parameters  ', &
+        write(GP_print_unit,'(A,1x,I6)') 'ivLV: n_levels           ', n_levels
+        write(GP_print_unit,'(A,1x,I6)') 'ivLV: n_functions        ', n_functions
+        write(GP_print_unit,'(A,1x,I6)') 'ivLV: n_CODE_equations   ', n_CODE_equations
+        write(GP_print_unit,'(A,1x,I6)') 'ivLV: n_trees            ', n_trees
+        write(GP_print_unit,'(A,1x,I6)') 'ivLV: n_nodes            ', n_nodes
+        write(GP_print_unit,'(A,1x,I6)') 'ivLV: n_linked_parms     ', n_linked_parms
+        write(GP_print_unit,'(A,1x,I6)') 'ivLV: n_linked_parms_dim ', n_linked_parms_dim
+        write(GP_print_unit,'(/A,1x,I6/)') 'ivLV: n_maximum_number_parameters  ', &
                                       n_maximum_number_parameters
     endif ! myid == 0
 
@@ -129,7 +129,7 @@ enddo ! i_tree
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 if( myid == 0 )then
-    write(6,'(A,1x,I6, 4x,L1)') 'ivLV: myid, LV_model1 ', &
+    write(GP_print_unit,'(A,1x,I6, 4x,L1)') 'ivLV: myid, LV_model1 ', &
                                        myid, LV_model1 
 endif ! myid == 0
 
@@ -144,7 +144,7 @@ else
 endif  ! LV_model1
 
 if( myid == 0 )then
-    write(6,'(A,1x,I6, 2(1x,F10.2))') 'ivLV: myid, Runge_Kutta_Initial_Conditions(1:2) ', &
+    write(GP_print_unit,'(A,1x,I6, 2(1x,F10.2))') 'ivLV: myid, Runge_Kutta_Initial_Conditions(1:2) ', &
                                              myid, Runge_Kutta_Initial_Conditions(1:2)
 endif ! myid == 0
 
@@ -159,7 +159,7 @@ Node_Probability = (/0.8d0,0.6d0,0.4d0,0.d0/)  ! NOTE: Last value MUST BE 0.0!!!
 GP_Individual_Node_Type(1,1) = 3   ! '*'
 
 if( myid == 0 )then
-    write(6,'(A,2(1x,I6))') 'ivLV: myid, GP_Individual_Node_Type(1,1)        ', &
+    write(GP_print_unit,'(A,2(1x,I6))') 'ivLV: myid, GP_Individual_Node_Type(1,1)        ', &
                                    myid, GP_Individual_Node_Type(1,1) 
 endif ! myid == 0
 
@@ -172,7 +172,7 @@ else
 endif  ! LV_model1
 
 if( myid == 0 )then
-    write(6,'(A,1x,I6, 1x,F10.2)') 'ivLV: myid, GP_Individual_Node_Parameters(2,1)  ', &
+    write(GP_print_unit,'(A,1x,I6, 1x,F10.2)') 'ivLV: myid, GP_Individual_Node_Parameters(2,1)  ', &
                                           myid, GP_Individual_Node_Parameters(2,1) 
 endif ! myid == 0
 
@@ -188,7 +188,7 @@ else
 endif  ! LV_model1
 
 if( myid == 0 )then
-    write(6,'(A,1x,I6, 1x,F10.2)') 'ivLV: myid, GP_Individual_Node_Parameters(2,4)  ', &
+    write(GP_print_unit,'(A,1x,I6, 1x,F10.2)') 'ivLV: myid, GP_Individual_Node_Parameters(2,4)  ', &
                                           myid, GP_Individual_Node_Parameters(2,4) 
 endif ! myid == 0
 
@@ -208,7 +208,7 @@ else
 endif  ! LV_model1
 
 if( myid == 0 )then
-    write(6,'(A,1x,I6, 1x,F10.2)') 'ivLV: myid, GP_Individual_Node_Parameters(4,5)  ', &
+    write(GP_print_unit,'(A,1x,I6, 1x,F10.2)') 'ivLV: myid, GP_Individual_Node_Parameters(4,5)  ', &
                                           myid, GP_Individual_Node_Parameters(4,5) 
 endif ! myid == 0
 
@@ -224,7 +224,7 @@ else
 endif  ! LV_model1
 
 if( myid == 0 )then
-    write(6,'(A,1x,I6, 1x,F10.2)') 'ivLV: myid, GP_Individual_Node_Parameters(12,5) ', &
+    write(GP_print_unit,'(A,1x,I6, 1x,F10.2)') 'ivLV: myid, GP_Individual_Node_Parameters(12,5) ', &
                                           myid, GP_Individual_Node_Parameters(12,5) 
 endif ! myid == 0
 
@@ -237,7 +237,7 @@ else
 endif  ! LV_model1
 
 if( myid == 0 )then
-    write(6,'(A,1x,I6, 1x,F10.2)') 'ivLV: myid, GP_Individual_Node_Parameters(14,5) ', &
+    write(GP_print_unit,'(A,1x,I6, 1x,F10.2)') 'ivLV: myid, GP_Individual_Node_Parameters(14,5) ', &
                                           myid, GP_Individual_Node_Parameters(14,5) 
 endif ! myid == 0
 

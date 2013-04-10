@@ -27,7 +27,7 @@ integer (kind=4) :: n_replaced
 !--------------------------------------------------------------------------
 
 
-!write(6,'(/A/)') 'gafp: at entry'
+!write(GA_print_unit,'(/A/)') 'gafp: at entry'
 
 
 ! for each individual,i,  choose a random number in  [0.0, 1.0]
@@ -46,7 +46,7 @@ mean_fit_before = 0.0d0
 icount = 0
 do  i_GA_individual = 1, n_GA_individuals
 
-    !write(6,'(A,1x,I6,1x,E20.10)') &
+    !write(GA_print_unit,'(A,1x,I6,1x,E20.10)') &
     !      'gafp: before  i_GA_individual , Indiv_Fit ', &
     !                     i_GA_individual , Individual_Ranked_Fitness(i_GA_Individual)
 
@@ -81,23 +81,23 @@ do i_GA_Individual=1,n_GA_Individuals
 
   dff = cff
 
-  !write(6,'(/A,1x,I6,1x,E15.7)') 'gafp: i_GA_Individual, dff', &
-  !                                      i_GA_Individual, dff
+  !write(GA_print_unit,'(/A,1x,I6,1x,E15.7)') 'gafp: i_GA_Individual, dff', &
+  !                                                  i_GA_Individual, dff
 
   !--------------------------------------------------------------------------
 
   ! if the index i_GA_individual is in the array individual_elites,
   ! do not replace this individual - it is an elite individual
 
-  !write(6,'(/A,1x,I6)')      'gafp: i_GA_individual ', i_GA_individual
+  !write(GA_print_unit,'(/A,1x,I6)')      'gafp: i_GA_individual ', i_GA_individual
   !if( i_GA_individual == 1 )then
-  !    write(6,'(A/(15(1x,I6)))') 'gafp: individual_elites ', &
+  !    write(GA_print_unit,'(A/(15(1x,I6)))') 'gafp: individual_elites ', &
   !                                      individual_elites(1:n_GA_save_elites)
   !endif ! i_GA_individual == 1
 
 
   if( any( individual_elites == i_GA_individual ) )then
-      !write(6,'(A,1x,I6)') 'gafp: skip -- index is elite i_GA_individual = ', &
+      !write(GA_print_unit,'(A,1x,I6)') 'gafp: skip -- index is elite i_GA_individual = ', &
       !                                                   i_GA_individual
       cycle
   endif   ! any( individual_elites == i_GA_individual )
@@ -111,7 +111,7 @@ do i_GA_Individual=1,n_GA_Individuals
   j_loop:&
   do  j_GA_Individual=1,n_GA_Individuals ! normalize to the maximum values 
                                          ! so that the range is [0. , 1.]
-      !write(6,'(A,1x,I6,2(1x,E15.7))') &
+      !write(GA_print_unit,'(A,1x,I6,2(1x,E15.7))') &
       !      'gafp: j_GA_Individual, Integrated_Ranked_Fitness(j_GA_Individual), dff ', &
       !             j_GA_Individual, Integrated_Ranked_Fitness(j_GA_Individual), dff
 
@@ -152,7 +152,7 @@ do i_GA_Individual=1,n_GA_Individuals
       cycle i_loop   ! skip replacing this individual
   endif
 
-  !write(6,'(/A,2(1x,I6))') 'gafp:aft loop  j_GA_Individual, icff', &
+  !write(GA_print_unit,'(/A,2(1x,I6))') 'gafp:aft loop  j_GA_Individual, icff', &
   !                                         j_GA_Individual, icff
 
   !-----------------------------------------------------------------------------------------
@@ -175,38 +175,38 @@ do i_GA_Individual=1,n_GA_Individuals
   !-----------------------------------------------------------------------------------------
 
 
-  !write(6,'(A,2(1x,I6))') 'gafp: i_GA_Individual replaced by j_GA_individual', &
+  !write(GA_print_unit,'(A,2(1x,I6))') 'gafp: i_GA_Individual replaced by j_GA_individual', &
   !                               i_GA_Individual, j_GA_Individual
 
-  !write(6,'(A,1x,I6, 1x, E15.7/)') &
+  !write(GA_print_unit,'(A,1x,I6, 1x, E15.7/)') &
   !      'gafp:aft loop i_GA_Individual, Individual_Ranked_Fitness', &
   !                     i_GA_Individual, Individual_Ranked_Fitness(i_GA_Individual)
 
-  !write(6,'(I6,12(1x,E15.7))') &
+  !write(GA_print_unit,'(I6,12(1x,E15.7))') &
   !      i_GA_Individual,  Child_Parameters(i_GA_Individual,1:n_Parameters)
 
 enddo i_loop  ! i_GA_Individual
 
 
 
-!write(6,'(/A)') &
+!write(GA_print_unit,'(/A)') &
 !'gafp: i_GA_Individual,  Child_Parameters(i_GA_Individual,1:n_Parameters) '
 
 !do  i_GA_Individual=1,n_GA_Individuals
-!    write(6,'(I6,12(1x,E15.7))') &
+!    write(GA_print_unit,'(I6,12(1x,E15.7))') &
 !         i_GA_Individual,  Child_Parameters(i_GA_Individual,1:n_Parameters)
 !enddo  ! i_GA_Individual
 
 
 
-!write(6,'(A)') ' '
+!write(GA_print_unit,'(A)') ' '
 
 
 mean_fit_after = 0.0d0
 icount = 0
 do  i_GA_individual = 1, n_GA_individuals
 
-    !write(6,'(A,1x,I6,1x,E20.10)') &
+    !write(GA_print_unit,'(A,1x,I6,1x,E20.10)') &
     !      'gafp: after i_GA_individual, Indiv_Fit ', &
     !                   i_GA_individual, Individual_Ranked_Fitness(i_GA_Individual)
 
@@ -227,12 +227,12 @@ else
 endif ! icount > 0 
 
 
-write(6,'(/A,1x,I6,1x, E20.10)') 'gafp: i_ga_generation, mean_fit_before      ', &
-                                        i_ga_generation, mean_fit_before
-write(6,'(A,1x,I6,1x, E20.10)')  'gafp: i_ga_generation, mean_fit_after       ', &
-                                        i_ga_generation, mean_fit_after
-write(6,'(A,1x,I6,2(1x,I10)/)')  'gafp: i_ga_generation, n_replaced, icount   ', &
-                                        i_ga_generation, n_replaced, icount
+write(GA_print_unit,'(/A,1x,I6,1x, E20.10)') 'gafp: i_ga_generation, mean_fit_before      ', &
+                                                    i_ga_generation, mean_fit_before
+write(GA_print_unit,'(A,1x,I6,1x, E20.10)')  'gafp: i_ga_generation, mean_fit_after       ', &
+                                                    i_ga_generation, mean_fit_after
+write(GA_print_unit,'(A,1x,I6,2(1x,I10)/)')  'gafp: i_ga_generation, n_replaced, icount   ', &
+                                                    i_ga_generation, n_replaced, icount
 
 return
 

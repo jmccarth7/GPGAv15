@@ -5,6 +5,7 @@ subroutine fcn(mm,nn,x,fvec,iflag)
 use mpi
 use mpi_module
 
+use GA_parameters_module
 use GP_parameters_module
 use GP_variables_module
 use GP_data_module
@@ -42,7 +43,7 @@ do i_CODE_equation=1,n_CODE_equations
   if( isnan( Runge_Kutta_Solution(0,i_CODE_equation) ) .or. &
         abs( Runge_Kutta_Solution(0,i_CODE_equation) )  > 1.0D20  )then
 
-      write(6,'(A,1x,I6)') &
+      write(GA_print_unit,'(A,1x,I6)') &
             'fcn: bad initial condition i_CODE_equation = ', &
                                         i_CODE_equation
 
@@ -73,7 +74,7 @@ do i_tree=1,n_trees
       if( isnan( Runge_Kutta_Node_Parameters(i_node,i_tree) )  .or. &
             abs( Runge_Kutta_Node_Parameters(i_node,i_tree) ) > 1.0D20 ) then
 
-          write(6,'(A,2(1x,I6))') &
+          write(GA_print_unit,'(A,2(1x,I6))') &
                 'fcn: bad  Runge_Kutta_Node_Parameters for i_node, i_tree ', &
                                                            i_node, i_tree
           L_bad_result = .TRUE.
@@ -82,7 +83,7 @@ do i_tree=1,n_trees
 
       endif  ! isnan
 
-      !write(6,'(A,3(1x,I6),1x,E15.7)') &
+      !write(GA_print_unit,'(A,3(1x,I6),1x,E15.7)') &
       ! 'fcn: i_node, i_tree, i_parameter, Runge_Kutta_Node_Parameters(i_node,i_tree) ', &
       !       i_node, i_tree, i_parameter, Runge_Kutta_Node_Parameters(i_node,i_tree) 
 
@@ -104,7 +105,7 @@ call Runge_Kutta_Box_Model
 
 
 if( L_bad_result ) then
-    write(6,'(A,1x,I6,4x,L1)') &
+    write(GA_print_unit,'(A,1x,I6,4x,L1)') &
           'fcn: aft call Runge_Kutta_Box_Model  myid, L_bad_result = ', &
                                                 myid, L_bad_result
     iflag = -1
@@ -120,20 +121,20 @@ do i_time_step=1,n_time_steps
 
   fvec(i_time_step)=0.
 
-  !write(6,'(/A,1x,I6, 1x,I10)')'fcn: myid, i_time_step ', myid, i_time_step
+  !write(GA_print_unit,'(/A,1x,I6, 1x,I10)')'fcn: myid, i_time_step ', myid, i_time_step
 
   do i_CODE_equation=1,n_CODE_equations
 
     !if( abs(  data_variance(i_CODE_equation) ) > 1.0D-30  )then
 
-        !write(6,'(A,2(1x,I6), 3(1x,E15.7))') &
+        !write(GA_print_unit,'(A,2(1x,I6), 3(1x,E15.7))') &
         !      'fcn: myid, i_eqn, RK_soln, data_array, var ', &
         !            myid, i_CODE_equation,                   &
         !            Runge_Kutta_Solution(i_time_step,i_CODE_equation), &
         !            Data_Array(i_time_step,i_CODE_equation), &
         !            data_variance(i_CODE_equation)
 
-        !write(6,'(A,2(1x,I6), 1x,E15.7)') &
+        !write(GA_print_unit,'(A,2(1x,I6), 1x,E15.7)') &
         !      'fcn: myid, i_eqn, data_variance ', &
         !            myid, i_CODE_equation, data_variance(i_CODE_equation)
 
@@ -144,9 +145,9 @@ do i_time_step=1,n_time_steps
 
     !else
 
-        !write(6,'(/A,1x,I6, 1x,I10)')'fcn: bad variance myid, i_time_step ', &
+        !write(GA_print_unit,'(/A,1x,I6, 1x,I10)')'fcn: bad variance myid, i_time_step ', &
         !                                                myid, i_time_step
-        !write(6,'(A,2(1x,I6), 1x,E15.7)') &
+        !write(GA_print_unit,'(A,2(1x,I6), 1x,E15.7)') &
         !      'fcn: myid, i_CODE_equation, data_variance(i_CODE_equation)              ', &
         !            myid, i_CODE_equation, data_variance(i_CODE_equation)
 
@@ -159,13 +160,13 @@ do i_time_step=1,n_time_steps
 
   !SSE = SSE + fvec(i_time_step)
 
-  !write(6,'(A,1x,I6, 1x,I6, 1x, E15.7)')&
+  !write(GA_print_unit,'(A,1x,I6, 1x,I6, 1x, E15.7)')&
   !      'fcn: myid, i_time_step, fvec ', &
   !            myid, i_time_step, fvec(i_time_step)
 
 enddo ! i_time_step
 
-!write(6,'(A,1x,I6,2x,E24.16)') 'fcn: myid, SSE = ',myid, SSE
+!write(GA_print_unit,'(A,1x,I6,2x,E24.16)') 'fcn: myid, SSE = ',myid, SSE
 
 
 return

@@ -37,7 +37,7 @@ integer (kind=4) :: i
 
 !---------------------------------------------------------------------------
 
-!write(6,'(/A,1x,I6)')'gato: n_GA_Crossovers', n_GA_Crossovers
+!write(GA_print_unit,'(/A,1x,I6)')'gato: n_GA_Crossovers', n_GA_Crossovers
 
 n_replaced = 0
 
@@ -56,8 +56,8 @@ do i_GA_Crossover=1,n_GA_Crossovers
   call check_for_elite( k_GA_Individual_Male(1) )
 
 
-  !write(6,'(/A,1x,I6)')      'gato: k_GA_Individual_Male(1)  ', k_GA_Individual_Male(1)
-  !write(6,'(A/(15(1x,I6)))') 'gato: individual_elites ', individual_elites
+  !write(GA_print_unit,'(/A,1x,I6)')      'gato: k_GA_Individual_Male(1)  ', k_GA_Individual_Male(1)
+  !write(GA_print_unit,'(A/(15(1x,I6)))') 'gato: individual_elites ', individual_elites
 
 
   !--------------------------------------------------------------------
@@ -67,7 +67,7 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
   call check_for_elite( k_GA_Individual_Male(2) )
 
-  !write(6,'(//A,3(1x,I6))')&
+  !write(GA_print_unit,'(//A,3(1x,I6))')&
   !      'gato: aft random i_GA_Crossover, k_GA_Individual_Male(1:2)  ', &
   !                        i_GA_Crossover, k_GA_Individual_Male(1:2)
 
@@ -93,10 +93,10 @@ do i_GA_Crossover=1,n_GA_Crossovers
   ! best fitness means Individual_Ranked_Fitness is largest
 
 
-  !write(6,'(A,1x,E24.16)')&
+  !write(GA_print_unit,'(A,1x,E24.16)')&
   !      'gato: Individual_Ranked_Fitness(k_GA_Individual_Male(1)) ', &
   !             Individual_Ranked_Fitness(k_GA_Individual_Male(1))
-  !write(6,'(A,1x,E24.16)')&
+  !write(GA_print_unit,'(A,1x,E24.16)')&
   !      'gato: Individual_Ranked_Fitness(k_GA_Individual_Male(2)) ', &
   !             Individual_Ranked_Fitness(k_GA_Individual_Male(2))
 
@@ -107,7 +107,7 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
   endif !   Individual_Ranked_Fitness(k_GA_Individual_Male(1)) .lt. ...
 
-  !write(6,'(A,3(1x,I6))')&
+  !write(GA_print_unit,'(A,3(1x,I6))')&
   !      'gato: selected male i_GA_Crossover, k_GA_Individual_Male(1) ', &
   !                           i_GA_Crossover, k_GA_Individual_Male(1)
 
@@ -123,7 +123,7 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
   call check_for_elite( k_GA_Individual_Female(2) )
 
-  !write(6,'(/A,3(1x,I6))')&
+  !write(GA_print_unit,'(/A,3(1x,I6))')&
   !      'gato: aft random i_GA_Crossover, k_GA_Individual_Female(1:2)', &
   !                        i_GA_Crossover, k_GA_Individual_Female(1:2)
 
@@ -149,10 +149,10 @@ do i_GA_Crossover=1,n_GA_Crossovers
   ! select the individual of the two with the best fitness
   ! best fitness means Individual_Ranked_Fitness is largest
 
-  !write(6,'(A,1x,E24.16)')&
+  !write(GA_print_unit,'(A,1x,E24.16)')&
   !      'gato: Individual_Ranked_Fitness(k_GA_Individual_Female(1)) ', &
   !             Individual_Ranked_Fitness(k_GA_Individual_Female(1))
-  !write(6,'(A,1x,E24.16)')&
+  !write(GA_print_unit,'(A,1x,E24.16)')&
   !      'gato: Individual_Ranked_Fitness(k_GA_Individual_Female(2)) ', &
   !             Individual_Ranked_Fitness(k_GA_Individual_Female(2))
 
@@ -181,7 +181,7 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
   i_GA_Crossover_Point=1+int( dff*dble(n_Parameters-2) )  ! pick a location from 1 to n_parameters-1
 
-  !write(6,'(/A,2(1x,I6))')&
+  !write(GA_print_unit,'(/A,2(1x,I6))')&
   !      'gato: i_GA_Crossover, i_GA_Crossover_Point ', &
   !             i_GA_Crossover, i_GA_Crossover_Point
 
@@ -299,23 +299,23 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
   !  print parameters for selected male and female parents before and after  crossover
 
-  !write(6,'(A,3(1x,I6))')&
+  !write(GA_print_unit,'(A,3(1x,I6))')&
   !      'gato: selected i_GA_Crossover, k_GA_Individual_Male(1), k_GA_Individual_Female(1) ', &
   !                      i_GA_Crossover, k_GA_Individual_Male(1), k_GA_Individual_Female(1)
 
-  !write(6,'(A/I6,12(1x,E15.7))')&
+  !write(GA_print_unit,'(A/I6,12(1x,E15.7))')&
   ! 'gato: before k_GA_Individual_Male(1), &
   !  &Child_Parameters(k_GA_Individual_Male(1), 1:n_parameters ) ', &
   !  k_GA_Individual_Male(1),   temp_male_parameters(1:n_parameters)
-  !write(6,'(A/I6,12(1x,E15.7))')&
+  !write(GA_print_unit,'(A/I6,12(1x,E15.7))')&
   ! 'gato: after ', &
   !  k_GA_Individual_Male(1), Child_Parameters(k_GA_Individual_Male(1), 1:n_parameters)
 
-  !write(6,'(A/I6,12(1x,E15.7))')&
+  !write(GA_print_unit,'(A/I6,12(1x,E15.7))')&
   ! 'gato: before k_GA_Individual_Female(1), &
   !  &Child_Parameters(k_GA_Individual_Female(1), 1:n_parameters)', &
   !  k_GA_Individual_Female(1), temp_female_parameters(1:n_parameters)
-  !write(6,'(A/I6,12(1x,E15.7))')&
+  !write(GA_print_unit,'(A/I6,12(1x,E15.7))')&
   ! 'gato: after  ', &
   !  k_GA_Individual_Female(1), &
   !  &Child_Parameters(k_GA_Individual_Female(1), 1:n_parameters )
@@ -331,7 +331,7 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
 enddo
 
-write(6,'(A,1x,I6,1x,I10)')&
+write(GA_print_unit,'(A,1x,I6,1x,I10)')&
       'gato: i_ga_generation, n_replaced in tournament ', &
              i_ga_generation, n_replaced
 

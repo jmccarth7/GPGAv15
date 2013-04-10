@@ -53,7 +53,7 @@ else
 
 endif
 
-write(6,'(/A,1x,E24.16)') 'medcalc: median = ', median
+write(GA_print_unit,'(/A,1x,E24.16)') 'medcalc: median = ', median
 
 deallocate( temp_SSE )
 

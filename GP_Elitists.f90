@@ -27,10 +27,10 @@ do  i_GP_Individual=1,n_GP_Individuals
     Ranked_Fitness(i_GP_Individual)=i_GP_Individual
 enddo
 
-write(6,'(/A)')&
+write(GP_print_unit,'(/A)')&
     'gpel: i_GP_Individual, GP_Individual_Ranked_Fitness( i_GP_Individual), Ranked_Fitness(i_GP_Individual) '
 do  i_GP_Individual=1,n_GP_Individuals
-    write(6,'(I6,1x,E15.7,1x,I6)')&
+    write(GP_print_unit,'(I6,1x,E15.7,1x,I6)')&
       i_GP_Individual, GP_Individual_Ranked_Fitness( i_GP_Individual), Ranked_Fitness(i_GP_Individual) 
 enddo
 
@@ -60,11 +60,11 @@ do  i_GP_Individual=1,n_GP_Individuals
 
 enddo ! i_GP_Individual
 
-write(6,'(/A)')'gpel: after sort'
-write(6,'(A)')&
+write(GP_print_unit,'(/A)')'gpel: after sort'
+write(GP_print_unit,'(A)')&
     'gpel: i_GP_Individual, Fitness( i_GP_Individual), Ranked_Fitness(i_GP_Individual) '
 do  i_GP_Individual=1,n_GP_Individuals
-    write(6,'(I6,1x,E15.7,1x,I6)')&
+    write(GP_print_unit,'(I6,1x,E15.7,1x,I6)')&
            i_GP_Individual, Fitness( i_GP_Individual), Ranked_Fitness(i_GP_Individual) 
 enddo
 
@@ -84,11 +84,11 @@ do  i_GP_Individual=1,n_GP_Individuals
 enddo !  i_GP_Individual
 
 
-write(6,'(/A)')'gpel: before re-ranking'
-write(6,'(A)')&
+write(GP_print_unit,'(/A)')'gpel: before re-ranking'
+write(GP_print_unit,'(A)')&
     'gpel: i_GP_Individual, GP_Individual_Ranked_Fitness(i_GP_Individual) '
 do  i_GP_Individual=1,n_GP_Individuals
-    write(6,'(I6,1x,E15.7)')&
+    write(GP_print_unit,'(I6,1x,E15.7)')&
            i_GP_Individual, GP_Individual_Ranked_Fitness(i_GP_Individual)
 enddo
 
@@ -98,11 +98,11 @@ do  i_GP_Individual=1,n_GP_Individuals
 enddo ! i_GP_Individual
 
 
-write(6,'(/A)')'gpel: after  re-ranking'
-write(6,'(A)')&
+write(GP_print_unit,'(/A)')'gpel: after  re-ranking'
+write(GP_print_unit,'(A)')&
     'gpel: i_GP_Individual, GP_Individual_Ranked_Fitness(i_GP_Individual) '
 do  i_GP_Individual=1,n_GP_Individuals
-    write(6,'(I6,1x,E15.7)')&
+    write(GP_print_unit,'(I6,1x,E15.7)')&
            i_GP_Individual, GP_Individual_Ranked_Fitness(i_GP_Individual)
 enddo
 
@@ -122,11 +122,11 @@ do  i_GP_Individual=1,n_GP_Individuals
 enddo ! i_GP_Individual
 
 
-write(6,'(/A)')'gpel: after  re-ranking'
-write(6,'(A)')&
+write(GP_print_unit,'(/A)')'gpel: after  re-ranking'
+write(GP_print_unit,'(A)')&
     'gpel: i_GP_Individual, GP_Integrated_Ranked_Fitness(i_GP_Individual) '
 do  i_GP_Individual=1,n_GP_Individuals
-    write(6,'(I6,1x,E15.7)')&
+    write(GP_print_unit,'(I6,1x,E15.7)')&
            i_GP_Individual, GP_Integrated_Ranked_Fitness(i_GP_Individual)
 enddo
 

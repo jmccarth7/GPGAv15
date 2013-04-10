@@ -123,8 +123,8 @@ calc_fitness.o: GA_parameters_module.o GA_variables_module.o \
 	GP_parameters_module.o GP_variables_module.o mpi_module.o
 check_for_elite.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o
-fcn.o: GP_data_module.o GP_parameters_module.o GP_variables_module.o \
-	mpi_module.o
+fcn.o: GP_data_module.o GA_parameters_module.o GP_parameters_module.o \
+       GP_variables_module.o mpi_module.o
 GA_Fitness_Proportionate_Asexual_Reproduction.o: GA_parameters_module.o \
 	GA_variables_module.o GP_data_module.o GP_parameters_module.o \
 	GP_variables_module.o
@@ -179,11 +179,12 @@ Initialize_GA_Child_Parameters.o: GA_parameters_module.o \
 median_calc.o: GA_parameters_module.o GA_variables_module.o \
 	GP_parameters_module.o GP_variables_module.o mpi_module.o
 mpi_module.o: 
-print4.o: GP_parameters_module.o
+print4.o: GA_parameters_module.o GP_parameters_module.o
 read_cntl_stuff.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
 	mpi_module.o
-Runge_Kutta_Box_Model.o: GP_parameters_module.o GP_variables_module.o \
+Runge_Kutta_Box_Model.o: GA_parameters_module.o  \
+        GP_parameters_module.o GP_variables_module.o \
 	Runge_Kutta_Variables_module.o mpi_module.o
 Runge_Kutta_Variables_module.o: GP_parameters_module.o
 setup_run_fcn.o: GA_parameters_module.o GA_variables_module.o \
@@ -192,6 +193,6 @@ setup_run_fcn.o: GA_parameters_module.o GA_variables_module.o \
 setup_run_lmdif.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
 	mpi_module.o
-sort.o: swap_module.o
+sort.o: GP_parameters_module.o GA_parameters_module.o swap_module.o
 sse0_calc.o: GA_variables_module.o GP_data_module.o GP_parameters_module.o \
 	GP_variables_module.o mpi_module.o

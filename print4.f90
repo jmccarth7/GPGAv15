@@ -4,6 +4,7 @@ subroutine print4( it, icff, &
                    tree_evaluation )
 
 !use parms_module
+use GA_parameters_module
 use GP_parameters_module
 
 implicit none
@@ -27,15 +28,15 @@ integer it
 !------------------------------------------------------------------------
 
 if( it <= n_time_steps )then
-    write(6,'(8x, A, 1x,I2,3(1x,E15.7) )') &
+    write(GA_print_unit,'(8x, A, 1x,I2,3(1x,E15.7) )') &
           'icff, left, right, tree_eval ', &
            icff, left_node_value, right_node_value, &
            tree_evaluation(i_function,i_tree)
-    write(6,'(8x, A, A )') 'left_node_value_string  ', &
+    write(GA_print_unit,'(8x, A, A )') 'left_node_value_string  ', &
                       trim( left_node_value_string )
-    write(6,'(8x, A, A )') 'right_node_value_string ', &
+    write(GA_print_unit,'(8x, A, A )') 'right_node_value_string ', &
                       trim( right_node_value_string )
-    write(6,'(8x, A, A )') 'tree_evaluation_string  ', &
+    write(GA_print_unit,'(8x, A, A )') 'tree_evaluation_string  ', &
                       trim( tree_evaluation_string(i_function,i_tree) )
 
 endif !  it <= n_time_steps

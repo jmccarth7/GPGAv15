@@ -21,7 +21,7 @@ integer (kind=4),intent(in) ::    individual
 !--------------------------------------------------------------------
 
 
-!write(6,'(A,1x,I6,2(1x,E24.16))') &
+!write(GA_print_unit,'(A,1x,I6,2(1x,E24.16))') &
 !      'indfit: individual, SSE , sse0/sse', &
 !               individual, individual_SSE(individual), &
 !                           sse0/individual_SSE(individual)

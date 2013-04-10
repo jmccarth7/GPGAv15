@@ -43,7 +43,7 @@ rewind(cntl_unitnum)
 ! echo control input
 
 
-WRITE(6,'(//A)' ) &
+write(GP_print_unit,'(//A)' ) &
 'Input Echo Listing------------------------------------------------'
 
 echoloop: &
@@ -54,7 +54,7 @@ do
     istat  = 0
     READ( cntl_unitnum, '(A)', IOSTAT = istat ) Aline
     if( istat > 0 ) then
-        WRITE(6,*) &
+        write(GP_print_unit,*) &
         'rcntl: ERROR *** Problem reading GPGACODE_cntl &
                              &in subroutine read_cntl_stuff'
         STOP 'bad read 1 cntl file'
@@ -63,12 +63,12 @@ do
        EXIT echoloop
    endif
 
-   WRITE(6,'(A)') trim( Aline )
+   write(GP_print_unit,'(A)') trim( Aline )
 
 enddo echoloop
 
 
-WRITE(6,'(A//)' )&
+write(GP_print_unit,'(A//)' )&
  'End of Input Echo Listing-----------------------------------------'
 
 
@@ -104,7 +104,7 @@ do
     READ( cntl_unitnum, '(A)', IOSTAT = istat ) Aline
 
     if( istat > 0 ) then
-        WRITE(6,'(/A/)') &
+        write(GP_print_unit,'(/A/)') &
          'rcntl: ERROR *** Problem reading GPGACODE_cntl.'
         STOP 'bad read 2 cntl file'
     endif
@@ -124,7 +124,7 @@ do
 
         READ(Aline(len('GA_Crossover_Probability')+1:), * ) GA_Crossover_Probability
 
-        write(6,'(A,1x,F10.4)') 'rcntl: GA_Crossover_Probability   = ', &
+        write(GP_print_unit,'(A,1x,F10.4)') 'rcntl: GA_Crossover_Probability   = ', &
                                         GA_Crossover_Probability
 
 
@@ -138,7 +138,7 @@ do
 
         READ(Aline(len('GA_Mutation_Probability')+1:), * ) GA_Mutation_Probability
 
-        write(6,'(A,1x,F10.4)') 'rcntl: GA_Mutation_Probability    = ', &
+        write(GP_print_unit,'(A,1x,F10.4)') 'rcntl: GA_Mutation_Probability    = ', &
                                         GA_Mutation_Probability
 
 
@@ -152,7 +152,7 @@ do
 
         READ(Aline(len('GA_save_elites_Probability')+1:), * ) GA_save_elites_Probability
 
-        write(6,'(A,1x,F10.4)') 'rcntl: GA_save_elites_Probability = ', &
+        write(GP_print_unit,'(A,1x,F10.4)') 'rcntl: GA_save_elites_Probability = ', &
                                         GA_save_elites_Probability
 
 
@@ -166,7 +166,7 @@ do
 
         READ(Aline(len('GP_Tree_Probability')+1:), * ) GP_Tree_Probability
 
-        write(6,'(A,1x,F10.4)') 'rcntl: GP_Tree_Probability = ', &
+        write(GP_print_unit,'(A,1x,F10.4)') 'rcntl: GP_Tree_Probability = ', &
                                         GP_Tree_Probability
 
 
@@ -180,7 +180,7 @@ do
 
         READ(Aline(len('GP_Elitist_Probability')+1:), * ) GP_Elitist_Probability
 
-        write(6,'(A,1x,F10.4)') 'rcntl: GP_Elitist_Probability = ', &
+        write(GP_print_unit,'(A,1x,F10.4)') 'rcntl: GP_Elitist_Probability = ', &
                                         GP_Elitist_Probability
 
 
@@ -193,7 +193,7 @@ do
 
         READ(Aline(len('GP_Asexual_Reproduction_Probability')+1:), * ) GP_Asexual_Reproduction_Probability
 
-        write(6,'(A,1x,F10.4)') 'rcntl: GP_Asexual_Reproduction_Probability = ', &
+        write(GP_print_unit,'(A,1x,F10.4)') 'rcntl: GP_Asexual_Reproduction_Probability = ', &
                                         GP_Asexual_Reproduction_Probability
 
 !------------------------------------------------------------------------------
@@ -205,7 +205,7 @@ do
 
         READ(Aline(len('GP_Crossover_Probability')+1:), * ) GP_Crossover_Probability
 
-        write(6,'(A,1x,F10.4)') 'rcntl: GP_Crossover_Probability = ', &
+        write(GP_print_unit,'(A,1x,F10.4)') 'rcntl: GP_Crossover_Probability = ', &
                                         GP_Crossover_Probability
 
 
@@ -219,7 +219,7 @@ do
 
         READ(Aline(len('GP_Mutation_Probability')+1:), * ) GP_Mutation_Probability
 
-        write(6,'(A,1x,F10.4)') 'rcntl: GP_Mutation_Probability = ', &
+        write(GP_print_unit,'(A,1x,F10.4)') 'rcntl: GP_Mutation_Probability = ', &
                                         GP_Mutation_Probability
 
 
@@ -234,7 +234,7 @@ do
 
         READ(Aline(len('n_GA_Generations')+1:), * ) n_GA_Generations
 
-        write(6,'(A,1x,I6)') 'rcntl: n_GA_Generations = ', &
+        write(GP_print_unit,'(A,1x,I6)') 'rcntl: n_GA_Generations = ', &
                                      n_GA_Generations
 
 
@@ -248,7 +248,7 @@ do
 
         READ(Aline(len('n_GA_Individuals')+1:), * ) n_GA_Individuals
 
-        write(6,'(A,1x,I6)') 'rcntl: n_GA_Individuals = ', &
+        write(GP_print_unit,'(A,1x,I6)') 'rcntl: n_GA_Individuals = ', &
                                      n_GA_Individuals
 
 
@@ -261,7 +261,7 @@ do
 
         READ(Aline(len('n_time_steps')+1:), * ) n_time_steps
 
-        write(6,'(A,1x,I6)') 'rcntl: n_time_steps     = ', &
+        write(GP_print_unit,'(A,1x,I6)') 'rcntl: n_time_steps     = ', &
                                      n_time_steps
 
 
@@ -275,11 +275,11 @@ do
 
         READ(Aline(len('DT')+1:), * )  dt_min
 
-        write(6,'(A,1x,F10.4)') 'rcntl: dt (minutes) = ', dt_min
+        write(GP_print_unit,'(A,1x,F10.4)') 'rcntl: dt (minutes) = ', dt_min
 
         dt = dt_min / 1440.0d0
 
-        write(6,'(A,1x,F10.4)') 'rcntl: dt (days)    = ', dt
+        write(GP_print_unit,'(A,1x,F10.4)') 'rcntl: dt (days)    = ', dt
 
 
 
@@ -293,7 +293,7 @@ do
 
         READ(Aline(len('model')+1:), * )  model
 
-        write(6,'(A,1x,A)') 'rcntl: model = ', trim( model )
+        write(GP_print_unit,'(A,1x,A)') 'rcntl: model = ', trim( model )
 
 
 
@@ -307,7 +307,7 @@ do
 
         READ(Aline(len('n_gp_individuals')+1:), * )  n_gp_individuals
 
-        write(6,'(A,1x,I6)') 'rcntl: n_gp_individuals = ', n_gp_individuals 
+        write(GP_print_unit,'(A,1x,I6)') 'rcntl: n_gp_individuals = ', n_gp_individuals 
 
 
 
@@ -321,7 +321,7 @@ do
 
         READ(Aline(len('n_gp_generations')+1:), * )  n_gp_generations
 
-        write(6,'(A,1x,I6)') 'rcntl: n_gp_generations = ', n_gp_generations 
+        write(GP_print_unit,'(A,1x,I6)') 'rcntl: n_gp_generations = ', n_gp_generations 
 
 
 
@@ -336,7 +336,7 @@ do
 
         READ(Aline(len('n_Node_Functions')+1:), * )  n_Node_Functions
 
-        write(6,'(A,1x,I6)') 'rcntl: n_Node_Functions = ', n_Node_Functions 
+        write(GP_print_unit,'(A,1x,I6)') 'rcntl: n_Node_Functions = ', n_Node_Functions 
 
 
 

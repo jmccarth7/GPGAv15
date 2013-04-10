@@ -31,7 +31,7 @@ do
     ksafe = ksafe + 1
 
     if( ksafe > n_GA_individuals ) then
-        write(6,'(A,2(1x,I6))') &
+        write(GA_print_unit,'(A,2(1x,I6))') &
               'cfe: no good index found  ksafe, n_GA_individuals ', &
                                          ksafe, n_GA_individuals
         stop 'check_elite bad'
@@ -43,13 +43,13 @@ do
     index0  = 1 + int(  dff * real( n_GA_Individuals-1, kind=8 )  )
 
 
-    !write(6,'(A,2(1x,I6))')    'cfe: ksafe, index0 ', ksafe, index0
-    !write(6,'(A/(15(1x,I6)))') 'cfe: individual_elites ',  &
+    !write(GA_print_unit,'(A,2(1x,I6))')    'cfe: ksafe, index0 ', ksafe, index0
+    !write(GA_print_unit,'(A/(15(1x,I6)))') 'cfe: individual_elites ',  &
     !                                 individual_elites(1:n_GA_save_elites)
 
     if( any( individual_elites == index0 ) )then
 
-        !write(6,'(A,1x,I6)') 'cfe: index is elite       ', index0
+        !write(GA_print_unit,'(A,1x,I6)') 'cfe: index is elite       ', index0
         cycle
 
     endif   ! any( individual_elites == index0 )
@@ -59,7 +59,7 @@ do
 
 enddo
 
-!write(6,'(A,1x,I6)') 'cfe: at return index0     ', index0
+!write(GA_print_unit,'(A,1x,I6)') 'cfe: at return index0     ', index0
 
 
 return

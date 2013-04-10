@@ -20,7 +20,7 @@ real(kind=8) :: min_fit
 
 !----------------------------------------------------------------------
 
-!write(6,'(/A/)') 'gase: at entry'
+!write(GA_print_unit,'(/A/)') 'gase: at entry'
 
 ! for each individual,i,  choose a random number in  [0.0, 1.0]
 ! the range of the integrated_ranked_fitness is also [0.0, 1.0]
@@ -29,14 +29,14 @@ real(kind=8) :: min_fit
 !  the integrated_ranked_fitness(j) > random number
 ! then replace child parameters of i with child parameters of j
 
-!write(6,'(/A)') ' '
+!write(GA_print_unit,'(/A)') ' '
 
 
 
 
 if( n_GA_save_elites < 1 ) return
 
-write(6,'(/A,1x,I6)') 'gase: n_GA_save_elites ', n_GA_save_elites
+write(GA_print_unit,'(/A,1x,I6)') 'gase: n_GA_save_elites ', n_GA_save_elites
 
 
 
@@ -52,9 +52,9 @@ temp_fitness = individual_ranked_fitness
 
 call sort( n_GA_individuals, temp_fitness )
 
-!write(6,'(/A/)') 'gase: i, individual_ranked_fitness(i), temp_fitness(i)'
+!write(GA_print_unit,'(/A/)') 'gase: i, individual_ranked_fitness(i), temp_fitness(i)'
 !do  i = 1, n_GA_individuals
-!    write(6,'(I6,2(1x,E15.7))') &
+!    write(GA_print_unit,'(I6,2(1x,E15.7))') &
 !    i, individual_ranked_fitness(i), temp_fitness(i)
 !enddo
 
@@ -68,7 +68,7 @@ call sort( n_GA_individuals, temp_fitness )
 
 min_fit = 1.0D20
 
-!write(6,'(A,2(1x,I6))') &
+!write(GA_print_unit,'(A,2(1x,I6))') &
 !      'gase: n_GA_individuals, n_GA_individuals - n_GA_save_elites + 1 ',&
 !             n_GA_individuals, n_GA_individuals - n_GA_save_elites + 1
 
@@ -85,7 +85,7 @@ enddo ! i
 
 deallocate( temp_fitness )
 
-write(6,'(A,1x,E15.7/)') 'gase: min_fit to be elite ', min_fit
+write(GA_print_unit,'(A,1x,E15.7/)') 'gase: min_fit to be elite ', min_fit
 
 
 !-----------------------------------------------------------------------
@@ -119,15 +119,15 @@ enddo ! i
 
 !-----------------------------------------------------------------------
 
-!write(6,'(A,1x,1x,I6)') 'gase: elites for generation', i_GA_generation
+!write(GA_print_unit,'(A,1x,1x,I6)') 'gase: elites for generation', i_GA_generation
 !do  i = 1, n_GA_save_elites
-!    write(6,'(A,1x,I6,2x,2(1x,I6))') &
+!    write(GA_print_unit,'(A,1x,I6,2x,2(1x,I6))') &
 !          'gase: generation, i, individual_elites(i) ', &
 !            i_GA_generation, i, individual_elites(i)
 !enddo ! i
 
-write(6,'(A,1x,1x,I6)') 'gase: elites for generation', i_GA_generation
-write(6,'(10(1x,I6))') individual_elites(1:n_GA_save_elites)
+write(GA_print_unit,'(A,1x,1x,I6)') 'gase: elites for generation', i_GA_generation
+write(GA_print_unit,'(10(1x,I6))') individual_elites(1:n_GA_save_elites)
 
 
 

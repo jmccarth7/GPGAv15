@@ -50,13 +50,13 @@ integer(kind=4), intent(in), &
 
 do  i_GP_individual = n_indiv_start, n_indiv_stop
 
-    write(6,'(/A,1x,I6)')  '0: i_GP_indiv ', i_GP_individual
-    write(6,'(A)') '0: i_tree nodes '
-    write(6,'(A)') '            1  2  3  4  5  6  7  8  9 10 11 12 13 14 15'
+    write(GP_print_unit,'(/A,1x,I6)')  '0: i_GP_indiv ', i_GP_individual
+    write(GP_print_unit,'(A)') '0: i_tree nodes '
+    write(GP_print_unit,'(A)') '            1  2  3  4  5  6  7  8  9 10 11 12 13 14 15'
 
     do  i_Tree=1,n_Trees
 
-        write(6,'(I6,4x,20(1x,I2))' ) &
+        write(GP_print_unit,'(I6,4x,20(1x,I2))' ) &
              i_tree, Tree_Type(i_GP_individual, 1:n_nodes, i_tree) 
 
     enddo ! i_tree

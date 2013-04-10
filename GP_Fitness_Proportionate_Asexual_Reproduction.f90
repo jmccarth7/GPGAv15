@@ -25,8 +25,8 @@ logical Carry_On
 i_GP_Individual = n_GP_Elitists ! + n_GP_Asexual_Reproductions
 
 
-write(6,'(A,1x,I6)' ) 'gpfpar: n_GP_Elitists         ', n_GP_Elitists
-write(6,'(A,1x,I6)' ) 'gpfpar: start i_GP_individual ', &
+write(GP_print_unit,'(A,1x,I6)' ) 'gpfpar: n_GP_Elitists         ', n_GP_Elitists
+write(GP_print_unit,'(A,1x,I6)' ) 'gpfpar: start i_GP_individual ', &
                                n_GP_Elitists  + 1
 
 
