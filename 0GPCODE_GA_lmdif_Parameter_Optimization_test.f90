@@ -960,6 +960,11 @@ do  i_GP_Generation=1,n_GP_Generations
 
             endif !  myid == 0
 
+            ! this prints a summary of the initial conditions, parameters and node types
+            ! for this individual after being optimized in GPCODE*opt
+
+            call summary_GP_indiv( i_GP_individual )
+
         endif !   Run_GP_Calculate_Fitness(i_GP_Individual)
 
     enddo  gp_ind_loop    !   i_GP_individual

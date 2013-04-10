@@ -11,6 +11,7 @@ SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 calc_fitness.f90 \
 	GP_fitness_reset.f90 \
 	GP_model_parameters_module.f90 GP_Mutations.f90 \
 	GP_parameters_module.f90 GP_Tournament_Style_Sexual_Reproduction.f90 \
+	summary_GP_indiv.f90 \
 	GP_Tree_Build.f90 GP_Tree_Swap.f90 GP_variables_module.f90 \
 	GPCODE_GA_lmdif_Parameter_Optimization.f90 indiv_fitness.f90 \
 	init_values.f90 init_values_LV.f90 init_values_NPZ.f90 \
@@ -33,6 +34,7 @@ OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o calc_fitness.o \
 	GP_Fitness_Proportionate_Asexual_Reproduction.o \
 	GP_fitness_reset.o \
 	GP_model_parameters_module.o GP_Mutations.o GP_parameters_module.o \
+	summary_GP_indiv.o \
 	GP_Tournament_Style_Sexual_Reproduction.o GP_Tree_Build.o \
 	GP_Tree_Swap.o GP_variables_module.o \
 	GPCODE_GA_lmdif_Parameter_Optimization.o indiv_fitness.o \
@@ -109,6 +111,9 @@ print_trees.o:GA_parameters_module.o \
         GA_variables_module.o GP_data_module.o GP_parameters_module.o \
         GP_variables_module.o Runge_Kutta_Variables_module.o mpi_module.o
 set_answer_arrays.o:GA_parameters_module.o \
+        GA_variables_module.o GP_data_module.o GP_parameters_module.o \
+        GP_variables_module.o Runge_Kutta_Variables_module.o mpi_module.o
+summary_GP_indiv.o:GA_parameters_module.o \
         GA_variables_module.o GP_data_module.o GP_parameters_module.o \
         GP_variables_module.o Runge_Kutta_Variables_module.o mpi_module.o
 #Lotka_Volterra_Example_Set_Up.f901
