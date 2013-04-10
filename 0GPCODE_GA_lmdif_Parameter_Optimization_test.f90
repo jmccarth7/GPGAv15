@@ -26,6 +26,7 @@ logical bad_node
 
 
 integer :: i
+integer :: i_diversity 
 integer :: nop
 integer :: message_len
 
@@ -509,6 +510,11 @@ do  i_GP_Generation=1,n_GP_Generations
 
         call MPI_BARRIER( MPI_COMM_WORLD, ierr )
 
+        if( myid == 0 )then
+            call GP_calc_diversity_index( n_GP_individuals,  &
+                                          GP_Adult_Population_Node_Type, i_diversity )
+        endif ! myid == 0 
+
         !-----------------------------------------------------------------------------
 
 
@@ -601,8 +607,12 @@ do  i_GP_Generation=1,n_GP_Generations
             write(6,'(/A/)') &
                   '0: ############################################################################'
 
+            !call GP_calc_diversity_index( i_GP_individual, n_GP_individuals, &
+            !                              GP_Child_Population_Node_Type, i_diversity )
+            call GP_calc_diversity_index( n_GP_individuals, &
+                                          GP_Child_Population_Node_Type, i_diversity )
 
-
+            
         endif ! myid == 0
 
         !------------------------------------------------------------------------------------

@@ -90,6 +90,8 @@ deallocate( GP_Individual_Initial_Conditions )
 
 deallocate( GP_Population_Fitness )
 
+deallocate( GP_diversity_index ) 
+
 deallocate( GP_Population_Node_Type )
 deallocate( GP_Individual_Node_Type )
 

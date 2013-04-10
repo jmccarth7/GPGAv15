@@ -6,6 +6,7 @@ SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 calc_fitness.f90 \
 	GA_parameters_module.f90 GA_replace_bad_individuals.f90 \
 	GA_save_elites.f90 GA_Tournament_Style_Sexual_Reproduction.f90 \
 	GA_variables_module.f90 gaussian_random_number_generator.f90 \
+	GP_calc_diversity_index.f90 \
 	GP_Clean_Tree_Nodes.f90 GP_data_module.f90 GP_Elitists.f90 \
 	GP_Fitness_Proportionate_Asexual_Reproduction.f90 \
 	GP_fitness_reset.f90 \
@@ -30,6 +31,7 @@ OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o calc_fitness.o \
 	GA_parameters_module.o GA_replace_bad_individuals.o GA_save_elites.o \
 	GA_Tournament_Style_Sexual_Reproduction.o GA_variables_module.o \
 	gaussian_random_number_generator.o GP_Clean_Tree_Nodes.o \
+	GP_calc_diversity_index.o   \
 	GP_data_module.o GP_Elitists.o \
 	GP_Fitness_Proportionate_Asexual_Reproduction.o \
 	GP_fitness_reset.o \
@@ -146,6 +148,9 @@ GP_fitness_reset: GA_parameters_module.o \
 GP_Mutations.o: GA_parameters_module.o \
 	GA_variables_module.o GP_parameters_module.o \
 	GP_variables_module.o 
+GP_calc_diversity_index.o:GA_parameters_module.o \
+        GA_variables_module.o GP_parameters_module.o \
+        GP_variables_module.o
 GP_parameters_module.o: GP_model_parameters_module.o
 GP_Tournament_Style_Sexual_Reproduction.o: GA_parameters_module.o \
 	GA_variables_module.o GP_parameters_module.o \

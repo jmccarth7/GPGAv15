@@ -92,6 +92,8 @@ allocate( GP_Node_Type_for_Plotting(9, n_Nodes,n_Trees) )
 
 allocate( GP_Solution(0:n_Time_Steps,n_CODE_Equations) )
 
+allocate( GP_diversity_index( n_GP_individuals ) )
+
 allocate( GP_Adult_Population_Node_Type(n_GP_Individuals,n_Nodes,n_Trees) )
 allocate( GP_Child_Population_Node_Type(n_GP_Individuals,n_Nodes,n_Trees) )
 

@@ -22,16 +22,13 @@ logical Carry_On
 
 
 
-i_GP_Individual = n_GP_Elitists + n_GP_Asexual_Reproductions
+i_GP_Individual = n_GP_Elitists ! + n_GP_Asexual_Reproductions
 
-                                                                                                                 
-write(6,'(A,2(1x,I6))' ) &                                                                                       
-      'gpfpar: n_GP_Elitists, n_GP_Asexual_Reproductions ', &                                                    
-               n_GP_Elitists, n_GP_Asexual_Reproductions                                                         
-write(6,'(A,1x,I6)' ) &                                                                                          
-      'gpfpar: start i_GP_individual = ', &                                                                      
-               n_GP_Elitists + n_GP_Asexual_Reproductions +1                                                     
-    
+
+write(6,'(A,1x,I6)' ) 'gpfpar: n_GP_Elitists         ', n_GP_Elitists
+write(6,'(A,1x,I6)' ) 'gpfpar: start i_GP_individual ', &
+                               n_GP_Elitists  + 1
+
 
 do i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
 
@@ -41,7 +38,7 @@ do i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
 
   ! normalize to the maximum values so that the range is from [0. to 1.]
 
-  do j_GP_Individual=1,n_GP_Individuals 
+  do j_GP_Individual=1,n_GP_Individuals
 
     if( Carry_On ) then
 
@@ -57,7 +54,7 @@ do i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
   enddo ! j_GP_Individual
 
   ! index to move over both the parent parameters and the individual fitness levels
-  j_GP_Individual=icff  
+  j_GP_Individual=icff
 
 
   GP_Child_Population_Node_Type(i_GP_Individual,1:n_Nodes,1:n_Trees) = &
