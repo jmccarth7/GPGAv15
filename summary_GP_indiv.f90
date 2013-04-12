@@ -42,9 +42,6 @@ logical :: Lplot
 
 integer :: i_GP_indiv
 
-!real(kind=8), allocatable, dimension(:) :: answer
-!real(kind=8), allocatable, dimension(:) :: output_array
-
 real (kind=8) :: ssum, ssum2, totobs, dff
 
 real (kind=8) :: xcount
@@ -58,9 +55,13 @@ real (kind=8) :: xcount
 !  GP_Population_Initial_Conditions( i_GP_indiv,1:n_CODE_Equations)
 !  GP_Population_Node_Parameters(    i_GP_indiv,1:n_Nodes,1:n_Trees)
 
+!---------------------------------------------------
+! assume this subroutine is called only by cpu 0
+!---------------------------------------------------
 
-! assume this is called only by cpu 0
+!--------------------------------------------------------------------------------
 
+! initial conditions 
 
 write(GP_print_unit,'(/A)')&
       'sgpi: i_GP_generation, i_GP_indiv, i_code_eq, &
@@ -82,7 +83,12 @@ write(GP_summary_output_unit, '(A)') '> '
 
 
 
-    write(GP_print_unit,'(A)')  'sgpi: i_GP_generation, i_GP_indiv, i_node, i_tree, GP_Indiv_Node_Type '
+!--------------------------------------------------------------------------------
+
+! print the node types if node /= -9999
+
+write(GP_print_unit,'(A)')  &
+      'sgpi: i_GP_generation, i_GP_indiv, i_node, i_tree, GP_Indiv_Node_Type '
 
 dff = 0.0d0
 xcount = 0.0d0

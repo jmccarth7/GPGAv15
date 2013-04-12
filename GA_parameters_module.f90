@@ -6,6 +6,8 @@ implicit none
 
 ! set the integer parameters
 
+integer(kind=4),parameter :: GA_print_unit = 60
+
 ! set the real parameters
 
 !  NOTE: in the next 2 parameters:  GA_Crossover_Probability+GA_Mutation_Probability must be less than <= 1.
@@ -50,8 +52,6 @@ integer(kind=4) :: i_GA_Generation
 integer(kind=4) :: n_GA_Individuals !=  500 ! 3  ! 100
 
 integer(kind=4) :: i_GA_individual, j_GA_individual
-
-integer(kind=4),parameter :: GA_print_unit = 6
 
 real(kind=8) ::  min_sse
 
