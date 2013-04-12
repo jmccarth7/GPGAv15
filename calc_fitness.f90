@@ -366,8 +366,8 @@ enddo ! i_GA_individual
 
 !-------------------------------------------------------------------------------
 
-if( i_GA_generation == 1                             .or. &
-    mod(i_GA_generation,child_print_interval ) == 0  .or. &
+if( i_GA_generation == 1                                 .or. &
+    mod(i_GA_generation, GA_child_print_interval ) == 0  .or. &
     i_GA_generation == n_GA_generations       )then
 
     write(GA_print_unit,'(/A)')&
@@ -429,6 +429,8 @@ write(GA_print_unit,'(A,1x,I6,12(1x,E15.7)/(12(1x,E15.7)))') &
                 i_GA_Best_Parent, parent_parameters( i_GA_Best_Parent, 1:n_parameters)
 
 
+!-----------------------------------------------------------------------
+
 ! if fitness >= 100, then sse <= 0.01 * sse0 
 ! if this is true, stop the run
 
@@ -438,6 +440,8 @@ if( individual_ranked_fitness(i_GA_Best_Parent) >= 200.0d0 ) then
     !L_stop_run = .TRUE. 
 
 endif ! individual_ranked_fitness(i_GA_Best_Parent) >= 100.0d0 
+
+!-----------------------------------------------------------------------
 
 return
 

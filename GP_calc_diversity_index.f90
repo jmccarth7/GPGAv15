@@ -86,9 +86,8 @@ do  i_indiv = 1, n_GP_individuals
 
 enddo  ! i_indiv 
 
-write(GP_print_unit,'(A)') ' '
-write(GP_print_unit,'(A,1x,50(1x,I2))') &
-         'gcdi:GP_diversity_index ',  GP_diversity_index(1:n_GP_individuals) 
+write(GP_print_unit,'(/A)') 'gcdi:GP_diversity_index '
+write(GP_print_unit,'(30(1x,I3))') GP_diversity_index(1:n_GP_individuals) 
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 return

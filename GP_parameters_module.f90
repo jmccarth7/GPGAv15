@@ -126,10 +126,13 @@ integer(kind=4) :: n_time_steps  ! = 2000 ! 8 ! 10     ! debug
 ! should be printed
 
 ! print if   mod( i_ga_generation, child_print_interval ) == 0
-integer(kind=4)           :: child_print_interval
+integer(kind=4)           :: GA_child_print_interval
+integer(kind=4)           :: GP_child_print_interval
 
 ! this is the total number of child printouts for the entire run
-integer(kind=4),parameter :: number_child_prints = 20
+
+integer(kind=4),parameter :: number_GA_child_prints = 2 ! 20
+integer(kind=4),parameter :: number_GP_child_prints = 2 ! 20
 
 !-------------------------------------------------------------------
 

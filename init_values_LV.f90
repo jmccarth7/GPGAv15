@@ -117,6 +117,19 @@ enddo ! i_tree
 ! [Note: In this example, the (1-efficiency) parameter is set to a new unique paramater, 'effic']
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                                                                                                     
+! Function types used                                                                    
+! Type 1: ==> Addition  left + right                                                     
+! Type 2: ==> Subtraction  left - right                                                  
+! Type 3: ==> Multiply  left * right                                                     
+! Type 4: ==> Divide (protected) left / right                                            
+! Type 5: ==> Ivlev Grazing Function ==> (1 - e^-abs(left*right))                        
+! Type 6: ==> Michaelis-Menton Term (modified for Forward-Backward)                      
+!                                    (1 / (abs(LHS) + abs(RHS)))                         
+! Type 7: ==> Mayzaud-Poulet Grazing Function ==>                                        
+!                     abs(left*right)*(1 -e^-abs(left*right))                            
+
+!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 ! 1: [ 3, 0,-1, N, N, N, N, N, N, N, N, N, N, N, N]
 ! 2: [ N, N, N, N, N, N, N, N, N, N, N, N, N, N, N]
@@ -128,10 +141,6 @@ enddo ! i_tree
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-if( myid == 0 )then
-    write(GP_print_unit,'(A,1x,I6, 4x,L1)') 'ivLV: myid, LV_model1 ', &
-                                       myid, LV_model1 
-endif ! myid == 0
 
 ! Initial Conditions
 
@@ -143,10 +152,6 @@ else
     Runge_Kutta_Initial_Conditions(2) = 0.3960451  ! 2.0D+0   ! [predator]     [mmol N m-3]
 endif  ! LV_model1
 
-if( myid == 0 )then
-    write(GP_print_unit,'(A,1x,I6, 2(1x,F10.2))') 'ivLV: myid, Runge_Kutta_Initial_Conditions(1:2) ', &
-                                             myid, Runge_Kutta_Initial_Conditions(1:2)
-endif ! myid == 0
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
@@ -158,10 +163,6 @@ Node_Probability = (/0.8d0,0.6d0,0.4d0,0.d0/)  ! NOTE: Last value MUST BE 0.0!!!
 ! This term is calculated in units of [mg N d-1]
 GP_Individual_Node_Type(1,1) = 3   ! '*'
 
-if( myid == 0 )then
-    write(GP_print_unit,'(A,2(1x,I6))') 'ivLV: myid, GP_Individual_Node_Type(1,1)        ', &
-                                   myid, GP_Individual_Node_Type(1,1) 
-endif ! myid == 0
 
 GP_Individual_Node_Type(2,1) = 0            ! prey growth rate
 
@@ -171,10 +172,6 @@ else
     GP_Individual_Node_Parameters(2,1) = 5.599795d0  ! 0.4    ! [0.04, 0.4; prey growth rate [d-1]
 endif  ! LV_model1
 
-if( myid == 0 )then
-    write(GP_print_unit,'(A,1x,I6, 1x,F10.2)') 'ivLV: myid, GP_Individual_Node_Parameters(2,1)  ', &
-                                          myid, GP_Individual_Node_Parameters(2,1) 
-endif ! myid == 0
 
 GP_Individual_Node_Type(3,1) = -1  ! Phyto
 
@@ -187,10 +184,6 @@ else
     GP_Individual_Node_Parameters(2,4) = 1.56521d0 !0.02! predator biomass-specific feeding rate [d-1]
 endif  ! LV_model1
 
-if( myid == 0 )then
-    write(GP_print_unit,'(A,1x,I6, 1x,F10.2)') 'ivLV: myid, GP_Individual_Node_Parameters(2,4)  ', &
-                                          myid, GP_Individual_Node_Parameters(2,4) 
-endif ! myid == 0
 
 GP_Individual_Node_Type(3,4) = 3   ! '*'
 GP_Individual_Node_Type(6,4) = -1  ! Phyto
@@ -207,10 +200,6 @@ else
     GP_Individual_Node_Parameters(4,5) = 0.8346865d-06 !0.6![ predator biomass-specific mortality rate [d-1]
 endif  ! LV_model1
 
-if( myid == 0 )then
-    write(GP_print_unit,'(A,1x,I6, 1x,F10.2)') 'ivLV: myid, GP_Individual_Node_Parameters(4,5)  ', &
-                                          myid, GP_Individual_Node_Parameters(4,5) 
-endif ! myid == 0
 
 GP_Individual_Node_Type(5,5) = -2  ! Zoo
 GP_Individual_Node_Type(6,5) = 3   ! '*'
@@ -223,10 +212,6 @@ else
     GP_Individual_Node_Parameters(12,5) = 0.2416847d+01 ! 0.5!  predator assimilation efficiency [fraction 0<==>1]
 endif  ! LV_model1
 
-if( myid == 0 )then
-    write(GP_print_unit,'(A,1x,I6, 1x,F10.2)') 'ivLV: myid, GP_Individual_Node_Parameters(12,5) ', &
-                                          myid, GP_Individual_Node_Parameters(12,5) 
-endif ! myid == 0
 
 GP_Individual_Node_Type(13,5) = -2 ! Zoo
 GP_Individual_Node_Type(14,5) = 0            ! predator biomass-specific feeding rate [d-1]
@@ -236,12 +221,35 @@ else
     GP_Individual_Node_Parameters(14,5) = 0.2585400E+00  ! 0.02  ! predator biomass-specific feeding rate [d-1]
 endif  ! LV_model1
 
+GP_Individual_Node_Type(15,5) = -1 ! Phytoplankton
+
+
 if( myid == 0 )then
-    write(GP_print_unit,'(A,1x,I6, 1x,F10.2)') 'ivLV: myid, GP_Individual_Node_Parameters(14,5) ', &
-                                          myid, GP_Individual_Node_Parameters(14,5) 
+    write(GP_print_unit,'(A,1x,I6, 4x,L1)') 'ivLV: myid, LV_model1 ', &
+                                       myid, LV_model1 
+    write(GP_print_unit,'(A,1x,I6, 2(1x,F10.2))') &
+          'ivLV: myid, Runge_Kutta_Initial_Conditions(1:2) ', &
+                 myid, Runge_Kutta_Initial_Conditions(1:2)
+    write(GP_print_unit,'(A,2(1x,I6))') &
+          'ivLV: myid, GP_Individual_Node_Type(1,1)        ', &
+                 myid, GP_Individual_Node_Type(1,1) 
+    write(GP_print_unit,'(A,1x,I6, 1x,F10.2)') &
+          'ivLV: myid, GP_Individual_Node_Parameters(2,1)  ', &
+                 myid, GP_Individual_Node_Parameters(2,1) 
+    write(GP_print_unit,'(A,1x,I6, 1x,F10.2)') &
+          'ivLV: myid, GP_Individual_Node_Parameters(2,4)  ', &
+                 myid, GP_Individual_Node_Parameters(2,4) 
+    write(GP_print_unit,'(A,1x,I6, 1x,F10.2)') &
+          'ivLV: myid, GP_Individual_Node_Parameters(4,5)  ', &
+                 myid, GP_Individual_Node_Parameters(4,5) 
+    write(GP_print_unit,'(A,1x,I6, 1x,F10.2)') &
+          'ivLV: myid, GP_Individual_Node_Parameters(12,5) ', &
+                 myid, GP_Individual_Node_Parameters(12,5) 
+    write(GP_print_unit,'(A,1x,I6, 1x,F10.2)') &
+          'ivLV: myid, GP_Individual_Node_Parameters(14,5) ', &
+                 myid, GP_Individual_Node_Parameters(14,5) 
 endif ! myid == 0
 
-GP_Individual_Node_Type(15,5) = -1 ! Phytoplankton
 
 
 if( n_linked_parms > 0 )then

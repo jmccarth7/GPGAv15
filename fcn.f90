@@ -43,9 +43,9 @@ do i_CODE_equation=1,n_CODE_equations
   if( isnan( Runge_Kutta_Solution(0,i_CODE_equation) ) .or. &
         abs( Runge_Kutta_Solution(0,i_CODE_equation) )  > 1.0D20  )then
 
-      write(GA_print_unit,'(A,1x,I6)') &
-            'fcn: bad initial condition i_CODE_equation = ', &
-                                        i_CODE_equation
+      !write(GA_print_unit,'(A,1x,I6)') &
+      !      'fcn: bad initial condition i_CODE_equation = ', &
+      !                                  i_CODE_equation
 
       L_bad_result = .TRUE.
       iflag = -1
@@ -74,9 +74,9 @@ do i_tree=1,n_trees
       if( isnan( Runge_Kutta_Node_Parameters(i_node,i_tree) )  .or. &
             abs( Runge_Kutta_Node_Parameters(i_node,i_tree) ) > 1.0D20 ) then
 
-          write(GA_print_unit,'(A,2(1x,I6))') &
-                'fcn: bad  Runge_Kutta_Node_Parameters for i_node, i_tree ', &
-                                                           i_node, i_tree
+          !write(GA_print_unit,'(A,2(1x,I6))') &
+          !      'fcn: bad  Runge_Kutta_Node_Parameters for i_node, i_tree ', &
+          !                                                 i_node, i_tree
           L_bad_result = .TRUE.
           iflag = -1
           return
@@ -105,9 +105,9 @@ call Runge_Kutta_Box_Model
 
 
 if( L_bad_result ) then
-    write(GA_print_unit,'(A,1x,I6,4x,L1)') &
-          'fcn: aft call Runge_Kutta_Box_Model  myid, L_bad_result = ', &
-                                                myid, L_bad_result
+    !write(GA_print_unit,'(A,1x,I6,4x,L1)') &
+    !      'fcn: aft call Runge_Kutta_Box_Model  myid, L_bad_result = ', &
+    !                                            myid, L_bad_result
     iflag = -1
     return
 endif

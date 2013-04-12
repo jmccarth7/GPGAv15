@@ -185,10 +185,11 @@ L_stop_run  = .FALSE.
 
 do  i_GA_generation=1,n_GA_Generations
 
-    Run_GA_lmdif=.false.  ! determines if the new child has to be sent to lmdif for 'local' optimization
+    ! Run_GA_lmdif determines if the new child has to be sent to lmdif for 'local' optimization
+    Run_GA_lmdif=.false.  
 
     if( myid == 0 )then
-        write(GA_print_unit,'(/A,1x,I6,1x,A/)') 'GA Generation # ',i_GA_generation,' is underway'
+        write(GA_print_unit,'(/A,1x,I6,1x,A/)') 'GA Generation ',i_GA_generation,' is underway'
     endif ! myid == 0
 
 
@@ -266,7 +267,8 @@ do  i_GA_generation=1,n_GA_Generations
                                                        individual_quality )
 
             !call system_clock( count=clock2, count_rate=ratec, count_max= maxclk)
-            !!write(GA_print_unit,*) 'GP_GA_opt: clock1,clock2,ratec,maxclk ', clock1,clock2,ratec,maxclk
+            !!write(GA_print_unit,*) 'GP_GA_opt: clock1,clock2,ratec,maxclk ', &
+            !!                                   clock1,clock2,ratec,maxclk
             !write(GA_print_unit,*) 'GP_GA_opt: GA_Fitness_Proportionate_Reproduction time = ', &
             !            real(clock2-clock1,kind=4)/real(ratec,kind=4) , ' seconds'
 
@@ -320,7 +322,7 @@ do  i_GA_generation=1,n_GA_Generations
             ! print child parameters at start of the generation
 
             if( i_GA_generation == n_GA_generations               .or.  &
-                mod( i_GA_generation, child_print_interval ) == 0          )then
+                mod( i_GA_generation, GA_child_print_interval ) == 0          )then
 
                 write(GA_print_unit,'(/A,1x,I6)') &
                 'GP_GA_opt: child parameters at start of generation: ', &
