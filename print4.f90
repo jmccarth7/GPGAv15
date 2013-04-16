@@ -10,7 +10,6 @@ use GP_parameters_module
 implicit none
 
 real(kind=8) ::  tree_evaluation(n_nodes,n_trees)
-!character(str_len), dimension( n_nodes,n_trees) ::  tree_evaluation_string
 
 real(kind=8) ::  left_node_value,right_node_value
 
@@ -18,10 +17,6 @@ character(str_len) ::  left_node_value_string
 character(str_len) ::  right_node_value_string
 
 integer icff
-
-
-!integer i_tree
-!integer i_function
 
 integer it
 

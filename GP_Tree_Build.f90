@@ -54,28 +54,33 @@ do  i_GP_Individual=1,n_GP_Individuals       ! for each GP individual
                             call random_number(cff) ! uniform random number generator
                             node_function=int( float(n_Node_Functions)*cff  + 1.0 )
 
-                            ! should not need to do this but compilers may vary w.r.t. possible rand = 1.
-                            if( Node_Function .gt. n_Node_Functions ) then
-                                Node_Function  =   n_Node_Functions
-                            endif !  Node_Function .gt. n_Node_Functions
+                            ! should not need to do this but compilers may vary w.r.t. 
+                            ! possible rand = 1.
 
-                            GP_Adult_Population_Node_Type(i_GP_Individual,i_Node,i_Tree)=Node_Function
+                            !if( Node_Function .gt. n_Node_Functions ) then
+                            !    Node_Function  =   n_Node_Functions
+                            !endif !  Node_Function .gt. n_Node_Functions
 
-                            !  set the node vs terminal selection capability for the node inputs at the next level
+                            Node_Function = min( Node_Function, n_Node_Functions )
+                            GP_Adult_Population_Node_Type(i_GP_Individual,i_Node,i_Tree) = &
+                                                                         Node_Function
+
+                            !  set the node vs terminal selection capability 
+                            !  for the node inputs at the next level
 
                             if( i_Level .lt. N_Levels-1 ) then
      
                                 ! set the node lowel level inputs to open
 
-                                GP_Adult_Population_Node_Type(i_GP_Individual, 2*i_Node    , i_Tree)=0          
-                                GP_Adult_Population_Node_Type(i_GP_Individual, 2*i_Node +1 , i_Tree)=0      
+                                GP_Adult_Population_Node_Type(i_GP_Individual,2*i_Node   ,i_Tree)=0          
+                                GP_Adult_Population_Node_Type(i_GP_Individual,2*i_Node +1,i_Tree)=0      
 
                             else
 
                                 ! complete setting the node lowest level nodes with terminals
 
-                                GP_Adult_Population_Node_Type(i_GP_Individual, 2*i_Node    , i_Tree)=-1         
-                                GP_Adult_Population_Node_Type(i_GP_Individual, 2*i_Node +1 , i_Tree)=-1     
+                                GP_Adult_Population_Node_Type(i_GP_Individual,2*i_Node   ,i_Tree)=-1         
+                                GP_Adult_Population_Node_Type(i_GP_Individual,2*i_Node +1,i_Tree)=-1     
 
                             endif !   i_Level .lt. N_Levels-1
 
@@ -134,10 +139,13 @@ do  i_GP_Individual=1,n_GP_Individuals
                         Node_Variable=int( float(n_CODE_Equations)*cff + 1.0 )  
 
 
-                        !  should not need to do this but compilers may vary w.r.t. possible rand = 1.
-                        if( Node_Variable .gt. n_CODE_Equations) then
-                            Node_Variable=n_CODE_Equations
-                        endif !   Node_Variable .gt. n_CODE_Equations
+                        !  should not need to do this but compilers may vary w.r.t. 
+                        !  possible rand = 1.
+                        !if( Node_Variable .gt. n_CODE_Equations) then
+                        !    Node_Variable=n_CODE_Equations
+                        !endif !   Node_Variable .gt. n_CODE_Equations
+
+                        Node_Variable = min( Node_Variable, n_CODE_Equations )
 
                         GP_Adult_Population_Node_Type(i_GP_Individual,i_Node,i_Tree)=-Node_Variable
 

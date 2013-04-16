@@ -60,7 +60,7 @@ do  i_GA_individual = 1, n_GA_individuals
 
 enddo ! i_GA_individual
 
-!mean_fit_before =  mean_fit_before / real( n_GA_individuals, kind=8 )
+
 if( icount > 0 )then
     mean_fit_before =  mean_fit_before / real( icount, kind=8 )
 else
@@ -89,16 +89,11 @@ do i_GA_Individual=1,n_GA_Individuals
   ! if the index i_GA_individual is in the array individual_elites,
   ! do not replace this individual - it is an elite individual
 
-  !write(GA_print_unit,'(/A,1x,I6)')      'gafp: i_GA_individual ', i_GA_individual
-  !if( i_GA_individual == 1 )then
-  !    write(GA_print_unit,'(A/(15(1x,I6)))') 'gafp: individual_elites ', &
-  !                                      individual_elites(1:n_GA_save_elites)
-  !endif ! i_GA_individual == 1
-
 
   if( any( individual_elites == i_GA_individual ) )then
-      !write(GA_print_unit,'(A,1x,I6)') 'gafp: skip -- index is elite i_GA_individual = ', &
-      !                                                   i_GA_individual
+      !write(GA_print_unit,'(A,1x,I6)') &
+      !'gafp: skip -- index is elite i_GA_individual = ', &
+      !                              i_GA_individual
       cycle
   endif   ! any( individual_elites == i_GA_individual )
 
@@ -111,6 +106,7 @@ do i_GA_Individual=1,n_GA_Individuals
   j_loop:&
   do  j_GA_Individual=1,n_GA_Individuals ! normalize to the maximum values 
                                          ! so that the range is [0. , 1.]
+
       !write(GA_print_unit,'(A,1x,I6,2(1x,E15.7))') &
       !      'gafp: j_GA_Individual, Integrated_Ranked_Fitness(j_GA_Individual), dff ', &
       !             j_GA_Individual, Integrated_Ranked_Fitness(j_GA_Individual), dff
@@ -152,8 +148,8 @@ do i_GA_Individual=1,n_GA_Individuals
       cycle i_loop   ! skip replacing this individual
   endif
 
-  !write(GA_print_unit,'(/A,2(1x,I6))') 'gafp:aft loop  j_GA_Individual, icff', &
-  !                                         j_GA_Individual, icff
+  !write(GA_print_unit,'(/A,2(1x,I6))') &
+  !'gafp:aft loop  j_GA_Individual, icff', j_GA_Individual, icff
 
   !-----------------------------------------------------------------------------------------
 
@@ -227,12 +223,15 @@ else
 endif ! icount > 0 
 
 
-write(GA_print_unit,'(/A,1x,I6,1x, E20.10)') 'gafp: i_ga_generation, mean_fit_before      ', &
-                                                    i_ga_generation, mean_fit_before
-write(GA_print_unit,'(A,1x,I6,1x, E20.10)')  'gafp: i_ga_generation, mean_fit_after       ', &
-                                                    i_ga_generation, mean_fit_after
-write(GA_print_unit,'(A,1x,I6,2(1x,I10)/)')  'gafp: i_ga_generation, n_replaced, icount   ', &
-                                                    i_ga_generation, n_replaced, icount
+write(GA_print_unit,'(/A,1x,I6,1x, E20.10)') &
+      'gafp: i_ga_generation, mean_fit_before      ', &
+             i_ga_generation, mean_fit_before
+write(GA_print_unit,'(A,1x,I6,1x, E20.10)')  &
+      'gafp: i_ga_generation, mean_fit_after       ', &
+             i_ga_generation, mean_fit_after
+write(GA_print_unit,'(A,1x,I6,2(1x,I10)/)')  &
+      'gafp: i_ga_generation, n_replaced, icount   ', &
+             i_ga_generation, n_replaced, icount
 
 return
 

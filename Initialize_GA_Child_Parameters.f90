@@ -39,19 +39,6 @@ do  i_GA_Individual=1,n_GA_Individuals
         Child_Parameters(i_GA_Individual,i_Parameter) = dff
 
 
-!        !  parameter 11 == parameter 7
-!        !  parameter 12 == parameter 8
-!
-!        if( i_parameter == 11 )then
-!            Child_Parameters(i_GA_Individual,i_Parameter) =  &
-!                            Child_Parameters(i_GA_Individual,7)
-!        endif
-!        if( i_parameter == 12 )then
-!            Child_Parameters(i_GA_Individual,i_Parameter) =  &
-!                            Child_Parameters(i_GA_Individual,8)
-!        endif
-
-
          !----------------------------------------------------------------------------
 
          if( n_linked_parms > 0 )then
@@ -78,7 +65,6 @@ do  i_GA_Individual=1,n_GA_Individuals
          endif !  n_linked_parms > 0
 
          !----------------------------------------------------------------------------
-
 
 
         !write(GA_print_unit,'(A,2(1x, I6),1x,E24.16 )') &

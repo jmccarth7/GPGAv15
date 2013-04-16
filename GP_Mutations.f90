@@ -1,7 +1,7 @@
 subroutine GP_Mutations
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-! Mutations in this subroutine are targeted to the nodes only.  
+! Mutations in this subroutine are targeted to the nodes only.
 ! The terminals are optimized later on using GA_lmdif.
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
@@ -29,14 +29,14 @@ logical Node_Not_Found
 
 i_GP_Individual=n_GP_Elitists+n_GP_Asexual_Reproductions+n_GP_Crossovers
 
-                                                                                                                 
-write(GP_print_unit,'(A,3(1x,I6))' ) &                                                                                       
-      'gpmut: n_GP_Elitists, n_GP_Asexual_Reproductions, n_GP_Crossovers ', & 
-              n_GP_Elitists, n_GP_Asexual_Reproductions, n_GP_Crossovers     
-write(GP_print_unit,'(A,1x,I6)' ) &                                                                                          
-      'gpmut: start i_GP_individual = ', &                                                                      
-         n_GP_Elitists + n_GP_Asexual_Reproductions + n_GP_Crossovers +1                                                     
-    
+
+write(GP_print_unit,'(A,3(1x,I6))' ) &
+      'gpmut: n_GP_Elitists, n_GP_Asexual_Reproductions, n_GP_Crossovers ', &
+              n_GP_Elitists, n_GP_Asexual_Reproductions, n_GP_Crossovers
+write(GP_print_unit,'(A,1x,I6)' ) &
+      'gpmut: start i_GP_individual = ', &
+         n_GP_Elitists + n_GP_Asexual_Reproductions + n_GP_Crossovers +1
+
 
 do  i_GP_Mutation=1,n_GP_Mutations
 
@@ -54,23 +54,23 @@ do  i_GP_Mutation=1,n_GP_Mutations
     ! randomly pick one of the n_GP_Individuals to mutate
 
     call Random_Number(cff) ! uniform random number generator
-    i_GP_Individual_Mutation=1+int(cff*float(n_GP_Individuals-1))  
+    i_GP_Individual_Mutation=1+int(cff*float(n_GP_Individuals-1))
 
 
     ! randomly pick one of the equation trees
 
     call random_number(cff) ! uniform random number generator
-    i_Tree_Mutation=1+int(cff*float(n_Trees-1))                         
+    i_Tree_Mutation=1+int(cff*float(n_Trees-1))
 
 
-    ! count the number of nodes on the tree selected for a mutation.  
+    ! count the number of nodes on the tree selected for a mutation.
     ! Only nodes are mutated.
 
     icnt_Nodes=0
     do  i_Node=1,n_Nodes
 
-        if( GP_Adult_Population_Node_Type(i_GP_Individual_Mutation,i_Node,i_Tree_Mutation) &
-                                                                                 .gt. 0) then
+        if( GP_Adult_Population_Node_Type( &
+            i_GP_Individual_Mutation,i_Node,i_Tree_Mutation) .gt. 0) then
             icnt_Nodes=icnt_Nodes+1
         endif ! GP_Adult_Population_Node_Type...
 
@@ -91,19 +91,20 @@ do  i_GP_Mutation=1,n_GP_Mutations
         icnt=0
         Node_Not_Found=.true.
         do i_Node=1,n_Nodes
-           if( Node_Not_Found) then
+           !if( Node_Not_Found) then
                if( GP_Adult_Population_Node_Type( &
                           i_GP_Individual_Mutation,i_Node,i_Tree_Mutation) .ge. 0) then
                    icnt=icnt+1
                    if( icnt .eq. i_Swap_Node) then
                        i_Swap_Node=i_Node
-                       Node_Not_Found=.false.
+                       !Node_Not_Found=.false.
+                       exit
                    endif !   icnt .eq. i_Swap_Node
 
                endif !   GP_Adult_Population_Node_Type...
 
-           endif !   Node_Not_Found
-    
+           !endif !   Node_Not_Found
+
         enddo ! i_node
 
 

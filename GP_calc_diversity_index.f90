@@ -1,4 +1,3 @@
-!subroutine GP_calc_diversity_index( i_indiv, n_indiv, indiv_node_type, i_diversity )
 subroutine GP_calc_diversity_index( n_indiv, indiv_node_type, i_diversity )
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -15,7 +14,6 @@ implicit none
 
 real(kind=8) :: cff
 
-!integer(kind=4), intent(in)  :: i_indiv       
 integer(kind=4), intent(in)  :: n_indiv       
 integer(kind=4), intent(in), dimension( n_indiv,n_Nodes,n_Trees) :: indiv_node_type
 
@@ -30,7 +28,6 @@ integer(kind=4) :: icnt
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-!write(GP_print_unit,'(A)') ' '
 write(GP_print_unit,'(/A,1x,I6)') 'gcdi: i_GP_generation = ', i_GP_generation
 write(GP_print_unit,'(A)') &
       'gcdi: i_indiv, i_diversity, icnt_Nodes, icnt_parms, icnt_vars, icnt_ops'
@@ -78,9 +75,6 @@ do  i_indiv = 1, n_GP_individuals
 
     GP_diversity_index( i_indiv ) = i_diversity
     
-    !write(GP_print_unit,'(A,6(1x,I6))') &
-    !      'gcdi: i_indiv, i_diversity, icnt_Nodes, icnt_parms, icnt_vars, icnt_ops', &
-    !             i_indiv, i_diversity, icnt_Nodes, icnt_parms, icnt_vars, icnt_ops
     write(GP_print_unit,'(6(1x,I6))') &
           i_indiv, i_diversity, icnt_Nodes, icnt_parms, icnt_vars, icnt_ops
 

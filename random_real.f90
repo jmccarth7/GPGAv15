@@ -5,6 +5,8 @@ subroutine random_real(bff)
 ! are generated "uniformly over a log10 scale"
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+use GP_parameters_module
+
 implicit none
 
 !real (kind=4) :: aff,bff,cff,dff
@@ -41,17 +43,33 @@ real (kind=4) ::     bff,cff
 
 call random_number(cff) ! uniform random number generator
 
-if( cff <= 0.6 )then
+!if( cff <= 0.6 )then
+!    call random_number(bff) ! uniform random number generator
+!    bff = 1.0 * bff
+!else
+!    call random_number(bff) ! uniform random number generator
+!    bff = 30. * bff
+!endif
+
+!--------------------------------------
+! defaults 
+                                                                               
+!random_scale_large    = 50.0d0                                            
+!random_scale_small    =  1.0d0                                            
+!random_scale_fraction =  0.2d0                                          
+!--------------------------------------
+   
+if( cff <= random_scale_fraction  )then
 
     call random_number(bff) ! uniform random number generator
 
-    bff = 1.0 * bff
+    bff = random_scale_small  * bff
 
 else
 
     call random_number(bff) ! uniform random number generator
 
-    bff = 30. * bff
+    bff = random_scale_large  * bff
 
 endif
 

@@ -56,8 +56,10 @@ do i_GA_Crossover=1,n_GA_Crossovers
   call check_for_elite( k_GA_Individual_Male(1) )
 
 
-  !write(GA_print_unit,'(/A,1x,I6)')      'gato: k_GA_Individual_Male(1)  ', k_GA_Individual_Male(1)
-  !write(GA_print_unit,'(A/(15(1x,I6)))') 'gato: individual_elites ', individual_elites
+  !write(GA_print_unit,'(/A,1x,I6)') &
+  !      'gato: k_GA_Individual_Male(1)  ', k_GA_Individual_Male(1)
+  !write(GA_print_unit,'(A/(15(1x,I6)))') &
+  !      'gato: individual_elites ', individual_elites
 
 
   !--------------------------------------------------------------------
@@ -78,7 +80,8 @@ do i_GA_Crossover=1,n_GA_Crossovers
   if( k_GA_Individual_Male(2) .eq. k_GA_Individual_Male(1)) then
 
       if( k_GA_Individual_Male(1) .ne. N_GA_Individuals) then
-          k_GA_Individual_Male(2)= min( k_GA_Individual_Male(1)+1, N_GA_Individuals )
+          k_GA_Individual_Male(2) =  &
+             min( k_GA_Individual_Male(1)+1, N_GA_Individuals )
       else
           k_GA_Individual_Male(2)= max( k_GA_Individual_Male(1)-1, 1 )
       endif !   k_GA_Individual_Male(1) .ne. N_GA_Individuals
@@ -135,7 +138,8 @@ do i_GA_Crossover=1,n_GA_Crossovers
   if( k_GA_Individual_Female(2) .eq. k_GA_Individual_Female(1)) then
 
       if( k_GA_Individual_Female(1) .ne. N_GA_Individuals) then
-          k_GA_Individual_Female(2) =  min( k_GA_Individual_Female(1)+1, N_GA_Individuals )
+          k_GA_Individual_Female(2) =  &
+                 min( k_GA_Individual_Female(1)+1, N_GA_Individuals )
       else
           k_GA_Individual_Female(2) =  max( k_GA_Individual_Female(1)-1, 1 )
       endif !   k_GA_Individual_Female(1) .ne. N_GA_Individuals)
@@ -169,8 +173,10 @@ do i_GA_Crossover=1,n_GA_Crossovers
   !  save parameters for selected male and female parents before crossover
   !  (just for comparison )
 
-  temp_male_parameters(1:n_parameters)   = Child_Parameters(k_GA_Individual_Male(1),  1:n_parameters)
-  temp_female_parameters(1:n_parameters) = Child_Parameters(k_GA_Individual_Female(1),1:n_parameters)
+  temp_male_parameters(1:n_parameters)   = &
+            Child_Parameters(k_GA_Individual_Male(1),  1:n_parameters)
+  temp_female_parameters(1:n_parameters) = &
+            Child_Parameters(k_GA_Individual_Female(1),1:n_parameters)
 
   !---------------------------------------------------------------------------------
 
@@ -179,7 +185,9 @@ do i_GA_Crossover=1,n_GA_Crossovers
   call Random_Number(cff) ! uniform random number generator
   dff = cff
 
-  i_GA_Crossover_Point=1+int( dff*dble(n_Parameters-2) )  ! pick a location from 1 to n_parameters-1
+  ! pick a location from 1 to n_parameters-1
+
+  i_GA_Crossover_Point=1+int( dff*dble(n_Parameters-2) )  
 
   !write(GA_print_unit,'(/A,2(1x,I6))')&
   !      'gato: i_GA_Crossover, i_GA_Crossover_Point ', &
@@ -193,13 +201,17 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
       if( i_parameter .le. i_GA_Crossover_Point) then
 
-          Child_One_Parameters(i_Parameter)=Parent_Parameters(k_GA_Individual_Male(1),i_parameter)
-          Child_Two_Parameters(i_Parameter)=Parent_Parameters(k_GA_Individual_Female(1),i_parameter)
+          Child_One_Parameters(i_Parameter) = &
+             Parent_Parameters(k_GA_Individual_Male(1),i_parameter)
+          Child_Two_Parameters(i_Parameter) = &
+             Parent_Parameters(k_GA_Individual_Female(1),i_parameter)
 
       else
 
-          Child_One_Parameters(i_Parameter)=Parent_Parameters(k_GA_Individual_Female(1),i_parameter)
-          Child_Two_Parameters(i_Parameter)=Parent_Parameters(k_GA_Individual_Male(1),i_parameter)
+          Child_One_Parameters(i_Parameter) = &
+             Parent_Parameters(k_GA_Individual_Female(1),i_parameter)
+          Child_Two_Parameters(i_Parameter) = &
+             Parent_Parameters(k_GA_Individual_Male(1),i_parameter)
 
       endif !   i_parameter .le. i_GA_Crossover_Point
 
@@ -290,8 +302,10 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
   do  i_parameter=1,n_parameters
 
-      Child_Parameters(k_GA_Individual_Male(1),  i_parameter) = Child_One_Parameters(i_Parameter)
-      Child_Parameters(k_GA_Individual_Female(1),i_parameter) = Child_Two_Parameters(i_Parameter)
+      Child_Parameters(k_GA_Individual_Male(1),  i_parameter) = &
+               Child_One_Parameters(i_Parameter)
+      Child_Parameters(k_GA_Individual_Female(1),i_parameter) = &
+               Child_Two_Parameters(i_Parameter)
 
   enddo ! i_parameter
 
@@ -300,13 +314,16 @@ do i_GA_Crossover=1,n_GA_Crossovers
   !  print parameters for selected male and female parents before and after  crossover
 
   !write(GA_print_unit,'(A,3(1x,I6))')&
-  !      'gato: selected i_GA_Crossover, k_GA_Individual_Male(1), k_GA_Individual_Female(1) ', &
-  !                      i_GA_Crossover, k_GA_Individual_Male(1), k_GA_Individual_Female(1)
+  !      'gato: selected i_GA_Crossover, &
+  !      &k_GA_Individual_Male(1), k_GA_Individual_Female(1) ', &
+  !                      i_GA_Crossover, &
+  !       k_GA_Individual_Male(1), k_GA_Individual_Female(1)
 
   !write(GA_print_unit,'(A/I6,12(1x,E15.7))')&
   ! 'gato: before k_GA_Individual_Male(1), &
   !  &Child_Parameters(k_GA_Individual_Male(1), 1:n_parameters ) ', &
   !  k_GA_Individual_Male(1),   temp_male_parameters(1:n_parameters)
+
   !write(GA_print_unit,'(A/I6,12(1x,E15.7))')&
   ! 'gato: after ', &
   !  k_GA_Individual_Male(1), Child_Parameters(k_GA_Individual_Male(1), 1:n_parameters)
@@ -315,6 +332,7 @@ do i_GA_Crossover=1,n_GA_Crossovers
   ! 'gato: before k_GA_Individual_Female(1), &
   !  &Child_Parameters(k_GA_Individual_Female(1), 1:n_parameters)', &
   !  k_GA_Individual_Female(1), temp_female_parameters(1:n_parameters)
+
   !write(GA_print_unit,'(A/I6,12(1x,E15.7))')&
   ! 'gato: after  ', &
   !  k_GA_Individual_Female(1), &

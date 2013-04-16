@@ -25,14 +25,16 @@ logical Carry_On
 i_GP_Individual = n_GP_Elitists ! + n_GP_Asexual_Reproductions
 
 
-write(GP_print_unit,'(A,1x,I6)' ) 'gpfpar: n_GP_Elitists         ', n_GP_Elitists
-write(GP_print_unit,'(A,1x,I6)' ) 'gpfpar: start i_GP_individual ', &
-                               n_GP_Elitists  + 1
+write(GP_print_unit,'(A,1x,I6)' ) &
+      'gpfpar: n_GP_Elitists         ', n_GP_Elitists
+write(GP_print_unit,'(A,1x,I6)' ) &
+      'gpfpar: start i_GP_individual ', n_GP_Elitists  + 1
 
 
 do i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
 
   i_GP_Individual=i_GP_Individual+1
+
   call Random_Number(cff) ! uniform random number generator
   Carry_On=.true.
 
@@ -40,16 +42,18 @@ do i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
 
   do j_GP_Individual=1,n_GP_Individuals
 
-    if( Carry_On ) then
+    !if( Carry_On ) then
 
       if( cff .le. GP_Integrated_Ranked_Fitness(j_GP_Individual)) then
 
         icff=j_GP_Individual
-        Carry_On=.false.
+        exit
+
+        !Carry_On=.false.
 
       endif !   cff .le. GP_Integrated_Ranked_Fitness(j_GP_Individual)
 
-    endif ! Carry_On
+    !endif ! Carry_On
 
   enddo ! j_GP_Individual
 

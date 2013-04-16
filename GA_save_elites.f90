@@ -36,7 +36,8 @@ real(kind=8) :: min_fit
 
 if( n_GA_save_elites < 1 ) return
 
-write(GA_print_unit,'(/A,1x,I6)') 'gase: n_GA_save_elites ', n_GA_save_elites
+write(GA_print_unit,'(/A,1x,I6)') &
+      'gase: n_GA_save_elites ', n_GA_save_elites
 
 
 
@@ -52,7 +53,8 @@ temp_fitness = individual_ranked_fitness
 
 call sort( n_GA_individuals, temp_fitness )
 
-!write(GA_print_unit,'(/A/)') 'gase: i, individual_ranked_fitness(i), temp_fitness(i)'
+!write(GA_print_unit,'(/A/)') &
+!      'gase: i, individual_ranked_fitness(i), temp_fitness(i)'
 !do  i = 1, n_GA_individuals
 !    write(GA_print_unit,'(I6,2(1x,E15.7))') &
 !    i, individual_ranked_fitness(i), temp_fitness(i)
@@ -85,7 +87,8 @@ enddo ! i
 
 deallocate( temp_fitness )
 
-write(GA_print_unit,'(A,1x,E15.7/)') 'gase: min_fit to be elite ', min_fit
+write(GA_print_unit,'(A,1x,E15.7/)') &
+      'gase: min_fit to be elite ', min_fit
 
 
 !-----------------------------------------------------------------------
@@ -119,15 +122,18 @@ enddo ! i
 
 !-----------------------------------------------------------------------
 
-!write(GA_print_unit,'(A,1x,1x,I6)') 'gase: elites for generation', i_GA_generation
+!write(GA_print_unit,'(A,1x,1x,I6)') &
+!      'gase: elites for generation', i_GA_generation
 !do  i = 1, n_GA_save_elites
 !    write(GA_print_unit,'(A,1x,I6,2x,2(1x,I6))') &
 !          'gase: generation, i, individual_elites(i) ', &
 !            i_GA_generation, i, individual_elites(i)
 !enddo ! i
 
-write(GA_print_unit,'(A,1x,1x,I6)') 'gase: elites for generation', i_GA_generation
-write(GA_print_unit,'(10(1x,I6))') individual_elites(1:n_GA_save_elites)
+write(GA_print_unit,'(A,1x,1x,I6)') &
+      'gase: elites for generation', i_GA_generation
+write(GA_print_unit,'(10(1x,I6))')&
+       individual_elites(1:n_GA_save_elites)
 
 
 

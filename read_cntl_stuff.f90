@@ -76,6 +76,12 @@ write(GP_print_unit,'(A//)' )&
 !---------------------------------------------------------------------
 
 ! defaults 
+
+                                                                                
+random_scale_large    = 50.0d0                                                  
+random_scale_small    =  1.0d0                                                  
+random_scale_fraction =  0.6d0               
+
 n_Node_Functions = 7
 n_GP_individuals = 9
 n_GP_generations = 1
@@ -188,13 +194,17 @@ do
 
 !GP_Asexual_Reproduction_Probability  = 0.005d0   ! probability of asexual reproduction
 
-    elseif( Aline(1:len('GP_Asexual_Reproduction_Probability')) == "GP_Asexual_Reproduction_Probability" .or.     &
-            Aline(1:len('GP_Asexual_Reproduction_Probability')) == "gp_asexual_reproduction_probability" ) then
+    elseif( Aline(1:len('GP_Asexual_Reproduction_Probability')) ==               &
+                                  "GP_Asexual_Reproduction_Probability" .or.     &
+            Aline(1:len('GP_Asexual_Reproduction_Probability')) ==               &
+                                  "gp_asexual_reproduction_probability" ) then
 
-        READ(Aline(len('GP_Asexual_Reproduction_Probability')+1:), * ) GP_Asexual_Reproduction_Probability
+        READ(Aline(len('GP_Asexual_Reproduction_Probability')+1:), * ) &
+                        GP_Asexual_Reproduction_Probability
 
-        write(GP_print_unit,'(A,1x,F10.4)') 'rcntl: GP_Asexual_Reproduction_Probability = ', &
-                                        GP_Asexual_Reproduction_Probability
+        write(GP_print_unit,'(A,1x,F10.4)') &
+              'rcntl: GP_Asexual_Reproduction_Probability = ', &
+                      GP_Asexual_Reproduction_Probability
 
 !------------------------------------------------------------------------------
 
@@ -206,7 +216,7 @@ do
         READ(Aline(len('GP_Crossover_Probability')+1:), * ) GP_Crossover_Probability
 
         write(GP_print_unit,'(A,1x,F10.4)') 'rcntl: GP_Crossover_Probability = ', &
-                                        GP_Crossover_Probability
+                                                    GP_Crossover_Probability
 
 
 
@@ -220,7 +230,7 @@ do
         READ(Aline(len('GP_Mutation_Probability')+1:), * ) GP_Mutation_Probability
 
         write(GP_print_unit,'(A,1x,F10.4)') 'rcntl: GP_Mutation_Probability = ', &
-                                        GP_Mutation_Probability
+                                                    GP_Mutation_Probability
 
 
 
@@ -235,7 +245,7 @@ do
         READ(Aline(len('n_GA_Generations')+1:), * ) n_GA_Generations
 
         write(GP_print_unit,'(A,1x,I6)') 'rcntl: n_GA_Generations = ', &
-                                     n_GA_Generations
+                                                 n_GA_Generations
 
 
 !--------------------------------------------------------------------
@@ -249,7 +259,7 @@ do
         READ(Aline(len('n_GA_Individuals')+1:), * ) n_GA_Individuals
 
         write(GP_print_unit,'(A,1x,I6)') 'rcntl: n_GA_Individuals = ', &
-                                     n_GA_Individuals
+                                                 n_GA_Individuals
 
 
 !--------------------------------------------------------------------
@@ -262,7 +272,7 @@ do
         READ(Aline(len('n_time_steps')+1:), * ) n_time_steps
 
         write(GP_print_unit,'(A,1x,I6)') 'rcntl: n_time_steps     = ', &
-                                     n_time_steps
+                                                 n_time_steps
 
 
 !--------------------------------------------------------------------
@@ -286,7 +296,7 @@ do
 !--------------------------------------------------------------------
 
 
-!dt = 1.0D+1/(24.0D+0*60.0D+0)   ! [d^-1; 10 minute time step]
+!model = LV  or  NPZ
 
     elseif( Aline(1:len('model')) == "MODEL" .or.     &
             Aline(1:len('model')) == "model" ) then
@@ -338,6 +348,55 @@ do
 
         write(GP_print_unit,'(A,1x,I6)') 'rcntl: n_Node_Functions = ', n_Node_Functions 
 
+
+!--------------------------------------------------------------------
+
+! in random_real, random_scale_small is the smaller of the two scales
+! used to scale the random number 
+
+    elseif( Aline(1:len('random_scale_small')) == "RANDOM_SCALE_SMALL" .or.  &
+            Aline(1:len('random_scale_small')) == "random_scale_small" ) then
+
+        READ(Aline(len('random_scale_small')+1:), * )  random_scale_small
+
+        write(GP_print_unit,'(A,1x,E15.7)') 'rcntl: random_scale_small = ', &
+                                                    random_scale_small
+
+
+
+!--------------------------------------------------------------------
+
+! in random_real, random_scale_large is the larger of the two scales
+! used to scale the random number 
+
+    elseif( Aline(1:len('random_scale_large')) == "RANDOM_SCALE_LARGE" .or.  &
+            Aline(1:len('random_scale_large')) == "random_scale_large" ) then
+
+        READ(Aline(len('random_scale_large')+1:), * )  random_scale_large
+
+        write(GP_print_unit,'(A,1x,E15.7)') 'rcntl: random_scale_large = ', &
+                                                    random_scale_large
+
+
+
+
+!--------------------------------------------------------------------
+
+
+! random scale fraction 
+
+! if a random number is less than the random scale fraction, then
+! the small scale is chosen to scale the random number in random_real
+
+    elseif( Aline(1:len('random_scale_fraction')) == &
+                        "RANDOM_SCALE_FRACTION"        .or.     &
+            Aline(1:len('random_scale_fraction')) == &
+                        "random_scale_fraction"           ) then
+
+        READ(Aline(len('random_scale_fraction')+1:), * )  random_scale_fraction
+
+        write(GP_print_unit,'(A,1x,E15.7)') 'rcntl: random_scale_fraction = ', &
+                                                    random_scale_fraction
 
 
 

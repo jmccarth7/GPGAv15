@@ -32,11 +32,7 @@ integer :: message_len
 logical :: Lplot
 
 
-!real(kind=8), allocatable, dimension(:) :: answer
-!real(kind=8), allocatable, dimension(:) :: output_array
-
 real (kind=8) :: ssum, ssum2, totobs, dff
-
 real (kind=8) :: xcount
 
 !----------------------------------------------------------------------------------------
@@ -67,7 +63,7 @@ do  i_Node=1,n_Nodes
             if( GP_Node_Type_Answer(i_Node,i_Tree)     .eq. -9999  .or. &
                 GP_Individual_Node_Type(i_Node,i_Tree) .eq. -9999         ) then
 
-                dff=1.0d0
+                dff = 1.0d2        ! NOTE: larger  jjm 20130415
                 xcount=xcount+dff
 
                 !if( myid == 0 )then
@@ -128,7 +124,8 @@ GP_Child_Individual_SSE(i_GP_Individual)=xcount
 if( myid == 0 )then
     write(GP_print_unit,'(/A,2(1x,I6),1x,E15.7)') &
           'cgcsse: i_GP_gen, i_GP_Indiv, GP_Child_Indiv_SSE(i_GP_Indiv) ', &
-                   i_GP_generation, i_GP_Individual, GP_Child_Individual_SSE(i_GP_Individual)
+                   i_GP_generation, i_GP_Individual, &
+                   GP_Child_Individual_SSE(i_GP_Individual)
 endif ! myid == 0
 
 !off GP_Child_Individual_SSE(i_GP_individual)=GA_Individual_Lowest_SSE  ! from the GA_lmdif routine output

@@ -25,8 +25,6 @@ real (kind=8) :: sse
 integer (kind=4) :: iflag
 
 
-!real (kind=8) :: Data_Variance(n_CODE_equations)
-!real (kind=8) :: ssum, ssum2, totobs, cff
 
 !---------------------------------------------------------------------
 
@@ -123,37 +121,23 @@ do i_time_step=1,n_time_steps
 
   !write(GA_print_unit,'(/A,1x,I6, 1x,I10)')'fcn: myid, i_time_step ', myid, i_time_step
 
-  do i_CODE_equation=1,n_CODE_equations
+  do  i_CODE_equation=1,n_CODE_equations
 
-    !if( abs(  data_variance(i_CODE_equation) ) > 1.0D-30  )then
+      !write(GA_print_unit,'(A,2(1x,I6), 3(1x,E15.7))') &
+      !      'fcn: myid, i_eqn, RK_soln, data_array, var ', &
+      !            myid, i_CODE_equation,                   &
+      !            Runge_Kutta_Solution(i_time_step,i_CODE_equation), &
+      !            Data_Array(i_time_step,i_CODE_equation), &
+      !            data_variance(i_CODE_equation)
 
-        !write(GA_print_unit,'(A,2(1x,I6), 3(1x,E15.7))') &
-        !      'fcn: myid, i_eqn, RK_soln, data_array, var ', &
-        !            myid, i_CODE_equation,                   &
-        !            Runge_Kutta_Solution(i_time_step,i_CODE_equation), &
-        !            Data_Array(i_time_step,i_CODE_equation), &
-        !            data_variance(i_CODE_equation)
+      !write(GA_print_unit,'(A,2(1x,I6), 1x,E15.7)') &
+      !      'fcn: myid, i_eqn, data_variance ', &
+      !            myid, i_CODE_equation, data_variance(i_CODE_equation)
 
-        !write(GA_print_unit,'(A,2(1x,I6), 1x,E15.7)') &
-        !      'fcn: myid, i_eqn, data_variance ', &
-        !            myid, i_CODE_equation, data_variance(i_CODE_equation)
-
-        fvec(i_time_step) = fvec(i_time_step)  +                                  &
-            (   Data_Array(i_time_step,i_CODE_equation) -                         &
-                  Runge_Kutta_Solution(i_time_step,i_CODE_equation)   )**2  /     &
-                                                        Data_Variance(i_CODE_equation)
-
-    !else
-
-        !write(GA_print_unit,'(/A,1x,I6, 1x,I10)')'fcn: bad variance myid, i_time_step ', &
-        !                                                myid, i_time_step
-        !write(GA_print_unit,'(A,2(1x,I6), 1x,E15.7)') &
-        !      'fcn: myid, i_CODE_equation, data_variance(i_CODE_equation)              ', &
-        !            myid, i_CODE_equation, data_variance(i_CODE_equation)
-
-    !endif ! abs(  data_variance(i_CODE_equation) ) > 1.0D-30
-
-
+      fvec(i_time_step) = fvec(i_time_step)  +                                  &
+            (   Data_Array(i_time_step,i_CODE_equation) -                       &
+                Runge_Kutta_Solution(i_time_step,i_CODE_equation)   )**2  /     &
+                                                       Data_Variance(i_CODE_equation)
 
   enddo ! i_CODE_equation
 

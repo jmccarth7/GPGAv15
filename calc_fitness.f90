@@ -312,12 +312,12 @@ endif
 !var_fitness   = sqrt( var_fitness  / xn )
 
 write(GA_print_unit,'(/A,2(1x,I6))') 'calcfit: n_GA_individuals, icount       ',&
-                                   n_GA_individuals, icount
+                                               n_GA_individuals, icount
 
 write(GA_print_unit,'(/A,1x,I6,1x,E15.7)') 'calcfit: i_GA_generation, mean_fitness  ',&
-                                         i_GA_generation, mean_fitness
+                                                     i_GA_generation, mean_fitness
 write(GA_print_unit,'(A,1x,I6,1x,E15.7/)') 'calcfit: i_GA_generation, sigma_fitness ',&
-                                         i_GA_generation, sigma_fitness
+                                                     i_GA_generation, sigma_fitness
 
 !---------------------------------------------------------------------------------
 
@@ -420,7 +420,7 @@ enddo ! i_GA_individual
 !------------------------------------------------------------------------------
 
 write(GA_print_unit,'(//A,2(1x, I6))') 'calcfit: Generation, i_GA_Best_Parent ', &
-                                i_GA_Generation, i_GA_Best_Parent
+                                            i_GA_Generation, i_GA_Best_Parent
 write(GA_print_unit,'(A,1x,I6,1x,E24.16)') &
       'calcfit: i_GA_Best_Parent, individual_ranked_fitness(i_GA_Best_Parent) ', &
                 i_GA_Best_Parent, individual_ranked_fitness(i_GA_Best_Parent)

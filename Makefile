@@ -196,3 +196,4 @@ setup_run_lmdif.o: GA_parameters_module.o GA_variables_module.o \
 sort.o: GP_parameters_module.o GA_parameters_module.o swap_module.o
 sse0_calc.o: GA_variables_module.o GP_data_module.o GP_parameters_module.o \
 	GP_variables_module.o mpi_module.o
+random_real.o:GP_parameters_module.o

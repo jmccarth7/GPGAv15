@@ -33,8 +33,10 @@ do i_CODE_equation=1,n_CODE_equations
       ssum  = ssum  +  Data_Array(i_time_step,i_CODE_equation)
       ssum2 = ssum2 +  Data_Array(i_time_step,i_CODE_equation)**2
 
-      !write(GP_print_unit,*) 'ssec: i_time_step, Data_Array(i_time_step,1:n_CODE_equations) ', &
-      !                  i_time_step, Data_Array(i_time_step,1:n_CODE_equations) 
+      !write(GP_print_unit,*) &
+      !'ssec: i_time_step, Data_Array(i_time_step,1:n_CODE_equations) ', &
+      !       i_time_step, Data_Array(i_time_step,1:n_CODE_equations) 
+
   enddo ! i_time_step
 
   totobs=dble(n_time_steps+1)
@@ -69,7 +71,8 @@ do i_time_step=1,n_time_steps
 
   fvec(i_time_step)=0.
 
-  !write(GP_print_unit,'(/A,1x,I6, 1x,I10)')'ssec: myid, i_time_step ', myid, i_time_step
+  !write(GP_print_unit,'(/A,1x,I6, 1x,I10)') &
+  !'ssec: myid, i_time_step ', myid, i_time_step
 
   do i_CODE_equation=1,n_CODE_equations
 

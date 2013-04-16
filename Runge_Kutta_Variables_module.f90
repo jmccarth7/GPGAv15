@@ -42,9 +42,6 @@ real(kind=8),allocatable, dimension( : ) :: fbio
 !--------------------------------------------------------------------
 
 
-
-
-
 real(kind=8) :: left_node_value,right_node_value
 !real(kind=8) :: cff
 

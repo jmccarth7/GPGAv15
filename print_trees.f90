@@ -22,9 +22,6 @@ use Runge_Kutta_Variables_module
 implicit none
 
 
-!logical bad_node
-
-
 integer,intent(in) :: n_indiv_start
 integer,intent(in) :: n_indiv_stop
 
@@ -32,14 +29,6 @@ integer :: i
 
 integer(kind=4), intent(in), &
         dimension(n_GP_individuals, 1:n_nodes, 1:n_trees) :: tree_type 
-
-!integer :: nop
-!integer :: message_len
-!logical :: Lplot
-!real(kind=8), allocatable, dimension(:) :: answer
-!real(kind=8), allocatable, dimension(:) :: output_array
-!real (kind=8) :: ssum, ssum2, totobs, dff
-!real (kind=8) :: xcount
 
 !----------------------------------------------------------------------------------------
 
@@ -51,7 +40,7 @@ integer(kind=4), intent(in), &
 do  i_GP_individual = n_indiv_start, n_indiv_stop
 
     write(GP_print_unit,'(/A,1x,I6)')  '0: i_GP_indiv ', i_GP_individual
-    write(GP_print_unit,'(A)') '0: i_tree nodes '
+    write(GP_print_unit,'(A)') '0: i_tree          nodes '
     write(GP_print_unit,'(A)') '            1  2  3  4  5  6  7  8  9 10 11 12 13 14 15'
 
     do  i_Tree=1,n_Trees

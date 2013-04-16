@@ -43,6 +43,9 @@ do i_GA_Mutation=1,n_GA_Mutations
   ! if the index i_GA_Mutation is in the array individual_elites,
   ! do not replace this individual - it is an elite individual
 
+  ! check_for_elite generates random numbers for the individual number
+  ! until it finds one not in the list of elite individuals
+
   call check_for_elite( i_GA_Individual_mutation )
 
   !--------------------------------------------------------------------
@@ -79,35 +82,17 @@ do i_GA_Mutation=1,n_GA_Mutations
 
   child_parameters(i_GA_Individual_Mutation,i_Parameter_Mutation) = dff 
 
-!  if( i_parameter_mutation == 7  )then
-!      child_parameters(i_GA_Individual_Mutation,11) = &
-!      child_parameters(i_GA_Individual_Mutation,i_Parameter_Mutation) 
-!  endif !  i_parameter_mutation == 7
-!
-!  if( i_parameter_mutation == 8  )then
-!      child_parameters(i_GA_Individual_Mutation,12) = &
-!      child_parameters(i_GA_Individual_Mutation,i_Parameter_Mutation) 
-!  endif !  i_parameter_mutation == 8
-!
-!  if( i_parameter_mutation == 11 )then
-!      child_parameters(i_GA_Individual_Mutation,7)  = &
-!      child_parameters(i_GA_Individual_Mutation,i_Parameter_Mutation) 
-!  endif !  i_parameter_mutation == 11 
-!
-!  if( i_parameter_mutation == 12 )then
-!      child_parameters(i_GA_Individual_Mutation,8)  = &
-!      child_parameters(i_GA_Individual_Mutation,i_Parameter_Mutation) 
-!  endif !  i_parameter_mutation == 12 
-
   !----------------------------------------------------------------------------
 
   !write(GA_print_unit,'(A/I6,12(1x,E15.7))') &
   !      'gam: after ', &
-  !      i_GA_Individual_mutation,  child_parameters(i_GA_Individual_mutation, 1:n_parameters)
+  !      i_GA_Individual_mutation,  &
+  !      child_parameters(i_GA_Individual_mutation, 1:n_parameters)
 
   !write(GA_print_unit,'(A,1x,I6,1x,E15.7,1x,I6/)') &
   !      'gam: i_GA_Individual_Mutation, child_parameters(i_GA_Ind_Mut,i_Parm_Mut) ', &
-  !            i_GA_Individual_Mutation, child_parameters(i_GA_Individual_Mutation,i_Parameter_Mutation)
+  !            i_GA_Individual_Mutation, &
+  !       child_parameters(i_GA_Individual_Mutation,i_Parameter_Mutation)
 
   !--------------------------------------------------------------------
 
@@ -116,7 +101,8 @@ do i_GA_Mutation=1,n_GA_Mutations
   Run_GA_lmdif(i_GA_Individual_Mutation)=.true.  
 
 
-  ! I don't think this is needed, since the individual_quality will be set to 1 later
+  ! I don't think this is needed, 
+  ! since the individual_quality will be set to 1 later
 
   individual_quality(i_GA_Individual_Mutation) = 1   ! reset quality since this has been mutated
 
@@ -125,6 +111,12 @@ do i_GA_Mutation=1,n_GA_Mutations
 
 
   !----------------------------------------------------------------------------
+
+  !  this checks if any of the parameters have been marked as linked
+  !  That is, if parameter N is the same parameter as parameter M, then
+  !  choose a random number for parameter N and use the same number for
+  !  parameter M
+
 
   if( n_linked_parms > 0 )then
 

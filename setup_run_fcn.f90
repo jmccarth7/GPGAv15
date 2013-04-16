@@ -78,14 +78,6 @@ enddo ! i_parameter
 ! call fcn
 
 
-! re-do is turned off
-! if you get a bad result from fcn,
-! set the child_parameters to a new set of random numbers, and then try again.
-! Do this a maximum of n_redo_max times.
-! If you get n_redo_max bad results,
-! set the child_parameters to -1.0 and go to the next individual
-
-
 !if( myid == 1 )then
 !    write(GA_print_unit,'(/A,4(1x,I10))') &
 !          'setrf: call fcn, myid, i_GA_indiv, n_time_steps, n_parameters     ', &
@@ -101,8 +93,8 @@ info = iflag
 
 !if( myid == 1 )then
 !    write(GA_print_unit,'(A,5(1x,I10)/)') &
-!              'setrf: aft call fcn myid, i_GA_indiv, n_time_steps, n_parameters, info ', &
-!                                   myid, i_GA_indiv, n_time_steps, n_parameters, info
+!          'setrf: aft call fcn myid, i_GA_indiv, n_time_steps, n_parameters, info ', &
+!                               myid, i_GA_indiv, n_time_steps, n_parameters, info
 !endif ! myid == 1 
 
 
@@ -124,62 +116,6 @@ if( info < 0 ) then
 
 endif ! info < 0
 
-
-!!! if info < 0, the function gave a bad result for this individual
-!!! so retry for a maximum of 10 times to see if a good result can be obtained
-!!if( info < 0 ) then
-!!
-!!    n_retry = 0
-!!
-!!    retry_loop:&
-!!    do
-!!
-!!        n_retry = n_retry + 1
-!!
-!!        if( n_retry > 10 )then
-!!            ! if info < 0, the function gave a bad result for this individual
-!!            ! so mark this individual to skip it in later calculations
-!!            individual_quality( i_GA_indiv ) = -1
-!!            exit retry_loop
-!!        endif
-!!
-!!        do i_parameter=1,n_parameters
-!!
-!!           call random_real(cff)
-!!
-!!            if( cff < 0.0d0 ) then                  ! debug only
-!!                cff = max( -1.0e6 , cff )           ! debug only
-!!            else                                    ! debug only
-!!                cff = min(  1.0e6 , cff )           ! debug only
-!!            endif                                   ! debug only
-!!
-!!
-!!            child_parameters(i_GA_indiv,i_parameter)=cff
-!!            X_LMDIF(i_parameter)=dble(child_parameters(i_GA_indiv,i_parameter))
-!!
-!!            !write(GA_print_unit,'(A,3(1x,I6),1x,E20.10)') &
-!!            !'setrf:2 myid, i_GA_indiv, i_parameter, child_parameters(i_GA_indiv,i_parameter) ', &
-!!            !         myid, i_GA_indiv, i_parameter, child_parameters(i_GA_indiv,i_parameter)
-!!            !write(GA_print_unit,'(A,2(1x,I6),1x,E20.10)') &
-!!            !      'setrf:2 myid, i_parameter,  X_LMDIF(i_parameter) ', &
-!!            !               myid, i_parameter,  X_LMDIF(i_parameter)
-!!
-!!        enddo ! i_parameter
-!!
-!!
-!!         iflag = 1
-!!         call fcn( n_time_steps, n_parameters, x_LMDIF, fvec, iflag)
-!!
-!!         info = iflag
-!!
-!!        write(GA_print_unit,'(A,1x,3(1x,I6))')&
-!!        'setrf: aft call fcn  myid, n_retry, info  ', myid, n_retry, info
-!!
-!!        if( info >= 0 ) exit retry_loop
-!!
-!!    enddo retry_loop    ! n_retry
-!!
-!!endif ! info < 0
 
 
 if (info .eq. 8) info = 4
