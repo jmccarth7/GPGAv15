@@ -38,7 +38,7 @@ real(kind=8), parameter :: epsfcn = 1.0d-6    ! original
 real(kind=8), parameter :: factor=1.0D+0
 real(kind=8), parameter :: zero = 0.0d0
 
-integer (kind=4) ::   info
+!integer (kind=4) ::   info
 
 
 ! individual_quality contains information on the result of lmdif
@@ -107,7 +107,7 @@ iflag = 1
 
 call fcn( n_time_steps, n_parameters, x_LMDIF, fvec, iflag )
 
-info = iflag
+!info = iflag
 
 
 ! write(6,'(A,4(1x,I10)/)') &

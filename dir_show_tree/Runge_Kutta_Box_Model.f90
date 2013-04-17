@@ -25,6 +25,7 @@ character(str_len) ::  cff_string
 character(4), allocatable,  dimension( : , : )      ::  node_eval_type_string
 character(str_len),  allocatable, dimension( : )    ::  tree_value_string
 
+character(200),  dimension( 2 )    ::  fbio_string
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 !write(6,*)'RKBM: allocate node_eval_type_string '
@@ -37,12 +38,15 @@ allocate( tree_value_string( n_trees) )
 left_node_value_string    = ''
 right_node_value_string    = ''
 cff_string    = ''
-!tree_evaluation_string = ''
+tree_evaluation_string = ''
 
 node_eval_type_string    = ''
 tree_value_string    = ''
 
 ! start the time stepping loop
+
+write(6,'(A)') ' '
+
 
 do i_time_step=1,1  !n_time_steps
 
@@ -333,11 +337,106 @@ do i_time_step=1,1  !n_time_steps
       !      'RKBM: tree_eval(1, i_tree )  = ', &
       !       tree_evaluation(1, i_tree )
       write(6,'(A, 1x,I6,1x,A,5x,A)') &
-            'i_tree, tree_eval(1, i_tree )  = ', &
+            'RKBM: i_tree, tree_value( i_tree )  = ', &
+             i_tree, ':',  trim( tree_value_string(  i_tree ) )
+      write(6,'(A, 1x,I6,1x,A,5x,A)') &
+            'RKBM: i_tree, tree_eval(1, i_tree )  = ', &
              i_tree, ':',  trim( tree_evaluation_string( 1, i_tree ) )
 
     enddo !  i_tree
 
+!      write(6,'(A)') ' '
+!    ! fbio_string(1) = tree1 - tree3  - tree4 
+!
+!    fbio_string(1) =  '( ' // trim( tree_value_string(1) )  //  ' ) - ( ' // & 
+!                              trim( tree_value_string(3) )  //  ' ) '   // & 
+!                      ' - ( '  // trim( tree_value_string(4) ) // ' )'
+!    ! fbio_string(2) = tree2 + tree4  - tree5 - tree6
+!    fbio_string(2) = '( ' // trim( tree_value_string(2) )  //  ' ) + ( ' // & 
+!                              trim( tree_value_string(4) )  //  ' ) '   // & 
+!                      ' - ( '  // trim( tree_value_string(5) ) // ' ) ' // &
+!                      ' - ( '  // trim( tree_value_string(6) ) // ' )'
+!
+!    write(6,'(/A,1x,A)')  'RKBM: fbio_string(1) = ', trim( fbio_string(1) ) 
+!    write(6,'(/A,1x,A/)') 'RKBM: fbio_string(2) = ', trim( fbio_string(2) ) 
+ 
+    !-----------------------------------------------------------------------------
+        fbio_string(1) =  ' '
+        fbio_string(2) =  ' '
+
+      write(6,'(A)') ' '
+
+    ! fbio_string(1) = tree1 - tree3  - tree4 
+
+    if( len( trim( tree_value_string(1) ) ) > 0 ) then
+
+        fbio_string(1) =  '( ' // trim( tree_value_string(1) )  //  ' )'
+
+    endif !( len( trim( tree_value_string(1) ) ) > 0 ) then
+
+    if( len( trim( tree_value_string(3) ) ) > 0 ) then
+
+        fbio_string(1) =  trim( fbio_string(1) )  // &
+                          ' - ( ' //  trim( tree_value_string(3) )  // ' )' 
+
+    endif !( len( trim( tree_value_string(3) ) ) > 0 ) then
+
+    if( len( trim( tree_value_string(4) ) ) > 0 ) then
+
+        fbio_string(1) =  trim( fbio_string(1) )  // &
+                          ' - ( ' //  trim( tree_value_string(4) )  // ' )' 
+
+    endif !( len( trim( tree_value_string(4) ) ) > 0 ) then
+
+
+    !-----------------------------------------------------------------------------
+
+    ! fbio_string(2) = tree2 + tree4  - tree5 - tree6
+
+    write(6,'(A,1x,A)') 'rkbm: tree_value_string(2) ', trim( tree_value_string(2) ) 
+    write(6,'(A,1x,A)') 'rkbm: tree_value_string(4) ', trim( tree_value_string(4) ) 
+    write(6,'(A,1x,A)') 'rkbm: tree_value_string(5) ', trim( tree_value_string(5) ) 
+    write(6,'(A,1x,A)') 'rkbm: tree_value_string(6) ', trim( tree_value_string(6) ) 
+
+    write(6,'(A,1x,I6)') 'rkbm: len( tree_value_string(2) ) ', len( trim( tree_value_string(2) ) )
+    write(6,'(A,1x,I6)') 'rkbm: len( tree_value_string(4) ) ', len( trim( tree_value_string(4) ) )
+    write(6,'(A,1x,I6)') 'rkbm: len( tree_value_string(5) ) ', len( trim( tree_value_string(5) ) )
+    write(6,'(A,1x,I6)') 'rkbm: len( tree_value_string(6) ) ', len( trim( tree_value_string(6) ) )
+
+
+    if( len( trim( tree_value_string(2) ) ) > 0 ) then
+
+        fbio_string(2) =  '( ' // trim( tree_value_string(2) )  //  ' )'
+
+    endif !( len( trim( tree_value_string(2) ) ) > 0 ) then
+
+    if( len( trim( tree_value_string(4) ) ) > 0 ) then
+
+        fbio_string(2) =  trim( fbio_string(2) )  // &
+           ' + ( ' // trim( tree_value_string(4) )  //  ' )'
+
+    endif !( len( trim( tree_value_string(4) ) ) > 0 ) then
+
+
+    if( len( trim( tree_value_string(5) ) ) > 0 ) then
+
+        fbio_string(2) =  trim( fbio_string(2)  ) // &
+           ' - ( ' // trim( tree_value_string(5) )  //  ' )'
+
+    endif !( len( trim( tree_value_string(5) ) ) > 0 ) then
+
+
+    if( len( trim( tree_value_string(6) ) ) > 0 ) then
+
+        fbio_string(2) =  trim( fbio_string(2) )  // &
+           ' - ( ' // trim( tree_value_string(6) )  //  ' )'
+
+    endif !( len( trim( tree_value_string(6) ) ) > 0 ) then
+
+
+    write(6,'(/A,1x,A)')  'RKBM: fbio_string(1) = ', trim( fbio_string(1) ) 
+    write(6,'(/A,1x,A/)') 'RKBM: fbio_string(2) = ', trim( fbio_string(2) ) 
+ 
 !    !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 !    !   Calculate the flow terms from the determined tree_value terms
 !    !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

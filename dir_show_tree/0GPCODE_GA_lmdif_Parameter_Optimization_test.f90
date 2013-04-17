@@ -136,106 +136,26 @@ call init_values( 1 )
 
 !------------------------------------------------------------------
 
-!off include 'Lotka_Volterra_Example_Set_Up.f901'  ! replaced with routine init_values
-!off include 'Franks_etal_NPZ_Mar_Bio_Example_Set_Up.f901'
+! set answer arrays 
+! and run the Runge-Kutta model only once
 
-! set the desired 'twin experiment' population node type
-! and parameter using the info from the set up file
-
-GP_Node_Type_Answer       = GP_Individual_Node_Type       ! Matrix Operation
-GP_Node_Parameters_Answer = GP_Individual_Node_Parameters ! Matrix Operation
-
-
-do i_GP_Individual=1,n_GP_individuals
-  GP_Node_Type_for_Plotting(i_GP_Individual,1:n_Nodes,1:n_Trees) = &
-                        GP_Node_Type_Answer(1:n_Nodes,1:n_Trees)
-enddo
-
-    write(unit_gp_out) GP_Node_Type_for_Plotting
-
-! set the initial population node type using the info obtained from the set up file
-! set the Initial Conditions, Model Parameters and Node Type for the 'twin experiment case'
-
-GP_Population_Node_Type(1,1:n_nodes,1:n_trees)=GP_Individual_Node_Type(1:n_nodes,1:n_trees)
-
-
-! initialize the biological data fields
-
-Runge_Kutta_Solution(0,1:n_CODE_equations)=Runge_Kutta_Initial_Conditions ! Array Assignment
-
-Runge_Kutta_Node_Parameters = GP_Individual_Node_Parameters  ! Matrix Operation
-Runge_Kutta_Node_Type=GP_Individual_Node_Type                ! Matrix Operation
-
-
-!------------------------------------------------------------------------
-
-
-! run the Runge-Kutta model only once with proc 0
-
-call Runge_Kutta_Box_Model
-
-
-!------------------------------------------------------------------------
-
-! then broadcast the R-K result to all processors
+call set_answer_arrays( )
 
 
 
+Data_Array=Runge_Kutta_Solution          ! Matrix Operation
 
-!Data_Array=Runge_Kutta_Solution          ! Matrix Operation
-
+stop ! debug only
 
 !--------------------------------------------------------------------------------
 
 ! compute the data_variance  -- to be used in computing SSE
 
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-! there is some art form wiggle room to this calculation
-! for instance, one can normalize by the variance of the
-! individual observation types to give each observation
-! equal weight, and there are other options that can be considered.
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-!
-!    write(6,'(A)') ' '
-!
-!do i_CODE_equation=1,n_CODE_equations
-!
-!  ssum  = 0.0D+0
-!  ssum2 = 0.0D+0
-!
-!  do  i_time_step=0,n_time_steps
-!      ssum  = ssum  +  Data_Array(i_time_step,i_CODE_equation)
-!      ssum2 = ssum2 +  Data_Array(i_time_step,i_CODE_equation)**2
-!  enddo !   i_time_step
-!
-!  totobs=dble(n_time_steps+1)
-!
-!  dff=( (totobs*ssum2)-(ssum**2) ) / ( totobs*(totobs-1.0D+0) )
-!
-!  if( dff .gt. 0.0D+0) then  ! set variance to observed variance for normalize by the s.d.
-!      Data_Variance(i_CODE_equation)=dff
-!  else ! set variance to 1.0 for normalization to be 'unaltered'
-!      Data_Variance(i_CODE_equation)=1.0D+0
-!  endif !   dff .gt. 0.0D+0
-!
-!  if(  abs( Data_Variance(i_CODE_equation) ) < 1.0D-30 )then
-!       write(6,'(/A,1x,I6,2x,E15.7)') &
-!       '0: i_CODE_equation, Data_Variance(i_CODE_equation) ', &
-!           i_CODE_equation, Data_Variance(i_CODE_equation)
-!       write(6,'(A/)') '0: bad data variance -- stopping program '
-!       stop 'bad data var'
-!
-!  endif ! abs( Data_Variance(i_CODE_equation) ) < 1.0D-30
-!
-!      write(6,'(A,1x,I6,2x,E15.7)') &
-!           '0: i_CODE_equation, Data_Variance(i_CODE_equation) ', &
-!               i_CODE_equation, Data_Variance(i_CODE_equation)
-!
-!enddo !  i_CODE_equation
-!
-!    write(6,'(A)') ' '
-!
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+!call comp_data_variance( )
+
+
+!--------------------------------------------------------------------------------
+
 
 ! put the desired model parameters in the answer array
 
@@ -426,6 +346,11 @@ do  i_GP_Generation=1,n_GP_Generations
 
 
     i_GP_individual = 1
+
+    GP_Individual_Node_Type =  GP_Adult_Population_Node_Type(i_GP_individual,1:n_nodes, 1:n_trees)
+    !GP_Individual_Node_Parameters = &
+    !               GP_Adult_Population_Node_Parameters(i_GP_individual,1:n_nodes, 1:n_trees)
+
     call show_tree( i_GP_individual, GP_Individual_Node_Parameters )
 
 

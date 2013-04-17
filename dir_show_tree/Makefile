@@ -10,6 +10,7 @@ SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 clock_module.f90 \
 	Initialize_GA_Child_Parameters.f90  print4.f90 \
 	random_real.f90 random_real2.f90 read_cntl_stuff.f90 \
 	Runge_Kutta_Box_Model.f90 Runge_Kutta_Variables_module.f90 \
+	set_answer_arrays.f90  \
 	show_tree.f90 sort.f90  \
 	swap_module.f90
 
@@ -21,6 +22,7 @@ OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o clock_module.o fcn.o \
 	init_values_LV.o init_values_NPZ.o Initialize_GA_Child_Parameters.o \
 	 print4.o random_real.o random_real2.o read_cntl_stuff.o \
 	Runge_Kutta_Box_Model.o Runge_Kutta_Variables_module.o \
+	set_answer_arrays.o  \
 	show_tree.o sort.o  swap_module.o
 
 LIBS =	
@@ -90,3 +92,6 @@ Runge_Kutta_Variables_module.o: GP_parameters_module.o
 show_tree.o: GA_parameters_module.o GA_variables_module.o GP_data_module.o \
 	GP_parameters_module.o GP_variables_module.o
 sort.o: swap_module.o
+set_answer_arrays.o:GA_parameters_module.o \
+GA_variables_module.o GP_data_module.o GP_parameters_module.o \
+GP_variables_module.o Runge_Kutta_Variables_module.o 
