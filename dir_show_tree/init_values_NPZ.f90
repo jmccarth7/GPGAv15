@@ -24,8 +24,6 @@ subroutine init_values_NPZ( icall  )
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 
-!use mpi
-!use mpi_module
 use GP_parameters_module
 use GP_variables_module
 use Runge_Kutta_Variables_module
@@ -51,7 +49,7 @@ real(kind=8), parameter :: zoo_death_rate       = 0.2d0 ! [d-1]
 real(kind=8), parameter :: assim                = 0.3d0 ! [d-1]
 
 
-logical Ivlev
+!logical Ivlev
 
 
 !-------------------------------------------------------------------------
@@ -74,17 +72,15 @@ if(  icall  == 0  )then
 
     n_linked_parms_dim = max( n_linked_parms, 1 )
 
-    !if( myid == 0 )then
-        write(6,'(A,1x,I6)') 'ivNPZ: n_levels           ', n_levels
-        write(6,'(A,1x,I6)') 'ivNPZ: n_functions        ', n_functions
-        write(6,'(A,1x,I6)') 'ivNPZ: n_CODE_equations   ', n_CODE_equations
-        write(6,'(A,1x,I6)') 'ivNPZ: n_trees            ', n_trees
-        write(6,'(A,1x,I6)') 'ivNPZ: n_nodes            ', n_nodes
-        write(6,'(A,1x,I6)') 'ivNPZ: n_linked_parms     ', n_linked_parms
-        write(6,'(A,1x,I6)') 'ivNPZ: n_linked_parms_dim ', n_linked_parms_dim
-        write(6,'(/A,1x,I6/)') 'ivNPZ: n_maximum_number_parameters ', &
-                                       n_maximum_number_parameters
-    !endif ! myid == 0
+    write(6,'(A,1x,I6)') 'ivNPZ: n_levels           ', n_levels
+    write(6,'(A,1x,I6)') 'ivNPZ: n_functions        ', n_functions
+    write(6,'(A,1x,I6)') 'ivNPZ: n_CODE_equations   ', n_CODE_equations
+    write(6,'(A,1x,I6)') 'ivNPZ: n_trees            ', n_trees
+    write(6,'(A,1x,I6)') 'ivNPZ: n_nodes            ', n_nodes
+    write(6,'(A,1x,I6)') 'ivNPZ: n_linked_parms     ', n_linked_parms
+    write(6,'(A,1x,I6)') 'ivNPZ: n_linked_parms_dim ', n_linked_parms_dim
+    write(6,'(/A,1x,I6/)') 'ivNPZ: n_maximum_number_parameters ', &
+                                   n_maximum_number_parameters
 
 
 
@@ -100,7 +96,7 @@ endif ! icall == 0
 
 
 
-Ivlev = .true.
+!Ivlev = .true.
 
 
 

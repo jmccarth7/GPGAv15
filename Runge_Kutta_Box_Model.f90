@@ -288,9 +288,9 @@ do i_time_step=1,n_time_steps
     !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
     i_tree=0
-    do i_CODE_equation=0,n_CODE_equations   ! source of material   ! orig
+    do i_CODE_equation=0,n_CODE_equations   ! source of material 
 
-      do j_CODE_equation=0,n_CODE_equations ! sink of material   ! orig
+      do j_CODE_equation=0,n_CODE_equations ! sink of material  
 
         if (i_CODE_equation .ne. j_CODE_equation) then
 

@@ -83,10 +83,10 @@ n_GP_generations = 1
 GP_Tree_Probability=0.5d0
 
 ! Note: The next 4 parameters must add up to 1.0
-GP_Elitist_Probability = 0.1d0
-GP_Asexual_Reproduction_Probability = 0.4d0
-GP_Crossover_Probability = 0.4d0
-GP_Mutation_Probability = 0.1d0
+!GP_Elitist_Probability = 0.1d0
+!GP_Asexual_Reproduction_Probability = 0.4d0
+!GP_Crossover_Probability = 0.4d0
+!GP_Mutation_Probability = 0.1d0
 
 
 
@@ -114,55 +114,55 @@ do
 
 
 !------------------------------------------------------------------------------
-
-
-!GA_Crossover_Probability = 0.3d0   ! probability of sexual crossing of parameter strings in GA_lmdif
-
-
-    if( Aline(1:len('GA_Crossover_Probability')) == "GA_Crossover_Probability" .or.     &
-        Aline(1:len('GA_Crossover_Probability')) == "ga_crossover_probability" ) then
-
-        READ(Aline(len('GA_Crossover_Probability')+1:), * ) GA_Crossover_Probability
-
-        write(6,'(A,1x,F10.4)') 'rcntl: GA_Crossover_Probability   = ', &
-                                        GA_Crossover_Probability
-
-
-!--------------------------------------------------------------------
-
-
-!GA_Mutation_Probability  = 0.1d0   ! probability of mutation in parameter string of GA_lmdif
-
-    elseif( Aline(1:len('GA_Mutation_Probability')) == "GA_Mutation_Probability" .or.     &
-            Aline(1:len('GA_Mutation_Probability')) == "ga_mutation_probability" ) then
-
-        READ(Aline(len('GA_Mutation_Probability')+1:), * ) GA_Mutation_Probability
-
-        write(6,'(A,1x,F10.4)') 'rcntl: GA_Mutation_Probability    = ', &
-                                        GA_Mutation_Probability
-
-
-!--------------------------------------------------------------------
-
-
-!GA_save_elites_Probability  = 0.005d0   ! probability of saving an individual as an elite individual
-
-    elseif( Aline(1:len('GA_save_elites_Probability')) == "GA_save_elites_Probability" .or.     &
-            Aline(1:len('GA_save_elites_Probability')) == "ga_save_elites_probability" ) then
-
-        READ(Aline(len('GA_save_elites_Probability')+1:), * ) GA_save_elites_Probability
-
-        write(6,'(A,1x,F10.4)') 'rcntl: GA_save_elites_Probability = ', &
-                                        GA_save_elites_Probability
-
-
+!
+!
+!!GA_Crossover_Probability = 0.3d0   ! probability of sexual crossing of parameter strings in GA_lmdif
+!
+!
+!    if( Aline(1:len('GA_Crossover_Probability')) == "GA_Crossover_Probability" .or.     &
+!        Aline(1:len('GA_Crossover_Probability')) == "ga_crossover_probability" ) then
+!
+!        READ(Aline(len('GA_Crossover_Probability')+1:), * ) GA_Crossover_Probability
+!
+!        write(6,'(A,1x,F10.4)') 'rcntl: GA_Crossover_Probability   = ', &
+!                                        GA_Crossover_Probability
+!
+!
+!!--------------------------------------------------------------------
+!
+!
+!!GA_Mutation_Probability  = 0.1d0   ! probability of mutation in parameter string of GA_lmdif
+!
+!    elseif( Aline(1:len('GA_Mutation_Probability')) == "GA_Mutation_Probability" .or.     &
+!            Aline(1:len('GA_Mutation_Probability')) == "ga_mutation_probability" ) then
+!
+!        READ(Aline(len('GA_Mutation_Probability')+1:), * ) GA_Mutation_Probability
+!
+!        write(6,'(A,1x,F10.4)') 'rcntl: GA_Mutation_Probability    = ', &
+!                                        GA_Mutation_Probability
+!
+!
+!!--------------------------------------------------------------------
+!
+!
+!!GA_save_elites_Probability  = 0.005d0   ! probability of saving an individual as an elite individual
+!
+!    elseif( Aline(1:len('GA_save_elites_Probability')) == "GA_save_elites_Probability" .or.     &
+!            Aline(1:len('GA_save_elites_Probability')) == "ga_save_elites_probability" ) then
+!
+!        READ(Aline(len('GA_save_elites_Probability')+1:), * ) GA_save_elites_Probability
+!
+!        write(6,'(A,1x,F10.4)') 'rcntl: GA_save_elites_Probability = ', &
+!                                        GA_save_elites_Probability
+!
+!
 !--------------------------------------------------------------------
 
 
 !GP_Tree_Probability  = 0.005d0   ! Estimated from previous work by Joel Cohen
 
-    elseif( Aline(1:len('GP_Tree_Probability')) == "GP_Tree_Probability" .or.     &
-            Aline(1:len('GP_Tree_Probability')) == "gp_tree_probability" ) then
+    if( Aline(1:len('GP_Tree_Probability')) == "GP_Tree_Probability" .or.     &
+        Aline(1:len('GP_Tree_Probability')) == "gp_tree_probability" ) then
 
         READ(Aline(len('GP_Tree_Probability')+1:), * ) GP_Tree_Probability
 
@@ -171,59 +171,59 @@ do
 
 
 !--------------------------------------------------------------------
-
-
-!GP_Elitist_Probability  = 0.005d0   ! Keeps the top n_GP_Elitists of the Best Fit Individuals from Generation to Generation
-
-    elseif( Aline(1:len('GP_Elitist_Probability')) == "GP_Elitist_Probability" .or.     &
-            Aline(1:len('GP_Elitist_Probability')) == "gp_elitist_probability" ) then
-
-        READ(Aline(len('GP_Elitist_Probability')+1:), * ) GP_Elitist_Probability
-
-        write(6,'(A,1x,F10.4)') 'rcntl: GP_Elitist_Probability = ', &
-                                        GP_Elitist_Probability
-
-
-!--------------------------------------------------------------------
-
-!GP_Asexual_Reproduction_Probability  = 0.005d0   ! probability of asexual reproduction
-
-    elseif( Aline(1:len('GP_Asexual_Reproduction_Probability')) == "GP_Asexual_Reproduction_Probability" .or.     &
-            Aline(1:len('GP_Asexual_Reproduction_Probability')) == "gp_asexual_reproduction_probability" ) then
-
-        READ(Aline(len('GP_Asexual_Reproduction_Probability')+1:), * ) GP_Asexual_Reproduction_Probability
-
-        write(6,'(A,1x,F10.4)') 'rcntl: GP_Asexual_Reproduction_Probability = ', &
-                                        GP_Asexual_Reproduction_Probability
-
-!------------------------------------------------------------------------------
-
-!GP_Crossover_Probability  = 0.005d0   !  probability of sexual crossing of binary string
-
-    elseif( Aline(1:len('GP_Crossover_Probability')) == "GP_Crossover_Probability" .or.     &
-            Aline(1:len('GP_Crossover_Probability')) == "gp_crossover_probability" ) then
-
-        READ(Aline(len('GP_Crossover_Probability')+1:), * ) GP_Crossover_Probability
-
-        write(6,'(A,1x,F10.4)') 'rcntl: GP_Crossover_Probability = ', &
-                                        GP_Crossover_Probability
-
-
-
-!--------------------------------------------------------------------
-
-!GP_Mutation_Probability  = 0.005d0   ! probability of mutation in binary string
-
-    elseif( Aline(1:len('GP_Mutation_Probability')) == "GP_Mutation_Probability" .or.     &
-            Aline(1:len('GP_Mutation_Probability')) == "gp_mutation_probability" ) then
-
-        READ(Aline(len('GP_Mutation_Probability')+1:), * ) GP_Mutation_Probability
-
-        write(6,'(A,1x,F10.4)') 'rcntl: GP_Mutation_Probability = ', &
-                                        GP_Mutation_Probability
-
-
-
+!
+!
+!!GP_Elitist_Probability  = 0.005d0   ! Keeps the top n_GP_Elitists of the Best Fit Individuals from Generation to Generation
+!
+!    elseif( Aline(1:len('GP_Elitist_Probability')) == "GP_Elitist_Probability" .or.     &
+!            Aline(1:len('GP_Elitist_Probability')) == "gp_elitist_probability" ) then
+!
+!        READ(Aline(len('GP_Elitist_Probability')+1:), * ) GP_Elitist_Probability
+!
+!        write(6,'(A,1x,F10.4)') 'rcntl: GP_Elitist_Probability = ', &
+!                                        GP_Elitist_Probability
+!
+!
+!!--------------------------------------------------------------------
+!
+!!GP_Asexual_Reproduction_Probability  = 0.005d0   ! probability of asexual reproduction
+!
+!    elseif( Aline(1:len('GP_Asexual_Reproduction_Probability')) == "GP_Asexual_Reproduction_Probability" .or.     &
+!            Aline(1:len('GP_Asexual_Reproduction_Probability')) == "gp_asexual_reproduction_probability" ) then
+!
+!        READ(Aline(len('GP_Asexual_Reproduction_Probability')+1:), * ) GP_Asexual_Reproduction_Probability
+!
+!        write(6,'(A,1x,F10.4)') 'rcntl: GP_Asexual_Reproduction_Probability = ', &
+!                                        GP_Asexual_Reproduction_Probability
+!
+!!------------------------------------------------------------------------------
+!
+!!GP_Crossover_Probability  = 0.005d0   !  probability of sexual crossing of binary string
+!
+!    elseif( Aline(1:len('GP_Crossover_Probability')) == "GP_Crossover_Probability" .or.     &
+!            Aline(1:len('GP_Crossover_Probability')) == "gp_crossover_probability" ) then
+!
+!        READ(Aline(len('GP_Crossover_Probability')+1:), * ) GP_Crossover_Probability
+!
+!        write(6,'(A,1x,F10.4)') 'rcntl: GP_Crossover_Probability = ', &
+!                                        GP_Crossover_Probability
+!
+!
+!
+!!--------------------------------------------------------------------
+!
+!!GP_Mutation_Probability  = 0.005d0   ! probability of mutation in binary string
+!
+!    elseif( Aline(1:len('GP_Mutation_Probability')) == "GP_Mutation_Probability" .or.     &
+!            Aline(1:len('GP_Mutation_Probability')) == "gp_mutation_probability" ) then
+!
+!        READ(Aline(len('GP_Mutation_Probability')+1:), * ) GP_Mutation_Probability
+!
+!        write(6,'(A,1x,F10.4)') 'rcntl: GP_Mutation_Probability = ', &
+!                                        GP_Mutation_Probability
+!
+!
+!
 !--------------------------------------------------------------------
 
 

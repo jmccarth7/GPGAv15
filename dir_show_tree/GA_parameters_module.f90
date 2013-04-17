@@ -20,17 +20,17 @@ implicit none
 
 
 
-real(kind=8) :: GA_Crossover_Probability  ! probability of sexual crossing of parameter strings in GA_lmdif
+!real(kind=8) :: GA_Crossover_Probability  ! probability of sexual crossing of parameter strings in GA_lmdif
 !real(kind=4), parameter :: GA_Crossover_Probability = 0.4  ! probability of sexual crossing of binary string
 
-real(kind=8) :: GA_Mutation_Probability   ! probability of mutation in parameter string of GA_lmdif
+!real(kind=8) :: GA_Mutation_Probability   ! probability of mutation in parameter string of GA_lmdif
 !real (kind=4), parameter :: GA_Mutation_Probability = 0.1   ! probability of mutation in binary string
 
-real(kind=8) :: GA_save_elites_Probability ! probability of saving an individual as an elite individual
+!real(kind=8) :: GA_save_elites_Probability ! probability of saving an individual as an elite individual
 
-real(kind=8)  :: GA_Elitist_Probability  !=0.1   ! Keeps the top n_GP_Elitists of the Best Fit Individuals from Generation to Generation
+!real(kind=8)  :: GA_Elitist_Probability  !=0.1   ! Keeps the top n_GP_Elitists of the Best Fit Individuals from Generation to Generation
 
-real(kind=8)  :: GA_Asexual_Reproduction_Probability !=0.4   ! probability of asexual reproduction
+!real(kind=8)  :: GA_Asexual_Reproduction_Probability !=0.4   ! probability of asexual reproduction
 
 
 ! GP Probability of a Tree being assigned

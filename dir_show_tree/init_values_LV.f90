@@ -26,10 +26,7 @@ subroutine init_values_LV( icall  )
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-!use parms_module
 
-!use mpi
-!use mpi_module
 use GP_parameters_module
 use GP_variables_module
 use Runge_Kutta_Variables_module
@@ -61,17 +58,15 @@ if(  icall  == 0  )then
     n_linked_parms = 0
     n_linked_parms_dim = max( n_linked_parms, 1 )
 
-    !if( myid == 0 )then
-        write(6,'(A,1x,I6)') 'ivLV: n_levels           ', n_levels
-        write(6,'(A,1x,I6)') 'ivLV: n_functions        ', n_functions
-        write(6,'(A,1x,I6)') 'ivLV: n_CODE_equations   ', n_CODE_equations
-        write(6,'(A,1x,I6)') 'ivLV: n_trees            ', n_trees
-        write(6,'(A,1x,I6)') 'ivLV: n_nodes            ', n_nodes
-        write(6,'(A,1x,I6)') 'ivLV: n_linked_parms     ', n_linked_parms
-        write(6,'(A,1x,I6)') 'ivLV: n_linked_parms_dim ', n_linked_parms_dim
-        write(6,'(/A,1x,I6/)') 'ivLV: n_maximum_number_parameters  ', &
-                                      n_maximum_number_parameters
-    !endif ! myid == 0
+    write(6,'(A,1x,I6)') 'ivLV: n_levels           ', n_levels
+    write(6,'(A,1x,I6)') 'ivLV: n_functions        ', n_functions
+    write(6,'(A,1x,I6)') 'ivLV: n_CODE_equations   ', n_CODE_equations
+    write(6,'(A,1x,I6)') 'ivLV: n_trees            ', n_trees
+    write(6,'(A,1x,I6)') 'ivLV: n_nodes            ', n_nodes
+    write(6,'(A,1x,I6)') 'ivLV: n_linked_parms     ', n_linked_parms
+    write(6,'(A,1x,I6)') 'ivLV: n_linked_parms_dim ', n_linked_parms_dim
+    write(6,'(/A,1x,I6/)') 'ivLV: n_maximum_number_parameters  ', &
+                                  n_maximum_number_parameters
 
 
 
@@ -128,10 +123,8 @@ enddo ! i_tree
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-!if( myid == 0 )then
-    write(6,'(A, 4x,L1)') 'ivLV: LV_model1 ', &
-                                 LV_model1
-!endif ! myid == 0
+write(6,'(A, 4x,L1)') 'ivLV: LV_model1 ', &
+                             LV_model1
 
 ! Initial Conditions
 
@@ -143,10 +136,8 @@ else
     Runge_Kutta_Initial_Conditions(2) = 0.3960451  ! 2.0D+0   ! [predator]     [mmol N m-3]
 endif  ! LV_model1
 
-!if( myid == 0 )then
-    write(6,'(A, 2(1x,F10.2))') 'ivLV: Runge_Kutta_Initial_Conditions(1:2) ', &
-                                       Runge_Kutta_Initial_Conditions(1:2)
-!endif ! myid == 0
+write(6,'(A, 2(1x,F10.2))') 'ivLV: Runge_Kutta_Initial_Conditions(1:2) ', &
+                                   Runge_Kutta_Initial_Conditions(1:2)
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
@@ -176,14 +167,6 @@ else
     GP_Individual_Node_Parameters(2,4) = 1.56521d0 !0.02! predator biomass-specific feeding rate [d-1]
 endif  ! LV_model1
 
-!if( myid == 0 )then
-    write(6,'(A,1(1x,I6))') 'ivLV: GP_Individual_Node_Type(1,1)        ', &
-                                   GP_Individual_Node_Type(1,1)
-    write(6,'(A, 1x,F10.2)') 'ivLV: GP_Individual_Node_Parameters(2,1)  ', &
-                                    GP_Individual_Node_Parameters(2,1)
-    write(6,'(A, 1x,F10.2)') 'ivLV: GP_Individual_Node_Parameters(2,4)  ', &
-                                    GP_Individual_Node_Parameters(2,4)
-!endif ! myid == 0
 
 GP_Individual_Node_Type(3,4) = 3   ! '*'
 GP_Individual_Node_Type(6,4) = -1  ! Phyto
@@ -200,10 +183,6 @@ else
     GP_Individual_Node_Parameters(4,5) = 0.8346865d-06 !0.6![ predator biomass-specific mortality rate [d-1]
 endif  ! LV_model1
 
-!if( myid == 0 )then
-    write(6,'(A, 1x,F10.2)') 'ivLV: GP_Individual_Node_Parameters(4,5)  ', &
-                                    GP_Individual_Node_Parameters(4,5)
-!endif ! myid == 0
 
 GP_Individual_Node_Type(5,5) = -2  ! Zoo
 GP_Individual_Node_Type(6,5) = 3   ! '*'
@@ -216,10 +195,6 @@ else
     GP_Individual_Node_Parameters(12,5) = 0.2416847d+01 ! 0.5!  predator assimilation efficiency [fraction 0<==>1]
 endif  ! LV_model1
 
-!if( myid == 0 )then
-    write(6,'(A,1x,F10.2)') 'ivLV: GP_Individual_Node_Parameters(12,5) ', &
-                                   GP_Individual_Node_Parameters(12,5)
-!endif ! myid == 0
 
 GP_Individual_Node_Type(13,5) = -2 ! Zoo
 GP_Individual_Node_Type(14,5) = 0            ! predator biomass-specific feeding rate [d-1]
@@ -229,12 +204,119 @@ else
     GP_Individual_Node_Parameters(14,5) = 0.2585400E+00  ! 0.02  ! predator biomass-specific feeding rate [d-1]
 endif  ! LV_model1
 
-!if( myid == 0 )then
-    write(6,'(A, 1x,F10.2)') 'ivLV: GP_Individual_Node_Parameters(14,5) ', &
-                                    GP_Individual_Node_Parameters(14,5)
-!endif ! myid == 0
-
 GP_Individual_Node_Type(15,5) = -1 ! Phytoplankton
+
+!-------------------------------------------------------------------------------                                            
+                                                                                                                            
+! strings                                                                                                                   
+node_type_string = ' '  
+node_parameters_string   = ' '    ! [0.04, 0.4; prey growth rate [d-1] 
+                                                                                                                            
+! This term is calculated in units of [mg N d-1]
+!GP_Individual_Node_Type(1,1) = 3   ! '*'
+node_type_string(1,1)= ' *  '      ! '*'                                                                               
+!GP_Individual_Node_Type(2,1) = 0            ! prey growth rate
+node_type_string(2,1)= ' pgr  '    ! prey growth rate
+
+!if( LV_model1 )then
+!    GP_Individual_Node_Parameters(2,1) = 0.4d0  ! [0.04, 0.4; prey growth rate [d-1]
+!else
+!    GP_Individual_Node_Parameters(2,1) = 5.599795d0  ! 0.4    ! [0.04, 0.4; prey growth rate [d-1]
+!endif  ! LV_model1
+node_parameters_string(2,1)=' pgr'    ! [0.04, 0.4; prey growth rate [d-1] 
+
+
+!GP_Individual_Node_Type(3,1) = -1  ! Phyto
+node_type_string(3,1)= ' P  '      ! Phyto               
+
+!---------------------
+
+!GP_Individual_Node_Type(1,4) = 3   ! '*'
+node_type_string(1,4)= ' *  '      ! '*'                                                                               
+!GP_Individual_Node_Type(2,4) = 0   ! predator biomass-specific feeding rate [d-1]
+node_type_string(2,4)= ' PFR  '    ! predator biomass-specific feeding rate [d-1]
+
+!if( LV_model1 )then
+!    GP_Individual_Node_Parameters(2,4) = 0.02d0 ! [0.0005, 0.02; predator biomass-specific feeding rate [d-1]
+!else
+!    GP_Individual_Node_Parameters(2,4) = 1.56521d0 !0.02! predator biomass-specific feeding rate [d-1]
+!endif  ! LV_model1
+
+node_parameters_string(2,4)=' PFR'    ! 0.02! predator biomass-specific feeding rate [d-1] 
+
+
+!GP_Individual_Node_Type(3,4) = 3   ! '*'
+node_type_string(3,4)= ' *  '      ! '*'                                                                               
+!GP_Individual_Node_Type(6,4) = -1  ! Phyto
+node_type_string(6,4)= ' P  '      ! Phyto
+!GP_Individual_Node_Type(7,4) = -2  ! Zoo
+node_type_string(7,4)= ' Z  '      ! Zoo
+
+!---------------------
+!GP_Individual_Node_Type(1,5) = 1   ! '+'
+node_type_string(1,5)= ' +  '      ! '+'                                                                               
+!GP_Individual_Node_Type(2,5) = 3   ! '*'
+node_type_string(2,5)= ' *  '          ! '*'                                                                               
+!GP_Individual_Node_Type(3,5) = 3   ! '*'
+node_type_string(3,5)= ' *  '          ! '*'                                                                               
+!GP_Individual_Node_Type(4,5) = 0           ! predator biomass-specific mortality rate [d-1]
+node_type_string(4,5)= 'pmor'          ! '*'                                                                               
+
+!if( LV_model1 )then
+!    GP_Individual_Node_Parameters(4,5) = 0.6d0 ! [0.1, 0.6; predator biomass-specific mortality rate [d-1]
+!else
+!    GP_Individual_Node_Parameters(4,5) = 0.8346865d-06 !0.6![ predator biomass-specific mortality rate [d-1]
+!endif  ! LV_model1
+node_parameters_string(4,5)='pmor'    ! 0.6![ predator biomass-specific mortality rate [d-1]
+
+
+!GP_Individual_Node_Type(5,5) = -2  ! Zoo
+node_type_string(5,5)= ' Z  '      ! Zoo
+!GP_Individual_Node_Type(6,5) = 3   ! '*'
+node_type_string(6,5)= ' *  '      ! '*'                                                                               
+!GP_Individual_Node_Type(7,5) = 3   ! '*'
+node_type_string(7,5)= ' *  '      ! '*'                                                                               
+!GP_Individual_Node_Type(12,5) = 0           ! predator assimilation efficiency [fraction 0<==>1]
+node_type_string(12,5)= 'assm'     ! predator assimilation efficiency [fraction 0<==>1]
+
+!if( LV_model1 )then
+!    GP_Individual_Node_Parameters(12,5) = 0.5d0 ! [0.2, 0.5; predator assimilation efficiency [fraction 0<==>1]
+!else
+!    GP_Individual_Node_Parameters(12,5) = 0.2416847d+01 ! 0.5!  predator assimilation efficiency [fraction 0<==>1]
+!endif  ! LV_model1
+node_parameters_string(12,5)='assm'    ! 0.5!  predator assimilation efficiency [fraction 0<==>1] 
+
+
+!GP_Individual_Node_Type(13,5) = -2 ! Zoo
+node_type_string(13,5)= ' Z  '     ! Zoo                                                                               
+!GP_Individual_Node_Type(14,5) = 0  ! predator biomass-specific feeding rate [d-1]
+node_type_string(14,5)= 'PFR '     ! predator biomass-specific feeding rate [d-1]                                      
+!if( LV_model1 )then
+!    GP_Individual_Node_Parameters(14,5) = 0.02d0 ! [0.0005, 0.02; predator biomass-specific feeding rate [d-1]
+!else
+!    GP_Individual_Node_Parameters(14,5) = 0.2585400E+00  ! 0.02  ! predator biomass-specific feeding rate [d-1]
+!endif  ! LV_model1
+node_parameters_string(14,5)='PFR '    ! Phytoplankton Maximum Growth Rate, Ranges between 0.20 <==> 3.0 [d-1]              
+
+!GP_Individual_Node_Type(15,5) = -1 ! Phytoplankton
+node_type_string(15,5)= ' P  '     ! Phytoplankton                                                                          
+
+
+                                                                                                                            
+!--------------------------------------------------------------------------------------       
+
+write(6,'(A,1x,F10.2)') 'ivLV: GP_Individual_Node_Parameters(12,5) ', &
+                               GP_Individual_Node_Parameters(12,5)
+write(6,'(A,1(1x,I6))') 'ivLV: GP_Individual_Node_Type(1,1)        ', &
+                               GP_Individual_Node_Type(1,1)
+write(6,'(A, 1x,F10.2)') 'ivLV: GP_Individual_Node_Parameters(2,1)  ', &
+                                GP_Individual_Node_Parameters(2,1)
+write(6,'(A, 1x,F10.2)') 'ivLV: GP_Individual_Node_Parameters(2,4)  ', &
+                                GP_Individual_Node_Parameters(2,4)
+write(6,'(A, 1x,F10.2)') 'ivLV: GP_Individual_Node_Parameters(4,5)  ', &
+                                GP_Individual_Node_Parameters(4,5)
+write(6,'(A, 1x,F10.2)') 'ivLV: GP_Individual_Node_Parameters(14,5) ', &
+                                GP_Individual_Node_Parameters(14,5)
 
 
 if( n_linked_parms > 0 )then

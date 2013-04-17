@@ -17,7 +17,7 @@ real(kind=8) :: Child_Parameters( n_GA_Individuals,n_trees, n_nodes )
 real(kind=4) :: cff
 real(kind=8) :: dff
 
-integer(kind=4) :: i
+!integer(kind=4) :: i
 
 !----------------------------------------------------------------------------
 
@@ -36,6 +36,7 @@ do  i_GA_Individual=1,n_GA_Individuals
     do  i_tree=1,n_trees
         do  i_node=1,n_nodes
 
+        if( GP_Adult_Population_Node_Type(i_GP_Individual,i_Node,i_Tree) == -9999 ) cycle
 
         call random_real(cff) ! random real number generator
         dff = cff

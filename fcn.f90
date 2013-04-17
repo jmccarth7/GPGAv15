@@ -58,11 +58,16 @@ enddo !  i_CODE_equation
 
 
 Runge_Kutta_Node_Parameters = 0.
+Runge_Kutta_Node_Type       = 0    ! jjm 20130417
 
 i_parameter=n_CODE_equations
 
 do i_tree=1,n_trees
   do i_node=1,n_nodes
+
+
+
+    Runge_Kutta_Node_Type(i_node,i_tree) = GP_Individual_Node_Type(i_node,i_tree) ! jjm 20130417
 
     if( GP_Individual_Node_Type(i_node,i_tree) .eq. 0) then  ! set the node_parameter
 
@@ -90,8 +95,35 @@ do i_tree=1,n_trees
   enddo ! i_node
 enddo  ! i_tree
 
+!---------------------------------------------------------------------------------
 
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+! jjm 20130417 >>>>>>>>>>>>>>>
+!do i_tree=1,n_trees
+!  do i_node=1,n_nodes
+!      if( myid == 1) then
+!          if( Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999  )then
+!              write(GA_print_unit,'(A,2(1x,I6),1x,E15.7)') &
+!               'fcn: i_node, i_tree, Runge_Kutta_Node_Parameters(i_node,i_tree) ', &
+!                     i_node, i_tree, Runge_Kutta_Node_Parameters(i_node,i_tree) 
+!          endif ! Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999 
+!      endif ! myid == 1   NOTE:  1
+!  enddo ! i_node
+!enddo  ! i_tree
+!do i_tree=1,n_trees
+!  do i_node=1,n_nodes
+!      if( myid == 1) then
+!          if( Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999  )then
+!              write(GA_print_unit,'(A,3(1x,I6))') &
+!               'fcn: i_node, i_tree, Runge_Kutta_Node_Type(i_node,i_tree) ', &
+!                     i_node, i_tree, Runge_Kutta_Node_Type(i_node,i_tree) 
+!          endif ! Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999 
+!      endif ! myid == 1   NOTE:  1
+!  enddo ! i_node
+!enddo  ! i_tree
+! jjm 20130417 <<<<<<<<<<<<<<<
+
+!---------------------------------------------------------------------------------
+
 
 !  Runge_Kutta_Box_Model runs the RK process using the parameters
 !  set above

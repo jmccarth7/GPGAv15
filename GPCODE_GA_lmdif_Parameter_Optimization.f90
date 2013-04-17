@@ -93,7 +93,42 @@ if( myid == 0 )then
           'GP_GA_opt: n_parameters    =   ', n_parameters
     write(GA_print_unit,'(A,1x,I10)') &
           'GP_GA_opt: n_GP_parameters =   ', n_GP_parameters
+
 endif ! myid == 0
+
+
+! jjm 20130417 >>>>>>>>>>>>>>>
+
+if( myid == 0) then
+
+    write(GA_print_unit,'(A)')' '
+    do  i_tree=1,n_trees
+        do  i_node=1,n_nodes
+            write(GA_print_unit,'(A,2(1x,I6),1x,E15.7)') &
+              'fcn: i_node, i_tree, GP_Individual_Node_Parameters(i_node,i_tree) ', &
+                    i_node, i_tree, GP_Individual_Node_Parameters(i_node,i_tree)
+        enddo ! i_node
+    enddo  ! i_tree
+    
+    write(GA_print_unit,'(A)')' '
+    
+    
+    do  i_tree=1,n_trees
+        do  i_node=1,n_nodes
+            write(GA_print_unit,'(A,3(1x,I6))') &
+             'fcn: i_node, i_tree, GP_Individual_Node_Type(i_node,i_tree)', &
+                   i_node, i_tree, GP_Individual_Node_Type(i_node,i_tree)
+        enddo ! i_node
+    enddo  ! i_tree
+    
+    write(GA_print_unit,'(A)')' '
+
+endif ! myid == 0
+
+
+! jjm 20130417 <<<<<<<<<<<<<<<
+
+
 
 
 if( n_parameters .le. 0) then
@@ -200,10 +235,10 @@ L_stop_run  = .FALSE.
 
 do  i_GA_generation=1,n_GA_Generations
 
-    ! Run_GA_lmdif determines if the new child 
+    ! Run_GA_lmdif determines if the new child
     ! has to be sent to lmdif for 'local' optimization
 
-    Run_GA_lmdif=.false.  
+    Run_GA_lmdif=.false.
 
     if( myid == 0 )then
         write(GA_print_unit,'(/A,1x,I6,1x,A/)') &
@@ -868,7 +903,7 @@ if( myid == 0  )then
                             individual_ranked_fitness_best_1 )then
 
 
-        individual_fitness = individual_ranked_fitness_best_1 
+        individual_fitness = individual_ranked_fitness_best_1
 
         ! choose the parameters of the best parent from the RK fcn integration
 
@@ -969,13 +1004,13 @@ if( myid == 0  )then
         if( L_stop_run )then
 
             write( GA_output_unit , '(I6,1x,I6, 12(1x,E15.7))') &
-              i_GA_Generation_last, i_GA_best_parent, & 
+              i_GA_Generation_last, i_GA_best_parent, &
               individual_ranked_fitness(i_GA_best_parent), &
               parent_parameters(i_GA_best_parent, 1:n_parameters)
         else
 
             write( GA_output_unit , '(I6,1x,I6, 12(1x,E15.7))') &
-              n_GA_Generations, i_GA_best_parent, & 
+              n_GA_Generations, i_GA_best_parent, &
               individual_ranked_fitness(i_GA_best_parent), &
               parent_parameters(i_GA_best_parent, 1:n_parameters)
 

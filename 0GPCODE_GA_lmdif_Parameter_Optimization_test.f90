@@ -225,8 +225,8 @@ call init_values( 1 )
 
 ! run the Runge-Kutta model only once with proc 0
 
-
 call set_answer_arrays( )
+
 
 !------------------------------------------------------------------------
 
@@ -664,8 +664,8 @@ do  i_GP_Generation=1,n_GP_Generations
         call MPI_BCAST( GP_Adult_Population_Node_Type, message_len,    &
                         MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
 
-        ! Parent_Tree_Swap_Node_Type
 
+        ! Parent_Tree_Swap_Node_Type
 
         message_len = 2 * n_Nodes
         call MPI_BCAST( Parent_Tree_Swap_Node_Type, message_len,    &
@@ -783,6 +783,34 @@ do  i_GP_Generation=1,n_GP_Generations
         endif !  myid == 0
 
         GP_Individual_Node_Parameters = 0.0 ! these get set randomly in the GA-lmdif search algorithm
+
+!>>>>>>>>>> jjm 20130417
+!        if( myid == 0 )then
+!            write(GP_print_unit,'(/A,3(1x,I6)/)') &
+!                  '0: i_GP_individual, n_nodes, n_trees ', &
+!                      i_GP_individual, n_nodes, n_trees
+!            do  i_Tree=1,n_Trees
+!                do  i_Node=1,n_Nodes
+!                    if( GP_Individual_Node_Type(i_Node,i_Tree) /= -9999 )then
+!                        write(GP_print_unit,'(A,3(1x,I6))') &
+!                          '0: i_node, i_tree, GP_Individual_Node_Type(i_Node,i_Tree)', &
+!                              i_node, i_tree, GP_Individual_Node_Type(i_Node,i_Tree)
+!                    endif ! GP_Individual_Node_Type(i_Node,i_Tree) /= -9999
+!                enddo ! i_node
+!            enddo ! i_tree
+!            write(GP_print_unit,'(/A)') ' '
+!            do  i_Tree=1,n_Trees
+!                do  i_Node=1,n_Nodes
+!                    if( GP_Individual_Node_Type(i_Node,i_Tree) /= -9999 )then
+!                        write(GP_print_unit,'(A,2(1x,I6),1x,E15.7)') &
+!                          '0: i_node, i_tree, GP_Individual_Node_Parameters(i_Node,i_Tree)', &
+!                              i_node, i_tree, GP_Individual_Node_Parameters(i_Node,i_Tree)
+!                    endif ! GP_Individual_Node_Type(i_Node,i_Tree) /= -9999
+!                enddo ! i_node
+!            enddo ! i_tree
+!            write(GP_print_unit,'(/A)') ' '
+!        endif !  myid == 0
+!<<<<<<<<<<< jjm 20130417
 
         if( Run_GP_Calculate_Fitness(i_GP_Individual) ) then
 

@@ -27,8 +27,10 @@ integer ::  iflag
 
 ! lmdif arrays and variables
 
-real (kind=8) :: x_LMDIF(n_maximum_number_parameters)
-real (kind=8) :: fvec(n_time_steps)
+!real (kind=8) :: x_LMDIF(n_maximum_number_parameters)
+!real (kind=8) :: fvec(n_time_steps)
+real(kind=8), allocatable, dimension(:) :: x_LMDIF
+real(kind=8), allocatable, dimension(:) :: fvec
 
 
 real(kind=8), parameter :: tol = 1.0d-30
@@ -43,7 +45,7 @@ integer (kind=4) ::   info
 ! if lmdif encounters an error, set individual_quality to -1
 ! if < 0 , reject this individual  ! jjm
 
-integer(kind=4) :: individual_quality(n_GA_individuals)
+!integer(kind=4) :: individual_quality(n_GA_individuals)
 
 
 !real(kind=8) :: child_parameters(n_GA_individuals,n_maximum_number_parameters)
@@ -53,28 +55,38 @@ external :: fcn
 
 !--------------------------------------------------------------------------------------------
 
-!write(6,'(/A,1(1x,I6)/)') 'shotr: i_GA_indiv ', i_GA_indiv
+write(6,'(/A,1(1x,I6)/)') 'shotr: i_GA_indiv ', i_GA_indiv
+write(6,'(/A,1x,I6/)') 'shotr: n_maximum_number_parameters ', n_maximum_number_parameters
+
+allocate( x_LMDIF(n_maximum_number_parameters) ) 
+allocate( fvec(n_time_steps) ) 
 
 x_LMDIF(1:n_maximum_number_parameters) = 0.0D0
 
 !do  i_parameter=1,n_parameters
 i_parameter = 0
+                                                                                                                          
+do  i_CODE_equation=1,n_CODE_equations                                                                                    
+    i_parameter =  i_parameter + 1                                                                                           
+    x_LMDIF(i_parameter)=Runge_Kutta_Initial_Conditions(i_CODE_equation)                                                  
+enddo ! i_CODE_equation                                                                                                   
+  
 do  i_tree =1, n_trees
     do  i_node =1, n_nodes
+
+        if( GP_Adult_Population_Node_Type(i_GP_Individual,i_Node,i_Tree) == -9999 ) cycle 
 
         i_parameter = i_parameter + 1
 
         X_LMDIF(i_parameter) = child_parameters(i_GA_indiv,i_tree, i_node )
     
-        !if( myid == 1 )then
-            write(6,'(A,4(1x,I6),1x,E20.10)') &
-                  'shotr:1 i_GA_indiv,i_tree, i_node,i_parameter, child_parameters ', &
-                           i_GA_indiv,i_tree, i_node,i_parameter, &
-                           child_parameters(i_GA_indiv,i_tree, i_node)
-            write(6,'(A,2(1x,I6),1x,E20.10)') &
-                  'shotr:1 i_GA_indiv, i_parameter,  X_LMDIF', &
-                           i_GA_indiv, i_parameter,  X_LMDIF(i_parameter)
-        !endif ! myid == 1
+        !write(6,'(A,4(1x,I6),1x,E20.10)') &
+        !      'shotr:1 i_GA_indiv,i_tree, i_node,i_parameter, child_parameters ', &
+        !               i_GA_indiv,i_tree, i_node,i_parameter, &
+        !               child_parameters(i_GA_indiv,i_tree, i_node)
+        write(6,'(A,2(1x,I6),1x,E20.10)') &
+              'shotr:1 i_GA_indiv, i_parameter,  X_LMDIF', &
+                       i_GA_indiv, i_parameter,  X_LMDIF(i_parameter)
 
     enddo ! i_node =1, n_nodes
 enddo !i_tree =1, n_trees
@@ -86,11 +98,9 @@ enddo !i_tree =1, n_trees
 
 
 
-!if( myid == 1 )then
-!    write(6,'(/A,3(1x,I10))') &
-!          'shotr: call fcn, i_GA_indiv, n_time_steps, n_parameters     ', &
-!                            i_GA_indiv, n_time_steps, n_parameters
-!endif ! myid == 1
+!write(6,'(/A,3(1x,I10))') &
+!      'shotr: call fcn, i_GA_indiv, n_time_steps, n_parameters     ', &
+!                        i_GA_indiv, n_time_steps, n_parameters
 
 
 iflag = 1
@@ -100,11 +110,9 @@ call fcn( n_time_steps, n_parameters, x_LMDIF, fvec, iflag )
 info = iflag
 
 
-!if( myid == 1 )then
-!    write(6,'(A,4(1x,I10)/)') &
-!              'shotr: aft call fcn i_GA_indiv, n_time_steps, n_parameters, info ', &
-!                                   i_GA_indiv, n_time_steps, n_parameters, info
-!endif ! myid == 1
+! write(6,'(A,4(1x,I10)/)') &
+!           'shotr: aft call fcn i_GA_indiv, n_time_steps, n_parameters, info ', &
+!                                i_GA_indiv, n_time_steps, n_parameters, info
 
 
 !----------------------------------------------------------------------------------------
@@ -119,59 +127,8 @@ info = iflag
 !      'shotr:3 i_GA_indiv, X_LMDIF', &
 !               i_GA_indiv, X_LMDIF(1:n_parameters)
 
-
-!do  i_parameter=1,n_parameters
-!    child_parameters(i_GA_indiv,i_parameter) = &
-!                            dabs( x_LMDIF(i_parameter) )
-!    !write(6,'(A,2(1x,I6),1x,E20.10)') &
-!    !      'shotr:3 aft RK  i_GA_indiv, i_parameter,  X_LMDIF', &
-!    !                       i_GA_indiv, i_parameter,  X_LMDIF(i_parameter)
-!enddo ! i_parameter
-
-!write(6,'(/A/ 1(1x, I6), 12( 1x,E24.16))') &
-!      'shotr:4  i_GA_indiv, child_parameters(i_GA_indiv,:)', &
-!                i_GA_indiv, child_parameters(i_GA_indiv,1:n_parameters)
-
-!-----------------------------------------------------------------------------------
-
-!  calculate the individual SSE values by summing fvec over all time steps
-!  fvec(i) = ( fcn(i) - truth(i) )**2
-!  so SSE is calculated by summing fvec, not fvec**2
-
-!write(6,'(/A/)')'shotr: calculate the individual SSE values '
-
-
-!individual_SSE(i_GA_indiv)=0.0D+0
-!
-!if( individual_quality( i_GA_indiv ) > 0 ) then
-!
-!    !write(20,'(A,1x,I6)') 'shotr: i_GA_indiv ', i_GA_indiv
-!    !write(6,'(A,1x,I6)') 'shotr: i_GA_indiv ', i_GA_indiv
-!
-!    do i_time_step=1,n_time_steps
-!
-!       if( isnan(fvec(i_time_step)) )    fvec(i_time_step) = 0.0d0
-!       if( abs(fvec(i_time_step)) >  1.0d20 ) fvec(i_time_step) =  1.0d20
-!
-!       !write(20,'(A,1x,I6,1x,E24.16)' ) &
-!       !      'shotr: i_time_step, fvec(i_time_step) ', &
-!       !              i_time_step, fvec(i_time_step)
-!       !write(6,'(A,1x,I6,1x,E24.16)' ) &
-!       !      'shotr: i_time_step, fvec(i_time_step) ', &
-!       !              i_time_step, fvec(i_time_step)
-!
-!       individual_SSE(i_GA_indiv) = individual_SSE(i_GA_indiv) + &
-!                                    fvec(i_time_step)
-!
-!    enddo ! i_time_step
-!
-!endif !  individual_quality( i_GA_indiv ) > 0
-!
-!!write(6,'(A,2(1x,I6), 1x, E24.16)') &
-!!      'shotr:  i_GA_indiv, individual_quality, individual_SSE', &
-!!               i_GA_indiv, &
-!!              individual_quality( i_GA_indiv ), &
-!!              individual_SSE(i_GA_indiv)
+deallocate( x_LMDIF ) 
+deallocate( fvec ) 
 
 
 

@@ -78,6 +78,41 @@ Runge_Kutta_Node_Parameters = GP_Individual_Node_Parameters  ! Matrix Operation
 Runge_Kutta_Node_Type=GP_Individual_Node_Type                ! Matrix Operation
 
 
+if( myid == 0 )then
+    write(6,'(A)') ' '
+
+    do  i_tree = 1, n_trees
+        do  i_node = 1, n_nodes
+
+            if( Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999 )then 
+                write(6,'(A,2(1x,I6),1x,E15.7)') &
+                  'saa: i_tree, i_node, Runge_Kutta_Node_Parameters( i_node, i_tree ) ', &
+                        i_tree, i_node, Runge_Kutta_Node_Parameters( i_node, i_tree )
+            endif ! Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999 
+
+        enddo ! i_node 
+    enddo ! i_tree
+
+    write(6,'(A)') ' '
+
+    do  i_tree = 1, n_trees
+        do  i_node = 1, n_nodes
+
+            if( Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999 )then 
+                write(6,'(A,3(1x,I6))') &
+                  'saa: i_tree, i_node, Runge_Kutta_Node_Type( i_node, i_tree ) ', &
+                        i_tree, i_node, Runge_Kutta_Node_Type( i_node, i_tree )
+            endif ! Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999 
+
+        enddo ! i_node 
+    enddo ! i_tree
+
+    write(6,'(A)') ' '
+
+endif ! myid == 0
+
+
+
 !------------------------------------------------------------------------
 
 
