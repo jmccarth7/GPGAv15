@@ -56,6 +56,8 @@ do i_GP_Crossover=1,n_GP_Crossovers
   call random_number(cff) ! uniform random number generator
   k_GP_Individual_Male(2)=1+int(cff*float(n_GP_Individuals-1))
 
+! Check to make sure that the two males are not the same
+
   if( k_GP_Individual_Male(2) .eq. k_GP_Individual_Male(1)) then
 
     if( k_GP_Individual_Male(1) .ne. n_GP_Individuals) then
@@ -67,6 +69,9 @@ do i_GP_Crossover=1,n_GP_Crossovers
   endif !   k_GP_Individual_Male(2) .eq. k_GP_Individual_Male(1)
 
 ! select the individual of the two with the best fitness
+
+
+!???  if( GP_Adult_Population_SSE(k_GP_Individual_Male(2)) .lt. GP_Adult_Population_SSE(k_GP_Individual_Male(1))) then
 
   if( GP_Individual_Ranked_Fitness(k_GP_Individual_Male(2)) .gt.          &
       GP_Individual_Ranked_Fitness(k_GP_Individual_Male(1))      ) then
@@ -86,6 +91,8 @@ do i_GP_Crossover=1,n_GP_Crossovers
   call Random_Number(cff) ! uniform random number generator
   k_GP_Individual_Female(2)=1+int(cff*float(n_GP_Individuals-1))
 
+! Check to make sure that the two females are not the same
+
   if( k_GP_Individual_Female(2) .eq. k_GP_Individual_Female(1)  ) then
 
       if( k_GP_Individual_Female(1) .ne. N_GP_Individuals) then
@@ -95,6 +102,10 @@ do i_GP_Crossover=1,n_GP_Crossovers
       endif !   k_GP_Individual_Female(1) .ne. N_GP_Individuals
 
   endif !   k_GP_Individual_Female(2) .eq. k_GP_Individual_Female(1)
+
+
+!???! select the individual with the lowest SSE level between the two chosen females
+!???  if( GP_Adult_Population_SSE(k_GP_Individual_Female(2)) .lt. GP_Adult_Population_SSE(k_GP_Individual_Female(1))) then
 
   ! select the individual of the two with the best fitness
 
@@ -107,6 +118,8 @@ do i_GP_Crossover=1,n_GP_Crossovers
 
 
   !----------------------------------------------------------------------
+
+! Randomly choose which tree structure location from the best male to participate in the genetic crossovers
 
   ! randomly choose which tree structures from the male and female GP_CODEs 
   ! will participate in the genetic crossovers
@@ -149,7 +162,10 @@ do i_GP_Crossover=1,n_GP_Crossovers
     CROSS=.false. ! there are no Trees on this GP_CODE
 
   endif !   i_Node_Count .gt. 0
-    
+
+! Randomly choose which tree structure location from the best female to participate in the genetic crossovers
+   
+
   if( CROSS) then
 
     i_Node_Count=0
@@ -189,6 +205,14 @@ do i_GP_Crossover=1,n_GP_Crossovers
 
   endif ! CROSS
 
+
+!???! stick the entire chosen male node/tree set into the new child node/tree set
+!???GP_Child_Population_Node_Type(i_GP_Individual,1:n_Nodes,1:n_Trees)= &
+!???       GP_Adult_Population_Node_Type(k_GP_Individual_Male(1),1:n_Nodes,1:n_Trees)
+
+!???! Do the genetic crossovers but only keep the solution from one (the male) of the two (male and female) generated child tree
+
+
   if( CROSS) then
 
     call Random_Number(cff) ! uniform random number generator
@@ -204,14 +228,40 @@ do i_GP_Crossover=1,n_GP_Crossovers
     Parent_Tree_Swap_Node_Type(1:n_Nodes,2) = &
             GP_Adult_Population_Node_Type(k_GP_Individual_Female(1),1:n_Nodes,i_Female_Tree)
 
+!>>>>  ???
+! ???     GP_Individual_Node_Type(1:n_Nodes,1:n_Trees)= &
+! ???            GP_Adult_Population_Node_Type(k_GP_Individual_Male(1),1:n_Nodes,1:n_Trees)
+! ???     call GP_Check_Terminals(i_Error)
+! ???     if( i_Error .eq. 1) then
+! ???       write(*,*) 'Pre-GP_Check_Error [Male] in GP_Tournement_Style_Sexual_Reproduction',i_GP_Individual,i_Error
+! ???       stop
+! ???     endif
+! ??? 
+! ???     GP_Individual_Node_Type(1:n_Nodes,1:n_Trees)= &
+! ???            GP_Adult_Population_Node_Type(k_GP_Individual_Female(1),1:n_Nodes,1:n_Trees)
+! ???     call GP_Check_Terminals(i_Error)
+! ???     if( i_Error .eq. 1) then
+! ???       write(*,*) 'Pre-GP_Check_Error [Female] in GP_Tournement_Style_Sexual_Reproduction',i_GP_Individual,i_Error
+! ???       stop
+! ???     endif
+! <<<<  ???
 
     !   perform the random tree swap
+!????    call GP_Tree_Swap
     !off    call GP_Tree_Swap
 
     !   move one of the swapped trees into GP_Child_Population_Node_Type
 
     GP_Child_Population_Node_Type(i_GP_Individual,1:n_Nodes,i_Male_Tree) = &
                        Parent_Tree_Swap_Node_Type(1:n_Nodes,1)
+! >>>>   ?????
+! ???     GP_Individual_Node_Type(1:n_Nodes,1:n_Trees)=GP_Child_Population_Node_Type(i_GP_Individual,1:n_Nodes,1:n_Trees)
+! ???     call GP_Check_Terminals(i_Error)
+! ???     if( i_Error .eq. 1) then
+! ???       write(*,*) 'Post-GP_Check_Error in GP_Tournament_Style_Sexual_Reproduction',i_GP_Individual,i_Error
+! ???       stop
+! ???     endif
+! <<<<<   ?????
 
     Run_GP_Calculate_Fitness(i_GP_Individual)=.true.
 

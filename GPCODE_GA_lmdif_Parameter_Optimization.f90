@@ -105,8 +105,8 @@ if( myid == 0) then
     do  i_tree=1,n_trees
         do  i_node=1,n_nodes
             write(GA_print_unit,'(A,2(1x,I6),1x,E15.7)') &
-              'fcn: i_node, i_tree, GP_Individual_Node_Parameters(i_node,i_tree) ', &
-                    i_node, i_tree, GP_Individual_Node_Parameters(i_node,i_tree)
+              'GP_GA_opt: i_node, i_tree, GP_Individual_Node_Parameters(i_node,i_tree) ', &
+                          i_node, i_tree, GP_Individual_Node_Parameters(i_node,i_tree)
         enddo ! i_node
     enddo  ! i_tree
     
@@ -116,8 +116,8 @@ if( myid == 0) then
     do  i_tree=1,n_trees
         do  i_node=1,n_nodes
             write(GA_print_unit,'(A,3(1x,I6))') &
-             'fcn: i_node, i_tree, GP_Individual_Node_Type(i_node,i_tree)', &
-                   i_node, i_tree, GP_Individual_Node_Type(i_node,i_tree)
+             'GP_GA_opt: i_node, i_tree, GP_Individual_Node_Type(i_node,i_tree)', &
+                         i_node, i_tree, GP_Individual_Node_Type(i_node,i_tree)
         enddo ! i_node
     enddo  ! i_tree
     

@@ -15,13 +15,17 @@ implicit none
 real(kind=8) :: cff
 
 integer(kind=4) :: i_GP_Mutation
+integer(kind=4) :: i_GP_Individual_Mutation
 integer(kind=4) :: i_Tree_Mutation
-integer(kind=4) :: i_Swap_Node
 integer(kind=4) :: icnt_Nodes
 integer(kind=4) :: icnt
-integer(kind=4) :: i_GP_Individual_Mutation
+
 integer(kind=4) :: i_Node_Mutation
+
+integer(kind=4) :: Node_to_Mutate
 integer(kind=4) :: Node_Function
+!integer(kind=4) :: i_GP_Individual
+integer(kind=4) :: i_Error
 
 logical Node_Not_Found
 
@@ -42,13 +46,13 @@ do  i_GP_Mutation=1,n_GP_Mutations
 
     i_GP_Individual=i_GP_Individual+1
 
-    ! fill in the chosen Child with the Parent's tree information
-    do  i_Node=1,n_Nodes
-        do  i_Tree=1,n_Trees
-            GP_Child_Population_Node_Type(i_GP_Individual,i_Node,i_Tree) = &
-            GP_Adult_Population_Node_Type(i_GP_Individual,i_Node,i_Tree)
-        enddo ! i_tree
-    enddo ! i_node
+!    ! fill in the chosen Child with the Parent's tree information
+!    do  i_Node=1,n_Nodes
+!        do  i_Tree=1,n_Trees
+!            GP_Child_Population_Node_Type(i_GP_Individual,i_Node,i_Tree) = &
+!            GP_Adult_Population_Node_Type(i_GP_Individual,i_Node,i_Tree)
+!        enddo ! i_tree
+!    enddo ! i_node
 
 
     ! randomly pick one of the n_GP_Individuals to mutate
@@ -56,6 +60,20 @@ do  i_GP_Mutation=1,n_GP_Mutations
     call Random_Number(cff) ! uniform random number generator
     i_GP_Individual_Mutation=1+int(cff*float(n_GP_Individuals-1))
 
+! >>>>   ?????
+
+! ??? ! Fill in the Child nodes with the chosen Parent's node/tree information
+! ???   GP_Child_Population_Node_Type(i_GP_Individual,1:n_Nodes,1:n_Trees)= &
+! ???     GP_Adult_Population_Node_Type(i_GP_Individual_Mutation,1:n_Nodes,1:n_Trees)
+! ??? 
+! ???   GP_Individual_Node_Type(1:n_Nodes,1:n_Trees)=GP_Child_Population_Node_Type(i_GP_Individual,1:n_Nodes,1:n_Trees)
+! ???   call GP_Check_Terminals(i_Error)
+! ???   if( i_Error .eq. 1) then
+! ???     write(*,*) 'Pre-GP_Check_Error in GP_Mutation',i_GP_Individual,i_GP_Mutation,i_Error
+! ???     stop
+! ???   endif
+
+! <<<   ?????
 
     ! randomly pick one of the equation trees
 
@@ -63,8 +81,8 @@ do  i_GP_Mutation=1,n_GP_Mutations
     i_Tree_Mutation=1+int(cff*float(n_Trees-1))
 
 
-    ! count the number of nodes on the tree selected for a mutation.
-    ! Only nodes are mutated.
+    ! count the number of function nodes on the tree selected for a mutation.
+    ! Only function nodes are mutated.
 
     icnt_Nodes=0
     do  i_Node=1,n_Nodes
@@ -85,21 +103,20 @@ do  i_GP_Mutation=1,n_GP_Mutations
         !   randomly choose a node location to mutate
 
         call random_number(cff) ! uniform random number generator
-        i_Swap_Node=1+int(float(icnt_Nodes-1)*cff)
+        Node_to_Mutate=1+int(float(icnt_Nodes-1)*cff)
 
 
         icnt=0
         Node_Not_Found=.true.
         do i_Node=1,n_Nodes
            !if( Node_Not_Found) then
-               if( GP_Adult_Population_Node_Type( &
-                          i_GP_Individual_Mutation,i_Node,i_Tree_Mutation) .ge. 0) then
+               if( GP_Adult_Population_Node_Type( i_GP_Individual_Mutation,i_Node,i_Tree_Mutation) .ge. 0) then
                    icnt=icnt+1
-                   if( icnt .eq. i_Swap_Node) then
-                       i_Swap_Node=i_Node
+                   if( icnt .eq. Node_to_Mutate) then
+                       Node_to_Mutate=i_Node
                        !Node_Not_Found=.false.
                        exit
-                   endif !   icnt .eq. i_Swap_Node
+                   endif !   icnt .eq. Node_to_Mutate
 
                endif !   GP_Adult_Population_Node_Type...
 
@@ -113,11 +130,24 @@ do  i_GP_Mutation=1,n_GP_Mutations
         call random_number(cff) ! uniform random number generator
         node_function=1+int(float(n_Node_Functions-1)*cff)
 
-        GP_Child_Population_Node_Type(i_GP_Individual,i_Node,i_Tree)=Node_Function
+        GP_Child_Population_Node_Type(i_GP_Individual,Node_to_Mutate,i_Tree_Mutation)=Node_Function
 
-        Run_GP_Calculate_Fitness(i_GP_Individual)=.true.
+        !orig Run_GP_Calculate_Fitness(i_GP_Individual)=.true.
 
     endif !   icnt_Nodes .gt. 0
+    Run_GP_Calculate_Fitness(i_GP_Individual)=.true.
+
+
+! >>>> ????
+
+! ???   GP_Individual_Node_Type(1:n_Nodes,1:n_Trees)=GP_Child_Population_Node_Type(i_GP_Individual,1:n_Nodes,1:n_Trees)
+! ???   call GP_Check_Terminals(i_GP_Individual,i_Error)
+! ???   if( i_Error .eq. 1) then
+! ???     write(*,*) 'Post-GP_Check_Error in GP_Mutation',i_GP_Individual,i_GP_Mutation,i_Error
+! ???     stop
+! ???   endif
+
+! <<< ????
 
 enddo !  i_GP_Mutation
 

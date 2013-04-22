@@ -69,6 +69,7 @@ do i=1,2
       node_depth(i_node,i_parent)=0
 
       if( parent_Tree_Swap_Node_Type(i_node,i_parent) .ge. -1) then
+!?    if( parent_Tree_Swap_Node_Type(i_node,i_parent) .ne. -9999) then
 
         if( i_level .eq. n_levels) then
 
@@ -111,6 +112,12 @@ do i_node=1,n_nodes
   endif !   Parent_Tree_Swap_Node_Type(i_node,i_parent_one) .ge. -1
 enddo ! i_node
 
+! ??? do i_node=1,n_nodes
+! ???   if( Parent_Tree_Swap_Node_Type(i_node,i_parent_one) .ne. -9999) then
+! ???    icnt_parent_one_nodes=icnt_parent_one_nodes+1
+! ???   endif
+! ??? enddo
+
 ! randomly choose parent_one's node swap location
 call random_number(cff) ! uniform random number generator
 
@@ -121,6 +128,7 @@ node_not_found=.true.
 do i_node=1,n_nodes
   !if( node_not_found) then
     if( parent_Tree_Swap_Node_Type(i_node,i_parent_one) .ge. -1) then
+    ! ??? if( parent_Tree_Swap_Node_Type(i_node,i_parent_one) .ne. -9999) then
       icnt=icnt+1
       if( icnt .eq. i_parent_one_swap_node) then
         i_parent_one_swap_node=i_node
@@ -158,13 +166,15 @@ parent_one_max_swap_level=n_levels-parent_one_max_swap_level+1
 i_node=0
 icnt_parent_two_nodes=0
 do i_level=1,n_levels-1
+! ??? !off do i_level=1,n_levels-1
+! ??? do i_level=1,n_levels
   n_nodes_at_level=int(2**(i_level-1))
 
   parent_two_max_swap_level=n_levels-i_level+1
 
   do i_level_node=1,n_nodes_at_level
     i_node=i_node+1
-
+    ! ??? if( Parent_Tree_Swap_Node_Type(i_node,i_parent_two) .ne. -9999 .and. &
     if( parent_Tree_Swap_Node_Type(i_node,i_parent_two) .ge. -1        .and. &
         node_depth(i_node,i_parent_two) .le. parent_one_max_swap_level .and. &
         n_parent_one_swap_levels        .le. parent_two_max_swap_level         ) then
@@ -181,6 +191,7 @@ enddo ! i_level
 call random_number(cff) ! uniform random number generator
 
 icff=1+int(float(icnt_parent_two_nodes)*cff)
+!?  if( icff .gt. icnt_parent_two_nodes) icff=icnt_parent_two_nodes
 
 i_parent_two_swap_node=parent_two_swappable_nodes(icff)
 
@@ -242,7 +253,7 @@ do i_child=1,2
        parent_Tree_Swap_Node_Type(i_parent_swap_node,i_parent)
 
   i_levels=0
-! clean out the bottom of the tree branches on the child
+! clean out the bottom of the tree branches on the child that the branch will be added to
 
   do i_child_level=n_levels-child_max_swap_level+2,n_levels
 

@@ -31,7 +31,7 @@ do  i_GP_Individual=1,n_GP_Individuals       ! for each GP individual
 
         if( cff .le. GP_Tree_Probability ) then  ! go ahead and put in an equation
 
-            GP_Adult_Population_Node_Type(i_GP_Individual,1,i_Tree)=0 ! set the first node to zero
+            GP_Adult_Population_Node_Type(i_GP_Individual,1,i_Tree)=0 ! always set the first node to zero
 
             i_Node=0
             do  i_Level=1,n_Levels-1
@@ -52,16 +52,15 @@ do  i_GP_Individual=1,n_GP_Individuals       ! for each GP individual
                         if( cff .lt. Node_Probability(i_Level) ) then  ! set as a terminal
 
                             call random_number(cff) ! uniform random number generator
-                            node_function=int( float(n_Node_Functions)*cff  + 1.0 )
+                            node_function=1+int(cff*float(n_Node_Functions))
 
                             ! should not need to do this but compilers may vary w.r.t. 
                             ! possible rand = 1.
 
-                            !if( Node_Function .gt. n_Node_Functions ) then
-                            !    Node_Function  =   n_Node_Functions
-                            !endif !  Node_Function .gt. n_Node_Functions
+                             !if( node_function .gt. n_Node_Functions) node_function=n_Node_Functions
 
                             Node_Function = min( Node_Function, n_Node_Functions )
+
                             GP_Adult_Population_Node_Type(i_GP_Individual,i_Node,i_Tree) = &
                                                                          Node_Function
 
@@ -108,8 +107,8 @@ enddo !  i_GP_Individual
 
 !--------------------------------------------------------------------------------------------------
 
-! randomly fill the terminals of the GP_Adult_Population_Node_Type array 
-! with parameter or variable 'types'
+! randomly fill the terminals 
+! of the GP_Adult_Population_Node_Type array with parameter or variable 'types'
 
 
 do  i_GP_Individual=1,n_GP_Individuals
@@ -136,14 +135,12 @@ do  i_GP_Individual=1,n_GP_Individuals
 
                         ! One of the OBSERVATIONS, one for each equations N, P, Z, etc.
 
-                        Node_Variable=int( float(n_CODE_Equations)*cff + 1.0 )  
+                        Node_Variable=1+int(cff*float(n_CODE_Equations))  
 
 
                         !  should not need to do this but compilers may vary w.r.t. 
                         !  possible rand = 1.
-                        !if( Node_Variable .gt. n_CODE_Equations) then
-                        !    Node_Variable=n_CODE_Equations
-                        !endif !   Node_Variable .gt. n_CODE_Equations
+                        if( Node_Variable .gt. n_CODE_Equations) Node_Variable=n_CODE_Equations
 
                         Node_Variable = min( Node_Variable, n_CODE_Equations )
 
@@ -169,8 +166,24 @@ do  i_GP_Individual=1,n_GP_Individuals
 
     enddo !  i_Tree
 
-enddo !  i_GP_Individual
 
+
+                                                                                                        
+! ??? GP_Individual_Node_Type(1:n_Nodes,1:n_Trees)=GP_Child_Population_Node_Type(i_GP_Individual,1:n_Nodes,1:n_Trees) !???                                                                                              
+! ???                                                                                                         
+! ??? call GP_Check_Terminals(i_Error)                                                                     !??? 
+! ??? 
+! ??? if( i_Error .eq. 1 ) then                                                                            !??? 
+! ???     write(*,*) 'GP_Check_Error in GP_Tree_Build',i_GP_Individual,i_Error                             !??? 
+! ???     stop                                                                                             !??? 
+! ??? endif   
+                                                                                             !??? 
+enddo !  i_GP_Individual 
+   
+! ????  GP_Adult_Population_Node_Type=GP_Child_Population_Node_Type
+
+
+                              
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 return
 end subroutine GP_Tree_Build

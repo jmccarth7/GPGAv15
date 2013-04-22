@@ -59,6 +59,9 @@ allocate( Run_GP_Calculate_Fitness(n_GP_Individuals) )
 allocate( GA_Adult_Individual_SSE(n_GA_Individuals) )
 allocate( GA_Child_Individual_SSE(n_GA_Individuals) )
 
+allocate( GP_Adult_Individual_SSE(n_GP_Individuals) )
+allocate( GP_Child_Individual_SSE(n_GP_Individuals) )
+
 allocate( individual_SSE( n_GA_individuals )  )
 
 allocate( GA_Integrated_SSE(n_GA_Individuals) )
@@ -73,7 +76,11 @@ allocate( integrated_ranked_fitness( n_GA_individuals )  )
 
 allocate( GP_Population_Parameter_Solution(n_GP_individuals,n_maximum_number_parameters) )
 allocate( GP_Population_Initial_Conditions(n_GP_individuals,n_CODE_equations) )
+
 allocate( GP_Population_Node_Type(n_GP_individuals,n_nodes,n_trees) )
+allocate( GP_Adult_Population_Node_Type(n_GP_Individuals,n_Nodes,n_Trees) )
+allocate( GP_Child_Population_Node_Type(n_GP_Individuals,n_Nodes,n_Trees) )
+
 allocate( GP_Population_Node_Parameters(n_GP_individuals,n_nodes,n_trees) )
 allocate( GP_Population_Fitness(n_GP_individuals) )
 
@@ -94,11 +101,7 @@ allocate( GP_Solution(0:n_Time_Steps,n_CODE_Equations) )
 
 allocate( GP_diversity_index( n_GP_individuals ) )
 
-allocate( GP_Adult_Population_Node_Type(n_GP_Individuals,n_Nodes,n_Trees) )
-allocate( GP_Child_Population_Node_Type(n_GP_Individuals,n_Nodes,n_Trees) )
 
-allocate( GP_Adult_Individual_SSE(n_GP_Individuals) )
-allocate( GP_Child_Individual_SSE(n_GP_Individuals) )
 
 allocate( GP_Individual_Ranked_Fitness(n_GP_Individuals) )
 allocate( GP_Integrated_Ranked_Fitness(n_GP_Individuals) )
@@ -135,7 +138,12 @@ allocate( linked_parms( 2, n_linked_parms_dim ) )
 
 allocate( Node_Probability( n_levels ) )
 
-
+!>>>>>>>>>>>>>
+allocate( GP_Adult_Population_Parameter_Solution( 1:n_GP_Individuals,1:n_Maximum_Number_Parameters) )
+allocate( GP_Adult_Population_SSE( n_GP_Individuals  )  ) 
+allocate( GP_Child_Population_Parameter_Solution( 1:n_GP_Individuals,1:n_Maximum_Number_Parameters ) ) 
+allocate( GP_Child_Population_SSE(  n_GP_Individuals  )  )   
+!>>>>>>>>>>>>>
 
 
 
@@ -222,6 +230,14 @@ tree_evaluation_string = ' '
 linked_parms = 0.0d0
 
 Node_Probability = 0.0d0
+!>>>>>>>>>>>>>
+GP_Adult_Population_Parameter_Solution = 0.0d0
+GP_Adult_Population_SSE = 0.0d0
+GP_Child_Population_Parameter_Solution = 0.0d0
+GP_Child_Population_SSE = 0.0d0
+!>>>>>>>>>>>>>
+
+
 return
 
 end subroutine allocate_arrays1
