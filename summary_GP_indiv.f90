@@ -88,7 +88,7 @@ write(GP_summary_output_unit, '(A)') '> '
 ! print the node types if node /= -9999
 
 write(GP_print_unit,'(A)')  &
-      'sgpi: i_GP_generation, i_GP_indiv, i_node, i_tree, GP_Indiv_Node_Type '
+      'sgpi: i_GP_gen  i_GP_indiv   i_node i_tree GP_Indiv_Node_Type'
 
 dff = 0.0d0
 xcount = 0.0d0
@@ -98,11 +98,11 @@ do  i_Node=1,n_Nodes
         if( GP_Individual_Node_Type(i_Node,i_Tree) .ne. -9999         ) then
 
 
-            write(GP_print_unit,'(5x,5(1x,I6))') &
+            write(GP_print_unit,'(5(1x,I10))') &
                   i_GP_generation, i_GP_indiv,i_node, i_tree, &
                   GP_Individual_Node_Type(i_Node,i_Tree)
 
-            write(GP_summary_output_unit,'(5x,5(1x,I6))') &
+            write(GP_summary_output_unit,'(5(1x,I10))') &
                   i_GP_generation, i_GP_indiv,i_node, i_tree, &
                   GP_Individual_Node_Type(i_Node,i_Tree)
 
@@ -128,18 +128,18 @@ if( any( abs( GP_population_node_parameters(i_GP_indiv,:,:) ) &
                                                             > 1.0d-20 ) )then
 
     write(GP_print_unit,'(/A/)') &
-       'sgpi: i_GP_generation, i_GP_indiv, node  tree  GP_population_node_parameters'
+       'sgpi: i_GP_gen i_GP_indiv node  tree  GP_population_node_parameters'
 
     do  i_tree=1,n_trees
         do  i_node=1,n_nodes
             if( abs( GP_population_node_parameters( &
                        i_GP_indiv,i_node,i_tree) ) > 1.0d-20   )then
 
-                write(GP_print_unit,'(4(1x,I6), 1x, E20.10)') &
+                write(GP_print_unit,'(4(1x,I10), 1x, E20.10)') &
                       i_GP_generation, i_GP_indiv,i_node, i_tree, &
                       GP_population_node_parameters(i_GP_indiv,i_node,i_tree)
 
-                write(GP_summary_output_unit,'(4(1x,I6), 1x, E20.10)') &
+                write(GP_summary_output_unit,'(4(1x,I10), 1x, E20.10)') &
                       i_GP_generation, i_GP_indiv,i_node, i_tree, &
                       GP_population_node_parameters(i_GP_indiv,i_node,i_tree)
             endif

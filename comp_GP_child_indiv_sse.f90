@@ -41,7 +41,7 @@ real (kind=8) :: xcount
 ! compute GP_Child_Individual_SSE(i_GP_Individual)
 
 if( myid == 0 )then
-    write(GP_print_unit,'(A)') &
+    write(GP_print_unit,'(//A)') &
     'cgcsse: i_node, i_tree, GP_Indiv_Node_Type, GP_Node_Type_Answer  dff           xcount'
 endif ! myid == 0
 
@@ -123,7 +123,7 @@ GP_Child_Individual_SSE(i_GP_Individual)=xcount
 
 if( myid == 0 )then
     write(GP_print_unit,'(/A,2(1x,I6),1x,E15.7)') &
-          'cgcsse: i_GP_gen, i_GP_Indiv, GP_Child_Indiv_SSE(i_GP_Indiv) ', &
+          'cgcsse: i_GP_gen, i_GP_Indiv, GP_Child_Indiv_SSE(i_GP_Indiv)', &
                    i_GP_generation, i_GP_Individual, &
                    GP_Child_Individual_SSE(i_GP_Individual)
 endif ! myid == 0

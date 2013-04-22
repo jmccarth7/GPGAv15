@@ -40,6 +40,8 @@ real (kind=8) :: ssum, ssum2, totobs, dff
 
 real (kind=8) :: xcount
 
+character(200) :: tree_descrip
+
 !----------------------------------------------------------------------------------------
 
 
@@ -554,47 +556,47 @@ do  i_GP_Generation=1,n_GP_Generations
             !   iv)  GP Mutation
 
 
-            !write(GP_print_unit,'(/A/)')  &
-            !      '0: ############################################################################'
-            !write(GP_print_unit,'(A/)')  '0: GP_Adult trees before call selection routines '
+            !tree_descrip =  ' GP_Adult trees before call selection routines '
+            !call print_trees( 1, n_GP_individuals, GP_Adult_Population_Node_Type, &
+            !                  trim( tree_descrip )  )
 
-            !call print_trees( 1, n_GP_individuals, GP_Adult_Population_Node_Type )
-
-            !write(GP_print_unit,'(/A/)') &
-            !      '0: ############################################################################'
 
 
             !   i) move the top n_GP_Elitists into the next generation
 
             if( n_GP_Elitists .gt. 0 ) then
-                write(GP_print_unit,'(A)')'0:  call GP_Elitists '
+
+                write(GP_print_unit,'(/A)')'0:  call GP_Elitists '
+
                 call GP_Elitists
+
+                write(GP_print_unit,'(A)') ' '
+
             endif !  n_GP_Elitists .gt. 0
 
 
-            !write(GP_print_unit,'(/A/)')  &
-            !      '0: ############################################################################'
-            !write(GP_print_unit,'(A/)')  '0: GP_Child trees after  call to GP_Elitists'
-            !call print_trees( 1, n_GP_individuals, GP_Child_Population_Node_Type )
-            !write(GP_print_unit,'(/A/)') &
-            !      '0: ############################################################################'
+            !tree_descrip =  ' GP_Child trees after  call to GP_Elitists'
+            !call print_trees( 1, n_GP_individuals, GP_Child_Population_Node_Type, &
+            !                    trim( tree_descrip )  )
 
 
             !   ii) Carry out "GP Fitness-Proportionate Reproduction"
 
             if( n_GP_Asexual_Reproductions .gt. 0 )then
-                write(GP_print_unit,'(A)') &
+
+                write(GP_print_unit,'(/A)') &
                       '0:  call GP_Fitness_Proportionate_Asexual_Reproduction '
+
                 call GP_Fitness_Proportionate_Asexual_Reproduction
+
+                write(GP_print_unit,'(A)') ' '
+
             endif !  n_GP_Asexual_Reproductions .gt. 0
 
-            !write(GP_print_unit,'(/A/)')  &
-            !      '0: ############################################################################'
-            !write(GP_print_unit,'(A/)')  '0: GP_Child trees after call to &
-            !                  &GP_Fitness_Proportionate_Asexual_Reproduction'
-            !call print_trees( 1, n_GP_individuals, GP_Child_Population_Node_Type )
-            !write(GP_print_unit,'(/A/)') &
-            !      '0: ############################################################################'
+            !tree_descrip=' GP_Child trees after call to &
+            !              &GP_Fitness_Proportionate_Asexual_Reproduction'
+            !call print_trees( 1, n_GP_individuals, GP_Child_Population_Node_Type, &
+            !                    trim( tree_descrip )  )
 
 
 
@@ -603,37 +605,41 @@ do  i_GP_Generation=1,n_GP_Generations
             !       and randomly use it to replace the new children
 
             if( n_GP_Crossovers .gt. 0 )then
-                write(GP_print_unit,'(A)') &
+
+                write(GP_print_unit,'(/A)') &
                       '0:  call GP_Tournament_Style_Sexual_Reproduction '
+
                 call GP_Tournament_Style_Sexual_Reproduction
+
+                write(GP_print_unit,'(A)') ' '
+
             endif !  n_GP_Crossovers .gt. 0
 
 
 
-            !write(GP_print_unit,'(/A/)')  &
-            !      '0: ############################################################################'
-            !write(GP_print_unit,'(A/)')  '0: GP_Child trees after call to &
+            !tree_descrip = ' GP_Child trees after call to &
             !                  &GP_Tournament_Style_Sexual_Reproduction'      
-            !call print_trees( 1, n_GP_individuals, GP_Child_Population_Node_Type )
-            !write(GP_print_unit,'(/A/)') &
-            !      '0: ############################################################################'
+            !call print_trees( 1, n_GP_individuals, GP_Child_Population_Node_Type, &
+            !                    trim( tree_descrip )  )
 
 
             !   iv) Carry out "GP Parameter Mutation" Operations
 
             if( n_GP_Mutations .gt. 0 )then
-                write(GP_print_unit,'(A)')'0:  call GP_Mutations '
+
+                write(GP_print_unit,'(/A)')'0:  call GP_Mutations '
+
                 call GP_Mutations
+
+                write(GP_print_unit,'(A)') ' '
+
             endif !  n_GP_Mutations .gt. 0
 
 
 
-            !write(GP_print_unit,'(/A/)')  &
-            !      '0: ############################################################################'
-            !write(GP_print_unit,'(A/)')  '0: GP_Child trees after call to GP_Mutations'
-            !call print_trees( 1, n_GP_individuals, GP_Child_Population_Node_Type )
-            !write(GP_print_unit,'(/A/)') &
-            !      '0: ############################################################################'
+            !tree_descrip =  ' GP_Child trees after call to GP_Mutations'
+            !call print_trees( 1, n_GP_individuals, GP_Child_Population_Node_Type, &
+            !                    trim( tree_descrip )  )
 
             call GP_calc_diversity_index( n_GP_individuals, &
                                           GP_Child_Population_Node_Type, i_diversity )
@@ -717,12 +723,9 @@ do  i_GP_Generation=1,n_GP_Generations
     ! print trees before tree clean
 
     !if( myid == 0 )then
-    !    write(GP_print_unit,'(/A/)')  &
-    !          '0: ############################################################################'
-    !    write(GP_print_unit,'(A/)')  '0: trees before call to GP_Clean_Tree_Nodes'
-    !    call print_trees( 1, n_GP_individuals, GP_Adult_Population_Node_Type )
-    !    write(GP_print_unit,'(/A/)') &
-    !          '0: ############################################################################'
+    !tree_descrip =  ' trees before call to GP_Clean_Tree_Nodes'
+    !    call print_trees( 1, n_GP_individuals, GP_Adult_Population_Node_Type, &
+    !                      trim( tree_descrip )  )
     !endif !  myid == 0
 
 
@@ -751,14 +754,11 @@ do  i_GP_Generation=1,n_GP_Generations
             mod( i_GP_generation, GP_child_print_interval ) == 0  .or. & 
             i_GP_generation == n_GP_generations                          )then
 
-            write(GP_print_unit,'(/A)')  &
-            '0: ############################################################################'
-            write(GP_print_unit,'(A/)')  '0: trees after call to GP_Clean_Tree_Nodes'
     
-            call print_trees( 1, n_GP_individuals, GP_Adult_Population_Node_Type )
+            tree_descrip =  ' trees after call to GP_Clean_Tree_Nodes'
+            call print_trees( 1, n_GP_individuals, GP_Adult_Population_Node_Type, &
+                              trim( tree_descrip )  )
     
-            write(GP_print_unit,'(/A/)')  &
-            '0: ############################################################################'
             endif ! i_GP_generation == 1 .or. ...
 
     endif !  myid == 0
@@ -775,7 +775,7 @@ do  i_GP_Generation=1,n_GP_Generations
     do  i_GP_individual=1,n_GP_individuals
 
         if( myid == 0 )then
-            write(GP_print_unit,'(/A)')&
+            write(GP_print_unit,'(A)')&
                   '0:-----------------------------------------------------------------'
             write(GP_print_unit,'(A,1x,I6,4x,L1   )') &
                   '0: i_GP_individual, Run_GP_Calculate_Fitness ', &
@@ -873,12 +873,12 @@ do  i_GP_Generation=1,n_GP_Generations
             if( myid == 0 )then
                 write(GP_print_unit,'(/A,1x,I6)') &
                  '0: call GPCODE_GA_lmdif_Parameter_Optimization routine', myid
-                write(GP_print_unit,'(A,2(1x,I6)/)') &
+                write(GP_print_unit,'(A,2(1x,I6))') &
                  '0: i_GP_Generation, i_GP_individual ', & 
                      i_GP_Generation, i_GP_individual 
                 write(GA_print_unit,'(/A,1x,I6)') &
                  '0: call GPCODE_GA_lmdif_Parameter_Optimization routine', myid
-                write(GA_print_unit,'(A,2(1x,I6)/)') &
+                write(GA_print_unit,'(A,2(1x,I6))') &
                  '0: i_GP_Generation, i_GP_individual ', & 
                      i_GP_Generation, i_GP_individual 
             endif ! myid == 0
@@ -894,7 +894,7 @@ do  i_GP_Generation=1,n_GP_Generations
             !-------------------------------------------------
 
             if( myid == 0 )then
-                write(GP_print_unit,'(//A,1x,I6//)') &
+                write(GP_print_unit,'(A,1x,I6)') &
                  '0: aft call GPCODE_GA_lmdif_Parameter_Optimization routine'
             endif ! myid == 0
 
@@ -959,9 +959,9 @@ do  i_GP_Generation=1,n_GP_Generations
                 GP_Individual_Initial_Conditions(1:n_CODE_Equations) ! Matrix Operation
 
             if( myid == 0 )then
-                write(GP_print_unit,'(/A,2(1x,I6), 2(1x, E15.7))')&
-                      '0:3 i_GP_gen, i_GP_indiv, &
-                      &GP_Pop_Init_Cond(i_GP_Indiv,1:n_CODE_Eq) ', &
+                write(GP_print_unit,'(/A,2(1x,I5), 5(1x, E15.7))')&
+                      '0:3 i_GP_gen,i_GP_indiv,&
+                      &GP_Pop_Init_Cond(i_GP_Indiv,1:n_CODE_Eq)', &
                           i_GP_generation, i_GP_individual, &
                        GP_Population_Initial_Conditions(i_GP_Individual,1:n_CODE_Equations)
             endif !  myid == 0
@@ -990,8 +990,8 @@ do  i_GP_Generation=1,n_GP_Generations
                                                                             > 1.0d-20 ) )then
 
                     write(GP_print_unit,'(/A/)') &
-                       '0:  node  tree  Runge_Kutta_Node_Parameters&
-                       &   GP_population_node_parameters'
+                       '0:  node  tree  Runge_Kutta_Node_Params&
+                       &   GP_population_node_params'
 
                     do  i_tree=1,n_trees
                         do  i_node=1,n_nodes
@@ -1012,8 +1012,10 @@ do  i_GP_Generation=1,n_GP_Generations
 
                 write(GP_print_unit,'(/A)') &
                       '0:---------------------------------------------------------------'
-                write(GP_print_unit,'(/A/)')  &
+                write(GP_print_unit,'(/A)')  &
                       '0: after loading GP_Pop arrays with GP_indiv array values '
+                write(GP_print_unit,'(A/)')  &
+                      '0: print summary information for this i_GP_individual'
 
                 write(GP_print_unit,'(A,1x,I6,4x,L1)') &
                       '0: i_GP_individual, Run_GP_Calculate_Fitness(i_GP_Individual) ', &
@@ -1029,6 +1031,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
         endif !   Run_GP_Calculate_Fitness(i_GP_Individual)
 
+
     enddo  gp_ind_loop    !   i_GP_individual
 
 
@@ -1040,11 +1043,11 @@ do  i_GP_Generation=1,n_GP_Generations
 
         write(GP_print_unit,'(/A)')&
               '0:-----------------------------------------------------------------'
-        write(GP_print_unit,'(/A/)') '0: call GP_fitness_reset '
+        write(GP_print_unit,'(/A/)') '0: call GP_calc_fitness'
 
-        call GP_fitness_reset
+        call GP_calc_fitness
 
-        write(GP_print_unit,'(/A/)') '0: aft call GP_fitness_reset '
+        write(GP_print_unit,'(/A/)') '0: aft call GP_calc_fitness'
         write(GP_print_unit,'(A/)')&
               '0:-----------------------------------------------------------------'
 

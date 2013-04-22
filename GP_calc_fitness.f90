@@ -1,4 +1,4 @@
-subroutine GP_fitness_reset( )
+subroutine GP_calc_fitness( )
 
 ! program written by: Dr. John R. Moisan [NASA/GSFC] 31 January, 2013
 
@@ -40,33 +40,35 @@ real (kind=8) :: xcount
 
 !----------------------------------------------------------------------------------------
 
+! this routine is only called by processor 0
+
+
 allocate( output_array( n_maximum_number_parameters ) )
 
 
-!write(GP_print_unit,*) GP_Child_Individual_SSE
-!if( myid == 0 )then
-!    write(GP_print_unit,'(A,1x,I6)') 'gpfr: i_GP_generation ',  i_GP_generation
-!
-!    write(GP_print_unit,'(/A/(5(1x,E15.7)))') 'gpfr: GP_Child_Individual_SSE = ',&
-!                                      GP_Child_Individual_SSE
-!
-!endif ! myid == 0
+!!!!write(GP_print_unit,*) GP_Child_Individual_SSE
+
+write(GP_print_unit,'(A,1x,I6)') 'gpcf: i_GP_generation ',  i_GP_generation
+
+write(GP_print_unit,'(/A/(5(1x,E15.7)))') 'gpcf: GP_Child_Individual_SSE = ',&
+                                                 GP_Child_Individual_SSE
+
 
 !---------------------------------------------------------------------------------------------------
 
-! fitness reset region
+! fitness reset region (??)
 
 if( i_GP_generation == 1                                 .or. &
     mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
     i_GP_generation == n_GP_generations                          ) then 
 
     write(GP_print_unit,'(A,1x,I6/)') &
-          'gpfr: i_GP_generation ',  i_GP_generation
+          'gpcf: i_GP_generation ',  i_GP_generation
     
     write(GP_print_unit,'(A)') &
-          'gpfr: i_GP_Individual, GP_Individual_N_GP_param(i_GP_Individual) '
+          'gpcf: i_GP_Indiv, GP_Indiv_N_GP_param(i_GP_Indiv) '
     do  i_GP_Individual=1,n_GP_Individuals
-        write(GP_print_unit,'(2(1x,I6))') &
+        write(GP_print_unit,'(5x,2(1x,I6))') &
                      i_GP_Individual, GP_Individual_N_GP_param(i_GP_Individual) 
     enddo
     
@@ -96,13 +98,13 @@ if( i_GP_generation == 1                                 .or. &
 
     do  i_GP_Individual=1,n_GP_Individuals
             write(GP_print_unit,'(A,1x,I6,1x,E15.7)') &
-                  'gpfr: i_GP_Individual, GP_Child_Individual_SSE(i_GP_Individual) ', &
+                  'gpcf: i_GP_Indiv, GP_Child_Indiv_SSE(i_GP_Indiv) ', &
                          i_GP_Individual, GP_Child_Individual_SSE(i_GP_Individual) 
     enddo ! i_gp_individual
 
 endif ! i_GP_generation ...
 
-write(GP_print_unit,'(/A,1x,E15.7)') 'gpfr: sum of all GP_Child_Individual_SSE = ', dff
+write(GP_print_unit,'(/A,1x,E15.7)') 'gpcf: sum of all GP_Child_Indiv_SSE = ', dff
 
 !---------------------------------------------------------------------------------------------------
 
@@ -131,10 +133,10 @@ if( i_GP_generation == 1                                 .or. &
     i_GP_generation == n_GP_generations                          ) then 
 
     write(GP_print_unit,'(/A)') &
-          'gpfr: i_GP_individual, GP_Individual_Ranked_Fitness '
+          'gpcf: i_GP_indiv, GP_Indiv_Ranked_Fitness '
     
     do  i_GP_Individual=1,n_GP_Individuals
-        write(GP_print_unit,'(I6,1x,E15.7)') &
+        write(GP_print_unit,'(5x,I6,5x,E15.7)') &
               i_GP_individual, GP_Individual_Ranked_Fitness(i_GP_Individual)
     enddo
 
@@ -156,7 +158,7 @@ enddo
 
 !do  i_GP_Individual=1,n_GP_Individuals
 !    write(GP_print_unit,'(A,1x,I6,1x,E15.7)') &
-!    'gpfr: i_GP_individual, GP_Integrated_Ranked_Fitness ', &
+!    'gpcf: i_GP_individual, GP_Integrated_Ranked_Fitness ', &
 !           i_GP_individual, GP_Integrated_Ranked_Fitness(i_GP_Individual)
 !enddo
 
@@ -185,11 +187,11 @@ if( i_GP_generation == 1                                 .or. &
     i_GP_generation == n_GP_generations                          ) then 
 
     write(GP_print_unit,'(/A)') &
-          'gpfr: norm  i_GP_individual, GP_Integrated_Ranked_Fitness '
+          'gpcf: i_GP_indiv, GP_Integrated_Ranked_Fitness (norm) '
     
     do  i_GP_Individual=1,n_GP_Individuals
     
-        write(GP_print_unit,'(I6,1x,E15.7)') &
+        write(GP_print_unit,'(5x,I6,5x,E15.7)') &
               i_GP_individual, GP_Integrated_Ranked_Fitness(i_GP_Individual)
     enddo
 
@@ -199,9 +201,9 @@ endif ! i_GP_generation == 1 .or. ...
 !---------------------------------------------------------------------------------------------------
 
 !write(GP_print_unit,*) i_GP_Generation,'MAIN',GP_Individual_Ranked_Fitness(1)
-write(GP_print_unit,'(//A,1x,I6,1x,E15.7/)') &
-      'gpfr: MAIN, i_GP_Generation, GP_Individual_Ranked_Fitness(1) ', &
-                   i_GP_Generation, GP_Individual_Ranked_Fitness(1)
+write(GP_print_unit,'(/A,1x,I6,1x,E15.7)') &
+      'gpcf: i_GP_Gen, GP_Indiv_Ranked_Fit(1) ', &
+             i_GP_Generation, GP_Individual_Ranked_Fitness(1)
 
 !---------------------------------------------------------------------------------------------------
 
@@ -223,9 +225,9 @@ do  i_GP_Individual=2,n_GP_individuals
 
 enddo ! i_GP_Individual
 
-write(GP_print_unit,'(/A,2(1x,I6),1x,E15.7/)') &
-      'gpfr: i_GP_Gen, i_GP_Best_Parent, &
-            &GP_Indiv_Ranked_Fit(i_GP_Best_Parent) ', &
+write(GP_print_unit,'(A,2(1x,I6),1x,E15.7/)') &
+      'gpcf: i_GP_Gen,i_GP_Best_Parent,&
+            &GP_Indiv_Ranked_Fit(i_GP_Best_Parent)', &
              i_GP_Generation, i_GP_Best_Parent, &
              GP_Individual_Ranked_Fitness(i_GP_Best_Parent)
 
@@ -236,7 +238,7 @@ write(GP_print_unit,'(/A,2(1x,I6),1x,E15.7/)') &
 
 
 write(GP_print_unit,'(/A)') &
-          'gpfr: i_CODE_eq  R_K_Init_Cond(i_CODE_eq)  &
+          'gpcf: i_CODE_eq  R_K_Init_Cond(i_CODE_eq)  &
           &GP_indiv_init_cond(i_CODE_eq)'
 do  i_CODE_equation=1,n_CODE_equations
 
@@ -255,7 +257,7 @@ enddo ! i_CODE_equation
 
 
 write(GP_print_unit,'(/A)') &
-     'gpfr: i_node  itree  nop  GP_pop_node_params(i_GP_Best_Parent,i_node,i_tree)'
+     'gpcf: i_node  itree  nop  GP_pop_node_params(i_GP_Best_Parent,i_node,i_tree)'
 
 nop = n_CODE_equations
 
@@ -284,7 +286,7 @@ write( GP_output_unit, '(I6,1x,I6,1x,E15.7,1x,I6, 12(1x,E15.7))') &
        nop, output_array(1:nop) 
 
 write(GP_print_unit, '(//A,1x,I6,1x,I6,1x,E15.7,1x,I6, 12(1x,E15.7))') &
-       'gpfr: i_GP_gen, i_GP_best_parent, GP_indiv_ranked_fit, output_array) ', &
+       'gpcf: i_GP_gen,i_GP_best_parent,GP_indiv_ranked_fit,output_array', &
        i_GP_Generation, i_GP_best_parent, &
        GP_individual_ranked_fitness(i_GP_Best_Parent), &
        nop, output_array(1:nop) 
@@ -304,7 +306,7 @@ if( i_GP_generation == 1                                 .or. &
     i_GP_generation == n_GP_generations                          ) then 
 
     write(GP_print_unit,'(/A)') &
-          'gpfr: i_GP_Indiv, GP_Adult_Indiv_SSE, GP_Indiv_Ranked_Fitness '
+          'gpcf: i_GP_Indiv, GP_Adult_Indiv_SSE, GP_Indiv_Ranked_Fitness '
     
     do  i_GP_Individual=1,n_GP_individuals
     
@@ -341,4 +343,4 @@ write(unit_gp_out) GP_Node_Type_for_Plotting
 return
 
 
-end subroutine GP_fitness_reset
+end subroutine GP_calc_fitness

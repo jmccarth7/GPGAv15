@@ -24,13 +24,19 @@ integer(kind=4) :: icnt_parms
 integer(kind=4) :: icnt_vars 
 integer(kind=4) :: icnt_ops  
 integer(kind=4) :: icnt
+integer(kind=4) :: max_number_nodes
+real(kind=8)    :: xmax_number_nodes
 
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+max_number_nodes = n_trees * n_nodes
+xmax_number_nodes = real( max_number_nodes, kind=8 )
+
+
 write(GP_print_unit,'(/A,1x,I6)') 'gcdi: i_GP_generation = ', i_GP_generation
 write(GP_print_unit,'(A)') &
-      'gcdi: i_indiv, i_diversity, icnt_Nodes, icnt_parms, icnt_vars, icnt_ops'
+      'gcdi: i_indiv i_diversity  icnt_Nodes  icnt_parms  icnt_vars  icnt_ops'
 
 do  i_indiv = 1, n_GP_individuals
 
@@ -70,18 +76,21 @@ do  i_indiv = 1, n_GP_individuals
     
     enddo !  i_tree
     
-    
-    i_diversity = icnt_Nodes + icnt_parms + icnt_vars + icnt_ops
+    icnt_ops   = int( 100.0d0 * real( icnt_ops,   kind=8 ) / xmax_number_nodes )
+    icnt_vars  = int( 100.0d0 * real( icnt_vars,  kind=8 ) / xmax_number_nodes )
+    icnt_parms = int( 100.0d0 * real( icnt_parms, kind=8 ) / xmax_number_nodes )
+
+    i_diversity = 100 * ( icnt_parms * 100  + icnt_vars ) + icnt_ops
 
     GP_diversity_index( i_indiv ) = i_diversity
     
-    write(GP_print_unit,'(6(1x,I6))') &
+    write(GP_print_unit,'(6(1x,I10))') &
           i_indiv, i_diversity, icnt_Nodes, icnt_parms, icnt_vars, icnt_ops
 
 enddo  ! i_indiv 
 
 write(GP_print_unit,'(/A)') 'gcdi:GP_diversity_index '
-write(GP_print_unit,'(30(1x,I3))') GP_diversity_index(1:n_GP_individuals) 
+write(GP_print_unit,'(10(1x,I6))') GP_diversity_index(1:n_GP_individuals) 
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 return
