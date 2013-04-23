@@ -97,9 +97,9 @@ if( i_GP_generation == 1                                 .or. &
     i_GP_generation == n_GP_generations                          ) then 
 
     do  i_GP_Individual=1,n_GP_Individuals
-            write(GP_print_unit,'(A,1x,I6,1x,E15.7)') &
-                  'gpcf: i_GP_Indiv, GP_Child_Indiv_SSE(i_GP_Indiv) ', &
-                         i_GP_Individual, GP_Child_Individual_SSE(i_GP_Individual) 
+        write(GP_print_unit,'(A,1x,I6,1x,E15.7)') &
+              'gpcf: i_GP_Indiv, GP_Child_Indiv_SSE(i_GP_Indiv) ', &
+                     i_GP_Individual, GP_Child_Individual_SSE(i_GP_Individual) 
     enddo ! i_gp_individual
 
 endif ! i_GP_generation ...
@@ -263,8 +263,8 @@ nop = n_CODE_equations
 
 do  i_tree=1,n_trees
     do  i_node=1,n_nodes
-        if( abs( GP_population_node_parameters( &
-                      i_GP_Best_Parent,i_node,i_tree) ) >  1.0d-20   )then
+        !if( abs( GP_population_node_parameters( &
+        !              i_GP_Best_Parent,i_node,i_tree) ) >  1.0d-20   )then
 
             nop = nop + 1
             write(GP_print_unit,'(2x,3(1x,I6), 1x, E20.10, 4x, E20.10)') &
@@ -274,7 +274,7 @@ do  i_tree=1,n_trees
             output_array(nop) = &
                    GP_population_node_parameters(i_GP_Best_Parent,i_node,i_tree)
 
-        endif ! abs( GP_population_node_parameters(i_GP_Best_Parent,i_node,i_tree) ) >...
+        !endif ! abs( GP_population_node_parameters(i_GP_Best_Parent,i_node,i_tree) ) >...
 
     enddo ! i_node
 enddo  ! i_tree
@@ -286,7 +286,7 @@ write( GP_output_unit, '(I6,1x,I6,1x,E15.7,1x,I6, 12(1x,E15.7))') &
        nop, output_array(1:nop) 
 
 write(GP_print_unit, '(//A,1x,I6,1x,I6,1x,E15.7,1x,I6, 12(1x,E15.7))') &
-       'gpcf: i_GP_gen,i_GP_best_parent,GP_indiv_ranked_fit,output_array', &
+       'gpcf: i_GP_gen,i_GP_best_parent,GP_indiv_ranked_fit, nop, output_array', &
        i_GP_Generation, i_GP_best_parent, &
        GP_individual_ranked_fitness(i_GP_Best_Parent), &
        nop, output_array(1:nop) 
