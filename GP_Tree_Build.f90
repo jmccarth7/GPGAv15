@@ -15,6 +15,7 @@ integer(kind=4) :: n_Nodes_at_Level
 integer(kind=4) :: i_Level_Node
 integer(kind=4) :: Node_Function
 integer(kind=4) :: Node_Variable
+integer(kind=4) :: i_Error            
 
 !-----------------------------------------------------------------------------
 
@@ -165,7 +166,7 @@ do  i_GP_Individual=1,n_GP_Individuals
     call GP_Check_Terminals(i_Error)                                                                     
 
     if( i_Error .eq. 1 ) then 
-        write(*,*) 'GP_Check_Error in GP_Tree_Build',i_GP_Individual,i_Error 
+        write(6,*) 'GP_Check_Error in GP_Tree_Build',i_GP_Individual,i_Error 
         stop         
     endif   
 

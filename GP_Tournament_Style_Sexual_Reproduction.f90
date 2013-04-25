@@ -25,6 +25,7 @@ integer(kind=4) :: i_Male_Tree
 integer(kind=4) :: i_Female_Tree
 integer(kind=4) :: i_Node_Count
 integer(kind=4) :: icff
+integer(kind=4) :: i_Error
 
 logical CROSS
 

@@ -1,6 +1,8 @@
 subroutine GP_Fitness_Proportionate_Asexual_Reproduction
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+use mpi
+use mpi_module
 use GP_Parameters_module
 use GA_Parameters_module
 use GP_Variables_module
@@ -12,8 +14,8 @@ real(kind=4) :: cff
 real(kind=8) :: dff
 
 integer(kind=4) :: icff
-integer(kind=4) :: i_GP_Individual
-integer(kind=4) :: j_GP_Individual
+!integer(kind=4) :: i_GP_Individual
+!integer(kind=4) :: j_GP_Individual
 integer(kind=4) :: i_GP_Asexual_Reproduction
 
 logical Carry_On

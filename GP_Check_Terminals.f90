@@ -1,24 +1,27 @@
 subroutine GP_Check_Terminals(i_Error)
 
 ! This subroutine looks through a specific GP_Individual_Node_Type array
-! for nodes that do not correctly set terminals.  If the terminals are not correctly set it returns i_Error=1
+! for nodes that do not correctly set terminals.  
+
+! If the terminals are not correctly set it returns i_Error=1
+
 ! else i_Error=0
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-use GP_Parameters
-use GA_Parameters
-use GP_Variables
-use GA_Variables
+use GP_Parameters_module
+use GA_Parameters_module
+use GP_Variables_module
+use GA_Variables_module
 
 implicit none
 integer(kind=4) :: i_Error
-integer(kind=4) :: i_Tree
-integer(kind=4) :: i_Node
-integer(kind=4) :: i_Level
-integer(kind=4) :: i_Function
-integer(kind=4) :: i_Node_Left
-integer(kind=4) :: i_Node_Right
+!integer(kind=4) :: i_Tree
+!integer(kind=4) :: i_Node
+!integer(kind=4) :: i_Level
+!integer(kind=4) :: i_Function
+!integer(kind=4) :: i_Node_Left
+!integer(kind=4) :: i_Node_Right
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
@@ -42,29 +45,54 @@ do  i_Tree=1,n_Trees
                                                      ! i_node_right=(i_function*2)+1 would also work
 
 
+            
+            write(6,'(A,6(1x,I4))') &
+                  'gct: i_Tree, i_Level, i_Function, i_Node, i_Node_Left, i_Node_Right ', &
+                        i_Tree, i_Level, i_Function, i_Node, i_Node_Left, i_Node_Right 
+
             if( GP_Individual_Node_Type(i_Function,i_Tree) .gt. 0) then  
 
                 ! It is a function node if > 0
+
+                ! check Left node
 
                 if( GP_Individual_Node_Type(i_Node_Left,i_Tree) .lt. -n_CODE_Equations ) then
 
                     write(6,'(A,3(1x,I6))') &
                           'gct: Left ', i_Node_Left,GP_Individual_Node_Type(i_Function, i_Tree),&
                                                     GP_Individual_Node_Type(i_Node_Left,i_Tree)
+                    write(6,'(A,4(1x,I4))') &
+                          'gct: i_Node_Left, i_function, i_tree, GP_Individual_Node_Type(i_Function, i_Tree)',&
+                                i_Node_Left, i_function, i_tree, GP_Individual_Node_Type(i_Function, i_Tree)
+                    write(6,'(A,3(1x,I4))') &
+                          'gct: i_Node_Left, i_tree, GP_Individual_Node_Type(i_Node_Left,i_Tree) ',&
+                                i_Node_Left, i_tree, GP_Individual_Node_Type(i_Node_Left,i_Tree) 
 
                     i_Error=1
 
+
                 endif ! GP_Individual_Node_Type(i_Node_Left,i_Tree) .lt. -n_CODE_Equations 
 
+
+                ! check Right node
 
                 if( GP_Individual_Node_Type(i_Node_Right,i_Tree) .lt. -n_CODE_Equations) then
 
                     write(6,'(A,3(1x,I6))') &
                           'gct:Right ',i_Node_Right,GP_Individual_Node_Type(i_Function,  i_Tree),&
                                                     GP_Individual_Node_Type(i_Node_Right,i_Tree)
-                    i_Error=1
+                    write(6,'(A,4(1x,I4))') &
+                          'gct: i_Node_Right, i_function, i_tree, GP_Individual_Node_Type(i_Function, i_Tree)',&
+                                i_Node_Right, i_function, i_tree, GP_Individual_Node_Type(i_Function, i_Tree)
+                    write(6,'(A,3(1x,I4))') &
+                          'gct: i_Node_Right, i_tree, GP_Individual_Node_Type(i_Node_Right,i_Tree) ',&
+                                i_Node_Right, i_tree, GP_Individual_Node_Type(i_Node_Right,i_Tree) 
+
+                    i_Error = 1
 
                 endif !   GP_Individual_Node_Type(i_Node_Right,i_Tree) .lt. -n_CODE_Equations
+
+
 
             endif !  GP_Individual_Node_Type(i_Function,i_Tree) .gt. 0
 

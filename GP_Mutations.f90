@@ -165,7 +165,7 @@ do  i_GP_Mutation = 1,n_GP_Mutations
    call GP_Check_Terminals(i_Error)
 
    if( i_Error .eq. 1) then
-       write(6,'(A,1x,3(1x,I6)') &
+       write(6,'(A,1x,3(1x,I6))') &
              'Post-GP_Check_Error in GP_Mutation', &
                   i_GP_Individual,i_GP_Mutation,i_Error
        stop

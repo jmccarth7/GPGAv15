@@ -1114,8 +1114,7 @@ do  i_GP_Generation=1,n_GP_Generations
                 !write(GP_print_unit,'(5(1x,E15.7))')  &
                 !       GP_population_node_parameters(i_GP_individual,:,:)
 
-                !if( any( abs( GP_population_node_parameters(i_GP_individual,:,:) ) &
-                                                                            > 1.0d-20 ) )then
+                !if( any( abs( GP_population_node_parameters(i_GP_individual,:,:) ) > 1.0d-20 ) )then
 
                     write(GP_print_unit,'(/A/)') &
                        '0:  node  tree  Runge_Kutta_Node_Params&
