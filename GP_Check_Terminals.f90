@@ -28,10 +28,10 @@ do  i_Tree=1,n_Trees
 
     do  i_Level=1,n_Levels-1
 
-    i_Function=(2**(i_Level-1))-1                 ! calculated the function number 
-                                                  ! at the right end of the upper level
-
-        do  i_Node=2**i_Level,(2*(2**i_Level))-1,2   ! run through each function at the level
+        i_Function = 2**(i_Level-1) -1               ! calculated the function number 
+                                                     ! at the right end of the upper level
+   
+        do  i_Node=2**i_Level, 2*(2**i_Level)-1 , 2  ! run through each function at the level
 
             i_Function=i_Function+1                  ! sets the 'function' node's index
 
@@ -41,21 +41,31 @@ do  i_Tree=1,n_Trees
             i_Node_Right=i_Node+1                    ! sets the 'right terminal' node's index; 
                                                      ! i_node_right=(i_function*2)+1 would also work
 
-            if( GP_Individual_Node_Type(i_Function,i_Tree) .gt. 0) then  ! It is a function node
+
+            if( GP_Individual_Node_Type(i_Function,i_Tree) .gt. 0) then  
+
+                ! It is a function node if > 0
 
                 if( GP_Individual_Node_Type(i_Node_Left,i_Tree) .lt. -n_CODE_Equations ) then
-                    write(*,*) 'L: ',i_Node_Left,&
-                                GP_Individual_Node_Type(i_Function,i_Tree),&
-                               GP_Individual_Node_Type(i_Node_Left,i_Tree)
+
+                    write(6,'(A,3(1x,I6))') &
+                          'gct: Left ', i_Node_Left,GP_Individual_Node_Type(i_Function, i_Tree),&
+                                                    GP_Individual_Node_Type(i_Node_Left,i_Tree)
+
                     i_Error=1
+
                 endif ! GP_Individual_Node_Type(i_Node_Left,i_Tree) .lt. -n_CODE_Equations 
 
+
                 if( GP_Individual_Node_Type(i_Node_Right,i_Tree) .lt. -n_CODE_Equations) then
-                  write(*,*) 'R: ',i_Node_Right,&
-                              GP_Individual_Node_Type(i_Function,i_Tree),&
-                             GP_Individual_Node_Type(i_Node_Right,i_Tree)
-                  i_Error=1
+
+                    write(6,'(A,3(1x,I6))') &
+                          'gct:Right ',i_Node_Right,GP_Individual_Node_Type(i_Function,  i_Tree),&
+                                                    GP_Individual_Node_Type(i_Node_Right,i_Tree)
+                    i_Error=1
+
                 endif !   GP_Individual_Node_Type(i_Node_Right,i_Tree) .lt. -n_CODE_Equations
+
             endif !  GP_Individual_Node_Type(i_Function,i_Tree) .gt. 0
 
         enddo ! i_node

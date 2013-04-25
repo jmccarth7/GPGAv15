@@ -22,7 +22,7 @@ do  i_GP_Individual=1,n_GP_Individuals
 
         ! move up the tree structure from level "n_level-1" to level "1"
 
-        do  i_Level=n_Levels-1,1,-1  
+        do  i_Level = n_Levels-1, 1, -1  
 
             ! calculated the function number at the right end of the upper level
 
@@ -30,7 +30,7 @@ do  i_GP_Individual=1,n_GP_Individuals
 
             ! run through each function at the level
 
-            do  i_Node=2**i_Level,(2*(2**i_Level))-1,2 
+            do  i_Node = 2**i_Level, 2*(2**i_Level)-1, 2 
 
                 i_Function=i_Function+1  ! sets the 'function' node's index
 
@@ -41,7 +41,7 @@ do  i_GP_Individual=1,n_GP_Individuals
           
                 if( GP_Adult_Population_Node_Type(i_GP_Individual, i_Function,   i_Tree) .gt. 0 .and. &
                     GP_Adult_Population_Node_Type(i_GP_Individual, i_Node_Left,  i_Tree) .eq. 0 .and. &
-                    GP_Adult_Population_Node_Type(i_GP_Individual, i_Node_Right, i_Tree) .eq. 0           ) then
+                    GP_Adult_Population_Node_Type(i_GP_Individual, i_Node_Right, i_Tree) .eq. 0        ) then
 
                     GP_Adult_Population_Node_Type(i_GP_Individual, i_Function,   i_Tree) = 0
                     GP_Adult_Population_Node_Type(i_GP_Individual, i_Node_Left,  i_Tree) = -9999

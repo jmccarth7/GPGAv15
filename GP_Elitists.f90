@@ -28,10 +28,12 @@ do  i_GP_Individual=1,n_GP_Individuals
 enddo
 
 write(GP_print_unit,'(/A)')&
-    'gpel: i_GP_Individual, GP_Individual_Ranked_Fitness( i_GP_Individual), Ranked_Fitness(i_GP_Individual) '
+      'gpel: i_GP_Individual, &
+      &GP_Individual_Ranked_Fitness( i_GP_Individual), Ranked_Fitness(i_GP_Individual) '
 do  i_GP_Individual=1,n_GP_Individuals
     write(GP_print_unit,'(I6,1x,E15.7,1x,I6)')&
-      i_GP_Individual, GP_Individual_Ranked_Fitness( i_GP_Individual), Ranked_Fitness(i_GP_Individual) 
+          i_GP_Individual, &
+          GP_Individual_Ranked_Fitness( i_GP_Individual), Ranked_Fitness(i_GP_Individual) 
 enddo
 
 
@@ -45,7 +47,6 @@ do  i_GP_Individual=1,n_GP_Individuals
 
         if( Fitness(j_GP_Individual+1) .gt. Fitness(j_GP_Individual)) then
 
-            
             cff=Fitness(j_GP_Individual+1)
             Fitness(j_GP_Individual+1)=Fitness(j_GP_Individual)
             Fitness(j_GP_Individual)=cff

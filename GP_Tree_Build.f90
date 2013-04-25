@@ -20,9 +20,9 @@ integer(kind=4) :: Node_Variable
 
 GP_Child_Population_Node_Type=-9999 ! set all to null [-9999]
 
-do  i_GP_Individual=1,n_GP_Individuals       ! for each GP individual
+do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
 
-    do  i_Tree=1,n_Trees                       ! for each GPCODE tree
+    do  i_Tree=1,n_Trees                ! for each GPCODE tree
 
         call random_number(cff) ! uniform random number generator
 
@@ -34,6 +34,7 @@ do  i_GP_Individual=1,n_GP_Individuals       ! for each GP individual
             do  i_Level=1,n_Levels-1
 
                 n_Nodes_at_Level=int(2**(i_Level-1))
+
                 do  i_Level_Node=1,n_Nodes_at_Level
 
                     i_Node=i_Node+1
@@ -113,8 +114,9 @@ do  i_GP_Individual=1,n_GP_Individuals
         i_Node=0
         do  i_Level=1,n_Levels
 
-            n_Nodes_at_Level=int(2**(i_Level-1))
-            do  i_Level_Node=1,n_Nodes_at_Level
+            n_Nodes_at_Level = int(2**(i_Level-1))
+
+            do  i_Level_Node = 1,n_Nodes_at_Level
 
                 i_Node=i_Node+1
 
@@ -146,7 +148,7 @@ do  i_GP_Individual=1,n_GP_Individuals
 
                         ! The setting to zero allows the parameters to be set in GA_lmdif
 
-                        GP_Child_Population_Node_Type(i_GP_Individual,i_Node,i_Tree)=0  
+                        GP_Child_Population_Node_Type(i_GP_Individual,i_Node,i_Tree) = 0  
 
                     endif !   cff .le. GP_Set_Terminal_to_Parameter_Probability
                 endif !   GP_Child_Population_Node_Type(i_GP_Individual,i_Node,i_Tree) .eq. -1
@@ -157,15 +159,15 @@ do  i_GP_Individual=1,n_GP_Individuals
 
 
                                                                                                         
- GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) = &
- GP_Child_Population_Node_Type(i_GP_Individual,1:n_Nodes,1:n_Trees)                                                                                            
+    GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) = &
+    GP_Child_Population_Node_Type(i_GP_Individual,1:n_Nodes,1:n_Trees)                                                                                            
                                                                                                          
- call GP_Check_Terminals(i_Error)                                                                     
+    call GP_Check_Terminals(i_Error)                                                                     
 
-if( i_Error .eq. 1 ) then 
-    write(*,*) 'GP_Check_Error in GP_Tree_Build',i_GP_Individual,i_Error 
-    stop         
- endif   
+    if( i_Error .eq. 1 ) then 
+        write(*,*) 'GP_Check_Error in GP_Tree_Build',i_GP_Individual,i_Error 
+        stop         
+    endif   
 
 enddo !  i_GP_Individual 
    

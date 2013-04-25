@@ -40,24 +40,25 @@ do i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
 
   ! normalize to the maximum values so that the range is from [0. to 1.]
 
-  do j_GP_Individual=1,n_GP_Individuals
+  do  j_GP_Individual=1,n_GP_Individuals
 
-    !if( Carry_On ) then
+      !if( Carry_On ) then
 
       if( cff .le. GP_Integrated_Population_Ranked_Fitness(j_GP_Individual)) then
 
-        icff=j_GP_Individual
-        exit
+          icff=j_GP_Individual
+          exit
 
         !Carry_On=.false.
 
       endif !   cff .le. GP_Integrated_Ranked_Fitness(j_GP_Individual)
 
-    !endif ! Carry_On
+      !endif ! Carry_On
 
   enddo ! j_GP_Individual
 
   ! index to move over both the parent parameters and the individual fitness levels
+
   j_GP_Individual=icff
 
 
@@ -65,33 +66,37 @@ do i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
   GP_Adult_Population_Node_Type(j_GP_Individual,1:n_Nodes,1:n_Trees)
 
   !!!GP_Child_Individual_SSE(i_GP_Individual)=GP_Adult_Individual_SSE(j_GP_Individual)
+
   GP_Child_Population_Parameter_Solution(i_GP_Individual,1:n_Maximum_Number_Parameters) = &
   GP_Adult_Population_Parameter_Solution(j_GP_Individual,1:n_Maximum_Number_Parameters)
 
   if( myid == 0 )then 
 
-      write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
-            'gpfpar: j_GP_individual, GP_Adult_Individual_SSE(j_GP_Individual)',&
-                     j_GP_individual, GP_Adult_Individual_SSE(j_GP_Individual)
-      write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
-            'gpfpar: i_GP_individual, GP_Child_Individual_SSE(i_GP_Individual)',&
-                     i_GP_individual, GP_Child_Individual_SSE(i_GP_Individual)
+      !write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
+      !      'gpfpar: j_GP_individual, GP_Adult_Individual_SSE(j_GP_Individual)',&
+      !               j_GP_individual, GP_Adult_Individual_SSE(j_GP_Individual)
+      !write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
+      !      'gpfpar: i_GP_individual, GP_Child_Individual_SSE(i_GP_Individual)',&
+      !               i_GP_individual, GP_Child_Individual_SSE(i_GP_Individual)
 
       write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
             'gpfpar: j_GP_individual, GP_Adult_Population_SSE(j_GP_Individual)',&
                      j_GP_individual, GP_Adult_Population_SSE(j_GP_Individual)
-      !write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
-      !      'gpfpar: i_GP_individual, GP_Child_Population_SSE(i_GP_Individual)',&
-      !               i_GP_individual, GP_Child_Population_SSE(i_GP_Individual)
 
-      GP_Child_Population_SSE(i_GP_Individual)=GP_Adult_Population_SSE(j_GP_Individual) ! give the child the adult's SSE value
+      write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
+            'gpfpar: i_GP_individual, GP_Child_Population_SSE(i_GP_Individual)',&
+                     i_GP_individual, GP_Child_Population_SSE(i_GP_Individual)
+
+      ! give the child the adult's SSE value
+
+      GP_Child_Population_SSE(i_GP_Individual)=GP_Adult_Population_SSE(j_GP_Individual) 
 
 !??  GP_Child_Population_Parameter_Solution(i_GP_Individual,1:n_Maximum_Number_Parameters)=&
 !??    GP_Adult_Population_Parameter_Solution(j_GP_Individual,1:n_Maximum_Number_Parameters)
 
-      write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
-            'gpfpar: j_GP_individual, GP_Adult_Population_SSE(j_GP_Individual)',&
-                     j_GP_individual, GP_Adult_Population_SSE(j_GP_Individual)
+      !write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
+      !      'gpfpar: j_GP_individual, GP_Adult_Population_SSE(j_GP_Individual)',&
+      !               j_GP_individual, GP_Adult_Population_SSE(j_GP_Individual)
       !write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
       !      'gpfpar: i_GP_individual, GP_Child_Population_SSE(i_GP_Individual)',&
       !               i_GP_individual, GP_Child_Population_SSE(i_GP_Individual)

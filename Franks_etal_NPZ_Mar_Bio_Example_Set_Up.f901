@@ -37,6 +37,8 @@
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+GP_Individual_Node_Type=-9999    ! Initialize the Node_Type with -9999
+
 GP_Individual_Node_Type(1,5)=3   ! '*'
 GP_Individual_Node_Type(2,5)=3   ! '*'
 GP_Individual_Node_Type(3,5)=0                     ! Phytoplankton Maximum Growth Rate
@@ -85,8 +87,8 @@ GP_Individual_Node_Type(23,11)=-2  ! Phytoplankton
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 ! Initial Conditions:   The total sum initial conditions must equal 2.0D+0 for this model run, see paper
-Runga_Kutta_Initial_Conditions(1)=1.6D+0      ! [NO3]            [mmol N m-3]
-Runga_Kutta_Initial_Conditions(2)=0.3D+0      ! [Phytoplankton]  [mmol N m-3]
-Runga_Kutta_Initial_Conditions(3)=0.1D+0      ! [Zooplankton]    [mmol N m-3]
+Runge_Kutta_Initial_Conditions(1)=1.6D+0      ! [NO3]            [mmol N m-3]
+Runge_Kutta_Initial_Conditions(2)=0.3D+0      ! [Phytoplankton]  [mmol N m-3]
+Runge_Kutta_Initial_Conditions(3)=0.1D+0      ! [Zooplankton]    [mmol N m-3]
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
