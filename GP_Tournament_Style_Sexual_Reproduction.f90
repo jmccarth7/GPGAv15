@@ -301,9 +301,11 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
         call GP_Check_Terminals(i_Error)
 
         if( i_Error .eq. 1) then
-            write(*,*) 'Pre-GP_Check_Error [Male] in GP_Tournament_Style_Sexual_Reproduction', &
-                     i_GP_Individual,i_Error
-          stop
+          write(6,'(A)')&
+                'gpt: Pre-GP_Check_Error [Male] in GP_Tournament_Style_Sexual_Reproduction'
+          write(6,'(A,2(1x,I6)/)') 'gpt: i_GP_Individual, k_GP_Individual_Male(1), i_Error  ', &    
+                                         i_GP_Individual, k_GP_Individual_Male(1), i_Error                                 
+          stop 'GP_Tou check error'                                                        
         endif
 
         GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) =  &
@@ -312,9 +314,11 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
         call GP_Check_Terminals(i_Error)
 
         if( i_Error .eq. 1) then
-            write(*,*) 'Pre-GP_Check_Error [Female] in GP_Tournement_Style_Sexual_Reproduction', &
-                  i_GP_Individual,i_Error
-            stop
+            write(6,'(A)')&
+                  'gpt: Pre-GP_Check_Error [Female] in GP_Tournament_Style_Sexual_Reproduction'
+            write(6,'(A,2(1x,I6)/)') 'gpt: i_GP_Individual, k_GP_Individual_Female(1), i_Error  ', &    
+                                           i_GP_Individual, k_GP_Individual_Female(1), i_Error                                 
+            stop 'GP_Tou stop error 2'
         endif
 
 
@@ -332,9 +336,11 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
         call GP_Check_Terminals(i_Error)
 
         if( i_Error .eq. 1) then
-            write(*,*) 'Post-GP_Check_Error in GP_Tournament_Style_Sexual_Reproduction', &
-                    i_GP_Individual,i_Error
-            stop
+            write(6,'(A)')&
+                  'gpt: Post-GP_Check_Error in GP_Tournament_Style_Sexual_Reproduction'
+            write(6,'(A,2(1x,I6)/)') 'gpt: i_GP_Individual, i_Male_Tree, i_Error  ', &    
+                                           i_GP_Individual, i_Male_Tree, i_Error                                 
+            stop 'GP_Tou stop error 3'
         endif
 
 

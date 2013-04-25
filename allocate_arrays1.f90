@@ -140,9 +140,9 @@ allocate( Node_Probability( n_levels ) )
 
 !>>>>>>>>>>>>>
 allocate( GP_Adult_Population_Parameter_Solution( 1:n_GP_Individuals,1:n_Maximum_Number_Parameters) )
-allocate( GP_Adult_Population_SSE( n_GP_Individuals  )  ) 
 allocate( GP_Child_Population_Parameter_Solution( 1:n_GP_Individuals,1:n_Maximum_Number_Parameters ) ) 
-allocate( GP_Child_Population_SSE(  n_GP_Individuals  )  )   
+allocate( GP_Adult_Population_SSE( n_GP_Individuals  )  ) 
+allocate( GP_Child_Population_SSE( n_GP_Individuals  )  )   
 !>>>>>>>>>>>>>
 
 
@@ -175,25 +175,25 @@ integrated_ranked_fitness  = 0.0d0
 
 GP_Population_Parameter_Solution = 0.0d0
 GP_Population_Initial_Conditions = 0.0d0
-GP_Population_Node_Type = 0
+GP_Population_Node_Type = -9999
 GP_Population_Node_Parameters = 0.0d0
 GP_Population_Fitness = 0.0d0
 
 GP_Individual_Parameter_Solution = 0.0d0
 GP_Individual_Initial_Conditions = 0.0d0
-GP_Individual_Node_Type = 0
+GP_Individual_Node_Type = -9999
 GP_Individual_Node_Parameters = 0.0d0
 
 GP_Individual_N_GP_param = 0
 
 GP_Node_Parameters_Answer = 0.0d0
-GP_Node_Type_Answer = 0
-GP_Node_Type_for_Plotting = 0.0d0
+GP_Node_Type_Answer = -9999
+GP_Node_Type_for_Plotting = -9999 
 
 GP_Solution = 0.0d0
 
-GP_Adult_Population_Node_Type = 0
-GP_Child_Population_Node_Type = 0
+GP_Adult_Population_Node_Type = -9999 
+GP_Child_Population_Node_Type = -9999 
 
 GP_Adult_Individual_SSE = 0.0d0
 GP_Child_Individual_SSE = 0.0d0
@@ -210,7 +210,7 @@ Node_Eval_Type = 0
 
 Runge_Kutta_Solution  = 0.0d0
 Runge_Kutta_Node_Parameters = 0.0d0
-Runge_Kutta_Node_Type = 0
+Runge_Kutta_Node_Type = -9999 
 Runge_Kutta_Initial_Conditions = 0.0d0
 
 bioflo = 0.0d0

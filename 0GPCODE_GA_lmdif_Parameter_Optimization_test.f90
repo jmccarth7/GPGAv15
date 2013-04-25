@@ -930,11 +930,11 @@ do  i_GP_Generation=1,n_GP_Generations
                         n_GP_Parameters=n_GP_Parameters+1
                     endif ! GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0
 
-                    !if( myid == 0 )then
-                    !    write(GP_print_unit,'(A,4(1x,I6))')&
-                    !   '0: i_GP_individual, i_node, i_tree, n_GP_parameters ', &
-                    !       i_GP_individual, i_node, i_tree, n_GP_parameters
-                    !endif !  myid == 0
+                    if( myid == 0 )then
+                        write(GP_print_unit,'(A,4(1x,I6))')&
+                       '0: i_GP_individual, i_node, i_tree, n_GP_parameters ', &
+                           i_GP_individual, i_node, i_tree, n_GP_parameters
+                    endif !  myid == 0
 
                 enddo ! i_node
 

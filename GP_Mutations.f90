@@ -78,8 +78,11 @@ do  i_GP_Mutation = 1,n_GP_Mutations
 
     call GP_Check_Terminals(i_Error)
     if( i_Error .eq. 1) then
-        write(*,*) 'Pre-GP_Check_Error in GP_Mutation',i_GP_Individual,i_GP_Mutation,i_Error
-        stop
+        !write(*,*) 'Pre-GP_Check_Error in GP_Mutation',i_GP_Individual,i_GP_Mutation,i_Error
+       write(6,'(/A)') 'gpm: Pre-GP_Check_Error in GP_Mutation'
+        write(6,'(A,2(1x,I6)/)') 'gpm: i_GP_Individual, i_GP_Mutation, i_Error  ', &
+                                       i_GP_Individual, i_GP_Mutation, i_Error
+        stop 'GP Mut check error'
     endif
 
 
@@ -91,7 +94,7 @@ do  i_GP_Mutation = 1,n_GP_Mutations
     i_Tree_Mutation = 1+int(cff*float(n_Trees-1))   ! randomly pick one of the equation trees
 
 
-    ! count the number of function nodes and terminals 
+    ! count the number of function nodes and terminals
     ! on the tree selected for a mutation
 
     ! Only function nodes are mutated.
@@ -165,10 +168,13 @@ do  i_GP_Mutation = 1,n_GP_Mutations
    call GP_Check_Terminals(i_Error)
 
    if( i_Error .eq. 1) then
-       write(6,'(A,1x,3(1x,I6))') &
-             'Post-GP_Check_Error in GP_Mutation', &
+       write(6,'(/A,1x,3(1x,I6))') &
+             'gpm: Post-GP_Check_Error in GP_Mutation', &
                   i_GP_Individual,i_GP_Mutation,i_Error
-       stop
+       write(6,'(A)') 'gpm: Post-GP_Check_Error in GP_Mutation'
+       write(6,'(A,2(1x,I6)/)') 'gpm: i_GP_Individual, i_GP_Mutation, i_Error  ', &
+                                      i_GP_Individual, i_GP_Mutation, i_Error
+       stop 'GP_Mut check error'
    endif
 
 enddo !  i_GP_Mutation

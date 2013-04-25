@@ -68,7 +68,7 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
      
                                 ! set the node lowel level inputs to open
 
-                                GP_Child_Population_Node_Type(i_GP_Individual,2*i_Node   ,i_Tree)=0          
+                                GP_Child_Population_Node_Type(i_GP_Individual, 2*i_Node   ,i_Tree)=0          
                                 !!GP_Adult_Population_Node_Type(i_GP_Individual,2*i_Node +1,i_Tree)=0      
 
                             else
@@ -142,7 +142,7 @@ do  i_GP_Individual=1,n_GP_Individuals
 
                         Node_Variable = min( Node_Variable, n_CODE_Equations )
 
-                        GP_Child_Population_Node_Type(i_GP_Individual,i_Node,i_Tree)=-Node_Variable
+                        GP_Child_Population_Node_Type(i_GP_Individual,i_Node,i_Tree) = -Node_Variable
 
 
                     else  ! set as a random parameter
@@ -166,8 +166,10 @@ do  i_GP_Individual=1,n_GP_Individuals
     call GP_Check_Terminals(i_Error)                                                                     
 
     if( i_Error .eq. 1 ) then 
-        write(6,*) 'GP_Check_Error in GP_Tree_Build',i_GP_Individual,i_Error 
-        stop         
+        write(6,'(/A)') 'gtb: GP_Check_Error in GP_Tree_Build'
+        write(6,'(A,2(1x,I6)/)') 'gtb: i_GP_Individual, i_Error  ', &
+                                       i_GP_Individual, i_Error 
+        stop  'GP Tree Build error'       
     endif   
 
 enddo !  i_GP_Individual 
