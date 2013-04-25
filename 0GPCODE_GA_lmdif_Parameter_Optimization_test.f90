@@ -1188,6 +1188,13 @@ do  i_GP_Generation=1,n_GP_Generations
     !write(*,*) i_GP_Generation,&
     ! 'MAIN',(GP_Adult_Population_SSE(i),i=1,9),GP_Adult_Population_SSE(n_GP_Individuals) ! ???
 
+    !new write(10) i_CASE,i_GP_Generation,GP_Adult_Population_SSE
+
+    !new write(*,*) i_CASE,i_GP_Generation,'MAIN',&
+    !new       (GP_Adult_Population_SSE(i),i=1,9),GP_Adult_Population_SSE(n_GP_Individuals)
+
+
+
     if( myid == 0 )then
 
         do  i_GP_Individual=1,n_GP_individuals

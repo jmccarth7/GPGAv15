@@ -15,7 +15,7 @@ integer(kind=4) :: icff
 integer(kind=4) :: i_GP_Individual
 integer(kind=4) :: j_GP_Individual
 
-logical Carry_On
+!logical Carry_On
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
@@ -54,7 +54,8 @@ GP_Adult_Population_Parameter_Solution(1:n_GP_Individuals,1:n_Maximum_Number_Par
 
 GP_Adult_Population_SSE=GP_Child_Population_SSE
 
-! Copy this to the Child Population values to allow the Elite codes to propagate along in the next generations
+! Copy this to the Child Population values 
+! to allow the Elite codes to propagate along in the next generations
 
 GP_Child_Population_Node_Type=GP_Adult_Population_Node_Type
 GP_Child_Population_Parameter_Solution=GP_Adult_Population_Parameter_Solution

@@ -8,19 +8,19 @@ use GA_Variables_module
 
 implicit none
 
-real(kind=4) cff
-real(kind=8) dff
+real(kind=4) :: cff
+real(kind=8) :: dff
 
-integer(kind=4) icff
-!integer(kind=4) i_Individual
-!integer(kind=4) j_Individual
-integer(kind=4) i_GP_Asexual_Reproduction
+integer(kind=4) :: icff
+integer(kind=4) :: i_GP_Individual
+integer(kind=4) :: j_GP_Individual
+integer(kind=4) :: i_GP_Asexual_Reproduction
 
 logical Carry_On
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-
+icff = -1
 
 i_GP_Individual = n_GP_Elitists 
 
@@ -44,7 +44,7 @@ do i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
 
     !if( Carry_On ) then
 
-      if( cff .le. GP_Integrated_Ranked_Fitness(j_GP_Individual)) then
+      if( cff .le. GP_Integrated_Population_Ranked_Fitness(j_GP_Individual)) then
 
         icff=j_GP_Individual
         exit
@@ -64,7 +64,10 @@ do i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
   GP_Child_Population_Node_Type(i_GP_Individual,1:n_Nodes,1:n_Trees) = &
   GP_Adult_Population_Node_Type(j_GP_Individual,1:n_Nodes,1:n_Trees)
 
-  GP_Child_Individual_SSE(i_GP_Individual)=GP_Adult_Individual_SSE(j_GP_Individual)
+  !!!GP_Child_Individual_SSE(i_GP_Individual)=GP_Adult_Individual_SSE(j_GP_Individual)
+  GP_Child_Population_Parameter_Solution(i_GP_Individual,1:n_Maximum_Number_Parameters) = &
+  GP_Adult_Population_Parameter_Solution(j_GP_Individual,1:n_Maximum_Number_Parameters)
+
   if( myid == 0 )then 
 
       write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
@@ -81,7 +84,7 @@ do i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
       !      'gpfpar: i_GP_individual, GP_Child_Population_SSE(i_GP_Individual)',&
       !               i_GP_individual, GP_Child_Population_SSE(i_GP_Individual)
 
-!??  GP_Child_Population_SSE(i_GP_Individual)=GP_Adult_Population_SSE(j_GP_Individual) ! give the child the adult's SSE value
+      GP_Child_Population_SSE(i_GP_Individual)=GP_Adult_Population_SSE(j_GP_Individual) ! give the child the adult's SSE value
 
 !??  GP_Child_Population_Parameter_Solution(i_GP_Individual,1:n_Maximum_Number_Parameters)=&
 !??    GP_Adult_Population_Parameter_Solution(j_GP_Individual,1:n_Maximum_Number_Parameters)
@@ -97,7 +100,7 @@ do i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
   endif !  myid == 0 
 
 
-  Run_GP_Calculate_Fitness(i_GP_Individual)=.false.
+  !!!Run_GP_Calculate_Fitness(i_GP_Individual)=.false.
 
 
 enddo ! i_GP_Asexual_Reproduction

@@ -12,11 +12,11 @@ use GA_Variables_module
 
 implicit none
 
-real (kind=4) :: cff
-real (kind=8) :: dff
+real(kind=4) :: cff
+real(kind=8) :: dff
 
 integer(kind=4) :: i_GP_Crossover
-integer(kind=4) :: i_GP_Crossover_Point
+!integer(kind=4) :: i_GP_Crossover_Point
 integer(kind=4),dimension(2) :: k_GP_Individual_Male
 integer(kind=4),dimension(2) :: k_GP_Individual_Female
 
@@ -40,13 +40,13 @@ write(GP_print_unit,'(A,1x,I6)' ) &
       'gptssr: start i_GP_individual = ', &
                n_GP_Elitists + n_GP_Asexual_Reproductions +1
 
-do i_GP_Crossover=1,n_GP_Crossovers
+do  i_GP_Crossover=1,n_GP_Crossovers
 
 
-  i_GP_Individual=i_GP_Individual+1
+    i_GP_Individual=i_GP_Individual+1
 
 
-  !----------------------------------------------------------------------
+    !----------------------------------------------------------------------
 
   ! pick the male parent for sexual crossing of parameter strings
 
@@ -65,14 +65,15 @@ do i_GP_Crossover=1,n_GP_Crossovers
     else
         k_GP_Individual_Male(2) = k_GP_Individual_Male(1)-1
     endif !   k_GP_Individual_Male(1) .ne. n_GP_Individuals
-
-
   endif !   k_GP_Individual_Male(2) .eq. k_GP_Individual_Male(1)
 
 ! select the individual of the two with the best fitness
+! select the individual with the least SSE level between the two chosen males
 
 
-!???  if( GP_Adult_Population_SSE(k_GP_Individual_Male(2)) .lt. GP_Adult_Population_SSE(k_GP_Individual_Male(1))) then
+  if( GP_Adult_Population_SSE(k_GP_Individual_Male(2)) .lt.  &
+      GP_Adult_Population_SSE(k_GP_Individual_Male(1))         ) then
+
 write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
       'gptssr: k_GP_Indiv_Male(1), GP_Adult_Pop_SSE(k_GP_Indiv_Male(1)) ', &
                k_GP_Individual_Male(1), GP_Adult_Population_SSE(k_GP_Individual_Male(1)) 
@@ -87,12 +88,12 @@ write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
       'gptssr: k_GP_Indiv_Male(2), GP_Indiv_Ranked_Fitness(k_GP_Indiv_Male(2)) ', &
                k_GP_Individual_Male(2), GP_Individual_Ranked_Fitness(k_GP_Individual_Male(2)) 
 
-  if( GP_Individual_Ranked_Fitness(k_GP_Individual_Male(2)) .gt.          &
-      GP_Individual_Ranked_Fitness(k_GP_Individual_Male(1))      ) then
+  !!if( GP_Individual_Ranked_Fitness(k_GP_Individual_Male(2)) .gt.          &
+  !!    GP_Individual_Ranked_Fitness(k_GP_Individual_Male(1))      ) then
 
       k_GP_Individual_Male(1)=k_GP_Individual_Male(2)
 
-  endif !   GP_Individual_Ranked_Fitness(k_GP_Individual_Male(2)) .gt....
+  endif !   GP_Adult_Population_SSE(k_GP_Individual_Male(2)) .lt....
 
 
   !----------------------------------------------------------------------
@@ -118,8 +119,9 @@ write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
   endif !   k_GP_Individual_Female(2) .eq. k_GP_Individual_Female(1)
 
 
-!???! select the individual with the lowest SSE level between the two chosen females
-!???  if( GP_Adult_Population_SSE(k_GP_Individual_Female(2)) .lt. GP_Adult_Population_SSE(k_GP_Individual_Female(1))) then
+! select the individual with the lowest SSE level between the two chosen females
+  if( GP_Adult_Population_SSE(k_GP_Individual_Female(2)) .lt.  &
+      GP_Adult_Population_SSE(k_GP_Individual_Female(1))          ) then
 write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
       'gptssr: k_GP_Indiv_Female(1), GP_Adult_Pop_SSE(k_GP_Indiv_Female(1)) ', &
                k_GP_Individual_Female(1), GP_Adult_Population_SSE(k_GP_Individual_Female(1)) 
@@ -136,12 +138,12 @@ write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
 
   ! select the individual of the two with the best fitness
 
-  if( GP_Individual_Ranked_Fitness(k_GP_Individual_Female(2)) .gt.        &
-      GP_Individual_Ranked_Fitness(k_GP_Individual_Female(1))      ) then
+  !!if( GP_Individual_Ranked_Fitness(k_GP_Individual_Female(2)) .gt.        &
+  !!    GP_Individual_Ranked_Fitness(k_GP_Individual_Female(1))      ) then
 
       k_GP_Individual_Female(1) = k_GP_Individual_Female(2)
 
-  endif !   GP_Individual_Ranked_Fitness(k_GP_Individual_Female(2)) ...
+  endif !   GP_Adult_Population_SSE(k_GP_Individual_Female(2)) ...
 
 
   !----------------------------------------------------------------------
@@ -233,10 +235,10 @@ write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
   endif ! CROSS
 
 
-!???! stick the entire chosen male node/tree set into the new child node/tree set
+! stick the entire chosen male node/tree set into the new child node/tree set
 
-!???GP_Child_Population_Node_Type(i_GP_Individual,1:n_Nodes,1:n_Trees)= &
-!???       GP_Adult_Population_Node_Type(k_GP_Individual_Male(1),1:n_Nodes,1:n_Trees)
+GP_Child_Population_Node_Type(i_GP_Individual,1:n_Nodes,1:n_Trees)= &
+       GP_Adult_Population_Node_Type(k_GP_Individual_Male(1),1:n_Nodes,1:n_Trees)
 
 write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
       'gptssr: k_GP_Indiv_Male(1), &
@@ -267,9 +269,8 @@ write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
     Parent_Tree_Swap_Node_Type(1:n_Nodes,2) = &
             GP_Adult_Population_Node_Type(k_GP_Individual_Female(1),1:n_Nodes,i_Female_Tree)
 
-!>>>>  ???
-! ???     GP_Individual_Node_Type(1:n_Nodes,1:n_Trees)= &
-! ???            GP_Adult_Population_Node_Type(k_GP_Individual_Male(1),1:n_Nodes,1:n_Trees)
+     GP_Individual_Node_Type(1:n_Nodes,1:n_Trees)= &
+            GP_Adult_Population_Node_Type(k_GP_Individual_Male(1),1:n_Nodes,1:n_Trees)
 
 do  i_Tree=1,n_Trees
     do  i_Node=1,n_Nodes
@@ -289,37 +290,40 @@ do  i_Tree=1,n_Trees
     enddo !  i_Node
 enddo ! i_Tree
 
-! ???     call GP_Check_Terminals(i_Error)
-! ???     if( i_Error .eq. 1) then
-! ???       write(*,*) 'Pre-GP_Check_Error [Male] in GP_Tournement_Style_Sexual_Reproduction',i_GP_Individual,i_Error
-! ???       stop
-! ???     endif
-! ??? 
-! ???     GP_Individual_Node_Type(1:n_Nodes,1:n_Trees)= &
-! ???            GP_Adult_Population_Node_Type(k_GP_Individual_Female(1),1:n_Nodes,1:n_Trees)
-! ???     call GP_Check_Terminals(i_Error)
-! ???     if( i_Error .eq. 1) then
-! ???       write(*,*) 'Pre-GP_Check_Error [Female] in GP_Tournement_Style_Sexual_Reproduction',i_GP_Individual,i_Error
-! ???       stop
-! ???     endif
-! <<<<  ???
+     call GP_Check_Terminals(i_Error)
+     if( i_Error .eq. 1) then
+          write(*,*) 'Pre-GP_Check_Error [Male] in GP_Tournament_Style_Sexual_Reproduction', &
+                   i_GP_Individual,i_Error
+        stop
+      endif
+ 
+     GP_Individual_Node_Type(1:n_Nodes,1:n_Trees)= &
+            GP_Adult_Population_Node_Type(k_GP_Individual_Female(1),1:n_Nodes,1:n_Trees)
+     call GP_Check_Terminals(i_Error)
+     if( i_Error .eq. 1) then
+       write(*,*) 'Pre-GP_Check_Error [Female] in GP_Tournement_Style_Sexual_Reproduction', &
+                   i_GP_Individual,i_Error
+       stop
+     endif
 
-    !   perform the random tree swap
-!????    call GP_Tree_Swap
-    !off    call GP_Tree_Swap
 
-    !   move one of the swapped trees into GP_Child_Population_Node_Type
+
+    call GP_Tree_Swap    !   perform the random tree swap
+
+    !   move one of the swapped trees into the new child GP_Child_Population_Node_Type
 
     GP_Child_Population_Node_Type(i_GP_Individual,1:n_Nodes,i_Male_Tree) = &
                        Parent_Tree_Swap_Node_Type(1:n_Nodes,1)
-! >>>>   ?????
-! ???     GP_Individual_Node_Type(1:n_Nodes,1:n_Trees)=GP_Child_Population_Node_Type(i_GP_Individual,1:n_Nodes,1:n_Trees)
-! ???     call GP_Check_Terminals(i_Error)
-! ???     if( i_Error .eq. 1) then
-! ???       write(*,*) 'Post-GP_Check_Error in GP_Tournament_Style_Sexual_Reproduction',i_GP_Individual,i_Error
-! ???       stop
-! ???     endif
-! <<<<<   ?????
+
+    GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) = &
+    GP_Child_Population_Node_Type(i_GP_Individual,1:n_Nodes,1:n_Trees)
+     call GP_Check_Terminals(i_Error)
+     if( i_Error .eq. 1) then
+       write(*,*) 'Post-GP_Check_Error in GP_Tournament_Style_Sexual_Reproduction', &
+                   i_GP_Individual,i_Error
+       stop
+     endif
+
 
     Run_GP_Calculate_Fitness(i_GP_Individual)=.true.
 

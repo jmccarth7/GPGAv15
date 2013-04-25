@@ -28,7 +28,8 @@ do  i_Tree=1,n_Trees
 
     do  i_Level=1,n_Levels-1
 
-        i_Function=(2**(i_Level-1))-1       ! calculated the function number at the right end of the upper level
+    i_Function=(2**(i_Level-1))-1                 ! calculated the function number 
+                                                  ! at the right end of the upper level
 
         do  i_Node=2**i_Level,(2*(2**i_Level))-1,2   ! run through each function at the level
 
@@ -43,14 +44,16 @@ do  i_Tree=1,n_Trees
             if( GP_Individual_Node_Type(i_Function,i_Tree) .gt. 0) then  ! It is a function node
 
                 if( GP_Individual_Node_Type(i_Node_Left,i_Tree) .lt. -n_CODE_Equations ) then
-                    write(*,*) 'L: ',i_Node_Left,GP_Individual_Node_Type(i_Function,i_Tree),&
-                                                 GP_Individual_Node_Type(i_Node_Left,i_Tree)
+                    write(*,*) 'L: ',i_Node_Left,&
+                                GP_Individual_Node_Type(i_Function,i_Tree),&
+                               GP_Individual_Node_Type(i_Node_Left,i_Tree)
                     i_Error=1
                 endif ! GP_Individual_Node_Type(i_Node_Left,i_Tree) .lt. -n_CODE_Equations 
 
                 if( GP_Individual_Node_Type(i_Node_Right,i_Tree) .lt. -n_CODE_Equations) then
-                  write(*,*) 'R: ',i_Node_Right,GP_Individual_Node_Type(i_Function,i_Tree),&
-                                                GP_Individual_Node_Type(i_Node_Right,i_Tree)
+                  write(*,*) 'R: ',i_Node_Right,&
+                              GP_Individual_Node_Type(i_Function,i_Tree),&
+                             GP_Individual_Node_Type(i_Node_Right,i_Tree)
                   i_Error=1
                 endif !   GP_Individual_Node_Type(i_Node_Right,i_Tree) .lt. -n_CODE_Equations
             endif !  GP_Individual_Node_Type(i_Function,i_Tree) .gt. 0
