@@ -69,6 +69,7 @@ deallocate( Parent_Tree_Swap_Node_Type )
 deallocate( GP_Adult_Individual_SSE )
 deallocate( GP_Child_Individual_SSE )
 deallocate( GP_Individual_Ranked_Fitness )
+deallocate( GP_Population_Ranked_Fitness )
 deallocate( GP_Integrated_Ranked_Fitness )
 deallocate( Run_GP_Calculate_Fitness )
 
@@ -89,6 +90,7 @@ deallocate( GP_Population_Initial_Conditions )
 deallocate( GP_Individual_Initial_Conditions )
 
 deallocate( GP_Population_Fitness )
+deallocate( GP_Integrated_Population_Ranked_Fitness )
 
 deallocate( GP_diversity_index ) 
 

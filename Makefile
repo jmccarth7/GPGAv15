@@ -10,7 +10,7 @@ SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 allocate_arrays1.f90 \
 	GA_variables_module.f90 gaussian_random_number_generator.f90 \
 	GP_calc_diversity_index.f90 GP_calc_fitness.f90 \
 	GP_Check_Terminals.f90 GP_Clean_Tree_Nodes.f90 GP_data_module.f90 \
-	GP_Elitists.f90 GP_Fitness_Calculations.f90 \
+	GP_Elitists.f90  \
 	GP_Fitness_Proportionate_Asexual_Reproduction.f90 \
 	GP_model_parameters_module.f90 GP_Mutations.f90 \
 	GP_parameters_module.f90 GP_Tournament_Style_Sexual_Reproduction.f90 \
@@ -32,7 +32,7 @@ OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o allocate_arrays1.o \
 	GA_Tournament_Style_Sexual_Reproduction.o GA_variables_module.o \
 	gaussian_random_number_generator.o GP_calc_diversity_index.o \
 	GP_calc_fitness.o GP_Check_Terminals.o GP_Clean_Tree_Nodes.o \
-	GP_data_module.o GP_Elitists.o GP_Fitness_Calculations.o \
+	GP_data_module.o GP_Elitists.o  \
 	GP_Fitness_Proportionate_Asexual_Reproduction.o \
 	GP_model_parameters_module.o GP_Mutations.o GP_parameters_module.o \
 	GP_Tournament_Style_Sexual_Reproduction.o GP_Tree_Build.o \
@@ -57,11 +57,11 @@ CFLAGS = -O
 
 # note: mpif90 is based on gfortran
 FC = /opt/openmpi-1.6/bin/mpif90
-FFLAGS =   -g  -ffree-form -fbacktrace # -fdefault-integer-8  # -FR = -free
+FFLAGS =   -O3 -ffree-form # -fbacktrace # -fdefault-integer-8  # -FR = -free
 
 # note: mpif90 is based on gfortran
 F90 = /opt/openmpi-1.6/bin/mpif90
-F90FLAGS =   -g  -ffree-form  -fbacktrace #-fdefault-integer-8  # -FR = -free
+F90FLAGS =   -O3 -ffree-form #  -fbacktrace #-fdefault-integer-8  # -FR = -free
 
 LDFLAGS = -L/opt/openmpi-1.6/lib \
           -I/Developer/SDKs/MacOSX10.6.sdk/usr/include
@@ -135,11 +135,8 @@ GP_Clean_Tree_Nodes.o: GA_parameters_module.o GA_variables_module.o \
 GP_data_module.o: GP_parameters_module.o
 GP_Elitists.o: GA_parameters_module.o GA_variables_module.o \
 	GP_parameters_module.o GP_variables_module.o
-GP_Fitness_Calculations.o: GA_parameters_module.o GA_variables_module.o \
-	GP_parameters_module.o GP_variables_module.o
 GP_Fitness_Proportionate_Asexual_Reproduction.o: GA_parameters_module.o \
-	GA_variables_module.o GP_parameters_module.o GP_variables_module.o \
-	mpi_module.o
+	GA_variables_module.o GP_parameters_module.o GP_variables_module.o
 GP_Mutations.o: GA_parameters_module.o GA_variables_module.o \
 	GP_parameters_module.o GP_variables_module.o
 GP_parameters_module.o: GP_model_parameters_module.o

@@ -83,6 +83,7 @@ allocate( GP_Child_Population_Node_Type(n_GP_Individuals,n_Nodes,n_Trees) )
 
 allocate( GP_Population_Node_Parameters(n_GP_individuals,n_nodes,n_trees) )
 allocate( GP_Population_Fitness(n_GP_individuals) )
+allocate( GP_Integrated_Population_Ranked_Fitness( n_GP_Individuals ) ) 
 
 allocate( GP_Individual_Parameter_Solution(n_maximum_number_parameters) )
 allocate( GP_Individual_Initial_Conditions(n_CODE_equations) )
@@ -106,6 +107,7 @@ allocate( GP_diversity_index( n_GP_individuals ) )
 
 
 allocate( GP_Individual_Ranked_Fitness(n_GP_Individuals) )
+allocate( GP_Population_Ranked_Fitness(n_GP_Individuals) )
 allocate( GP_Integrated_Ranked_Fitness(n_GP_Individuals) )
 
 allocate( Node_Values(n_nodes,n_trees) )
@@ -180,6 +182,7 @@ GP_Population_Initial_Conditions = 0.0d0
 GP_Population_Node_Type = -9999
 GP_Population_Node_Parameters = 0.0d0
 GP_Population_Fitness = 0.0d0
+GP_Integrated_Population_Ranked_Fitness = 0.0D0
 
 GP_Individual_Parameter_Solution = 0.0d0
 GP_Individual_Initial_Conditions = 0.0d0
@@ -201,6 +204,7 @@ GP_Adult_Individual_SSE = 0.0d0
 GP_Child_Individual_SSE = 0.0d0
 
 GP_Individual_Ranked_Fitness = 0.0d0
+GP_Population_Ranked_Fitness = 0.0d0
 GP_Integrated_Ranked_Fitness = 0.0d0
 
 Node_Values = 0.0d0

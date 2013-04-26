@@ -8,8 +8,8 @@ subroutine GP_calc_fitness( output_array )
 ! coupled ordinary differential equations
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-use mpi
-use mpi_module
+!use mpi
+!use mpi_module
 
 use GP_Parameters_module
 use GA_Parameters_module
@@ -112,7 +112,7 @@ write(GP_print_unit,'(/A,1x,E15.7)') 'gpcf: sum of all GP_Child_Indiv_SSE = ', d
 
 ! calculate a normalized ranking of the errors (higher individual SSE == lower value/ranking)
 
-GP_Individual_Ranked_Fitness = 0.0d0
+GP_Population_Ranked_Fitness = 0.0d0
 
 do  i_GP_Individual=1,n_GP_Individuals
 
@@ -120,10 +120,10 @@ do  i_GP_Individual=1,n_GP_Individuals
 
     if( abs( dff ) > 1.0D-20 )then
 
-        GP_Individual_Ranked_Fitness(i_GP_Individual) = &
+        GP_Population_Ranked_Fitness(i_GP_Individual) = &
              ( dff - GP_Child_Individual_SSE(i_GP_Individual) ) / dff
     else
-        GP_Individual_Ranked_Fitness(i_GP_Individual) = 0.0D0
+        GP_Population_Ranked_Fitness(i_GP_Individual) = 0.0D0
     endif ! abs( dff ) > 1.0D-20
 
 enddo ! i_GP_Individual
@@ -139,7 +139,7 @@ if( i_GP_generation == 1                                 .or. &
     
     do  i_GP_Individual=1,n_GP_Individuals
         write(GP_print_unit,'(5x,I6,5x,E15.7)') &
-              i_GP_individual, GP_Individual_Ranked_Fitness(i_GP_Individual)
+              i_GP_individual, GP_Population_Ranked_Fitness(i_GP_Individual)
     enddo
 
 endif ! i_GP_generation == 1 .or. ...
@@ -148,20 +148,20 @@ endif ! i_GP_generation == 1 .or. ...
 
 ! calculate the sum of the rankings
 
-GP_Integrated_Ranked_Fitness = 0.0d0
+GP_Integrated_Population_Ranked_Fitness = 0.0d0
 
 dff=0.0
 do  i_GP_Individual=1,n_GP_Individuals
 
-    dff = dff + GP_Individual_Ranked_Fitness(i_GP_Individual)
+    dff = dff + GP_Population_Ranked_Fitness(i_GP_Individual)
 
-    GP_Integrated_Ranked_Fitness(i_GP_Individual)=dff
+    GP_Integrated_Population_Ranked_Fitness(i_GP_Individual)=dff
 enddo
 
 !do  i_GP_Individual=1,n_GP_Individuals
 !    write(GP_print_unit,'(A,1x,I6,1x,E15.7)') &
-!    'gpcf: i_GP_individual, GP_Integrated_Ranked_Fitness ', &
-!           i_GP_individual, GP_Integrated_Ranked_Fitness(i_GP_Individual)
+!    'gpcf: i_GP_individual, GP_Integrated_Population_Ranked_Fitness ', &
+!           i_GP_individual, GP_Integrated_Population_Ranked_Fitness(i_GP_Individual)
 !enddo
 
 !---------------------------------------------------------------------------------------------------
@@ -172,13 +172,13 @@ enddo
 
 do  i_GP_Individual=1,n_GP_Individuals
 
-    if( abs( GP_Integrated_Ranked_Fitness(n_GP_Individuals) ) > 1.0D-20 )then
-        GP_Integrated_Ranked_Fitness(i_GP_Individual) = &
-        GP_Integrated_Ranked_Fitness(i_GP_Individual) / &
-                        GP_Integrated_Ranked_Fitness(n_GP_Individuals)
+    if( abs( GP_Integrated_Population_Ranked_Fitness(n_GP_Individuals) ) > 1.0D-20 )then
+        GP_Integrated_Population_Ranked_Fitness(i_GP_Individual) = &
+        GP_Integrated_Population_Ranked_Fitness(i_GP_Individual) / &
+                        GP_Integrated_Population_Ranked_Fitness(n_GP_Individuals)
     else
-        GP_Integrated_Ranked_Fitness(i_GP_Individual) = 0.0D0
-    endif ! abs( GP_Integrated_Ranked_Fitness(n_GP_Individuals) ) > 1.0D-20
+        GP_Integrated_Population_Ranked_Fitness(i_GP_Individual) = 0.0D0
+    endif ! abs( GP_Integrated_Population_Ranked_Fitness(n_GP_Individuals) ) > 1.0D-20
 
 enddo
 
@@ -189,12 +189,12 @@ if( i_GP_generation == 1                                 .or. &
     i_GP_generation == n_GP_generations                          ) then 
 
     write(GP_print_unit,'(/A)') &
-          'gpcf: i_GP_indiv, GP_Integrated_Ranked_Fitness (norm) '
+          'gpcf: i_GP_indiv, GP_Integrated_Population_Ranked_Fitness (norm) '
     
     do  i_GP_Individual=1,n_GP_Individuals
     
         write(GP_print_unit,'(5x,I6,5x,E15.7)') &
-              i_GP_individual, GP_Integrated_Ranked_Fitness(i_GP_Individual)
+              i_GP_individual, GP_Integrated_Population_Ranked_Fitness(i_GP_Individual)
     enddo
 
 endif ! i_GP_generation == 1 .or. ...
@@ -202,10 +202,10 @@ endif ! i_GP_generation == 1 .or. ...
 
 !---------------------------------------------------------------------------------------------------
 
-!write(GP_print_unit,*) i_GP_Generation,'MAIN',GP_Individual_Ranked_Fitness(1)
+!write(GP_print_unit,*) i_GP_Generation,'MAIN',GP_Population_Ranked_Fitness(1)
 write(GP_print_unit,'(/A,1x,I6,1x,E15.7)') &
       'gpcf: i_GP_Gen, GP_Indiv_Ranked_Fit(1) ', &
-             i_GP_Generation, GP_Individual_Ranked_Fitness(1)
+             i_GP_Generation, GP_Population_Ranked_Fitness(1)
 
 !---------------------------------------------------------------------------------------------------
 
@@ -214,14 +214,14 @@ write(GP_print_unit,'(/A,1x,I6,1x,E15.7)') &
 
 i_GP_Best_Parent=1
 
-dff=GP_Individual_Ranked_Fitness(1)
+dff=GP_Population_Ranked_Fitness(1)
 
 do  i_GP_Individual=2,n_GP_individuals
 
     if(  GP_Individual_N_GP_param( i_GP_Individual ) <= 0 ) cycle
 
-    if( GP_Individual_Ranked_Fitness(i_GP_individual) .gt. dff) then
-        dff=GP_Individual_Ranked_Fitness(i_GP_individual)
+    if( GP_Population_Ranked_Fitness(i_GP_individual) .gt. dff) then
+        dff=GP_Population_Ranked_Fitness(i_GP_individual)
         i_GP_Best_Parent=i_GP_Individual
     endif
 
@@ -231,7 +231,7 @@ write(GP_print_unit,'(A,2(1x,I6),1x,E15.7/)') &
       'gpcf: i_GP_Gen,i_GP_Best_Parent,&
             &GP_Indiv_Ranked_Fit(i_GP_Best_Parent)', &
              i_GP_Generation, i_GP_Best_Parent, &
-             GP_Individual_Ranked_Fitness(i_GP_Best_Parent)
+             GP_Population_Ranked_Fitness(i_GP_Best_Parent)
 
 
 !---------------------------------------------------------------------------
@@ -284,13 +284,13 @@ enddo  ! i_tree
 
 write( GP_output_unit, '(I6,1x,I6,1x,E15.7,1x,I6, 12(1x,E15.7))') &
        i_GP_Generation, i_GP_best_parent, &
-       GP_individual_ranked_fitness(i_GP_Best_Parent), &
+       GP_Population_Ranked_Fitness(i_GP_Best_Parent), &
        nop, output_array(1:nop) 
 
 write(GP_print_unit, '(//A,1x,I6,1x,I6,1x,E15.7,1x,I6, 12(1x,E15.7))') &
        'gpcf: i_GP_gen,i_GP_best_parent,GP_indiv_ranked_fit, nop, output_array', &
        i_GP_Generation, i_GP_best_parent, &
-       GP_individual_ranked_fitness(i_GP_Best_Parent), &
+       GP_Population_Ranked_Fitness(i_GP_Best_Parent), &
        nop, output_array(1:nop) 
 
 !---------------------------------------------------------------------------
@@ -315,7 +315,7 @@ if( i_GP_generation == 1                                 .or. &
         write(GP_print_unit,'(6x,I6,2(7x,E15.7))') &
               i_GP_Individual, &
               GP_Adult_Individual_SSE(i_GP_Individual), &
-              GP_Individual_Ranked_Fitness(i_GP_Individual)
+              GP_Population_Ranked_Fitness(i_GP_Individual)
     
     enddo ! i_GP_individual
 
