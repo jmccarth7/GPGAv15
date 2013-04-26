@@ -83,7 +83,7 @@ random_scale_small    =  1.0d0
 random_scale_fraction =  0.6d0               
 
 n_Node_Functions = 7
-n_GP_individuals = 9
+n_GP_individuals = 1  !  9
 n_GP_generations = 1
 
 GP_Tree_Probability=0.5d0 

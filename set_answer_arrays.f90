@@ -39,7 +39,7 @@ real (kind=8) :: ssum, ssum2, totobs, dff
 
 real (kind=8) :: xcount
 
-!----------------------------------------------------------------------------------------
+!------------------------------------------------------------------------------
 
 
 
@@ -64,8 +64,10 @@ if( myid == 0 )then
     write(unit_gp_out) GP_Node_Type_for_Plotting
 endif ! myid == 0
 
-! set the initial population node type using the info obtained from the set up file
-! set the Initial Conditions, Model Parameters and Node Type for the 'twin experiment case'
+! set the initial population node type using the info obtained 
+! from the set up file
+! set the Initial Conditions, Model Parameters and Node Type 
+! for the 'twin experiment case'
 
 GP_Population_Node_Type(1,1:n_nodes,1:n_trees)=GP_Individual_Node_Type(1:n_nodes,1:n_trees)
 

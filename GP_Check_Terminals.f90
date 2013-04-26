@@ -10,18 +10,14 @@ subroutine GP_Check_Terminals(i_Error)
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 use GP_Parameters_module
+use GP_model_parameters_module
 use GA_Parameters_module
 use GP_Variables_module
 use GA_Variables_module
 
 implicit none
+
 integer(kind=4) :: i_Error
-!integer(kind=4) :: i_Tree
-!integer(kind=4) :: i_Node
-!integer(kind=4) :: i_Level
-!integer(kind=4) :: i_Function
-!integer(kind=4) :: i_Node_Left
-!integer(kind=4) :: i_Node_Right
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
@@ -46,9 +42,13 @@ do  i_Tree=1,n_Trees
 
 
             
-            write(6,'(A,6(1x,I4))') &
+            write(GP_print_unit,'(/A,6(1x,I6))') &
                   'gct: i_Tree, i_Level, i_Function, i_Node, i_Node_Left, i_Node_Right ', &
                         i_Tree, i_Level, i_Function, i_Node, i_Node_Left, i_Node_Right 
+            write(GP_print_unit,'(A,6(1x,I6))') 'gct: n_CODE_Equations ', n_CODE_Equations
+            write(GP_print_unit,'(A,3(1x,I6)/)') &
+                  'gct: i_function, i_tree, GP_Individual_Node_Type(i_Function, i_Tree)',&
+                        i_function, i_tree, GP_Individual_Node_Type(i_Function, i_Tree)
 
             if( GP_Individual_Node_Type(i_Function,i_Tree) .gt. 0) then  
 
@@ -56,15 +56,19 @@ do  i_Tree=1,n_Trees
 
                 ! check Left node
 
+                write(GP_print_unit,'(A,3(1x,I6))') &
+                      'gct: i_Node_Left, i_tree, GP_Individual_Node_Type(i_Node_Left,i_Tree) ',&
+                            i_Node_Left, i_tree, GP_Individual_Node_Type(i_Node_Left,i_Tree) 
+
                 if( GP_Individual_Node_Type(i_Node_Left,i_Tree) .lt. -n_CODE_Equations ) then
 
-                    write(6,'(A,3(1x,I6))') &
+                    write(GP_print_unit,'(A,3(1x,I6))') &
                           'gct: Left ', i_Node_Left,GP_Individual_Node_Type(i_Function, i_Tree),&
                                                     GP_Individual_Node_Type(i_Node_Left,i_Tree)
-                    write(6,'(A,4(1x,I4))') &
+                    write(GP_print_unit,'(A,4(1x,I6))') &
                           'gct: i_Node_Left, i_function, i_tree, GP_Individual_Node_Type(i_Function, i_Tree)',&
                                 i_Node_Left, i_function, i_tree, GP_Individual_Node_Type(i_Function, i_Tree)
-                    write(6,'(A,3(1x,I4))') &
+                    write(GP_print_unit,'(A,3(1x,I6))') &
                           'gct: i_Node_Left, i_tree, GP_Individual_Node_Type(i_Node_Left,i_Tree) ',&
                                 i_Node_Left, i_tree, GP_Individual_Node_Type(i_Node_Left,i_Tree) 
 
@@ -76,15 +80,19 @@ do  i_Tree=1,n_Trees
 
                 ! check Right node
 
+                write(GP_print_unit,'(A,3(1x,I6))') &
+                      'gct: i_Node_Right, i_tree, GP_Individual_Node_Type(i_Node_Right,i_Tree) ',&
+                            i_Node_Right, i_tree, GP_Individual_Node_Type(i_Node_Right,i_Tree) 
+
                 if( GP_Individual_Node_Type(i_Node_Right,i_Tree) .lt. -n_CODE_Equations) then
 
-                    write(6,'(A,3(1x,I6))') &
+                    write(GP_print_unit,'(A,3(1x,I6))') &
                           'gct:Right ',i_Node_Right,GP_Individual_Node_Type(i_Function,  i_Tree),&
                                                     GP_Individual_Node_Type(i_Node_Right,i_Tree)
-                    write(6,'(A,4(1x,I4))') &
+                    write(GP_print_unit,'(A,4(1x,I6))') &
                           'gct: i_Node_Right, i_function, i_tree, GP_Individual_Node_Type(i_Function, i_Tree)',&
                                 i_Node_Right, i_function, i_tree, GP_Individual_Node_Type(i_Function, i_Tree)
-                    write(6,'(A,3(1x,I4))') &
+                    write(GP_print_unit,'(A,3(1x,I6))') &
                           'gct: i_Node_Right, i_tree, GP_Individual_Node_Type(i_Node_Right,i_Tree) ',&
                                 i_Node_Right, i_tree, GP_Individual_Node_Type(i_Node_Right,i_Tree) 
 
@@ -102,7 +110,8 @@ do  i_Tree=1,n_Trees
 
 enddo ! i_tree
 
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
 return
+
 end subroutine GP_Check_Terminals
-!23456789012345678901234567890123456789012345678901234567890123456789012
+

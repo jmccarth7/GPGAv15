@@ -156,20 +156,20 @@ endif
 
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-CALL RANDOM_SEED(size = n_seed)
-
-if( .not. allocated( seed ) )then
-
-    ALLOCATE(seed(n_seed))
-
-endif ! .not. allocated( seed )
-
-CALL SYSTEM_CLOCK(COUNT=clock)
-seed = clock + 37 * (/ (i_seed - 1, i_seed = 1, n_seed) /)
-
-CALL RANDOM_SEED(PUT = seed)
-
+!
+!CALL RANDOM_SEED(size = n_seed)
+!
+!if( .not. allocated( seed ) )then
+!
+!    ALLOCATE(seed(n_seed))
+!
+!endif ! .not. allocated( seed )
+!
+!CALL SYSTEM_CLOCK(COUNT=clock)
+!seed = clock + 37 * (/ (i_seed - 1, i_seed = 1, n_seed) /)
+!
+!CALL RANDOM_SEED(PUT = seed)
+!
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 
