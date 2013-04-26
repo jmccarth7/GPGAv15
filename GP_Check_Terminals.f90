@@ -42,13 +42,13 @@ do  i_Tree=1,n_Trees
 
 
             
-            write(GP_print_unit,'(/A,6(1x,I6))') &
-                  'gct: i_Tree, i_Level, i_Function, i_Node, i_Node_Left, i_Node_Right ', &
-                        i_Tree, i_Level, i_Function, i_Node, i_Node_Left, i_Node_Right 
-            write(GP_print_unit,'(A,6(1x,I6))') 'gct: n_CODE_Equations ', n_CODE_Equations
-            write(GP_print_unit,'(A,3(1x,I6)/)') &
-                  'gct: i_function, i_tree, GP_Individual_Node_Type(i_Function, i_Tree)',&
-                        i_function, i_tree, GP_Individual_Node_Type(i_Function, i_Tree)
+            !write(GP_print_unit,'(/A,6(1x,I6))') &
+            !      'gct: i_Tree, i_Level, i_Function, i_Node, i_Node_Left, i_Node_Right ', &
+            !            i_Tree, i_Level, i_Function, i_Node, i_Node_Left, i_Node_Right 
+            !write(GP_print_unit,'(A,6(1x,I6))') 'gct: n_CODE_Equations ', n_CODE_Equations
+            !write(GP_print_unit,'(A,3(1x,I6)/)') &
+            !      'gct: i_function, i_tree, GP_Individual_Node_Type(i_Function, i_Tree)',&
+            !            i_function, i_tree, GP_Individual_Node_Type(i_Function, i_Tree)
 
             if( GP_Individual_Node_Type(i_Function,i_Tree) .gt. 0) then  
 
@@ -56,9 +56,9 @@ do  i_Tree=1,n_Trees
 
                 ! check Left node
 
-                write(GP_print_unit,'(A,3(1x,I6))') &
-                      'gct: i_Node_Left, i_tree, GP_Individual_Node_Type(i_Node_Left,i_Tree) ',&
-                            i_Node_Left, i_tree, GP_Individual_Node_Type(i_Node_Left,i_Tree) 
+                !write(GP_print_unit,'(A,3(1x,I6))') &
+                !      'gct: i_Node_Left, i_tree, GP_Individual_Node_Type(i_Node_Left,i_Tree) ',&
+                !            i_Node_Left, i_tree, GP_Individual_Node_Type(i_Node_Left,i_Tree) 
 
                 if( GP_Individual_Node_Type(i_Node_Left,i_Tree) .lt. -n_CODE_Equations ) then
 
@@ -80,9 +80,9 @@ do  i_Tree=1,n_Trees
 
                 ! check Right node
 
-                write(GP_print_unit,'(A,3(1x,I6))') &
-                      'gct: i_Node_Right, i_tree, GP_Individual_Node_Type(i_Node_Right,i_Tree) ',&
-                            i_Node_Right, i_tree, GP_Individual_Node_Type(i_Node_Right,i_Tree) 
+                !write(GP_print_unit,'(A,3(1x,I6))') &
+                !      'gct: i_Node_Right, i_tree, GP_Individual_Node_Type(i_Node_Right,i_Tree) ',&
+                !            i_Node_Right, i_tree, GP_Individual_Node_Type(i_Node_Right,i_Tree) 
 
                 if( GP_Individual_Node_Type(i_Node_Right,i_Tree) .lt. -n_CODE_Equations) then
 

@@ -1,8 +1,12 @@
 subroutine GP_Mutations
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
 ! Mutations in this subroutine are targeted to the nodes only.
 ! The terminals are optimized later on using GA_lmdif.
+
+! Modifies  GP_Child_Population_Node_Type
+
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 use GP_Parameters_module
@@ -29,13 +33,17 @@ integer(kind=4) :: i_Error
 
 logical Node_Not_Found
 
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+!------------------------------------------------------------------------
+
+
 
 i_GP_Individual_Mutation = 0
 
 i_GP_Individual = n_GP_Elitists + n_GP_Asexual_Reproductions + n_GP_Crossovers
 
 
+write(GP_print_unit,'(/A,1x,I6)' ) &
+      'gpmut: n_GP_Mutations ', n_GP_Mutations                                     
 write(GP_print_unit,'(A,3(1x,I6))' ) &
       'gpmut: n_GP_Elitists, n_GP_Asexual_Reproductions, n_GP_Crossovers ', &
               n_GP_Elitists, n_GP_Asexual_Reproductions, n_GP_Crossovers
@@ -76,7 +84,10 @@ do  i_GP_Mutation = 1,n_GP_Mutations
     GP_Individual_Node_Type(1:n_Nodes,1:n_Trees)  =  &
       GP_Child_Population_Node_Type(i_GP_Individual,1:n_Nodes,1:n_Trees)
 
+    !----------------------------------------------------------------------------------
+
     call GP_Check_Terminals(i_Error)
+
     if( i_Error .eq. 1) then
         !write(*,*) 'Pre-GP_Check_Error in GP_Mutation',i_GP_Individual,i_GP_Mutation,i_Error
        write(6,'(/A)') 'gpm: Pre-GP_Check_Error in GP_Mutation'
@@ -85,6 +96,7 @@ do  i_GP_Mutation = 1,n_GP_Mutations
         stop 'GP Mut check error'
     endif
 
+    !----------------------------------------------------------------------------------
 
 
     ! Randomly choose which tree to mutate
@@ -165,17 +177,20 @@ do  i_GP_Mutation = 1,n_GP_Mutations
    GP_Individual_Node_Type(1:n_Nodes,1:n_Trees)  =  &
    GP_Child_Population_Node_Type(i_GP_Individual,1:n_Nodes,1:n_Trees)
 
+
+  !----------------------------------------------------------------------------------
+
    call GP_Check_Terminals(i_Error)
 
    if( i_Error .eq. 1) then
-       write(6,'(/A,1x,3(1x,I6))') &
-             'gpm: Post-GP_Check_Error in GP_Mutation', &
-                  i_GP_Individual,i_GP_Mutation,i_Error
        write(6,'(A)') 'gpm: Post-GP_Check_Error in GP_Mutation'
        write(6,'(A,2(1x,I6)/)') 'gpm: i_GP_Individual, i_GP_Mutation, i_Error  ', &
                                       i_GP_Individual, i_GP_Mutation, i_Error
        stop 'GP_Mut check error'
    endif
+
+   !----------------------------------------------------------------------------------
+
 
 enddo !  i_GP_Mutation
 

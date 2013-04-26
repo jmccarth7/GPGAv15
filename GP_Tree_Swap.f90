@@ -50,9 +50,18 @@ logical :: MALE_CROSS
 logical :: FEMALE_CROSS
 logical :: NODE_NOT_FOUND
 
+
+!--------------------------------------------------------------------------
+
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 !test the code's ability to carry out a tree code swap
+
+! sets Parent_Tree_Swap_Node_Type = Child_Tree_Swap_Node_Type
+
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+
+
 
 ! Look to see if there is code on both Male and Female trees to CROSS
 
@@ -471,7 +480,11 @@ elseif( .not. MALE_CROSS .and. .not. FEMALE_CROSS) then  ! both Male and Female 
 
 endif !   MALE_CROSS .and. FEMALE_CROSS
 
+
+
 Parent_Tree_Swap_Node_Type=Child_Tree_Swap_Node_Type
+
+
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 return

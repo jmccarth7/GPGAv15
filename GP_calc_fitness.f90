@@ -1,4 +1,4 @@
-subroutine GP_calc_fitness( )
+subroutine GP_calc_fitness( output_array )
 
 ! program written by: Dr. John R. Moisan [NASA/GSFC] 31 January, 2013
 
@@ -31,8 +31,9 @@ integer :: message_len
 logical :: Lplot
 
 
-real(kind=8), allocatable, dimension(:) :: answer
-real(kind=8), allocatable, dimension(:) :: output_array
+!real(kind=8), allocatable, dimension(:) :: answer
+!real(kind=8), allocatable, dimension(:) :: output_array
+real(kind=8), dimension(n_maximum_number_parameters) :: output_array
 
 real (kind=8) :: ssum, ssum2, totobs, dff
 
@@ -43,8 +44,9 @@ real (kind=8) :: xcount
 ! this routine is only called by processor 0
 
 
-allocate( output_array( n_maximum_number_parameters ) )
+!allocate( output_array( n_maximum_number_parameters ) )
 
+output_array = 0.0d0
 
 !!!!write(GP_print_unit,*) GP_Child_Individual_SSE
 

@@ -98,34 +98,31 @@ endif ! myid == 0
 
 
 ! jjm 20130417 >>>>>>>>>>>>>>>
-
-if( myid == 0) then
-
-    write(GA_print_unit,'(A)')' '
-    do  i_tree=1,n_trees
-        do  i_node=1,n_nodes
-            write(GA_print_unit,'(A,2(1x,I6),1x,E15.7)') &
-              'GP_GA_opt: i_node, i_tree, GP_Individual_Node_Parameters(i_node,i_tree) ', &
-                          i_node, i_tree, GP_Individual_Node_Parameters(i_node,i_tree)
-        enddo ! i_node
-    enddo  ! i_tree
-    
-    write(GA_print_unit,'(A)')' '
-    
-    
-    do  i_tree=1,n_trees
-        do  i_node=1,n_nodes
-            write(GA_print_unit,'(A,3(1x,I6))') &
-             'GP_GA_opt: i_node, i_tree, GP_Individual_Node_Type(i_node,i_tree)', &
-                         i_node, i_tree, GP_Individual_Node_Type(i_node,i_tree)
-        enddo ! i_node
-    enddo  ! i_tree
-    
-    write(GA_print_unit,'(A)')' '
-
-endif ! myid == 0
-
-
+!if( myid == 0) then
+!
+!    write(GA_print_unit,'(A)')' '
+!    do  i_tree=1,n_trees
+!        do  i_node=1,n_nodes
+!            write(GA_print_unit,'(A,2(1x,I6),1x,E15.7)') &
+!              'GP_GA_opt: i_node, i_tree, GP_Individual_Node_Parameters(i_node,i_tree) ', &
+!                          i_node, i_tree, GP_Individual_Node_Parameters(i_node,i_tree)
+!        enddo ! i_node
+!    enddo  ! i_tree
+!    
+!    write(GA_print_unit,'(A)')' '
+!    
+!    
+!    do  i_tree=1,n_trees
+!        do  i_node=1,n_nodes
+!            write(GA_print_unit,'(A,3(1x,I6))') &
+!             'GP_GA_opt: i_node, i_tree, GP_Individual_Node_Type(i_node,i_tree)', &
+!                         i_node, i_tree, GP_Individual_Node_Type(i_node,i_tree)
+!        enddo ! i_node
+!    enddo  ! i_tree
+!    
+!    write(GA_print_unit,'(A)')' '
+!
+!endif ! myid == 0
 ! jjm 20130417 <<<<<<<<<<<<<<<
 
 

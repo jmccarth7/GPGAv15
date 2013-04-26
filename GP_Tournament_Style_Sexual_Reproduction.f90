@@ -3,6 +3,9 @@ subroutine GP_Tournament_Style_Sexual_Reproduction
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ! randomly choose two 'parents' using the Tournament-Style Selection
 ! and cross the parameter strings to create two new 'children' parameter strings
+
+! modifies    GP_Child_Population_Node_Type
+
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 use GP_Parameters_module
@@ -16,7 +19,6 @@ real(kind=4) :: cff
 real(kind=8) :: dff
 
 integer(kind=4) :: i_GP_Crossover
-!integer(kind=4) :: i_GP_Crossover_Point
 integer(kind=4),dimension(2) :: k_GP_Individual_Male
 integer(kind=4),dimension(2) :: k_GP_Individual_Female
 
@@ -29,10 +31,12 @@ integer(kind=4) :: i_Error
 
 logical CROSS
 
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+!----------------------------------------------------------------------------------
 
 i_GP_Individual = n_GP_Elitists + n_GP_Asexual_Reproductions
 
+write(GP_print_unit,'(/A,1x,I6)' ) &
+      'gptssr: n_GP_Crossovers ', n_GP_Crossovers                
 
 write(GP_print_unit,'(A,2(1x,I6))' ) &
       'gptssr: n_GP_Elitists, n_GP_Asexual_Reproductions ', &
@@ -40,6 +44,8 @@ write(GP_print_unit,'(A,2(1x,I6))' ) &
 write(GP_print_unit,'(A,1x,I6)' ) &
       'gptssr: start i_GP_individual  =  ', &
                n_GP_Elitists + n_GP_Asexual_Reproductions +1
+
+
 
 do  i_GP_Crossover = 1,n_GP_Crossovers
 
@@ -322,8 +328,11 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
         endif
 
 
+        !-----------------------------------------------------------------------------------
 
         call GP_Tree_Swap    !   perform the random tree swap
+
+        !-----------------------------------------------------------------------------------
 
         !   move one of the swapped trees into the new child GP_Child_Population_Node_Type
 
@@ -331,7 +340,7 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
                       Parent_Tree_Swap_Node_Type(1:n_Nodes,1)
 
         GP_Individual_Node_Type(1:n_Nodes,1:n_Trees)  =  &
-        GP_Child_Population_Node_Type(i_GP_Individual,1:n_Nodes,1:n_Trees)
+                GP_Child_Population_Node_Type(i_GP_Individual,1:n_Nodes,1:n_Trees)
 
         call GP_Check_Terminals(i_Error)
 

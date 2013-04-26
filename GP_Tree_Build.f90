@@ -26,8 +26,8 @@ GP_Child_Population_Node_Type=-9999 ! set all to null [-9999]
 
 
 
-write(GP_print_unit,'(/A,1x,I6/)')    'gtb:  n_GP_Individuals ', n_GP_Individuals
-write(GP_print_unit,'(/A,2(1x,I6)/)') 'gtb:  n_trees, n_levels', n_trees, n_levels
+!write(GP_print_unit,'(/A,1x,I6/)')    'gtb:  n_GP_Individuals ', n_GP_Individuals
+!write(GP_print_unit,'(/A,2(1x,I6)/)') 'gtb:  n_trees, n_levels', n_trees, n_levels
 
 
 do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
@@ -46,8 +46,8 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
 
                 n_Nodes_at_Level=int(2**(i_Level-1))
 
-                write(GP_print_unit,'(/A,2(1x,I6)/)') 'gtb: i_level, n_Nodes_at_Level ', &             
-                                                            i_level, n_Nodes_at_Level 
+                !write(GP_print_unit,'(/A,2(1x,I6)/)') 'gtb: i_level, n_Nodes_at_Level ', &             
+                !                                            i_level, n_Nodes_at_Level 
 
                 do  i_Level_Node=1,n_Nodes_at_Level
 
@@ -60,9 +60,9 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
                         call random_number(cff) ! uniform random number generator
 
 
-                        write(GP_print_unit,'(A,1x,I6,2(1x,F10.4))') &
-                              'gtb: i_Level, cff, Node_Probability(i_Level)', &
-                                    i_Level, cff, Node_Probability(i_Level)
+                        !write(GP_print_unit,'(A,1x,I6,2(1x,F10.4))') &
+                        !      'gtb: i_Level, cff, Node_Probability(i_Level)', &
+                        !            i_Level, cff, Node_Probability(i_Level)
 
                         if( cff .lt. Node_Probability(i_Level) ) then  ! set as a terminal
 
@@ -70,13 +70,14 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
 
                             node_function=1+int(cff*float(n_Node_Functions))
 
-                            write(GP_print_unit,'(A,1x,I6,1x,F10.4)') 'gtb: Node_Function, cff ', &
-                                                                            Node_Function, cff              
-                            write(GP_print_unit,'(A,1x,I6)') 'gtb: n_Node_Functions', &
-                                                                   n_Node_Functions             
+                            !write(GP_print_unit,'(A,1x,I6,1x,F10.4)') 'gtb: Node_Function, cff ', &
+                            !                                                Node_Function, cff              
+                            !write(GP_print_unit,'(A,1x,I6)') 'gtb: n_Node_Functions', &
+                            !                                       n_Node_Functions             
+
                             Node_Function = min( Node_Function, n_Node_Functions )
 
-                            write(GP_print_unit,'(A,1x,I6)') 'gtb: Node_Function', Node_Function             
+                            !write(GP_print_unit,'(A,1x,I6)') 'gtb: Node_Function', Node_Function             
 
 
                             GP_Child_Population_Node_Type(i_GP_Individual,i_Node,i_Tree) =  Node_Function
@@ -84,16 +85,16 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
                             !  set the node vs terminal selection capability
                             !  for the node inputs at the next level
 
-                            write(GP_print_unit,'(/A,3(1x,I6)/)') &
-                                  'gtb: i_node , i_Level, N_Levels ', &            
-                                        i_node , i_Level, N_Levels 
+                            !write(GP_print_unit,'(/A,3(1x,I6)/)') &
+                            !      'gtb: i_node , i_Level, N_Levels ', &            
+                            !            i_node , i_Level, N_Levels 
 
                             if( i_Level .lt. N_Levels-1 ) then
 
                                 ! set the node lowel level inputs to open
 
-                                GP_Child_Population_Node_Type(i_GP_Individual, 2*i_Node    ,i_Tree)=0
-                                GP_Child_Population_Node_Type(i_GP_Individual, 2*i_Node + 1,i_Tree)=0
+                                GP_Child_Population_Node_Type(i_GP_Individual, 2*i_Node  ,i_Tree)=0
+                                GP_Child_Population_Node_Type(i_GP_Individual, 2*i_Node+1,i_Tree)=0
                             else
 
                                 ! complete setting the node lowest level nodes with terminals
@@ -123,18 +124,18 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
 
     enddo !  i_Tree
 
-    write(GP_print_unit,'(/A,3(1x,I6)/)') &
-          'gtb: i_GP_individual, n_nodes, n_trees ',  i_GP_individual, n_nodes, n_trees
-    do  i_Tree=1,n_Trees
-        do  i_Node=1,n_Nodes
-            if( GP_Child_Population_Node_Type(i_GP_Individual, i_Node,i_Tree) /= -9999 )then
-                write(GP_print_unit,'(A,3(1x,I6))') &
-                      'gtb: i_node, i_tree, GP_Child_Population_Node_Type(i_GP_Individual, i_Node,i_Tree)', &
-                            i_node, i_tree, GP_Child_Population_Node_Type(i_GP_Individual, i_Node,i_Tree)
-            endif ! GP_Child_Population_Node_Type(i_Node,i_Tree) /= -9999
-        enddo ! i_node
-    enddo ! i_tree
-    write(GP_print_unit,'(/A)') ' '
+    !write(GP_print_unit,'(/A,3(1x,I6)/)') &
+    !      'gtb: i_GP_individual, n_nodes, n_trees ',  i_GP_individual, n_nodes, n_trees
+    !do  i_Tree=1,n_Trees
+    !    do  i_Node=1,n_Nodes
+    !        if( GP_Child_Population_Node_Type(i_GP_Individual, i_Node,i_Tree) /= -9999 )then
+    !            write(GP_print_unit,'(A,3(1x,I6))') &
+    !                  'gtb: i_node, i_tree, GP_Child_Population_Node_Type(i_GP_Individual, i_Node,i_Tree)', &
+    !                        i_node, i_tree, GP_Child_Population_Node_Type(i_GP_Individual, i_Node,i_Tree)
+    !        endif ! GP_Child_Population_Node_Type(i_Node,i_Tree) /= -9999
+    !    enddo ! i_node
+    !enddo ! i_tree
+    !write(GP_print_unit,'(/A)') ' '
 
 enddo !  i_GP_Individual
 
@@ -173,9 +174,9 @@ do  i_GP_Individual=1,n_GP_Individuals
 
                         Node_Variable = min( Node_Variable, n_CODE_Equations )
 
-                        write(GP_print_unit,'(A,2(1x,I6))') &
-                              'gtb: Node_Variable, n_CODE_Equations', &
-                                    Node_Variable, n_CODE_Equations
+                        !write(GP_print_unit,'(A,2(1x,I6))') &
+                        !      'gtb: Node_Variable, n_CODE_Equations', &
+                        !            Node_Variable, n_CODE_Equations
 
 
                         GP_Child_Population_Node_Type(i_GP_Individual,i_Node,i_Tree) = -Node_Variable
@@ -206,18 +207,18 @@ do  i_GP_Individual=1,n_GP_Individuals
     ! GP_Adult_Population_Node_Type in the loop in i_GP_Individual 
     !------------------------------------------------------------------------
 
-    write(GP_print_unit,'(/A,3(1x,I6)/)') &
-          'gtb: i_GP_individual, n_nodes, n_trees ',  i_GP_individual, n_nodes, n_trees
-    do  i_Tree=1,n_Trees
-        do  i_Node=1,n_Nodes
-            if( GP_Child_Population_Node_Type(i_GP_Individual, i_Node,i_Tree) /= -9999 )then
-                write(GP_print_unit,'(A,3(1x,I6))') &
-                      'gtb: i_node, i_tree, GP_Child_Population_Node_Type(i_GP_Individual, i_Node,i_Tree)', &
-                            i_node, i_tree, GP_Child_Population_Node_Type(i_GP_Individual, i_Node,i_Tree)
-            endif ! GP_Child_Population_Node_Type(i_Node,i_Tree) /= -9999
-        enddo ! i_node
-    enddo ! i_tree
-    write(GP_print_unit,'(/A)') '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> '
+    !write(GP_print_unit,'(/A,3(1x,I6)/)') &
+    !      'gtb: i_GP_individual, n_nodes, n_trees ',  i_GP_individual, n_nodes, n_trees
+    !do  i_Tree=1,n_Trees
+    !    do  i_Node=1,n_Nodes
+    !        if( GP_Child_Population_Node_Type(i_GP_Individual, i_Node,i_Tree) /= -9999 )then
+    !            write(GP_print_unit,'(A,3(1x,I6))') &
+    !                  'gtb: i_node, i_tree, GP_Child_Population_Node_Type(i_GP_Individual, i_Node,i_Tree)', &
+    !                        i_node, i_tree, GP_Child_Population_Node_Type(i_GP_Individual, i_Node,i_Tree)
+    !        endif ! GP_Child_Population_Node_Type(i_Node,i_Tree) /= -9999
+    !    enddo ! i_node
+    !enddo ! i_tree
+    !write(GP_print_unit,'(/A)') '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> '
 
 
     GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) = &
@@ -250,18 +251,18 @@ do  i_GP_Individual=1,n_GP_Individuals
 !
 !    !---------------------------------------------------------------------------------
 
-    write(GP_print_unit,'(/A,2(1x,I6)/)') &
-          'gtb: n_nodes, n_trees ', n_nodes, n_trees
-    do  i_Tree=1,n_Trees
-        do  i_Node=1,n_Nodes
-            if( GP_Individual_Node_Type(i_Node,i_Tree) /= -9999 )then
-                write(GP_print_unit,'(A,3(1x,I6))') &
-                      'gtb: i_node, i_tree, GP_Individual_Node_Type(i_Node,i_Tree)', &
-                            i_node, i_tree, GP_Individual_Node_Type(i_Node,i_Tree)
-            endif ! GP_Individual_Node_Type(i_Node,i_Tree) /= -9999
-        enddo ! i_node
-    enddo ! i_tree
-    write(GP_print_unit,'(/A)') ' '
+    !write(GP_print_unit,'(/A,2(1x,I6)/)') &
+    !      'gtb: n_nodes, n_trees ', n_nodes, n_trees
+    !do  i_Tree=1,n_Trees
+    !    do  i_Node=1,n_Nodes
+    !        if( GP_Individual_Node_Type(i_Node,i_Tree) /= -9999 )then
+    !            write(GP_print_unit,'(A,3(1x,I6))') &
+    !                  'gtb: i_node, i_tree, GP_Individual_Node_Type(i_Node,i_Tree)', &
+    !                        i_node, i_tree, GP_Individual_Node_Type(i_Node,i_Tree)
+    !        endif ! GP_Individual_Node_Type(i_Node,i_Tree) /= -9999
+    !    enddo ! i_node
+    !enddo ! i_tree
+    !write(GP_print_unit,'(/A)') ' '
 
 
     call GP_Check_Terminals(i_Error)

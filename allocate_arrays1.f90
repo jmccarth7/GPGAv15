@@ -95,7 +95,9 @@ allocate( GP_Individual_N_GP_param(n_GP_Individuals) )  ! jjm 20130409
 
 allocate( GP_Node_Parameters_Answer(n_Nodes,n_Trees) )
 allocate( GP_Node_Type_Answer(n_Nodes,n_Trees) )
-allocate( GP_Node_Type_for_Plotting(9, n_Nodes,n_Trees) )
+
+!allocate( GP_Node_Type_for_Plotting(9, n_Nodes,n_Trees) )
+allocate( GP_Node_Type_for_Plotting(n_GP_individuals, n_Nodes,n_Trees) )
 
 allocate( GP_Solution(0:n_Time_Steps,n_CODE_Equations) )
 
