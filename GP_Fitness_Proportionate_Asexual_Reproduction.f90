@@ -11,7 +11,7 @@ use GA_Variables_module
 implicit none
 
 real(kind=4) :: cff
-real(kind=8) :: dff
+!real(kind=8) :: dff
 
 integer(kind=4) :: icff
 integer(kind=4) :: i_GP_Asexual_Reproduction

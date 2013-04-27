@@ -15,7 +15,7 @@ real(kind=8) :: cff
 integer(kind=4) :: Ranked_Fitness(n_GP_Individuals)
 integer(kind=4) :: icff
 
-logical Carry_On
+!logical Carry_On
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 

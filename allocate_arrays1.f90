@@ -22,22 +22,22 @@ use Runge_Kutta_Variables_module
 implicit none
 
 
-logical bad_node
+!logical bad_node
 
 
-integer :: i
-integer :: nop
-integer :: message_len
+!integer :: i
+!integer :: nop
+!integer :: message_len
 
-logical :: Lplot
+!logical :: Lplot
 
 
 !real(kind=8), allocatable, dimension(:) :: answer
 !real(kind=8), allocatable, dimension(:) :: output_array
 
-real (kind=8) :: ssum, ssum2, totobs, dff
+!real (kind=8) :: ssum, ssum2, totobs, dff
 
-real (kind=8) :: xcount
+!real (kind=8) :: xcount
 
 !----------------------------------------------------------------------------------------
 
@@ -151,7 +151,7 @@ allocate( GP_Child_Population_SSE( n_GP_Individuals  )  )
 
 
 
-individual_elites  = 0.0d0
+individual_elites  = 0
 fitness_expectation_value  = 0.0d0
 
 Run_GA_lmdif  = .FALSE.
@@ -233,7 +233,7 @@ node_parameters_string = ' '
 tree_evaluation_string = ' '
 
 
-linked_parms = 0.0d0
+linked_parms = 0
 
 Node_Probability = 0.0d0
 !>>>>>>>>>>>>>

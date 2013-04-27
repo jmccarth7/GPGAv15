@@ -19,7 +19,7 @@ integer(kind=4),intent(in)  :: nn  ! n_parms
 real (kind=8) :: fvec(n_time_steps)
 
 real (kind=8) :: x(n_maximum_number_parameters)
-real (kind=8) :: sse
+!real (kind=8) :: sse
 
 
 integer (kind=4) :: iflag

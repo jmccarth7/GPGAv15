@@ -12,7 +12,7 @@ use GA_Variables_module
 
 implicit none
 
-real(kind=8) :: cff
+!real(kind=8) :: cff
 
 integer(kind=4), intent(in)  :: n_indiv       
 integer(kind=4), intent(in), dimension( n_indiv,n_Nodes,n_Trees) :: indiv_node_type
@@ -23,7 +23,7 @@ integer(kind=4) :: icnt_Nodes
 integer(kind=4) :: icnt_parms
 integer(kind=4) :: icnt_vars 
 integer(kind=4) :: icnt_ops  
-integer(kind=4) :: icnt
+!integer(kind=4) :: icnt
 integer(kind=4) :: max_number_nodes
 real(kind=8)    :: xmax_number_nodes
 

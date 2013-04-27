@@ -16,7 +16,7 @@ use GA_Variables_module
 implicit none
 
 real(kind=4) :: cff
-real(kind=8) :: dff
+!real(kind=8) :: dff
 
 integer(kind=4) :: i_GP_Crossover
 integer(kind=4),dimension(2) :: k_GP_Individual_Male

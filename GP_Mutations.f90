@@ -24,7 +24,7 @@ integer(kind=4) :: i_Tree_Mutation
 integer(kind=4) :: icnt_Nodes
 integer(kind=4) :: icnt
 
-integer(kind=4) :: i_Node_Mutation
+!integer(kind=4) :: i_Node_Mutation
 
 integer(kind=4) :: Node_to_Mutate
 integer(kind=4) :: Node_Function

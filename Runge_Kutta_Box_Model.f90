@@ -17,11 +17,11 @@ implicit none
 
 real(kind=8) :: cff
 
-character(str_len) ::  left_node_value_string
-character(str_len) ::  right_node_value_string
-character(str_len) ::  cff_string
-character(4), dimension( n_nodes,n_trees) ::  node_eval_type_string
-character(str_len), dimension(n_trees) ::  tree_value_string
+!character(str_len) ::  left_node_value_string
+!character(str_len) ::  right_node_value_string
+!character(str_len) ::  cff_string
+!character(4), dimension( n_nodes,n_trees) ::  node_eval_type_string
+!character(str_len), dimension(n_trees) ::  tree_value_string
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 

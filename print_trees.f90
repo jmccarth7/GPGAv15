@@ -26,7 +26,7 @@ integer,intent(in) :: n_indiv_start
 integer,intent(in) :: n_indiv_stop
 character(*),intent(in) :: tree_descrip 
 
-integer :: i
+!integer :: i
 
 integer(kind=4), intent(in), &
         dimension(n_GP_individuals, 1:n_nodes, 1:n_trees) :: tree_type 

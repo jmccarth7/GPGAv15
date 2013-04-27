@@ -30,19 +30,19 @@ use Runge_Kutta_Variables_module
 implicit none
 
 
-logical bad_node
+!logical bad_node
 
 
-integer :: i
+!integer :: i
 integer :: i_code_eq 
-integer :: nop
-integer :: message_len
+!integer :: nop
+!integer :: message_len
 
-logical :: Lplot
+!logical :: Lplot
 
 integer :: i_GP_indiv
 
-real (kind=8) :: ssum, ssum2, totobs !, dff
+!real (kind=8) :: ssum, ssum2, totobs !, dff
 
 !real (kind=8) :: xcount
 

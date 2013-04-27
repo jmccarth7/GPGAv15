@@ -22,23 +22,23 @@ use Runge_Kutta_Variables_module
 implicit none
 
 
-logical bad_node
+!logical bad_node
 
 
 integer :: i
 integer :: i_diversity
-integer :: nop
+!integer :: nop
 integer :: message_len
 
-logical :: Lplot
+!logical :: Lplot
 
 
 real(kind=8), allocatable, dimension(:) :: answer
 real(kind=8), allocatable, dimension(:) :: output_array
 
-real (kind=8) :: ssum, ssum2, totobs, dff
+!real (kind=8) :: ssum, ssum2, totobs !, dff
 
-real (kind=8) :: xcount
+!real (kind=8) :: xcount
 
 character(200) :: tree_descrip
 

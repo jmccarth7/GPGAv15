@@ -60,6 +60,8 @@ logical :: NODE_NOT_FOUND
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+parent_one_max_swap_level = 0
+parent_two_max_swap_level = 0
 
 
 
