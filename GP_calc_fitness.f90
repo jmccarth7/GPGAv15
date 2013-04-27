@@ -70,6 +70,7 @@ if( i_GP_generation == 1                                 .or. &
     
     write(GP_print_unit,'(A)') &
           'gpcf: i_GP_Indiv, GP_Indiv_N_GP_param(i_GP_Indiv) '
+
     do  i_GP_Individual=1,n_GP_Individuals
         write(GP_print_unit,'(5x,2(1x,I6))') &
                      i_GP_Individual, GP_Individual_N_GP_param(i_GP_Individual) 
@@ -159,11 +160,11 @@ do  i_GP_Individual=1,n_GP_Individuals
     GP_Integrated_Population_Ranked_Fitness(i_GP_Individual)=dff
 enddo
 
-!do  i_GP_Individual=1,n_GP_Individuals
-!    write(GP_print_unit,'(A,1x,I6,1x,E15.7)') &
-!    'gpcf: i_GP_individual, GP_Integrated_Population_Ranked_Fitness ', &
-!           i_GP_individual, GP_Integrated_Population_Ranked_Fitness(i_GP_Individual)
-!enddo
+do  i_GP_Individual=1,n_GP_Individuals
+    write(GP_print_unit,'(A,1x,I6,1x,E15.7)') &
+    'gpcf: i_GP_individual, GP_Integrated_Population_Ranked_Fitness ', &
+           i_GP_individual, GP_Integrated_Population_Ranked_Fitness(i_GP_Individual)
+enddo
 
 !---------------------------------------------------------------------------------------------------
 
@@ -174,14 +175,18 @@ enddo
 do  i_GP_Individual=1,n_GP_Individuals
 
     if( abs( GP_Integrated_Population_Ranked_Fitness(n_GP_Individuals) ) > 1.0D-20 )then
+
         GP_Integrated_Population_Ranked_Fitness(i_GP_Individual) = &
         GP_Integrated_Population_Ranked_Fitness(i_GP_Individual) / &
                         GP_Integrated_Population_Ranked_Fitness(n_GP_Individuals)
+
     else
+
         GP_Integrated_Population_Ranked_Fitness(i_GP_Individual) = 0.0D0
+
     endif ! abs( GP_Integrated_Population_Ranked_Fitness(n_GP_Individuals) ) > 1.0D-20
 
-enddo
+enddo ! i_GP_Individual
 
 !---------------------------------------------------------------------------------------------------
 

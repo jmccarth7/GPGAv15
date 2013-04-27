@@ -22,17 +22,6 @@ use Runge_Kutta_Variables_module
 implicit none
 
 
-!logical bad_node
-
-
-!integer :: i
-!integer :: nop
-!integer :: message_len
-
-!logical :: Lplot
-
-
-!real (kind=8) :: ssum, ssum2, totobs, dff
 real (kind=8) :: dff
 real (kind=8) :: xcount
 
@@ -48,6 +37,7 @@ endif ! myid == 0
 
 dff = 0.0d0
 xcount = 0.0d0
+
 do  i_Node=1,n_Nodes
     do  i_Tree=1,n_Trees
 

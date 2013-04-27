@@ -31,6 +31,7 @@ write(GP_print_unit,'(A,1x,I6)' ) &
 write(GP_print_unit,'(A,1x,I6)' ) &
       'gpfpar: start i_GP_individual ', n_GP_Elitists  + 1
 
+
 do i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
 
   i_GP_Individual=i_GP_Individual+1
@@ -48,6 +49,7 @@ do i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
       if( cff .le. GP_Integrated_Population_Ranked_Fitness(j_GP_Individual)) then
 
           icff=j_GP_Individual
+
           exit
 
       endif !   cff .le. GP_Integrated_Ranked_Fitness(j_GP_Individual)
@@ -62,14 +64,13 @@ do i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
                                                   j_GP_Individual, icff
 
   GP_Child_Population_Node_Type(i_GP_Individual,1:n_Nodes,1:n_Trees) = &
-  GP_Adult_Population_Node_Type(j_GP_Individual,1:n_Nodes,1:n_Trees)
+     GP_Adult_Population_Node_Type(j_GP_Individual,1:n_Nodes,1:n_Trees)
 
   GP_Child_Population_Parameter_Solution(i_GP_Individual,1:n_Maximum_Number_Parameters) = &
-  GP_Adult_Population_Parameter_Solution(j_GP_Individual,1:n_Maximum_Number_Parameters)
+     GP_Adult_Population_Parameter_Solution(j_GP_Individual,1:n_Maximum_Number_Parameters)
 
   ! give the child the adult's SSE value
 
-  !!GP_Child_Individual_SSE(i_GP_Individual) = GP_Adult_Individual_SSE(j_GP_Individual) ! ??
 
   GP_Child_Population_SSE(i_GP_Individual) = GP_Adult_Population_SSE(j_GP_Individual)
 
@@ -96,7 +97,7 @@ do i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
 
 enddo ! i_GP_Asexual_Reproduction
 
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
 return
+
 end subroutine GP_Fitness_Proportionate_Asexual_Reproduction
-!234567890123456789012345678901234567890123456789012345678901234567890
