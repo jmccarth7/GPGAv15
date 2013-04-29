@@ -54,10 +54,9 @@ do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
         if( cff .le. GP_Integrated_Population_Ranked_Fitness(j_GP_Individual)) then
   
             icff=j_GP_Individual
-  
             exit
   
-        endif !   cff .le. GP_Integrated_Ranked_Fitness(j_GP_Individual)
+        endif !   cff .le. GP_Integrated_Population_Ranked_Fitness(j_GP_Individual)
   
     enddo ! j_GP_Individual
   

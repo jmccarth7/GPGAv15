@@ -6,6 +6,21 @@ subroutine GP_calc_fitness( output_array )
 ! program to use a twin experiment to test the effectiveness of
 ! a finding the optimum equation and parameter sets for a system of
 ! coupled ordinary differential equations
+
+! inputs:
+
+! GP_Child_Individual_SSE
+
+
+! outputs:
+
+! GP_Adult_Individual_SSE
+! GP_Population_Ranked_Fitness
+! GP_Integrated_Population_Ranked_Fitness
+! i_GP_Best_Parent
+! output_array
+
+
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 !use mpi
@@ -92,9 +107,10 @@ if( i_GP_generation == 1                                 .or. &
     mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
     i_GP_generation == n_GP_generations                          ) then 
 
+    write(GP_print_unit,'(A)') &
+              'gpcf: i_GP_Indiv, GP_Child_Indiv_SSE(i_GP_Indiv) '
     do  i_GP_Individual=1,n_GP_Individuals
-        write(GP_print_unit,'(A,1x,I6,1x,E15.7)') &
-              'gpcf: i_GP_Indiv, GP_Child_Indiv_SSE(i_GP_Indiv) ', &
+        write(GP_print_unit,'(6x,I6,6x,E15.7)') &
                      i_GP_Individual, GP_Child_Individual_SSE(i_GP_Individual) 
     enddo ! i_gp_individual
 
@@ -153,7 +169,7 @@ do  i_GP_Individual=1,n_GP_Individuals
 enddo
 
 write(GP_print_unit,'(/A)') &
-    'gpcf: i_GP_individual, GP_Integrated_Population_Ranked_Fitness '
+    'gpcf: i_GP_indiv, GP_Integrated_Population_Ranked_Fitness '
 do  i_GP_Individual=1,n_GP_Individuals
     write(GP_print_unit,'(5x,I6,5x,E15.7)') &
            i_GP_individual, GP_Integrated_Population_Ranked_Fitness(i_GP_Individual)
@@ -202,8 +218,8 @@ endif ! i_GP_generation == 1 .or. ...
 !-------------------------------------------------------------------------------------------------
 
 !write(GP_print_unit,*) i_GP_Generation,'MAIN',GP_Population_Ranked_Fitness(1)
-write(GP_print_unit,'(/A,1x,I6,1x,E15.7)') &
-      'gpcf: i_GP_Gen, GP_Indiv_Ranked_Fit(1) ', &
+write(GP_print_unit,'(/A,17x,A,17x,I6,8x,E15.7)') &
+      'gpcf: i_GP_Gen,', 'GP_Pop_Ranked_Fit(1) ', &
              i_GP_Generation, GP_Population_Ranked_Fitness(1)
 
 !-------------------------------------------------------------------------------------------------
@@ -228,7 +244,7 @@ enddo ! i_GP_Individual
 
 write(GP_print_unit,'(A,2(1x,I6),1x,E15.7/)') &
       'gpcf: i_GP_Gen,i_GP_Best_Parent,&
-            &GP_Indiv_Ranked_Fit(i_GP_Best_Parent)', &
+            &GP_Pop_Ranked_Fit(i_GP_Best_Parent)', &
              i_GP_Generation, i_GP_Best_Parent, &
              GP_Population_Ranked_Fitness(i_GP_Best_Parent)
 
@@ -257,23 +273,34 @@ do  i_CODE_equation=1,n_CODE_equations
 enddo ! i_CODE_equation
 
 
+nop = n_CODE_equations
+
+write(GP_print_unit,'(/A,2(1x,I6)/)') &
+      'gpcf: before tree loop n_code_equations, nop ', &
+                              n_code_equations, nop
 write(GP_print_unit,'(/A)') &
      'gpcf: i_node  itree  nop  GP_pop_node_params(i_GP_Best_Parent,i_node,i_tree)'
 
-nop = n_CODE_equations
+nop = nop + 1
 
-write(GP_print_unit,'(A,3(1x,I6))') &
-      'gpcf: before tree loop n_code_equations, nop ', &
-                              n_code_equations, nop
 tree_loop:&
 do  i_tree=1,n_trees
     node_loop:&
     do  i_node=1,n_nodes
 
+        !if( abs( GP_population_node_parameters( &
+        !              i_GP_Best_Parent,i_node,i_tree) ) >  1.0d-20   )then
+            write(GP_print_unit,'(2x,3(1x,I6), 1x, E20.10, 4x, E20.10)') &
+                  i_node, i_tree, nop, &
+                  GP_population_node_parameters(i_GP_Best_Parent,i_node,i_tree)
+        !endif ! abs( GP_population_node_parameters(i_GP_Best_Parent,i_node,i_tree) ) >...
+
+        output_array(nop) = &
+                   GP_population_node_parameters(i_GP_Best_Parent,i_node,i_tree)
+
         nop = nop + 1
 
-        write(GP_print_unit,'(A,3(1x,I6))') 'gpcf: i_tree, i_node, nop ', &
-                                                   i_tree, i_node, nop
+        !write(GP_print_unit,'(3(1x,I6))') i_tree, i_node, nop
 
         if( nop > n_maximum_number_parameters ) then
             write(GP_print_unit,'(A)') 'gpcf: nop >  n_maximum_number_parameters  '
@@ -283,16 +310,6 @@ do  i_tree=1,n_trees
             exit tree_loop
         endif  ! nop > ...
 
-
-        if( abs( GP_population_node_parameters( &
-                      i_GP_Best_Parent,i_node,i_tree) ) >  1.0d-20   )then
-            write(GP_print_unit,'(2x,3(1x,I6), 1x, E20.10, 4x, E20.10)') &
-                  i_node, i_tree, nop, &
-                  GP_population_node_parameters(i_GP_Best_Parent,i_node,i_tree)
-        endif ! abs( GP_population_node_parameters(i_GP_Best_Parent,i_node,i_tree) ) >...
-
-        output_array(nop) = &
-                   GP_population_node_parameters(i_GP_Best_Parent,i_node,i_tree)
 
 
     enddo node_loop ! i_node
@@ -325,7 +342,7 @@ if( i_GP_generation == 1                                 .or. &
     i_GP_generation == n_GP_generations                          ) then 
 
     write(GP_print_unit,'(/A)') &
-          'gpcf: i_GP_Indiv, GP_Adult_Indiv_SSE, GP_Indiv_Ranked_Fitness '
+          'gpcf: i_GP_Indiv, GP_Adult_Indiv_SSE, GP_Pop_Ranked_Fitness '
     
     do  i_GP_Individual=1,n_GP_individuals
     
