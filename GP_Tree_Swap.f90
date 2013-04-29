@@ -1,6 +1,8 @@
 subroutine GP_Tree_Swap
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+use mpi
+use mpi_module
 use GP_Parameters_module
 use GA_Parameters_module
 use GP_Variables_module
@@ -57,7 +59,6 @@ logical :: NODE_NOT_FOUND
 !test the code's ability to carry out a tree code swap
 
 ! sets Parent_Tree_Swap_Node_Type  =  Child_Tree_Swap_Node_Type
-
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 parent_one_max_swap_level  =  0

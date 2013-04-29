@@ -133,7 +133,7 @@ if( n_parameters .le. 0) then
           'GP_GA_opt: ERROR: n_parameters </= 0'
     write(GA_print_unit,'(A,1x,I10)') &
           'GP_GA_opt: n_parameters =   ', n_parameters
-    stop
+    stop 'n_par<=0'
 endif
 
 if( n_time_steps .lt. n_parameters) then
@@ -143,12 +143,12 @@ if( n_time_steps .lt. n_parameters) then
           'GP_GA_opt:  n_time_steps = ', n_time_steps
     write(GA_print_unit,'(A,1x,I10)') &
           'GP_GA_opt: n_parameters =   ', n_parameters
-    stop
+    stop 'n_time < n_par'
 endif
 
 if( tol .lt. zero) then
     write(GA_print_unit,'(A)') 'GP_GA_opt: ERROR: tol < 0'
-    stop
+    stop 'tol < 0.0'
 endif
 
 
@@ -1146,4 +1146,3 @@ return
 
 
 end subroutine GPCODE_GA_lmdif_Parameter_Optimization
-!234567890123456789012345678901234567890123456789012345678901234567890

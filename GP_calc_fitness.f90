@@ -22,23 +22,15 @@ use Runge_Kutta_Variables_module
 implicit none
 
 
-!logical bad_node
 
-!integer :: i
 integer :: nop
-!integer :: message_len
-
-!logical :: Lplot
 
 
-!real(kind=8), allocatable, dimension(:) :: answer
-!real(kind=8), allocatable, dimension(:) :: output_array
+
 real(kind=8), dimension(n_maximum_number_parameters) :: output_array
 
-!real (kind=8) :: ssum, ssum2, totobs, dff
 real (kind=8) ::  dff
 
-!real (kind=8) :: xcount
 
 !----------------------------------------------------------------------------------------
 
@@ -80,7 +72,7 @@ if( i_GP_generation == 1                                 .or. &
 
 endif ! i_GP_generation ...
 
-!---------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------------------------
 
 
 ! calculate the total population's SSE
@@ -94,7 +86,7 @@ do  i_GP_Individual=1,n_GP_Individuals
 
 enddo ! i_gp_individual
 
-!---------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------------------------
 
 if( i_GP_generation == 1                                 .or. &
     mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
@@ -110,7 +102,7 @@ endif ! i_GP_generation ...
 
 write(GP_print_unit,'(/A,1x,E15.7)') 'gpcf: sum of all GP_Child_Indiv_SSE = ', dff
 
-!---------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------------------------
 
 ! calculate a normalized ranking of the errors (higher individual SSE == lower value/ranking)
 
@@ -130,7 +122,7 @@ do  i_GP_Individual=1,n_GP_Individuals
 
 enddo ! i_GP_Individual
 
-!---------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------------------------
 
 if( i_GP_generation == 1                                 .or. &
     mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
@@ -146,7 +138,7 @@ if( i_GP_generation == 1                                 .or. &
 
 endif ! i_GP_generation == 1 .or. ...
 
-!---------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------------------------
 
 ! calculate the sum of the rankings
 
@@ -160,13 +152,14 @@ do  i_GP_Individual=1,n_GP_Individuals
     GP_Integrated_Population_Ranked_Fitness(i_GP_Individual)=dff
 enddo
 
+write(GP_print_unit,'(/A)') &
+    'gpcf: i_GP_individual, GP_Integrated_Population_Ranked_Fitness '
 do  i_GP_Individual=1,n_GP_Individuals
-    write(GP_print_unit,'(A,1x,I6,1x,E15.7)') &
-    'gpcf: i_GP_individual, GP_Integrated_Population_Ranked_Fitness ', &
+    write(GP_print_unit,'(5x,I6,5x,E15.7)') &
            i_GP_individual, GP_Integrated_Population_Ranked_Fitness(i_GP_Individual)
 enddo
 
-!---------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------------------------
 
 ! normalize to the integrated ranking values so that 
 ! the ranking integration ranges from [0. to 1.]
@@ -188,7 +181,7 @@ do  i_GP_Individual=1,n_GP_Individuals
 
 enddo ! i_GP_Individual
 
-!---------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------------------------
 
 if( i_GP_generation == 1                                 .or. &
     mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
@@ -206,14 +199,14 @@ if( i_GP_generation == 1                                 .or. &
 endif ! i_GP_generation == 1 .or. ...
 
 
-!---------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------------------------
 
 !write(GP_print_unit,*) i_GP_Generation,'MAIN',GP_Population_Ranked_Fitness(1)
 write(GP_print_unit,'(/A,1x,I6,1x,E15.7)') &
       'gpcf: i_GP_Gen, GP_Indiv_Ranked_Fit(1) ', &
              i_GP_Generation, GP_Population_Ranked_Fitness(1)
 
-!---------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------------------------
 
 ! find GP_best_parent
 
@@ -269,23 +262,41 @@ write(GP_print_unit,'(/A)') &
 
 nop = n_CODE_equations
 
+write(GP_print_unit,'(A,3(1x,I6))') &
+      'gpcf: before tree loop n_code_equations, nop ', &
+                              n_code_equations, nop
+tree_loop:&
 do  i_tree=1,n_trees
+    node_loop:&
     do  i_node=1,n_nodes
-        !if( abs( GP_population_node_parameters( &
-        !              i_GP_Best_Parent,i_node,i_tree) ) >  1.0d-20   )then
 
-            nop = nop + 1
+        nop = nop + 1
+
+        write(GP_print_unit,'(A,3(1x,I6))') 'gpcf: i_tree, i_node, nop ', &
+                                                   i_tree, i_node, nop
+
+        if( nop > n_maximum_number_parameters ) then
+            write(GP_print_unit,'(A)') 'gpcf: nop >  n_maximum_number_parameters  '
+            write(GP_print_unit,'(A,3(1x,I6))') 'gpcf: nop, n_maximum_number_parameters  ', &
+                                                       nop, n_maximum_number_parameters 
+            nop = min( nop, n_maximum_number_parameters )
+            exit tree_loop
+        endif  ! nop > ...
+
+
+        if( abs( GP_population_node_parameters( &
+                      i_GP_Best_Parent,i_node,i_tree) ) >  1.0d-20   )then
             write(GP_print_unit,'(2x,3(1x,I6), 1x, E20.10, 4x, E20.10)') &
                   i_node, i_tree, nop, &
                   GP_population_node_parameters(i_GP_Best_Parent,i_node,i_tree)
+        endif ! abs( GP_population_node_parameters(i_GP_Best_Parent,i_node,i_tree) ) >...
 
-            output_array(nop) = &
+        output_array(nop) = &
                    GP_population_node_parameters(i_GP_Best_Parent,i_node,i_tree)
 
-        !endif ! abs( GP_population_node_parameters(i_GP_Best_Parent,i_node,i_tree) ) >...
 
-    enddo ! i_node
-enddo  ! i_tree
+    enddo node_loop ! i_node
+enddo tree_loop ! i_tree
 
 
 write( GP_output_unit, '(I6,1x,I6,1x,E15.7,1x,I6, 12(1x,E15.7))') &
@@ -293,11 +304,11 @@ write( GP_output_unit, '(I6,1x,I6,1x,E15.7,1x,I6, 12(1x,E15.7))') &
        GP_Population_Ranked_Fitness(i_GP_Best_Parent), &
        nop, output_array(1:nop) 
 
-write(GP_print_unit, '(//A,1x,I6,1x,I6,1x,E15.7,1x,I6, 12(1x,E15.7))') &
-       'gpcf: i_GP_gen,i_GP_best_parent,GP_indiv_ranked_fit, nop, output_array', &
-       i_GP_Generation, i_GP_best_parent, &
-       GP_Population_Ranked_Fitness(i_GP_Best_Parent), &
-       nop, output_array(1:nop) 
+!write(GP_print_unit, '(//A,1x,I6,1x,I6,1x,E15.7,1x,I6, 12(1x,E15.7))') &
+!       'gpcf: i_GP_gen,i_GP_best_parent,GP_indiv_ranked_fit, nop, output_array', &
+!       i_GP_Generation, i_GP_best_parent, &
+!       GP_Population_Ranked_Fitness(i_GP_Best_Parent), &
+!       nop, output_array(1:nop) 
 
 !---------------------------------------------------------------------------
 

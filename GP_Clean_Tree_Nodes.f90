@@ -4,8 +4,7 @@ subroutine GP_Clean_Tree_Nodes
 ! for nodes that have both terminals set to a parameter.  The routine replaces
 ! these nodes with a parameter setting and re-sets the terminals to that node as -9999
 ! This helps to maintain simplicity within the tree structures.
-!
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
 
 use GP_Parameters_module
 use GA_Parameters_module
@@ -14,7 +13,7 @@ use GA_Variables_module
 
 implicit none
 
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+!---------------------------------------------------------------------------
 
 do  i_GP_Individual=1,n_GP_Individuals
 
@@ -58,7 +57,6 @@ do  i_GP_Individual=1,n_GP_Individuals
 enddo !  i_GP_Individual
 
 
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 return
+
 end subroutine GP_Clean_Tree_Nodes
-!23456789012345678901234567890123456789012345678901234567890123456789012

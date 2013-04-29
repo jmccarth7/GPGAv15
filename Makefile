@@ -18,7 +18,7 @@ SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 allocate_arrays1.f90 \
 	GPCODE_GA_lmdif_Parameter_Optimization.f90 indiv_fitness.f90 \
 	init_values.f90 init_values_LV.f90 init_values_NPZ.f90 \
 	Initialize_GA_Child_Parameters.f90 lmdif.f90 lmpar.f90 \
-	median_calc.f90 mpi_module.f90 print4.f90 print_trees.f90 qrfac.f90 \
+	mpi_module.f90 print4.f90 print_trees.f90 qrfac.f90 \
 	qrsolv.f90 random_real.f90 read_cntl_stuff.f90 \
 	Runge_Kutta_Box_Model.f90 Runge_Kutta_Variables_module.f90 \
 	set_answer_arrays.f90 setup_run_fcn.f90 setup_run_lmdif.f90 sort.f90 \
@@ -39,7 +39,7 @@ OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o allocate_arrays1.o \
 	GP_Tree_Swap.o GP_variables_module.o \
 	GPCODE_GA_lmdif_Parameter_Optimization.o indiv_fitness.o \
 	init_values.o init_values_LV.o init_values_NPZ.o \
-	Initialize_GA_Child_Parameters.o lmdif.o lmpar.o median_calc.o \
+	Initialize_GA_Child_Parameters.o lmdif.o lmpar.o  \
 	mpi_module.o print4.o print_trees.o qrfac.o qrsolv.o random_real.o \
 	read_cntl_stuff.o Runge_Kutta_Box_Model.o \
 	Runge_Kutta_Variables_module.o set_answer_arrays.o setup_run_fcn.o \
@@ -57,11 +57,11 @@ CFLAGS = -O
 
 # note: mpif90 is based on gfortran
 FC = /opt/openmpi-1.6/bin/mpif90
-FFLAGS =   -g -Wall  -ffree-form # -fbacktrace # -fdefault-integer-8  # -FR = -free
+FFLAGS =   -g -Wall  -ffree-form -fcheck=bounds # -fbacktrace # -fdefault-integer-8  # -FR = -free
 
 # note: mpif90 is based on gfortran
 F90 = /opt/openmpi-1.6/bin/mpif90
-F90FLAGS =   -g -Wall  -ffree-form #  -fbacktrace #-fdefault-integer-8  # -FR = -free
+F90FLAGS =   -g -Wall  -ffree-form -fcheck=bounds #  -fbacktrace #-fdefault-integer-8  # -FR = -free
 
 LDFLAGS = -L/opt/openmpi-1.6/lib \
           -I/Developer/SDKs/MacOSX10.6.sdk/usr/include
@@ -111,9 +111,9 @@ fcn.o: GA_parameters_module.o GP_data_module.o GP_parameters_module.o \
 	GP_variables_module.o mpi_module.o
 GA_Fitness_Proportionate_Asexual_Reproduction.o: GA_parameters_module.o \
 	GA_variables_module.o GP_data_module.o GP_parameters_module.o \
-	GP_variables_module.o
+	GP_variables_module.o mpi_module.o
 GA_Mutations.o: GA_parameters_module.o GA_variables_module.o GP_data_module.o \
-	GP_parameters_module.o GP_variables_module.o
+	GP_parameters_module.o GP_variables_module.o mpi_module.o
 GA_replace_bad_individuals.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o
 GA_save_elites.o: GA_parameters_module.o GA_variables_module.o \
@@ -129,24 +129,24 @@ GP_calc_fitness.o: GA_parameters_module.o GA_variables_module.o \
 	Runge_Kutta_Variables_module.o mpi_module.o
 GP_Check_Terminals.o: GA_parameters_module.o GA_variables_module.o \
 	GP_model_parameters_module.o GP_parameters_module.o \
-	GP_variables_module.o
+	GP_variables_module.o mpi_module.o
 GP_Clean_Tree_Nodes.o: GA_parameters_module.o GA_variables_module.o \
 	GP_parameters_module.o GP_variables_module.o
 GP_data_module.o: GP_parameters_module.o
 GP_Elitists.o: GA_parameters_module.o GA_variables_module.o \
-	GP_parameters_module.o GP_variables_module.o
+	GP_parameters_module.o GP_variables_module.o mpi_module.o
 GP_Fitness_Proportionate_Asexual_Reproduction.o: GA_parameters_module.o \
 	GA_variables_module.o GP_parameters_module.o GP_variables_module.o
 GP_Mutations.o: GA_parameters_module.o GA_variables_module.o \
-	GP_parameters_module.o GP_variables_module.o
+	GP_parameters_module.o GP_variables_module.o mpi_module.o
 GP_parameters_module.o: GP_model_parameters_module.o
 GP_Tournament_Style_Sexual_Reproduction.o: GA_parameters_module.o \
-	GA_variables_module.o GP_parameters_module.o GP_variables_module.o
+	GA_variables_module.o GP_parameters_module.o GP_variables_module.o mpi_module.o
 GP_Tree_Build.o: GA_parameters_module.o GA_variables_module.o \
 	GP_model_parameters_module.o GP_parameters_module.o \
 	GP_variables_module.o mpi_module.o
 GP_Tree_Swap.o: GA_parameters_module.o GA_variables_module.o \
-	GP_parameters_module.o GP_variables_module.o
+	GP_parameters_module.o GP_variables_module.o mpi_module.o
 GP_variables_module.o: GP_parameters_module.o
 GPCODE_GA_lmdif_Parameter_Optimization.o: GA_parameters_module.o \
 	GA_variables_module.o GP_data_module.o GP_parameters_module.o \
@@ -162,8 +162,6 @@ init_values_NPZ.o: GP_parameters_module.o GP_variables_module.o \
 Initialize_GA_Child_Parameters.o: GA_parameters_module.o \
 	GA_variables_module.o GP_data_module.o GP_parameters_module.o \
 	GP_variables_module.o mpi_module.o
-median_calc.o: GA_parameters_module.o GA_variables_module.o \
-	GP_parameters_module.o GP_variables_module.o mpi_module.o
 mpi_module.o: 
 print4.o: GA_parameters_module.o GP_parameters_module.o
 print_trees.o: GA_parameters_module.o GA_variables_module.o GP_data_module.o \

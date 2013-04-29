@@ -1,6 +1,8 @@
 subroutine GP_Elitists
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+use mpi
+use mpi_module
 use GP_Parameters_module
 use GA_Parameters_module
 use GP_Variables_module
@@ -27,15 +29,17 @@ do  i_GP_Individual=1,n_GP_Individuals
     Ranked_Fitness(i_GP_Individual)=i_GP_Individual
 enddo
 
-write(GP_print_unit,'(/A)')&
-      'gpel: i_GP_Individual, &
-      &GP_Individual_Ranked_Fitness( i_GP_Individual), Ranked_Fitness(i_GP_Individual) '
-do  i_GP_Individual=1,n_GP_Individuals
-    write(GP_print_unit,'(I6,1x,E15.7,1x,I6)')&
-          i_GP_Individual, &
-          GP_Individual_Ranked_Fitness( i_GP_Individual), Ranked_Fitness(i_GP_Individual) 
-enddo
+if( myid == 0 )then
+    write(GP_print_unit,'(/A)')&
+          'gpel: i_GP_Individual, &
+          &GP_Individual_Ranked_Fitness( i_GP_Individual), Ranked_Fitness(i_GP_Individual) '
+    do  i_GP_Individual=1,n_GP_Individuals
+        write(GP_print_unit,'(I6,1x,E15.7,1x,I6)')&
+              i_GP_Individual, &
+              GP_Individual_Ranked_Fitness( i_GP_Individual), Ranked_Fitness(i_GP_Individual) 
+    enddo
 
+endif ! myid == 0 
 
 ! calculate the fitness rankings
 
@@ -61,13 +65,15 @@ do  i_GP_Individual=1,n_GP_Individuals
 
 enddo ! i_GP_Individual
 
-write(GP_print_unit,'(/A)')'gpel: after sort'
-write(GP_print_unit,'(A)')&
-    'gpel: i_GP_Individual, Fitness( i_GP_Individual), Ranked_Fitness(i_GP_Individual) '
-do  i_GP_Individual=1,n_GP_Individuals
-    write(GP_print_unit,'(I6,1x,E15.7,1x,I6)')&
-           i_GP_Individual, Fitness( i_GP_Individual), Ranked_Fitness(i_GP_Individual) 
-enddo
+if( myid == 0 )then
+    write(GP_print_unit,'(/A)')'gpel: after sort'
+    write(GP_print_unit,'(A)')&
+        'gpel: i_GP_Individual, Fitness( i_GP_Individual), Ranked_Fitness(i_GP_Individual) '
+    do  i_GP_Individual=1,n_GP_Individuals
+        write(GP_print_unit,'(I6,1x,E15.7,1x,I6)')&
+               i_GP_Individual, Fitness( i_GP_Individual), Ranked_Fitness(i_GP_Individual) 
+    enddo
+endif ! myid == 0 
 
 
 
@@ -85,27 +91,31 @@ do  i_GP_Individual=1,n_GP_Individuals
 enddo !  i_GP_Individual
 
 
-write(GP_print_unit,'(/A)')'gpel: before re-ranking'
-write(GP_print_unit,'(A)')&
-    'gpel: i_GP_Individual, GP_Individual_Ranked_Fitness(i_GP_Individual) '
-do  i_GP_Individual=1,n_GP_Individuals
-    write(GP_print_unit,'(I6,1x,E15.7)')&
-           i_GP_Individual, GP_Individual_Ranked_Fitness(i_GP_Individual)
-enddo
+if( myid == 0 )then
+    write(GP_print_unit,'(/A)')'gpel: before re-ranking'
+    write(GP_print_unit,'(A)')&
+        'gpel: i_GP_Individual, GP_Individual_Ranked_Fitness(i_GP_Individual) '
+    do  i_GP_Individual=1,n_GP_Individuals
+        write(GP_print_unit,'(I6,1x,E15.7)')&
+               i_GP_Individual, GP_Individual_Ranked_Fitness(i_GP_Individual)
+    enddo
 
+endif ! myid == 0 
 
 do  i_GP_Individual=1,n_GP_Individuals
     GP_Individual_Ranked_Fitness(i_GP_Individual)=tmp(i_GP_Individual)
 enddo ! i_GP_Individual
 
 
-write(GP_print_unit,'(/A)')'gpel: after  re-ranking'
-write(GP_print_unit,'(A)')&
-    'gpel: i_GP_Individual, GP_Individual_Ranked_Fitness(i_GP_Individual) '
-do  i_GP_Individual=1,n_GP_Individuals
-    write(GP_print_unit,'(I6,1x,E15.7)')&
-           i_GP_Individual, GP_Individual_Ranked_Fitness(i_GP_Individual)
-enddo
+if( myid == 0 )then
+    write(GP_print_unit,'(/A)')'gpel: after  re-ranking'
+    write(GP_print_unit,'(A)')&
+        'gpel: i_GP_Individual, GP_Individual_Ranked_Fitness(i_GP_Individual) '
+    do  i_GP_Individual=1,n_GP_Individuals
+        write(GP_print_unit,'(I6,1x,E15.7)')&
+               i_GP_Individual, GP_Individual_Ranked_Fitness(i_GP_Individual)
+    enddo
+endif ! myid == 0 
 
 
 cff=0.0
@@ -123,16 +133,18 @@ do  i_GP_Individual=1,n_GP_Individuals
 enddo ! i_GP_Individual
 
 
-write(GP_print_unit,'(/A)')'gpel: after  re-ranking'
-write(GP_print_unit,'(A)')&
-    'gpel: i_GP_Individual, GP_Integrated_Ranked_Fitness(i_GP_Individual) '
-do  i_GP_Individual=1,n_GP_Individuals
-    write(GP_print_unit,'(I6,1x,E15.7)')&
-           i_GP_Individual, GP_Integrated_Ranked_Fitness(i_GP_Individual)
-enddo
+if( myid == 0 )then
+    write(GP_print_unit,'(/A)')'gpel: after  re-ranking'
+    write(GP_print_unit,'(A)')&
+        'gpel: i_GP_Individual, GP_Integrated_Ranked_Fitness(i_GP_Individual) '
+    do  i_GP_Individual=1,n_GP_Individuals
+        write(GP_print_unit,'(I6,1x,E15.7)')&
+               i_GP_Individual, GP_Integrated_Ranked_Fitness(i_GP_Individual)
+    enddo
+endif ! myid == 0 
 
 
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
 return
+
 end subroutine GP_Elitists
-!234567890123456789012345678901234567890123456789012345678901234567890
