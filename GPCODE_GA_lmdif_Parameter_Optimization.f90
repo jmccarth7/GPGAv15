@@ -103,9 +103,11 @@ if( myid == 0) then
     write(GA_print_unit,'(A)')' '
     do  i_tree=1,n_trees
         do  i_node=1,n_nodes
-            write(GA_print_unit,'(A,2(1x,I6),1x,E15.7)') &
-              'GP_GA_opt: i_node, i_tree, GP_Individual_Node_Parameters(i_node,i_tree) ', &
-                          i_node, i_tree, GP_Individual_Node_Parameters(i_node,i_tree)
+            if( abs( GP_Individual_Node_Parameters(i_node,i_tree) ) > 1.0e-20 )then 
+                write(GA_print_unit,'(A,2(1x,I6),1x,E15.7)') &
+                  'GP_GA_opt: i_node, i_tree, GP_Indiv_Node_Param(i_node,i_tree) ', &
+                              i_node, i_tree, GP_Individual_Node_Parameters(i_node,i_tree)
+            endif ! abs( GP_Indiv_Node_Param(i_node,i_tree) ) > 1.0e-20 
         enddo ! i_node
     enddo  ! i_tree
     
@@ -114,9 +116,11 @@ if( myid == 0) then
     
     do  i_tree=1,n_trees
         do  i_node=1,n_nodes
-            write(GA_print_unit,'(A,3(1x,I6))') &
-             'GP_GA_opt: i_node, i_tree, GP_Individual_Node_Type(i_node,i_tree)', &
-                         i_node, i_tree, GP_Individual_Node_Type(i_node,i_tree)
+            if( GP_Individual_Node_Type(i_node,i_tree) > -9999 )then
+                write(GA_print_unit,'(A,3(1x,I6))') &
+                 'GP_GA_opt: i_node, i_tree, GP_Indiv_Node_Type(i_node,i_tree)', &
+                             i_node, i_tree, GP_Individual_Node_Type(i_node,i_tree)
+            endif ! GP_Indiv_Node_Type(i_node,i_tree) > -9999 
         enddo ! i_node
     enddo  ! i_tree
     
@@ -211,7 +215,11 @@ child_parameters(1:n_GA_individuals,1:n_maximum_number_parameters) = 0.0d0
 
 ! set chunk size  for each cpu
 
-chunk = n_GA_individuals / ( numprocs - 1 )
+if( numprocs > 1 ) then
+    chunk = n_GA_individuals / ( numprocs - 1 )
+else
+    chunk = 1
+endif ! numprocs > 1 
 
 
 if( myid == 0 )then
@@ -483,9 +491,9 @@ do  i_GA_generation=1,n_GA_Generations
 
                     iproc = isource
 
-                    !write(GA_print_unit,'(A,5(1x,I6))') &
-                    !  'GP_GA_opt: i_GA_individual, iproc, isource, start_limit, stop_limit ', &
-                    !              i_GA_individual, iproc, isource, start_limit, stop_limit
+                    write(GA_print_unit,'(A,5(1x,I6))') &
+                      'GP_GA_opt: i_GA_individual, iproc, isource, start_limit, stop_limit ', &
+                                  i_GA_individual, iproc, isource, start_limit, stop_limit
 
                     exit
 

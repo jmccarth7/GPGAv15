@@ -768,53 +768,53 @@ do  i_GP_Generation=1,n_GP_Generations
         ! GP_Child_Population_Node_Type
 
 
-        if( myid == 0 )then
-            write(GP_print_unit,'(A,1x,I6)') &
-              '0: broadcast  GP_Child_Pop_Node_Type  Generation = ',&
-                                                i_GP_Generation
-        endif ! myid == 0
+        !if( myid == 0 )then
+        !    write(GP_print_unit,'(A,1x,I6)') &
+        !      '0: broadcast  GP_Child_Pop_Node_Type  Generation = ',&
+        !                                        i_GP_Generation
+        !endif ! myid == 0
 
         message_len = n_GP_Individuals * n_Nodes * n_Trees
         call MPI_BCAST( GP_Child_Population_Node_Type, message_len,    &
                         MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
 
-        if( myid == 0 )then
-            write(GP_print_unit,'(A,1x,I6)') &
-              '0: aft broadcast  GP_Child_Pop_Node_Type  Generation = ',&
-                                                    i_GP_Generation
-        endif ! myid == 0
+        !if( myid == 0 )then
+        !    write(GP_print_unit,'(A,1x,I6)') &
+        !      '0: aft broadcast  GP_Child_Pop_Node_Type  Generation = ',&
+        !                                            i_GP_Generation
+        !endif ! myid == 0
 
         ! GP_Adult_Population_Node_Type
 
         message_len = n_GP_Individuals * n_Nodes * n_Trees
         call MPI_BCAST( GP_Adult_Population_Node_Type, message_len,    &
                         MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
-        if( myid == 0 )then
-            write(GP_print_unit,'(A,1x,I6)') &
-              '0: aft broadcast  GP_Adult_Pop_Node_Type  Generation = ',&
-                                                    i_GP_Generation
-        endif ! myid == 0
+        !if( myid == 0 )then
+        !    write(GP_print_unit,'(A,1x,I6)') &
+        !      '0: aft broadcast  GP_Adult_Pop_Node_Type  Generation = ',&
+        !                                            i_GP_Generation
+        !endif ! myid == 0
 
         ! Parent_Tree_Swap_Node_Type
 
         message_len = 2 * n_Nodes
         call MPI_BCAST( Parent_Tree_Swap_Node_Type, message_len,    &
                         MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
-        if( myid == 0 )then
-            write(GP_print_unit,'(A,1x,I6)') &
-              '0: aft broadcast  Parent_Tree_Swap_Node_Type Generation = ',&
-                                                i_GP_Generation
-        endif ! myid == 0
+        !if( myid == 0 )then
+        !    write(GP_print_unit,'(A,1x,I6)') &
+        !      '0: aft broadcast  Parent_Tree_Swap_Node_Type Generation = ',&
+        !                                        i_GP_Generation
+        !endif ! myid == 0
 
         ! GP_Child_Individual_SSE
 
         call MPI_BCAST( GP_Child_Individual_SSE, n_GP_individuals,    &
                         MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
-        if( myid == 0 )then
-            write(GP_print_unit,'(A,1x,I6)') &
-              '0: aft broadcast  GP_Child_Individual_SSE Generation = ',&
-                                                i_GP_Generation
-        endif ! myid == 0
+        !if( myid == 0 )then
+        !    write(GP_print_unit,'(A,1x,I6)') &
+        !      '0: aft broadcast  GP_Child_Individual_SSE Generation = ',&
+        !                                        i_GP_Generation
+        !endif ! myid == 0
 
 !!!        ! GP_Individual_Ranked_Fitness
 !!!
@@ -830,21 +830,21 @@ do  i_GP_Generation=1,n_GP_Generations
 
         call MPI_BCAST( GP_Integrated_Population_Ranked_Fitness, n_GP_individuals,    &
                         MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
-        if( myid == 0 )then
-            write(GP_print_unit,'(A,1x,I6)') &
-              '0: aft broadcast  GP_Integrated_Population_Ranked_Fitness Generation = ',&
-                                                i_GP_Generation
-        endif ! myid == 0
+        !if( myid == 0 )then
+        !    write(GP_print_unit,'(A,1x,I6)') &
+        !      '0: aft broadcast  GP_Integrated_Population_Ranked_Fitness Generation = ',&
+        !                                        i_GP_Generation
+        !endif ! myid == 0
 
         ! GP_Population_Ranked_Fitness
 
         call MPI_BCAST( GP_Population_Ranked_Fitness, n_GP_individuals,    &
                         MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
-        if( myid == 0 )then
-            write(GP_print_unit,'(A,1x,I6)') &
-              '0: aft broadcast  GP_Population_Ranked_Fitness Generation = ',&
-                                                i_GP_Generation
-        endif ! myid == 0
+        !if( myid == 0 )then
+        !    write(GP_print_unit,'(A,1x,I6)') &
+        !      '0: aft broadcast  GP_Population_Ranked_Fitness Generation = ',&
+        !                                        i_GP_Generation
+        !endif ! myid == 0
 
 
 
@@ -862,11 +862,11 @@ do  i_GP_Generation=1,n_GP_Generations
 
         call MPI_BCAST( Run_GP_Calculate_Fitness , n_GP_Individuals,    &
                         MPI_LOGICAL,  0, MPI_COMM_WORLD, ierr )
-        if( myid == 0 )then
-            write(GP_print_unit,'(A,1x,I6)') &
-              '0: aft broadcast  Run_GP_Calculate_Fitness Generation = ',&
-                                                i_GP_Generation
-        endif ! myid == 0
+        !if( myid == 0 )then
+        !    write(GP_print_unit,'(A,1x,I6)') &
+        !      '0: aft broadcast  Run_GP_Calculate_Fitness Generation = ',&
+        !                                        i_GP_Generation
+        !endif ! myid == 0
 
         !------------------------------------------------------------------------------------
 
@@ -883,15 +883,15 @@ do  i_GP_Generation=1,n_GP_Generations
             write(GP_print_unit,'(A,1x,I6)') &
               '0: move GP_child_pop_node_type to GP_adult_pop_node_type    Generation = ',&
                                                                       i_GP_Generation
-            write(GP_print_unit, '(/A/(10(1x,I6)))')  &
-                  '0:bef MOVE2 GP_Adult_Population_Node_Type', GP_Adult_Population_Node_Type
-            write(GP_print_unit, '(/A/(10(1x,I6)))')  &
-                  '0:bef MOVE2 GP_Child_Population_Node_Type', GP_Child_Population_Node_Type
+            !write(GP_print_unit, '(/A/(10(1x,I6)))')  &
+            !      '0:bef MOVE2 GP_Adult_Population_Node_Type', GP_Adult_Population_Node_Type
+            !write(GP_print_unit, '(/A/(10(1x,I6)))')  &
+            !      '0:bef MOVE2 GP_Child_Population_Node_Type', GP_Child_Population_Node_Type
 
-            write(GP_print_unit, '(/A/(5(1x,E15.7)))')  &
-                  '0:bef MOVE2 GP_Adult_Population_SSE', GP_Adult_Population_SSE
-            write(GP_print_unit, '(/A/(5(1x,E15.7)))')  &
-                  '0:bef MOVE2 GP_Child_Population_SSE', GP_Child_Population_SSE
+            !write(GP_print_unit, '(/A/(5(1x,E15.7)))')  &
+            !      '0:bef MOVE2 GP_Adult_Population_SSE', GP_Adult_Population_SSE
+            !write(GP_print_unit, '(/A/(5(1x,E15.7)))')  &
+            !      '0:bef MOVE2 GP_Child_Population_SSE', GP_Child_Population_SSE
 
         endif ! myid == 0
 
@@ -917,9 +917,15 @@ do  i_GP_Generation=1,n_GP_Generations
     ! print trees before tree clean
 
     if( myid == 0 )then
-    tree_descrip =  ' trees before call to GP_Clean_Tree_Nodes'
-        call print_trees( 1, n_GP_individuals, GP_Adult_Population_Node_Type, &
-                          trim( tree_descrip )  )
+        if( i_GP_generation == 1                                  .or. &
+            mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
+            i_GP_generation == n_GP_generations                          )then
+
+            tree_descrip =  ' trees before call to GP_Clean_Tree_Nodes'
+            call print_trees( 1, n_GP_individuals, GP_Adult_Population_Node_Type, &
+                              trim( tree_descrip )  )
+
+        endif ! i_GP_generation == 1   
     endif !  myid == 0
 
 

@@ -262,21 +262,19 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
     GP_Child_Population_Node_Type(i_GP_Individual,1:n_Nodes,1:n_Trees) =  &
            GP_Adult_Population_Node_Type(k_GP_Individual_Male(1),1:n_Nodes,1:n_Trees)
 
-    if( myid == 0 )then
+    !if( myid == 0 )then
+    !    write(GP_print_unit,'(A,1x,I6/(10(1x,I6)))' ) &
+    !          'gptssr: k_GP_Indiv_Male(1), &
+    !          &GP_Adult_Pop_Node_Type(k_GP_Indiv_Male(1),1:n_Nodes,1:n_Trees)', &
+    !          k_GP_Individual_Male(1), &
+    !          GP_Adult_Population_Node_Type(k_GP_Individual_Male(1),1:n_Nodes,1:n_Trees)
+    !    write(GP_print_unit,'(A,1x,I6/(10(1x,I6)))' ) &
+    !          'gptssr: i_GP_Individual, &
+    !          &GP_Child_Pop_Node_Type(i_GP_Individual,1:n_Nodes,1:n_Trees)', &
+    !          i_GP_Individual, &
+    !          GP_Child_Population_Node_Type(i_GP_Individual,1:n_Nodes,1:n_Trees)
+    !endif ! myid == 0
 
-        write(GP_print_unit,'(A,1x,I6/(10(1x,I6)))' ) &
-              'gptssr: k_GP_Indiv_Male(1), &
-              &GP_Adult_Pop_Node_Type(k_GP_Indiv_Male(1),1:n_Nodes,1:n_Trees)', &
-              k_GP_Individual_Male(1), &
-              GP_Adult_Population_Node_Type(k_GP_Individual_Male(1),1:n_Nodes,1:n_Trees)
-
-        write(GP_print_unit,'(A,1x,I6/(10(1x,I6)))' ) &
-              'gptssr: i_GP_Individual, &
-              &GP_Child_Pop_Node_Type(i_GP_Individual,1:n_Nodes,1:n_Trees)', &
-              i_GP_Individual, &
-              GP_Child_Population_Node_Type(i_GP_Individual,1:n_Nodes,1:n_Trees)
-
-    endif ! myid == 0
 
     !???! Do the genetic crossovers but only keep the solution
     !???! from one (the male) of the two (male and female) generated child tree
@@ -325,25 +323,19 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
 
 
     !-----------------------------------------------------------------------------------------
-
-    do  i_Tree = 1,n_Trees
-        do  i_Node = 1,n_Nodes
-
-            if( GP_Individual_Node_Type(i_Node,i_Tree) /= -9999 )then
-
-                if( myid == 0 )then
-                    write(GP_print_unit,'(A,3(1x,I6))' ) &
-                          'gptssr:i_node,i_tree, &
-                           &GP_Indiv_Node_Type(i_Node,i_Tree)', &
-                           i_node,i_tree,  &
-                           GP_Individual_Node_Type(i_Node,i_Tree)
-                endif ! myid == 0
-            endif ! GP_Individual_Node_Type(i_Node,i_Tree) /= -9999
-
-        enddo !  i_Node
-    enddo ! i_Tree
-
-
+    !do  i_Tree = 1,n_Trees
+    !    do  i_Node = 1,n_Nodes
+    !        if( GP_Individual_Node_Type(i_Node,i_Tree) /= -9999 )then
+    !            if( myid == 0 )then
+    !                write(GP_print_unit,'(A,3(1x,I6))' ) &
+    !                      'gptssr:i_node,i_tree, &
+    !                       &GP_Indiv_Node_Type(i_Node,i_Tree)', &
+    !                       i_node,i_tree,  &
+    !                       GP_Individual_Node_Type(i_Node,i_Tree)
+    !            endif ! myid == 0
+    !        endif ! GP_Individual_Node_Type(i_Node,i_Tree) /= -9999
+    !    enddo !  i_Node
+    !enddo ! i_Tree
     !-----------------------------------------------------------------------------------------
 
     call GP_Check_Terminals(i_Error)
@@ -388,25 +380,19 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
 
 
     !-----------------------------------------------------------------------------------------
-
-    do  i_Tree = 1,n_Trees
-        do  i_Node = 1,n_Nodes
-
-            if( GP_Individual_Node_Type(i_Node,i_Tree) /= -9999 )then
-
-                if( myid == 0 )then
-                    write(GP_print_unit,'(A,3(1x,I6))' ) &
-                          'gptssr:i_node,i_tree, &
-                           &GP_Indiv_Node_Type(i_Node,i_Tree)', &
-                           i_node,i_tree,  &
-                           GP_Individual_Node_Type(i_Node,i_Tree)
-                endif ! myid == 0
-            endif ! GP_Individual_Node_Type(i_Node,i_Tree) /= -9999
-
-        enddo !  i_Node
-    enddo ! i_Tree
-
-
+    !do  i_Tree = 1,n_Trees
+    !    do  i_Node = 1,n_Nodes
+    !        if( GP_Individual_Node_Type(i_Node,i_Tree) /= -9999 )then
+    !            if( myid == 0 )then
+    !                write(GP_print_unit,'(A,3(1x,I6))' ) &
+    !                      'gptssr:i_node,i_tree, &
+    !                       &GP_Indiv_Node_Type(i_Node,i_Tree)', &
+    !                       i_node,i_tree,  &
+    !                       GP_Individual_Node_Type(i_Node,i_Tree)
+    !            endif ! myid == 0
+    !        endif ! GP_Individual_Node_Type(i_Node,i_Tree) /= -9999
+    !    enddo !  i_Node
+    !enddo ! i_Tree
     !-----------------------------------------------------------------------------------------
 
     call GP_Check_Terminals(i_Error)

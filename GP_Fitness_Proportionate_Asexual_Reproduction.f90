@@ -45,8 +45,8 @@ do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
   
         if( myid == 0 )then
             write(GP_print_unit,'(A,1x,I6,2(1x,E15.7))' ) &
-              'gpfpar: j_GP_Individual, cff, &
-              &GP_Integrated_Population_Ranked_Fitness(j_GP_Individual) ', &
+              'gpfpar: j_GP_Indiv, cff, &
+              &GP_Integ_Pop_Ranked_Fitness(j_GP_Indiv) ', &
                        j_GP_Individual, cff, &
                GP_Integrated_Population_Ranked_Fitness(j_GP_Individual) 
         endif ! myid == 0 
