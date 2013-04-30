@@ -3,7 +3,6 @@ subroutine print4( it, icff, &
                    right_node_value, right_node_value_string, &
                    tree_evaluation )
 
-!use parms_module
 use GA_parameters_module
 use GP_parameters_module
 

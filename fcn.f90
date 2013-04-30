@@ -19,7 +19,6 @@ integer(kind=4),intent(in)  :: nn  ! n_parms
 real (kind=8) :: fvec(n_time_steps)
 
 real (kind=8) :: x(n_maximum_number_parameters)
-!real (kind=8) :: sse
 
 
 integer (kind=4) :: iflag
@@ -28,7 +27,7 @@ integer (kind=4) :: iflag
 
 !---------------------------------------------------------------------
 
-! move the values you are trying to fit into 
+! move the values you are trying to fit into
 ! the initial conditions and variable terms
 
 
@@ -88,7 +87,7 @@ do i_tree=1,n_trees
 
       !write(GA_print_unit,'(A,3(1x,I6),1x,E15.7)') &
       ! 'fcn: i_node, i_tree, i_parameter, Runge_Kutta_Node_Parameters(i_node,i_tree) ', &
-      !       i_node, i_tree, i_parameter, Runge_Kutta_Node_Parameters(i_node,i_tree) 
+      !       i_node, i_tree, i_parameter, Runge_Kutta_Node_Parameters(i_node,i_tree)
 
     endif !  GP_individual_node_type(i_node,i_tree) .eq. 0
 
@@ -104,8 +103,8 @@ enddo  ! i_tree
 !          if( Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999  )then
 !              write(GA_print_unit,'(A,2(1x,I6),1x,E15.7)') &
 !               'fcn: i_node, i_tree, Runge_Kutta_Node_Parameters(i_node,i_tree) ', &
-!                     i_node, i_tree, Runge_Kutta_Node_Parameters(i_node,i_tree) 
-!          endif ! Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999 
+!                     i_node, i_tree, Runge_Kutta_Node_Parameters(i_node,i_tree)
+!          endif ! Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999
 !      endif ! myid == 1   NOTE:  1
 !  enddo ! i_node
 !enddo  ! i_tree
@@ -115,8 +114,8 @@ enddo  ! i_tree
 !          if( Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999  )then
 !              write(GA_print_unit,'(A,3(1x,I6))') &
 !               'fcn: i_node, i_tree, Runge_Kutta_Node_Type(i_node,i_tree) ', &
-!                     i_node, i_tree, Runge_Kutta_Node_Type(i_node,i_tree) 
-!          endif ! Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999 
+!                     i_node, i_tree, Runge_Kutta_Node_Type(i_node,i_tree)
+!          endif ! Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999
 !      endif ! myid == 1   NOTE:  1
 !  enddo ! i_node
 !enddo  ! i_tree
@@ -186,5 +185,6 @@ enddo ! i_time_step
 
 
 return
+
+
 end subroutine fcn
-!234567890123456789012345678901234567890123456789012345678901234567890

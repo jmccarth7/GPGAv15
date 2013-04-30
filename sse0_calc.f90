@@ -35,7 +35,7 @@ do i_CODE_equation=1,n_CODE_equations
 
       !write(GP_print_unit,*) &
       !'ssec: i_time_step, Data_Array(i_time_step,1:n_CODE_equations) ', &
-      !       i_time_step, Data_Array(i_time_step,1:n_CODE_equations) 
+      !       i_time_step, Data_Array(i_time_step,1:n_CODE_equations)
 
   enddo ! i_time_step
 

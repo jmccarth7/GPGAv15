@@ -30,7 +30,6 @@ integer(kind=4) :: i_Node_Count
 integer(kind=4) :: icff
 integer(kind=4) :: i_Error
 
-!!??logical CROSS
 
 !----------------------------------------------------------------------------------
 
@@ -166,89 +165,6 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
     ! will participate in the genetic crossovers
     ! Find out how many trees there are in each GP_CODE
 
-!!??    i_Node_Count = 0
-!!??    do  i_Tree = 1,n_Trees
-!!??        if( GP_Adult_Population_Node_Type(k_GP_Individual_Male(1),1,i_Tree) .ne. -9999)then
-!!??
-!!??            i_Node_Count = i_Node_Count+1
-!!??
-!!??        endif !   GP_Adult_Population_Node_Type(k_GP_Individual_Male(1),1,i_Tree)...
-!!??    enddo ! i_tree
-!!??
-!!??    write(GP_print_unit,'(A,1x,I6)') 'gptssr: i_Node_Count ', i_Node_Count
-!!??
-!!??
-!!??    if( i_Node_Count .gt. 0) then
-!!??
-!!??        CROSS = .true.  ! there is at least one Tree structure to cross with
-!!??
-!!??        call Random_Number(cff) ! uniform random number generator
-!!??
-!!??        icff = 1+int(cff*float(i_Node_Count-1))  ! pick a tree
-!!??
-!!??        i_Node_Count = 0
-!!??
-!!??        do  i_Tree = 1,n_Trees
-!!??
-!!??            if( GP_Adult_Population_Node_Type(k_GP_Individual_Male(1),1,i_Tree) .ne. -9999) then
-!!??
-!!??                i_Node_Count = i_Node_Count+1
-!!??                if( i_Node_Count .eq. icff) i_Male_Tree  =  i_Tree
-!!??
-!!??            endif !   GP_Adult_Population_Node_Type(k_GP_Individual_Male(1),1,i_Tree)...
-!!??
-!!??        enddo  ! i_tree
-!!??
-!!??    else
-!!??
-!!??        CROSS = .false. ! there are no Trees on this GP_CODE
-!!??
-!!??    endif !   i_Node_Count .gt. 0
-!!??
-!!??
-!!??
-!!??
-!!??    ! Randomly choose the tree structure location from the best female
-!!??    ! to participate in the genetic crossovers
-!!??
-!!??    if( CROSS) then
-!!??
-!!??        i_Node_Count = 0
-!!??        do  i_Tree = 1,n_Trees
-!!??
-!!??            if( GP_Adult_Population_Node_Type(k_GP_Individual_FeMale(1),1,i_Tree) .ne. -9999)then
-!!??                i_Node_Count = i_Node_Count+1
-!!??            endif ! GP_Adult_Population_Node_Type(k_GP_Individual_FeMale(1),1,i_Tree) .ne. -9999
-!!??
-!!??        enddo ! i_tree
-!!??
-!!??
-!!??        if( i_Node_Count .gt. 0) then
-!!??
-!!??            CROSS = .true.
-!!??
-!!??            call Random_Number(cff) ! uniform random number generator
-!!??            icff = 1+int(cff*float(i_Node_Count-1))  ! pick tree
-!!??
-!!??            i_Node_Count = 0
-!!??            do  i_Tree = 1,n_Trees
-!!??
-!!??                if( GP_Adult_Population_Node_Type(k_GP_Individual_Female(1),1,i_Tree) .ne. -9999) then
-!!??
-!!??                    i_Node_Count = i_Node_Count+1
-!!??                    if( i_Node_Count .eq. icff) i_Female_Tree = i_Tree
-!!??
-!!??                endif !GP_Adult_Population_Node_Type(k_GP_Individual_Female(1),1,i_Tree) ...
-!!??
-!!??            enddo ! i_tree
-!!??
-!!??        else
-!!??
-!!??            CROSS = .false.
-!!??
-!!??        endif !   i_Node_Count .gt. 0
-!!??
-!!??    endif ! CROSS
 
     call Random_Number(cff) ! uniform random number generator
     i_Male_Tree=1+int(cff*float(n_Trees))  ! pick a tree
@@ -282,10 +198,10 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
 
     !!?? if( CROSS) then
 
-    !!??     call Random_Number(cff) ! uniform random number generator
+    !!??  call Random_Number(cff) ! uniform random number generator
 
-    !!??     ! i_Male_Tree    = 1+int(cff*float(n_Trees-1))  ! pick a location from 1 to n_Trees
-    !!??     ! i_Female_Tree  = 1+int(cff*float(n_Trees-1))  ! pick a location from 1 to n_Trees
+    !!??  ! i_Male_Tree    = 1+int(cff*float(n_Trees-1))  ! pick a location from 1 to n_Trees
+    !!??  ! i_Female_Tree  = 1+int(cff*float(n_Trees-1))  ! pick a location from 1 to n_Trees
 
     ! move the selected trees from the selected
     ! male and female individuals that are to be randomly swapped
@@ -322,20 +238,6 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
     enddo ! i_Tree
 
 
-    !-----------------------------------------------------------------------------------------
-    !do  i_Tree = 1,n_Trees
-    !    do  i_Node = 1,n_Nodes
-    !        if( GP_Individual_Node_Type(i_Node,i_Tree) /= -9999 )then
-    !            if( myid == 0 )then
-    !                write(GP_print_unit,'(A,3(1x,I6))' ) &
-    !                      'gptssr:i_node,i_tree, &
-    !                       &GP_Indiv_Node_Type(i_Node,i_Tree)', &
-    !                       i_node,i_tree,  &
-    !                       GP_Individual_Node_Type(i_Node,i_Tree)
-    !            endif ! myid == 0
-    !        endif ! GP_Individual_Node_Type(i_Node,i_Tree) /= -9999
-    !    enddo !  i_Node
-    !enddo ! i_Tree
     !-----------------------------------------------------------------------------------------
 
     call GP_Check_Terminals(i_Error)
@@ -379,20 +281,6 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
     enddo ! i_Tree
 
 
-    !-----------------------------------------------------------------------------------------
-    !do  i_Tree = 1,n_Trees
-    !    do  i_Node = 1,n_Nodes
-    !        if( GP_Individual_Node_Type(i_Node,i_Tree) /= -9999 )then
-    !            if( myid == 0 )then
-    !                write(GP_print_unit,'(A,3(1x,I6))' ) &
-    !                      'gptssr:i_node,i_tree, &
-    !                       &GP_Indiv_Node_Type(i_Node,i_Tree)', &
-    !                       i_node,i_tree,  &
-    !                       GP_Individual_Node_Type(i_Node,i_Tree)
-    !            endif ! myid == 0
-    !        endif ! GP_Individual_Node_Type(i_Node,i_Tree) /= -9999
-    !    enddo !  i_Node
-    !enddo ! i_Tree
     !-----------------------------------------------------------------------------------------
 
     call GP_Check_Terminals(i_Error)

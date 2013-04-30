@@ -130,21 +130,21 @@ if( Lprint_lmdif )then
     write(GA_print_unit,'(A,4(1x,I10)/)') &
           'setrlm: aft call lmdif, myid, n_time_steps, n_parameters, info ', &
                                    myid, n_time_steps, n_parameters, info
-    
+
     if( info >= 0 ) then
-    
+
         write(GA_print_unit,'(A,1x,I10/)') 'setrlm: info flag =  ', info
-        
+
         write(GA_print_unit,'(A/)') &
         '#######################################################################################'
         write(GA_print_unit,'(A)') 'INFO, error flag.  '
-        
+
         write(GA_print_unit,'(/A)') &
         'If the user has terminated execution, INFO is set to the (negative) value of IFLAG.'
         write(GA_print_unit,'(A)') 'See the description  of FCN.'
-        
+
         write(GA_print_unit,'(/A/)') 'Otherwise, INFO is set as follows:'
-        
+
         write(GA_print_unit,'(A)')  '0, improper input parameters.'
         write(GA_print_unit,'(A)')  &
         '1, both actual and predicted relative reductions in the sum of squares are at most FTOL.'
@@ -162,7 +162,7 @@ if( Lprint_lmdif )then
               &to the columns of the Jacobian to machine precision.'
         write(GA_print_unit,'(/A/)') &
         '#######################################################################################'
-    
+
     endif ! info > 0
 
     Lprint_lmdif = .FALSE.

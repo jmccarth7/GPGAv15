@@ -31,7 +31,7 @@ implicit none
 
 
 
-integer :: i_code_eq 
+integer :: i_code_eq
 
 
 integer :: i_GP_indiv
@@ -51,7 +51,7 @@ integer :: i_GP_indiv
 
 !--------------------------------------------------------------------------------
 
-! initial conditions 
+! initial conditions
 
 
 write(GP_print_unit,'(/A)')&
@@ -64,11 +64,11 @@ do  i_code_eq = 1, n_CODE_Equations
           i_GP_generation, i_GP_indiv, i_code_eq, &
           GP_Population_Initial_Conditions( i_GP_indiv,i_code_eq )
 
-    write(GP_summary_output_unit, '(3(1x,I10), 1x, E20.10)')&        
-          i_GP_generation, i_GP_indiv, i_code_eq, &              
+    write(GP_summary_output_unit, '(3(1x,I10), 1x, E20.10)')&
+          i_GP_generation, i_GP_indiv, i_code_eq, &
           GP_Population_Initial_Conditions( i_GP_indiv,i_code_eq )
 
-enddo  ! i_code_eq 
+enddo  ! i_code_eq
 
 
 write(GP_summary_output_unit, '(A)') '> '
@@ -123,7 +123,7 @@ if( any( abs( GP_population_node_parameters(i_GP_indiv,:,:) ) &
     do  i_tree=1,n_trees
         do  i_node=1,n_nodes
 
-            ! print only non-zero parameters        
+            ! print only non-zero parameters
 
             if( abs( GP_population_node_parameters( &
                        i_GP_indiv,i_node,i_tree) ) > 1.0d-20   )then

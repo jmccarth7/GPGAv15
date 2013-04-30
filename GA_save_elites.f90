@@ -103,7 +103,7 @@ individual_elites = 0
 !-----------------------------------------------------------------------
 
 ! store the indices in the array "individual_elites"
-! of the first n_GA_save_elites  individuals 
+! of the first n_GA_save_elites  individuals
 
 j = 0
 do  i = 1, n_GA_individuals

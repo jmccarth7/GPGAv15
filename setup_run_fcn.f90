@@ -68,7 +68,7 @@ do  i_parameter=1,n_parameters
     !    write(GA_print_unit,'(A,3(1x,I6),1x,E20.10)') &
     !          'setrf:1 myid, i_GA_indiv, i_parameter,  X_LMDIF', &
     !                   myid, i_GA_indiv, i_parameter,  X_LMDIF(i_parameter)
-    !endif ! myid == 1 
+    !endif ! myid == 1
 
 enddo ! i_parameter
 
@@ -82,7 +82,7 @@ enddo ! i_parameter
 !    write(GA_print_unit,'(/A,4(1x,I10))') &
 !          'setrf: call fcn, myid, i_GA_indiv, n_time_steps, n_parameters     ', &
 !                            myid, i_GA_indiv, n_time_steps, n_parameters
-!endif ! myid == 1 
+!endif ! myid == 1
 
 
 iflag = 1
@@ -95,7 +95,7 @@ info = iflag
 !    write(GA_print_unit,'(A,5(1x,I10)/)') &
 !          'setrf: aft call fcn myid, i_GA_indiv, n_time_steps, n_parameters, info ', &
 !                               myid, i_GA_indiv, n_time_steps, n_parameters, info
-!endif ! myid == 1 
+!endif ! myid == 1
 
 
 !----------------------------------------------------------------------------------------
@@ -152,7 +152,6 @@ individual_SSE(i_GA_indiv)=0.0D+0
 
 if( individual_quality( i_GA_indiv ) > 0 ) then
 
-    !write(20,'(A,1x,I6)') 'setrf: i_GA_indiv ', i_GA_indiv
     !write(GA_print_unit,'(A,1x,I6)') 'setrf: i_GA_indiv ', i_GA_indiv
 
     do i_time_step=1,n_time_steps
@@ -160,9 +159,6 @@ if( individual_quality( i_GA_indiv ) > 0 ) then
        if( isnan(fvec(i_time_step)) )    fvec(i_time_step) = 0.0d0
        if( abs(fvec(i_time_step)) >  1.0d20 ) fvec(i_time_step) =  1.0d20
 
-       !write(20,'(A,1x,I6,1x,E24.16)' ) &
-       !      'setrf: i_time_step, fvec(i_time_step) ', &
-       !              i_time_step, fvec(i_time_step)
        !write(GA_print_unit,'(A,1x,I6,1x,E24.16)' ) &
        !      'setrf: i_time_step, fvec(i_time_step) ', &
        !              i_time_step, fvec(i_time_step)

@@ -65,7 +65,7 @@ if( icount > 0 )then
     mean_fit_before =  mean_fit_before / real( icount, kind=8 )
 else
     mean_fit_before = 0.0d0
-endif ! icount > 0 
+endif ! icount > 0
 
 !-------------------------------------------------------------------------------
 
@@ -104,7 +104,7 @@ do i_GA_Individual=1,n_GA_Individuals
 
 
   j_loop:&
-  do  j_GA_Individual=1,n_GA_Individuals ! normalize to the maximum values 
+  do  j_GA_Individual=1,n_GA_Individuals ! normalize to the maximum values
                                          ! so that the range is [0. , 1.]
 
       !write(GA_print_unit,'(A,1x,I6,2(1x,E15.7))') &
@@ -219,8 +219,8 @@ enddo ! i_GA_individual
 if( icount > 0 )then
     mean_fit_after =  mean_fit_after / real( icount , kind=8 )
 else
-    mean_fit_after =  0.0D0                                      
-endif ! icount > 0 
+    mean_fit_after =  0.0D0
+endif ! icount > 0
 
 
 write(GA_print_unit,'(/A,1x,I6,1x, E20.10)') &

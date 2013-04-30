@@ -12,9 +12,9 @@ integer(kind=4),parameter :: GP_output_unit = 30
 
 integer(kind=4),parameter :: GP_summary_output_unit = 40
 
-integer(kind=4),parameter :: GP_print_unit = 6  
+integer(kind=4),parameter :: GP_print_unit = 6
 
-integer(kind=4),parameter :: unit_gp_out = 50 
+integer(kind=4),parameter :: unit_gp_out = 50
 
 !integer(kind=4), parameter :: n_GP_individuals=1
 integer(kind=4) :: n_GP_individuals
@@ -66,7 +66,7 @@ integer, parameter :: str_len = 80
 ! GP Probability of a Tree being assigned
 ! Estimated from previous work by Joel Cohen
 
-!real (kind=4), parameter :: GP_Tree_Probability=0.5 
+!real (kind=4), parameter :: GP_Tree_Probability=0.5
 real(kind=8) :: GP_Tree_Probability !=0.5 ! Estimated from previous work by Joel Cohen
 
 
@@ -80,23 +80,23 @@ real(kind=8), allocatable, dimension(:) :: Node_Probability
 
 ! Note: The next 4 parameters must add up to 1.0
 
-! Keeps the top n_GP_Elitists of the 
+! Keeps the top n_GP_Elitists of the
 ! Best Fit Individuals from Generation to Generation
 
 !real (kind=4), parameter :: GP_Elitist_Probability = 0.1
-real(kind=8) :: GP_Elitist_Probability  
+real(kind=8) :: GP_Elitist_Probability
 
 !real(kind=4),parameter :: &
 !  GP_Asexual_Reproduction_Probability =0.4 ! prob of asexual reproduction
-real(kind=8) :: GP_Asexual_Reproduction_Probability 
+real(kind=8) :: GP_Asexual_Reproduction_Probability
 
 !real(kind=4),parameter :: &
 !  GP_Crossover_Probability=0.4 ! prob of sexual crossing of binary string
-real(kind=8) :: GP_Crossover_Probability 
+real(kind=8) :: GP_Crossover_Probability
 
 !real (kind=4), parameter :: &
 !  GP_Mutation_Probability = 0.1 ! prob of mutation in binary string
-real(kind=8) :: GP_Mutation_Probability  
+real(kind=8) :: GP_Mutation_Probability
 
 !old >>>>>>>>
 !  NOTE: in the next 2 parameters:
@@ -121,9 +121,9 @@ character(str_len), allocatable, dimension( : , : ) ::  tree_evaluation_string
 !-------------------------------------------------------------------
 
 ! with 2500 steps, the LV predator-prey cycle curve is closed
-!integer(kind=4), parameter :: n_time_steps= 2500 ! 8 ! 10  
+!integer(kind=4), parameter :: n_time_steps= 2500 ! 8 ! 10
 
-integer(kind=4) :: n_time_steps  
+integer(kind=4) :: n_time_steps
 
 
 !-------------------------------------------------------------------
@@ -165,20 +165,20 @@ integer :: i_parameter
 ! real (kind=8), parameter :: dt = 1.0D+0 /(24.0D+0*60.0D+0)   ! [d^-1; 1 minute time step]
 !!real (kind=8), parameter :: dt = 10.0D+0/(24.0D+0*60.0D+0)   ! [d^-1; 10 minute time step]
 
-real(kind=8) :: dt 
+real(kind=8) :: dt
 
 !------------------------------------------------------------------------------
 
 ! used in random_real
 
 
-real(kind=8) ::  random_scale_large                      
-real(kind=8) ::  random_scale_small                      
-real(kind=8) ::  random_scale_fraction            
-                                                                                
-                                                                                
-                                                                                
-                                                                                
+real(kind=8) ::  random_scale_large
+real(kind=8) ::  random_scale_small
+real(kind=8) ::  random_scale_fraction
+
+
+
+
 
 
 
