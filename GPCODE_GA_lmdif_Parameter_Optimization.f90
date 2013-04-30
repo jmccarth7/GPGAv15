@@ -221,6 +221,7 @@ else
     chunk = 1
 endif ! numprocs > 1 
 
+chunk = max( 1, chunk ) 
 
 if( myid == 0 )then
 
