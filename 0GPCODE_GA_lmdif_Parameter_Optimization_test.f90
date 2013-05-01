@@ -84,7 +84,6 @@ CALL RANDOM_SEED(PUT = seed)
 if( myid == 0 )then
 
     ! read the control input from file  "GPCODE_cntl"
-    ! and broadcast the values read to the other cpu's
 
     call read_cntl_stuff( )
 
@@ -100,39 +99,41 @@ endif !   myid == 0
 
 ! broadcast the values read in by cpu 0 to others
 
-call MPI_BCAST( GA_Crossover_Probability, 1,    &
-                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
-call MPI_BCAST( GA_Mutation_Probability, 1,    &
-                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
-call MPI_BCAST( GA_save_elites_Probability, 1,    &
-                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
-call MPI_BCAST( n_GA_Generations, 1,    &
-                MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
-call MPI_BCAST( n_GA_Individuals, 1,    &
-                MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
-call MPI_BCAST( n_time_steps, 1,    &
-                MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
-call MPI_BCAST( dt, 1,    &
-                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
-call MPI_BCAST( model, 30,     &
-                MPI_CHARACTER, 0, MPI_COMM_WORLD, ierr )
-call MPI_BCAST( GP_Tree_Probability, 1,    &
-                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
-call MPI_BCAST( GP_Elitist_Probability, 1,    &
-                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
-call MPI_BCAST( GP_Asexual_Reproduction_Probability, 1,    &
-                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
-call MPI_BCAST( GP_Crossover_Probability, 1,    &
-                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
-call MPI_BCAST( GP_Mutation_Probability, 1,    &
-                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
-call MPI_BCAST( n_gp_individuals, 1,    &
-                MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
-call MPI_BCAST( n_gp_generations, 1,    &
-                MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
+call bcast1() 
 
-call MPI_BCAST( n_node_functions, 1,    &
-                MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
+!call MPI_BCAST( GA_Crossover_Probability, 1,    &
+!                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+!call MPI_BCAST( GA_Mutation_Probability, 1,    &
+!                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+!call MPI_BCAST( GA_save_elites_Probability, 1,    &
+!                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+!call MPI_BCAST( n_GA_Generations, 1,    &
+!                MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
+!call MPI_BCAST( n_GA_Individuals, 1,    &
+!                MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
+!call MPI_BCAST( n_time_steps, 1,    &
+!                MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
+!call MPI_BCAST( dt, 1,    &
+!                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+!call MPI_BCAST( model, 30,     &
+!                MPI_CHARACTER, 0, MPI_COMM_WORLD, ierr )
+!call MPI_BCAST( GP_Tree_Probability, 1,    &
+!                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+!call MPI_BCAST( GP_Elitist_Probability, 1,    &
+!                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+!call MPI_BCAST( GP_Asexual_Reproduction_Probability, 1,    &
+!                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+!call MPI_BCAST( GP_Crossover_Probability, 1,    &
+!                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+!call MPI_BCAST( GP_Mutation_Probability, 1,    &
+!                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+!call MPI_BCAST( n_gp_individuals, 1,    &
+!                MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
+!call MPI_BCAST( n_gp_generations, 1,    &
+!                MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
+!
+!call MPI_BCAST( n_node_functions, 1,    &
+!                MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
 !------------------------------------------------------------------
 
 ! wait until everybody has the values
@@ -153,37 +154,38 @@ call init_values( 0 )
 
 if( myid == 0 )then
 
-    write(GP_print_unit,'(A,1x,I10)')    '0: n_GA_individuals           ', &
-                                             n_GA_individuals
-    write(GP_print_unit,'(A,1x,I10)')    '0: n_time_steps               ', &
-                                             n_time_steps
-    write(GP_print_unit,'(A,1x,I10)')    '0: n_GA_Generations           ', &
-                                             n_GA_Generations
-    write(GP_print_unit,'(A,1x, E15.7)') '0: GA_Crossover_Probability   ', &
-                                             GA_Crossover_Probability
-    write(GP_print_unit,'(A,1x, E15.7)') '0: GA_Mutation_Probability    ', &
-                                             GA_Mutation_Probability
-    write(GP_print_unit,'(A,1x, E15.7)') '0: GA_save_elites_Probability ', &
-                                             GA_save_elites_Probability
-
-    write(GP_print_unit,'(/A,1x, E15.7)')'0: GP_Tree_Probability        ', &
-                                             GP_Tree_Probability
-
-    write(GP_print_unit,'(A,1x, E15.7)') '0: GP_Elitist_Probability     ', &
-                                             GP_Elitist_Probability
-
-    write(GP_print_unit,'(A,1x, E15.7)') '0: GP_Crossover_Probability   ', &
-                                             GP_Crossover_Probability
-
-    write(GP_print_unit,'(A,1x, E15.7)') '0: GP_Asexual_Reproduction_Probability ', &
-                                             GP_Asexual_Reproduction_Probability
-
-    write(GP_print_unit,'(A,1x, E15.7)') '0: GP_Mutation_Probability    ', &
-                                             GP_Mutation_Probability
-    write(GP_print_unit,'(/A,1x,I10)')   '0: n_gp_individuals           ', &
-                                             n_gp_individuals
-    write(GP_print_unit,'(A,1x,I10)')    '0: n_gp_generations           ', &
-                                             n_gp_generations
+    call print_values1()
+!    write(GP_print_unit,'(A,1x,I10)')    '0: n_GA_individuals           ', &
+!                                             n_GA_individuals
+!    write(GP_print_unit,'(A,1x,I10)')    '0: n_time_steps               ', &
+!                                             n_time_steps
+!    write(GP_print_unit,'(A,1x,I10)')    '0: n_GA_Generations           ', &
+!                                             n_GA_Generations
+!    write(GP_print_unit,'(A,1x, E15.7)') '0: GA_Crossover_Probability   ', &
+!                                             GA_Crossover_Probability
+!    write(GP_print_unit,'(A,1x, E15.7)') '0: GA_Mutation_Probability    ', &
+!                                             GA_Mutation_Probability
+!    write(GP_print_unit,'(A,1x, E15.7)') '0: GA_save_elites_Probability ', &
+!                                             GA_save_elites_Probability
+!
+!    write(GP_print_unit,'(/A,1x, E15.7)')'0: GP_Tree_Probability        ', &
+!                                             GP_Tree_Probability
+!
+!    write(GP_print_unit,'(A,1x, E15.7)') '0: GP_Elitist_Probability     ', &
+!                                             GP_Elitist_Probability
+!
+!    write(GP_print_unit,'(A,1x, E15.7)') '0: GP_Crossover_Probability   ', &
+!                                             GP_Crossover_Probability
+!
+!    write(GP_print_unit,'(A,1x, E15.7)') '0: GP_Asexual_Reproduction_Probability ', &
+!                                             GP_Asexual_Reproduction_Probability
+!
+!    write(GP_print_unit,'(A,1x, E15.7)') '0: GP_Mutation_Probability    ', &
+!                                             GP_Mutation_Probability
+!    write(GP_print_unit,'(/A,1x,I10)')   '0: n_gp_individuals           ', &
+!                                             n_gp_individuals
+!    write(GP_print_unit,'(A,1x,I10)')    '0: n_gp_generations           ', &
+!                                             n_gp_generations
 
 endif ! myid == 0
 
@@ -212,15 +214,15 @@ GP_Population_Node_Type=-9999
 
 ! blank/set the values [0. = zero-valued parameter; -9999 = blank node type]
 
-GP_Individual_Node_Parameters=0.0D0                        ! Matrix Operation
-GP_Individual_Node_Type=-9999                           ! Matrix Operation
-GP_Population_Node_Parameters=0.0D0                        ! Matrix Operation
+GP_Individual_Node_Parameters=0.0D0              ! Matrix Operation
+GP_Individual_Node_Type=-9999                    ! Matrix Operation
+GP_Population_Node_Parameters=0.0D0              ! Matrix Operation
 
-GP_Adult_Population_Parameter_Solution=0.0D0               ! ???             ! Matrix Operation
-GP_Child_Population_Parameter_Solution=0.0D0               ! ???             ! Matrix Operation
+GP_Adult_Population_Parameter_Solution=0.0D0     ! Matrix Operation
+GP_Child_Population_Parameter_Solution=0.0D0     ! Matrix Operation
 
-GP_Adult_Population_Node_Type=-9999                     ! Matrix Operation
-GP_Child_Population_Node_Type=-9999                     ! Matrix Operation
+GP_Adult_Population_Node_Type=-9999              ! Matrix Operation
+GP_Child_Population_Node_Type=-9999              ! Matrix Operation
 
 !------------------------------------------------------------------
 
@@ -309,44 +311,54 @@ enddo ! i_tree
 
 if( myid == 0 )then
 
-    write(GP_print_unit,'(/A,1x,I6)') 'Total Parameters for this run = ',n_parameters
-    write(GP_print_unit,'(A,1x,I6)')  '0: n_GA_individuals ', n_GA_individuals
+    call print_values2( answer )
 
-    !write(GP_print_unit,'(A,1x,I6)') 'number of initial conditions   = ',n_initial_conditions
-    write(GP_print_unit,'(A,1x,I6)')   '0: n_time_steps     ', n_time_steps
-    write(GP_print_unit,'(A,1x,I6)')   '0: n_GA_Generations ', n_GA_Generations
-    write(GP_print_unit,'(A,1x,I6)')   '0: n_levels         ', n_levels
-    write(GP_print_unit,'(A,1x,I6)')   '0: n_functions      ', n_functions
-    write(GP_print_unit,'(A,1x,I6)')   '0: n_NODE_functions ', n_NODE_functions
-    write(GP_print_unit,'(A,1x,I6)')   '0: n_CODE_equations ', n_CODE_equations
-    write(GP_print_unit,'(A,1x,I6)')   '0: n_parameters     ', n_parameters
-    write(GP_print_unit,'(A,1x,I6)')   '0: n_trees          ', n_trees
-    write(GP_print_unit,'(A,1x,I6)')   '0: n_nodes          ', n_nodes
-    write(GP_print_unit,'(A,1x,E15.7)')'0: dt (days)        ', dt
-    write(GP_print_unit,'(A,1x,E15.7)')'0: dt (min)         ', dt * 1440.d0
-    !write(GP_print_unit,*) individual_fitness
-    !write(GP_print_unit,*) data_array
-    write(GP_print_unit,'(A,1x,E15.7)') '0: GA_Crossover_Probability  ', &
-                                            GA_Crossover_Probability
-    write(GP_print_unit,'(A,1x,E15.7)') '0: GA_Mutation_Probability   ', &
-                                            GA_Mutation_Probability
-    write(GP_print_unit,'(A,1x,E15.7)') '0: GA_save_elites_Probability', &
-                                            GA_save_elites_Probability
-
-    write(GP_print_unit,'(A)')  '0: code calls lmdif only for best individual on last generation'
-    write(GP_print_unit,'(A)')  '0: 2-range random_real initialization of child parameters '
-    write(GP_print_unit,'(A//)')'0: replacement of bad individuals used'
-
-
-    ! calculate the generation interval for printing the list of children
-
-    GA_child_print_interval = n_GA_generations /  number_GA_child_prints
-    GP_child_print_interval = n_GP_generations /  number_GP_child_prints
-
-    write(GP_print_unit,'(A,1x,I6)')   '0: GP_child_print_interval ', &
-                                           GP_child_print_interval
-    write(GP_print_unit,'(A,1x,I6)')   '0: GA_child_print_interval ', &
-                                           GA_child_print_interval
+!!    write(GP_print_unit,'(/A,1x,I6)') 'Total Parameters for this run = ',n_parameters
+!!    write(GP_print_unit,'(A,1x,I6)')  '0: n_GA_individuals ', n_GA_individuals
+!!
+!!    !write(GP_print_unit,'(A,1x,I6)') 'number of initial conditions   = ',n_initial_conditions
+!!    write(GP_print_unit,'(A,1x,I6)')   '0: n_time_steps     ', n_time_steps
+!!    write(GP_print_unit,'(A,1x,I6)')   '0: n_GA_Generations ', n_GA_Generations
+!!    write(GP_print_unit,'(A,1x,I6)')   '0: n_levels         ', n_levels
+!!    write(GP_print_unit,'(A,1x,I6)')   '0: n_functions      ', n_functions
+!!    write(GP_print_unit,'(A,1x,I6)')   '0: n_NODE_functions ', n_NODE_functions
+!!    write(GP_print_unit,'(A,1x,I6)')   '0: n_CODE_equations ', n_CODE_equations
+!!    write(GP_print_unit,'(A,1x,I6)')   '0: n_parameters     ', n_parameters
+!!    write(GP_print_unit,'(A,1x,I6)')   '0: n_trees          ', n_trees
+!!    write(GP_print_unit,'(A,1x,I6)')   '0: n_nodes          ', n_nodes
+!!    write(GP_print_unit,'(A,1x,E15.7)')'0: dt (days)        ', dt
+!!    write(GP_print_unit,'(A,1x,E15.7)')'0: dt (min)         ', dt * 1440.d0
+!!    !write(GP_print_unit,*) individual_fitness
+!!    !write(GP_print_unit,*) data_array
+!!    write(GP_print_unit,'(A,1x,E15.7)') '0: GA_Crossover_Probability  ', &
+!!                                            GA_Crossover_Probability
+!!    write(GP_print_unit,'(A,1x,E15.7)') '0: GA_Mutation_Probability   ', &
+!!                                            GA_Mutation_Probability
+!!    write(GP_print_unit,'(A,1x,E15.7)') '0: GA_save_elites_Probability', &
+!!                                            GA_save_elites_Probability
+!!
+!!    write(GP_print_unit,'(A)')  '0: code calls lmdif only for best individual on last generation'
+!!    write(GP_print_unit,'(A)')  '0: 2-range random_real initialization of child parameters '
+!!    write(GP_print_unit,'(A//)')'0: replacement of bad individuals used'
+!!
+!!
+!!    ! calculate the generation interval for printing the list of children
+!!
+!!    GA_child_print_interval = n_GA_generations /  number_GA_child_prints
+!!    GP_child_print_interval = n_GP_generations /  number_GP_child_prints
+!!
+!!    write(GP_print_unit,'(A,1x,I6)')   '0: GP_child_print_interval ', &
+!!                                           GP_child_print_interval
+!!    write(GP_print_unit,'(A,1x,I6)')   '0: GA_child_print_interval ', &
+!!                                           GA_child_print_interval
+!!    !-----------------------------------------------------------------------------
+!!
+!!    write(GP_print_unit,'(/A)') ' '
+!!    do  i = 1, n_parameters
+!!        write(GP_print_unit,'(A,1x,I6,2x,E24.16)') &
+!!              '0: i, answer(i) ', i, answer(i)
+!!    enddo ! i
+!!    write(GP_print_unit,'(/A)') ' '
 
     !-----------------------------------------------------------------------------
 
@@ -355,14 +367,6 @@ if( myid == 0 )then
 
     call sse0_calc( )
 
-    !-----------------------------------------------------------------------------
-
-    write(GP_print_unit,'(/A)') ' '
-    do  i = 1, n_parameters
-        write(GP_print_unit,'(A,1x,I6,2x,E24.16)') &
-              '0: i, answer(i) ', i, answer(i)
-    enddo ! i
-    write(GP_print_unit,'(/A)') ' '
     !-----------------------------------------------------------------------------
 
 
@@ -392,89 +396,93 @@ endif ! myid == 0
 ! with the embedded GA_lmdif parameter optimization scheme
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-! Number of Carry-Over Elitists
 
-n_GP_Elitists = nint(GP_Elitist_Probability*n_GP_individuals)
+! calculate n_GP_Asexual_Reproductions, n_GP_Crossovers, n_GP_Mutations, etc.
+call set_modified_indiv( ) 
 
-! Number of GP Fitness Proportionate Reproduction
-
-n_GP_Asexual_Reproductions = nint(GP_Asexual_Reproduction_Probability*n_GP_individuals)
-
-! Number of GP Sexual Crossovers
-
-n_GP_Crossovers = nint(GP_Crossover_Probability*n_GP_individuals)
-
-! Number of GP Mutations
-
-n_GP_Mutations = n_GP_Individuals - &
-                 ( n_GP_Elitists + n_GP_Crossovers + n_GP_Asexual_Reproductions )
-
-!n_GP_Mutations = &
-!min( nint( GP_Mutation_Probability * n_GP_individuals ) , n_GP_Mutations )
-
-if( myid == 0 )then
-    write(GP_print_unit,'(A,1x,i6,1x,I6)') &
-      '0: n_GP_Mut, min(nint(GP_Mut_Prob*n_GP_indiv),n_GP_Mut) ', &
-          n_GP_Mutations, &
-          min(nint(GP_Mutation_Probability*n_GP_individuals),n_GP_Mutations)
-endif ! myid == 0
-
-
-if( myid == 0 )then
-
-    write(GP_print_unit,'(/A,1x,I6)')   '0: n_gp_individuals           ', &
-                                            n_gp_individuals
-    write(GP_print_unit,'(A,1x,I6/)')   '0: n_gp_generations           ', &
-                                            n_gp_generations
-
-    write(GP_print_unit,'(A,1x,F10.6)') '0: GP_Elitist_Probability     ', &
-                                            GP_Elitist_Probability
-    write(GP_print_unit,'(A,1x,F10.6)') '0: GP_Crossover_Probability   ', &
-                                            GP_Crossover_Probability
-    write(GP_print_unit,'(A,1x,F10.6)') '0: GP_Mutation_Probability    ', &
-                                            GP_Mutation_Probability
-    write(GP_print_unit,'(A,1x,F10.6)') '0: GP_Asexual_Reproduction_Probability ', &
-                                            GP_Asexual_Reproduction_Probability
-
-    write(GP_print_unit,'(/A,1x,I6)')   '0: n_GP_Elitists              ', &
-                                            n_GP_Elitists
-    write(GP_print_unit,'(A,1x,I6)')    '0: n_GP_Crossovers            ', &
-                                            n_GP_Crossovers
-    write(GP_print_unit,'(A,1x,I6)')    '0: n_GP_Mutations             ', &
-                                            n_GP_Mutations
-    write(GP_print_unit,'(A,1x,I6/)')   '0: n_GP_Asexual_Reproductions ',  &
-                                            n_GP_Asexual_Reproductions
-
-endif ! myid == 0
-
-
-!  make sure numbers add up to total number of individuals
-
-if( n_GP_Elitists              + &
-    n_GP_Asexual_Reproductions + &
-    n_GP_Crossovers            + &
-    n_GP_Mutations                 .gt. n_GP_Individuals) then
-
-    write(GP_print_unit,'(/A/)') &
-          '0:Sum of n_GP_Elitists + n_Asexual_Reproduction + &
-          &n_GP_Crossovers + n_GP_Mutations is too high'
-
-    call MPI_FINALIZE(ierr)
-    stop '0:sum too big'
-
-elseif( n_GP_Elitists              + &
-        n_GP_Asexual_Reproductions + &
-        n_GP_Crossovers            + &
-        n_GP_Mutations                 .lt. n_GP_Individuals) then
-
-    write(GP_print_unit,'(/A/)') &
-          '0: Sum of n_GP_Elitists + n_Asexual_Reproduction + &
-          &n_GP_Crossovers + n_GP_Mutations is too low'
-
-    call MPI_FINALIZE(ierr)
-    stop '0:sum too small'
-
-endif !   n_GP_Elitists + ...
+!! Number of Carry-Over Elitists
+!
+!n_GP_Elitists = nint(GP_Elitist_Probability*n_GP_individuals)
+!
+!! Number of GP Fitness Proportionate Reproduction
+!
+!n_GP_Asexual_Reproductions = nint(GP_Asexual_Reproduction_Probability*n_GP_individuals)
+!
+!! Number of GP Sexual Crossovers
+!
+!n_GP_Crossovers = nint(GP_Crossover_Probability*n_GP_individuals)
+!
+!! Number of GP Mutations
+!
+!n_GP_Mutations = n_GP_Individuals - &
+!                 ( n_GP_Elitists + n_GP_Crossovers + n_GP_Asexual_Reproductions )
+!
+!!n_GP_Mutations = &
+!!min( nint( GP_Mutation_Probability * n_GP_individuals ) , n_GP_Mutations )
+!
+!if( myid == 0 )then
+!    write(GP_print_unit,'(A,1x,i6,1x,I6)') &
+!      '0: n_GP_Mut, min(nint(GP_Mut_Prob*n_GP_indiv),n_GP_Mut) ', &
+!          n_GP_Mutations, &
+!          min(nint(GP_Mutation_Probability*n_GP_individuals),n_GP_Mutations)
+!endif ! myid == 0
+!
+!
+!if( myid == 0 )then
+!
+!    write(GP_print_unit,'(/A,1x,I6)')   '0: n_gp_individuals           ', &
+!                                            n_gp_individuals
+!    write(GP_print_unit,'(A,1x,I6/)')   '0: n_gp_generations           ', &
+!                                            n_gp_generations
+!
+!    write(GP_print_unit,'(A,1x,F10.6)') '0: GP_Elitist_Probability     ', &
+!                                            GP_Elitist_Probability
+!    write(GP_print_unit,'(A,1x,F10.6)') '0: GP_Crossover_Probability   ', &
+!                                            GP_Crossover_Probability
+!    write(GP_print_unit,'(A,1x,F10.6)') '0: GP_Mutation_Probability    ', &
+!                                            GP_Mutation_Probability
+!    write(GP_print_unit,'(A,1x,F10.6)') '0: GP_Asexual_Reproduction_Probability ', &
+!                                            GP_Asexual_Reproduction_Probability
+!
+!    write(GP_print_unit,'(/A,1x,I6)')   '0: n_GP_Elitists              ', &
+!                                            n_GP_Elitists
+!    write(GP_print_unit,'(A,1x,I6)')    '0: n_GP_Crossovers            ', &
+!                                            n_GP_Crossovers
+!    write(GP_print_unit,'(A,1x,I6)')    '0: n_GP_Mutations             ', &
+!                                            n_GP_Mutations
+!    write(GP_print_unit,'(A,1x,I6/)')   '0: n_GP_Asexual_Reproductions ',  &
+!                                            n_GP_Asexual_Reproductions
+!
+!endif ! myid == 0
+!
+!
+!!  make sure numbers add up to total number of individuals
+!
+!if( n_GP_Elitists              + &
+!    n_GP_Asexual_Reproductions + &
+!    n_GP_Crossovers            + &
+!    n_GP_Mutations                 .gt. n_GP_Individuals) then
+!
+!    write(GP_print_unit,'(/A/)') &
+!          '0:Sum of n_GP_Elitists + n_Asexual_Reproduction + &
+!          &n_GP_Crossovers + n_GP_Mutations is too high'
+!
+!    call MPI_FINALIZE(ierr)
+!    stop '0:sum too big'
+!
+!elseif( n_GP_Elitists              + &
+!        n_GP_Asexual_Reproductions + &
+!        n_GP_Crossovers            + &
+!        n_GP_Mutations                 .lt. n_GP_Individuals) then
+!
+!    write(GP_print_unit,'(/A/)') &
+!          '0: Sum of n_GP_Elitists + n_Asexual_Reproduction + &
+!          &n_GP_Crossovers + n_GP_Mutations is too low'
+!
+!    call MPI_FINALIZE(ierr)
+!    stop '0:sum too small'
+!
+!endif !   n_GP_Elitists + ...
 
 
 
@@ -594,7 +602,6 @@ do  i_GP_Generation=1,n_GP_Generations
 
                 call GP_Fitness_Proportionate_Asexual_Reproduction
 
-                !write(GP_print_unit,'(A)') ' '
                 write(GP_print_unit,'(/A)') &
                       '0:aft  call GP_Fitness_Proportionate_Asexual_Reproduction '
 
@@ -673,63 +680,15 @@ do  i_GP_Generation=1,n_GP_Generations
 
 
         ! broadcast
-
-
         ! GP_Child_Population_Node_Type
-
-        message_len = n_GP_Individuals * n_Nodes * n_Trees
-        call MPI_BCAST( GP_Child_Population_Node_Type, message_len,    &
-                        MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
-
-        !if( myid == 0 )then
-        !    write(GP_print_unit,'(A,1x,I6)') &
-        !      '0: aft broadcast  GP_Child_Pop_Node_Type  Generation = ',&
-        !                                            i_GP_Generation
-        !endif ! myid == 0
-
         ! GP_Adult_Population_Node_Type
-
-        message_len = n_GP_Individuals * n_Nodes * n_Trees
-        call MPI_BCAST( GP_Adult_Population_Node_Type, message_len,    &
-                        MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
-
         ! Parent_Tree_Swap_Node_Type
-
-        message_len = 2 * n_Nodes
-        call MPI_BCAST( Parent_Tree_Swap_Node_Type, message_len,    &
-                        MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
-
         ! GP_Child_Individual_SSE
-
-        call MPI_BCAST( GP_Child_Individual_SSE, n_GP_individuals,    &
-                        MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
-
         ! GP_Integrated_Population_Ranked_Fitness
-
-        call MPI_BCAST( GP_Integrated_Population_Ranked_Fitness, n_GP_individuals,    &
-                        MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
-
         ! GP_Population_Ranked_Fitness
-
-        call MPI_BCAST( GP_Population_Ranked_Fitness, n_GP_individuals,    &
-                        MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
-
         ! Run_GP_Calculate_Fitness array
 
-        call MPI_BCAST( Run_GP_Calculate_Fitness , n_GP_Individuals,    &
-                        MPI_LOGICAL,  0, MPI_COMM_WORLD, ierr )
-
-        !------------------------------------------------------------------------------------
-
-        !   move the children into adulthood
-
-        !if( myid == 0 )then
-            !write(GP_print_unit,'(A,1x,I6)') &
-            !  '0: move GP_child_pop_node_type to GP_adult_pop_node_type    Generation = ',&
-        !endif ! myid == 0
-
-        !GP_Adult_Population_Node_Type=GP_Child_Population_Node_Type      ! Matrix Operation
-
+        call bcast2() 
 
     endif ! i_GP_Generation .eq. 1
 
@@ -812,40 +771,7 @@ do  i_GP_Generation=1,n_GP_Generations
     !    write(GP_print_unit,'(/A, 1x, I6/)') &
     !          '0: after call to GP_Clean_Tree_Nodes i_GP_generation =',i_GP_generation
     !
-    !    do  i_GP_individual=1,n_GP_individuals
-    !
-    !        write(GP_print_unit,'(/A,1x,I6/)') &
-    !              '0: i_GP_individual = ', i_GP_individual
-    !        write(GP_print_unit,'(A)') &
-    !              '0: i_node  i_tree  GP_Adult_Population_Node_Type(i_Node,i_Tree)'
-    !
-    !        do  i_Tree=1,n_Trees
-    !            do  i_Node=1,n_Nodes
-    !                if( GP_Adult_Population_Node_Type(i_GP_individual,i_Node,i_Tree) /= -9999 )then
-    !                    write(GP_print_unit,'(3(1x,I6))') &
-    !                          i_node, i_tree, &
-    !                          GP_Adult_Population_Node_Type(i_GP_individual, i_Node,i_Tree)
-    !                endif ! GP_Adult_Pop_Node_Type(i_GP_indiv, i_Node,i_Tree) /= -9999
-    !            enddo ! i_node
-    !        enddo ! i_tree
-    !
-    !
-    !        if( any( GP_Population_Node_Parameters(i_GP_individual,:,:) > 1.0d-20 )  )then
-    !            write(GP_print_unit,'(//A)') &
-    !                  '0: i_node  i_tree  GP_Population_Node_Parameters(i_Node,i_Tree)'
-    !            do  i_Tree=1,n_Trees
-    !                do  i_Node=1,n_Nodes
-    !                    if( GP_Population_Node_Parameters(i_GP_individual,i_Node,i_Tree) > &
-    !                                                                           1.0d-20 )then
-    !                        write(GP_print_unit,'(2x,2(1x,I6),1x,E15.7)') &
-    !                              i_node, i_tree, &
-    !                              GP_Population_Node_Parameters(i_GP_individual,i_Node,i_Tree)
-    !                    endif ! GP_Pop_Node_Param(i_GP_indiv,i_Node,i_Tree) /= -9999
-    !                enddo ! i_node
-    !            enddo ! i_tree
-    !            write(GP_print_unit,'(/A)') ' '
-    !            endif ! any( GP_Pop_Node_Param(i_GP_indiv,:,:) > 1.0d-20 )
-    !    enddo  ! i_GP_individual
+    !     call print_gp_node_type_parm( )
     !endif !  myid == 0 .and. ...
 
     !<<<<<<<<<<< jjm 20130417
@@ -1034,10 +960,6 @@ do  i_GP_Generation=1,n_GP_Generations
             GP_Adult_Population_SSE(i_GP_Individual) = GP_Child_Population_SSE(i_GP_Individual)
 
             if( myid == 0 )then
-                !write(GP_print_unit,'(/A,2(1x,I5), 1x, E15.7)')&
-                !      '0:3 i_GP_gen,i_GP_indiv,GP_Child_Indiv_SSE(i_GP_Indiv)', &
-                !           i_GP_generation, i_GP_individual, &
-                !           GP_Child_Individual_SSE(i_GP_Individual)
                 write(GP_print_unit,'(/A,2(1x,I5), 1x, E15.7)')&
                       '0:3 i_GP_gen,i_GP_indiv,GP_Child_Pop_SSE(i_GP_Indiv)  ', &
                            i_GP_generation, i_GP_individual, &
@@ -1172,85 +1094,87 @@ do  i_GP_Generation=1,n_GP_Generations
 
     !-------------------------------------------------------------------------------------
 
+!!    if( myid == 0 )then
+!!        do  i_GP_Individual=1,n_GP_individuals
+!!
+!!            write(GP_print_unit, '(//A,2(1x,I6),1x,E15.7)')  &
+!!                  '0: i_GP_Generation, i_GP_Individual,  GP_Adult_Population_SSE', &
+!!                      i_GP_Generation, i_GP_Individual, &
+!!                      GP_Adult_Population_SSE(i_GP_individual)
+!!
+!!            write(GP_print_unit, '(A)')  &
+!!                     '0: i_tree, i_node, GP_Adult_Pop_Node_Type, GP_Pop_Node_Param '
+!!            do  i_tree = 1, n_trees
+!!                do  i_node = 1, n_nodes
+!!
+!!                    if( GP_Adult_Population_Node_Type(i_GP_Individual,i_node, i_tree ) > -9999 )then
+!!
+!!                        if( GP_Adult_Population_Node_Type(i_GP_Individual,i_node, i_tree ) == 0 )then
+!!                            write(GP_print_unit, '(2(1x,I6),7x,I6, 14x,E15.7)')  &
+!!                                 i_tree, i_node, &
+!!                                 GP_Adult_Population_Node_Type(i_GP_Individual,i_node, i_tree ), &
+!!                                 GP_Population_Node_Parameters(i_GP_Individual,i_node, i_tree )
+!!                        else
+!!                            write(GP_print_unit, '(2(1x,I6),7x,I6)')  &
+!!                                 i_tree, i_node, &
+!!                                 GP_Adult_Population_Node_Type(i_GP_Individual,i_node, i_tree )
+!!                        endif ! GP_Adult_Population_Node_Type... == 0
+!!
+!!                    endif ! GP_Adult_Population_Node_Type... > -9999
+!!
+!!                enddo  ! i_node
+!!            enddo  ! i_tree
+!!
+!!        enddo   ! i_GP_Individual
+!!
+!!        write(GP_print_unit, '(/A)')  ' '
+!!    endif ! myid == 0
+
     if( myid == 0 )then
 
-        do  i_GP_Individual=1,n_GP_individuals
-
-            write(GP_print_unit, '(//A,2(1x,I6),1x,E15.7)')  &
-                  '0: i_GP_Generation, i_GP_Individual,  GP_Adult_Population_SSE', &
-                      i_GP_Generation, i_GP_Individual, &
-                      GP_Adult_Population_SSE(i_GP_individual)
-
-            write(GP_print_unit, '(A)')  &
-                     '0: i_tree, i_node, GP_Adult_Pop_Node_Type, GP_Pop_Node_Param '
-            do  i_tree = 1, n_trees
-                do  i_node = 1, n_nodes
-
-                    if( GP_Adult_Population_Node_Type(i_GP_Individual,i_node, i_tree ) > -9999 )then
-
-                        if( GP_Adult_Population_Node_Type(i_GP_Individual,i_node, i_tree ) == 0 )then
-                            write(GP_print_unit, '(2(1x,I6),7x,I6, 14x,E15.7)')  &
-                                 i_tree, i_node, &
-                                 GP_Adult_Population_Node_Type(i_GP_Individual,i_node, i_tree ), &
-                                 GP_Population_Node_Parameters(i_GP_Individual,i_node, i_tree )
-                        else
-                            write(GP_print_unit, '(2(1x,I6),7x,I6)')  &
-                                 i_tree, i_node, &
-                                 GP_Adult_Population_Node_Type(i_GP_Individual,i_node, i_tree )
-                        endif ! GP_Adult_Population_Node_Type... == 0
-
-                    endif ! GP_Adult_Population_Node_Type... > -9999
-
-                enddo  ! i_node
-            enddo  ! i_tree
-
-        enddo   ! i_GP_Individual
-
-        write(GP_print_unit, '(/A)')  ' '
+        call print_gp_node_type_parm( )
 
     endif ! myid == 0
 
     !-------------------------------------------------------------------------------------
 
 
-    !if( myid == 0 )then
-    !    write(GP_print_unit,'(/A/(5(1x,E15.7)))') &
-    !          '0: broadcast GP_Adult_Individual_SSE = ',&
-    !                        GP_Adult_Individual_SSE
-    !endif ! myid == 0
+!!    !if( myid == 0 )then
+!!    !    write(GP_print_unit,'(/A/(5(1x,E15.7)))') &
+!!    !          '0: broadcast GP_Adult_Individual_SSE = ',&
+!!    !                        GP_Adult_Individual_SSE
+!!    !endif ! myid == 0
+!!
+!!    call MPI_BCAST( GP_Adult_Individual_SSE, n_GP_individuals,    &
+!!                    MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+!!
+!!
+!!    !if( myid == 0 )then
+!!    !    write(GP_print_unit,'(/A/(5(1x,E15.7)))') &
+!!    !          '0: broadcast GP_Population_Ranked_Fitness ',&
+!!    !                        GP_Population_Ranked_Fitness
+!!    !endif ! myid == 0
+!!
+!!    call MPI_BCAST( GP_Population_Ranked_Fitness, n_GP_individuals,    &
+!!                    MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+!!
+!!    !if( myid == 0 )then
+!!    !    write(GP_print_unit,'(/A/(5(1x,E15.7)))') &
+!!    !          '0: AFT broadcast GP_Population_Ranked_Fitness ',&
+!!    !                            GP_Population_Ranked_Fitness
+!!    !endif ! myid == 0
+!!
+!!
+!!    !if( myid == 0 )then
+!!    !    write(GP_print_unit,'(/A/(5(1x,E15.7)))') &
+!!    !          '0: broadcast GP_Integrated_Population_Ranked_Fitness ',&
+!!    !                        GP_Integrated_Population_Ranked_Fitness
+!!    !endif ! myid == 0
+!!
+!!    call MPI_BCAST( GP_Integrated_Population_Ranked_Fitness, n_GP_individuals,    &
+!!                    MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
-    call MPI_BCAST( GP_Adult_Individual_SSE, n_GP_individuals,    &
-                    MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
-
-
-    !if( myid == 0 )then
-    !    write(GP_print_unit,'(/A/(5(1x,E15.7)))') &
-    !          '0: broadcast GP_Population_Ranked_Fitness ',&
-    !                        GP_Population_Ranked_Fitness
-    !endif ! myid == 0
-
-    call MPI_BCAST( GP_Population_Ranked_Fitness, n_GP_individuals,    &
-                    MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
-
-    !if( myid == 0 )then
-    !    write(GP_print_unit,'(/A/(5(1x,E15.7)))') &
-    !          '0: AFT broadcast GP_Population_Ranked_Fitness ',&
-    !                            GP_Population_Ranked_Fitness
-    !endif ! myid == 0
-
-
-!-------------------------------------------------------------------------------------------------
-
-
-    !if( myid == 0 )then
-    !    write(GP_print_unit,'(/A/(5(1x,E15.7)))') &
-    !          '0: broadcast GP_Integrated_Population_Ranked_Fitness ',&
-    !                        GP_Integrated_Population_Ranked_Fitness
-    !endif ! myid == 0
-
-    call MPI_BCAST( GP_Integrated_Population_Ranked_Fitness, n_GP_individuals,    &
-                    MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
-
+    call bcast3( ) 
 
 enddo generation_loop !  i_GP_Generation
 
