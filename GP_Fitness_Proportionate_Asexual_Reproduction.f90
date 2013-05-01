@@ -17,6 +17,13 @@ integer(kind=4) :: icff
 integer(kind=4) :: i_GP_Asexual_Reproduction
 
 
+integer(kind=4) :: i_GP_individual                                                                           
+integer(kind=4) :: i_GP_Best_Parent                                                                          
+integer(kind=4) :: i_GP_Generation                                                                           
+integer(kind=4) :: j_GP_Individual                                                                           
+integer(kind=4) :: i_Tree                                                                                    
+integer(kind=4) :: i_Node            
+
 !-----------------------------------------------------------------------------
 
 icff = -1

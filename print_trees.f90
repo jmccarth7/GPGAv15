@@ -31,6 +31,12 @@ character(*),intent(in) :: tree_descrip
 integer(kind=4), intent(in), &
         dimension(n_GP_individuals, 1:n_nodes, 1:n_trees) :: tree_type
 
+integer(kind=4) :: i_GP_individual                                                                           
+integer(kind=4) :: i_GP_Best_Parent                                                                          
+integer(kind=4) :: i_GP_Generation                                                                           
+integer(kind=4) :: j_GP_Individual                                                                           
+integer(kind=4) :: i_Tree                                                                                    
+integer(kind=4) :: i_Node            
 !----------------------------------------------------------------------------------------
 
 

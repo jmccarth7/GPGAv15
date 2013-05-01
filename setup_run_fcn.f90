@@ -50,6 +50,13 @@ real(kind=8) :: child_parameters(n_GA_individuals,n_maximum_number_parameters)
 
 external :: fcn
 
+integer(kind=4) :: i_GP_individual                                                                           
+integer(kind=4) :: i_GP_Best_Parent                                                                          
+integer(kind=4) :: i_GP_Generation                                                                           
+integer(kind=4) :: j_GP_Individual                                                                           
+integer(kind=4) :: i_Tree                                                                                    
+integer(kind=4) :: i_Node            
+
 !--------------------------------------------------------------------------------------------
 
 !write(GA_print_unit,'(/A,2(1x,I6)/)') 'setrf: myid, i_GA_indiv ', myid, i_GA_indiv

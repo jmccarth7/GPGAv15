@@ -16,6 +16,12 @@ real (kind=8) :: fvec(n_time_steps)
 
 real (kind=8) :: ssum, ssum2, totobs, cff
 
+integer(kind=4) :: i_GP_individual                                                                           
+integer(kind=4) :: i_GP_Best_Parent                                                                          
+integer(kind=4) :: i_GP_Generation                                                                           
+integer(kind=4) :: j_GP_Individual                                                                           
+integer(kind=4) :: i_Tree                                                                                    
+integer(kind=4) :: i_Node            
 !-------------------------------------------------------------------------------
 
 

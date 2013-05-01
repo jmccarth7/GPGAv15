@@ -35,6 +35,12 @@ real(kind=8) :: dff
 integer (kind=4) :: n_replaced
 integer (kind=4) :: i
 
+integer(kind=4) :: i_GP_individual                                                                           
+integer(kind=4) :: i_GP_Best_Parent                                                                          
+integer(kind=4) :: i_GP_Generation                                                                           
+integer(kind=4) :: j_GP_Individual                                                                           
+integer(kind=4) :: i_Tree                                                                                    
+integer(kind=4) :: i_Node            
 !---------------------------------------------------------------------------
 
 !write(GA_print_unit,'(/A,1x,I6)')'gato: n_GA_Crossovers', n_GA_Crossovers
