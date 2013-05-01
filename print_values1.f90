@@ -24,9 +24,9 @@ implicit none
 
 
 
-integer :: i
-integer :: i_diversity
-integer :: message_len
+!integer :: i
+!integer :: i_diversity
+!integer :: message_len
 
 !logical :: Lplot
 
@@ -35,14 +35,14 @@ integer :: message_len
 !real(kind=8), allocatable, dimension(:) :: output_array
 
 
-character(200) :: tree_descrip
+!character(200) :: tree_descrip
 
-integer(kind=4) :: i_GP_individual                                                                           
-integer(kind=4) :: i_GP_Best_Parent                                                                          
-integer(kind=4) :: i_GP_Generation                                                                           
-integer(kind=4) :: j_GP_Individual                                                                           
-integer(kind=4) :: i_Tree                                                                                    
-integer(kind=4) :: i_Node            
+!integer(kind=4) :: i_GP_individual                                                                           
+!integer(kind=4) :: i_GP_Best_Parent                                                                          
+!integer(kind=4) :: i_GP_Generation                                                                           
+!integer(kind=4) :: j_GP_Individual                                                                           
+!integer(kind=4) :: i_Tree                                                                                    
+!integer(kind=4) :: i_Node            
 !----------------------------------------------------------------------------------------
 
 

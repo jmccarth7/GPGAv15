@@ -26,16 +26,16 @@ integer(kind=4),dimension(2) :: k_GP_Individual_Female
 
 integer(kind=4) :: i_Male_Tree
 integer(kind=4) :: i_Female_Tree
-integer(kind=4) :: i_Node_Count
-integer(kind=4) :: icff
+!integer(kind=4) :: i_Node_Count
+!integer(kind=4) :: icff
 integer(kind=4) :: i_Error
 
 integer(kind=4) :: i_GP_individual                                                                           
-integer(kind=4) :: i_GP_Best_Parent                                                                          
-integer(kind=4) :: i_GP_Generation                                                                           
-integer(kind=4) :: j_GP_Individual                                                                           
-integer(kind=4) :: i_Tree                                                                                    
-integer(kind=4) :: i_Node            
+!integer(kind=4) :: i_GP_Best_Parent                                                                          
+!integer(kind=4) :: i_GP_Generation                                                                           
+!integer(kind=4) :: j_GP_Individual                                                                           
+!integer(kind=4) :: i_Tree                                                                                    
+!integer(kind=4) :: i_Node            
 
 !----------------------------------------------------------------------------------
 

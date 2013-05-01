@@ -25,8 +25,8 @@ implicit none
 
 
 integer :: i
-integer :: i_diversity
-integer :: message_len
+!integer :: i_diversity
+!integer :: message_len
 
 !logical :: Lplot
 
@@ -38,12 +38,12 @@ real(kind=8), dimension(n_parameters) :: answer
 
 !character(200) :: tree_descrip
 
-integer(kind=4) :: i_GP_individual                                                                           
-integer(kind=4) :: i_GP_Best_Parent                                                                          
-integer(kind=4) :: i_GP_Generation                                                                           
-integer(kind=4) :: j_GP_Individual                                                                           
-integer(kind=4) :: i_Tree                                                                                    
-integer(kind=4) :: i_Node            
+!integer(kind=4) :: i_GP_individual                                                                           
+!integer(kind=4) :: i_GP_Best_Parent                                                                          
+!integer(kind=4) :: i_GP_Generation                                                                           
+!integer(kind=4) :: j_GP_Individual                                                                           
+!integer(kind=4) :: i_Tree                                                                                    
+!integer(kind=4) :: i_Node            
 !----------------------------------------------------------------------------------------
 
 write(GP_print_unit,'(/A,1x,I6)') 'Total Parameters for this run = ',n_parameters
