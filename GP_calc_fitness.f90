@@ -166,10 +166,11 @@ do  i_GP_Individual=1,n_GP_Individuals
 enddo
 
 write(GP_print_unit,'(/A)') &
-    'gpcf: i_GP_indiv, GP_Integrated_Population_Ranked_Fitness '
+    'gpcf: i_GP_indiv, GP_Integ_Pop_Ranked_Fitness GP_Child_Indiv_SSE'
 do  i_GP_Individual=1,n_GP_Individuals
-    write(GP_print_unit,'(5x,I6,5x,E15.7)') &
-           i_GP_individual, GP_Integrated_Population_Ranked_Fitness(i_GP_Individual)
+    write(GP_print_unit,'(5x,I6,2(5x,E15.7))') &
+           i_GP_individual, GP_Integrated_Population_Ranked_Fitness(i_GP_Individual), &
+                            GP_Child_Individual_SSE(i_GP_Individual)
 enddo
 
 !-------------------------------------------------------------------------------------------------
@@ -201,12 +202,13 @@ if( i_GP_generation == 1                                 .or. &
     i_GP_generation == n_GP_generations                          ) then
 
     write(GP_print_unit,'(/A)') &
-          'gpcf: i_GP_indiv, GP_Integrated_Population_Ranked_Fitness (norm) '
+          'gpcf: i_GP_indiv, GP_Integ_Pop_Ranked_Fitness (norm) GP_Child_Indiv_SSE'
 
     do  i_GP_Individual=1,n_GP_Individuals
 
-        write(GP_print_unit,'(5x,I6,5x,E15.7)') &
-              i_GP_individual, GP_Integrated_Population_Ranked_Fitness(i_GP_Individual)
+        write(GP_print_unit,'(5x,I6,2(5x,E15.7))') &
+              i_GP_individual, GP_Integrated_Population_Ranked_Fitness(i_GP_Individual), &
+                            GP_Child_Individual_SSE(i_GP_Individual)
     enddo
 
 endif ! i_GP_generation == 1 .or. ...
@@ -239,11 +241,12 @@ do  i_GP_Individual=2,n_GP_individuals
 
 enddo ! i_GP_Individual
 
-write(GP_print_unit,'(A,2(1x,I6),1x,E15.7/)') &
+write(GP_print_unit,'(A,2(1x,I6),2(1x,E15.7)/)') &
       'gpcf: i_GP_Gen,i_GP_Best_Parent,&
-            &GP_Pop_Ranked_Fit(i_GP_Best_Parent)', &
+            &GP_Pop_Ranked_Fit(), GP_Child_Indiv_SSE()', &
              i_GP_Generation, i_GP_Best_Parent, &
-             GP_Population_Ranked_Fitness(i_GP_Best_Parent)
+             GP_Population_Ranked_Fitness(i_GP_Best_Parent), &
+             GP_Child_Individual_SSE(i_GP_Best_Parent)
 
 
 !---------------------------------------------------------------------------

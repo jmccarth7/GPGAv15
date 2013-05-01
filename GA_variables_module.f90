@@ -56,7 +56,7 @@ real(kind=8),allocatable, dimension(:) :: integrated_ranked_fitness
 
 
 !real (kind=8) :: fitness_expectation_value(n_GA_individuals)
-real(kind=8),allocatable, dimension(:) :: fitness_expectation_value
+!real(kind=8),allocatable, dimension(:) :: fitness_expectation_value
 
 
 real(kind=8) :: sum_individual_SSE

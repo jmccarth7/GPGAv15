@@ -492,9 +492,9 @@ do  i_GA_generation=1,n_GA_Generations
 
                     iproc = isource
 
-                    write(GA_print_unit,'(A,5(1x,I6))') &
-                      'GP_GA_opt: i_GA_individual, iproc, isource, start_limit, stop_limit ', &
-                                  i_GA_individual, iproc, isource, start_limit, stop_limit
+                    !write(GA_print_unit,'(A,5(1x,I6))') &
+                    !  'GP_GA_opt: i_GA_individual, iproc, isource, start_limit, stop_limit ', &
+                    !              i_GA_individual, iproc, isource, start_limit, stop_limit
 
                     exit
 

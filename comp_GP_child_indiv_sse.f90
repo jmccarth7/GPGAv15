@@ -94,11 +94,11 @@ if( myid == 0 )then
     write(GP_print_unit,'(/A)') &
     'cgcsse:------------------------------------------------------------------------------'
 
+    !write(GP_print_unit,'(/A,2(1x,I6),1x,E15.7)') &
+    !      'cgcsse: i_GP_gen, i_GP_Indiv, GP_Child_Indiv_SSE(i_GP_Indiv)', &
+    !               i_GP_generation, i_GP_Individual, &
+    !               GP_Child_Individual_SSE(i_GP_Individual)
     write(GP_print_unit,'(/A,2(1x,I6),1x,E15.7)') &
-          'cgcsse: i_GP_gen, i_GP_Indiv, GP_Child_Indiv_SSE(i_GP_Indiv)', &
-                   i_GP_generation, i_GP_Individual, &
-                   GP_Child_Individual_SSE(i_GP_Individual)
-    write(GP_print_unit,'(A,2(1x,I6),1x,E15.7)') &
           'cgcsse: i_GP_gen, i_GP_Indiv, GP_Child_Pop_SSE(i_GP_Indiv)  ', &
                    i_GP_generation, i_GP_Individual, &
                    GP_Child_Population_SSE(i_GP_Individual)

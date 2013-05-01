@@ -28,14 +28,13 @@ real(kind=8),allocatable,dimension(:,:,:)     :: GP_Population_Node_Parameters
 real(kind=8),allocatable,dimension(:,:)       :: GP_Individual_Node_Parameters
 
 !real(kind=8) :: GP_Population_Parameter_Solution(n_GP_individuals,n_maximum_number_parameters)
-real(kind=8),allocatable,dimension(:,:)       :: GP_Population_Parameter_Solution
+!real(kind=8),allocatable,dimension(:,:)       :: GP_Population_Parameter_Solution
 
 
 
-!real(kind=8) :: GP_Individual_Parameter_Solution(n_maximum_number_parameters)
 
 ! GP_Solution(0:n_Time_Steps,n_CODE_Equations)
-real(kind=8),allocatable,dimension(:,:) :: GP_Solution
+!real(kind=8),allocatable,dimension(:,:) :: GP_Solution
 
 ! GP_diversity_index(n_GP_Individuals)
 integer(kind=4),allocatable,dimension(:) :: GP_diversity_index
@@ -52,7 +51,8 @@ integer(kind=4),allocatable,dimension(:,:) :: Parent_Tree_Swap_Node_Type
 ! GP_Individual_Node_Type(n_Nodes,n_Trees)
 integer(kind=4),allocatable,dimension(:,:) :: GP_Individual_Node_Type
 
-real(kind=8),allocatable,dimension(:)         :: GP_Individual_Parameter_Solution
+!real(kind=8) :: GP_Individual_Parameter_Solution(n_maximum_number_parameters)
+!!real(kind=8),allocatable,dimension(:)         :: GP_Individual_Parameter_Solution
 
 ! GP_Adult_Population_Parameter_Solution(n_GP_Individuals,n_Maximum_Number_Parameters)
 real (kind=8),allocatable,dimension(:,:)  :: GP_Adult_Population_Parameter_Solution
