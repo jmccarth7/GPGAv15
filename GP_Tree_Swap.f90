@@ -18,13 +18,11 @@ integer(kind=4) :: i_Parent
 integer(kind=4) :: i_Child
 integer(kind=4) :: i_Parent_One
 integer(kind=4) :: i_Parent_Two
-!integer(kind=4) :: i_Level
 integer(kind=4) :: i_Levels
 integer(kind=4) :: i_Parent_Level
 integer(kind=4) :: i_Child_Level
 integer(kind=4) :: i_Node_at_Level
 integer(kind=4) :: n_Nodes_at_Level
-!integer(kind=4) :: i_Node
 integer(kind=4) :: j_Node
 integer(kind=4) :: k_Node
 integer(kind=4) :: i_Node_Count
@@ -50,14 +48,8 @@ integer(kind=4),dimension(n_nodes) :: parent_two_swappable_nodes
 
 logical :: MALE_CROSS
 logical :: FEMALE_CROSS
-!logical :: NODE_NOT_FOUND
 
 
-!integer(kind=4) :: i_GP_individual                                                                           
-!integer(kind=4) :: i_GP_Best_Parent                                                                          
-!integer(kind=4) :: i_GP_Generation                                                                           
-!integer(kind=4) :: j_GP_Individual                                                                           
-!integer(kind=4) :: i_Tree                                                                                    
 integer(kind=4) :: i_Node            
 
 !--------------------------------------------------------------------------

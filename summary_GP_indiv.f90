@@ -1,4 +1,4 @@
-subroutine summary_GP_indiv( i_GP_indiv )
+subroutine summary_GP_indiv( i_GP_generation, i_GP_indiv )
 
 ! program written by: Dr. John R. Moisan [NASA/GSFC] 31 January, 2013
 
@@ -35,10 +35,7 @@ integer :: i_code_eq
 
 
 integer :: i_GP_indiv
-!integer(kind=4) :: i_GP_individual                                                                           
-!integer(kind=4) :: i_GP_Best_Parent                                                                          
-integer(kind=4) :: i_GP_Generation                                                                           
-!integer(kind=4) :: j_GP_Individual                                                                           
+integer(kind=4),intent(in)  :: i_GP_Generation                                                                           
 integer(kind=4) :: i_Tree                                                                                    
 integer(kind=4) :: i_Node            
 

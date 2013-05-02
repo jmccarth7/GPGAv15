@@ -61,11 +61,11 @@ CFLAGS = -O
 
 # note: mpif90 is based on gfortran
 FC = /opt/openmpi-1.6/bin/mpif90
-FFLAGS =   -O3 -ffree-form -Wall # -fcheck=bounds # -Wall  -fbacktrace # -fdefault-integer-8  # -FR = -free
+FFLAGS =   -O3 -ffree-form #-Wall # -fcheck=bounds # -fbacktrace # -fdefault-integer-8  # -FR = -free
 
 # note: mpif90 is based on gfortran
 F90 = /opt/openmpi-1.6/bin/mpif90
-F90FLAGS =   -O3   -ffree-form -Wall # -fcheck=bounds # -Wall   -fbacktrace #-fdefault-integer-8  # -FR = -free
+F90FLAGS =   -O3   -ffree-form # -Wall # -fcheck=bounds #  -fbacktrace #-fdefault-integer-8  # -FR = -free
 
 LDFLAGS = -L/opt/openmpi-1.6/lib \
           -I/Developer/SDKs/MacOSX10.6.sdk/usr/include

@@ -19,13 +19,6 @@ integer (kind=4) :: i_GA_Individual_Mutation, i_Parameter_Mutation
 
 integer(kind=4) :: individual_quality(n_GA_individuals)
 
-!integer(kind=4) :: i_GP_individual                                                                           
-!integer(kind=4) :: i_GP_Best_Parent                                                                          
-!integer(kind=4) :: i_GP_Generation                                                                           
-!integer(kind=4) :: j_GP_Individual                                                                           
-!integer(kind=4) :: i_Tree                                                                                    
-!integer(kind=4) :: i_Node            
-
 integer (kind=4) :: n_mutated
 
 !---------------------------------------------------------------------

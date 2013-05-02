@@ -29,9 +29,7 @@ integer :: i_diversity
 integer :: message_len
 
 integer(kind=4) :: i_GP_individual                                                                          
-!integer(kind=4) :: i_GP_Best_Parent                                                                         
 integer(kind=4) :: i_GP_Generation                                                                          
-!integer(kind=4) :: j_GP_Individual                                                                          
 integer(kind=4) :: i_Tree                                                                                   
 integer(kind=4) :: i_Node      
 
@@ -366,7 +364,8 @@ do  i_GP_Generation=1,n_GP_Generations
 
         if( myid == 0 )then
             call GP_calc_diversity_index( n_GP_individuals,  &
-                                          GP_Adult_Population_Node_Type, i_diversity )
+                                          GP_Adult_Population_Node_Type, &
+                                          i_diversity, i_gp_generation )
         endif ! myid == 0
 
         !-----------------------------------------------------------------------------
@@ -761,7 +760,7 @@ do  i_GP_Generation=1,n_GP_Generations
             ! compute GP_Child_Individual_SSE(i_GP_Individual)
             ! and     GP_Child_Population_SSE(i_GP_Individual)
 
-            call comp_GP_child_indiv_sse()
+            call comp_GP_child_indiv_sse(i_GP_Individual, i_GP_generation)
 
 
             GP_Adult_Individual_SSE(i_GP_Individual) = GP_Child_Individual_SSE(i_GP_Individual)
@@ -856,7 +855,7 @@ do  i_GP_Generation=1,n_GP_Generations
             ! parameters,  and node types for this individual,
             ! after being optimized in GPCODE*opt
 
-            call summary_GP_indiv( i_GP_individual )
+            call summary_GP_indiv( i_GP_generation, i_GP_individual )
 
         endif !  myid == 0
 
@@ -876,7 +875,7 @@ do  i_GP_Generation=1,n_GP_Generations
         write(GP_print_unit,'(A/)')&
               '0:#################################################################'
 
-        call GP_calc_fitness( output_array )
+        call GP_calc_fitness( i_GP_generation, output_array )
 
         write(GP_print_unit,'(/A)')&
               '0:#################################################################'

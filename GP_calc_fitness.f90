@@ -1,4 +1,4 @@
-subroutine GP_calc_fitness( output_array )
+subroutine GP_calc_fitness( i_GP_Generation, output_array )
 
 ! program written by: Dr. John R. Moisan [NASA/GSFC] 31 January, 2013
 
@@ -42,8 +42,7 @@ integer :: nop
 
 integer(kind=4) :: i_GP_individual                                                                           
 integer(kind=4) :: i_GP_Best_Parent                                                                          
-integer(kind=4) :: i_GP_Generation                                                                           
-!integer(kind=4) :: j_GP_Individual                                                                           
+integer(kind=4),intent(in) :: i_GP_Generation                                                                           
 integer(kind=4) :: i_Tree                                                                                    
 integer(kind=4) :: i_Node            
 

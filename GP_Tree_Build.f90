@@ -12,7 +12,6 @@ use GA_Variables_module
 implicit none
 
 real(kind=4) :: cff
-!real(kind=8) :: dff
 
 integer(kind=4) :: n_Nodes_at_Level
 integer(kind=4) :: i_Level_Node
@@ -21,9 +20,6 @@ integer(kind=4) :: Node_Variable
 integer(kind=4) :: i_Error
 
 integer(kind=4) :: i_GP_individual                                                                           
-!integer(kind=4) :: i_GP_Best_Parent                                                                          
-!integer(kind=4) :: i_GP_Generation                                                                           
-!integer(kind=4) :: j_GP_Individual                                                                           
 integer(kind=4) :: i_Tree                                                                                    
 integer(kind=4) :: i_Node            
 !-----------------------------------------------------------------------------

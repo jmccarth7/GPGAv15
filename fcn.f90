@@ -23,10 +23,6 @@ real (kind=8) :: x(n_maximum_number_parameters)
 
 integer (kind=4) :: iflag
 
-!integer(kind=4) :: i_GP_individual                                                                           
-!integer(kind=4) :: i_GP_Best_Parent                                                                          
-!integer(kind=4) :: i_GP_Generation                                                                           
-!integer(kind=4) :: j_GP_Individual                                                                           
 integer(kind=4) :: i_Tree                                                                                    
 integer(kind=4) :: i_Node            
 
