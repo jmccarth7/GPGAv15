@@ -31,7 +31,7 @@ character(2),dimension( 1:n_nodes ) :: tree_type_string
 
 
 integer(kind=4), intent(in), &
-        dimension(n_GP_individuals, 1:n_nodes, 1:n_trees) :: tree_type
+        dimension( 1:n_nodes, 1:n_trees, n_GP_individuals) :: tree_type
 
 integer(kind=4) :: i_GP_individual                                                                           
 integer(kind=4) :: i_Tree                                                                                    
@@ -56,21 +56,21 @@ do  i_GP_individual = n_indiv_start, n_indiv_stop
     do  i_Tree=1,n_Trees
 
         !write(GP_print_unit,'(I6,4x,20(1x,I2))' ) &
-        !     i_tree, Tree_Type(i_GP_individual, 1:n_nodes, i_tree)
+        !     i_tree, Tree_Type( 1:n_nodes, i_tree,i_GP_individual)
         !write(GP_print_unit,'(I6,4x,20(1x,I2))' ) &
 
         tree_type_string = '  '
         do  i_node = 1, n_nodes
 
             !write(GP_print_unit,'(A,3(1x,I6))' ) &
-            !     'pt: i_tree, i_node, Tree_Type(i_GP_individual, i_node, i_tree) ', &
-            !          i_tree, i_node, Tree_Type(i_GP_individual, i_node, i_tree)
+            !     'pt: i_tree, i_node, Tree_Type( i_node, i_tree,i_GP_individual ) ', &
+            !          i_tree, i_node, Tree_Type( i_node, i_tree,i_GP_individual )
 
-            if( Tree_Type(i_GP_individual, i_node, i_tree ) == -9999 )then
+            if( Tree_Type( i_node, i_tree, i_GP_individual) == -9999 )then
                 tree_type_string(i_node)  = '**'
             else
                 write(tree_type_string(i_node), '(I2)') &
-                      tree_type( i_GP_individual, i_node, i_tree )
+                      tree_type( i_node, i_tree, i_GP_individual )
             endif ! tree_type(...-9999
 
             !write(GP_print_unit,'(A,2(1x,I6), 1x, A)' ) &
@@ -81,7 +81,7 @@ do  i_GP_individual = n_indiv_start, n_indiv_stop
 
 
         !write(GP_print_unit,'(I6,4x,20(1x,I5))' ) &
-        !     i_tree, ( Tree_Type(i_GP_individual, jj, i_tree), jj = 1, n_nodes )
+        !     i_tree, ( Tree_Type(jj, i_tree,i_GP_individual), jj = 1, n_nodes )
         write(GP_print_unit,'(I6,4x,20(1x,A))' ) &
              i_tree, Tree_Type_string(1:n_nodes) 
 

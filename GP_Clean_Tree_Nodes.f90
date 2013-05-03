@@ -42,15 +42,15 @@ do  i_GP_Individual=1,n_GP_Individuals
                 i_Node_Right=i_Node+1    ! sets the 'right terminal' node's index;
                                          ! i_node_right=(i_function*2)+1 would also work
 
-                if( GP_Adult_Population_Node_Type(i_GP_Individual, i_Function,   i_Tree) .gt. 0 .and. &
-                    GP_Adult_Population_Node_Type(i_GP_Individual, i_Node_Left,  i_Tree) .eq. 0 .and. &
-                    GP_Adult_Population_Node_Type(i_GP_Individual, i_Node_Right, i_Tree) .eq. 0        ) then
+                if( GP_Adult_Population_Node_Type( i_Function,   i_Tree, i_GP_Individual ) .gt. 0 .and. &
+                    GP_Adult_Population_Node_Type( i_Node_Left,  i_Tree, i_GP_Individual ) .eq. 0 .and. &
+                    GP_Adult_Population_Node_Type( i_Node_Right, i_Tree, i_GP_Individual ) .eq. 0        ) then
 
-                    GP_Adult_Population_Node_Type(i_GP_Individual, i_Function,   i_Tree) = 0
-                    GP_Adult_Population_Node_Type(i_GP_Individual, i_Node_Left,  i_Tree) = -9999
-                    GP_Adult_Population_Node_Type(i_GP_Individual, i_Node_Right, i_Tree) = -9999
+                    GP_Adult_Population_Node_Type( i_Function,   i_Tree, i_GP_Individual ) = 0
+                    GP_Adult_Population_Node_Type( i_Node_Left,  i_Tree, i_GP_Individual ) = -9999
+                    GP_Adult_Population_Node_Type( i_Node_Right, i_Tree, i_GP_Individual ) = -9999
 
-                endif ! GP_Adult_Population_Node_Type(i_GP_Individual,i_Function,i_Tree) .gt. 0 ...
+                endif ! GP_Adult_Population_Node_Type(i_Function,i_Tree,i_GP_Individual) .gt. 0 ...
 
             enddo ! i_node
 

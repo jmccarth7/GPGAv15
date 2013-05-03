@@ -178,7 +178,9 @@ if( MALE_CROSS .and. FEMALE_CROSS) then
 
     i_parent_one_swap_node = 1+int(float(icnt_parent_one_nodes)*cff)
 
-    if( i_Parent_One_Swap_Node .gt. icnt_parent_one_nodes) i_Parent_One_Swap_Node = icnt_Parent_One_Nodes
+    if( i_Parent_One_Swap_Node .gt. icnt_parent_one_nodes) then
+        i_Parent_One_Swap_Node = icnt_Parent_One_Nodes
+    endif ! i_Parent_One_Swap_Node .gt. icnt_parent_one_nodes
 
     icnt = 0
     do  i_node = 1,n_nodes
@@ -306,7 +308,8 @@ if( MALE_CROSS .and. FEMALE_CROSS) then
             i_parent = i_parent_two
         endif !   i_child .eq. 1
 
-        Child_Tree_Swap_Node_Type(1:n_Nodes,i_child) = parent_Tree_Swap_Node_Type(1:n_Nodes,i_parent)
+        Child_Tree_Swap_Node_Type(1:n_Nodes,i_child) =  &
+            parent_Tree_Swap_Node_Type(1:n_Nodes,i_parent)
 
         ! set each of the children to one of the parents initially
 

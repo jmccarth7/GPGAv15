@@ -338,7 +338,7 @@ do  i_GP_Generation=1,n_GP_Generations
             call GP_Tree_Build
 
             !debug only do  i_GP_individual = 1, n_GP_Individuals
-            !debug only     GP_Adult_Population_Node_Type(i_GP_individual,:,:) = &
+            !debug only     GP_Adult_Population_Node_Type(:,:,i_GP_individual) = &
             !debug only                       GP_Node_Type_Answer(:,:) ! debug only
             !debug only enddo
 
@@ -646,14 +646,14 @@ do  i_GP_Generation=1,n_GP_Generations
         endif !  myid == 0
 
 
-        GP_Individual_Node_Parameters = 0.0
+        GP_Individual_Node_Parameters = 0.0d0
                                   ! these get set randomly in the GA-lmdif search algorithm
 
 
         if( Run_GP_Calculate_Fitness(i_GP_Individual) ) then
 
             GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) = &
-              GP_Adult_Population_Node_Type(i_GP_Individual,1:n_Nodes,1:n_Trees)
+              GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual)
 
             ! calculate how many parameters total to fit for the specific individual CODE
 
@@ -807,7 +807,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
             ! set the GA_lmdif-optimized initial condition array
 
-            GP_Population_Initial_Conditions(i_GP_Individual,1:n_CODE_Equations) = &
+            GP_Population_Initial_Conditions(1:n_CODE_Equations, i_GP_Individual) = &
                 GP_Individual_Initial_Conditions(1:n_CODE_Equations) ! Matrix Operation
 
             if( myid == 0 )then
@@ -815,7 +815,7 @@ do  i_GP_Generation=1,n_GP_Generations
                       '0:3 i_GP_gen,i_GP_indiv,&
                       &GP_Pop_Init_Cond(i_GP_Indiv,1:n_CODE_Eq)', &
                            i_GP_generation, i_GP_individual, &
-                       GP_Population_Initial_Conditions(i_GP_Individual,1:n_CODE_Equations)
+                       GP_Population_Initial_Conditions(1:n_CODE_Equations, i_GP_Individual)
             endif !  myid == 0
 
 
@@ -823,7 +823,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
             ! set the GA_lmdif-optimized CODE parameter set array
 
-            GP_Population_Node_Parameters(i_GP_Individual,1:n_Nodes,1:n_Trees) = &
+            GP_Population_Node_Parameters(1:n_Nodes,1:n_Trees, i_GP_Individual) = &
                 GP_Individual_Node_Parameters(1:n_Nodes,1:n_Trees) ! Matrix Operation
 
 
@@ -834,7 +834,7 @@ do  i_GP_Generation=1,n_GP_Generations
                 ! print the node parameters (if there are any)
 
                 if( &
-                any( abs( GP_population_node_parameters(i_GP_individual,:,:) ) > 1.0d-20 ) )then
+                any( abs( GP_population_node_parameters(:,:, i_GP_individual) ) > 1.0d-20 ) )then
 
                     write(GP_print_unit,'(/A/)') &
                        '0:  node  tree  Runge_Kutta_Node_Params&
@@ -842,18 +842,18 @@ do  i_GP_Generation=1,n_GP_Generations
                     do  i_tree=1,n_trees
                         do  i_node=1,n_nodes
                             if( abs( GP_population_node_parameters( &
-                                      i_GP_individual,i_node,i_tree) ) > 1.0d-20   )then
+                                      i_node,i_tree,i_GP_individual) ) > 1.0d-20   )then
 
                                 write(GP_print_unit,'(2(1x,I6), 1x, E20.10, 4x, E20.10)') &
                                      i_node, i_tree, &
                                      Runge_Kutta_Node_Parameters(i_node,i_tree), &
-                                     GP_population_node_parameters(i_GP_individual,i_node,i_tree)
+                                     GP_population_node_parameters(i_node,i_tree,i_GP_individual)
 
                             endif !  abs( GP_population_node_parameters(...
                         enddo ! i_node
                     enddo  ! i_tree
 
-                endif ! any( abs( GP_population_node_parameters(i_GP_individual,:,:) )> 1.0d-20 )
+                endif ! any( abs( GP_population_node_parameters(:,:,i_GP_individual) )> 1.0d-20 )
 
                 !---------------------------------------------------------------------------------
 
