@@ -33,6 +33,8 @@ integer(kind=4) :: i_GP_Generation
 integer(kind=4) :: i_Tree                                                                                   
 integer(kind=4) :: i_Node      
 
+integer(kind=4) :: jj          
+
 
 
 real(kind=8), allocatable, dimension(:) :: answer
@@ -192,7 +194,8 @@ if( myid == 0 )then
           '0: time_step   Runge_Kutta_Solution(time_step,1:n_CODE_equations)'
     do  i = 0, n_time_steps
         write(GP_print_unit,'(I6,8(1x,E15.7))') &
-              i, Runge_Kutta_Solution(i,1:n_CODE_equations)
+              i, (Runge_Kutta_Solution(i,jj), jj = 1,n_CODE_equations )
+              !i, Runge_Kutta_Solution(i,1:n_CODE_equations)
     enddo ! i
     !write(GP_print_unit,'(A,1x,I10)') &
     !      '0: Runge_Kutta message length message_len = ', message_len
@@ -455,7 +458,6 @@ do  i_GP_Generation=1,n_GP_Generations
 
                 call GP_Mutations
 
-                !write(GP_print_unit,'(A)') ' '
                 write(GP_print_unit,'(/A)')'0:aft  call GP_Mutations '
 
                 !tree_descrip =  ' GP_Child trees after call to GP_Mutations'
@@ -470,19 +472,27 @@ do  i_GP_Generation=1,n_GP_Generations
             GP_Adult_Population_Node_Type = GP_Child_Population_Node_Type
             GP_Adult_Population_SSE       = GP_Child_Population_SSE
 
+            write(GP_print_unit,'(/A)')&
+                  '0:aft  move Child_Node_Type and SSE to Adult'
             !---------------------------------------------------------------------------
 
             ! calculate the diversity index for each individual
 
+            write(GP_print_unit,'(/A)')&
+                  '0: call GP_calc_diversity_index '                  
             call GP_calc_diversity_index( n_GP_individuals, &
                                           GP_Child_Population_Node_Type, &
                                           i_diversity, i_gp_generation )
+            write(GP_print_unit,'(/A)')&
+                  '0: aft call GP_calc_diversity_index '                  
 
             !---------------------------------------------------------------------------
 
         endif ! myid == 0
 
-
+                                                     
+        !call MPI_FINALIZE(ierr)
+        !stop ! debug only 
 
         !------------------------------------------------------------------------------------
 
@@ -496,7 +506,17 @@ do  i_GP_Generation=1,n_GP_Generations
         ! GP_Population_Ranked_Fitness
         ! Run_GP_Calculate_Fitness array
 
+        if( myid == 0 )then
+            write(GP_print_unit,'(/A)')&
+                  '0: call bcast2 '                                   
+        endif ! myid == 0 
+
         call bcast2() 
+
+        if( myid == 0 )then
+            write(GP_print_unit,'(/A)')&
+                  '0: aft call bcast2 '                                   
+        endif ! myid == 0 
 
     endif ! i_GP_Generation .eq. 1
 
@@ -531,6 +551,11 @@ do  i_GP_Generation=1,n_GP_Generations
 
 
     call GP_Clean_Tree_Nodes
+
+    if( myid == 0 )then
+        write(GP_print_unit,'(/A,1x,I6/)') &
+              '0: aft call GP_Clean_Tree_Nodes   Generation =', i_GP_Generation
+    endif ! myid == 0
 
 
     ! GP_Adult_Population_Node_Type
@@ -578,9 +603,9 @@ do  i_GP_Generation=1,n_GP_Generations
     !
     !    write(GP_print_unit,'(/A, 1x, I6/)') &
     !          '0: after call to GP_Clean_Tree_Nodes i_GP_generation =',i_GP_generation
-    !
-    !     call print_gp_node_type_parm( )
-    !endif !  myid == 0 .and. ...
+    if( myid == 0 )then
+        call print_gp_node_type_parm( )
+    endif !  myid == 0 .and. ...
 
     !<<<<<<<<<<< jjm 20130417
 
@@ -709,6 +734,10 @@ do  i_GP_Generation=1,n_GP_Generations
 
             call GPCODE_GA_lmdif_Parameter_Optimization()
 
+            if( myid == 0 )then
+                write(GP_print_unit,'(A,1x,I6)') &
+                 '0: aft1 call GPCODE_GA_lmdif_Parameter_Optimization routine'
+            endif ! myid == 0
             !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
             ! wait until everybody has the values
@@ -719,7 +748,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
             if( myid == 0 )then
                 write(GP_print_unit,'(A,1x,I6)') &
-                 '0: aft call GPCODE_GA_lmdif_Parameter_Optimization routine'
+                 '0: aft2 call GPCODE_GA_lmdif_Parameter_Optimization routine'
             endif ! myid == 0
 
             GP_population_fitness(i_GP_individual) = individual_fitness

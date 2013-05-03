@@ -62,6 +62,12 @@ integer :: message_len
         call MPI_BCAST( GP_Child_Individual_SSE, n_GP_individuals,    &
                         MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
+        ! GP_Adult_Individual_SSE
+
+        call MPI_BCAST( GP_Adult_Individual_SSE, n_GP_individuals,    &
+                        MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+
+
         ! GP_Integrated_Population_Ranked_Fitness
 
         call MPI_BCAST( GP_Integrated_Population_Ranked_Fitness, n_GP_individuals,    &

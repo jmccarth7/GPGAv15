@@ -63,6 +63,7 @@ real(kind=8), external :: indiv_fitness
 
 logical :: L_stop_run
 
+integer (kind=4) :: jj
  
 !----------------------------------------------------------------------------------
 
@@ -427,7 +428,9 @@ write(GA_print_unit,'(A,1x,I6,1x,E24.16)') &
                 i_GA_Best_Parent, individual_ranked_fitness(i_GA_Best_Parent)
 write(GA_print_unit,'(A,1x,I6,12(1x,E15.7)/(12(1x,E15.7)))') &
       'calcfit: i_GA_Best_Parent, parent_parameters ', &
-                i_GA_Best_Parent, parent_parameters( i_GA_Best_Parent, 1:n_parameters)
+                i_GA_Best_Parent, &
+                (parent_parameters( i_GA_Best_Parent, jj),jj=1,n_parameters)
+                !i_GA_Best_Parent, parent_parameters( i_GA_Best_Parent, 1:n_parameters)
 
 
 !-----------------------------------------------------------------------
