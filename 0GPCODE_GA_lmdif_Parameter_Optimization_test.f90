@@ -646,7 +646,7 @@ do  i_GP_Generation=1,n_GP_Generations
         endif !  myid == 0
 
 
-        GP_Individual_Node_Parameters = 0.0
+        GP_Individual_Node_Parameters = 0.0d0
                                   ! these get set randomly in the GA-lmdif search algorithm
 
 

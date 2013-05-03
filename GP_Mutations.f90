@@ -33,8 +33,9 @@ integer(kind=4) :: i_Error
 
 logical Node_Not_Found
 
-integer(kind=4) :: i_GP_individual                                                                           
-integer(kind=4) :: i_Node            
+integer(kind=4) :: i_GP_individual
+integer(kind=4) :: i_Node
+integer(kind=4) :: i_tree
 !------------------------------------------------------------------------
 
 
@@ -77,6 +78,7 @@ do  i_GP_Mutation = 1,n_GP_Mutations
     ! randomly pick one of the n_GP_Individuals Adults to mutate
 
     i_GP_Individual_Mutation = 1+int(cff*float(n_GP_Individuals))  ! -1))
+    i_GP_Individual_Mutation = min( i_GP_Individual_Mutation , n_GP_Individuals )
 
 ! choose sequentially from the best of the population  [SHOWN TO CONVERGE FASTER THAN RANDOMLY CHOSEN]
 !off i_GP_Individual_Mutation=i_GP_Individual_Mutation+1
@@ -91,6 +93,21 @@ do  i_GP_Mutation = 1,n_GP_Mutations
 
     !----------------------------------------------------------------------------------
 
+    write(GP_print_unit,'(/A,2(1x,I6)/)') &
+          'gpm:1 n_nodes, n_trees ', n_nodes, n_trees
+    do  i_Tree=1,n_Trees
+        do  i_Node=1,n_Nodes
+            if( GP_Individual_Node_Type(i_Node,i_Tree) /= -9999 )then
+                write(GP_print_unit,'(A,3(1x,I6))') &
+                      'gpm: i_node, i_tree, GP_Individual_Node_Type(i_Node,i_Tree)', &
+                            i_node, i_tree, GP_Individual_Node_Type(i_Node,i_Tree)
+            endif ! GP_Individual_Node_Type(i_Node,i_Tree) /= -9999
+        enddo ! i_node
+    enddo ! i_tree
+    write(GP_print_unit,'(/A)') ' '
+
+    !----------------------------------------------------------------------------------
+
     call GP_Check_Terminals(i_Error)
 
     if( i_Error .eq. 1) then
@@ -101,6 +118,7 @@ do  i_GP_Mutation = 1,n_GP_Mutations
             write(6,'(A,2(1x,I6)/)') 'gpm: i_GP_Individual, i_GP_Mutation, i_Error  ', &
                                            i_GP_Individual, i_GP_Mutation, i_Error
         endif ! myid == 0
+        call MPI_FINALIZE(ierr)
         stop 'GP Mut check error'
     endif
 
@@ -112,6 +130,7 @@ do  i_GP_Mutation = 1,n_GP_Mutations
     call random_number(cff) ! uniform random number generator
 
     i_Tree_Mutation = 1+int(cff*float(n_Trees)) ! -1))   ! randomly pick one of the equation trees
+    i_Tree_Mutation = min( i_Tree_Mutation , n_Trees )
 
 
     ! count the number of function nodes and terminals
@@ -147,6 +166,7 @@ do  i_GP_Mutation = 1,n_GP_Mutations
         call random_number(cff) ! uniform random number generator
         !!??Node_to_Mutate = 1+int(float(icnt_Nodes-1)*cff)
         Node_to_Mutate = 1+int(float(icnt_Nodes)*cff)
+        Node_to_Mutate = min( Node_to_Mutate , icnt_Nodes )
 
 
         icnt = 0
@@ -206,6 +226,23 @@ do  i_GP_Mutation = 1,n_GP_Mutations
 
 
     !----------------------------------------------------------------------------------
+                                                                                                                    
+    write(GP_print_unit,'(/A,2(1x,I6)/)') &                                                                         
+          'gpm:2 n_nodes, n_trees ', n_nodes, n_trees                                                               
+    do  i_Tree=1,n_Trees                                                                                            
+        do  i_Node=1,n_Nodes                                                                                        
+            if( GP_Individual_Node_Type(i_Node,i_Tree) /= -9999 )then                                               
+                write(GP_print_unit,'(A,3(1x,I6))') &                                                               
+                      'gpm: i_node, i_tree, GP_Individual_Node_Type(i_Node,i_Tree)', &                              
+                            i_node, i_tree, GP_Individual_Node_Type(i_Node,i_Tree)                                  
+            endif ! GP_Individual_Node_Type(i_Node,i_Tree) /= -9999                                                 
+        enddo ! i_node                                                                                              
+    enddo ! i_tree                                                                                                  
+    write(GP_print_unit,'(/A)') ' '                                                                                 
+                                                                                                                    
+    !----------------------------------------------------------------------------------                             
+                                                                                      
+    
 
     call GP_Check_Terminals(i_Error)
 
@@ -215,6 +252,8 @@ do  i_GP_Mutation = 1,n_GP_Mutations
             write(6,'(A,2(1x,I6)/)') 'gpm: i_GP_Individual, i_GP_Mutation, i_Error  ', &
                                            i_GP_Individual, i_GP_Mutation, i_Error
         endif ! myid == 0
+
+        call MPI_FINALIZE(ierr)
         stop 'GP_Mut check error'
     endif
 

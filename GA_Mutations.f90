@@ -67,6 +67,7 @@ do i_GA_Mutation=1,n_GA_Mutations
   dff = cff
 
   i_Parameter_Mutation=1+int( dff*dble(n_parameters-1) )
+  i_Parameter_Mutation = min( i_Parameter_Mutation , n_parameters )
 
   !write(GA_print_unit,'(A,1x,I6,1x,E15.7,1x,I6)') &
   !      'gam: i_GA_Mutation, dff, i_Parameter_Mutation     ', &
