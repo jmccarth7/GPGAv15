@@ -1,4 +1,5 @@
-subroutine GP_calc_diversity_index( n_indiv, indiv_node_type, i_diversity, i_GP_generation )
+subroutine GP_calc_diversity_index( n_indiv, indiv_node_type, &
+                                    i_diversity, i_GP_generation )
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ! Mutations in this subroutine are targeted to the nodes only.
@@ -14,7 +15,7 @@ implicit none
 
 
 integer(kind=4), intent(in)  :: n_indiv
-integer(kind=4), intent(in), dimension( n_indiv,n_Nodes,n_Trees) :: indiv_node_type
+integer(kind=4), intent(in), dimension( n_indiv, n_Nodes,n_Trees) :: indiv_node_type
 
 integer(kind=4) :: i_indiv
 integer(kind=4) :: i_diversity
@@ -29,7 +30,7 @@ integer(kind=4),intent(in)  :: i_GP_Generation
 integer(kind=4) :: i_Tree                                                                                    
 integer(kind=4) :: i_Node            
 
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+!---------------------------------------------------------------------------
 
 max_number_nodes = n_trees * n_nodes
 xmax_number_nodes = real( max_number_nodes, kind=8 )

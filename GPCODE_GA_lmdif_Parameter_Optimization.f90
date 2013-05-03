@@ -1153,6 +1153,11 @@ call MPI_BCAST( GP_Individual_Initial_Conditions, message_len,    &
 !    enddo !  i_GA_individual
 !endif ! myid == 0
 
+if( myid == 0  )then
+    write(GA_print_unit,'(//a//)')&
+          'GP_GA_opt: RETURN ----------------------------------'
+endif ! myid == 0
+
 
 return
 

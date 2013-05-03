@@ -475,7 +475,8 @@ do  i_GP_Generation=1,n_GP_Generations
             ! calculate the diversity index for each individual
 
             call GP_calc_diversity_index( n_GP_individuals, &
-                                          GP_Child_Population_Node_Type, i_diversity )
+                                          GP_Child_Population_Node_Type, &
+                                          i_diversity, i_gp_generation )
 
             !---------------------------------------------------------------------------
 
