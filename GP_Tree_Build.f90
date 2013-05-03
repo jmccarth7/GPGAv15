@@ -228,18 +228,18 @@ do  i_GP_Individual=1,n_GP_Individuals
 
     !---------------------------------------------------------------------------------
 
-    !write(GP_print_unit,'(/A,2(1x,I6)/)') &
-    !      'gtb: n_nodes, n_trees ', n_nodes, n_trees
-    !do  i_Tree=1,n_Trees
-    !    do  i_Node=1,n_Nodes
-    !        if( GP_Individual_Node_Type(i_Node,i_Tree) /= -9999 )then
-    !            write(GP_print_unit,'(A,3(1x,I6))') &
-    !                  'gtb: i_node, i_tree, GP_Individual_Node_Type(i_Node,i_Tree)', &
-    !                        i_node, i_tree, GP_Individual_Node_Type(i_Node,i_Tree)
-    !        endif ! GP_Individual_Node_Type(i_Node,i_Tree) /= -9999
-    !    enddo ! i_node
-    !enddo ! i_tree
-    !write(GP_print_unit,'(/A)') ' '
+    write(GP_print_unit,'(/A,2(1x,I6)/)') &
+          'gtb: n_nodes, n_trees ', n_nodes, n_trees
+    do  i_Tree=1,n_Trees
+        do  i_Node=1,n_Nodes
+            if( GP_Individual_Node_Type(i_Node,i_Tree) /= -9999 )then
+                write(GP_print_unit,'(A,3(1x,I6))') &
+                      'gtb: i_node, i_tree, GP_Individual_Node_Type(i_Node,i_Tree)', &
+                            i_node, i_tree, GP_Individual_Node_Type(i_Node,i_Tree)
+            endif ! GP_Individual_Node_Type(i_Node,i_Tree) /= -9999
+        enddo ! i_node
+    enddo ! i_tree
+    write(GP_print_unit,'(/A)') ' '
 
 
     call GP_Check_Terminals(i_Error)
@@ -251,6 +251,7 @@ do  i_GP_Individual=1,n_GP_Individuals
             write(6,'(A,2(1x,I6)/)') 'gtb: i_GP_Individual, i_Error  ', &
                                            i_GP_Individual, i_Error
         endif ! myid == 0
+        call MPI_FINALIZE(ierr)
         stop  'GP Tree Build error'
     endif
 
