@@ -9,6 +9,8 @@ subroutine GP_Mutations
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+use mpi
+use mpi_module
 use GP_Parameters_module
 use GA_Parameters_module
 use GP_Variables_module
@@ -39,16 +41,16 @@ i_GP_Individual_Mutation = 0
 
 i_GP_Individual = n_GP_Elitists + n_GP_Asexual_Reproductions + n_GP_Crossovers
 
-
-write(GP_print_unit,'(/A,1x,I6)' ) &
-      'gpmut: n_GP_Mutations ', n_GP_Mutations
-write(GP_print_unit,'(A,3(1x,I6))' ) &
-      'gpmut: n_GP_Elitists, n_GP_Asexual_Reproductions, n_GP_Crossovers ', &
-              n_GP_Elitists, n_GP_Asexual_Reproductions, n_GP_Crossovers
-write(GP_print_unit,'(A,1x,I6)' ) &
-      'gpmut: start i_GP_individual  =  ', &
-         n_GP_Elitists + n_GP_Asexual_Reproductions + n_GP_Crossovers +1
-
+if( myid == 0 )then
+    write(GP_print_unit,'(/A,1x,I6)' ) &
+          'gpmut: n_GP_Mutations ', n_GP_Mutations                                     
+    write(GP_print_unit,'(A,3(1x,I6))' ) &
+          'gpmut: n_GP_Elitists, n_GP_Asexual_Reproductions, n_GP_Crossovers ', &
+                  n_GP_Elitists, n_GP_Asexual_Reproductions, n_GP_Crossovers
+    write(GP_print_unit,'(A,1x,I6)' ) &
+          'gpmut: start i_GP_individual  =  ', &
+             n_GP_Elitists + n_GP_Asexual_Reproductions + n_GP_Crossovers +1
+endif ! myid == 0 
 
 do  i_GP_Mutation = 1,n_GP_Mutations
 
@@ -89,10 +91,13 @@ do  i_GP_Mutation = 1,n_GP_Mutations
     call GP_Check_Terminals(i_Error)
 
     if( i_Error .eq. 1) then
-        !write(*,*) 'Pre-GP_Check_Error in GP_Mutation',i_GP_Individual,i_GP_Mutation,i_Error
-       write(6,'(/A)') 'gpm: Pre-GP_Check_Error in GP_Mutation'
-        write(6,'(A,2(1x,I6)/)') 'gpm: i_GP_Individual, i_GP_Mutation, i_Error  ', &
-                                       i_GP_Individual, i_GP_Mutation, i_Error
+        if( myid == 0 )then
+            !write(*,*) 'Pre-GP_Check_Error in GP_Mutation',&
+            !         i_GP_Individual,i_GP_Mutation,i_Error
+            write(6,'(/A)') 'gpm: Pre-GP_Check_Error in GP_Mutation'
+            write(6,'(A,2(1x,I6)/)') 'gpm: i_GP_Individual, i_GP_Mutation, i_Error  ', &
+                                           i_GP_Individual, i_GP_Mutation, i_Error
+        endif ! myid == 0 
         stop 'GP Mut check error'
     endif
 
@@ -204,9 +209,11 @@ do  i_GP_Mutation = 1,n_GP_Mutations
     call GP_Check_Terminals(i_Error)
 
     if( i_Error .eq. 1) then
-        write(6,'(A)') 'gpm: Post-GP_Check_Error in GP_Mutation'
-        write(6,'(A,2(1x,I6)/)') 'gpm: i_GP_Individual, i_GP_Mutation, i_Error  ', &
-                                       i_GP_Individual, i_GP_Mutation, i_Error
+        if( myid == 0 )then
+            write(6,'(A)') 'gpm: Post-GP_Check_Error in GP_Mutation'
+            write(6,'(A,2(1x,I6)/)') 'gpm: i_GP_Individual, i_GP_Mutation, i_Error  ', &
+                                           i_GP_Individual, i_GP_Mutation, i_Error
+        endif ! myid == 0
         stop 'GP_Mut check error'
     endif
 

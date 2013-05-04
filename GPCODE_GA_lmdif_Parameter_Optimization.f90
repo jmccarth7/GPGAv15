@@ -103,23 +103,27 @@ if( myid == 0) then
     write(GA_print_unit,'(A)')' '
     do  i_tree=1,n_trees
         do  i_node=1,n_nodes
-            write(GA_print_unit,'(A,2(1x,I6),1x,E15.7)') &
-              'GP_GA_opt: i_node, i_tree, GP_Individual_Node_Parameters(i_node,i_tree) ', &
-                          i_node, i_tree, GP_Individual_Node_Parameters(i_node,i_tree)
+            if( abs( GP_Individual_Node_Parameters(i_node,i_tree) ) > 1.0e-20 )then 
+                write(GA_print_unit,'(A,2(1x,I6),1x,E15.7)') &
+                  'GP_GA_opt: i_node, i_tree, GP_Indiv_Node_Param(i_node,i_tree) ', &
+                              i_node, i_tree, GP_Individual_Node_Parameters(i_node,i_tree)
+            endif ! abs( GP_Indiv_Node_Param(i_node,i_tree) ) > 1.0e-20 
         enddo ! i_node
     enddo  ! i_tree
-
+    
     write(GA_print_unit,'(A)')' '
-
-
+    
+    
     do  i_tree=1,n_trees
         do  i_node=1,n_nodes
-            write(GA_print_unit,'(A,3(1x,I6))') &
-             'GP_GA_opt: i_node, i_tree, GP_Individual_Node_Type(i_node,i_tree)', &
-                         i_node, i_tree, GP_Individual_Node_Type(i_node,i_tree)
+            if( GP_Individual_Node_Type(i_node,i_tree) > -9999 )then
+                write(GA_print_unit,'(A,3(1x,I6))') &
+                 'GP_GA_opt: i_node, i_tree, GP_Indiv_Node_Type(i_node,i_tree)', &
+                             i_node, i_tree, GP_Individual_Node_Type(i_node,i_tree)
+            endif ! GP_Indiv_Node_Type(i_node,i_tree) > -9999 
         enddo ! i_node
     enddo  ! i_tree
-
+    
     write(GA_print_unit,'(A)')' '
 
 endif ! myid == 0
@@ -133,7 +137,7 @@ if( n_parameters .le. 0) then
           'GP_GA_opt: ERROR: n_parameters </= 0'
     write(GA_print_unit,'(A,1x,I10)') &
           'GP_GA_opt: n_parameters =   ', n_parameters
-    stop
+    stop 'n_par<=0'
 endif
 
 if( n_time_steps .lt. n_parameters) then
@@ -143,12 +147,12 @@ if( n_time_steps .lt. n_parameters) then
           'GP_GA_opt:  n_time_steps = ', n_time_steps
     write(GA_print_unit,'(A,1x,I10)') &
           'GP_GA_opt: n_parameters =   ', n_parameters
-    stop
+    stop 'n_time < n_par'
 endif
 
 if( tol .lt. zero) then
     write(GA_print_unit,'(A)') 'GP_GA_opt: ERROR: tol < 0'
-    stop
+    stop 'tol < 0.0'
 endif
 
 
@@ -217,6 +221,7 @@ else
     chunk = n_GA_individuals
 endif ! numprocs > 1
 
+chunk = max( 1, chunk ) 
 
 if( myid == 0 )then
 
@@ -1150,4 +1155,3 @@ return
 
 
 end subroutine GPCODE_GA_lmdif_Parameter_Optimization
-!234567890123456789012345678901234567890123456789012345678901234567890

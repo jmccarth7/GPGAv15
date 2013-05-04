@@ -70,8 +70,8 @@ if(  icall  == 0  )then
         write(GP_print_unit,'(A,1x,I6)') 'ivLV: n_nodes           ', n_nodes
         write(GP_print_unit,'(A,1x,I6)') 'ivLV: n_linked_parms    ', n_linked_parms
         write(GP_print_unit,'(A,1x,I6)') 'ivLV: n_linked_parms_dim', n_linked_parms_dim
-        write(GP_print_unit,'(/A,1x,I6/)') 'ivLV: n_maximum_number_parameters  ', &
-                                      n_maximum_number_parameters
+        write(GP_print_unit,'(A,1x,I6/)')'ivLV: n_maximum_number_parameters  ', &
+                                                n_maximum_number_parameters
     endif ! myid == 0
 
 

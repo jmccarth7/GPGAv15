@@ -269,9 +269,11 @@ do  i_GP_Individual=1,n_GP_Individuals
 
 
     if( i_Error .eq. 1 ) then
-        write(6,'(/A)') 'gtb: GP_Check_Error in GP_Tree_Build'
-        write(6,'(A,2(1x,I6)/)') 'gtb: i_GP_Individual, i_Error  ', &
-                                       i_GP_Individual, i_Error
+        if( myid == 0 )then
+            write(6,'(/A)') 'gtb: GP_Check_Error in GP_Tree_Build'
+            write(6,'(A,2(1x,I6)/)') 'gtb: i_GP_Individual, i_Error  ', &
+                                           i_GP_Individual, i_Error
+        endif ! myid == 0 
         stop  'GP Tree Build error'
     endif
 
