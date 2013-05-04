@@ -31,7 +31,7 @@ implicit none
 
 
 
-integer :: i_code_eq 
+integer :: i_code_eq
 
 
 integer :: i_GP_indiv
@@ -51,7 +51,7 @@ integer :: i_GP_indiv
 
 !--------------------------------------------------------------------------------
 
-! initial conditions 
+! initial conditions
 
 
 write(GP_print_unit,'(/A)')&
@@ -64,11 +64,11 @@ do  i_code_eq = 1, n_CODE_Equations
           i_GP_generation, i_GP_indiv, i_code_eq, &
           GP_Population_Initial_Conditions( i_GP_indiv,i_code_eq )
 
-    write(GP_summary_output_unit, '(3(1x,I6), 1x, E20.10)')&        
-          i_GP_generation, i_GP_indiv, i_code_eq, &              
+    write(GP_summary_output_unit, '(3(1x,I6), 1x, E20.10)')&
+          i_GP_generation, i_GP_indiv, i_code_eq, &
           GP_Population_Initial_Conditions( i_GP_indiv,i_code_eq )
 
-enddo  ! i_code_eq 
+enddo  ! i_code_eq
 
 
 write(GP_summary_output_unit, '(A)') '> '

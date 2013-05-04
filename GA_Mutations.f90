@@ -62,12 +62,12 @@ do i_GA_Mutation=1,n_GA_Mutations
 
   !--------------------------------------------------------------------
 
-  !  randomly pick which parameter will be replaced 
+  !  randomly pick which parameter will be replaced
 
   call random_number(cff)   ! uniform random number generator
   dff = cff
 
-  i_Parameter_Mutation=1+int( dff*dble(n_parameters-1) ) 
+  i_Parameter_Mutation=1+int( dff*dble(n_parameters-1) )
 
   !write(GA_print_unit,'(A,1x,I6,1x,E15.7,1x,I6)') &
   !      'gam: i_GA_Mutation, dff, i_Parameter_Mutation     ', &
@@ -75,12 +75,12 @@ do i_GA_Mutation=1,n_GA_Mutations
 
   !--------------------------------------------------------------------
 
-  !  randomly pick a new real number for this parameter 
+  !  randomly pick a new real number for this parameter
 
-  call random_real(cff)   
+  call random_real(cff)
   dff = cff
 
-  child_parameters(i_GA_Individual_Mutation,i_Parameter_Mutation) = dff 
+  child_parameters(i_GA_Individual_Mutation,i_Parameter_Mutation) = dff
 
   !----------------------------------------------------------------------------
 
@@ -98,10 +98,10 @@ do i_GA_Mutation=1,n_GA_Mutations
 
   ! set the flag to do the RK integration on this parameter
 
-  Run_GA_lmdif(i_GA_Individual_Mutation)=.true.  
+  Run_GA_lmdif(i_GA_Individual_Mutation)=.true.
 
 
-  ! I don't think this is needed, 
+  ! I don't think this is needed,
   ! since the individual_quality will be set to 1 later
 
   individual_quality(i_GA_Individual_Mutation) = 1   ! reset quality since this has been mutated
@@ -124,22 +124,22 @@ do i_GA_Mutation=1,n_GA_Mutations
 
       if( any( i_parameter_mutation == linked_parms(1,:) )    )then
 
-          do  i = 1, n_linked_parms 
-    
+          do  i = 1, n_linked_parms
+
               if( i_parameter_mutation == linked_parms(1,i) )then
-    
+
                   child_parameters(i_GA_Individual_Mutation,linked_parms(2,i) ) = &
-                  child_parameters(i_GA_Individual_Mutation,i_Parameter_Mutation) 
-    
+                  child_parameters(i_GA_Individual_Mutation,i_Parameter_Mutation)
+
                   exit
-    
+
               endif ! i_parameter_mutation == linked_parms(i,1)
-    
-          enddo ! i 
 
-      endif !  any( i_parameter_mutation == linked_parms(1,:) )  
+          enddo ! i
 
-  endif !  n_linked_parms > 0 
+      endif !  any( i_parameter_mutation == linked_parms(1,:) )
+
+  endif !  n_linked_parms > 0
 
   !----------------------------------------------------------------------------
 
@@ -151,4 +151,3 @@ write(GA_print_unit,'(A,1x,I6,1x,I10/)') &
 
 return
 end subroutine GA_Mutations
-!234567890123456789012345678901234567890123456789012345678901234567890

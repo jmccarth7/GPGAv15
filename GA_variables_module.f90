@@ -17,41 +17,41 @@ real(kind=8) :: GA_Individual_Lowest_SSE
 
 
 ! must be kept for re-evaluations of next generations
-!real(kind=8) :: GA_Adult_Individual_SSE(n_GA_Individuals)       
+!real(kind=8) :: GA_Adult_Individual_SSE(n_GA_Individuals)
 real(kind=8), allocatable, dimension(:) :: GA_Adult_Individual_SSE
 
 ! must be kept for re-evaluations of next generations
-!real(kind=8) :: GA_Child_Individual_SSE(n_GA_Individuals)       
+!real(kind=8) :: GA_Child_Individual_SSE(n_GA_Individuals)
 real(kind=8), allocatable, dimension(:) :: GA_Child_Individual_SSE
 
 ! needed to support sexual and "tournament-style" reproduction
-!real(kind=8) :: GA_Integrated_SSE(n_GA_Individuals)             
+!real(kind=8) :: GA_Integrated_SSE(n_GA_Individuals)
 real(kind=8), allocatable, dimension(:) :: GA_Integrated_SSE
 
 ! must be kept for re-evaluations of next generations
-!real(kind=8) :: GA_Individual_Ranked_Fitness(n_GA_Individuals)  
+!real(kind=8) :: GA_Individual_Ranked_Fitness(n_GA_Individuals)
 real(kind=8), allocatable, dimension(:) :: GA_Individual_Ranked_Fitness
 
 ! must be kept for re-evaluations of next generations
-!real(kind=8) :: GA_Integrated_Ranked_Fitness(n_GA_Individuals)  
+!real(kind=8) :: GA_Integrated_Ranked_Fitness(n_GA_Individuals)
 real(kind=8), allocatable, dimension(:) :: GA_Integrated_Ranked_Fitness
 
 
 
 ! must be kept for re-evaluations of next generations
-!real (kind=8) :: individual_SSE(n_GA_individuals)   
-real(kind=8),allocatable, dimension(:) :: individual_SSE  
+!real (kind=8) :: individual_SSE(n_GA_individuals)
+real(kind=8),allocatable, dimension(:) :: individual_SSE
 
 !     needed to support sexual and "tournament-style" reproduction
-!real (kind=8) :: integrated_SSE(n_GA_individuals)   
-real(kind=8),allocatable, dimension(:) :: integrated_SSE 
+!real (kind=8) :: integrated_SSE(n_GA_individuals)
+real(kind=8),allocatable, dimension(:) :: integrated_SSE
 
 !      must be kept for re-evaluations of next generations
-!real (kind=8) :: individual_ranked_fitness(n_GA_individuals)  
-real(kind=8),allocatable, dimension(:) :: individual_ranked_fitness 
+!real (kind=8) :: individual_ranked_fitness(n_GA_individuals)
+real(kind=8),allocatable, dimension(:) :: individual_ranked_fitness
 
 !      must be kept for re-evaluations of next generations
-!real (kind=8) :: integrated_ranked_fitness(n_GA_individuals)  
+!real (kind=8) :: integrated_ranked_fitness(n_GA_individuals)
 real(kind=8),allocatable, dimension(:) :: integrated_ranked_fitness
 
 

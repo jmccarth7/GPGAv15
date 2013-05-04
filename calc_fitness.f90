@@ -65,7 +65,7 @@ logical :: L_stop_run
 
 !----------------------------------------------------------------------------------
 
-L_stop_run = .FALSE. 
+L_stop_run = .FALSE.
 
 !write(GA_print_unit,'(/A)') 'calcfit:  finished the loop on i_GA_individual  '
 
@@ -80,22 +80,22 @@ enddo ! i_parameter
 
 !-----------------------------------------------------------------------------------
 
-!write(GA_print_unit,'(/A)') 'calcfit: i_GA_individual, parent params'
+write(GA_print_unit,'(/A)') 'calcfit: i_GA_individual, parent params'
 
-!do  i_GA_individual=1,n_GA_individuals
-!    write(GA_print_unit,'(I6,(12(1x,E15.7)))') i_GA_individual, &
-!              parent_parameters( i_GA_individual, 1:n_parameters)
-!enddo !  i_GA_individual
+do  i_GA_individual=1,n_GA_individuals
+    write(GA_print_unit,'(I6,(12(1x,E15.7)))') i_GA_individual, &
+              parent_parameters( i_GA_individual, 1:n_parameters)
+enddo !  i_GA_individual
 
 !-----------------------------------------------------------------------------------
 
-!write(GA_print_unit,*) ' '
-!do  i_GA_individual=1,n_GA_individuals
-!    write(GA_print_unit,'(A,1x,I6,1x,E24.16, 1x, I6)') &
-!        'calcfit: i_GA_individual, individual_SSE, individual_quality', &
-!                  i_GA_individual, individual_SSE(i_GA_individual), &
-!                                   individual_quality( i_GA_individual )
-!enddo !  i_GA_individual
+write(GA_print_unit,*) ' '
+do  i_GA_individual=1,n_GA_individuals
+    write(GA_print_unit,'(A,1x,I6,1x,E24.16, 1x, I6)') &
+        'calcfit: i_GA_individual, individual_SSE, individual_quality', &
+                  i_GA_individual, individual_SSE(i_GA_individual), &
+                                   individual_quality( i_GA_individual )
+enddo !  i_GA_individual
 
 !-----------------------------------------------------------------------------------
 
@@ -103,7 +103,7 @@ enddo ! i_parameter
 ! compute the edit level = n_time_steps *  max_err**2
 
 
-! that is, the edit level is reached 
+! that is, the edit level is reached
 ! if the residuals on all time steps are equal
 ! to the maximum, user-specified, error
 
@@ -116,7 +116,7 @@ write(GA_print_unit,'(/A,1x,I6, 2(1x, E15.7))') &
 
 !-----------------------------------------------------------------------------------
 
-! if the indiv_sse > sse0, 
+! if the indiv_sse > sse0,
 ! then this is a bad result, so give individual_quality = -1
 
 ! only do this if individual_quality > 0, since
@@ -132,12 +132,12 @@ do  i_GA_individual=1,n_GA_individuals  ! calculate the total populations SSE
         if( individual_SSE(i_GA_individual) > edit_level  ) then
         !if( individual_SSE(i_GA_individual) >  edit_level .or.  &
         !    individual_SSE(i_GA_individual) >= sse0      ) then
-    
+
             individual_quality( i_GA_individual ) = -1
-    
+
         endif !   individual_SSE(i_GA_individual) >  edit_level
 
-    endif !  individual_quality > 0  
+    endif !  individual_quality > 0
 
 enddo ! i_GA_individual
 
@@ -146,7 +146,7 @@ enddo ! i_GA_individual
 ! calculate the integrated ranked fitness levels
 ! to support the "Fitness Proportionate Reproduction" events
 
-!write(GA_print_unit,'(/A/)')'calcfit: calculate the integrated ranked fitness levels'
+write(GA_print_unit,'(/A/)')'calcfit: calculate the integrated ranked fitness levels'
 
 !----------------------------------------------------------------------------------
 
@@ -203,7 +203,7 @@ min_sse = 1.0D20
 index_min_sse = 0
 sum_individual_SSE = 0.0D0
 
-do i_GA_individual=1,n_GA_individuals  
+do i_GA_individual=1,n_GA_individuals
 
   !write(GA_print_unit,'(A,2(1x,I6))') &
   !      'calcfit: i_GA_individual, individual_quality( i_GA_individual )', &
@@ -215,7 +215,7 @@ do i_GA_individual=1,n_GA_individuals
       ! indiv_fitness is a function
 
       !dble_cff = dble_cff +  indiv_fitness( i_GA_individual )    ! new
-      dble_cff = dble_cff +  individual_ranked_fitness(i_GA_individual) 
+      dble_cff = dble_cff +  individual_ranked_fitness(i_GA_individual)
 
       integrated_SSE(i_GA_individual)=dble_cff   ! integrated_SSE never used
 
@@ -249,7 +249,7 @@ sum_individual_fit = dble_cff
 mean_individual_fit = 0.0d0
 if( n_counted > 0 )then
     mean_individual_fit = sum_individual_fit / real( n_counted, kind=8)
-endif ! n_counted > 0 
+endif ! n_counted > 0
 
 
 write(GA_print_unit,'(/A,1x,I6,1x,E20.10)')&
@@ -265,7 +265,7 @@ mean_individual_SSE = 0.0D0
 
 if( n_counted > 0 )then
     mean_individual_SSE = sum_individual_SSE / real( n_counted, kind=8)
-endif ! n_counted > 0 
+endif ! n_counted > 0
 
 
 write(GA_print_unit,'(/A,1x,I6,1x,E20.10)')&
@@ -307,7 +307,7 @@ else
     mean_fitness  =  0.0d0
     sigma_fitness =  0.0d0
 
-endif 
+endif
 
 !var_fitness   = sqrt( var_fitness  / xn )
 
@@ -431,15 +431,15 @@ write(GA_print_unit,'(A,1x,I6,12(1x,E15.7)/(12(1x,E15.7)))') &
 
 !-----------------------------------------------------------------------
 
-! if fitness >= 100, then sse <= 0.01 * sse0 
+! if fitness >= 100, then sse <= 0.01 * sse0
 ! if this is true, stop the run
 
 !if( individual_ranked_fitness(i_GA_Best_Parent) >= 100.0d0 ) then
 if( individual_ranked_fitness(i_GA_Best_Parent) >= 200.0d0 ) then
 
-    !L_stop_run = .TRUE. 
+    !L_stop_run = .TRUE.
 
-endif ! individual_ranked_fitness(i_GA_Best_Parent) >= 100.0d0 
+endif ! individual_ranked_fitness(i_GA_Best_Parent) >= 100.0d0
 
 !-----------------------------------------------------------------------
 

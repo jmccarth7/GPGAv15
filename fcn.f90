@@ -28,7 +28,7 @@ integer (kind=4) :: iflag
 
 !---------------------------------------------------------------------
 
-! move the values you are trying to fit into 
+! move the values you are trying to fit into
 ! the initial conditions and variable terms
 
 
@@ -88,7 +88,7 @@ do i_tree=1,n_trees
 
       !write(GA_print_unit,'(A,3(1x,I6),1x,E15.7)') &
       ! 'fcn: i_node, i_tree, i_parameter, Runge_Kutta_Node_Parameters(i_node,i_tree) ', &
-      !       i_node, i_tree, i_parameter, Runge_Kutta_Node_Parameters(i_node,i_tree) 
+      !       i_node, i_tree, i_parameter, Runge_Kutta_Node_Parameters(i_node,i_tree)
 
     endif !  GP_individual_node_type(i_node,i_tree) .eq. 0
 
@@ -104,8 +104,8 @@ enddo  ! i_tree
 !          if( Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999  )then
 !              write(GA_print_unit,'(A,2(1x,I6),1x,E15.7)') &
 !               'fcn: i_node, i_tree, Runge_Kutta_Node_Parameters(i_node,i_tree) ', &
-!                     i_node, i_tree, Runge_Kutta_Node_Parameters(i_node,i_tree) 
-!          endif ! Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999 
+!                     i_node, i_tree, Runge_Kutta_Node_Parameters(i_node,i_tree)
+!          endif ! Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999
 !      endif ! myid == 1   NOTE:  1
 !  enddo ! i_node
 !enddo  ! i_tree
@@ -115,8 +115,8 @@ enddo  ! i_tree
 !          if( Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999  )then
 !              write(GA_print_unit,'(A,3(1x,I6))') &
 !               'fcn: i_node, i_tree, Runge_Kutta_Node_Type(i_node,i_tree) ', &
-!                     i_node, i_tree, Runge_Kutta_Node_Type(i_node,i_tree) 
-!          endif ! Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999 
+!                     i_node, i_tree, Runge_Kutta_Node_Type(i_node,i_tree)
+!          endif ! Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999
 !      endif ! myid == 1   NOTE:  1
 !  enddo ! i_node
 !enddo  ! i_tree
@@ -166,10 +166,14 @@ do i_time_step=1,n_time_steps
       !      'fcn: myid, i_eqn, data_variance ', &
       !            myid, i_CODE_equation, data_variance(i_CODE_equation)
 
-      fvec(i_time_step) = fvec(i_time_step)  +                                  &
+      if( abs( Data_Variance(i_CODE_equation) ) > 1.0d-20 )then
+
+          fvec(i_time_step) = fvec(i_time_step)  +                                  &
             (   Data_Array(i_time_step,i_CODE_equation) -                       &
                 Runge_Kutta_Solution(i_time_step,i_CODE_equation)   )**2  /     &
                                                        Data_Variance(i_CODE_equation)
+
+      endif ! abs( Data_Variance(i_CODE_equation) ) > 1.0d-20
 
   enddo ! i_CODE_equation
 

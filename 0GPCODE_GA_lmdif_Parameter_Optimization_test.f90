@@ -66,22 +66,22 @@ call MPI_COMM_SIZE(MPI_COMM_WORLD, numprocs, ierr)
 
 Lprint_lmdif = .TRUE.
 
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                                            
-                                                                                                                  
-CALL RANDOM_SEED(size = n_seed)                                                                                   
-                                                                                                                  
-if( .not. allocated( seed ) )then                                                                                 
-                                                                                                                  
-    ALLOCATE(seed(n_seed))                                                                                        
-                                                                                                                  
-endif ! .not. allocated( seed )                                                                                   
-                                                                                                                  
-CALL SYSTEM_CLOCK(COUNT=clock)                                                                                    
-seed = clock + 37 * (/ (i_seed - 1, i_seed = 1, n_seed) /)                                                        
-                                                                                                                  
-CALL RANDOM_SEED(PUT = seed)                                                                                      
-                                                                                                                  
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                                            
+!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+CALL RANDOM_SEED(size = n_seed)
+
+if( .not. allocated( seed ) )then
+
+    ALLOCATE(seed(n_seed))
+
+endif ! .not. allocated( seed )
+
+CALL SYSTEM_CLOCK(COUNT=clock)
+seed = clock + 37 * (/ (i_seed - 1, i_seed = 1, n_seed) /)
+
+CALL RANDOM_SEED(PUT = seed)
+
+!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 
 !------------------------------------------------------------------
@@ -733,8 +733,8 @@ do  i_GP_Generation=1,n_GP_Generations
             !      '0: GP_Child_Population_SSE', GP_Child_Population_SSE
 
 
-            GP_Adult_Population_Node_Type = GP_Child_Population_Node_Type   
-            GP_Adult_Population_SSE       = GP_Child_Population_SSE        
+            GP_Adult_Population_Node_Type = GP_Child_Population_Node_Type
+            GP_Adult_Population_SSE       = GP_Child_Population_SSE
 
             !write(GP_print_unit, '(/A/(10(1x,I6)))')  &
             !      '0:aft GP_Adult_Population_Node_Type', GP_Adult_Population_Node_Type
@@ -1076,7 +1076,7 @@ do  i_GP_Generation=1,n_GP_Generations
                  '0: aft call GPCODE_GA_lmdif_Parameter_Optimization routine'
             endif ! myid == 0
 
-            
+
 
             GP_population_fitness(i_GP_individual) = individual_fitness
 

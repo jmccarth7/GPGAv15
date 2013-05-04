@@ -62,7 +62,7 @@ do  i_Node=1,n_Nodes
                 !     'cgcsse: i_node, i_tree, &GP_Indiv_Node_Type, &
                 !     &GP_Node_Type_Answer  dff, xcount ',&
                 !     i_node, i_tree, GP_Individual_Node_Type(i_Node,i_Tree), &
-                !     GP_Node_Type_Answer(i_Node,i_Tree), dff, xcount 
+                !     GP_Node_Type_Answer(i_Node,i_Tree), dff, xcount
                 !endif ! myid == 0
 
             else
@@ -77,14 +77,14 @@ do  i_Node=1,n_Nodes
                 !        &GP_Node_Type_Answer  dff, xcount ',&
                 !         i_node, i_tree, &
                 !         GP_Individual_Node_Type(i_Node,i_Tree), &
-                !         GP_Node_Type_Answer(i_Node,i_Tree), dff, xcount 
+                !         GP_Node_Type_Answer(i_Node,i_Tree), dff, xcount
                 !endif ! myid == 0
 
                 if( myid == 0 )then
                     write(GP_print_unit,'(5x,3(1x,I6),15X,I6,10x,2(1x,E15.7))') &
                           i_node, i_tree, &
                           GP_Individual_Node_Type(i_Node,i_Tree), &
-                          GP_Node_Type_Answer(i_Node,i_Tree), dff, xcount 
+                          GP_Node_Type_Answer(i_Node,i_Tree), dff, xcount
                 endif ! myid == 0
 
 

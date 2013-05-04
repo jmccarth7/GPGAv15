@@ -1,4 +1,4 @@
-subroutine print_trees( n_indiv_start, n_indiv_stop, tree_type, tree_descrip ) 
+subroutine print_trees( n_indiv_start, n_indiv_stop, tree_type, tree_descrip )
 
 ! program written by: Dr. John R. Moisan [NASA/GSFC] 31 January, 2013
 
@@ -24,20 +24,20 @@ implicit none
 
 integer,intent(in) :: n_indiv_start
 integer,intent(in) :: n_indiv_stop
-character(*),intent(in) :: tree_descrip 
+character(*),intent(in) :: tree_descrip
 
 !integer :: i
 
 integer(kind=4), intent(in), &
-        dimension(n_GP_individuals, 1:n_nodes, 1:n_trees) :: tree_type 
+        dimension(n_GP_individuals, 1:n_nodes, 1:n_trees) :: tree_type
 
 !----------------------------------------------------------------------------------------
 
 
-! print trees 
+! print trees
 
-write(GP_print_unit,'(/A/)')  &                                                            
-      'pt: ############################################################################'  
+write(GP_print_unit,'(/A/)')  &
+      'pt: ############################################################################'
 write(GP_print_unit,'(A/)')  tree_descrip
 
 do  i_GP_individual = n_indiv_start, n_indiv_stop
@@ -49,13 +49,13 @@ do  i_GP_individual = n_indiv_start, n_indiv_stop
     do  i_Tree=1,n_Trees
 
         write(GP_print_unit,'(I6,4x,20(1x,I2))' ) &
-             i_tree, Tree_Type(i_GP_individual, 1:n_nodes, i_tree) 
+             i_tree, Tree_Type(i_GP_individual, 1:n_nodes, i_tree)
 
     enddo ! i_tree
 enddo  ! i_GP_individual
 
-write(GP_print_unit,'(/A/)')  &                                                            
-      'pt: ############################################################################'  
+write(GP_print_unit,'(/A/)')  &
+      'pt: ############################################################################'
 
 
 return

@@ -17,7 +17,7 @@ real(kind=8) :: dff
 
 !---------------------------------------------------------------------------
 
-!  generate indices for the tournament selection  
+!  generate indices for the tournament selection
 
 !  keep generating numbers until one is found
 !  which is not an index of an elite individual which must not be replaced

@@ -288,9 +288,9 @@ do i_time_step=1,n_time_steps
     !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
     i_tree=0
-    do i_CODE_equation=0,n_CODE_equations   ! source of material 
+    do i_CODE_equation=0,n_CODE_equations   ! source of material
 
-      do j_CODE_equation=0,n_CODE_equations ! sink of material  
+      do j_CODE_equation=0,n_CODE_equations ! sink of material
 
         if (i_CODE_equation .ne. j_CODE_equation) then
 
@@ -323,21 +323,21 @@ do i_time_step=1,n_time_steps
 
     do i_CODE_equation=0,n_CODE_equations   ! source of material
 
-      do j_CODE_equation=0,n_CODE_equations ! sink of material   
+      do j_CODE_equation=0,n_CODE_equations ! sink of material
 
-        if( i_CODE_equation .gt. 0) then 
+        if( i_CODE_equation .gt. 0) then
 
           fbio(i_CODE_equation) = &
             fbio(i_CODE_equation) - bioflo(i_CODE_equation,j_CODE_equation)
 
-        endif !   i_CODE_equation .gt. 0  
+        endif !   i_CODE_equation .gt. 0
 
-        if( j_CODE_equation .gt. 0) then  
+        if( j_CODE_equation .gt. 0) then
 
           fbio(j_CODE_equation) = &
             fbio(j_CODE_equation) + bioflo(i_CODE_equation,j_CODE_equation)
 
-        endif !   j_CODE_equation .gt. 0  
+        endif !   j_CODE_equation .gt. 0
 
       enddo !  j_CODE_equation
     enddo !  i_CODE_equation
@@ -367,7 +367,7 @@ do i_time_step=1,n_time_steps
         cff =  kval(1,i_CODE_equation)/6.0D+0  + &
                kval(2,i_CODE_equation)/3.0D+0  + &
                kval(3,i_CODE_equation)/3.0D+0  + &
-               kval(4,i_CODE_equation)/6.0D+0 
+               kval(4,i_CODE_equation)/6.0D+0
 
         b_tmp(i_CODE_equation)=b_tmp(i_CODE_equation)  +  cff
 

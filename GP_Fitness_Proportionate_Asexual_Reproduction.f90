@@ -21,7 +21,7 @@ integer(kind=4) :: i_GP_Asexual_Reproduction
 
 icff = -1
 
-i_GP_Individual = n_GP_Elitists 
+i_GP_Individual = n_GP_Elitists
 
 
 write(GP_print_unit,'(/A,1x,I6)' ) &
@@ -44,7 +44,7 @@ do i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
 
       write(GP_print_unit,'(A,1x,I6,2(1x,E15.7))' ) &
         'gpfpar: j_GP_Individual, cff, GP_Integrated_Population_Ranked_Fitness(j_GP_Individual) ', &
-                 j_GP_Individual, cff, GP_Integrated_Population_Ranked_Fitness(j_GP_Individual) 
+                 j_GP_Individual, cff, GP_Integrated_Population_Ranked_Fitness(j_GP_Individual)
 
       if( cff .le. GP_Integrated_Population_Ranked_Fitness(j_GP_Individual)) then
 

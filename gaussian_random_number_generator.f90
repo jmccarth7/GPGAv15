@@ -4,7 +4,7 @@ subroutine gaussian_random_number_generator( mean, standard_deviation, &
 implicit none
 
 ! two random numbers with uniform distribution
-double precision :: random_number1 , random_number2 
+double precision :: random_number1 , random_number2
 
 ! mean of the gaussian distribution we want a random number from
 double precision, intent(in) :: mean

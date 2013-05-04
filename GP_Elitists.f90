@@ -33,7 +33,7 @@ write(GP_print_unit,'(/A)')&
 do  i_GP_Individual=1,n_GP_Individuals
     write(GP_print_unit,'(I6,1x,E15.7,1x,I6)')&
           i_GP_Individual, &
-          GP_Individual_Ranked_Fitness( i_GP_Individual), Ranked_Fitness(i_GP_Individual) 
+          GP_Individual_Ranked_Fitness( i_GP_Individual), Ranked_Fitness(i_GP_Individual)
 enddo
 
 
@@ -66,7 +66,7 @@ write(GP_print_unit,'(A)')&
     'gpel: i_GP_Individual, Fitness( i_GP_Individual), Ranked_Fitness(i_GP_Individual) '
 do  i_GP_Individual=1,n_GP_Individuals
     write(GP_print_unit,'(I6,1x,E15.7,1x,I6)')&
-           i_GP_Individual, Fitness( i_GP_Individual), Ranked_Fitness(i_GP_Individual) 
+           i_GP_Individual, Fitness( i_GP_Individual), Ranked_Fitness(i_GP_Individual)
 enddo
 
 
@@ -117,7 +117,7 @@ enddo ! i_GP_Individual
 
 ! normalize to the integrated ranking values so that the ranking integration ranges from [0. to 1.]
 
-do  i_GP_Individual=1,n_GP_Individuals 
+do  i_GP_Individual=1,n_GP_Individuals
     GP_Integrated_Ranked_Fitness(i_GP_Individual) = &
     GP_Integrated_Ranked_Fitness(i_GP_Individual)/GP_Integrated_Ranked_Fitness(n_GP_Individuals)
 enddo ! i_GP_Individual

@@ -98,31 +98,31 @@ endif ! myid == 0
 
 
 ! jjm 20130417 >>>>>>>>>>>>>>>
-!if( myid == 0) then
-!
-!    write(GA_print_unit,'(A)')' '
-!    do  i_tree=1,n_trees
-!        do  i_node=1,n_nodes
-!            write(GA_print_unit,'(A,2(1x,I6),1x,E15.7)') &
-!              'GP_GA_opt: i_node, i_tree, GP_Individual_Node_Parameters(i_node,i_tree) ', &
-!                          i_node, i_tree, GP_Individual_Node_Parameters(i_node,i_tree)
-!        enddo ! i_node
-!    enddo  ! i_tree
-!    
-!    write(GA_print_unit,'(A)')' '
-!    
-!    
-!    do  i_tree=1,n_trees
-!        do  i_node=1,n_nodes
-!            write(GA_print_unit,'(A,3(1x,I6))') &
-!             'GP_GA_opt: i_node, i_tree, GP_Individual_Node_Type(i_node,i_tree)', &
-!                         i_node, i_tree, GP_Individual_Node_Type(i_node,i_tree)
-!        enddo ! i_node
-!    enddo  ! i_tree
-!    
-!    write(GA_print_unit,'(A)')' '
-!
-!endif ! myid == 0
+if( myid == 0) then
+
+    write(GA_print_unit,'(A)')' '
+    do  i_tree=1,n_trees
+        do  i_node=1,n_nodes
+            write(GA_print_unit,'(A,2(1x,I6),1x,E15.7)') &
+              'GP_GA_opt: i_node, i_tree, GP_Individual_Node_Parameters(i_node,i_tree) ', &
+                          i_node, i_tree, GP_Individual_Node_Parameters(i_node,i_tree)
+        enddo ! i_node
+    enddo  ! i_tree
+
+    write(GA_print_unit,'(A)')' '
+
+
+    do  i_tree=1,n_trees
+        do  i_node=1,n_nodes
+            write(GA_print_unit,'(A,3(1x,I6))') &
+             'GP_GA_opt: i_node, i_tree, GP_Individual_Node_Type(i_node,i_tree)', &
+                         i_node, i_tree, GP_Individual_Node_Type(i_node,i_tree)
+        enddo ! i_node
+    enddo  ! i_tree
+
+    write(GA_print_unit,'(A)')' '
+
+endif ! myid == 0
 ! jjm 20130417 <<<<<<<<<<<<<<<
 
 
@@ -211,7 +211,11 @@ child_parameters(1:n_GA_individuals,1:n_maximum_number_parameters) = 0.0d0
 
 ! set chunk size  for each cpu
 
-chunk = n_GA_individuals / ( numprocs - 1 )
+if( numprocs > 1 ) then
+    chunk = n_GA_individuals / ( numprocs - 1 )
+else
+    chunk = n_GA_individuals
+endif ! numprocs > 1
 
 
 if( myid == 0 )then
@@ -285,7 +289,7 @@ do  i_GA_generation=1,n_GA_Generations
 
             !   save the most fit individuals for the next generation
 
-            !write(GA_print_unit,'(/A)')'GP_GA_opt: call GA_save_elites '
+            write(GA_print_unit,'(/A)')'GP_GA_opt: call GA_save_elites '
 
             call GA_save_elites( ) !Parent_Parameters,Child_Parameters, &
                                    !               individual_quality )
@@ -295,7 +299,7 @@ do  i_GA_generation=1,n_GA_Generations
             !  replace the parameters of any individual with quality < 0 with new
             !  random numbers
 
-            !write(GA_print_unit,'(/A)')'GP_GA_opt: call GA_replace_bad_individuals  '
+            write(GA_print_unit,'(/A)')'GP_GA_opt: call GA_replace_bad_individuals  '
             call GA_replace_bad_individuals(Child_Parameters, individual_quality )
 
             !-------------------------------------------------------------------------------
@@ -303,8 +307,8 @@ do  i_GA_generation=1,n_GA_Generations
             !   do initial "GA Fitness-Proportionate Reproduction"
             !   to create a new population of children for all n_GA_individual
 
-            !write(GA_print_unit,'(/A)')&
-            !      'GP_GA_opt: call GA_Fitness_Proportionate_Reproduction '
+            write(GA_print_unit,'(/A)')&
+                  'GP_GA_opt: call GA_Fitness_Proportionate_Reproduction '
             !write(GA_print_unit,'(/A)')&
             !     'GP_GA_opt: SKIP GA_Fitness_Proportionate_Reproduction '
 
@@ -332,10 +336,10 @@ do  i_GA_generation=1,n_GA_Generations
 
             if( n_GA_Crossovers .gt. 0) then
 
-                !write(GA_print_unit,'(/A)')&
-                !      'GP_GA_opt: call GA_Tournament_Style_Sexual_Reproduction'
-                !write(GA_print_unit,'(A,1x,I6)')&
-                !      'GP_GA_opt: n_GA_Crossovers ',  n_GA_Crossovers
+                write(GA_print_unit,'(/A)')&
+                      'GP_GA_opt: call GA_Tournament_Style_Sexual_Reproduction'
+                write(GA_print_unit,'(A,1x,I6)')&
+                      'GP_GA_opt: n_GA_Crossovers ',  n_GA_Crossovers
 
                 call GA_Tournament_Style_Sexual_Reproduction( &
                             Parent_Parameters,Child_Parameters, individual_quality )
@@ -356,10 +360,10 @@ do  i_GA_generation=1,n_GA_Generations
 
             if( n_GA_Mutations .gt. 0) then
 
-                !write(GA_print_unit,'(/A,1x,I6)')&
-                !      'GP_GA_opt: call GA_Mutations '
-                !write(GA_print_unit,'(A,1x,I6)') &
-                !      'GP_GA_opt: n_GA_Mutations  ',  n_GA_Mutations
+                write(GA_print_unit,'(/A,1x,I6)')&
+                      'GP_GA_opt: call GA_Mutations '
+                write(GA_print_unit,'(A,1x,I6)') &
+                      'GP_GA_opt: n_GA_Mutations  ',  n_GA_Mutations
 
                 !call system_clock( count=clock1, count_rate=ratec, count_max= maxclk)
 
@@ -461,12 +465,12 @@ do  i_GA_generation=1,n_GA_Generations
 
     do  i_GA_individual = 1, n_GA_individuals
 
-        !write(GA_print_unit,'(A,1x,I6)') &
-        ! 'GP_GA_opt: i_GA_individual ', i_GA_individual
 
 
         if( myid == 0  )then
 
+            write(GA_print_unit,'(A,1x,I6)') &
+             'GP_GA_opt: i_GA_individual ', i_GA_individual
 
             if( Run_GA_lmdif(i_GA_individual) ) then
 
@@ -483,9 +487,9 @@ do  i_GA_generation=1,n_GA_Generations
 
                     iproc = isource
 
-                    !write(GA_print_unit,'(A,5(1x,I6))') &
-                    !  'GP_GA_opt: i_GA_individual, iproc, isource, start_limit, stop_limit ', &
-                    !              i_GA_individual, iproc, isource, start_limit, stop_limit
+                    write(GA_print_unit,'(A,5(1x,I6))') &
+                      'GP_GA_opt: i_GA_individual, iproc, isource, start_limit, stop_limit ', &
+                                  i_GA_individual, iproc, isource, start_limit, stop_limit
 
                     exit
 

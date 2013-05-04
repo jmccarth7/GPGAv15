@@ -33,7 +33,7 @@ real(kind=4) :: cff
 real(kind=8) :: dff
 
 integer (kind=4) :: n_replaced
-integer (kind=4) :: i            
+integer (kind=4) :: i
 
 !---------------------------------------------------------------------------
 
@@ -187,7 +187,7 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
   ! pick a location from 1 to n_parameters-1
 
-  i_GA_Crossover_Point=1+int( dff*dble(n_Parameters-2) )  
+  i_GA_Crossover_Point=1+int( dff*dble(n_Parameters-2) )
 
   !write(GA_print_unit,'(/A,2(1x,I6))')&
   !      'gato: i_GA_Crossover, i_GA_Crossover_Point ', &
@@ -355,5 +355,5 @@ write(GA_print_unit,'(A,1x,I6,1x,I10)')&
 
 
 return
+
 end subroutine GA_Tournament_Style_Sexual_Reproduction
-!234567890123456789012345678901234567890123456789012345678901234567890

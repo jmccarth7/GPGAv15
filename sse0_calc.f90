@@ -35,13 +35,19 @@ do i_CODE_equation=1,n_CODE_equations
 
       !write(GP_print_unit,*) &
       !'ssec: i_time_step, Data_Array(i_time_step,1:n_CODE_equations) ', &
-      !       i_time_step, Data_Array(i_time_step,1:n_CODE_equations) 
+      !       i_time_step, Data_Array(i_time_step,1:n_CODE_equations)
 
   enddo ! i_time_step
 
   totobs=dble(n_time_steps+1)
 
-  cff=( (totobs*ssum2)-(ssum**2) ) / ( totobs*(totobs-1.0D+0) )
+  if( abs(  totobs*(totobs-1.0D+0) ) > 0.0d0 )then
+
+      cff=( (totobs*ssum2)-(ssum**2) ) / ( totobs*(totobs-1.0D+0) )
+  else
+      cff= ssum**2
+  endif ! abs(  totobs*(totobs-1.0D+0) ) > 0.0d0 )then
+
 
   if( cff .gt. 0.0D+0) then  ! set variance to observed variance for normalize by the s.d.
       Data_Variance(i_CODE_equation)=cff

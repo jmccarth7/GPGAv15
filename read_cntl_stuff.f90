@@ -29,7 +29,7 @@ real(kind=8) :: dt_min
 
 ! START OF EXECUTABLE CODE
 
-! open the control input file 
+! open the control input file
 
 open( unit = cntl_unitnum, file = 'GPGACODE_cntl', form = 'formatted',&
       status = 'old' )
@@ -75,24 +75,24 @@ write(GP_print_unit,'(A//)' )&
 
 !---------------------------------------------------------------------
 
-! defaults 
+! defaults
 
-                                                                                
-random_scale_large    = 50.0d0                                                  
-random_scale_small    =  1.0d0                                                  
-random_scale_fraction =  0.6d0               
+
+random_scale_large    = 50.0d0
+random_scale_small    =  1.0d0
+random_scale_fraction =  0.6d0
 
 n_Node_Functions = 7
 n_GP_individuals = 1  !  9
 n_GP_generations = 1
 
-GP_Tree_Probability=0.5d0 
-                                                                                                                                
-! Note: The next 4 parameters must add up to 1.0                                                                                
-GP_Elitist_Probability = 0.1d0             
-GP_Asexual_Reproduction_Probability = 0.4d0 
-GP_Crossover_Probability = 0.4d0          
-GP_Mutation_Probability = 0.1d0            
+GP_Tree_Probability=0.5d0
+
+! Note: The next 4 parameters must add up to 1.0
+GP_Elitist_Probability = 0.1d0
+GP_Asexual_Reproduction_Probability = 0.4d0
+GP_Crossover_Probability = 0.4d0
+GP_Mutation_Probability = 0.1d0
 
 
 
@@ -179,7 +179,7 @@ do
 !--------------------------------------------------------------------
 
 
-!GP_Elitist_Probability  = 0.005d0   ! Keeps the top n_GP_Elitists of the Best Fit Individuals from Generation to Generation                                            
+!GP_Elitist_Probability  = 0.005d0   ! Keeps the top n_GP_Elitists of the Best Fit Individuals from Generation to Generation
 
     elseif( Aline(1:len('GP_Elitist_Probability')) == "GP_Elitist_Probability" .or.     &
             Aline(1:len('GP_Elitist_Probability')) == "gp_elitist_probability" ) then
@@ -317,7 +317,7 @@ do
 
         READ(Aline(len('n_gp_individuals')+1:), * )  n_gp_individuals
 
-        write(GP_print_unit,'(A,1x,I6)') 'rcntl: n_gp_individuals = ', n_gp_individuals 
+        write(GP_print_unit,'(A,1x,I6)') 'rcntl: n_gp_individuals = ', n_gp_individuals
 
 
 
@@ -331,7 +331,7 @@ do
 
         READ(Aline(len('n_gp_generations')+1:), * )  n_gp_generations
 
-        write(GP_print_unit,'(A,1x,I6)') 'rcntl: n_gp_generations = ', n_gp_generations 
+        write(GP_print_unit,'(A,1x,I6)') 'rcntl: n_gp_generations = ', n_gp_generations
 
 
 
@@ -346,13 +346,13 @@ do
 
         READ(Aline(len('n_Node_Functions')+1:), * )  n_Node_Functions
 
-        write(GP_print_unit,'(A,1x,I6)') 'rcntl: n_Node_Functions = ', n_Node_Functions 
+        write(GP_print_unit,'(A,1x,I6)') 'rcntl: n_Node_Functions = ', n_Node_Functions
 
 
 !--------------------------------------------------------------------
 
 ! in random_real, random_scale_small is the smaller of the two scales
-! used to scale the random number 
+! used to scale the random number
 
     elseif( Aline(1:len('random_scale_small')) == "RANDOM_SCALE_SMALL" .or.  &
             Aline(1:len('random_scale_small')) == "random_scale_small" ) then
@@ -367,7 +367,7 @@ do
 !--------------------------------------------------------------------
 
 ! in random_real, random_scale_large is the larger of the two scales
-! used to scale the random number 
+! used to scale the random number
 
     elseif( Aline(1:len('random_scale_large')) == "RANDOM_SCALE_LARGE" .or.  &
             Aline(1:len('random_scale_large')) == "random_scale_large" ) then
@@ -383,7 +383,7 @@ do
 !--------------------------------------------------------------------
 
 
-! random scale fraction 
+! random scale fraction
 
 ! if a random number is less than the random scale fraction, then
 ! the small scale is chosen to scale the random number in random_real

@@ -107,7 +107,7 @@ i_parent_two = 2
 
 if( MALE_CROSS .and. FEMALE_CROSS) then
 
-    ! determine from the bottom of the tree 
+    ! determine from the bottom of the tree
     ! what the summed tree levels are for each node for both parents
 
     do  i = 1,2
@@ -141,7 +141,7 @@ if( MALE_CROSS .and. FEMALE_CROSS) then
                             if( node_depth(k_node,i_parent) .gt. &
                                 Node_depth(j_node,i_parent)         ) then
                                 j_node = k_node
-                            endif !   node_depth(k_node,i_parent) .gt. node_depth...                          
+                            endif !   node_depth(k_node,i_parent) .gt. node_depth...
 
                             Node_depth(i_node,i_parent) = node_depth(j_node,i_parent)+1
 
@@ -157,7 +157,7 @@ if( MALE_CROSS .and. FEMALE_CROSS) then
 
             enddo ! i_node_at_level
         enddo ! i_level
-    enddo ! i 
+    enddo ! i
 
 
 
@@ -170,19 +170,19 @@ if( MALE_CROSS .and. FEMALE_CROSS) then
             icnt_parent_one_nodes = icnt_parent_one_nodes+1
         endif !   Parent_Tree_Swap_Node_Type(i_Node,i_Parent_One) .ne. -9999
     enddo ! i_node
-    
+
 
     ! randomly choose parent_one's node swap location
 
     call random_number(cff) ! uniform random number generator
-    
+
     i_parent_one_swap_node = 1+int(float(icnt_parent_one_nodes)*cff)
 
     if( i_Parent_One_Swap_Node .gt. icnt_parent_one_nodes) i_Parent_One_Swap_Node = icnt_Parent_One_Nodes
 
     icnt = 0
     do  i_node = 1,n_nodes
-    
+
         if( parent_Tree_Swap_Node_Type(i_node,i_parent_one) .ne. -9999) then
 
             icnt = icnt+1
@@ -190,155 +190,155 @@ if( MALE_CROSS .and. FEMALE_CROSS) then
 
                 i_parent_one_swap_node = i_node
                 exit
-        
+
             endif !   icnt .eq. i_parent_one_swap_node
         endif !   parent_Tree_Swap_Node_Type(i_node,i_parent_one) .ne. -9999
 
     enddo ! i_node
-    
+
     n_parent_one_swap_levels = node_depth(i_parent_one_swap_node,i_parent_one)
-    
+
     ! find parent_one's swap level
 
     parent_one_max_swap_level = 1
-    
+
     do  i_level = 2,n_levels
         icff = (2**(i_level-1))-1
         if( i_parent_one_swap_node .gt. icff) then
             parent_one_max_swap_level = i_level
         endif !   i_parent_one_swap_node .gt. icff
     enddo ! i_level
-    
+
     parent_one_max_swap_level = n_levels  -  parent_one_max_swap_level + 1
-    
+
     !write(6,'(A,1x,I6)') 'gts: i_Parent_One_Swap_Node     =', i_Parent_One_Swap_Node
     !write(6,'(A,1x,I6)') 'gts: Parent_One_Max_Swap_Level  =', Parent_One_Max_Swap_Level
-    
+
     !.....................................................................
     !     determine the range of levels that the swap can occur over
     !.....................................................................
     ! NOTE: This is important because this code is limited in the number
-    !       of levels that can be created.  This was set up this way to eliminate the 
+    !       of levels that can be created.  This was set up this way to eliminate the
     !       likelihood of having the 'bloat' problem crop up and also to allow
     !       for the GPCODE algorithm to be ported over to F90
     !.....................................................................
-    
+
     ! select the parent_two nodes that can be swapped with
 
     i_node = 0
     icnt_parent_two_nodes = 0
 
     do  i_Level = 1,n_Levels
-    
+
         n_nodes_at_level = int(2**(i_level-1))
-    
+
         Parent_two_max_swap_level = n_levels-i_level+1
-    
+
         do  i_level_node = 1,n_nodes_at_level
-    
+
             i_Node = i_Node+1
-    
+
 
             if( Parent_Tree_Swap_Node_Type(i_Node,i_Parent_two) .ne. -9999     .and. &
                 Node_depth(i_node,i_parent_two) .le. parent_one_max_swap_level .and. &
                 n_parent_one_swap_levels        .le. parent_two_max_swap_level         ) then
-    
+
                 icnt_parent_two_nodes = icnt_parent_two_nodes+1
                 Parent_two_swappable_nodes(icnt_parent_two_nodes) = i_node
-    
+
             endif !  parent_Tree_Swap_Node_Type(i_node,i_parent_two) .ne. -9999...
-    
+
         enddo ! i_level_node
     enddo ! i_level
-    
+
 
     ! randomly choose parent two's node swap location
 
     call random_number(cff) ! uniform random number generator
-    
+
     icff = 1+int(float(icnt_parent_two_nodes)*cff)
 
     if( icff .gt. icnt_parent_two_nodes) icff = icnt_parent_two_nodes
-    
+
     i_parent_two_swap_node = parent_two_swappable_nodes(icff)
-    
+
     n_parent_two_swap_levels = node_depth(i_parent_two_swap_node,i_parent_two)
-    
+
 
     ! find parent_two's swap level
 
     parent_two_max_swap_level = 1
-    
+
     do  i_level = 2,n_levels
         icff = (2**(i_level-1))-1
         if( i_parent_two_swap_node .gt. icff) then
             parent_two_max_swap_level = i_level
         endif !   i_parent_two_swap_node .gt. icff
     enddo ! i_level
-    
+
     Parent_two_max_swap_level = n_levels - parent_two_max_swap_level + 1
-    
+
     !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     ! do the binary tree swap to create two new child tree structures
     !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-    
+
     do  i_Child = 1,1  ! we only need to keep the cross from the first child;  2
-    
+
         if( i_child .eq. 1) then
-    
+
             i_parent_swap_node     =  i_parent_two_swap_node
             i_child_swap_node      =  i_parent_one_swap_node
             Parent_max_swap_level  =  Parent_two_max_swap_level
             Child_max_swap_level   =  Parent_one_max_swap_level
-    
+
         else
-    
+
             i_parent_swap_node     =  i_parent_one_swap_node
             i_child_swap_node      =  i_parent_two_swap_node
             Parent_max_swap_level  =  Parent_one_max_swap_level
             Child_max_swap_level   =  parent_two_max_swap_level
-    
+
         endif !   i_child .eq. 1
-    
+
         if( i_child .eq. 1) then
             i_parent = i_parent_one
         else
             i_parent = i_parent_two
         endif !   i_child .eq. 1
-    
+
         Child_Tree_Swap_Node_Type(1:n_Nodes,i_child) = parent_Tree_Swap_Node_Type(1:n_Nodes,i_parent)
-    
+
         ! set each of the children to one of the parents initially
-    
+
         if( i_child .eq. 1) then
             i_parent = i_parent_two
         else
             i_parent = i_parent_one
         endif ! i_child .eq. 1
-    
-    
+
+
         ! swap the node from the start of the tree
-    
+
         Child_Tree_Swap_Node_Type(i_child_swap_node,i_child)  =  &
            Parent_Tree_Swap_Node_Type(i_parent_swap_node,i_parent)
-    
+
         i_levels = 0
 
         ! clean out the bottom of the tree branches on the child
         !  that the branch will be added to        [NOTE: IS THIS NEEDED STILL?????]
-    
+
         do  i_child_level = n_levels-child_max_swap_level+2,n_levels
-    
+
             i_levels = i_levels+1
             i_child_swap_node = i_child_swap_node*2
-    
+
             do  i_node = 1,2**i_levels
                 i_Child_Node_Point = i_Child_Swap_Node -1 + i_Node
                 Child_Tree_Swap_Node_Type(i_Child_Node_Point,i_Child) = -9999
             enddo ! i_node
-    
+
         enddo !  i_child_level
-    
+
         if( i_child .eq. 1) then
             i_parent_swap_node     =  i_parent_two_swap_node
             i_child_swap_node      =  i_parent_one_swap_node
@@ -350,9 +350,9 @@ if( MALE_CROSS .and. FEMALE_CROSS) then
             Parent_max_swap_level  =  Parent_one_max_swap_level
             Child_max_swap_level   =  Parent_two_max_swap_level
         endif !   i_child .eq. 1
-    
 
-        ! add in the branches 
+
+        ! add in the branches
 
         i_Levels = 0
 
@@ -374,11 +374,11 @@ if( MALE_CROSS .and. FEMALE_CROSS) then
                 enddo ! i_node
 
             endif ! i_parent_level .le. n_levels
-    
+
         enddo  ! i_Child_Level
-    
+
     enddo ! i_child
- 
+
 elseif( MALE_CROSS .and. .not. FEMALE_CROSS) then  ! the Male tree is empty
 
     Child_Tree_Swap_Node_Type(1:n_Nodes,1) = -9999     ! Empty out the Male Tree
@@ -387,7 +387,7 @@ elseif( .not. MALE_CROSS .and. FEMALE_CROSS) then  ! the Male tree is empty
 
     ! pick a node from the Female Parent_Tree and set it into the Male Child
 
-    ! determine from the bottom of the tree 
+    ! determine from the bottom of the tree
     ! what the summed tree levels are for each node for the female parent
 
     i_Parent = i_Parent_Two
@@ -427,7 +427,7 @@ elseif( .not. MALE_CROSS .and. FEMALE_CROSS) then  ! the Male tree is empty
 
             endif !   Parent_Tree_Swap_Node_Type(i_Node,i_Parent) .ne. -9999
 
-        enddo !   i_Node_at_Level 
+        enddo !   i_Node_at_Level
 
     enddo ! i_Level
 
@@ -457,40 +457,40 @@ elseif( .not. MALE_CROSS .and. FEMALE_CROSS) then  ! the Male tree is empty
     call random_number(cff) ! uniform random number generator
 
     icff = 1+int(cff*float(icnt_Parent_Two_Nodes))
-  
+
     i_Parent_Two_Swap_Node = Parent_Two_Swappable_Nodes(icff)
-    
+
     n_Parent_Two_Swap_Levels = Node_Depth(i_Parent_Two_Swap_Node,i_Parent_Two)
-  
+
     ! find parent_two's swap level
-  
+
     Parent_Two_Max_Swap_Level = 1
     do  i_Level = 2,n_Levels
         icff = 2**(i_Level-1) - 1
         if( i_Parent_Two_Swap_Node .gt. icff) Parent_Two_Max_Swap_Level = i_Level
     enddo
-  
+
     Parent_Two_Max_Swap_Level = n_Levels-Parent_Two_Max_Swap_Level+1
-    
+
     !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     ! do the binary tree swap to create two new child tree structures
     !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-  
+
     i_Child = 1
-  
+
     i_Parent_Swap_Node     =  i_Parent_Two_Swap_Node
     i_Child_Swap_Node      =  i_Parent_One_Swap_Node
     Parent_Max_Swap_Level  =  Parent_Two_Max_Swap_Level
     Child_Max_Swap_Level   =  Parent_One_Max_Swap_Level
-  
+
     ! swap the node from the start of the tree
 
     Child_Tree_Swap_Node_Type(i_Child_Swap_Node,i_Child)  =   &
     Parent_Tree_Swap_Node_Type(i_Parent_Swap_Node,i_Parent_Two)
-  
+
     i_Levels = 0
-  
-    ! add in the branches 
+
+    ! add in the branches
     do  i_Child_Level = 1,n_Levels
 
         i_Levels = i_Levels+1
@@ -512,7 +512,7 @@ elseif( .not. MALE_CROSS .and. FEMALE_CROSS) then  ! the Male tree is empty
 
         endif !   i_Parent_Level .le. n_Levels
 
-    enddo !   i_Child_Level 
+    enddo !   i_Child_Level
 
 elseif( .not. MALE_CROSS .and. .not. FEMALE_CROSS) then  ! both Male and Female trees are empty
 

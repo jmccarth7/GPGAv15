@@ -48,7 +48,7 @@ implicit none
 !off include 'Lotka_Volterra_Example_Set_Up.f901'  ! replaced with routine init_values
 !off include 'Franks_etal_NPZ_Mar_Bio_Example_Set_Up.f901'
 
-! set the desired 'twin experiment' population node type 
+! set the desired 'twin experiment' population node type
 ! and parameter using the info from the set up file
 
 GP_Node_Type_Answer       = GP_Individual_Node_Type       ! Matrix Operation
@@ -64,9 +64,9 @@ if( myid == 0 )then
     write(unit_gp_out) GP_Node_Type_for_Plotting
 endif ! myid == 0
 
-! set the initial population node type using the info obtained 
+! set the initial population node type using the info obtained
 ! from the set up file
-! set the Initial Conditions, Model Parameters and Node Type 
+! set the Initial Conditions, Model Parameters and Node Type
 ! for the 'twin experiment case'
 
 GP_Population_Node_Type(1,1:n_nodes,1:n_trees)=GP_Individual_Node_Type(1:n_nodes,1:n_trees)
@@ -86,13 +86,13 @@ Runge_Kutta_Node_Type=GP_Individual_Node_Type                ! Matrix Operation
 !    do  i_tree = 1, n_trees
 !        do  i_node = 1, n_nodes
 !
-!            if( Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999 )then 
+!            if( Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999 )then
 !                !write(6,'(A,2(1x,I6),1x,E15.7)') &
 !                !  'saa: i_tree, i_node, Runge_Kutta_Node_Parameters( i_node, i_tree ) ', &
 !                !        i_tree, i_node, Runge_Kutta_Node_Parameters( i_node, i_tree )
-!            endif ! Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999 
+!            endif ! Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999
 !
-!        enddo ! i_node 
+!        enddo ! i_node
 !    enddo ! i_tree
 !
 !    !write(6,'(A)') ' '
@@ -100,13 +100,13 @@ Runge_Kutta_Node_Type=GP_Individual_Node_Type                ! Matrix Operation
 !    do  i_tree = 1, n_trees
 !        do  i_node = 1, n_nodes
 !
-!            if( Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999 )then 
+!            if( Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999 )then
 !                !write(6,'(A,3(1x,I6))') &
 !                !  'saa: i_tree, i_node, Runge_Kutta_Node_Type( i_node, i_tree ) ', &
 !                !        i_tree, i_node, Runge_Kutta_Node_Type( i_node, i_tree )
-!            endif ! Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999 
+!            endif ! Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999
 !
-!        enddo ! i_node 
+!        enddo ! i_node
 !    enddo ! i_tree
 !
 !    write(6,'(A)') ' '

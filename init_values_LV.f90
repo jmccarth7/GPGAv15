@@ -118,17 +118,17 @@ enddo ! i_tree
 ! [Note: In this example, the (1-efficiency) parameter is set to a new unique paramater, 'effic']
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                                                                                                     
-! Function types used                                                                    
-! Type 1: ==> Addition  left + right                                                     
-! Type 2: ==> Subtraction  left - right                                                  
-! Type 3: ==> Multiply  left * right                                                     
-! Type 4: ==> Divide (protected) left / right                                            
-! Type 5: ==> Ivlev Grazing Function ==> (1 - e^-abs(left*right))                        
-! Type 6: ==> Michaelis-Menton Term (modified for Forward-Backward)                      
-!                                    (1 / (abs(LHS) + abs(RHS)))                         
-! Type 7: ==> Mayzaud-Poulet Grazing Function ==>                                        
-!                     abs(left*right)*(1 -e^-abs(left*right))                            
+
+! Function types used
+! Type 1: ==> Addition  left + right
+! Type 2: ==> Subtraction  left - right
+! Type 3: ==> Multiply  left * right
+! Type 4: ==> Divide (protected) left / right
+! Type 5: ==> Ivlev Grazing Function ==> (1 - e^-abs(left*right))
+! Type 6: ==> Michaelis-Menton Term (modified for Forward-Backward)
+!                                    (1 / (abs(LHS) + abs(RHS)))
+! Type 7: ==> Mayzaud-Poulet Grazing Function ==>
+!                     abs(left*right)*(1 -e^-abs(left*right))
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
@@ -227,28 +227,28 @@ GP_Individual_Node_Type(15,5) = -1 ! Phytoplankton
 
 if( myid == 0 )then
     write(GP_print_unit,'(A,1x,I6, 4x,L1)') 'ivLV: myid, LV_model1 ', &
-                                       myid, LV_model1 
+                                       myid, LV_model1
     write(GP_print_unit,'(A,1x,I6, 2(1x,F10.2))') &
           'ivLV: myid, Runge_Kutta_Initial_Conditions(1:2) ', &
                  myid, Runge_Kutta_Initial_Conditions(1:2)
     write(GP_print_unit,'(A,2(1x,I6))') &
           'ivLV: myid, GP_Individual_Node_Type(1,1)        ', &
-                 myid, GP_Individual_Node_Type(1,1) 
+                 myid, GP_Individual_Node_Type(1,1)
     write(GP_print_unit,'(A,1x,I6, 1x,F10.2)') &
           'ivLV: myid, GP_Individual_Node_Parameters(2,1)  ', &
-                 myid, GP_Individual_Node_Parameters(2,1) 
+                 myid, GP_Individual_Node_Parameters(2,1)
     write(GP_print_unit,'(A,1x,I6, 1x,F10.2)') &
           'ivLV: myid, GP_Individual_Node_Parameters(2,4)  ', &
-                 myid, GP_Individual_Node_Parameters(2,4) 
+                 myid, GP_Individual_Node_Parameters(2,4)
     write(GP_print_unit,'(A,1x,I6, 1x,F10.2)') &
           'ivLV: myid, GP_Individual_Node_Parameters(4,5)  ', &
-                 myid, GP_Individual_Node_Parameters(4,5) 
+                 myid, GP_Individual_Node_Parameters(4,5)
     write(GP_print_unit,'(A,1x,I6, 1x,F10.2)') &
           'ivLV: myid, GP_Individual_Node_Parameters(12,5) ', &
-                 myid, GP_Individual_Node_Parameters(12,5) 
+                 myid, GP_Individual_Node_Parameters(12,5)
     write(GP_print_unit,'(A,1x,I6, 1x,F10.2)') &
           'ivLV: myid, GP_Individual_Node_Parameters(14,5) ', &
-                 myid, GP_Individual_Node_Parameters(14,5) 
+                 myid, GP_Individual_Node_Parameters(14,5)
 endif ! myid == 0
 
 

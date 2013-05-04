@@ -19,21 +19,21 @@ integer,intent(in)  :: icall
 
 if( myid == 0 )then
     write(GP_print_unit,'(/A,1x,A)')  'iv: model ', trim(model)
-    write(GP_print_unit,'(A,1x,I6/)') 'iv: icall ', icall 
-endif ! myid == 0 
+    write(GP_print_unit,'(A,1x,I6/)') 'iv: icall ', icall
+endif ! myid == 0
 
 
 if( trim(model) == 'NPZ' ) then
 
-    call init_values_NPZ( icall )  
+    call init_values_NPZ( icall )
     if( icall == 0 ) return
 
 elseif( trim(model) == 'LV' )then
 
-    call init_values_LV( icall ) 
+    call init_values_LV( icall )
     if( icall == 0 ) return
 
-endif ! trim(model) == 'NPZ' 
+endif ! trim(model) == 'NPZ'
 
 
 !----------------------------------------------------------------------------------

@@ -52,13 +52,13 @@ call random_number(cff) ! uniform random number generator
 !endif
 
 !--------------------------------------
-! defaults 
-                                                                               
-!random_scale_large    = 50.0d0                                            
-!random_scale_small    =  1.0d0                                            
-!random_scale_fraction =  0.2d0                                          
+! defaults
+
+!random_scale_large    = 50.0d0
+!random_scale_small    =  1.0d0
+!random_scale_fraction =  0.2d0
 !--------------------------------------
-   
+
 if( cff <= random_scale_fraction  )then
 
     call random_number(bff) ! uniform random number generator

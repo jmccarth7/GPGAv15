@@ -41,7 +41,7 @@ i_GP_Individual = n_GP_Elitists + n_GP_Asexual_Reproductions + n_GP_Crossovers
 
 
 write(GP_print_unit,'(/A,1x,I6)' ) &
-      'gpmut: n_GP_Mutations ', n_GP_Mutations                                     
+      'gpmut: n_GP_Mutations ', n_GP_Mutations
 write(GP_print_unit,'(A,3(1x,I6))' ) &
       'gpmut: n_GP_Elitists, n_GP_Asexual_Reproductions, n_GP_Crossovers ', &
               n_GP_Elitists, n_GP_Asexual_Reproductions, n_GP_Crossovers
@@ -165,23 +165,23 @@ do  i_GP_Mutation = 1,n_GP_Mutations
 
         !!node_function = 1+int(float(n_Node_Functions-1)*cff)
 
-        if( GP_Child_Population_Node_Type(i_GP_Individual,Node_to_Mutate,i_Tree_Mutation) .le. 0 ) then                  
+        if( GP_Child_Population_Node_Type(i_GP_Individual,Node_to_Mutate,i_Tree_Mutation) .le. 0 ) then
 
-            ! [Ranges from: -n_CODE_Equations to 0]              
+            ! [Ranges from: -n_CODE_Equations to 0]
 
-            Node_Function = -1 *  int(cff*float(n_CODE_Equations + 1 ))  
+            Node_Function = -1 *  int(cff*float(n_CODE_Equations + 1 ))
 
-            Node_Function = max( Node_Function , -n_CODE_Equations )  
+            Node_Function = max( Node_Function , -n_CODE_Equations )
 
-        else                                                                                                            
+        else
 
-            ! [Ranges from: 1 to n_Node_Functions]               
+            ! [Ranges from: 1 to n_Node_Functions]
 
-            Node_Function =  1 +  int(cff*float( n_Node_Functions ))       
+            Node_Function =  1 +  int(cff*float( n_Node_Functions ))
 
-            Node_Function =  min( Node_Function, n_Node_Functions )       
+            Node_Function =  min( Node_Function, n_Node_Functions )
 
-        endif                                                                    
+        endif
 
         GP_Child_Population_Node_Type( i_GP_Individual, Node_to_Mutate, i_Tree_Mutation) = Node_Function
 
