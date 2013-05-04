@@ -23,6 +23,7 @@ integer (kind=4) :: icff
 
 integer (kind=4) :: icount
 integer (kind=4) :: n_replaced
+integer(kind=4) :: i_parameter
 
 !--------------------------------------------------------------------------
 
@@ -237,4 +238,3 @@ return
 
 
 end subroutine GA_Fitness_Proportionate_Reproduction
-!234567890123456789012345678901234567890123456789012345678901234567890

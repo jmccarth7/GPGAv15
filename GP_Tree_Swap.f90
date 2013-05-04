@@ -18,11 +18,13 @@ integer(kind=4) :: i_Parent
 integer(kind=4) :: i_Child
 integer(kind=4) :: i_Parent_One
 integer(kind=4) :: i_Parent_Two
+integer(kind=4) :: i_level
 integer(kind=4) :: i_Levels
 integer(kind=4) :: i_Parent_Level
 integer(kind=4) :: i_Child_Level
 integer(kind=4) :: i_Node_at_Level
 integer(kind=4) :: n_Nodes_at_Level
+integer(kind=4) :: i_Node
 integer(kind=4) :: j_Node
 integer(kind=4) :: k_Node
 integer(kind=4) :: i_Node_Count
@@ -48,9 +50,8 @@ integer(kind=4),dimension(n_nodes) :: parent_two_swappable_nodes
 
 logical :: MALE_CROSS
 logical :: FEMALE_CROSS
+logical :: NODE_NOT_FOUND
 
-
-integer(kind=4) :: i_Node            
 
 !--------------------------------------------------------------------------
 
@@ -143,7 +144,7 @@ if( MALE_CROSS .and. FEMALE_CROSS) then
                                 j_node = k_node
                             endif !   node_depth(k_node,i_parent) .gt. node_depth...
 
-                            Node_depth(i_node,i_parent) = node_depth(j_node,i_parent)+1
+                            Node_depth(i_node,i_parent) = Node_depth(j_node,i_parent)+1
 
                         else
 
@@ -165,7 +166,6 @@ if( MALE_CROSS .and. FEMALE_CROSS) then
 
     icnt_parent_one_nodes = 0
     do  i_node = 1,n_nodes
-        !!if( Parent_Tree_Swap_Node_Type(i_node,i_parent_one) .ge. -1) then
         if( Parent_Tree_Swap_Node_Type(i_Node,i_Parent_One) .ne. -9999) then
             icnt_parent_one_nodes = icnt_parent_one_nodes+1
         endif !   Parent_Tree_Swap_Node_Type(i_Node,i_Parent_One) .ne. -9999
@@ -176,33 +176,35 @@ if( MALE_CROSS .and. FEMALE_CROSS) then
 
     call random_number(cff) ! uniform random number generator
 
-    i_parent_one_swap_node = 1+int(float(icnt_parent_one_nodes)*cff)
+    i_parent_one_swap_node = 1+int(cff*float(icnt_parent_one_nodes))
 
     if( i_Parent_One_Swap_Node .gt. icnt_parent_one_nodes) then
         i_Parent_One_Swap_Node = icnt_Parent_One_Nodes
     endif ! i_Parent_One_Swap_Node .gt. icnt_parent_one_nodes
 
     icnt = 0
+    NODE_NOT_FOUND=.true.
     do  i_node = 1,n_nodes
+        if( NODE_NOT_FOUND) then
+            if( parent_Tree_Swap_Node_Type(i_node,i_parent_one) .ne. -9999) then
 
-        if( parent_Tree_Swap_Node_Type(i_node,i_parent_one) .ne. -9999) then
+               icnt = icnt+1
+               if( icnt .eq. i_parent_one_swap_node) then
 
-            icnt = icnt+1
-            if( icnt .eq. i_parent_one_swap_node) then
+                    i_parent_one_swap_node = i_node
+                    NODE_NOT_FOUND=.false.   !exit
 
-                i_parent_one_swap_node = i_node
-                exit
-
-            endif !   icnt .eq. i_parent_one_swap_node
-        endif !   parent_Tree_Swap_Node_Type(i_node,i_parent_one) .ne. -9999
+                endif !   icnt .eq. i_parent_one_swap_node
+              endif !   parent_Tree_Swap_Node_Type(i_node,i_parent_one) .ne. -9999
+         endif ! NODE_NOT_FOUND
 
     enddo ! i_node
 
-    n_parent_one_swap_levels = node_depth(i_parent_one_swap_node,i_parent_one)
+    n_parent_one_swap_levels = Node_depth(i_parent_one_swap_node,i_parent_one)
 
     ! find parent_one's swap level
 
-    parent_one_max_swap_level = 1
+    Parent_one_max_swap_level = 1
 
     do  i_level = 2,n_levels
         icff = (2**(i_level-1))-1
@@ -211,7 +213,7 @@ if( MALE_CROSS .and. FEMALE_CROSS) then
         endif !   i_parent_one_swap_node .gt. icff
     enddo ! i_level
 
-    parent_one_max_swap_level = n_levels  -  parent_one_max_swap_level + 1
+    Parent_one_max_swap_level = n_levels  -  Parent_one_max_swap_level + 1
 
     !write(6,'(A,1x,I6)') 'gts: i_Parent_One_Swap_Node     =', i_Parent_One_Swap_Node
     !write(6,'(A,1x,I6)') 'gts: Parent_One_Max_Swap_Level  =', Parent_One_Max_Swap_Level
@@ -258,13 +260,13 @@ if( MALE_CROSS .and. FEMALE_CROSS) then
 
     call random_number(cff) ! uniform random number generator
 
-    icff = 1+int(float(icnt_parent_two_nodes)*cff)
+    icff = 1+int(cff*float(icnt_parent_two_nodes))
 
     if( icff .gt. icnt_parent_two_nodes) icff = icnt_parent_two_nodes
 
-    i_parent_two_swap_node = parent_two_swappable_nodes(icff)
+    i_parent_two_swap_node = Parent_two_swappable_nodes(icff)
 
-    n_parent_two_swap_levels = node_depth(i_parent_two_swap_node,i_parent_two)
+    n_parent_two_swap_levels = Node_depth(i_parent_two_swap_node,i_parent_two)
 
 
     ! find parent_two's swap level
@@ -274,7 +276,7 @@ if( MALE_CROSS .and. FEMALE_CROSS) then
     do  i_level = 2,n_levels
         icff = (2**(i_level-1))-1
         if( i_parent_two_swap_node .gt. icff) then
-            parent_two_max_swap_level = i_level
+            Parent_two_max_swap_level = i_level
         endif !   i_parent_two_swap_node .gt. icff
     enddo ! i_level
 
@@ -354,9 +356,11 @@ if( MALE_CROSS .and. FEMALE_CROSS) then
         endif !   i_child .eq. 1
 
 
-        ! add in the branches
 
         i_Levels = 0
+
+        ! add in the branches
+
 
         do  i_Child_Level = n_Levels - Child_Max_Swap_Level + 2,  n_Levels
 

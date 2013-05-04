@@ -24,7 +24,6 @@ CHARACTER(line_length) :: Aline
 
 real(kind=8) :: dt_min
 
-
 !----------------------------------------------------------------------
 
 
@@ -180,7 +179,7 @@ do
 !--------------------------------------------------------------------
 
 
-!GP_Elitist_Probability  = 0.005d0   
+!GP_Elitist_Probability  = 0.005d0
 ! Keeps the top n_GP_Elitists of the Best Fit Individuals from Generation to Generation
 
     elseif( Aline(1:len('GP_Elitist_Probability')) == "GP_Elitist_Probability" .or.     &

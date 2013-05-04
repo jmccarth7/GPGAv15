@@ -48,6 +48,8 @@ integer (kind=4) :: ipvt(n_parameters)
 
 integer(kind=4) :: individual_quality(n_GA_individuals)
 
+integer(kind=4) :: i_time_step
+integer(kind=4) :: i_parameter
 
 real(kind=8) :: child_parameters(n_GA_individuals,n_maximum_number_parameters)
 

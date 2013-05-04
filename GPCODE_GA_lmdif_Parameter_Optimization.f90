@@ -75,10 +75,11 @@ real(kind=8), external :: indiv_fitness
 logical :: L_stop_run
 
 
-integer(kind=4) :: i_Tree                                                                                    
-integer(kind=4) :: i_Node            
+integer(kind=4) :: i_Tree
+integer(kind=4) :: i_Node
 
-integer(kind=4) :: jj                
+integer(kind=4) :: jj
+integer(kind=4) :: i_parameter
 
 !----------------------------------------------------------------------
 
@@ -223,7 +224,7 @@ child_parameters(1:n_GA_individuals,1:n_maximum_number_parameters) = 0.0d0
 if( numprocs > 1 ) then
     chunk = n_GA_individuals / ( numprocs - 1 )
 else
-    chunk = 1
+    chunk = n_GA_individuals
 endif ! numprocs > 1
 
 chunk = max( 1, chunk )
@@ -477,11 +478,12 @@ do  i_GA_generation=1,n_GA_Generations
 
     do  i_GA_individual = 1, n_GA_individuals
 
-        !write(GA_print_unit,'(A,1x,I6)') &
-        ! 'GP_GA_opt: i_GA_individual ', i_GA_individual
 
 
         if( myid == 0  )then
+
+            !write(GA_print_unit,'(A,1x,I6)') &
+            ! 'GP_GA_opt: i_GA_individual ', i_GA_individual
 
 
             if( Run_GA_lmdif(i_GA_individual) ) then

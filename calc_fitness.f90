@@ -63,8 +63,9 @@ real(kind=8), external :: indiv_fitness
 
 logical :: L_stop_run
 
-integer (kind=4) :: jj
- 
+integer(kind=4) :: jj
+integer(kind=4) :: i_parameter
+
 !----------------------------------------------------------------------------------
 
 L_stop_run = .FALSE.

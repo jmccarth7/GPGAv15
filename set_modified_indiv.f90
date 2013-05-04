@@ -1,4 +1,4 @@
-subroutine set_modified_indiv( ) 
+subroutine set_modified_indiv( )
 
 ! program written by: Dr. John R. Moisan [NASA/GSFC] 31 January, 2013
 

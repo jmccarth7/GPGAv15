@@ -22,7 +22,7 @@ use Runge_Kutta_Variables_module
 implicit none
 
 
-integer(kind=4) :: i_GP_individual                                                                           
+integer(kind=4) :: i_GP_individual
 
 
 !------------------------------------------------------------------------------

@@ -20,6 +20,7 @@ integer (kind=4) :: i_GA_Individual_Mutation, i_Parameter_Mutation
 integer(kind=4) :: individual_quality(n_GA_individuals)
 
 integer (kind=4) :: n_mutated
+integer(kind=4) :: i_parameter
 
 !---------------------------------------------------------------------
 
@@ -151,4 +152,3 @@ write(GA_print_unit,'(A,1x,I6,1x,I10/)') &
 
 return
 end subroutine GA_Mutations
-!234567890123456789012345678901234567890123456789012345678901234567890

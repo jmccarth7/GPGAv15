@@ -53,8 +53,8 @@ real(kind=8), parameter :: assim                = 0.3d0 ! [d-1]
 
 logical Ivlev
 
-integer(kind=4) :: i_Tree                                                                                    
-integer(kind=4) :: i_Node            
+integer(kind=4) :: i_Tree
+integer(kind=4) :: i_Node
 
 !-------------------------------------------------------------------------
 
