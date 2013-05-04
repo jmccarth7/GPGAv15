@@ -41,7 +41,7 @@ GP_Node_Parameters_Answer = GP_Individual_Node_Parameters ! Matrix Operation
 
 
 do i_GP_Individual=1,n_GP_individuals
-  GP_Node_Type_for_Plotting(i_GP_Individual,1:n_Nodes,1:n_Trees) = &
+  GP_Node_Type_for_Plotting(1:n_Nodes,1:n_Trees,i_GP_Individual) = &
                         GP_Node_Type_Answer(1:n_Nodes,1:n_Trees)
 enddo
 
@@ -54,7 +54,7 @@ endif ! myid == 0
 ! set the Initial Conditions, Model Parameters and Node Type
 ! for the 'twin experiment case'
 
-GP_Population_Node_Type(1,1:n_nodes,1:n_trees)=GP_Individual_Node_Type(1:n_nodes,1:n_trees)
+GP_Population_Node_Type( 1:n_nodes, 1:n_trees, 1 ) = GP_Individual_Node_Type(1:n_nodes,1:n_trees)
 
 
 ! initialize the biological data fields

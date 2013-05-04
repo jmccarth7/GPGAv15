@@ -311,7 +311,8 @@ if( MALE_CROSS .and. FEMALE_CROSS) then
             i_parent = i_parent_two
         endif !   i_child .eq. 1
 
-        Child_Tree_Swap_Node_Type(1:n_Nodes,i_child) = parent_Tree_Swap_Node_Type(1:n_Nodes,i_parent)
+        Child_Tree_Swap_Node_Type(1:n_Nodes,i_child) =  &
+            parent_Tree_Swap_Node_Type(1:n_Nodes,i_parent)
 
         ! set each of the children to one of the parents initially
 

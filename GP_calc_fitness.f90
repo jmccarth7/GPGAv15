@@ -268,10 +268,10 @@ do  i_CODE_equation=1,n_CODE_equations
     write(GP_print_unit,'(6x,I6,7x, E20.10, 10x, E20.10)') &
           i_CODE_equation, &
           Runge_Kutta_Initial_Conditions(i_CODE_equation),  &
-          GP_Population_Initial_Conditions(i_GP_Best_Parent, i_CODE_equation )
+          GP_Population_Initial_Conditions( i_CODE_equation, i_GP_Best_Parent )
 
     output_array( i_CODE_equation ) = &
-            GP_Population_Initial_Conditions(i_GP_Best_Parent, i_CODE_equation )
+            GP_Population_Initial_Conditions( i_CODE_equation,i_GP_Best_Parent )
 
 
 enddo ! i_CODE_equation
@@ -295,20 +295,19 @@ do  i_tree=1,n_trees
         !if( abs( GP_population_node_parameters( &
         !              i_GP_Best_Parent,i_node,i_tree) ) >  1.0d-20   )then
 
-        if( GP_Adult_Population_Node_Type(i_GP_Best_Parent,i_Node,i_Tree) == 0 )then
+        if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Best_Parent) == 0 )then
 
             write(GP_print_unit,'(2x,3(1x,I6), 1x, E20.10, 4x, E20.10)') &
                   i_node, i_tree, nop, &
-                  GP_population_node_parameters(i_GP_Best_Parent,i_node,i_tree)
-        endif ! abs( GP_population_node_parameters(i_GP_Best_Parent,i_node,i_tree) ) >...
+                  GP_population_node_parameters(i_node,i_tree,i_GP_Best_Parent)
 
-        !endif ! abs( GP_population_node_parameters(i_GP_Best_Parent,i_node,i_tree) ) >...
+        !endif ! abs( GP_population_node_parameters(i_node,i_tree,i_GP_Best_Parent) ) >...
             output_array(nop) = &
-                   GP_population_node_parameters(i_GP_Best_Parent,i_node,i_tree)
+                   GP_population_node_parameters(i_node,i_tree,i_GP_Best_Parent)
 
             nop = nop + 1
 
-        endif ! GP_Adult_Pop_Node_Type(i_GP_Best_Parent,i_Node,i_Tree) == 0
+        endif ! GP_Adult_Pop_Node_Type(i_Node,i_Tree,i_GP_Best_Parent) == 0
 
         !write(GP_print_unit,'(3(1x,I6))') i_tree, i_node, nop
 
@@ -373,10 +372,10 @@ endif ! i_GP_generation == 1 .or. ...
 
 do i_GP_Individual=1,n_GP_individuals
 
-   GP_Node_Type_for_Plotting(i_GP_Individual,1:n_Nodes,1:n_Trees) = &
-        GP_Adult_Population_Node_Type(i_GP_Individual,1:n_Nodes,1:n_Trees)
+   GP_Node_Type_for_Plotting(1:n_Nodes,1:n_Trees,i_GP_Individual) = &
+        GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual)
 
-   !off  GP_Node_Type_for_Plotting(i_GP_Individual,1:n_Nodes,1:n_Trees) = &
+   !off  GP_Node_Type_for_Plotting(1:n_Nodes,1:n_Trees,i_GP_Individual) = &
    !off  GP_Node_Type_Answer(1:n_Nodes,1:n_Trees)
 
 enddo ! i_GP_individual

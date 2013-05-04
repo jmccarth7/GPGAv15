@@ -70,8 +70,6 @@ i_parameter=n_CODE_equations
 do i_tree=1,n_trees
   do i_node=1,n_nodes
 
-
-
     Runge_Kutta_Node_Type(i_node,i_tree) = GP_Individual_Node_Type(i_node,i_tree) ! jjm 20130417
 
     if( GP_Individual_Node_Type(i_node,i_tree) .eq. 0) then  ! set the node_parameter
@@ -91,9 +89,9 @@ do i_tree=1,n_trees
 
       endif  ! isnan
 
-      !write(GA_print_unit,'(A,3(1x,I6),1x,E15.7)') &
-      ! 'fcn: i_node, i_tree, i_parameter, Runge_Kutta_Node_Parameters(i_node,i_tree) ', &
-      !       i_node, i_tree, i_parameter, Runge_Kutta_Node_Parameters(i_node,i_tree)
+      write(GA_print_unit,'(A,3(1x,I6),1x,E15.7)') &
+       'fcn: i_node, i_tree, i_parameter, Runge_Kutta_Node_Parameters(i_node,i_tree) ', &
+             i_node, i_tree, i_parameter, Runge_Kutta_Node_Parameters(i_node,i_tree)
 
     endif !  GP_individual_node_type(i_node,i_tree) .eq. 0
 
