@@ -17,7 +17,6 @@ implicit none
 
 integer (kind=4),intent(in) ::    individual
 
-
 !--------------------------------------------------------------------
 
 

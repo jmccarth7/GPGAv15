@@ -75,6 +75,12 @@ real(kind=8), external :: indiv_fitness
 logical :: L_stop_run
 
 
+integer(kind=4) :: i_Tree
+integer(kind=4) :: i_Node
+
+integer(kind=4) :: jj
+integer(kind=4) :: i_parameter
+
 !----------------------------------------------------------------------
 
 buffer(1:n_maximum_number_parameters)      = 0.0D0
@@ -103,27 +109,27 @@ if( myid == 0) then
     write(GA_print_unit,'(A)')' '
     do  i_tree=1,n_trees
         do  i_node=1,n_nodes
-            if( abs( GP_Individual_Node_Parameters(i_node,i_tree) ) > 1.0e-20 )then 
+            if( abs( GP_Individual_Node_Parameters(i_node,i_tree) ) > 1.0e-20 )then
                 write(GA_print_unit,'(A,2(1x,I6),1x,E15.7)') &
                   'GP_GA_opt: i_node, i_tree, GP_Indiv_Node_Param(i_node,i_tree) ', &
                               i_node, i_tree, GP_Individual_Node_Parameters(i_node,i_tree)
-            endif ! abs( GP_Indiv_Node_Param(i_node,i_tree) ) > 1.0e-20 
+            endif ! abs( GP_Indiv_Node_Param(i_node,i_tree) ) > 1.0e-20
         enddo ! i_node
     enddo  ! i_tree
-    
+
     write(GA_print_unit,'(A)')' '
-    
-    
+
+
     do  i_tree=1,n_trees
         do  i_node=1,n_nodes
             if( GP_Individual_Node_Type(i_node,i_tree) > -9999 )then
                 write(GA_print_unit,'(A,3(1x,I6))') &
                  'GP_GA_opt: i_node, i_tree, GP_Indiv_Node_Type(i_node,i_tree)', &
                              i_node, i_tree, GP_Individual_Node_Type(i_node,i_tree)
-            endif ! GP_Indiv_Node_Type(i_node,i_tree) > -9999 
+            endif ! GP_Indiv_Node_Type(i_node,i_tree) > -9999
         enddo ! i_node
     enddo  ! i_tree
-    
+
     write(GA_print_unit,'(A)')' '
 
 endif ! myid == 0
@@ -221,7 +227,7 @@ else
     chunk = n_GA_individuals
 endif ! numprocs > 1
 
-chunk = max( 1, chunk ) 
+chunk = max( 1, chunk )
 
 if( myid == 0 )then
 
@@ -273,7 +279,8 @@ do  i_GA_generation=1,n_GA_Generations
             do  i_GA_individual = 1, n_GA_Individuals
                 write(GA_print_unit,'(I6,1x,12(1x,E15.7))') &
                       i_GA_individual, &
-                      child_parameters(i_GA_individual,1:n_parameters)
+                      ( child_parameters(i_GA_individual,jj), jj = 1,n_parameters )
+                      !child_parameters(i_GA_individual,1:n_parameters)
             enddo ! i_GA_individual
 
 
@@ -395,7 +402,8 @@ do  i_GA_generation=1,n_GA_Generations
                 do  i_GA_individual = 1, n_GA_Individuals
                     write(GA_print_unit,'(I6,1x,12(1x,E15.7))') &
                           i_GA_individual, &
-                          child_parameters(i_GA_individual,1:n_parameters)
+                         (child_parameters(i_GA_individual,jj),jj = 1,n_parameters )
+                          !child_parameters(i_GA_individual,1:n_parameters)
                 enddo ! i_GA_individual
 
             endif ! i_GA_generation == n_GA_generations ...
@@ -474,8 +482,9 @@ do  i_GA_generation=1,n_GA_Generations
 
         if( myid == 0  )then
 
-            write(GA_print_unit,'(A,1x,I6)') &
-             'GP_GA_opt: i_GA_individual ', i_GA_individual
+            !write(GA_print_unit,'(A,1x,I6)') &
+            ! 'GP_GA_opt: i_GA_individual ', i_GA_individual
+
 
             if( Run_GA_lmdif(i_GA_individual) ) then
 
@@ -492,9 +501,9 @@ do  i_GA_generation=1,n_GA_Generations
 
                     iproc = isource
 
-                    write(GA_print_unit,'(A,5(1x,I6))') &
-                      'GP_GA_opt: i_GA_individual, iproc, isource, start_limit, stop_limit ', &
-                                  i_GA_individual, iproc, isource, start_limit, stop_limit
+                    !write(GA_print_unit,'(A,5(1x,I6))') &
+                    !  'GP_GA_opt: i_GA_individual, iproc, isource, start_limit, stop_limit ', &
+                    !              i_GA_individual, iproc, isource, start_limit, stop_limit
 
                     exit
 
@@ -918,27 +927,32 @@ if( myid == 0  )then
 
         write(GA_print_unit,'(/A/1x,I6, 6(1x,E24.16))') &
               'GP_GA_opt: i_GA_best_parent_1, parent_parameters_best_1(1:n_CODE_Equations) ', &
-                          i_GA_best_parent_1, parent_parameters_best_1(1:n_CODE_Equations)
+                          i_GA_best_parent_1, &
+                          ( parent_parameters_best_1(jj) , jj = 1, n_CODE_Equations)
+                          !i_GA_best_parent_1, parent_parameters_best_1(1:n_CODE_Equations)
 
         GP_Individual_Initial_Conditions(1:n_CODE_Equations) = &
                 parent_parameters_best_1(1:n_CODE_Equations)
 
         write(GA_print_unit,'(/A/ 6(1x,E24.16))') &
               'GP_GA_opt: GP_Individual_Initial_Conditions(1:n_CODE_Equations) ', &
-                          GP_Individual_Initial_Conditions(1:n_CODE_Equations)
+                          (GP_Individual_Initial_Conditions(jj), jj = 1,n_CODE_Equations)
+                          !GP_Individual_Initial_Conditions(1:n_CODE_Equations)
 
         if( L_stop_run )then
 
             write( GA_output_unit, '(I6,1x,I6, 12(1x,E15.7))') &
               i_GA_Generation_last, i_GA_best_parent_1, &
               individual_ranked_fitness_best_1, &
-              parent_parameters_best_1(1:n_parameters)
+              (parent_parameters_best_1(jj),jj = 1,n_parameters)
+              !parent_parameters_best_1(1:n_parameters)
         else
 
             write( GA_output_unit, '(I6,1x,I6, 12(1x,E15.7))') &
               n_GA_Generations, i_GA_best_parent_1, &
               individual_ranked_fitness_best_1, &
-              parent_parameters_best_1(1:n_parameters)
+              (parent_parameters_best_1(jj),jj = 1,n_parameters)
+              !parent_parameters_best_1(1:n_parameters)
 
         endif ! L_stop_run
 
@@ -997,14 +1011,16 @@ if( myid == 0  )then
         write(GA_print_unit,'(/A,1x,I6, 12(1x,E15.7))') &
               'GP_GA_opt: i_GA_best_parent, Parent_Parameters ', &
                           i_GA_best_parent, &
-                          Parent_Parameters(i_GA_Best_Parent,1:n_parameters)
+                          (Parent_Parameters(i_GA_Best_Parent,jj),jj= 1,n_parameters)
+                          !Parent_Parameters(i_GA_Best_Parent,1:n_parameters)
 
         GP_Individual_Initial_Conditions(1:n_CODE_Equations) = &
                         Parent_Parameters(i_GA_Best_Parent,1:n_CODE_Equations)
 
         write(GA_print_unit,'(/A/ 6(1x,E24.16))') &
               'GP_GA_opt: GP_Individual_Initial_Conditions(1:n_CODE_Equations) ', &
-                          GP_Individual_Initial_Conditions(1:n_CODE_Equations)
+                          (GP_Individual_Initial_Conditions(jj),jj=1,n_CODE_Equations)
+                          !GP_Individual_Initial_Conditions(1:n_CODE_Equations)
 
 
         if( L_stop_run )then
@@ -1012,13 +1028,15 @@ if( myid == 0  )then
             write( GA_output_unit , '(I6,1x,I6, 12(1x,E15.7))') &
               i_GA_Generation_last, i_GA_best_parent, &
               individual_ranked_fitness(i_GA_best_parent), &
-              parent_parameters(i_GA_best_parent, 1:n_parameters)
+              (parent_parameters(i_GA_best_parent, jj), jj=1,n_parameters)
+              !parent_parameters(i_GA_best_parent, 1:n_parameters)
         else
 
             write( GA_output_unit , '(I6,1x,I6, 12(1x,E15.7))') &
               n_GA_Generations, i_GA_best_parent, &
               individual_ranked_fitness(i_GA_best_parent), &
-              parent_parameters(i_GA_best_parent, 1:n_parameters)
+              (parent_parameters(i_GA_best_parent, jj), jj=1,n_parameters)
+              !parent_parameters(i_GA_best_parent, 1:n_parameters)
 
         endif ! L_stop_run
 

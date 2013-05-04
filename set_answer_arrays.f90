@@ -22,28 +22,13 @@ use Runge_Kutta_Variables_module
 implicit none
 
 
-!logical bad_node
+integer(kind=4) :: i_GP_individual
 
-
-!integer :: i
-!integer :: nop
-!integer :: message_len
-
-!logical :: Lplot
-
-
-!real(kind=8), allocatable, dimension(:) :: answer
-!real(kind=8), allocatable, dimension(:) :: output_array
-
-!real (kind=8) :: ssum, ssum2, totobs, dff
-
-!real (kind=8) :: xcount
 
 !------------------------------------------------------------------------------
 
 
 
-!------------------------------------------------------------------
 
 !off include 'Lotka_Volterra_Example_Set_Up.f901'  ! replaced with routine init_values
 !off include 'Franks_etal_NPZ_Mar_Bio_Example_Set_Up.f901'

@@ -19,11 +19,16 @@ integer(kind=4),intent(in)  :: nn  ! n_parms
 real (kind=8) :: fvec(n_time_steps)
 
 real (kind=8) :: x(n_maximum_number_parameters)
-!real (kind=8) :: sse
 
 
 integer (kind=4) :: iflag
 
+integer(kind=4) :: i_Tree
+integer(kind=4) :: i_Node
+
+integer(kind=4) :: i_CODE_equation
+integer(kind=4) :: i_time_step
+integer(kind=4) :: i_parameter
 
 
 !---------------------------------------------------------------------
@@ -57,8 +62,8 @@ enddo !  i_CODE_equation
 ! set the node_parameters array from the parameter array
 
 
-Runge_Kutta_Node_Parameters = 0.
-Runge_Kutta_Node_Type       = 0    ! jjm 20130417
+Runge_Kutta_Node_Parameters = 0.0D0
+Runge_Kutta_Node_Type       = -9999    ! jjm 20130417
 
 i_parameter=n_CODE_equations
 
@@ -190,5 +195,6 @@ enddo ! i_time_step
 
 
 return
+
+
 end subroutine fcn
-!234567890123456789012345678901234567890123456789012345678901234567890

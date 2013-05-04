@@ -179,7 +179,8 @@ do
 !--------------------------------------------------------------------
 
 
-!GP_Elitist_Probability  = 0.005d0   ! Keeps the top n_GP_Elitists of the Best Fit Individuals from Generation to Generation
+!GP_Elitist_Probability  = 0.005d0
+! Keeps the top n_GP_Elitists of the Best Fit Individuals from Generation to Generation
 
     elseif( Aline(1:len('GP_Elitist_Probability')) == "GP_Elitist_Probability" .or.     &
             Aline(1:len('GP_Elitist_Probability')) == "gp_elitist_probability" ) then

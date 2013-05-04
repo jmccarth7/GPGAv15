@@ -1,4 +1,5 @@
 subroutine Runge_Kutta_Box_Model
+
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ! carry out a prescribed Runge-Kutta numerical integration
 ! using the GP architecture to solve a coupled system of equations
@@ -16,6 +17,20 @@ use Runge_Kutta_Variables_module
 implicit none
 
 real(kind=8) :: cff
+
+integer(kind=4) :: i_Tree
+integer(kind=4) :: i_Node
+integer(kind=4) :: i_level
+integer(kind=4) :: i_function
+
+integer(kind=4) :: i_node_left
+integer(kind=4) :: i_node_right
+
+integer(kind=4) :: i_CODE_equation
+integer(kind=4) :: j_CODE_equation
+
+integer(kind=4) :: i_time_step
+integer(kind=4) :: i_parameter
 
 !character(str_len) ::  left_node_value_string
 !character(str_len) ::  right_node_value_string
@@ -129,7 +144,7 @@ do i_time_step=1,n_time_steps
                  !call print4( i_time_step, icff, &
                  !             left_node_value,  left_node_value_string, &
                  !             right_node_value, right_node_value_string, &
-                 !             tree_evaluation )
+                 !             i_tree, i_function, tree_evaluation )
 
                CASE(2)  ! LHS - RHS
 
@@ -142,7 +157,7 @@ do i_time_step=1,n_time_steps
                  !call print4( i_time_step, icff, &
                  !             left_node_value,  left_node_value_string, &
                  !             right_node_value, right_node_value_string, &
-                 !             tree_evaluation )
+                 !             i_tree, i_function, tree_evaluation )
 
                CASE(3)  ! LHS * RHS
 
@@ -155,7 +170,7 @@ do i_time_step=1,n_time_steps
                  !call print4( i_time_step, icff, &
                  !             left_node_value,  left_node_value_string, &
                  !             right_node_value, right_node_value_string, &
-                 !             tree_evaluation )
+                 !             i_tree, i_function, tree_evaluation )
 
 
                CASE(4)  ! protected: LHS/RHS
@@ -191,7 +206,7 @@ do i_time_step=1,n_time_steps
                  !call print4( i_time_step, icff, &
                  !             left_node_value,  left_node_value_string, &
                  !             right_node_value, right_node_value_string, &
-                 !             tree_evaluation )
+                 !             i_tree, i_function, tree_evaluation )
 
 
                CASE(6)  ! 'Michealis-Menton (abs(RHS) / (abs(LHS) + abs(RHS)))'
@@ -216,7 +231,7 @@ do i_time_step=1,n_time_steps
                 !call print4( i_time_step, icff, &
                 !                 left_node_value,  left_node_value_string, &
                 !                 right_node_value, right_node_value_string, &
-                !                 tree_evaluation )
+                !                 i_tree, i_function, tree_evaluation )
 
 
 
@@ -247,7 +262,7 @@ do i_time_step=1,n_time_steps
                  !call print4( i_time_step, icff, &
                  !             left_node_value,  left_node_value_string, &
                  !             right_node_value, right_node_value_string, &
-                 !             tree_evaluation )
+                 !             i_tree, i_function, tree_evaluation )
 
                CASE DEFAULT
 
@@ -415,5 +430,5 @@ enddo ! i_time_step
 
 
 return
+
 end subroutine Runge_Kutta_Box_Model
-!234567890123456789012345678901234567890123456789012345678901234567890

@@ -19,8 +19,8 @@ integer (kind=4) :: i_GA_Individual_Mutation, i_Parameter_Mutation
 
 integer(kind=4) :: individual_quality(n_GA_individuals)
 
-
 integer (kind=4) :: n_mutated
+integer(kind=4) :: i_parameter
 
 !---------------------------------------------------------------------
 
@@ -68,6 +68,7 @@ do i_GA_Mutation=1,n_GA_Mutations
   dff = cff
 
   i_Parameter_Mutation=1+int( dff*dble(n_parameters-1) )
+  i_Parameter_Mutation = min( i_Parameter_Mutation , n_parameters )
 
   !write(GA_print_unit,'(A,1x,I6,1x,E15.7,1x,I6)') &
   !      'gam: i_GA_Mutation, dff, i_Parameter_Mutation     ', &

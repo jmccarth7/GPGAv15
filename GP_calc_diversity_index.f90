@@ -1,4 +1,5 @@
-subroutine GP_calc_diversity_index( n_indiv, indiv_node_type, i_diversity )
+subroutine GP_calc_diversity_index( n_indiv, indiv_node_type, &
+                                    i_diversity, i_GP_generation )
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ! Mutations in this subroutine are targeted to the nodes only.
@@ -12,10 +13,9 @@ use GA_Variables_module
 
 implicit none
 
-!real(kind=8) :: cff
 
 integer(kind=4), intent(in)  :: n_indiv
-integer(kind=4), intent(in), dimension( n_indiv,n_Nodes,n_Trees) :: indiv_node_type
+integer(kind=4), intent(in), dimension( n_indiv, n_Nodes,n_Trees) :: indiv_node_type
 
 integer(kind=4) :: i_indiv
 integer(kind=4) :: i_diversity
@@ -23,12 +23,14 @@ integer(kind=4) :: icnt_Nodes
 integer(kind=4) :: icnt_parms
 integer(kind=4) :: icnt_vars
 integer(kind=4) :: icnt_ops
-!integer(kind=4) :: icnt
 integer(kind=4) :: max_number_nodes
 real(kind=8)    :: xmax_number_nodes
 
+integer(kind=4),intent(in)  :: i_GP_Generation
+integer(kind=4) :: i_Tree
+integer(kind=4) :: i_Node
 
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+!---------------------------------------------------------------------------
 
 max_number_nodes = n_trees * n_nodes
 xmax_number_nodes = real( max_number_nodes, kind=8 )
@@ -92,7 +94,8 @@ enddo  ! i_indiv
 write(GP_print_unit,'(/A)') 'gcdi:GP_diversity_index '
 write(GP_print_unit,'(10(1x,I6))') GP_diversity_index(1:n_GP_individuals)
 
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
 return
+
 end subroutine GP_calc_diversity_index
-!1234567890123456789012345678901234567890123456789012345678901234567890
+

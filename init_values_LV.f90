@@ -26,7 +26,6 @@ subroutine init_values_LV( icall  )
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-!use parms_module
 
 use mpi
 use mpi_module
@@ -41,6 +40,8 @@ integer,intent(in)  :: icall
 
 logical :: LV_model1 = .TRUE.
 
+integer(kind=4) :: i_Tree
+integer(kind=4) :: i_Node
 !-------------------------------------------------------------------------
 
 if(  icall  == 0  )then

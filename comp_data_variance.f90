@@ -21,23 +21,11 @@ use Runge_Kutta_Variables_module
 
 implicit none
 
+real(kind=8) :: ssum, ssum2, totobs, dff
 
-!logical bad_node
-
-
-!integer :: i
-!integer :: nop
-!integer :: message_len
-
-!logical :: Lplot
-
-
-!real(kind=8), allocatable, dimension(:) :: answer
-!real(kind=8), allocatable, dimension(:) :: output_array
-
-real (kind=8) :: ssum, ssum2, totobs, dff
-
-!real (kind=8) :: xcount
+integer(kind=4) :: i_CODE_equation
+integer(kind=4) :: i_time_step
+integer(kind=4) :: i_parameter
 
 !----------------------------------------------------------------------------------------
 

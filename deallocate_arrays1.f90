@@ -22,23 +22,6 @@ use Runge_Kutta_Variables_module
 implicit none
 
 
-!logical bad_node
-
-
-!integer :: i
-!integer :: nop
-!integer :: message_len
-
-!logical :: Lplot
-
-
-!real(kind=8), allocatable, dimension(:) :: answer
-!real(kind=8), allocatable, dimension(:) :: output_array
-
-!real (kind=8) :: ssum, ssum2, totobs, dff
-
-!real (kind=8) :: xcount
-
 !----------------------------------------------------------------------------------------
 
 
@@ -50,7 +33,7 @@ deallocate( individual_SSE )
 deallocate( integrated_SSE )
 deallocate( individual_ranked_fitness )
 deallocate( integrated_ranked_fitness )
-deallocate( fitness_expectation_value )
+!deallocate( fitness_expectation_value )
 deallocate( Run_GA_lmdif )
 deallocate( Data_Array  )
 deallocate( Data_Variance )
@@ -62,15 +45,15 @@ deallocate( GP_Individual_Node_Parameters )
 deallocate( GP_Node_Parameters_Answer )
 deallocate( GP_Node_Type_Answer )
 deallocate( GP_Node_Type_for_Plotting )
-deallocate( GP_Solution )
+!deallocate( GP_Solution )
 deallocate( GP_Adult_Population_Node_Type )
 deallocate( GP_Child_Population_Node_Type )
 deallocate( Parent_Tree_Swap_Node_Type )
 deallocate( GP_Adult_Individual_SSE )
 deallocate( GP_Child_Individual_SSE )
 !deallocate( GP_Individual_Ranked_Fitness )
-deallocate( GP_Population_Ranked_Fitness )
 !deallocate( GP_Integrated_Ranked_Fitness )
+deallocate( GP_Population_Ranked_Fitness )
 deallocate( Run_GP_Calculate_Fitness )
 
 deallocate( GA_Adult_Individual_SSE )
@@ -79,8 +62,8 @@ deallocate( GA_Integrated_SSE )
 deallocate( GA_Individual_Ranked_Fitness )
 deallocate( GA_Integrated_Ranked_Fitness )
 
-deallocate( GP_Population_Parameter_Solution )
-deallocate( GP_Individual_Parameter_Solution )
+!deallocate( GP_Population_Parameter_Solution )
+!deallocate( GP_Individual_Parameter_Solution )
 
 
 deallocate( GP_Individual_N_GP_param )  ! jjm 20130409

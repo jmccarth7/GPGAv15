@@ -13,6 +13,14 @@ use GA_Variables_module
 
 implicit none
 
+integer(kind=4) :: i_GP_individual
+integer(kind=4) :: i_Tree
+integer(kind=4) :: i_level
+integer(kind=4) :: i_function
+integer(kind=4) :: i_Node
+integer(kind=4) :: i_Node_Left
+integer(kind=4) :: i_Node_Right
+
 !---------------------------------------------------------------------------
 
 do  i_GP_Individual=1,n_GP_Individuals

@@ -18,6 +18,8 @@ real(kind=8) :: dff
 
 integer(kind=4) :: n_replaced
 integer(kind=4) :: i
+integer(kind=4) :: i_parameter
+
 
 !----------------------------------------------------------------------------
 
