@@ -21,7 +21,11 @@ use Runge_Kutta_Variables_module
 
 implicit none
 
-real (kind=8) :: ssum, ssum2, totobs, dff
+real(kind=8) :: ssum, ssum2, totobs, dff
+
+integer(kind=4) :: i_CODE_equation
+integer(kind=4) :: i_time_step
+integer(kind=4) :: i_parameter
 
 !----------------------------------------------------------------------------------------
 

@@ -26,6 +26,10 @@ integer (kind=4) :: iflag
 integer(kind=4) :: i_Tree
 integer(kind=4) :: i_Node
 
+integer(kind=4) :: i_CODE_equation
+integer(kind=4) :: i_time_step
+integer(kind=4) :: i_parameter
+
 
 !---------------------------------------------------------------------
 
@@ -87,9 +91,9 @@ do i_tree=1,n_trees
 
       endif  ! isnan
 
-      write(GA_print_unit,'(A,3(1x,I6),1x,E15.7)') &
-       'fcn: i_node, i_tree, i_parameter, Runge_Kutta_Node_Parameters(i_node,i_tree) ', &
-             i_node, i_tree, i_parameter, Runge_Kutta_Node_Parameters(i_node,i_tree)
+      !write(GA_print_unit,'(A,3(1x,I6),1x,E15.7)') &
+      ! 'fcn: i_node, i_tree, i_parameter, Runge_Kutta_Node_Parameters(i_node,i_tree) ', &
+      !       i_node, i_tree, i_parameter, Runge_Kutta_Node_Parameters(i_node,i_tree)
 
     endif !  GP_individual_node_type(i_node,i_tree) .eq. 0
 
@@ -167,10 +171,14 @@ do i_time_step=1,n_time_steps
       !      'fcn: myid, i_eqn, data_variance ', &
       !            myid, i_CODE_equation, data_variance(i_CODE_equation)
 
-      fvec(i_time_step) = fvec(i_time_step)  +                                  &
+      if( abs( Data_Variance(i_CODE_equation) ) > 1.0d-20 )then
+
+          fvec(i_time_step) = fvec(i_time_step)  +                                  &
             (   Data_Array(i_time_step,i_CODE_equation) -                       &
                 Runge_Kutta_Solution(i_time_step,i_CODE_equation)   )**2  /     &
                                                        Data_Variance(i_CODE_equation)
+
+      endif ! abs( Data_Variance(i_CODE_equation) ) > 1.0d-20
 
   enddo ! i_CODE_equation
 

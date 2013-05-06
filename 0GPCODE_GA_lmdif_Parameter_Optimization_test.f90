@@ -35,6 +35,8 @@ integer(kind=4) :: i_Node
 
 integer(kind=4) :: jj
 
+integer(kind=4) :: i_CODE_equation
+
 
 
 real(kind=8), allocatable, dimension(:) :: answer
@@ -467,6 +469,9 @@ do  i_GP_Generation=1,n_GP_Generations
             endif !  n_GP_Mutations .gt. 0
 
 
+
+
+
             !   Move over any newly created children into the adult domain       ! ???
 
             GP_Adult_Population_Node_Type = GP_Child_Population_Node_Type
@@ -603,6 +608,7 @@ do  i_GP_Generation=1,n_GP_Generations
     !
     !    write(GP_print_unit,'(/A, 1x, I6/)') &
     !          '0: after call to GP_Clean_Tree_Nodes i_GP_generation =',i_GP_generation
+
     if( myid == 0 )then
         call print_gp_node_type_parm( )
     endif !  myid == 0 .and. ...
@@ -874,7 +880,7 @@ do  i_GP_Generation=1,n_GP_Generations
                 ! parameters,  and node types for this individual,
                 ! after being optimized in GPCODE*opt
 
-                !!!debug call summary_GP_indiv( i_GP_individual )
+                !!!debug call summary_GP_indiv( i_GP_generation, i_GP_individual )
 
             endif !  myid == 0
 

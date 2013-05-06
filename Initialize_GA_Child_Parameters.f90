@@ -18,6 +18,8 @@ real(kind=4) :: cff
 real(kind=8) :: dff
 
 integer(kind=4) :: i
+integer(kind=4) :: i_parameter
+integer(kind=4) :: jj
 
 !----------------------------------------------------------------------------
 
@@ -74,7 +76,9 @@ do  i_GA_Individual=1,n_GA_Individuals
     enddo ! i_parameter
 
     write(GA_print_unit,'(A,1x, I6,1x,12(1x,E15.7))') &
-         'Init: ', i_GA_individual, child_parameters(i_GA_individual,1:n_parameters)
+         'Init: ', i_GA_individual, &
+          ( child_parameters(i_GA_individual,jj), jj = 1,n_parameters )
+         !'Init: ', i_GA_individual, child_parameters(i_GA_individual,1:n_parameters)
 
 enddo ! i_ga_individual
 

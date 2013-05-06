@@ -33,12 +33,12 @@ integer(kind=4),allocatable,dimension(:,:)  :: linked_parms
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-integer(kind=4) :: i_level
-integer(kind=4) :: i_function
-integer(kind=4) :: i_CODE_equation
-integer(kind=4) :: j_CODE_equation
-integer(kind=4) :: i_node_left
-integer(kind=4) :: i_node_right
+!integer(kind=4) :: i_level
+!integer(kind=4) :: i_function
+!integer(kind=4) :: i_CODE_equation
+!integer(kind=4) :: j_CODE_equation
+!integer(kind=4) :: i_node_left
+!integer(kind=4) :: i_node_right
 
 
 integer(kind=4) :: n_parameters
@@ -141,7 +141,7 @@ integer(kind=4),parameter :: number_GP_child_prints = 2 ! 20
 !-------------------------------------------------------------------
 
 
-integer (kind=4) :: i_time_step
+!integer (kind=4) :: i_time_step
 
 logical :: L_bad_result
 
@@ -149,7 +149,7 @@ logical :: L_bad_result
 
 
 
-integer :: i_parameter
+!integer :: i_parameter
 
 
 !----------------------------------------------------------------------------------------

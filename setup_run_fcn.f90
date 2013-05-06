@@ -36,7 +36,9 @@ real(kind=8), parameter :: epsfcn = 1.0d-6    ! original
 real(kind=8), parameter :: factor=1.0D+0
 real(kind=8), parameter :: zero = 0.0d0
 
-integer (kind=4) ::   info
+integer(kind=4) ::   info
+integer(kind=4) :: i_time_step
+integer(kind=4) :: i_parameter
 
 
 ! individual_quality contains information on the result of lmdif

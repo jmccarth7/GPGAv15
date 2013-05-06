@@ -34,6 +34,7 @@ real(kind=8) :: dff
 
 integer (kind=4) :: n_replaced
 integer (kind=4) :: i
+integer(kind=4) :: i_parameter
 
 !---------------------------------------------------------------------------
 
@@ -356,5 +357,5 @@ write(GA_print_unit,'(A,1x,I6,1x,I10)')&
 
 
 return
+
 end subroutine GA_Tournament_Style_Sexual_Reproduction
-!234567890123456789012345678901234567890123456789012345678901234567890

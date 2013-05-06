@@ -18,6 +18,7 @@ real(kind=8) :: dff
 
 integer(kind=4) :: n_replaced
 integer(kind=4) :: i
+integer(kind=4) :: i_parameter
 
 
 !----------------------------------------------------------------------------
@@ -107,4 +108,3 @@ return
 
 
 end subroutine GA_replace_bad_individuals
-!234567890123456789012345678901234567890123456789012345678901234567890
