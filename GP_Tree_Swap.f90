@@ -50,7 +50,7 @@ logical :: MALE_CROSS
 logical :: FEMALE_CROSS
 
 
-integer(kind=4) :: i_Node            
+integer(kind=4) :: i_Node
 
 !--------------------------------------------------------------------------
 

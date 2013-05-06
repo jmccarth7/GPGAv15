@@ -25,9 +25,9 @@ implicit none
 real (kind=8) :: dff
 real (kind=8) :: xcount
 integer(kind=4),intent(in)  :: i_GP_individual
-integer(kind=4), intent(in)  :: i_GP_Generation                                                                           
-integer(kind=4) :: i_Tree                                                                                    
-integer(kind=4) :: i_Node            
+integer(kind=4), intent(in)  :: i_GP_Generation
+integer(kind=4) :: i_Tree
+integer(kind=4) :: i_Node
 
 !----------------------------------------------------------------------------------------
 

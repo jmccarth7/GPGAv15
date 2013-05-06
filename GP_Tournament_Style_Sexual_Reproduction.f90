@@ -27,7 +27,7 @@ integer(kind=4) :: i_Male_Tree
 integer(kind=4) :: i_Female_Tree
 integer(kind=4) :: i_Error
 
-integer(kind=4) :: i_GP_individual                                                                           
+integer(kind=4) :: i_GP_individual
 integer(kind=4) :: i_tree
 integer(kind=4) :: i_node
 
@@ -85,7 +85,7 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
     endif !   k_GP_Individual_Male(2) .eq. k_GP_Individual_Male(1)
 
     k_GP_Individual_Male(2) = min( k_GP_Individual_Male(2) , n_GP_Individuals )
-    k_GP_Individual_Male(2) = max( k_GP_Individual_Male(2) , 1 )      
+    k_GP_Individual_Male(2) = max( k_GP_Individual_Male(2) , 1 )
 
     ! select the individual of the two with the best fitness
     ! select the individual with the least SSE level between the two chosen males
@@ -326,7 +326,7 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
                           i_GP_Individual,i_node,i_tree, &
                           GP_Child_Population_Node_Type(i_GP_Individual,i_Node,i_Tree)
                 endif ! myid == 0
-            endif ! GP_Child_Population_Node_Type(i_GP_Individual, i_Node,i_Tree ) /= -9999            
+            endif ! GP_Child_Population_Node_Type(i_GP_Individual, i_Node,i_Tree ) /= -9999
         enddo !  i_Node
     enddo ! i_Tree
 

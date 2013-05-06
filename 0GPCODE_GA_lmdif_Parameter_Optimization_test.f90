@@ -28,12 +28,12 @@ integer :: i
 integer :: i_diversity
 integer :: message_len
 
-integer(kind=4) :: i_GP_individual                                                                          
-integer(kind=4) :: i_GP_Generation                                                                          
-integer(kind=4) :: i_Tree                                                                                   
-integer(kind=4) :: i_Node      
+integer(kind=4) :: i_GP_individual
+integer(kind=4) :: i_GP_Generation
+integer(kind=4) :: i_Tree
+integer(kind=4) :: i_Node
 
-integer(kind=4) :: jj          
+integer(kind=4) :: jj
 
 
 
@@ -105,7 +105,7 @@ endif !   myid == 0
 
 ! broadcast the values read in by cpu 0 to others
 
-call bcast1() 
+call bcast1()
 
 !------------------------------------------------------------------
 
@@ -286,7 +286,7 @@ endif ! myid == 0
 
 ! calculate n_GP_Asexual_Reproductions, n_GP_Crossovers, n_GP_Mutations, etc.
 
-call set_modified_indiv( ) 
+call set_modified_indiv( )
 
 
 !---------------------------------------------------------------------------
@@ -479,20 +479,20 @@ do  i_GP_Generation=1,n_GP_Generations
             ! calculate the diversity index for each individual
 
             write(GP_print_unit,'(/A)')&
-                  '0: call GP_calc_diversity_index '                  
+                  '0: call GP_calc_diversity_index '
             call GP_calc_diversity_index( n_GP_individuals, &
                                           GP_Child_Population_Node_Type, &
                                           i_diversity, i_gp_generation )
             write(GP_print_unit,'(/A)')&
-                  '0: aft call GP_calc_diversity_index '                  
+                  '0: aft call GP_calc_diversity_index '
 
             !---------------------------------------------------------------------------
 
         endif ! myid == 0
 
-                                                     
+
         !call MPI_FINALIZE(ierr)
-        !stop ! debug only 
+        !stop ! debug only
 
         !------------------------------------------------------------------------------------
 
@@ -508,15 +508,15 @@ do  i_GP_Generation=1,n_GP_Generations
 
         if( myid == 0 )then
             write(GP_print_unit,'(/A)')&
-                  '0: call bcast2 '                                   
-        endif ! myid == 0 
+                  '0: call bcast2 '
+        endif ! myid == 0
 
-        call bcast2() 
+        call bcast2()
 
         if( myid == 0 )then
             write(GP_print_unit,'(/A)')&
-                  '0: aft call bcast2 '                                   
-        endif ! myid == 0 
+                  '0: aft call bcast2 '
+        endif ! myid == 0
 
     endif ! i_GP_Generation .eq. 1
 
@@ -940,7 +940,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
     !-------------------------------------------------------------------------------------
 
-    call bcast3( ) 
+    call bcast3( )
 
 enddo generation_loop !  i_GP_Generation
 

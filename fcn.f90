@@ -23,8 +23,8 @@ real (kind=8) :: x(n_maximum_number_parameters)
 
 integer (kind=4) :: iflag
 
-integer(kind=4) :: i_Tree                                                                                    
-integer(kind=4) :: i_Node            
+integer(kind=4) :: i_Tree
+integer(kind=4) :: i_Node
 
 
 !---------------------------------------------------------------------

@@ -33,10 +33,10 @@ character(2),dimension( 1:n_nodes ) :: tree_type_string
 integer(kind=4), intent(in), &
         dimension(n_GP_individuals, 1:n_nodes, 1:n_trees) :: tree_type
 
-integer(kind=4) :: i_GP_individual                                                                           
-integer(kind=4) :: i_Tree                                                                                    
-integer(kind=4) :: i_node                                                                                    
-integer(kind=4) :: jj                                                                                        
+integer(kind=4) :: i_GP_individual
+integer(kind=4) :: i_Tree
+integer(kind=4) :: i_node
+integer(kind=4) :: jj
 
 !----------------------------------------------------------------------------------------
 
@@ -83,7 +83,7 @@ do  i_GP_individual = n_indiv_start, n_indiv_stop
         !write(GP_print_unit,'(I6,4x,20(1x,I5))' ) &
         !     i_tree, ( Tree_Type(i_GP_individual, jj, i_tree), jj = 1, n_nodes )
         write(GP_print_unit,'(I6,4x,20(1x,A))' ) &
-             i_tree, Tree_Type_string(1:n_nodes) 
+             i_tree, Tree_Type_string(1:n_nodes)
 
     enddo ! i_tree
 enddo  ! i_GP_individual

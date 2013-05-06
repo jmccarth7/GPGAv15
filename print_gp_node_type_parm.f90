@@ -22,9 +22,9 @@ use Runge_Kutta_Variables_module
 implicit none
 
 
-integer(kind=4) :: i_GP_individual                                                                           
-integer(kind=4) :: i_Tree                                                                                    
-integer(kind=4) :: i_Node            
+integer(kind=4) :: i_GP_individual
+integer(kind=4) :: i_Tree
+integer(kind=4) :: i_Node
 
 !----------------------------------------------------------------------------------------
 
@@ -62,7 +62,7 @@ do  i_GP_individual=1,n_GP_individuals
         enddo ! i_tree
         write(GP_print_unit,'(/A)') ' '
 
-    endif!  any( GP_Population_Node_Parameters(i_GP_individual,:,:) > 1.0d-20 
+    endif!  any( GP_Population_Node_Parameters(i_GP_individual,:,:) > 1.0d-20
 
 enddo !  i_GP_individual
 

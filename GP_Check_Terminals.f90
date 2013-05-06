@@ -21,8 +21,8 @@ implicit none
 
 integer(kind=4) :: i_Error
 
-integer(kind=4) :: i_Tree                                                                                    
-integer(kind=4) :: i_Node            
+integer(kind=4) :: i_Tree
+integer(kind=4) :: i_Node
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 i_Error=0

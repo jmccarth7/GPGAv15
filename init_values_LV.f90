@@ -40,8 +40,8 @@ integer,intent(in)  :: icall
 
 logical :: LV_model1 = .TRUE.
 
-integer(kind=4) :: i_Tree                                                                                    
-integer(kind=4) :: i_Node            
+integer(kind=4) :: i_Tree
+integer(kind=4) :: i_Node
 !-------------------------------------------------------------------------
 
 if(  icall  == 0  )then

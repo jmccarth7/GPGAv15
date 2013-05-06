@@ -64,7 +64,7 @@ real(kind=8), external :: indiv_fitness
 logical :: L_stop_run
 
 integer (kind=4) :: jj
- 
+
 !----------------------------------------------------------------------------------
 
 L_stop_run = .FALSE.

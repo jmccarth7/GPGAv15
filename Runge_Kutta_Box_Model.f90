@@ -17,8 +17,8 @@ implicit none
 
 real(kind=8) :: cff
 
-integer(kind=4) :: i_Tree                                                                                    
-integer(kind=4) :: i_Node            
+integer(kind=4) :: i_Tree
+integer(kind=4) :: i_Node
 
 !character(str_len) ::  left_node_value_string
 !character(str_len) ::  right_node_value_string

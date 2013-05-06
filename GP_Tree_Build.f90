@@ -19,9 +19,9 @@ integer(kind=4) :: Node_Function
 integer(kind=4) :: Node_Variable
 integer(kind=4) :: i_Error
 
-integer(kind=4) :: i_GP_individual                                                                           
-integer(kind=4) :: i_Tree                                                                                    
-integer(kind=4) :: i_Node            
+integer(kind=4) :: i_GP_individual
+integer(kind=4) :: i_Tree
+integer(kind=4) :: i_Node
 !-----------------------------------------------------------------------------
 
 GP_Child_Population_Node_Type=-9999 ! set all to null [-9999]
