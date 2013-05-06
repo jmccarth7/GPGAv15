@@ -83,22 +83,22 @@ enddo ! i_parameter
 
 !-----------------------------------------------------------------------------------
 
-!write(GA_print_unit,'(/A)') 'calcfit: i_GA_individual, parent params'
+write(GA_print_unit,'(/A)') 'calcfit: i_GA_individual, parent params'
 
-!do  i_GA_individual=1,n_GA_individuals
-!    write(GA_print_unit,'(I6,(12(1x,E15.7)))') i_GA_individual, &
-!              parent_parameters( i_GA_individual, 1:n_parameters)
-!enddo !  i_GA_individual
+do  i_GA_individual=1,n_GA_individuals
+    write(GA_print_unit,'(I6,(12(1x,E15.7)))') i_GA_individual, &
+              parent_parameters( i_GA_individual, 1:n_parameters)
+enddo !  i_GA_individual
 
 !-----------------------------------------------------------------------------------
 
-!write(GA_print_unit,*) ' '
-!do  i_GA_individual=1,n_GA_individuals
-!    write(GA_print_unit,'(A,1x,I6,1x,E24.16, 1x, I6)') &
-!        'calcfit: i_GA_individual, individual_SSE, individual_quality', &
-!                  i_GA_individual, individual_SSE(i_GA_individual), &
-!                                   individual_quality( i_GA_individual )
-!enddo !  i_GA_individual
+write(GA_print_unit,*) ' '
+do  i_GA_individual=1,n_GA_individuals
+    write(GA_print_unit,'(A,1x,I6,1x,E24.16, 1x, I6)') &
+        'calcfit: i_GA_individual, individual_SSE, individual_quality', &
+                  i_GA_individual, individual_SSE(i_GA_individual), &
+                                   individual_quality( i_GA_individual )
+enddo !  i_GA_individual
 
 !-----------------------------------------------------------------------------------
 
@@ -149,7 +149,7 @@ enddo ! i_GA_individual
 ! calculate the integrated ranked fitness levels
 ! to support the "Fitness Proportionate Reproduction" events
 
-!write(GA_print_unit,'(/A/)')'calcfit: calculate the integrated ranked fitness levels'
+write(GA_print_unit,'(/A/)')'calcfit: calculate the integrated ranked fitness levels'
 
 !----------------------------------------------------------------------------------
 

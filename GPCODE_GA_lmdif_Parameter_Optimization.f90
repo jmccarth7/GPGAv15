@@ -301,7 +301,7 @@ do  i_GA_generation=1,n_GA_Generations
 
             !   save the most fit individuals for the next generation
 
-            !write(GA_print_unit,'(/A)')'GP_GA_opt: call GA_save_elites '
+            write(GA_print_unit,'(/A)')'GP_GA_opt: call GA_save_elites '
 
             call GA_save_elites( ) !Parent_Parameters,Child_Parameters, &
                                    !               individual_quality )
@@ -311,7 +311,7 @@ do  i_GA_generation=1,n_GA_Generations
             !  replace the parameters of any individual with quality < 0 with new
             !  random numbers
 
-            !write(GA_print_unit,'(/A)')'GP_GA_opt: call GA_replace_bad_individuals  '
+            write(GA_print_unit,'(/A)')'GP_GA_opt: call GA_replace_bad_individuals  '
             call GA_replace_bad_individuals(Child_Parameters, individual_quality )
 
             !-------------------------------------------------------------------------------
@@ -319,8 +319,8 @@ do  i_GA_generation=1,n_GA_Generations
             !   do initial "GA Fitness-Proportionate Reproduction"
             !   to create a new population of children for all n_GA_individual
 
-            !write(GA_print_unit,'(/A)')&
-            !      'GP_GA_opt: call GA_Fitness_Proportionate_Reproduction '
+            write(GA_print_unit,'(/A)')&
+                  'GP_GA_opt: call GA_Fitness_Proportionate_Reproduction '
             !write(GA_print_unit,'(/A)')&
             !     'GP_GA_opt: SKIP GA_Fitness_Proportionate_Reproduction '
 
@@ -348,10 +348,10 @@ do  i_GA_generation=1,n_GA_Generations
 
             if( n_GA_Crossovers .gt. 0) then
 
-                !write(GA_print_unit,'(/A)')&
-                !      'GP_GA_opt: call GA_Tournament_Style_Sexual_Reproduction'
-                !write(GA_print_unit,'(A,1x,I6)')&
-                !      'GP_GA_opt: n_GA_Crossovers ',  n_GA_Crossovers
+                write(GA_print_unit,'(/A)')&
+                      'GP_GA_opt: call GA_Tournament_Style_Sexual_Reproduction'
+                write(GA_print_unit,'(A,1x,I6)')&
+                      'GP_GA_opt: n_GA_Crossovers ',  n_GA_Crossovers
 
                 call GA_Tournament_Style_Sexual_Reproduction( &
                             Parent_Parameters,Child_Parameters, individual_quality )
@@ -372,10 +372,10 @@ do  i_GA_generation=1,n_GA_Generations
 
             if( n_GA_Mutations .gt. 0) then
 
-                !write(GA_print_unit,'(/A,1x,I6)')&
-                !      'GP_GA_opt: call GA_Mutations '
-                !write(GA_print_unit,'(A,1x,I6)') &
-                !      'GP_GA_opt: n_GA_Mutations  ',  n_GA_Mutations
+                write(GA_print_unit,'(/A,1x,I6)')&
+                      'GP_GA_opt: call GA_Mutations '
+                write(GA_print_unit,'(A,1x,I6)') &
+                      'GP_GA_opt: n_GA_Mutations  ',  n_GA_Mutations
 
                 !call system_clock( count=clock1, count_rate=ratec, count_max= maxclk)
 
