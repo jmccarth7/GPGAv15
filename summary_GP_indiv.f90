@@ -132,7 +132,7 @@ if( any( abs( GP_population_node_parameters(i_GP_indiv,:,:) ) &
             if( abs( GP_population_node_parameters( &
                        i_GP_indiv,i_node,i_tree) ) > 1.0d-20   )then
 
-                write(GP_print_unit,'(4(1x,I10), 1x, E20.10)') &
+                write(GP_print_unit,'(4(1x,I0), 1x, E20.10)') &
                       i_GP_generation, i_GP_indiv,i_node, i_tree, &
                       GP_population_node_parameters(i_GP_indiv,i_node,i_tree)
 

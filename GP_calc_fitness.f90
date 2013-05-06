@@ -223,7 +223,7 @@ endif ! i_GP_generation == 1 .or. ...
 !-------------------------------------------------------------------------------------------------
 
 !write(GP_print_unit,*) i_GP_Generation,'MAIN',GP_Population_Ranked_Fitness(1)
-write(GP_print_unit,'(/A,17x,A,15x,I6,8x,E15.7)') &
+write(GP_print_unit,'(/A,17x,A,21x,I6,8x,E15.7)') &
       'gpcf: i_GP_Gen,', 'GP_Pop_Ranked_Fit(1) ', &
              i_GP_Generation, GP_Population_Ranked_Fitness(1)
 

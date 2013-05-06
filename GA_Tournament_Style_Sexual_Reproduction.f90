@@ -189,10 +189,7 @@ do i_GA_Crossover=1,n_GA_Crossovers
   ! pick a location from 1 to n_parameters-1
 
   i_GA_Crossover_Point=1+int( dff*dble(n_Parameters-2) )
-<<<<<<< HEAD
-=======
   i_GA_Crossover_Point = min( i_GA_Crossover_Point , n_Parameters )
->>>>>>> mac1/new_master
 
   !write(GA_print_unit,'(/A,2(1x,I6))')&
   !      'gato: i_GA_Crossover, i_GA_Crossover_Point ', &
