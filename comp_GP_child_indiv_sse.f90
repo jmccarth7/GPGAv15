@@ -21,9 +21,10 @@ use Runge_Kutta_Variables_module
 
 implicit none
 
+real(kind=8),parmaeter :: sse_increment = 1.0D5
 
-real (kind=8) :: dff
-real (kind=8) :: xcount
+real(kind=8) :: dff
+real(kind=8) :: xcount
 integer(kind=4),intent(in)  :: i_GP_individual
 integer(kind=4), intent(in)  :: i_GP_Generation
 integer(kind=4) :: i_Tree
@@ -58,7 +59,7 @@ do  i_Node=1,n_Nodes
             if( GP_Node_Type_Answer(i_Node,i_Tree)     .eq. -9999  .or. &
                 GP_Individual_Node_Type(i_Node,i_Tree) .eq. -9999         ) then
 
-                dff = 1.0d2        ! NOTE: larger  jjm 20130415
+                dff = sse_increment  !1.0d2        ! NOTE: larger  jjm 20130415
                 xcount=xcount+dff
 
                 !if( myid == 0 )then

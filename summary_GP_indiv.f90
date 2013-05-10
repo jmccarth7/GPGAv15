@@ -75,7 +75,7 @@ do  i_code_eq = 1, n_CODE_Equations
 enddo  ! i_code_eq
 
 
-write(GP_summary_output_unit, '(A)') '> '
+write(GP_summary_output_unit, '(A,4x,2(1x,I6))') '> ', i_GP_generation, i_GP_indiv
 
 
 
@@ -107,7 +107,7 @@ do  i_Node=1,n_Nodes
 enddo  ! i_node
 
 
-write(GP_summary_output_unit, '(A)') '> '
+write(GP_summary_output_unit, '(A,4x,2(1x,I6))') '> ', i_GP_generation, i_GP_indiv
 
 !---------------------------------------------------------------------------------
 
@@ -156,7 +156,7 @@ enddo  ! i_tree
 
 
 
-write(GP_summary_output_unit, '(A)') '>>'
+write(GP_summary_output_unit, '(A,4x,2(1x,I6))') '>>', i_GP_generation, i_GP_indiv
 
 
 !---------------------------------------------------------------------------------
