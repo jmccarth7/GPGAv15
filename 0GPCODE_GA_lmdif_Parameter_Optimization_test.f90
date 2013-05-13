@@ -808,7 +808,8 @@ do  i_GP_Generation=1,n_GP_Generations
                            i_GP_generation, i_GP_individual, &
                            GP_Child_Population_SSE(i_GP_Individual)
             endif !  myid == 0
-            !-------------------------------------------------------------------------------------
+
+            !-----------------------------------------------------------------------------------
 
 
             ! set the GA_lmdif-optimized initial condition array

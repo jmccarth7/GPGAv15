@@ -143,7 +143,7 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
 
 enddo !  i_GP_Individual
 
-!--------------------------------------------------------------------------------------------------
+!------------------------------------------------------------------------------------------------
 
 ! randomly fill the terminals of the GP_Child_Population_Node_Type array
 ! with parameter or variable 'types'
@@ -217,8 +217,9 @@ do  i_GP_Individual=1,n_GP_Individuals
         do  i_Node=1,n_Nodes
             if( GP_Child_Population_Node_Type(i_GP_Individual, i_Node,i_Tree) /= -9999 )then
                 write(GP_print_unit,'(A,3(1x,I6))') &
-                 'gtb: i_node, i_tree, GP_Child_Population_Node_Type(i_GP_Individual, i_Node,i_Tree)', &
-                       i_node, i_tree, GP_Child_Population_Node_Type(i_GP_Individual, i_Node,i_Tree)
+                 'gtb: i_node, i_tree, GP_Child_Population_Node_Type', &
+                       i_node, i_tree, &
+                       GP_Child_Population_Node_Type(i_GP_Individual, i_Node,i_Tree)
             endif ! GP_Child_Population_Node_Type(i_Node,i_Tree) /= -9999
         enddo ! i_node
     enddo ! i_tree
