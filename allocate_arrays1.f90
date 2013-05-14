@@ -121,7 +121,7 @@ allocate( node_type_string( n_nodes, n_trees ) )
 allocate( node_parameters_string( n_nodes, n_trees ) )
 allocate( tree_evaluation_string( n_nodes, n_trees ) )
 
-allocate( linked_parms( 2, n_linked_parms_dim ) )
+!!allocate( linked_parms( 2, n_linked_parms_dim ) )
 
 allocate( Node_Probability( n_levels ) )
 
@@ -217,7 +217,7 @@ node_parameters_string = ' '
 tree_evaluation_string = ' '
 
 
-linked_parms = 0
+!!linked_parms = 0
 
 Node_Probability = 0.0d0
 !>>>>>>>>>>>>>

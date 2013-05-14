@@ -104,7 +104,7 @@ deallocate( fbio )
 deallocate( node_type_string )
 deallocate( node_parameters_string )
 deallocate( tree_evaluation_string )
-deallocate( linked_parms )
+!!deallocate( linked_parms )
 
 
 deallocate( Node_Probability )

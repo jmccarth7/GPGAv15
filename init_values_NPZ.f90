@@ -72,9 +72,9 @@ if(  icall  == 0  )then
 
     n_maximum_number_parameters = n_CODE_equations +  n_nodes
 
-    n_linked_parms = 2
+    !!n_linked_parms = 2
 
-    n_linked_parms_dim = max( n_linked_parms, 1 )
+    !!n_linked_parms_dim = max( n_linked_parms, 1 )
 
     if( myid == 0 )then
         write(GP_print_unit,'(A,1x,I6)') 'ivNPZ: n_levels           ', n_levels
@@ -82,10 +82,10 @@ if(  icall  == 0  )then
         write(GP_print_unit,'(A,1x,I6)') 'ivNPZ: n_CODE_equations   ', n_CODE_equations
         write(GP_print_unit,'(A,1x,I6)') 'ivNPZ: n_trees            ', n_trees
         write(GP_print_unit,'(A,1x,I6)') 'ivNPZ: n_nodes            ', n_nodes
-        write(GP_print_unit,'(A,1x,I6)') 'ivNPZ: n_linked_parms     ', n_linked_parms
-        write(GP_print_unit,'(A,1x,I6)') 'ivNPZ: n_linked_parms_dim ', n_linked_parms_dim
+        !!write(GP_print_unit,'(A,1x,I6)') 'ivNPZ: n_linked_parms     ', n_linked_parms
+        !!write(GP_print_unit,'(A,1x,I6)') 'ivNPZ: n_linked_parms_dim ', n_linked_parms_dim
         write(GP_print_unit,'(/A,1x,I6/)') 'ivNPZ: n_maximum_number_parameters ', &
-                                       n_maximum_number_parameters
+                                                   n_maximum_number_parameters
     endif ! myid == 0
 
 
@@ -268,11 +268,11 @@ GP_Individual_Node_Type(23,11)=-2            ! Phytoplankton
 ! ensure that the same random value will be in 7 and 11   and in 8 and 12
 
 
-linked_parms(1,1) = 7
-linked_parms(2,1) = 11
+!!linked_parms(1,1) = 7
+!!linked_parms(2,1) = 11
 
-linked_parms(1,2) = 8
-linked_parms(2,2) = 12
+!!linked_parms(1,2) = 8
+!!linked_parms(2,2) = 12
 
 return
 

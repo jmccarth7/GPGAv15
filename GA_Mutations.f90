@@ -112,36 +112,36 @@ do i_GA_Mutation=1,n_GA_Mutations
 
 
   !----------------------------------------------------------------------------
-
-  !  this checks if any of the parameters have been marked as linked
-  !  That is, if parameter N is the same parameter as parameter M, then
-  !  choose a random number for parameter N and use the same number for
-  !  parameter M
-
-
-  if( n_linked_parms > 0 )then
-
-      if( any( i_parameter_mutation == linked_parms(2,:) )    ) cycle
-
-      if( any( i_parameter_mutation == linked_parms(1,:) )    )then
-
-          do  i = 1, n_linked_parms
-
-              if( i_parameter_mutation == linked_parms(1,i) )then
-
-                  child_parameters(i_GA_Individual_Mutation,linked_parms(2,i) ) = &
-                  child_parameters(i_GA_Individual_Mutation,i_Parameter_Mutation)
-
-                  exit
-
-              endif ! i_parameter_mutation == linked_parms(i,1)
-
-          enddo ! i
-
-      endif !  any( i_parameter_mutation == linked_parms(1,:) )
-
-  endif !  n_linked_parms > 0
-
+!!
+!!  !  this checks if any of the parameters have been marked as linked
+!!  !  That is, if parameter N is the same parameter as parameter M, then
+!!  !  choose a random number for parameter N and use the same number for
+!!  !  parameter M
+!!
+!!
+!!  if( n_linked_parms > 0 )then
+!!
+!!      if( any( i_parameter_mutation == linked_parms(2,:) )    ) cycle
+!!
+!!      if( any( i_parameter_mutation == linked_parms(1,:) )    )then
+!!
+!!          do  i = 1, n_linked_parms
+!!
+!!              if( i_parameter_mutation == linked_parms(1,i) )then
+!!
+!!                  child_parameters(i_GA_Individual_Mutation,linked_parms(2,i) ) = &
+!!                  child_parameters(i_GA_Individual_Mutation,i_Parameter_Mutation)
+!!
+!!                  exit
+!!
+!!              endif ! i_parameter_mutation == linked_parms(i,1)
+!!
+!!          enddo ! i
+!!
+!!      endif !  any( i_parameter_mutation == linked_parms(1,:) )
+!!
+!!  endif !  n_linked_parms > 0
+!!
   !----------------------------------------------------------------------------
 
 enddo

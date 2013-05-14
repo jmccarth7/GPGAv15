@@ -26,10 +26,10 @@ integer(kind=4) :: n_GP_parameters
 
 character(30) :: model
 
-integer(kind=4) :: n_linked_parms
-integer(kind=4) :: n_linked_parms_dim
+!!integer(kind=4) :: n_linked_parms
+!!integer(kind=4) :: n_linked_parms_dim
 
-integer(kind=4),allocatable,dimension(:,:)  :: linked_parms
+!!integer(kind=4),allocatable,dimension(:,:)  :: linked_parms
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 

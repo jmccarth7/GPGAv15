@@ -60,8 +60,8 @@ if(  icall  == 0  )then
     n_maximum_number_parameters = n_CODE_equations +  n_nodes
 
 
-    n_linked_parms = 0
-    n_linked_parms_dim = max( n_linked_parms, 1 )
+    !!n_linked_parms = 0
+    !!n_linked_parms_dim = max( n_linked_parms, 1 )
 
     if( myid == 0 )then
         write(GP_print_unit,'(A,1x,I6)') 'ivLV: n_levels          ', n_levels
@@ -69,8 +69,8 @@ if(  icall  == 0  )then
         write(GP_print_unit,'(A,1x,I6)') 'ivLV: n_CODE_equations  ', n_CODE_equations
         write(GP_print_unit,'(A,1x,I6)') 'ivLV: n_trees           ', n_trees
         write(GP_print_unit,'(A,1x,I6)') 'ivLV: n_nodes           ', n_nodes
-        write(GP_print_unit,'(A,1x,I6)') 'ivLV: n_linked_parms    ', n_linked_parms
-        write(GP_print_unit,'(A,1x,I6)') 'ivLV: n_linked_parms_dim', n_linked_parms_dim
+        !!write(GP_print_unit,'(A,1x,I6)') 'ivLV: n_linked_parms    ', n_linked_parms
+        !!write(GP_print_unit,'(A,1x,I6)') 'ivLV: n_linked_parms_dim', n_linked_parms_dim
         write(GP_print_unit,'(A,1x,I6/)')'ivLV: n_maximum_number_parameters  ', &
                                                 n_maximum_number_parameters
     endif ! myid == 0
@@ -254,9 +254,9 @@ endif ! myid == 0
 
 
 
-if( n_linked_parms > 0 )then
-    linked_parms(2, 1:n_linked_parms) = 0
-endif ! n_linked_parms > 0
+!!if( n_linked_parms > 0 )then
+!!    linked_parms(2, 1:n_linked_parms) = 0
+!!endif ! n_linked_parms > 0
 
 !--------------------------------------------------------------------------------------
 
