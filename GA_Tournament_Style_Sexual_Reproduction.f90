@@ -20,8 +20,8 @@ real(kind=8) ::  child_parameters(n_GA_Individuals,n_maximum_number_parameters)
 
 integer(kind=4) :: individual_quality(n_GA_individuals)
 
-integer (kind=4) :: i_GA_Crossover,i_GA_Crossover_Point
-integer (kind=4) :: k_GA_Individual_Male(2),k_GA_Individual_Female(2)
+integer(kind=4) :: i_GA_Crossover,i_GA_Crossover_Point
+integer(kind=4) :: k_GA_Individual_Male(2),k_GA_Individual_Female(2)
 
 real(kind=8) :: child_one_parameters(n_parameters)
 real(kind=8) :: child_two_parameters(n_parameters)
@@ -31,9 +31,17 @@ real(kind=8) :: temp_female_parameters(n_parameters)
 
 real(kind=4) :: cff
 real(kind=8) :: dff
+                                                                                                           
+real(kind=8) :: old_male
+real(kind=8) :: old_female
+real(kind=8) :: mean_parm
+real(kind=8) :: std_dev_parm
+real(kind=8) :: cff_1
+real(kind=8) :: cff_2
+                                                                                                            
 
-integer (kind=4) :: n_replaced
-integer (kind=4) :: i
+integer(kind=4) :: n_replaced
+integer(kind=4) :: i
 integer(kind=4) :: i_parameter
 
 !---------------------------------------------------------------------------
@@ -154,6 +162,7 @@ do i_GA_Crossover=1,n_GA_Crossovers
   ! select the individual of the two with the best fitness
   ! best fitness means Individual_Ranked_Fitness is largest
 
+
   !write(GA_print_unit,'(A,1x,E24.16)')&
   !      'gato: Individual_Ranked_Fitness(k_GA_Individual_Female(1)) ', &
   !             Individual_Ranked_Fitness(k_GA_Individual_Female(1))
@@ -222,79 +231,198 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
   !--------------------------------------------------------------------------------
 
-  ! replace the crossover point parameter value
-  ! with a new random number in each child
+  ! modify the crossover point parameter value
 
-  call random_real(cff)
-  dff = cff
-  Child_One_Parameters(i_GA_Crossover_Point) = dff
+  if( ga_tournament_style == 0 ) then
+      ! do not modify the crossover point parameter value
+      continue
+  endif
+
+
+  if( ga_tournament_style == 1 ) then
+
+      ! modify the crossover point parameter value
+      ! with a new random number in each child
+
+      call random_real(cff)
+      dff = cff
+      Child_One_Parameters(i_GA_Crossover_Point) = dff
+
+  endif
+
+
+  if( ga_tournament_style == 2 ) then
+
+      ! modify the crossover point parameter value
+      ! with JM formula formula
+
+      call random_real(cff)
+      dff = cff
+
+
+      !  Old_Parameter_Range=Old_Male_Parameter-Old_Female_Parameter
+
+      !  Standard_Deviation=0.5+(0.5*Random_Number)*(Old_Male_Parameter+Old_Female_Parameter)
+      !  ==> Essentially this makes the S.D. some % (50% to 100%) of the mean
+
+      !   Mean=(Old_Male_Parameter+Old_Female_Parameter)/2.0
+
+      !  call Random_Number(cff_one) ! uniform random number generator
+      !  call Random_Number(cff_two) ! uniform random number generator
+      !  New_Parameter = &
+      !    Standard_Deviation * sqrt ( -2.0 * log ( cff_one ) ) * cos ( 2.0 * pi * cff_two ) + Mean
+
+
+      old_male   = Parent_Parameters(k_GA_Individual_Male(1),  i_GA_Crossover_Point)
+      old_female = Parent_Parameters(k_GA_Individual_Female(1),i_GA_Crossover_Point)
+      mean_parm = 0.5d0 * ( old_male + old_female )
+
+      call random_number( cff )
+      std_dev_parm = 0.5d0 + real(cff,kind=8) * mean_parm
+
+      call random_number( cff ) 
+      cff_1 = real( cff, kind = 8 )
+      call random_number( cff ) 
+      cff_2 = real( cff, kind = 8 )
+
+      dff = mean_parm  + &
+            std_dev_parm * &
+            sqrt( -2.0d0 * log( cff_1 ) ) * cos( 2.0d0 * pi * cff_2 )   
+
+      Child_One_Parameters(i_GA_Crossover_Point) = dff
+
+  endif
+
+
+
+!!!----------------------------------------------------------------------------
+!!
+!!  if( n_linked_parms > 0 )then
+!!
+!!      if( any( i_GA_Crossover_Point == linked_parms(:,:) )    )then
+!!
+!!              do  i = 1, n_linked_parms
+!!
+!!                  if( i_GA_Crossover_Point == linked_parms(1,i) )then
+!!
+!!                      child_one_parameters(linked_parms(2,i) ) = &
+!!                      child_one_parameters(linked_parms(1,i) )
+!!
+!!                  endif ! i_GA_Crossover_Point == linked_parms(i,1)
+!!
+!!                  if( i_GA_Crossover_Point == linked_parms(2,i) )then
+!!
+!!                      child_one_parameters(linked_parms(1,i) ) = &
+!!                      child_one_parameters(linked_parms(2,i) )
+!!
+!!                  endif ! i_GA_Crossover_Point == linked_parms(i,1)
+!!
+!!
+!!              enddo ! i
+!!
+!!      endif !  any( i_GA_Crossover_Point == linked_parms(1,:) )
+!!
+!!  endif !  n_linked_parms > 0
+!!
+  !----------------------------------------------------------------------------
+
+
+  ! modify the crossover point parameter value
+
+  if( ga_tournament_style == 0 ) then
+      ! do not modify the crossover point parameter value
+      continue
+  endif
+
+
+  if( ga_tournament_style == 1 ) then
+
+      ! modify the crossover point parameter value
+      ! with a new random number in each child
+
+      call random_real(cff)
+      dff = cff
+      Child_Two_Parameters(i_GA_Crossover_Point) = dff
+
+  endif
+
+
+  if( ga_tournament_style == 2 ) then
+
+      ! modify the crossover point parameter value
+      ! with JM formula formula
+
+      call random_real(cff)
+      dff = cff
+
+
+      !  Old_Parameter_Range=Old_Male_Parameter-Old_Female_Parameter
+
+      !  Standard_Deviation=0.5+(0.5*Random_Number)*(Old_Male_Parameter+Old_Female_Parameter)
+      !  ==> Essentially this makes the S.D. some % (50% to 100%) of the mean
+
+      !   Mean=(Old_Male_Parameter+Old_Female_Parameter)/2.0
+
+      !  call Random_Number(cff_one) ! uniform random number generator
+      !  call Random_Number(cff_two) ! uniform random number generator
+      !  New_Parameter = &
+      !    Standard_Deviation * sqrt ( -2.0 * log ( cff_one ) ) * cos ( 2.0 * pi * cff_two ) + Mean
+
+
+      old_male   = Parent_Parameters(k_GA_Individual_Male(1),  i_GA_Crossover_Point)
+      old_female = Parent_Parameters(k_GA_Individual_Female(1),i_GA_Crossover_Point)
+      mean_parm = 0.5d0 * ( old_male + old_female )
+
+      call random_number( cff )
+      std_dev_parm = 0.5d0 + real(cff,kind=8) * mean_parm
+
+      call random_number( cff ) 
+      cff_1 = real( cff, kind = 8 )
+      call random_number( cff ) 
+      cff_2 = real( cff, kind = 8 )
+
+      dff = mean_parm  + &
+            std_dev_parm * &
+            sqrt( -2.0d0 * log( cff_1 ) ) * cos( 2.0d0 * pi * cff_2 )   
+
+      Child_Two_Parameters(i_GA_Crossover_Point) = dff
+
+  endif
+
 
 
   !----------------------------------------------------------------------------
-
-  if( n_linked_parms > 0 )then
-
-      if( any( i_GA_Crossover_Point == linked_parms(:,:) )    )then
-
-              do  i = 1, n_linked_parms
-
-                  if( i_GA_Crossover_Point == linked_parms(1,i) )then
-
-                      child_one_parameters(linked_parms(2,i) ) = &
-                      child_one_parameters(linked_parms(1,i) )
-
-                  endif ! i_GA_Crossover_Point == linked_parms(i,1)
-
-                  if( i_GA_Crossover_Point == linked_parms(2,i) )then
-
-                      child_one_parameters(linked_parms(1,i) ) = &
-                      child_one_parameters(linked_parms(2,i) )
-
-                  endif ! i_GA_Crossover_Point == linked_parms(i,1)
-
-
-              enddo ! i
-
-      endif !  any( i_GA_Crossover_Point == linked_parms(1,:) )
-
-  endif !  n_linked_parms > 0
-
-  !----------------------------------------------------------------------------
-
-
-  call random_real(cff)
-  dff = cff
   Child_Two_Parameters(i_GA_Crossover_Point) = dff
 
 
-  !----------------------------------------------------------------------------
-
-  if( n_linked_parms > 0 )then
-
-      if( any( i_GA_Crossover_Point == linked_parms(:,:) )    )then
-
-              do  i = 1, n_linked_parms
-
-                  if( i_GA_Crossover_Point == linked_parms(1,i) )then
-
-                      child_two_parameters(linked_parms(2,i) ) = &
-                      child_two_parameters(linked_parms(1,i) )
-
-                  endif ! i_GA_Crossover_Point == linked_parms(i,1)
-
-                  if( i_GA_Crossover_Point == linked_parms(2,i) )then
-
-                      child_two_parameters(linked_parms(1,i) ) = &
-                      child_two_parameters(linked_parms(2,i) )
-
-                  endif ! i_GA_Crossover_Point == linked_parms(i,1)
-
-
-              enddo ! i
-
-      endif !  any( i_GA_Crossover_Point == linked_parms(1,:) )
-
-  endif !  n_linked_parms > 0
+!!!----------------------------------------------------------------------------
+!!
+!!  if( n_linked_parms > 0 )then
+!!
+!!      if( any( i_GA_Crossover_Point == linked_parms(:,:) )    )then
+!!
+!!              do  i = 1, n_linked_parms
+!!
+!!                  if( i_GA_Crossover_Point == linked_parms(1,i) )then
+!!
+!!                      child_two_parameters(linked_parms(2,i) ) = &
+!!                      child_two_parameters(linked_parms(1,i) )
+!!
+!!                  endif ! i_GA_Crossover_Point == linked_parms(i,1)
+!!
+!!                  if( i_GA_Crossover_Point == linked_parms(2,i) )then
+!!
+!!                      child_two_parameters(linked_parms(1,i) ) = &
+!!                      child_two_parameters(linked_parms(2,i) )
+!!
+!!                  endif ! i_GA_Crossover_Point == linked_parms(i,1)
+!!
+!!
+!!              enddo ! i
+!!
+!!      endif !  any( i_GA_Crossover_Point == linked_parms(1,:) )
+!!
+!!  endif !  n_linked_parms > 0
 
 
 
@@ -316,10 +444,10 @@ do i_GA_Crossover=1,n_GA_Crossovers
   !  print parameters for selected male and female parents before and after  crossover
 
   !write(GA_print_unit,'(A,3(1x,I6))')&
-  !      'gato: selected i_GA_Crossover, &
-  !      &k_GA_Individual_Male(1), k_GA_Individual_Female(1) ', &
-  !                      i_GA_Crossover, &
-  !       k_GA_Individual_Male(1), k_GA_Individual_Female(1)
+  ! 'gato: selected i_GA_Crossover, &
+  ! &k_GA_Individual_Male(1), k_GA_Individual_Female(1) ', &
+  ! i_GA_Crossover, &
+  ! k_GA_Individual_Male(1), k_GA_Individual_Female(1)
 
   !write(GA_print_unit,'(A/I6,12(1x,E15.7))')&
   ! 'gato: before k_GA_Individual_Male(1), &

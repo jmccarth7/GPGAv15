@@ -43,6 +43,16 @@ real(kind=8) :: GA_Asexual_Reproduction_Probability
 real (kind=4), parameter :: GP_Set_Terminal_to_Parameter_Probability = 0.6
 
 
+! determines how the GA_Tournament subroutine works
+
+! = 0  - swap unmodified segments of parents
+! = 1  - swap segments of parents and randomly reset node at segment boundaries
+! = 2  - swap segments of parents and reset node at segment boundaries using JM
+!        formula involving the mean and std. dev
+
+integer(kind=4) :: ga_tournament_style
+
+real (kind=4), parameter :: PI = 3.141592653589793D0
 
 ! GA routine-specific variables that can be modified
 
