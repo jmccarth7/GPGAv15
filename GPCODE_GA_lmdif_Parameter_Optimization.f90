@@ -920,6 +920,8 @@ if( myid == 0  )then
 
         individual_fitness = individual_ranked_fitness_best_1
 
+        Individual_SSE_best_parent = individual_SSE_best_1
+
         ! choose the parameters of the best parent from the RK fcn integration
 
         write(GA_print_unit,'(/A)')&
@@ -1004,7 +1006,7 @@ if( myid == 0  )then
     else  ! lmdif is best
 
         individual_fitness = individual_ranked_fitness(i_GA_best_parent)
-
+        Individual_SSE_best_parent = individual_SSE(i_GA_best_parent)
 
         ! choose the lmdif output
 
@@ -1110,6 +1112,23 @@ call MPI_BCAST( individual_fitness, message_len,    &
 
 !write(GA_print_unit,'(/A,1x,I6)') 'aft individual_fitness barrier  myid = ', myid
 
+!------------------------------------------------------------------------
+
+! broadcast Individual_SSE_best_parent
+
+
+!write(GA_print_unit,'(/A,1x,I6)') 'broadcast Individual_SSE_best_parent myid = ', myid
+
+message_len = 1
+call MPI_BCAST( Individual_SSE_best_parent, message_len,    &
+                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+
+!write(GA_print_unit,'(/A,1x,I6)') 'broadcast Individual_SSE_best_parent  ierr = ', ierr
+
+
+!call MPI_BARRIER( MPI_COMM_WORLD, ierr )
+
+!write(GA_print_unit,'(/A,1x,I6)') 'aft Individual_SSE_best_parent barrier  myid = ', myid
 
 !------------------------------------------------------------------------
 

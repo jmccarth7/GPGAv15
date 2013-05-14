@@ -699,7 +699,10 @@ do  i_GP_Generation=1,n_GP_Generations
 
             ! cycle the i_GP_individual loop if there are no GP parameters
 
-            if( n_GP_parameters == 0 ) then
+            !if( n_GP_parameters == 0 ) then
+
+            if( n_GP_parameters == 0 .or. &
+                n_GP_parameters < n_code_equations ) then
                 if( myid == 0 )then
                     write(GP_print_unit,'(A,1x,I6)')&
                           '0: skipping this i_GP_Individual --&
@@ -796,13 +799,18 @@ do  i_GP_Generation=1,n_GP_Generations
             ! compute GP_Child_Individual_SSE(i_GP_Individual)
             ! and     GP_Child_Population_SSE(i_GP_Individual)
 
-            call comp_GP_child_indiv_sse(i_GP_Individual, i_GP_generation)
+            !!call comp_GP_child_indiv_sse(i_GP_Individual, i_GP_generation)
 
+            ! use the best sse from the GPCODE subroutine
+
+            GP_Child_Individual_SSE(i_GP_Individual) = Individual_SSE_best_parent
+            GP_Child_Population_SSE(i_GP_Individual) = Individual_SSE_best_parent
 
             GP_Adult_Individual_SSE(i_GP_Individual) = GP_Child_Individual_SSE(i_GP_Individual)
             GP_Adult_Population_SSE(i_GP_Individual) = GP_Child_Population_SSE(i_GP_Individual)
 
             if( myid == 0 )then
+
                 write(GP_print_unit,'(/A,2(1x,I5), 1x, E15.7)')&
                       '0:3 i_GP_gen,i_GP_indiv,GP_Child_Pop_SSE(i_GP_Indiv)  ', &
                            i_GP_generation, i_GP_individual, &
@@ -876,13 +884,6 @@ do  i_GP_Generation=1,n_GP_Generations
                           i_GP_generation,i_GP_individual, &
                           Run_GP_Calculate_Fitness(i_GP_Individual)
 
-
-                ! this prints a summary of the initial conditions,
-                ! parameters,  and node types for this individual,
-                ! after being optimized in GPCODE*opt
-
-                !!!debug call summary_GP_indiv( i_GP_generation, i_GP_individual )
-
             endif !  myid == 0
 
         endif !   Run_GP_Calculate_Fitness(i_GP_Individual)
@@ -912,7 +913,9 @@ do  i_GP_Generation=1,n_GP_Generations
         write(GP_print_unit,'(A/)')&
               '0:#################################################################'
 
+
         call GP_calc_fitness( i_GP_generation, output_array )
+
 
         write(GP_print_unit,'(/A)')&
               '0:#################################################################'

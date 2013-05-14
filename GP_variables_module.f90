@@ -5,6 +5,7 @@ use GP_Parameters_module
 implicit none
 
 real(kind=8) :: Individual_Fitness
+real(kind=8) :: Individual_SSE_best_parent
 
 integer(kind=4) :: n_GP_Elitists
 integer(kind=4) :: n_GP_Asexual_Reproductions

@@ -125,16 +125,25 @@ write(GP_print_unit,'(/A,1x,E15.7)') 'gpcf: sum of all GP_Child_Indiv_SSE = ', d
 
 ! calculate a normalized ranking of the errors (higher individual SSE == lower value/ranking)
 
+! calculate fitness as 1/individual sse                                                            
+
 GP_Population_Ranked_Fitness = 0.0d0
 
 do  i_GP_Individual=1,n_GP_Individuals
 
     if(  GP_Individual_N_GP_param( i_GP_Individual ) <= 0 ) cycle
 
-    if( abs( dff ) > 1.0D-20 )then
+    !if( abs( dff ) > 1.0D-20 )then
+    !    GP_Population_Ranked_Fitness(i_GP_Individual) = &
+    !         ( dff - GP_Child_Individual_SSE(i_GP_Individual) ) / dff
+    !else
+    !    GP_Population_Ranked_Fitness(i_GP_Individual) = 0.0D0
+    !endif ! abs( dff ) > 1.0D-20
 
+    if( abs( GP_Child_Individual_SSE(i_GP_Individual) ) > 1.0D-20 )then
         GP_Population_Ranked_Fitness(i_GP_Individual) = &
-             ( dff - GP_Child_Individual_SSE(i_GP_Individual) ) / dff
+             sse0  /  GP_Child_Individual_SSE(i_GP_Individual) 
+             !1.0d0 /  GP_Child_Individual_SSE(i_GP_Individual) 
     else
         GP_Population_Ranked_Fitness(i_GP_Individual) = 0.0D0
     endif ! abs( dff ) > 1.0D-20
@@ -148,7 +157,8 @@ if( i_GP_generation == 1                                 .or. &
     i_GP_generation == n_GP_generations                          ) then
 
     write(GP_print_unit,'(/A)') &
-          'gpcf: i_GP_indiv, GP_Indiv_Ranked_Fitness '
+          'gpcf: i_GP_indiv, GP_Pop_Ranked_Fitness   '
+          !'gpcf: i_GP_indiv, GP_Indiv_Ranked_Fitness '
 
     do  i_GP_Individual=1,n_GP_Individuals
         write(GP_print_unit,'(5x,I6,5x,E15.7)') &

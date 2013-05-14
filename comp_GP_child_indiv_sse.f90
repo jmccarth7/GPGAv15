@@ -21,7 +21,7 @@ use Runge_Kutta_Variables_module
 
 implicit none
 
-real(kind=8),parmaeter :: sse_increment = 1.0D2
+real(kind=8),parameter :: sse_increment = 1.0D2
 
 real(kind=8) :: dff
 real(kind=8) :: xcount
