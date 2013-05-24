@@ -418,10 +418,9 @@ do
 !        formula involving the mean and std. dev
 
 
-    elseif( Aline(1:len('ga_tournament_style')) == &
-                        "ga_tournament_style"        .or.     &
-            Aline(1:len('ga_tournament_style')) == &
-                        "ga_tournament_style"           ) then
+    elseif( Aline(1:len('ga_tournament_style')) == "ga_tournament_style"  .or.     &
+            Aline(1:len('ga_tournament_style')) == "GA_tournament_style"  .or.     &      
+            Aline(1:len('ga_tournament_style')) == "GA_TOURNAMENT_STYLE"           ) then
 
         READ(Aline(len('ga_tournament_style')+1:), * )  ga_tournament_style
 

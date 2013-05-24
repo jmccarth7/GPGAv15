@@ -31,14 +31,14 @@ real(kind=8) :: temp_female_parameters(n_parameters)
 
 real(kind=4) :: cff
 real(kind=8) :: dff
-                                                                                                           
+
 real(kind=8) :: old_male
 real(kind=8) :: old_female
 real(kind=8) :: mean_parm
 real(kind=8) :: std_dev_parm
 real(kind=8) :: cff_1
 real(kind=8) :: cff_2
-                                                                                                            
+
 
 integer(kind=4) :: n_replaced
 integer(kind=4) :: i
@@ -277,19 +277,31 @@ do i_GA_Crossover=1,n_GA_Crossovers
       old_female = Parent_Parameters(k_GA_Individual_Female(1),i_GA_Crossover_Point)
       mean_parm = 0.5d0 * ( old_male + old_female )
 
+      write(GA_print_unit,'(A,3(1x,E15.7))') 'gato:1 old_male, old_female, mean_parm ', &
+                                         old_male, old_female, mean_parm
       call random_number( cff )
       std_dev_parm = 0.5d0 + real(cff,kind=8) * mean_parm
 
-      call random_number( cff ) 
+      write(GA_print_unit,'(A,3(1x,E15.7))') 'gato:1 cff, mean_parm, std_dev_parm    ', &
+                                         cff, mean_parm, std_dev_parm
+
+      call random_number( cff )
       cff_1 = real( cff, kind = 8 )
-      call random_number( cff ) 
+      call random_number( cff )
       cff_2 = real( cff, kind = 8 )
 
       dff = mean_parm  + &
             std_dev_parm * &
-            sqrt( -2.0d0 * log( cff_1 ) ) * cos( 2.0d0 * pi * cff_2 )   
+            sqrt( -2.0d0 * log( cff_1 ) ) * cos( 2.0d0 * pi * cff_2 )
+
+
+
 
       Child_One_Parameters(i_GA_Crossover_Point) = dff
+
+      write(GA_print_unit,'(A,3(1x,E15.7))') &
+         'gato:1 cff_1, cff_2, Child_One_Parameters(i_GA_Crossover_Point) ', &
+                 cff_1, cff_2, Child_One_Parameters(i_GA_Crossover_Point)
 
   endif
 
@@ -373,19 +385,29 @@ do i_GA_Crossover=1,n_GA_Crossovers
       old_female = Parent_Parameters(k_GA_Individual_Female(1),i_GA_Crossover_Point)
       mean_parm = 0.5d0 * ( old_male + old_female )
 
+      write(GA_print_unit,'(A,3(1x,E15.7))') 'gato:2 old_male, old_female, mean_parm ', &
+                                         old_male, old_female, mean_parm
       call random_number( cff )
       std_dev_parm = 0.5d0 + real(cff,kind=8) * mean_parm
 
-      call random_number( cff ) 
+      write(GA_print_unit,'(A,3(1x,E15.7))') 'gato:2 cff, mean_parm, std_dev_parm    ', &
+                                         cff, mean_parm, std_dev_parm
+
+      call random_number( cff )
       cff_1 = real( cff, kind = 8 )
-      call random_number( cff ) 
+      call random_number( cff )
       cff_2 = real( cff, kind = 8 )
 
       dff = mean_parm  + &
             std_dev_parm * &
-            sqrt( -2.0d0 * log( cff_1 ) ) * cos( 2.0d0 * pi * cff_2 )   
+            sqrt( -2.0d0 * log( cff_1 ) ) * cos( 2.0d0 * pi * cff_2 )
 
       Child_Two_Parameters(i_GA_Crossover_Point) = dff
+
+      write(GA_print_unit,'(A,3(1x,E15.7))') &
+         'gato:2 cff_1, cff_2, Child_Two_Parameters(i_GA_Crossover_Point) ', &
+                 cff_1, cff_2, Child_Two_Parameters(i_GA_Crossover_Point)
+
 
   endif
 
