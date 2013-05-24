@@ -50,28 +50,28 @@ do  i_GA_Individual = 1, n_GA_Individuals
 
             !----------------------------------------------------------------------------
 
-            if( n_linked_parms > 0 )then
-
-                if( any( i_parameter == linked_parms(2,:) )    ) cycle
-
-                if( any( i_parameter == linked_parms(1,:) )    )then
-
-                    do  i = 1, n_linked_parms
-
-                        if( i_parameter == linked_parms(1,i) )then
-
-                            child_parameters(i_GA_Individual, linked_parms(2,i) ) = &
-                            child_parameters(i_GA_Individual, linked_parms(1,i) )
-
-                            exit
-
-                        endif ! i_parameter == linked_parms(i,1)
-
-                    enddo ! i
-
-                endif !  any( i_parameter == linked_parms(1,:) )
-
-            endif !  n_linked_parms > 0
+!!            if( n_linked_parms > 0 )then
+!!
+!!                if( any( i_parameter == linked_parms(2,:) )    ) cycle
+!!
+!!                if( any( i_parameter == linked_parms(1,:) )    )then
+!!
+!!                    do  i = 1, n_linked_parms
+!!
+!!                        if( i_parameter == linked_parms(1,i) )then
+!!
+!!                            child_parameters(i_GA_Individual, linked_parms(2,i) ) = &
+!!                            child_parameters(i_GA_Individual, linked_parms(1,i) )
+!!
+!!                            exit
+!!
+!!                        endif ! i_parameter == linked_parms(i,1)
+!!
+!!                    enddo ! i
+!!
+!!                endif !  any( i_parameter == linked_parms(1,:) )
+!!
+!!            endif !  n_linked_parms > 0
 
             !----------------------------------------------------------------------------
 

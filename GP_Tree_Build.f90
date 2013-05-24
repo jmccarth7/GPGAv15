@@ -143,7 +143,7 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
 
 enddo !  i_GP_Individual
 
-!--------------------------------------------------------------------------------------------------
+!------------------------------------------------------------------------------------------------
 
 ! randomly fill the terminals of the GP_Child_Population_Node_Type array
 ! with parameter or variable 'types'
@@ -211,18 +211,19 @@ do  i_GP_Individual=1,n_GP_Individuals
     ! GP_Adult_Population_Node_Type in the loop in i_GP_Individual
     !------------------------------------------------------------------------
 
-    !write(GP_print_unit,'(/A,3(1x,I6)/)') &
-    !      'gtb: i_GP_individual, n_nodes, n_trees ',  i_GP_individual, n_nodes, n_trees
-    !do  i_Tree=1,n_Trees
-    !    do  i_Node=1,n_Nodes
-    !        if( GP_Child_Population_Node_Type( i_Node,i_Tree,i_GP_Individual) /= -9999 )then
-    !            write(GP_print_unit,'(A,3(1x,I6))') &
-    !             'gtb: i_node, i_tree, GP_Child_Population_Node_Type( i_Node,i_Tree,i_GP_Individual)', &
-    !                   i_node, i_tree, GP_Child_Population_Node_Type( i_Node,i_Tree,i_GP_Individual)
-    !        endif ! GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) /= -9999
-    !    enddo ! i_node
-    !enddo ! i_tree
-    !write(GP_print_unit,'(/A)') '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> '
+    write(GP_print_unit,'(/A,3(1x,I6)/)') &
+          'gtb: i_GP_individual, n_nodes, n_trees ',  i_GP_individual, n_nodes, n_trees
+    do  i_Tree=1,n_Trees
+        do  i_Node=1,n_Nodes
+            if( GP_Child_Population_Node_Type( i_Node,i_Tree,i_GP_Individual) /= -9999 )then
+                write(GP_print_unit,'(A,3(1x,I6))') &
+                 'gtb: i_node, i_tree, &
+                  &GP_Child_Population_Node_Type( i_Node,i_Tree,i_GP_Individual)', &
+                       i_node, i_tree, GP_Child_Population_Node_Type( i_Node,i_Tree,i_GP_Individual)
+            endif ! GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) /= -9999
+        enddo ! i_node
+    enddo ! i_tree
+    write(GP_print_unit,'(/A)') '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> '
 
 
     GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) = &

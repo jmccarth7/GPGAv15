@@ -76,7 +76,7 @@ do  i_code_eq = 1, n_CODE_Equations
 enddo  ! i_code_eq
 
 
-write(GP_summary_output_unit, '(A)') '> '
+write(GP_summary_output_unit, '(A,4x,2(1x,I6))') '> ', i_GP_generation, i_GP_indiv
 
 
 
@@ -108,7 +108,7 @@ do  i_Node=1,n_Nodes
 enddo  ! i_node
 
 
-write(GP_summary_output_unit, '(A)') '> '
+write(GP_summary_output_unit, '(A,4x,2(1x,I6))') '> ', i_GP_generation, i_GP_indiv
 
 !---------------------------------------------------------------------------------
 
@@ -133,7 +133,7 @@ if( any( abs( GP_population_node_parameters(:,:,i_GP_indiv) ) &
             if( abs( GP_population_node_parameters( &
                        i_node,i_tree,i_GP_indiv) ) > 1.0d-20   )then
 
-                write(GP_print_unit,'(4(1x,I10), 1x, E20.10)') &
+                write(GP_print_unit,'(4(1x,I0), 1x, E20.10)') &
                       i_GP_generation, i_GP_indiv,i_node, i_tree, &
                       GP_population_node_parameters(i_node,i_tree,i_GP_indiv)
 
@@ -157,7 +157,7 @@ enddo  ! i_tree
 
 
 
-write(GP_summary_output_unit, '(A)') '>>'
+write(GP_summary_output_unit, '(A,4x,2(1x,I6))') '>>', i_GP_generation, i_GP_indiv
 
 
 !---------------------------------------------------------------------------------

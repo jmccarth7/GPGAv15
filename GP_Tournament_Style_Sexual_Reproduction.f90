@@ -239,7 +239,7 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
                 if( myid == 0 )then
                     write(GP_print_unit,'(A,4(1x,I6))' ) &
                           'gptssr: k_GP_Indiv_Male(1),i_node,i_tree, &
-                          &GP_Adult_Pop_Node_Type(i_Node,i_Tree, k_GP_Indiv_Male(1))', &
+                          &GP_Adult_Pop_Node_Type(Male(1)', &
                           k_GP_Individual_Male(1),i_node,i_tree, &
                           GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Male(1))
                 endif ! myid == 0
@@ -256,7 +256,7 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
             write(6,'(A)')&
                   'gptssr: Pre-GP_Check_Error [Male] in GP_Tournament_Style_Sexual_Reproduction'
             write(6,'(A,3(1x,I6)/)') &
-                  'gptssr: i_GP_Individual, k_GP_Individual_Male(1), i_Error  ', &
+                  'gptssr: i_GP_Individual, k_GP_Indiv_Male(1), i_Error  ', &
                            i_GP_Individual, k_GP_Individual_Male(1), i_Error
         endif ! myid == 0
 
@@ -276,7 +276,7 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
                 if( myid == 0 )then
                     write(GP_print_unit,'(A,4(1x,I6))' ) &
                           'gptssr: k_GP_Indiv_Female(1),i_node,i_tree, &
-                          &GP_Adult_Pop_Node_Type(i_Node,i_Tree,k_GP_Indiv_Female(1))', &
+                          &GP_Adult_Pop_Node_Type(Female(1)', &
                           k_GP_Individual_Female(1),i_node,i_tree, &
                           GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Female(1))
                 endif ! myid == 0
@@ -292,7 +292,7 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
             write(6,'(A)')&
                   'gptssr: Pre-GP_Check_Error [Female] in GP_Tournament_Style_Sexual_Reproduction'
             write(6,'(A,3(1x,I6)/)') &
-                  'gptssr: i_GP_Individual, k_GP_Individual_Female(1), i_Error  ', &
+                  'gptssr: i_GP_Individual, k_GP_Indiv_Female(1), i_Error  ', &
                            i_GP_Individual, k_GP_Individual_Female(1), i_Error
         endif ! myid == 0
         call MPI_FINALIZE(ierr) 
@@ -333,7 +333,7 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
                 if( myid == 0 )then
                     write(GP_print_unit,'(A,4(1x,I6))' ) &
                           'gptssr: i_GP_Indiv,i_node,i_tree, &
-                          &GP_Child_Pop_Node_Type(i_Node,i_Tree,i_GP_Indiv)', &
+                          &GP_Child_Pop_Node_Type', &
                           i_GP_Individual,i_node,i_tree, &
                           GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual)
                 endif ! myid == 0
@@ -349,7 +349,7 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
         if( myid == 0 )then
             write(6,'(A)')&
                   'gptssr: Post-GP_Check_Error in GP_Tournament_Style_Sexual_Reproduction'
-            write(6,'(A,3(1x,I6)/)') 'gptssr: i_GP_Individual, i_Male_Tree, i_Error  ', &
+            write(6,'(A,3(1x,I6)/)') 'gptssr: i_GP_Indiv, i_Male_Tree, i_Error  ', &
                                               i_GP_Individual, i_Male_Tree, i_Error
         endif ! myid == 0
         call MPI_FINALIZE(ierr) 

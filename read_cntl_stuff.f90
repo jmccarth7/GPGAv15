@@ -86,14 +86,19 @@ n_Node_Functions = 7
 n_GP_individuals = 1  !  9
 n_GP_generations = 1
 
+GA_Crossover_Probability   = 0.4d0
+GA_Mutation_Probability    = 0.2d0
+GA_save_elites_Probability = 0.0d0
+
 GP_Tree_Probability=0.5d0
 
 ! Note: The next 4 parameters must add up to 1.0
-GP_Elitist_Probability = 0.1d0
+GP_Elitist_Probability              = 0.1d0
 GP_Asexual_Reproduction_Probability = 0.4d0
-GP_Crossover_Probability = 0.4d0
-GP_Mutation_Probability = 0.1d0
+GP_Crossover_Probability            = 0.4d0
+GP_Mutation_Probability             = 0.1d0
 
+ga_tournament_style = 0
 
 
 !---------------------------------------------------------------------
@@ -131,7 +136,7 @@ do
         READ(Aline(len('GA_Crossover_Probability')+1:), * ) GA_Crossover_Probability
 
         write(GP_print_unit,'(A,1x,F10.4)') 'rcntl: GA_Crossover_Probability   = ', &
-                                        GA_Crossover_Probability
+                                                    GA_Crossover_Probability
 
 
 !--------------------------------------------------------------------
@@ -145,7 +150,7 @@ do
         READ(Aline(len('GA_Mutation_Probability')+1:), * ) GA_Mutation_Probability
 
         write(GP_print_unit,'(A,1x,F10.4)') 'rcntl: GA_Mutation_Probability    = ', &
-                                        GA_Mutation_Probability
+                                                    GA_Mutation_Probability
 
 
 !--------------------------------------------------------------------
@@ -159,7 +164,7 @@ do
         READ(Aline(len('GA_save_elites_Probability')+1:), * ) GA_save_elites_Probability
 
         write(GP_print_unit,'(A,1x,F10.4)') 'rcntl: GA_save_elites_Probability = ', &
-                                        GA_save_elites_Probability
+                                                    GA_save_elites_Probability
 
 
 !--------------------------------------------------------------------
@@ -173,7 +178,7 @@ do
         READ(Aline(len('GP_Tree_Probability')+1:), * ) GP_Tree_Probability
 
         write(GP_print_unit,'(A,1x,F10.4)') 'rcntl: GP_Tree_Probability = ', &
-                                        GP_Tree_Probability
+                                                    GP_Tree_Probability
 
 
 !--------------------------------------------------------------------
@@ -188,7 +193,7 @@ do
         READ(Aline(len('GP_Elitist_Probability')+1:), * ) GP_Elitist_Probability
 
         write(GP_print_unit,'(A,1x,F10.4)') 'rcntl: GP_Elitist_Probability = ', &
-                                        GP_Elitist_Probability
+                                                    GP_Elitist_Probability
 
 
 !--------------------------------------------------------------------
@@ -390,7 +395,7 @@ do
 ! the small scale is chosen to scale the random number in random_real
 
     elseif( Aline(1:len('random_scale_fraction')) == &
-                        "RANDOM_SCALE_FRACTION"        .or.     &
+                        "random_scale_fraction"        .or.     &
             Aline(1:len('random_scale_fraction')) == &
                         "random_scale_fraction"           ) then
 
@@ -399,6 +404,28 @@ do
         write(GP_print_unit,'(A,1x,E15.7)') 'rcntl: random_scale_fraction = ', &
                                                     random_scale_fraction
 
+
+
+
+!--------------------------------------------------------------------
+
+
+! ga_tournament_style     
+
+! = 0  - swap unmodified segments of parents 
+! = 1  - swap segments of parents and randomly reset node at segment boundaries
+! = 2  - swap segments of parents and reset node at segment boundaries using JM 
+!        formula involving the mean and std. dev
+
+
+    elseif( Aline(1:len('ga_tournament_style')) == "ga_tournament_style"  .or.     &
+            Aline(1:len('ga_tournament_style')) == "GA_tournament_style"  .or.     &      
+            Aline(1:len('ga_tournament_style')) == "GA_TOURNAMENT_STYLE"           ) then
+
+        READ(Aline(len('ga_tournament_style')+1:), * )  ga_tournament_style
+
+        write(GP_print_unit,'(A,1x,I6)') 'rcntl: ga_tournament_style = ', &
+                                                 ga_tournament_style
 
 
 

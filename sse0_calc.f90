@@ -125,7 +125,7 @@ do i_time_step=1,n_time_steps
 
 enddo ! i_time_step
 
-!write(GP_print_unit,'(A,1x,I6,2x,E24.16)') 'ssec: myid, SSE0 = ',myid, SSE0
+write(GP_print_unit,'(A,1x,I6,2x,E24.16)') 'ssec: myid, SSE0 = ',myid, SSE0
 
 return
 end subroutine sse0_calc
