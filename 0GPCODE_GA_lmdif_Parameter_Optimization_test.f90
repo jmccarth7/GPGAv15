@@ -80,7 +80,9 @@ if( .not. allocated( seed ) )then
 endif ! .not. allocated( seed )
 
 CALL SYSTEM_CLOCK(COUNT=clock)
-seed = clock + 37 * (/ (i_seed - 1, i_seed = 1, n_seed) /)
+seed = clock + 37 * (/ (i_seed - 1, i_seed = 1, n_seed) /)                                             
+!debug clock = 132 
+seed = clock + 37 * (/ (i_seed - 1, i_seed = 1, n_seed) /)             
 
 CALL RANDOM_SEED(PUT = seed)
 

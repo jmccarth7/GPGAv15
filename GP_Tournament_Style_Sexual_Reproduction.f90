@@ -7,6 +7,7 @@ subroutine GP_Tournament_Style_Sexual_Reproduction
 ! modifies    GP_Child_Population_Node_Type
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
 use mpi
 use mpi_module
 use GP_Parameters_module
@@ -55,11 +56,11 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
 
     i_GP_Individual = i_GP_Individual+1
 
-    !if( myid == 0 )then
-    !    write(GP_print_unit,'(/A,2(1x,I6)/)' ) &
-    !          'gptssr: i_GP_Crossover, i_GP_Individual ', &
-    !                   i_GP_Crossover, i_GP_Individual
-    !endif ! myid == 0
+    if( myid == 0 )then
+        write(GP_print_unit,'(/A,2(1x,I6)/)' ) &
+              'gptssr: i_GP_Crossover, i_GP_Individual ', &
+                       i_GP_Crossover, i_GP_Individual
+    endif ! myid == 0
 
     !----------------------------------------------------------------------
 

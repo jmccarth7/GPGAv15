@@ -162,7 +162,7 @@ do  i_GP_Individual=1,n_GP_Individuals
 
                 i_Node=i_Node+1
 
-                if( GP_Child_Population_Node_Type(i_GP_Individual,i_Node,i_Tree) .eq. -1) then
+                if( GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) .eq. -1) then
 
                     call random_number(cff)   ! uniform random number generator
 
