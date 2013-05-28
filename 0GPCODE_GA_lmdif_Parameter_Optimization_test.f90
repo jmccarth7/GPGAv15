@@ -888,6 +888,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
         endif !   Run_GP_Calculate_Fitness(i_GP_Individual)
 
+
         if( myid == 0 )then
             ! this prints a summary of the initial conditions,
             ! parameters,  and node types for this individual,
@@ -896,6 +897,7 @@ do  i_GP_Generation=1,n_GP_Generations
             call summary_GP_indiv( i_GP_generation, i_GP_individual )
 
         endif !  myid == 0
+
 
     enddo  gp_ind_loop    !   i_GP_individual
 

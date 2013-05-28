@@ -233,19 +233,19 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
         GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees, k_GP_Individual_Male(1))
 
     !-----------------------------------------------------------------------------------------
-    do  i_Tree = 1,n_Trees
-        do  i_Node = 1,n_Nodes
-            if( GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Male(1)) /= -9999 )then
-                if( myid == 0 )then
-                    write(GP_print_unit,'(A,4(1x,I6))' ) &
-                          'gptssr: k_GP_Indiv_Male(1),i_node,i_tree, &
-                          &GP_Adult_Pop_Node_Type(Male(1)', &
-                          k_GP_Individual_Male(1),i_node,i_tree, &
-                          GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Male(1))
-                endif ! myid == 0
-            endif ! GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Male(1)) /= -9999
-        enddo !  i_Node
-    enddo ! i_Tree
+    !do  i_Tree = 1,n_Trees
+    !    do  i_Node = 1,n_Nodes
+    !        if( GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Male(1)) /= -9999 )then
+    !            if( myid == 0 )then
+    !                write(GP_print_unit,'(A,4(1x,I6))' ) &
+    !                      'gptssr: k_GP_Indiv_Male(1),i_node,i_tree, &
+    !                      &GP_Adult_Pop_Node_Type(Male(1)', &
+    !                      k_GP_Individual_Male(1),i_node,i_tree, &
+    !                      GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Male(1))
+    !            endif ! myid == 0
+    !        endif ! GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Male(1)) /= -9999
+    !    enddo !  i_Node
+    !enddo ! i_Tree
     !-----------------------------------------------------------------------------------------
 
     call GP_Check_Terminals(i_Error)
@@ -270,19 +270,19 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
         GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees, k_GP_Individual_Female(1))
 
     !-----------------------------------------------------------------------------------------
-    do  i_Tree = 1,n_Trees
-        do  i_Node = 1,n_Nodes
-            if( GP_Adult_Population_Node_Type(i_Node,i_Tree, k_GP_Individual_Female(1)) /= -9999 )then
-                if( myid == 0 )then
-                    write(GP_print_unit,'(A,4(1x,I6))' ) &
-                          'gptssr: k_GP_Indiv_Female(1),i_node,i_tree, &
-                          &GP_Adult_Pop_Node_Type(Female(1)', &
-                          k_GP_Individual_Female(1),i_node,i_tree, &
-                          GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Female(1))
-                endif ! myid == 0
-            endif ! GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Female(1)) /= -9999
-        enddo !  i_Node
-    enddo ! i_Tree
+    !do  i_Tree = 1,n_Trees
+    !    do  i_Node = 1,n_Nodes
+    !        if( GP_Adult_Population_Node_Type(i_Node,i_Tree, k_GP_Individual_Female(1)) /= -9999 )then
+    !            if( myid == 0 )then
+    !                write(GP_print_unit,'(A,4(1x,I6))' ) &
+    !                      'gptssr: k_GP_Indiv_Female(1),i_node,i_tree, &
+    !                      &GP_Adult_Pop_Node_Type(Female(1)', &
+    !                      k_GP_Individual_Female(1),i_node,i_tree, &
+    !                      GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Female(1))
+    !            endif ! myid == 0
+    !        endif ! GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Female(1)) /= -9999
+    !    enddo !  i_Node
+    !enddo ! i_Tree
     !-----------------------------------------------------------------------------------------
 
     call GP_Check_Terminals(i_Error)
@@ -302,15 +302,15 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
 
     !-----------------------------------------------------------------------------------
 
-    if( myid == 0 )then
-        write(6,'(/A/)') 'gptssr: call GP_Tree_Swap '
-    endif ! myid == 0
+    !if( myid == 0 )then
+    !    write(6,'(/A)') 'gptssr: call GP_Tree_Swap '
+    !endif ! myid == 0
 
     call GP_Tree_Swap    !   perform the random tree swap
 
-    if( myid == 0 )then
-        write(6,'(/A/)') 'gptssr: aft call GP_Tree_Swap '
-    endif ! myid == 0
+    !if( myid == 0 )then
+    !    write(6,'(A/)') 'gptssr: aft call GP_Tree_Swap '
+    !endif ! myid == 0
 
     !-----------------------------------------------------------------------------------
 
@@ -327,19 +327,19 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
 
     !-----------------------------------------------------------------------------------
 
-    do  i_Tree = 1,n_Trees
-        do  i_Node = 1,n_Nodes
-            if( GP_Child_Population_Node_Type(i_Node,i_Tree, i_GP_Individual) /= -9999 )then
-                if( myid == 0 )then
-                    write(GP_print_unit,'(A,4(1x,I6))' ) &
-                          'gptssr: i_GP_Indiv,i_node,i_tree, &
-                          &GP_Child_Pop_Node_Type', &
-                          i_GP_Individual,i_node,i_tree, &
-                          GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual)
-                endif ! myid == 0
-            endif ! GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Female(1)) /= -9999
-        enddo !  i_Node
-    enddo ! i_Tree
+    !do  i_Tree = 1,n_Trees
+    !    do  i_Node = 1,n_Nodes
+    !        if( GP_Child_Population_Node_Type(i_Node,i_Tree, i_GP_Individual) /= -9999 )then
+    !            if( myid == 0 )then
+    !                write(GP_print_unit,'(A,4(1x,I6))' ) &
+    !                      'gptssr: i_GP_Indiv,i_node,i_tree, &
+    !                      &GP_Child_Pop_Node_Type', &
+    !                      i_GP_Individual,i_node,i_tree, &
+    !                      GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual)
+    !            endif ! myid == 0
+    !        endif ! GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Female(1)) /= -9999
+    !    enddo !  i_Node
+    !enddo ! i_Tree
 
     !-----------------------------------------------------------------------------------------
 

@@ -23,7 +23,7 @@ SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 allocate_arrays1.f90 \
 	set_answer_arrays.f90 setup_run_fcn.f90 setup_run_lmdif.f90 sort.f90 \
 	sse0_calc.f90 summary_GP_indiv.f90 swap_module.f90 \
 	bcast3.f90 print_gp_node_type_parm.f90 bcast2.f90 set_modified_indiv.f90 \
-	print_values2.f90 print_values1.f90 bcast1.f90
+	print_values2.f90 print_values1.f90 bcast1.f90 print_entire_tree.f90
 
 
 OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o allocate_arrays1.o \
@@ -47,7 +47,7 @@ OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o allocate_arrays1.o \
 	Runge_Kutta_Variables_module.o set_answer_arrays.o setup_run_fcn.o \
 	setup_run_lmdif.o sort.o sse0_calc.o summary_GP_indiv.o swap_module.o \
 	bcast3.o print_gp_node_type_parm.o bcast2.o set_modified_indiv.o \
-	print_values2.o print_values1.o bcast1.o
+	print_values2.o print_values1.o bcast1.o print_entire_tree.o
 
 LIBS =	
 
@@ -132,6 +132,9 @@ GP_calc_fitness.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
 	Runge_Kutta_Variables_module.o mpi_module.o
 GP_Check_Terminals.o: GA_parameters_module.o GA_variables_module.o \
+	GP_model_parameters_module.o GP_parameters_module.o \
+	GP_variables_module.o mpi_module.o
+print_entire_tree.o: GA_parameters_module.o GA_variables_module.o \
 	GP_model_parameters_module.o GP_parameters_module.o \
 	GP_variables_module.o mpi_module.o
 GP_Clean_Tree_Nodes.o: GA_parameters_module.o GA_variables_module.o \

@@ -89,9 +89,9 @@ do i_tree=1,n_trees
 
       endif  ! isnan
 
-      write(GA_print_unit,'(A,3(1x,I6),1x,E15.7)') &
-       'fcn: i_node, i_tree, i_parameter, Runge_Kutta_Node_Parameters(i_node,i_tree) ', &
-             i_node, i_tree, i_parameter, Runge_Kutta_Node_Parameters(i_node,i_tree)
+      !write(GA_print_unit,'(A,3(1x,I6),1x,E15.7)') &
+      ! 'fcn: i_node, i_tree, i_parameter, Runge_Kutta_Node_Parameters(i_node,i_tree) ', &
+      !       i_node, i_tree, i_parameter, Runge_Kutta_Node_Parameters(i_node,i_tree)
 
     endif !  GP_individual_node_type(i_node,i_tree) .eq. 0
 

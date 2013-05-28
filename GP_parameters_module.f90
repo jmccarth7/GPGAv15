@@ -7,6 +7,10 @@ use GP_model_parameters_module
 implicit none
 
 
+! this value is the minimum number of parameters for a valid model
+integer(kind=4),parameter :: min_N_param = 2                                                                 
+ 
+
 integer(kind=4),parameter :: GA_output_unit = 20
 integer(kind=4),parameter :: GP_output_unit = 30
 

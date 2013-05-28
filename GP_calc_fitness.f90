@@ -46,6 +46,8 @@ integer(kind=4),intent(in) :: i_GP_Generation
 integer(kind=4) :: i_Tree
 integer(kind=4) :: i_Node
 
+!integer(kind=4),parameter :: min_N_param = 2
+
 integer(kind=4) :: i_CODE_equation
 
 real(kind=8), dimension(n_maximum_number_parameters) :: output_array
@@ -98,7 +100,8 @@ endif ! i_GP_generation ...
 dff=0.0d0
 do  i_GP_Individual=1,n_GP_Individuals
 
-    if(  GP_Individual_N_GP_param( i_GP_Individual ) <= 0 ) cycle
+    !if(  GP_Individual_N_GP_param( i_GP_Individual ) <= 0 ) cycle
+    if(  GP_Individual_N_GP_param( i_GP_Individual ) < min_N_param ) cycle
 
     dff=dff+GP_Child_Individual_SSE(i_GP_Individual)
 
@@ -131,7 +134,7 @@ GP_Population_Ranked_Fitness = 0.0d0
 
 do  i_GP_Individual=1,n_GP_Individuals
 
-    if(  GP_Individual_N_GP_param( i_GP_Individual ) <= 0 ) cycle
+    if(  GP_Individual_N_GP_param( i_GP_Individual ) < min_N_param ) cycle
 
     !if( abs( dff ) > 1.0D-20 )then
     !    GP_Population_Ranked_Fitness(i_GP_Individual) = &
@@ -248,7 +251,7 @@ dff=GP_Population_Ranked_Fitness(1)
 
 do  i_GP_Individual=2,n_GP_individuals
 
-    if(  GP_Individual_N_GP_param( i_GP_Individual ) <= 0 ) cycle
+    if(  GP_Individual_N_GP_param( i_GP_Individual ) < min_N_param ) cycle
 
     if( GP_Population_Ranked_Fitness(i_GP_individual) .gt. dff) then
         dff=GP_Population_Ranked_Fitness(i_GP_individual)

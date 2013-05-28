@@ -86,6 +86,9 @@ do  i_Tree=1,n_Trees
                               &GP_Individual_Node_Type(i_Node_Left,i_Tree) ',&
                                     i_Node_Left, i_tree, &
                                GP_Individual_Node_Type(i_Node_Left,i_Tree)
+
+                    call print_entire_tree( )
+
                     endif ! myid == 0
 
                     i_Error=1
@@ -118,6 +121,10 @@ do  i_Tree=1,n_Trees
                            &GP_Individual_Node_Type(i_Node_Right,i_Tree) ',&
                                 i_Node_Right, i_tree, &
                             GP_Individual_Node_Type(i_Node_Right,i_Tree)
+
+
+                        call print_entire_tree( )
+
                     endif ! myid == 0
 
                     i_Error = 1

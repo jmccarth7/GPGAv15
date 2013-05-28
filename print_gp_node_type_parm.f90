@@ -32,14 +32,14 @@ integer(kind=4) :: i_Node
 do  i_GP_individual=1,n_GP_individuals
 
     write(GP_print_unit,'(/A,1x,I6/)') &
-          '0: i_GP_individual = ', i_GP_individual
+          'pgntp: i_GP_individual = ', i_GP_individual
     write(GP_print_unit,'(A)') &
-          '0: i_node  i_tree  GP_Adult_Population_Node_Type(i_Node,i_Tree)'
+          'pgntp: i_node  i_tree  GP_Adult_Population_Node_Type(i_Node,i_Tree)'
 
     do  i_Tree=1,n_Trees
         do  i_Node=1,n_Nodes
             if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_individual) /= -9999 )then
-                write(GP_print_unit,'(3(1x,I6))') &
+                write(GP_print_unit,'(3(1x,I3))') &
                       i_node, i_tree, &
                       GP_Adult_Population_Node_Type( i_Node,i_Tree,i_GP_individual)
             endif ! GP_Adult_Pop_Node_Type(i_Node,i_Tree,i_GP_indiv) /= -9999
@@ -49,12 +49,12 @@ do  i_GP_individual=1,n_GP_individuals
 
     if( any( GP_Population_Node_Parameters(:,:,i_GP_individual) > 1.0d-20 )  )then
         write(GP_print_unit,'(//A)') &
-              '0: i_node  i_tree  GP_Population_Node_Parameters(i_Node,i_Tree)'
+              'pgntp: i_node  i_tree  GP_Population_Node_Parameters(i_Node,i_Tree)'
         do  i_Tree=1,n_Trees
             do  i_Node=1,n_Nodes
                 if( GP_Population_Node_Parameters(i_Node,i_Tree,i_GP_individual) > &
                                                                        1.0d-20 )then
-                    write(GP_print_unit,'(2x,2(1x,I6),1x,E15.7)') &
+                    write(GP_print_unit,'(2x,2(1x,I3),1x,E15.7)') &
                           i_node, i_tree, &
                           GP_Population_Node_Parameters(i_Node,i_Tree,i_GP_individual)
                 endif ! GP_Pop_Node_Param(i_Node,i_Tree,i_GP_indiv) /= -9999
