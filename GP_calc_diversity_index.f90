@@ -15,7 +15,7 @@ implicit none
 
 
 integer(kind=4), intent(in)  :: n_indiv
-integer(kind=4), intent(in), dimension( n_indiv, n_Nodes,n_Trees) :: indiv_node_type
+integer(kind=4), intent(in), dimension( n_Nodes, n_Trees, n_indiv ) :: indiv_node_type
 
 integer(kind=4) :: i_indiv
 integer(kind=4) :: i_diversity
@@ -56,19 +56,19 @@ do  i_indiv = 1, n_GP_individuals
     do  i_tree=1,n_trees
         do  i_Node=1,n_Nodes
 
-            if( indiv_node_type(i_indiv, i_Node, i_tree )  > -9999 ) then
+            if( indiv_node_type( i_Node, i_tree, i_indiv )  > -9999 ) then
 
                 icnt_Nodes=icnt_Nodes+1
 
-                if( indiv_node_type(i_indiv, i_Node, i_tree ) < 0 )then
+                if( indiv_node_type( i_Node, i_tree, i_indiv ) < 0 )then
                     icnt_parms = icnt_parms + 1
                 endif ! indiv_node_type... < 0
 
-                if( indiv_node_type(i_indiv, i_Node, i_tree ) == 0 )then
+                if( indiv_node_type( i_Node, i_tree, i_indiv ) == 0 )then
                     icnt_vars  = icnt_vars  + 1
                 endif ! indiv_node_type... == 0
 
-                if( indiv_node_type(i_indiv, i_Node, i_tree )  > 0 )then
+                if( indiv_node_type( i_Node, i_tree, i_indiv )  > 0 )then
                     icnt_ops   = icnt_ops   + 1
                 endif ! indiv_node_type... > 0
 
