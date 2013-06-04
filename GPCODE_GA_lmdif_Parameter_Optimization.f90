@@ -594,6 +594,29 @@ do  i_GA_generation=1,n_GA_Generations
 
         enddo ! isource
 
+
+        !----------------------------------------------------------------------
+
+        ! this code takes care of the case where there are fewer GA individuals
+        ! than (number of procs) -1
+        ! without the code below,  the program hangs because the processors
+        ! n_GA_individuals+1 to numprocs-1  are waiting for a signal to stop
+        ! and that is never going to be sent from the loop above.
+        ! so when the above loop is finished, send a stop signal to the unused
+        ! processors so the program can continue
+        
+        if( n_GA_individuals < numprocs -1 )then
+
+            do  i = n_GA_individuals+1, numprocs-1
+    
+                call MPI_SEND( MPI_BOTTOM, 0, MPI_DOUBLE_PRECISION,    &  
+                               i , 0,  MPI_COMM_WORLD, ierr )   
+   
+            enddo ! i 
+        endif ! n_GA_individuals < numprocs -1
+
+        !----------------------------------------------------------------------
+
     else  ! not myid == 0
 
 
@@ -661,8 +684,8 @@ do  i_GA_generation=1,n_GA_Generations
             !      'GP_GA_opt: myid,   nsafe = ', myid, nsafe 
 
             if( nsafe > 10 * n_GA_individuals ) then
-                !write(GA_print_unit,'(A,1x,I10)') &
-                !  'GP_GA_opt: too many iterations  nsafe = ', nsafe 
+                write(GA_print_unit,'(A,1x,I10)') &
+                  'GP_GA_opt: too many iterations  nsafe = ', nsafe 
                 call MPI_FINALIZE(ierr) 
                 stop 'bad nsafe'
             endif ! nsafe
