@@ -295,9 +295,9 @@ do i_GA_Crossover=1,n_GA_Crossovers
             sqrt( -2.0d0 * log( cff_1 ) ) * cos( 2.0d0 * pi * cff_2 )
 
 
+      ! use abs( dff ) because sometimes dff < 0.0
 
-
-      Child_One_Parameters(i_GA_Crossover_Point) = dff
+      Child_One_Parameters(i_GA_Crossover_Point) =  abs( dff )  ! jjm 20130604
 
       write(GA_print_unit,'(A,3(1x,E15.7))') &
          'gato:1 cff_1, cff_2, Child_One_Parameters(i_GA_Crossover_Point) ', &
