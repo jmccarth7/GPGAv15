@@ -7,6 +7,13 @@ use GP_model_parameters_module
 implicit none
 
 
+! if this value is non-zero, then the random number generator uses
+! this instead of the system clock value
+! used for debugging the program so that multiple runs will have the same 
+! set of random numbers
+
+integer(kind=4) :: user_input_random_seed                                                          
+
 ! this value is the minimum number of parameters for a valid model
 integer(kind=4),parameter :: min_N_param = 2                                                                 
  

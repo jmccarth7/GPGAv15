@@ -55,6 +55,9 @@ call MPI_BCAST( n_gp_generations, 1,    &
 call MPI_BCAST( n_node_functions, 1,    &
                 MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
 
+call MPI_BCAST( user_input_random_seed, 1,    &
+                MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
+
 return
 
 end subroutine bcast1

@@ -69,27 +69,6 @@ call MPI_COMM_SIZE(MPI_COMM_WORLD, numprocs, ierr)
 
 Lprint_lmdif = .TRUE.
 
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-CALL RANDOM_SEED(size = n_seed)
-
-if( .not. allocated( seed ) )then
-
-    ALLOCATE(seed(n_seed))
-
-endif ! .not. allocated( seed )
-
-CALL SYSTEM_CLOCK(COUNT=clock)
-
-!orig seed = clock + 37 * (/ (i_seed - 1, i_seed = 1, n_seed) /)
-clock = 132 
-seed = clock + 37 * (/ (i_seed - 1, i_seed = 1, n_seed) /)             
-
-CALL RANDOM_SEED(PUT = seed)
-
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-
 !------------------------------------------------------------------
 
 if( myid == 0 )then
@@ -113,6 +92,31 @@ endif !   myid == 0
 call bcast1()
 
 !------------------------------------------------------------------
+
+CALL RANDOM_SEED(size = n_seed)
+
+if( .not. allocated( seed ) )then
+    ALLOCATE(seed(n_seed))
+endif ! .not. allocated( seed )
+
+
+if( user_input_random_seed > 0 )then
+
+    clock = user_input_random_seed
+    seed = user_input_random_seed + &
+              37 * (/ (i_seed - 1, i_seed = 1, n_seed) /)             
+else
+
+    CALL SYSTEM_CLOCK(COUNT=clock)
+    seed = clock + 37 * (/ (i_seed - 1, i_seed = 1, n_seed) /)
+
+endif ! user_input_random_seed > 0
+
+CALL RANDOM_SEED(PUT = seed)
+
+!------------------------------------------------------------------    
+
+
 
 ! wait until everybody has the values
 

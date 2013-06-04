@@ -77,6 +77,7 @@ write(GP_print_unit,'(A//)' )&
 
 ! defaults
 
+user_input_random_seed = 0
 
 random_scale_large    = 50.0d0
 random_scale_small    =  1.0d0
@@ -426,6 +427,32 @@ do
 
         write(GP_print_unit,'(A,1x,I6)') 'rcntl: ga_tournament_style = ', &
                                                  ga_tournament_style
+
+
+!--------------------------------------------------------------------
+
+
+!  user_input_random_seed
+
+! user_input_random_seed = 0  -  use system clock value for random number seed
+
+! user_input_random_seed > 0  -  use this value for random number seed
+
+! user_input_random_seed is used for debugging since it allows multiple
+! runs to be made which have the same set of random numbers
+
+
+
+    elseif( Aline(1:len('user_input_random_seed')) == "user_input_random_seed"  .or.     &
+            Aline(1:len('user_input_random_seed')) == "USER_INPUT_RANDOM_SEED"           ) then
+
+        READ(Aline(len('user_input_random_seed')+1:), * )  user_input_random_seed
+
+
+        user_input_random_seed = abs( user_input_random_seed  ) 
+
+        write(GP_print_unit,'(A,1x,I6)') 'rcntl: user_input_random_seed = ', &
+                                                 user_input_random_seed
 
 
 
