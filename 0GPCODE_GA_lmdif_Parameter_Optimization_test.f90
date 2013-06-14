@@ -285,7 +285,7 @@ if( myid == 0 )then
           status = 'unknown' )
 
 
-    write(GP_summary_output_unit, '(I10)') n_code_equations
+    write(GP_summary_output_unit, '(4(1x,I10))') n_code_equations, n_trees, n_nodes, n_levels
 
 endif ! myid == 0
 
