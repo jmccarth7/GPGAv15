@@ -15,8 +15,8 @@ use GP_Data_module
 
 implicit none
 
-real(kind=8) :: parent_parameters(n_GA_Individuals,n_maximum_number_parameters)
-real(kind=8) ::  child_parameters(n_GA_Individuals,n_maximum_number_parameters)
+real(kind=8) :: parent_parameters(n_maximum_number_parameters,n_GA_Individuals)
+real(kind=8) ::  child_parameters(n_maximum_number_parameters,n_GA_Individuals)
 
 integer(kind=4) :: individual_quality(n_GA_individuals)
 
@@ -184,9 +184,9 @@ do i_GA_Crossover=1,n_GA_Crossovers
   !  (just for comparison )
 
   temp_male_parameters(1:n_parameters)   = &
-            Child_Parameters(k_GA_Individual_Male(1),  1:n_parameters)
+            Child_Parameters( 1:n_parameters, k_GA_Individual_Male(1) ) 
   temp_female_parameters(1:n_parameters) = &
-            Child_Parameters(k_GA_Individual_Female(1),1:n_parameters)
+            Child_Parameters( 1:n_parameters, k_GA_Individual_Female(1) )
 
   !---------------------------------------------------------------------------------
 
@@ -213,16 +213,16 @@ do i_GA_Crossover=1,n_GA_Crossovers
       if( i_parameter .le. i_GA_Crossover_Point) then
 
           Child_One_Parameters(i_Parameter) = &
-             Parent_Parameters(k_GA_Individual_Male(1),i_parameter)
+             Parent_Parameters(i_parameter,k_GA_Individual_Male(1))
           Child_Two_Parameters(i_Parameter) = &
-             Parent_Parameters(k_GA_Individual_Female(1),i_parameter)
+             Parent_Parameters(i_parameter,k_GA_Individual_Female(1))
 
       else
 
           Child_One_Parameters(i_Parameter) = &
-             Parent_Parameters(k_GA_Individual_Female(1),i_parameter)
+             Parent_Parameters(i_parameter,k_GA_Individual_Female(1))
           Child_Two_Parameters(i_Parameter) = &
-             Parent_Parameters(k_GA_Individual_Male(1),i_parameter)
+             Parent_Parameters(i_parameter,k_GA_Individual_Male(1))
 
       endif !   i_parameter .le. i_GA_Crossover_Point
 
@@ -273,20 +273,21 @@ do i_GA_Crossover=1,n_GA_Crossovers
       !    Standard_Deviation * sqrt ( -2.0 * log ( cff_one ) ) * cos ( 2.0 * pi * cff_two ) + Mean
 
 
-      old_male   = Parent_Parameters(k_GA_Individual_Male(1),  i_GA_Crossover_Point)
-      old_female = Parent_Parameters(k_GA_Individual_Female(1),i_GA_Crossover_Point)
+      old_male   = Parent_Parameters(i_GA_Crossover_Point, k_GA_Individual_Male(1))
+      old_female = Parent_Parameters(i_GA_Crossover_Point, k_GA_Individual_Female(1))
       mean_parm = 0.5d0 * ( old_male + old_female )
 
       write(GA_print_unit,'(A,3(1x,E15.7))') 'gato:1 old_male, old_female, mean_parm ', &
-                                         old_male, old_female, mean_parm
+                                                     old_male, old_female, mean_parm
       call random_number( cff )
       std_dev_parm = 0.5d0 + real(cff,kind=8) * mean_parm
 
       write(GA_print_unit,'(A,3(1x,E15.7))') 'gato:1 cff, mean_parm, std_dev_parm    ', &
-                                         cff, mean_parm, std_dev_parm
+                                                     cff, mean_parm, std_dev_parm
 
       call random_number( cff )
       cff_1 = real( cff, kind = 8 )
+
       call random_number( cff )
       cff_2 = real( cff, kind = 8 )
 
@@ -381,17 +382,17 @@ do i_GA_Crossover=1,n_GA_Crossovers
       !    Standard_Deviation * sqrt ( -2.0 * log ( cff_one ) ) * cos ( 2.0 * pi * cff_two ) + Mean
 
 
-      old_male   = Parent_Parameters(k_GA_Individual_Male(1),  i_GA_Crossover_Point)
-      old_female = Parent_Parameters(k_GA_Individual_Female(1),i_GA_Crossover_Point)
+      old_male   = Parent_Parameters( i_GA_Crossover_Point, k_GA_Individual_Male(1) ) 
+      old_female = Parent_Parameters( i_GA_Crossover_Point, k_GA_Individual_Female(1) )
       mean_parm = 0.5d0 * ( old_male + old_female )
 
       write(GA_print_unit,'(A,3(1x,E15.7))') 'gato:2 old_male, old_female, mean_parm ', &
-                                         old_male, old_female, mean_parm
+                                                     old_male, old_female, mean_parm
       call random_number( cff )
       std_dev_parm = 0.5d0 + real(cff,kind=8) * mean_parm
 
       write(GA_print_unit,'(A,3(1x,E15.7))') 'gato:2 cff, mean_parm, std_dev_parm    ', &
-                                         cff, mean_parm, std_dev_parm
+                                                     cff, mean_parm, std_dev_parm
 
       call random_number( cff )
       cff_1 = real( cff, kind = 8 )
@@ -454,9 +455,9 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
   do  i_parameter=1,n_parameters
 
-      Child_Parameters(k_GA_Individual_Male(1),  i_parameter) = &
+      Child_Parameters(i_parameter, k_GA_Individual_Male(1)) = &
                Child_One_Parameters(i_Parameter)
-      Child_Parameters(k_GA_Individual_Female(1),i_parameter) = &
+      Child_Parameters(i_parameter,k_GA_Individual_Female(1)) = &
                Child_Two_Parameters(i_Parameter)
 
   enddo ! i_parameter
@@ -473,22 +474,22 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
   !write(GA_print_unit,'(A/I6,12(1x,E15.7))')&
   ! 'gato: before k_GA_Individual_Male(1), &
-  !  &Child_Parameters(k_GA_Individual_Male(1), 1:n_parameters ) ', &
+  !  &Child_Parameters(1:n_parameters, k_GA_Individual_Male(1)) ', &
   !  k_GA_Individual_Male(1),   temp_male_parameters(1:n_parameters)
 
   !write(GA_print_unit,'(A/I6,12(1x,E15.7))')&
   ! 'gato: after ', &
-  !  k_GA_Individual_Male(1), Child_Parameters(k_GA_Individual_Male(1), 1:n_parameters)
+  !  k_GA_Individual_Male(1), Child_Parameters(1:n_parameters, k_GA_Individual_Male(1) )
 
   !write(GA_print_unit,'(A/I6,12(1x,E15.7))')&
   ! 'gato: before k_GA_Individual_Female(1), &
-  !  &Child_Parameters(k_GA_Individual_Female(1), 1:n_parameters)', &
+  !  &Child_Parameters(1:n_parameters, k_GA_Individual_Female(1))', &
   !  k_GA_Individual_Female(1), temp_female_parameters(1:n_parameters)
 
   !write(GA_print_unit,'(A/I6,12(1x,E15.7))')&
   ! 'gato: after  ', &
   !  k_GA_Individual_Female(1), &
-  !  &Child_Parameters(k_GA_Individual_Female(1), 1:n_parameters )
+  !  &Child_Parameters(1:n_parameters, k_GA_Individual_Female(1) )
 
 
   Run_GA_lmdif( k_GA_Individual_Male(1) )   = .true.

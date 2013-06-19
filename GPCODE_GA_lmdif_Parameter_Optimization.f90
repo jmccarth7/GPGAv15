@@ -42,9 +42,9 @@ integer,parameter ::  itag3 = 3
 
 
 real(kind=8),&
- dimension(n_GA_individuals,n_maximum_number_parameters) ::  parent_parameters
+ dimension(n_maximum_number_parameters,n_GA_individuals) ::  parent_parameters
 real(kind=8),&
- dimension(n_GA_individuals,n_maximum_number_parameters) ::  child_parameters
+ dimension(n_maximum_number_parameters,n_GA_individuals) ::  child_parameters
 
 
 real(kind=8) :: individual_SSE_best_1
@@ -215,7 +215,7 @@ if( myid == 0 )then
 endif ! myid == 0
 
 
-child_parameters(1:n_GA_individuals,1:n_maximum_number_parameters) = 0.0d0
+child_parameters( 1:n_maximum_number_parameters, 1:n_GA_individuals) = 0.0d0
 
 
 !-----------------------------------------------------------------------------
@@ -285,8 +285,8 @@ do  i_GA_generation=1,n_GA_Generations
             do  i_GA_individual = 1, n_GA_Individuals
                 write(GA_print_unit,'(I6,1x,12(1x,E15.7))') &
                       i_GA_individual, &
-                      ( child_parameters(i_GA_individual,jj), jj = 1,n_parameters )
-                      !child_parameters(i_GA_individual,1:n_parameters)
+                      ( child_parameters(jj,i_GA_individual), jj = 1,n_parameters )
+                      !child_parameters(1:n_parameters,i_GA_individual)
             enddo ! i_GA_individual
 
 
@@ -309,8 +309,7 @@ do  i_GA_generation=1,n_GA_Generations
 
             write(GA_print_unit,'(/A)')'GP_GA_opt: call GA_save_elites '
 
-            call GA_save_elites( ) !Parent_Parameters,Child_Parameters, &
-                                   !               individual_quality )
+            call GA_save_elites( ) 
 
             !-------------------------------------------------------------------------------
 
@@ -361,6 +360,7 @@ do  i_GA_generation=1,n_GA_Generations
 
                 call GA_Tournament_Style_Sexual_Reproduction( &
                             Parent_Parameters, Child_Parameters, individual_quality )
+
             endif !   n_GA_Crossovers .gt. 0
 
             !call system_clock( count=clock2, count_rate=ratec, count_max= maxclk)
@@ -408,8 +408,8 @@ do  i_GA_generation=1,n_GA_Generations
                 do  i_GA_individual = 1, n_GA_Individuals
                     write(GA_print_unit,'(I6,1x,12(1x,E15.7))') &
                           i_GA_individual, &
-                         (child_parameters(i_GA_individual,jj),jj = 1,n_parameters )
-                          !child_parameters(i_GA_individual,1:n_parameters)
+                         (child_parameters(jj, i_GA_individual),jj = 1,n_parameters )
+                          !child_parameters(1:n_parameters,i_GA_best_parent)
                 enddo ! i_GA_individual
 
             endif ! i_GA_generation == n_GA_generations ...
@@ -547,7 +547,7 @@ do  i_GA_generation=1,n_GA_Generations
 
             if( Run_GA_lmdif(i_individual) ) then
 
-                child_parameters(i_individual,1:n_parameters) =  &
+                child_parameters(1:n_parameters,i_individual) =  &
                                      buffer_recv(1:n_parameters)
 
                 individual_SSE(i_individual)     =       buffer_recv( n_parameters+1) 
@@ -685,7 +685,7 @@ do  i_GA_generation=1,n_GA_Generations
 
                 !-------------------------------------------------------------------------
 
-                buffer(1:n_parameters) = child_parameters(i_2_individual,1:n_parameters)
+                buffer(1:n_parameters) = child_parameters(1:n_parameters,i_2_individual)
                 buffer(n_parameters+1) = individual_SSE(i_2_individual)
                 buffer(n_parameters+2) = real( individual_quality(i_2_individual), kind=8 )
 
@@ -834,7 +834,7 @@ if( myid == 0  )then
     Individual_Fitness_best_1 = Individual_Fitness
 
     parent_parameters_best_1(1:n_parameters) =  &
-                            Parent_Parameters(i_GA_Best_Parent,1:n_parameters)
+                            Parent_Parameters(1:n_parameters, i_GA_Best_Parent)
 
     write(GA_print_unit,'(/A,1x,I10, 2(1x,E24.16))') &
           'GP_GA_opt: i_GA_best_parent_1, individual_SSE_best_1, &
@@ -911,11 +911,11 @@ if( myid == 0  )then
     write(GA_print_unit,'(/A,1x,I6)') &
           'GP_GA_opt: lmdif i_GA_best_parent ', i_GA_best_parent
     write(GA_print_unit,'(/A)') &
-          'GP_GA_opt: lmdif i, parent_parameters(i) '
+          'GP_GA_opt: lmdif i, parent_parameters(i, i_GA_best_parent) '
 
     do  i = 1, n_parameters
         write(GA_print_unit,'(I6, 1x,E24.16 )') &
-              i, parent_parameters(i_GA_best_parent, i)
+              i, parent_parameters(i, i_GA_best_parent)
     enddo ! i
 
 
@@ -1067,8 +1067,8 @@ if( myid == 0  )then
         write(GA_print_unit,'(/A,1x,I6, 12(1x,E15.7))') &
               'GP_GA_opt: i_GA_best_parent, Parent_Parameters ', &
                           i_GA_best_parent, &
-                          (Parent_Parameters(i_GA_Best_Parent,jj),jj= 1,n_parameters)
-                          !Parent_Parameters(i_GA_Best_Parent,1:n_parameters)
+                          (Parent_Parameters(jj, i_GA_Best_Parent),jj= 1,n_parameters)
+                          !Parent_Parameters(1:n_parameters, i_GA_Best_Parent)
 
         GP_Individual_Initial_Conditions(1:n_CODE_Equations) = &
                         Parent_Parameters(i_GA_Best_Parent,1:n_CODE_Equations)
@@ -1084,15 +1084,15 @@ if( myid == 0  )then
             write( GA_output_unit , '(I6,1x,I6, 12(1x,E15.7))') &
               i_GA_Generation_last, i_GA_best_parent, &
               individual_ranked_fitness(i_GA_best_parent), &
-              (parent_parameters(i_GA_best_parent, jj), jj=1,n_parameters)
-              !parent_parameters(i_GA_best_parent, 1:n_parameters)
+              (parent_parameters(jj, i_GA_best_parent), jj=1,n_parameters)
+              !parent_parameters(1:n_parameters, i_GA_best_parent)
         else
 
             write( GA_output_unit , '(I6,1x,I6, 12(1x,E15.7))') &
               n_GA_Generations, i_GA_best_parent, &
               individual_ranked_fitness(i_GA_best_parent), &
-              (parent_parameters(i_GA_best_parent, jj), jj=1,n_parameters)
-              !parent_parameters(i_GA_best_parent, 1:n_parameters)
+              (parent_parameters(jj, i_GA_best_parent), jj=1,n_parameters)
+              !parent_parameters(1:n_parameters, i_GA_best_parent)
 
         endif ! L_stop_run
 
@@ -1120,13 +1120,13 @@ if( myid == 0  )then
                 i_parameter=i_parameter+1
 
                 GP_Individual_Node_Parameters(i_node,i_tree) = &
-                            Parent_Parameters(i_GA_Best_Parent,i_Parameter)
+                            Parent_Parameters(i_Parameter, i_GA_Best_Parent)
 
                 !write(GA_print_unit,'(A,2(1x,I6),1x,E20.10)') &
                 !      'GP_GA_opt:2 i_GA_Best_Parent,i_Parameter, &
-                !                  &Parent_Parameters(i_GA_Best_Parent,i_Parameter) ', &
+                !                  &Parent_Parameters(i_Parameter,i_GA_Best_Parent) ', &
                 !                   i_GA_Best_Parent,i_Parameter, &
-                !                   Parent_Parameters(i_GA_Best_Parent,i_Parameter)
+                !                   Parent_Parameters(i_Parameter, i_GA_Best_Parent)
 
                 !write(GA_print_unit,'(A,2(1x,I6),1x,E20.10)') &
                 !      'GP_GA_opt:2 i_tree, i_node, GP_indiv_node_params', &
@@ -1221,7 +1221,7 @@ call MPI_BCAST( GP_Individual_Initial_Conditions, message_len,    &
 !    write(GA_print_unit,'(A)') 'i_GA_individual                  parent_parameters '
 !    do  i_GA_individual = 1, n_GA_individuals
 !        write(GA_print_unit,'(I6,12(1x,E15.7 ))') &
-!          i_GA_individual, parent_parameters(i_GA_individual,1:n_parameters)
+!          i_GA_individual, parent_parameters(1:n_parameters,i_GA_individual)
 !    enddo !  i_GA_individual
 !endif ! myid == 0
 

@@ -25,8 +25,8 @@ implicit none
 integer,parameter ::  itag = 1
 
 
-real(kind=8) :: parent_parameters(n_GA_individuals,n_maximum_number_parameters)
-real(kind=8) :: child_parameters(n_GA_individuals,n_maximum_number_parameters)
+real(kind=8) :: parent_parameters(n_maximum_number_parameters,n_GA_individuals)
+real(kind=8) :: child_parameters(n_maximum_number_parameters,n_GA_individuals)
 
 
 real(kind=8) :: dble_cff
@@ -75,8 +75,8 @@ L_stop_run = .FALSE.
 do  i_parameter=1,n_parameters
     do  i_GA_individual=1,n_GA_individuals
 
-        parent_parameters(i_GA_individual,i_parameter) = &
-         child_parameters(i_GA_individual,i_parameter)
+        parent_parameters(i_parameter,i_GA_individual) = &
+         child_parameters(i_parameter,i_GA_individual)
 
     enddo !  i_GA_individual
 enddo ! i_parameter
@@ -87,7 +87,7 @@ enddo ! i_parameter
 
 !do  i_GA_individual=1,n_GA_individuals
 !    write(GA_print_unit,'(I6,(12(1x,E15.7)))') i_GA_individual, &
-!              parent_parameters( i_GA_individual, 1:n_parameters)
+!              parent_parameters( 1:n_parameters, i_GA_individual )
 !enddo !  i_GA_individual
 
 !-----------------------------------------------------------------------------------
@@ -430,8 +430,8 @@ write(GA_print_unit,'(A,1x,I6,1x,E24.16)') &
 write(GA_print_unit,'(A,1x,I6,12(1x,E15.7)/(12(1x,E15.7)))') &
       'calcfit: i_GA_Best_Parent, parent_parameters ', &
                 i_GA_Best_Parent, &
-                (parent_parameters( i_GA_Best_Parent, jj),jj=1,n_parameters)
-                !i_GA_Best_Parent, parent_parameters( i_GA_Best_Parent, 1:n_parameters)
+                (parent_parameters( jj, i_GA_Best_Parent ),jj=1,n_parameters)
+                !i_GA_Best_Parent, parent_parameters( 1:n_parameters, i_GA_Best_Parent )
 
 
 !-----------------------------------------------------------------------

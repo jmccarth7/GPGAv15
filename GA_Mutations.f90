@@ -9,7 +9,7 @@ use GP_Data_module
 
 implicit none
 
-real(kind=8) :: child_parameters(n_GA_Individuals,n_maximum_number_parameters)
+real(kind=8) :: child_parameters(n_maximum_number_parameters,n_GA_Individuals)
 real(kind=4) :: cff
 real(kind=8) :: dff
 
@@ -55,9 +55,9 @@ do i_GA_Mutation=1,n_GA_Mutations
   !            i_GA_Mutation, dff, i_GA_Individual_mutation
   !write(GA_print_unit,'(/A/I6,12(1x,E15.7))') &
   !      'gam: before i_GA_Individual_mutation,  &
-  !  &child_parameters(i_GA_Individual_mutation, 1:n_parameters) ', &
+  !  &child_parameters(1:n_parameters, i_GA_Individual_mutation ) ', &
   !                    i_GA_Individual_mutation,  &
-  !   child_parameters(i_GA_Individual_mutation, 1:n_parameters)
+  !   child_parameters(1:n_parameters, i_GA_Individual_mutation)
 
 
   !--------------------------------------------------------------------
@@ -81,19 +81,19 @@ do i_GA_Mutation=1,n_GA_Mutations
   call random_real(cff)
   dff = cff
 
-  child_parameters(i_GA_Individual_Mutation,i_Parameter_Mutation) = dff
+  child_parameters(i_Parameter_Mutation, i_GA_Individual_Mutation) = dff
 
   !----------------------------------------------------------------------------
 
   !write(GA_print_unit,'(A/I6,12(1x,E15.7))') &
   !      'gam: after ', &
   !      i_GA_Individual_mutation,  &
-  !      child_parameters(i_GA_Individual_mutation, 1:n_parameters)
+  !      child_parameters(1:n_parameters, i_GA_Individual_mutation )
 
   !write(GA_print_unit,'(A,1x,I6,1x,E15.7,1x,I6/)') &
-  !      'gam: i_GA_Individual_Mutation, child_parameters(i_GA_Ind_Mut,i_Parm_Mut) ', &
+  !      'gam: i_GA_Individual_Mutation, child_parameters(i_Parm_Mut, i_GA_Ind_Mut) ', &
   !            i_GA_Individual_Mutation, &
-  !       child_parameters(i_GA_Individual_Mutation,i_Parameter_Mutation)
+  !       child_parameters(i_Parameter_Mutation, i_GA_Individual_Mutation)
 
   !--------------------------------------------------------------------
 
@@ -105,7 +105,7 @@ do i_GA_Mutation=1,n_GA_Mutations
   ! I don't think this is needed,
   ! since the individual_quality will be set to 1 later
 
-  individual_quality(i_GA_Individual_Mutation) = 1   ! reset quality since this has been mutated
+  individual_quality(i_GA_Individual_Mutation) = 1   
 
 
   n_mutated  = n_mutated  + 1
@@ -129,8 +129,8 @@ do i_GA_Mutation=1,n_GA_Mutations
 !!
 !!              if( i_parameter_mutation == linked_parms(1,i) )then
 !!
-!!                  child_parameters(i_GA_Individual_Mutation,linked_parms(2,i) ) = &
-!!                  child_parameters(i_GA_Individual_Mutation,i_Parameter_Mutation)
+!!                  child_parameters(linked_parms(2,i), i_GA_Individual_Mutation ) = &
+!!                  child_parameters(i_Parameter_Mutation,i_GA_Individual_Mutation)
 !!
 !!                  exit
 !!

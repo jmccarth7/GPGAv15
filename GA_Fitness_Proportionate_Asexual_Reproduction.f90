@@ -11,8 +11,8 @@ use GP_Data_module
 
 implicit none
 
-real(kind=8)    :: parent_parameters(n_GA_Individuals,n_maximum_number_parameters)
-real(kind=8)    :: child_parameters(n_GA_Individuals,n_maximum_number_parameters)
+real(kind=8)    :: parent_parameters(n_maximum_number_parameters,n_GA_Individuals)
+real(kind=8)    :: child_parameters(n_maximum_number_parameters,n_GA_Individuals)
 integer(kind=4) :: individual_quality(n_GA_individuals)
 
 real(kind=4) :: cff
@@ -164,7 +164,7 @@ do i_GA_Individual=1,n_GA_Individuals
 
   do i_Parameter=1,n_Parameters
 
-    Child_Parameters(i_GA_Individual,i_Parameter)=Parent_Parameters(j_GA_Individual,i_Parameter)
+    Child_Parameters(i_Parameter,i_GA_Individual)=Parent_Parameters(i_Parameter,j_GA_Individual)
 
   enddo ! i_Parameter
 
@@ -180,18 +180,18 @@ do i_GA_Individual=1,n_GA_Individuals
   !                     i_GA_Individual, Individual_Ranked_Fitness(i_GA_Individual)
 
   !write(GA_print_unit,'(I6,12(1x,E15.7))') &
-  !      i_GA_Individual,  Child_Parameters(i_GA_Individual,1:n_Parameters)
+  !      i_GA_Individual,  Child_Parameters(1:n_Parameters,i_GA_Individual)
 
 enddo i_loop  ! i_GA_Individual
 
 
 
 !write(GA_print_unit,'(/A)') &
-!'gafp: i_GA_Individual,  Child_Parameters(i_GA_Individual,1:n_Parameters) '
+!'gafp: i_GA_Individual,  Child_Parameters(1:n_Parameters,i_GA_Individual) '
 
 !do  i_GA_Individual=1,n_GA_Individuals
 !    write(GA_print_unit,'(I6,12(1x,E15.7))') &
-!         i_GA_Individual,  Child_Parameters(i_GA_Individual,1:n_Parameters)
+!         i_GA_Individual,  Child_Parameters(1:n_Parameters,i_GA_Individual)
 !enddo  ! i_GA_Individual
 
 
