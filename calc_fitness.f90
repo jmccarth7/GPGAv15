@@ -440,11 +440,9 @@ write(GA_print_unit,'(A,1x,I6,12(1x,E15.7)/(12(1x,E15.7)))') &
 ! if this is true, stop the run
 
 !if( individual_ranked_fitness(i_GA_Best_Parent) >= 100.0d0 ) then
-if( individual_ranked_fitness(i_GA_Best_Parent) >= 200.0d0 ) then
-
-    !L_stop_run = .TRUE.
-
-endif ! individual_ranked_fitness(i_GA_Best_Parent) >= 100.0d0
+!if( individual_ranked_fitness(i_GA_Best_Parent) >= 200.0d0 ) then
+!    L_stop_run = .TRUE.
+!endif ! individual_ranked_fitness(i_GA_Best_Parent) >= 100.0d0
 
 !-----------------------------------------------------------------------
 
@@ -452,5 +450,3 @@ return
 
 
 end subroutine calc_fitness
-
-!234567890123456789012345678901234567890123456789012345678901234567890

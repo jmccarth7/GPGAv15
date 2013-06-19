@@ -360,7 +360,7 @@ do  i_GA_generation=1,n_GA_Generations
                       'GP_GA_opt: n_GA_Crossovers ',  n_GA_Crossovers
 
                 call GA_Tournament_Style_Sexual_Reproduction( &
-                            Parent_Parameters,Child_Parameters, individual_quality )
+                            Parent_Parameters, Child_Parameters, individual_quality )
             endif !   n_GA_Crossovers .gt. 0
 
             !call system_clock( count=clock2, count_rate=ratec, count_max= maxclk)
@@ -440,7 +440,6 @@ do  i_GA_generation=1,n_GA_Generations
     !write(GA_print_unit,'(/A,1x,I10/)') &
     ! 'GP_GA_opt: child  broadcast ierr = ', ierr
 
-    !call MPI_BARRIER( MPI_COMM_WORLD, ierr )
 
     !------------------------------------------------------------------------
 
@@ -454,12 +453,6 @@ do  i_GA_generation=1,n_GA_Generations
 
     !write(GA_print_unit,'(A,1x,I10/)') &
     ! 'GP_GA_opt: Run_GA_lmdif  broadcast ierr = ', ierr
-
-    !call MPI_BARRIER( MPI_COMM_WORLD, ierr )
-
-    !write(GA_print_unit,'(A,2(1x,I6))') &
-    !'GP_GA_opt: after child bcast and barrier i_GA_generation, myid = ', &
-    !                                          i_GA_generation, myid
 
 
     !------------------------------------------------------------------------
@@ -487,9 +480,14 @@ do  i_GA_generation=1,n_GA_Generations
 
     if( myid == 0  )then
 
+        ! processor 0 sends job assignments to N  processors 
+        ! where N is the smaller of (number of processors -1) 
+        !                            number of individuals 
+
+        ! numsent is the number of messages sent up to now
+
         numsent = 0 
         i_GA_individual = 0
-
 
         do  isource = 1, min( numprocs-1, n_GA_individuals ) 
 
@@ -512,11 +510,17 @@ do  i_GA_generation=1,n_GA_Generations
         enddo ! isource
 
 
+        ! at this point i_GA_individual = numsent 
+
+
         !write(GA_print_unit,'(A,4(1x,I6))') &
         !         'GP_GA_opt: aft source loop 1 myid, i_GA_individual, numsent ', &
         !                                       myid, i_GA_individual, numsent
 
         !-------------------------------------------------------------------------------------
+
+        ! processor 0 loops over the number of individuals and waits for a message
+        ! from the other processors 
 
         do  isource = 1, n_GA_individuals 
 
@@ -534,17 +538,20 @@ do  i_GA_generation=1,n_GA_Generations
             sender       = MPI_STAT( MPI_SOURCE ) 
             i_individual = MPI_STAT( MPI_TAG ) 
 
+            ! received a message from processor "sender" which processed 
+            ! individual "i_individual"
+
             !write(GA_print_unit,'(A,5(1x,I6))') &
             ! 'GP_GA_opt:2 529 myid, isource, numsent, sender, i_individual ', &
             !                  myid, isource, numsent, sender, i_individual
 
             if( Run_GA_lmdif(i_individual) ) then
 
-            child_parameters(i_individual,1:n_parameters) =  &
-                                 buffer_recv(1:n_parameters)
+                child_parameters(i_individual,1:n_parameters) =  &
+                                     buffer_recv(1:n_parameters)
 
-            individual_SSE(i_individual)     =       buffer_recv( n_parameters+1) 
-            individual_quality(i_individual) = nint( buffer_recv( n_parameters+2) )
+                individual_SSE(i_individual)     =       buffer_recv( n_parameters+1) 
+                individual_quality(i_individual) = nint( buffer_recv( n_parameters+2) )
                
             endif ! Run_GA_lmdif(i_individual) 
 
@@ -557,10 +564,18 @@ do  i_GA_generation=1,n_GA_Generations
 
             if( numsent <  n_GA_individuals )then 
 
+                ! numsent <  n_GA_individuals    means not all individuals have been processed
+
+                ! send a message to the processor "sender" which just sent a message saying it
+                ! completed an individual, and 
+                ! tell it to process i_GA_individual as the  "numsent+1"  task
+
                 i_GA_individual = i_GA_individual + 1
 
                 call MPI_SEND( i_GA_individual, 1, MPI_INTEGER,    &
                                sender, numsent+1,  MPI_COMM_WORLD, ierr )                          
+
+                ! just sent a new task, so increment the number sent
 
                 numsent = numsent + 1
 
@@ -571,7 +586,11 @@ do  i_GA_generation=1,n_GA_Generations
 
             else
 
-                ! send message to stop
+                ! number of tasks sent out is >= number of individuals, so 
+                ! all the work has been completed
+
+                ! tell the "sender" processor that it is done and  
+                ! send it a message to stop
                                                                                                 
                 !write(GA_print_unit,'(A,3(1x,I6))') &
                 !      'GP_GA_opt:2 send msg to stop  myid, numsent, i_GA_individual ', &
@@ -590,9 +609,11 @@ do  i_GA_generation=1,n_GA_Generations
 
         ! this code takes care of the case where there are fewer GA individuals
         ! than (number of procs) -1
+
         ! without the code below,  the program hangs because the processors
         ! n_GA_individuals+1 to numprocs-1  are waiting for a signal to stop
         ! and that is never going to be sent from the loop above.
+
         ! so when the above loop is finished, send a stop signal to the unused
         ! processors so the program can continue
         
@@ -612,11 +633,16 @@ do  i_GA_generation=1,n_GA_Generations
 
     else  ! not myid == 0
 
+        ! code for processors 1 - ( numprocs - 1 ) 
 
+        ! processors wait for a message from processor 0 until 
+        ! a message is received from processor 0 telling it to process
+        ! the individual named in the message tag = MPI_STAT( MPI_TAG )
 
         recv_loop:&
         do 
 
+            
             call MPI_RECV( i_dummy, 1, MPI_INTEGER,    &                                      
                            0, MPI_ANY_TAG,  MPI_COMM_WORLD, MPI_STAT, ierr )      
 
@@ -627,9 +653,13 @@ do  i_GA_generation=1,n_GA_Generations
 
             ! was a stop signal received ?
 
+            ! if the tag is <= 0, this is a stop signal
+
             if(  MPI_STAT( MPI_TAG ) <= 0 ) exit recv_loop
 
             !---------------------------------------------------------------
+
+            ! process the individual named in the message tag
 
             i_2_individual = MPI_STAT( MPI_TAG ) 
 
@@ -644,6 +674,8 @@ do  i_GA_generation=1,n_GA_Generations
                 !write(GA_print_unit,'(A,3(1x,I6))') &
                 !  'GP_GA_opt:3 call setup_run_fcn  myid, i_2_individual   ', &
                 !                                   myid, i_2_individual
+
+                ! do the Runge-Kutta integration for individual i_2_individual
 
                 call setup_run_fcn( i_2_individual, child_parameters, individual_quality )
 
@@ -663,6 +695,7 @@ do  i_GA_generation=1,n_GA_Generations
             !      'GP_GA_opt:3 send results myid, i_2_individual, individual_SSE(i_2_individual)   ', &
             !                                myid, i_2_individual, individual_SSE(i_2_individual)
 
+            ! send the R-K integration results for individual i_2_individual to processor 0
 
             call MPI_SEND( buffer, n_parameters+2, &
                            MPI_DOUBLE_PRECISION, 0, i_2_individual, MPI_COMM_WORLD, ierr )
@@ -670,6 +703,8 @@ do  i_GA_generation=1,n_GA_Generations
 
 
             !---------------------------------------------------------------
+
+            ! code to ensure that an error does not allow this loop to run forever
 
             nsafe = nsafe + 1
 
@@ -747,7 +782,7 @@ do  i_GA_generation=1,n_GA_Generations
     call MPI_BCAST( L_stop_run,  1,    &
                     MPI_LOGICAL, 0, MPI_COMM_WORLD, ierr )
 
-    call MPI_BARRIER( MPI_COMM_WORLD, ierr )
+    call MPI_BARRIER( MPI_COMM_WORLD, ierr )   ! necessary ?
 
     if( L_stop_run )then
 
@@ -772,7 +807,7 @@ enddo  ! i_generation
 
 ! wait until all processors have finished the generation loop
 
-call MPI_BARRIER( MPI_COMM_WORLD, ierr )
+call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
 
 !write(GA_print_unit,'(A,1x,I6)') &
 !      'GP_GA_opt: after barrier 3 myid = ', myid
@@ -781,6 +816,7 @@ call MPI_BARRIER( MPI_COMM_WORLD, ierr )
 
 
 ! finished all generations,
+
 ! now call lmdif on the best individual of the last generation
 ! and determine if lmdif has improved the fitness of this individual
 
@@ -827,7 +863,6 @@ if( myid == 0  )then
         write(GA_print_unit,'(A,2(1x,I6))') &
           'GP_GA_opt: i_GA_Generation_last, i_GA_Best_Parent  call setup_run_lmdif ', &
                       i_GA_Generation_last, i_GA_Best_Parent
-
     else
 
         write(GA_print_unit,'(A,2(1x,I6))') &
@@ -855,7 +890,6 @@ if( myid == 0  )then
         write(GA_print_unit,'(A,2(1x,I6))') &
           'GP_GA_opt: i_GA_Generation_last, i_GA_Best_Parent  aft call setup_run_lmdif ', &
                       i_GA_Generation_last, i_GA_Best_Parent
-
     else
 
         write(GA_print_unit,'(A,2(1x,I6))') &
@@ -891,14 +925,11 @@ if( myid == 0  )then
               'GP_GA_opt: i_GA_best_parent, individual_SSE', &
                           i_GA_best_parent, individual_SSE(i_GA_best_parent)
 
-
         individual_ranked_fitness(i_GA_best_parent) = indiv_fitness( i_GA_best_parent )
 
     else
 
-
         individual_ranked_fitness(i_GA_best_parent) = 0.0d0
-
 
     endif ! individual_quality( i_GA_best_parent ) > 0
 
@@ -939,10 +970,11 @@ if( myid == 0  )then
     if( individual_ranked_fitness(i_GA_best_parent) < &
                             individual_ranked_fitness_best_1 )then
 
-
         individual_fitness = individual_ranked_fitness_best_1
 
         Individual_SSE_best_parent = individual_SSE_best_1
+
+
 
         ! choose the parameters of the best parent from the RK fcn integration
 
@@ -1030,7 +1062,7 @@ if( myid == 0  )then
         individual_fitness = individual_ranked_fitness(i_GA_best_parent)
         Individual_SSE_best_parent = individual_SSE(i_GA_best_parent)
 
-        ! choose the lmdif output
+        ! choose the parameters from the lmdif output for the best parent  
 
         write(GA_print_unit,'(/A,1x,I6, 12(1x,E15.7))') &
               'GP_GA_opt: i_GA_best_parent, Parent_Parameters ', &
@@ -1121,36 +1153,30 @@ endif ! myid == 0
 ! broadcast individual_fitness
 
 
-!write(GA_print_unit,'(/A,1x,I6)') 'broadcast individual_fitness myid = ', myid
+!write(GA_print_unit,'(/A,1x,I6)') 'GP_GA_opt: broadcast individual_fitness myid = ', myid
 
 message_len = 1
 call MPI_BCAST( individual_fitness, message_len,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
-!write(GA_print_unit,'(/A,1x,I6)') 'broadcast individual_fitness  ierr = ', ierr
+!write(GA_print_unit,'(/A,1x,I6)') 'GP_GA_opt: aft broadcast individual_fitness  ierr = ', ierr
 
-
-!call MPI_BARRIER( MPI_COMM_WORLD, ierr )
-
-!write(GA_print_unit,'(/A,1x,I6)') 'aft individual_fitness barrier  myid = ', myid
 
 !------------------------------------------------------------------------
 
 ! broadcast Individual_SSE_best_parent
 
 
-!write(GA_print_unit,'(/A,1x,I6)') 'broadcast Individual_SSE_best_parent myid = ', myid
+!write(GA_print_unit,'(/A,1x,I6)') &
+! 'GP_GA_opt: broadcast Individual_SSE_best_parent myid = ', myid
 
 message_len = 1
 call MPI_BCAST( Individual_SSE_best_parent, message_len,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
-!write(GA_print_unit,'(/A,1x,I6)') 'broadcast Individual_SSE_best_parent  ierr = ', ierr
+!write(GA_print_unit,'(/A,1x,I6)') &
+! 'GP_GA_opt: aft broadcast Individual_SSE_best_parent  ierr = ', ierr
 
-
-!call MPI_BARRIER( MPI_COMM_WORLD, ierr )
-
-!write(GA_print_unit,'(/A,1x,I6)') 'aft Individual_SSE_best_parent barrier  myid = ', myid
 
 !------------------------------------------------------------------------
 
@@ -1158,7 +1184,7 @@ call MPI_BCAST( Individual_SSE_best_parent, message_len,    &
 
 
 !write(GA_print_unit,'(/A,1x,I6)') &
-! 'broadcast GP_Individual_Node_Parameters  myid = ', myid
+! 'GP_GA_opt: broadcast GP_Individual_Node_Parameters  myid = ', myid
 
 message_len = n_trees * n_nodes
 
@@ -1166,12 +1192,7 @@ call MPI_BCAST( GP_Individual_Node_Parameters, message_len,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
 !write(GA_print_unit,'(/A,1x,I6)') &
-! 'broadcast GP_Individual_Node_Parameters  ierr = ', ierr
-
-!call MPI_BARRIER( MPI_COMM_WORLD, ierr )
-
-!write(GA_print_unit,'(/A,1x,I6)') &
-! 'aft GP_Individual_Node_Parameters barrier  myid = ', myid
+! 'GP_GA_opt: aft broadcast GP_Individual_Node_Parameters  ierr = ', ierr
 
 
 !------------------------------------------------------------------------
@@ -1180,7 +1201,7 @@ call MPI_BCAST( GP_Individual_Node_Parameters, message_len,    &
 
 
 !write(GA_print_unit,'(/A,1x,I6)') &
-! 'broadcast GP_Individual_Initial_Conditions myid = ', myid
+! 'GP_GA_opt: broadcast GP_Individual_Initial_Conditions myid = ', myid
 
 message_len = n_CODE_equations
 
@@ -1188,12 +1209,7 @@ call MPI_BCAST( GP_Individual_Initial_Conditions, message_len,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
 !write(GA_print_unit,'(/A,1x,I6)') &
-! 'broadcast GP_Individual_Initial_Conditions ierr = ', ierr
-
-!call MPI_BARRIER( MPI_COMM_WORLD, ierr )
-
-!write(GA_print_unit,'(/A,1x,I6)') &
-! 'aft GP_Individual_Initial_Conditions barrier  myid = ', myid
+! 'GP_GA_opt: aft broadcast GP_Individual_Initial_Conditions ierr = ', ierr
 
 
 !------------------------------------------------------------------------
