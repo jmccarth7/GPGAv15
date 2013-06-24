@@ -120,7 +120,7 @@ write(GP_summary_output_unit, '(A,4x,2(1x,I6))') '> ', i_GP_generation, i_GP_ind
 !write(GP_print_unit,'(5(1x,E15.7))')   GP_population_node_parameters(:,:,i_GP_indiv)
 
 if( any( abs( GP_population_node_parameters(:,:,i_GP_indiv) ) &
-                                                            > 1.0d-20 ) )then
+                                                            > 1.0d-30 ) )then
 
     write(GP_print_unit,'(/A/)') &
        'sgpi: i_GP_gen i_GP_indiv     node        tree  GP_population_node_parameters'
@@ -131,7 +131,7 @@ if( any( abs( GP_population_node_parameters(:,:,i_GP_indiv) ) &
             ! print only non-zero parameters
 
             if( abs( GP_population_node_parameters( &
-                       i_node,i_tree,i_GP_indiv) ) > 1.0d-20   )then
+                       i_node,i_tree,i_GP_indiv) ) > 1.0d-30   )then
 
                 write(GP_print_unit,'(2(1x,I6), 2(1x,I3),1x, E20.10)') &
                       i_GP_generation, i_GP_indiv,i_node, i_tree, &
@@ -141,16 +141,23 @@ if( any( abs( GP_population_node_parameters(:,:,i_GP_indiv) ) &
         enddo ! i_node
     enddo  ! i_tree
 
-endif ! any( abs( GP_population_node_parameters(:,:,i_GP_indiv) )> 1.0d-20 )
+endif ! any( abs( GP_population_node_parameters(:,:,i_GP_indiv) )> 1.0d-30 )
 
-! write all parameters to output file
+
+
+! write all non-zero parameters to output file
+
 
 do  i_tree=1,n_trees
     do  i_node=1,n_nodes
 
-        write(GP_summary_output_unit,'(2(1x,I6),2(1x,I3), 1x, E20.10)') &
-              i_GP_generation, i_GP_indiv,i_node, i_tree, &
-              GP_population_node_parameters( i_node,i_tree, i_GP_indiv)
+        if( abs( GP_population_node_parameters( &
+                     i_node,i_tree,i_GP_indiv) ) > 1.0d-30   )then
+            write(GP_summary_output_unit,'(2(1x,I6),2(1x,I3), 1x, E20.10)') &
+                  i_GP_generation, i_GP_indiv,i_node, i_tree, &
+                  GP_population_node_parameters( i_node,i_tree, i_GP_indiv)
+
+        endif ! abs( GP_population_node_parameters...
 
     enddo ! i_node
 enddo  ! i_tree
@@ -158,6 +165,10 @@ enddo  ! i_tree
 
 
 write(GP_summary_output_unit, '(A,4x,2(1x,I6))') '>>', i_GP_generation, i_GP_indiv
+
+
+!! write for each indiv.  first write in 0*.f90
+!write(GP_summary_output_unit, '(4(1x,I10))') n_code_equations, n_trees, n_nodes, n_levels
 
 
 !---------------------------------------------------------------------------------

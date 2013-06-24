@@ -285,7 +285,6 @@ if( myid == 0 )then
           status = 'unknown' )
 
 
-    write(GP_summary_output_unit, '(4(1x,I10))') n_code_equations, n_trees, n_nodes, n_levels
 
 endif ! myid == 0
 
@@ -656,6 +655,12 @@ do  i_GP_Generation=1,n_GP_Generations
                       i_GP_Generation, i_GP_individual, Run_GP_Calculate_Fitness(i_GP_Individual)
             write(GP_print_unit,'(A//)')&
                   '0:-----------------------------------------------------------------'
+
+            ! write this header for each individual
+            write(GP_summary_output_unit, '(6(1x,I6))') &
+                        n_code_equations, n_trees, n_nodes, n_levels, &
+                        i_GP_individual, i_GP_generation
+
         endif !  myid == 0
 
 
@@ -897,6 +902,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
 
         if( myid == 0 )then
+
             ! this prints a summary of the initial conditions,
             ! parameters,  and node types for this individual,
             ! after being optimized in GPCODE*opt
