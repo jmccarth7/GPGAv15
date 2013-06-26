@@ -45,16 +45,16 @@ i_GP_Individual_Mutation = 0
 
 i_GP_Individual = n_GP_Elitists + n_GP_Asexual_Reproductions + n_GP_Crossovers
 
-if( myid == 0 )then
-    write(GP_print_unit,'(/A,1x,I6)' ) &
-          'gpmut: n_GP_Mutations ', n_GP_Mutations
-    write(GP_print_unit,'(A,3(1x,I6))' ) &
-          'gpmut: n_GP_Elitists, n_GP_Asexual_Reproductions, n_GP_Crossovers ', &
-                  n_GP_Elitists, n_GP_Asexual_Reproductions, n_GP_Crossovers
-    write(GP_print_unit,'(A,1x,I6)' ) &
-          'gpmut: start i_GP_individual  =  ', &
-             n_GP_Elitists + n_GP_Asexual_Reproductions + n_GP_Crossovers +1
-endif ! myid == 0
+!if( myid == 0 )then
+!    write(GP_print_unit,'(/A,1x,I6)' ) &
+!          'gpmut: n_GP_Mutations ', n_GP_Mutations
+!    !write(GP_print_unit,'(A,3(1x,I6))' ) &
+!    !      'gpmut: n_GP_Elitists, n_GP_Asexual_Reproductions, n_GP_Crossovers ', &
+!    !              n_GP_Elitists, n_GP_Asexual_Reproductions, n_GP_Crossovers
+!    !write(GP_print_unit,'(A,1x,I6)' ) &
+!    !      'gpmut: start i_GP_individual  =  ', &
+!    !         n_GP_Elitists + n_GP_Asexual_Reproductions + n_GP_Crossovers +1
+!endif ! myid == 0
 
 do  i_GP_Mutation = 1,n_GP_Mutations
 

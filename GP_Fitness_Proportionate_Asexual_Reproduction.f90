@@ -25,14 +25,14 @@ integer(kind=4) :: i_GP_Asexual_Reproduction
 
 i_GP_Individual = n_GP_Elitists
 
-if( myid == 0 )then
-    write(GP_print_unit,'(/A,1x,I6)' ) &
-          'gpfpar: n_GP_Asexual_Reproductions ', n_GP_Asexual_Reproductions
-    write(GP_print_unit,'(A,1x,I6)' ) &
-          'gpfpar: n_GP_Elitists         ', n_GP_Elitists
-    write(GP_print_unit,'(A,1x,I6)' ) &
-          'gpfpar: start i_GP_individual ', n_GP_Elitists  + 1
-endif ! myid == 0
+!if( myid == 0 )then
+!    write(GP_print_unit,'(/A,1x,I6)' ) &
+!          'gpfpar: n_GP_Asexual_Reproductions ', n_GP_Asexual_Reproductions
+!    !write(GP_print_unit,'(A,1x,I6)' ) &
+!    !      'gpfpar: n_GP_Elitists         ', n_GP_Elitists
+!    !write(GP_print_unit,'(A,1x,I6)' ) &
+!    !      'gpfpar: start i_GP_individual ', n_GP_Elitists  + 1
+!endif ! myid == 0
 
 
 do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions

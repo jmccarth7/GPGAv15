@@ -117,7 +117,7 @@ if( myid == 0) then
         do  i_node=1,n_nodes
             if( abs( GP_Individual_Node_Parameters(i_node,i_tree) ) > 1.0e-20 )then
                 write(GA_print_unit,'(A,2(1x,I6),1x,E15.7)') &
-                  'GP_GA_opt: i_node, i_tree, GP_Indiv_Node_Param(i_node,i_tree) ', &
+                  'GP_GA_opt: i_node, i_tree, GP_Indiv_Node_Param', &
                               i_node, i_tree, GP_Individual_Node_Parameters(i_node,i_tree)
             endif ! abs( GP_Indiv_Node_Param(i_node,i_tree) ) > 1.0e-20
         enddo ! i_node
@@ -130,7 +130,7 @@ if( myid == 0) then
         do  i_node=1,n_nodes
             if( GP_Individual_Node_Type(i_node,i_tree) > -9999 )then
                 write(GA_print_unit,'(A,3(1x,I6))') &
-                 'GP_GA_opt: i_node, i_tree, GP_Indiv_Node_Type(i_node,i_tree)', &
+                 'GP_GA_opt: i_node, i_tree, GP_Indiv_Node_Type', &
                              i_node, i_tree, GP_Individual_Node_Type(i_node,i_tree)
             endif ! GP_Indiv_Node_Type(i_node,i_tree) > -9999
         enddo ! i_node
@@ -353,10 +353,9 @@ do  i_GA_generation=1,n_GA_Generations
 
             if( n_GA_Crossovers .gt. 0) then
 
-                write(GA_print_unit,'(/A)')&
-                      'GP_GA_opt: call GA_Tournament_Style_Sexual_Reproduction'
-                write(GA_print_unit,'(A,1x,I6)')&
-                      'GP_GA_opt: n_GA_Crossovers ',  n_GA_Crossovers
+                write(GA_print_unit,'(/A,1x,I6)')&
+                      'GP_GA_opt: call GA_Tournament_Style_Sexual_Repro  n_GA_Crossovers',  &
+                                                                         n_GA_Crossovers
 
                 call GA_Tournament_Style_Sexual_Reproduction( &
                             Parent_Parameters, Child_Parameters, individual_quality )
@@ -379,9 +378,7 @@ do  i_GA_generation=1,n_GA_Generations
             if( n_GA_Mutations .gt. 0) then
 
                 write(GA_print_unit,'(/A,1x,I6)')&
-                      'GP_GA_opt: call GA_Mutations '
-                write(GA_print_unit,'(A,1x,I6)') &
-                      'GP_GA_opt: n_GA_Mutations  ',  n_GA_Mutations
+                      'GP_GA_opt: call GA_Mutations  n_GA_Mutations',  n_GA_Mutations
 
                 !call system_clock( count=clock1, count_rate=ratec, count_max= maxclk)
 
@@ -541,9 +538,9 @@ do  i_GA_generation=1,n_GA_Generations
             ! received a message from processor "sender" which processed 
             ! individual "i_individual"
 
-            !write(GA_print_unit,'(A,5(1x,I6))') &
-            ! 'GP_GA_opt:2 529 myid, isource, numsent, sender, i_individual ', &
-            !                  myid, isource, numsent, sender, i_individual
+            write(GA_print_unit,'(A,5(1x,I6))') &
+             'GP_GA_opt:2 529 myid, isource, numsent, sender, i_individual ', &
+                              myid, isource, numsent, sender, i_individual
 
             if( Run_GA_lmdif(i_individual) ) then
 
@@ -552,6 +549,19 @@ do  i_GA_generation=1,n_GA_Generations
 
                 individual_SSE(i_individual)     =       buffer_recv( n_parameters+1) 
                 individual_quality(i_individual) = nint( buffer_recv( n_parameters+2) )
+
+                write(GA_print_unit,'(A,3(1x,I6))') &
+                 'GP_GA_opt:2 554 myid, n_parameters, i_individual ', &
+                                  myid, n_parameters, i_individual
+                write(GA_print_unit,'(A/(5(1x,E15.7)))') &
+                 'GP_GA_opt:2 child_parameters(1:n_parameters,i_individual) ', &
+                              child_parameters(1:n_parameters,i_individual) 
+                write(GA_print_unit,'(A,2(1x,I6),1x,E15.7)') &
+                 'GP_GA_opt:2 myid, i_individual, individual_SSE(i_individual)', &
+                              myid, i_individual, individual_SSE(i_individual)
+                write(GA_print_unit,'(A,3(1x,I6))') &
+                 'GP_GA_opt:2 myid, i_individual, individual_quality(i_individual) ', &
+                              myid, i_individual,  individual_quality(i_individual)
                
             endif ! Run_GA_lmdif(i_individual) 
 
@@ -747,8 +757,8 @@ do  i_GA_generation=1,n_GA_Generations
 
     if( myid == 0  )then
 
-        write(GA_print_unit,'(A)')  'GP_GA_opt: individual_SSE  '
-        write(GA_print_unit,'(5(1x,E15.7))')  individual_SSE(1:n_GA_individuals)  
+        !write(GA_print_unit,'(A)')  'GP_GA_opt: individual_SSE  '
+        !write(GA_print_unit,'(5(1x,E15.7))')  individual_SSE(1:n_GA_individuals)  
 
         write(GA_print_unit,'(A,1x,I6)') &
               'GP_GA_opt: call calc_fitness i_GA_generation ', &
@@ -1216,14 +1226,14 @@ call MPI_BCAST( GP_Individual_Initial_Conditions, message_len,    &
 
 
 
-!if( myid == 0  )then
-!    write(GA_print_unit,'(//A/)') 'GP_GA_opt:  final parent parameters  '
-!    write(GA_print_unit,'(A)') 'i_GA_individual                  parent_parameters '
-!    do  i_GA_individual = 1, n_GA_individuals
-!        write(GA_print_unit,'(I6,12(1x,E15.7 ))') &
-!          i_GA_individual, parent_parameters(1:n_parameters,i_GA_individual)
-!    enddo !  i_GA_individual
-!endif ! myid == 0
+if( myid == 0  )then
+    write(GA_print_unit,'(//A/)') 'GP_GA_opt:  final parent parameters  '
+    write(GA_print_unit,'(A)') 'i_GA_individual                  parent_parameters '
+    do  i_GA_individual = 1, n_GA_individuals
+        write(GA_print_unit,'(I6,12(1x,E15.7 ))') &
+          i_GA_individual, parent_parameters(1:n_parameters,i_GA_individual)
+    enddo !  i_GA_individual
+endif ! myid == 0
 
 
 return
