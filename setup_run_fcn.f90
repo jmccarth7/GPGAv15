@@ -131,11 +131,14 @@ if (info .eq. 8) info = 4
 
 
 do  i_parameter=1,n_parameters
+
     child_parameters(i_parameter,i_GA_indiv) = &
                             dabs( x_LMDIF(i_parameter) )
+
     !write(GA_print_unit,'(A,3(1x,I6),1x,E20.10)') &
     !      'setrf:3 aft RK myid, i_GA_indiv, i_parameter,  X_LMDIF', &
     !                      myid, i_GA_indiv, i_parameter,  X_LMDIF(i_parameter)
+
 enddo ! i_parameter
 
 !write(GA_print_unit,'(/A/ 2(1x, I6), 12( 1x,E24.16))') &

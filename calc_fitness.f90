@@ -70,7 +70,7 @@ integer(kind=4) :: i_parameter
 
 L_stop_run = .FALSE.
 
-write(GA_print_unit,'(/A)') 'calcfit:  finished the loop on i_GA_individual  '
+!write(GA_print_unit,'(/A)') 'calcfit:  finished the loop on i_GA_individual  '
 
 do  i_parameter=1,n_parameters
     do  i_GA_individual=1,n_GA_individuals

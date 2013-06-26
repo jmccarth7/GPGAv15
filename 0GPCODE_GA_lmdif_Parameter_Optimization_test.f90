@@ -759,6 +759,9 @@ do  i_GP_Generation=1,n_GP_Generations
 
             !-------------------------------------------------
 
+            call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! debug only
+
+
             ! GPCODE_GA_lmdif_Parameter_Optimization sets:
             !      individual_fitness
             !   GP_Individual_Initial_Conditions

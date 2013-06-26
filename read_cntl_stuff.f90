@@ -451,8 +451,8 @@ do
 
         user_input_random_seed = abs( user_input_random_seed  ) 
 
-        write(GP_print_unit,'(A,1x,I6)') 'rcntl: user_input_random_seed = ', &
-                                                 user_input_random_seed
+        write(GP_print_unit,'(A,1x,I12)') 'rcntl: user_input_random_seed =', &
+                                                  user_input_random_seed
 
 
 
