@@ -103,11 +103,17 @@ endif ! .not. allocated( seed )
 if( user_input_random_seed > 0 )then
 
     clock = user_input_random_seed
+
+    write(6,'(A,1x,I12)') '0: random seed input clock = ', clock
+
     seed = user_input_random_seed + &
               37 * (/ (i_seed - 1, i_seed = 1, n_seed) /)
 else
 
     CALL SYSTEM_CLOCK(COUNT=clock)
+
+    write(6,'(A,1x,I12)') '0: random seed input clock = ', clock
+
     seed = clock + 37 * (/ (i_seed - 1, i_seed = 1, n_seed) /)
 
 endif ! user_input_random_seed > 0
@@ -620,9 +626,9 @@ do  i_GP_Generation=1,n_GP_Generations
 
     ! print node type information for each GP individual
 
-    !if( myid == 0 )then
-    !    call print_gp_node_type_parm( )
-    !endif !  myid == 0 .and. ...
+    if( myid == 0 )then
+        call print_gp_node_type_parm( )
+    endif !  myid == 0 .and. ...
 
     !<<<<<<<<<<< jjm 20130417
 
@@ -685,9 +691,13 @@ do  i_GP_Generation=1,n_GP_Generations
                     endif ! GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0
 
                     !if( myid == 0 )then
-                    !    write(GP_print_unit,'(A,4(1x,I6))')&
-                    !   '0: i_GP_individual, i_node, i_tree, n_GP_parameters ', &
-                    !       i_GP_individual, i_node, i_tree, n_GP_parameters
+                    !    if( GP_Individual_Node_Type(i_Node,i_Tree) > -9999 )then
+                            !write(GP_print_unit,'(A,5(1x,I6))')&
+                            !'0: i_GP_individual, i_node, i_tree, &
+                            !  &GP_Individual_Node_Type, n_GP_parameters ', &
+                            !   i_GP_individual, i_node, i_tree, &
+                            !   GP_Individual_Node_Type(i_Node,i_Tree), n_GP_parameters
+                    !    endif ! GP_Individual_Node_Type(i_Node,i_Tree) > -9999 
                     !endif !  myid == 0
 
                 enddo ! i_node
@@ -728,21 +738,6 @@ do  i_GP_Generation=1,n_GP_Generations
 
 
             if( myid == 0 )then
-
-                !!----------------------------------------------------------
-                !! write the summary file header for each individual
-                !! which has n_GP_parameters >= n_code_equations
-                !
-                !write(GP_print_unit, '(A,6(1x,I6))') &
-                ! '0: n_code_equations, n_trees, n_nodes, n_levels, &
-                !     & i_GP_individual, i_GP_generation', &
-                !      n_code_equations, n_trees, n_nodes, n_levels, &
-                !      i_GP_individual, i_GP_generation
-                !
-                !write(GP_summary_output_unit, '(6(1x,I6))') &
-                !      n_code_equations, n_trees, n_nodes, n_levels, &
-                !      i_GP_individual, i_GP_generation
-                !!----------------------------------------------------------
 
 
                 write(GP_print_unit,'(/A)') &
@@ -881,18 +876,21 @@ do  i_GP_Generation=1,n_GP_Generations
 
                 !if( &
                 !any( abs( GP_population_node_parameters(:,:, i_GP_individual) ) > 1.0d-20 ) )then
+                !>>>>>>>>>>>>>>>>>>>>>
                     write(GP_print_unit,'(/A/)') &
                        '0:  node  tree  Runge_Kutta_Node_Params&
                        &   GP_population_node_params'
                     do  i_tree=1,n_trees
                         do  i_node=1,n_nodes
-                            if( abs( GP_population_node_parameters( &
-                                      i_node,i_tree,i_GP_individual) ) > 1.0d-20   )then
+                            !if( abs( GP_population_node_parameters( &
+                            !          i_node,i_tree,i_GP_individual) ) > 1.0d-20   )then
+                            if( GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0) then  ! a set parameter
                                 write(GP_print_unit,'(2(1x,I6), 1x, E20.10, 4x, E20.10)') &
                                      i_node, i_tree, &
                                      Runge_Kutta_Node_Parameters(i_node,i_tree), &
                                      GP_population_node_parameters(i_node,i_tree,i_GP_individual)
-                            endif !  abs( GP_population_node_parameters(...
+                            endif ! GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0
+                            !endif !  abs( GP_population_node_parameters(...
                         enddo ! i_node
                     enddo  ! i_tree
                 !endif ! any( abs( GP_population_node_parameters(:,:,i_GP_individual) )> 1.0d-20 )

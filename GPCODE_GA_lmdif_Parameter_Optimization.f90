@@ -423,29 +423,28 @@ do  i_GA_generation=1,n_GA_Generations
     !  broadcast child parameters
 
 
-    write(GA_print_unit,'(/A,2(1x,I6))') &
-     'GP_GA_opt:  broadcast child parameters myid, i_GA_generation ', myid, i_GA_generation
+    !write(GA_print_unit,'(/A,2(1x,I6))') &
+    ! 'GP_GA_opt:  broadcast child parameters myid, i_GA_generation ', myid, i_GA_generation
 
     child_number =  n_GA_Individuals * n_maximum_number_parameters
 
-    write(GA_print_unit,'(A,4(1x,I6)/)') &
-     'GP_GA_opt:  myid, n_GA_Individuals, n_maximum_number_parameters, child_number = ', &
-                  myid, n_GA_Individuals, n_maximum_number_parameters, child_number
+    !write(GA_print_unit,'(A,4(1x,I6)/)') &
+    ! 'GP_GA_opt:  myid, n_GA_Individuals, n_maximum_number_parameters, child_number = ', &
+    !              myid, n_GA_Individuals, n_maximum_number_parameters, child_number
 
     call MPI_BCAST( Child_Parameters,  child_number,    &
                     MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
-    write(GA_print_unit,'(/A,2(1x,I10)/)') &
-     'GP_GA_opt: child  broadcast myid, ierr = ', myid, ierr
+    !write(GA_print_unit,'(/A,2(1x,I10)/)') &
+    ! 'GP_GA_opt: child  broadcast myid, ierr = ', myid, ierr
 
-    write(GA_print_unit,'(/A,2(1x,I10)/)') &
-     'GP_GA_opt: myid, n_GA_Individuals = ', myid, n_GA_Individuals
-
-    do  i_GA_individual = 1, n_GA_Individuals
-        write(GA_print_unit,'(I6,1x,I6,1x,12(1x,E15.7))') &
-              myid, i_GA_individual, &
-              ( child_parameters(jj,i_GA_individual), jj = 1,n_parameters )
-    enddo ! i_GA_individual
+    !write(GA_print_unit,'(/A,2(1x,I10)/)') &
+    ! 'GP_GA_opt: myid, n_GA_Individuals = ', myid, n_GA_Individuals
+    !do  i_GA_individual = 1, n_GA_Individuals
+    !    write(GA_print_unit,'(I6,1x,I6,1x,12(1x,E15.7))') &
+    !          myid, i_GA_individual, &
+    !          ( child_parameters(jj,i_GA_individual), jj = 1,n_parameters )
+    !enddo ! i_GA_individual
 
 
     !------------------------------------------------------------------------

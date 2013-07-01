@@ -34,11 +34,13 @@ implicit none
 integer :: i_code_eq
 
 
-integer(kind=4),intent(in)  :: i_GP_Generation   
+integer(kind=4),intent(in)  :: i_GP_Generation
 integer(kind=4),intent(in)  :: i_GP_indiv
 
-integer(kind=4) :: i_Tree                                                                                    
-integer(kind=4) :: i_Node            
+integer(kind=4) :: i_Tree
+integer(kind=4) :: i_Node
+
+logical :: Lprint
 
 !----------------------------------------------------------------------------------------
 
@@ -53,50 +55,57 @@ integer(kind=4) :: i_Node
 ! assume this subroutine is called only by cpu 0
 !---------------------------------------------------
 
-                                                                                                                                                                             
-!if( i_GP_generation == 1                                  .or. &                                                                                                
-!    mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &                                                                                                
-!    i_GP_generation == n_GP_generations                          )then                                                                                          
-                                                                                                                                                                             
-! this prints a summary of the initial conditions,                                                                                                           
-! parameters,  and node types for this individual,                                                                                                           
-! after being optimized in GPCODE*opt                                                                                                                        
-                                                                                                                                                                             
-!call summary_GP_indiv( i_GP_generation, i_GP_individual )                                                                                                    
-                                                                                                                                                                             
-!endif ! i_GP_generation == 1 .or. ...            
 
 !--------------------------------------------------------------------------------
-                                                                                                                                                                            
 
-! write the summary file header for each individual                                                                                                          
-! which has n_GP_parameters >= n_code_equations                                                                                                              
-                                                                                                                                                                             
-write(GP_print_unit, '(A/6(1x,I6))') &                                                                                                                       
-      'sgpi: n_code_equations, n_trees, n_nodes, n_levels, &                                                                                                         
-           & i_GP_individual, i_GP_generation', &                                                                                                                  
-             n_code_equations, n_trees, n_nodes, n_levels, &                                                                                                        
-             i_GP_indiv, i_GP_generation                                                                                                                       
-                                                                                                                                                                             
-write(GP_summary_output_unit, '(6(1x,I6))') &                                                                                                                
-             n_code_equations, n_trees, n_nodes, n_levels, &                                                                                                        
-             i_GP_indiv, i_GP_generation                                                                                                                       
+! set Lprint so printing is done only under the conditions in the if-test
 
-                     
+Lprint = .FALSE.
+if( i_GP_generation == 1                                  .or. &
+    mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
+    i_GP_generation == n_GP_generations                          )then
+
+    Lprint = .TRUE.
+
+endif ! i_GP_generation == 1 .or. ...
+
+!--------------------------------------------------------------------------------
+
+
+! write the summary file header for each individual
+! which has n_GP_parameters >= n_code_equations
+
+if( Lprint )then
+    write(GP_print_unit, '(/A/6x,6(1x,I10))') &
+      'sgpi: n_code_equations  n_trees  n_nodes  n_levels  &
+           & i_GP_individual  i_GP_generation', &
+             n_code_equations, n_trees, n_nodes, n_levels, &
+             i_GP_indiv, i_GP_generation
+endif ! Lprint 
+
+write(GP_summary_output_unit, '(6(1x,I6))') &
+             n_code_equations, n_trees, n_nodes, n_levels, &
+             i_GP_indiv, i_GP_generation
+
+
 !--------------------------------------------------------------------------------
 
 ! initial conditions
 
 
-write(GP_print_unit,'(/A)')&
-      'sgpi: i_GP_gen, i_GP_indiv, i_code_eq, &
-            &GP_Pop_Init_Cond(i_code_eq,i_GP_Indiv) '
+if( Lprint )then
+    write(GP_print_unit,'(/A)')&
+      'sgpi: i_GP_gen  i_GP_indiv  i_code_eq  &
+            &GP_Pop_Init_Cond(i_code_eq, i_GP_Indiv) '
+endif ! Lprint 
 
 do  i_code_eq = 1, n_CODE_Equations
 
-    write(GP_print_unit,'(3(1x,I10), 7x, E15.7)')&
-          i_GP_generation, i_GP_indiv, i_code_eq, &
-          GP_Population_Initial_Conditions( i_code_eq, i_GP_indiv )
+    if( Lprint )then
+        write(GP_print_unit,'(3(1x,I10), 7x, E15.7)')&
+              i_GP_generation, i_GP_indiv, i_code_eq, &
+              GP_Population_Initial_Conditions( i_code_eq, i_GP_indiv )
+    endif ! Lprint 
 
     write(GP_summary_output_unit, '(2(1x,I6),1x,I3, 1x, E20.10,2x,A)')&
           i_GP_generation, i_GP_indiv, i_code_eq, &
@@ -114,8 +123,10 @@ write(GP_summary_output_unit, '(A,4x,2(1x,I6))') '> ', i_GP_generation, i_GP_ind
 
 ! print the node types if node /= -9999
 
-write(GP_print_unit,'(A)')  &
-      'sgpi: i_GP_gen  i_GP_indiv   i_node     i_tree    GP_Indiv_Node_Type'
+if( Lprint )then
+    write(GP_print_unit,'(A)')  &
+          'sgpi: i_GP_gen  i_GP_indiv   i_node     i_tree    GP_Indiv_Node_Type'
+endif ! Lprint 
 
 
 do  i_Node=1,n_Nodes
@@ -123,9 +134,11 @@ do  i_Node=1,n_Nodes
 
         if( GP_Individual_Node_Type(i_Node,i_Tree) .ne. -9999         ) then
 
-            write(GP_print_unit,'(2(1x,I10),3(1x,I10))') &
-                  i_GP_generation, i_GP_indiv,i_node, i_tree, &
-                  GP_Individual_Node_Type(i_Node,i_Tree)
+            if( Lprint )then
+                write(GP_print_unit,'(2(1x,I10),3(1x,I10))') &
+                      i_GP_generation, i_GP_indiv,i_node, i_tree, &
+                      GP_Individual_Node_Type(i_Node,i_Tree)
+            endif ! Lprint 
 
             write(GP_summary_output_unit, '(2(1x,I6),3(1x,I3))') &
                   i_GP_generation, i_GP_indiv,i_node, i_tree, &
@@ -152,6 +165,7 @@ write(GP_summary_output_unit, '(A,4x,2(1x,I6))') '> ', i_GP_generation, i_GP_ind
 !if( any( abs( GP_population_node_parameters(:,:,i_GP_indiv) ) &
 !                                                            > 1.0d-30 ) )then
 
+if( Lprint )then
     write(GP_print_unit,'(/A/)') &
        'sgpi: i_GP_gen i_GP_indiv     node        tree  GP_population_node_parameters'
 
@@ -160,16 +174,21 @@ write(GP_summary_output_unit, '(A,4x,2(1x,I6))') '> ', i_GP_generation, i_GP_ind
 
             ! print only non-zero parameters
 
-            if( abs( GP_population_node_parameters( &
-                       i_node,i_tree,i_GP_indiv) ) > 1.0d-30   )then
+            !if( abs( GP_population_node_parameters( &
+            !           i_node,i_tree,i_GP_indiv) ) > 1.0d-30   )then
 
+            if( GP_Individual_Node_Type(i_Node,i_Tree) == 0               ) then
                 write(GP_print_unit,'(2(1x,I10), 2(1x,I10),1x, E20.10)') &
                       i_GP_generation, i_GP_indiv,i_node, i_tree, &
                       GP_population_node_parameters(i_node,i_tree,i_GP_indiv)
 
-            endif ! abs( GP_population_node_parameters...
+            endif  ! GP_Individual_Node_Type(i_Node,i_Tree) == 0   
+
+            !endif ! abs( GP_population_node_parameters...
         enddo ! i_node
     enddo  ! i_tree
+
+endif ! Lprint 
 
 !endif ! any( abs( GP_population_node_parameters(:,:,i_GP_indiv) )> 1.0d-30 )
 
