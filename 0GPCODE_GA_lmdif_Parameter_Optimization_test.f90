@@ -626,9 +626,9 @@ do  i_GP_Generation=1,n_GP_Generations
 
     ! print node type information for each GP individual
 
-    if( myid == 0 )then
-        call print_gp_node_type_parm( )
-    endif !  myid == 0 .and. ...
+    !if( myid == 0 )then
+    !    call print_gp_node_type_parm( )
+    !endif !  myid == 0 .and. ...
 
     !<<<<<<<<<<< jjm 20130417
 
