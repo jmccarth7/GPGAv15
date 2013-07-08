@@ -9,8 +9,8 @@ subroutine print_trees( n_indiv_start, n_indiv_stop, &
 ! coupled ordinary differential equations
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-use mpi
-use mpi_module
+!use mpi
+!use mpi_module
 
 use GP_Parameters_module
 use GA_Parameters_module
@@ -92,7 +92,7 @@ do  i_GP_individual = n_indiv_start, n_indiv_stop
     enddo ! i_tree
 enddo  ! i_GP_individual
 
-write(GP_print_unit,'(A/)')  &
+write(GP_print_unit,'(/A/)')  &
       'pt: ############################################################################'
 
 

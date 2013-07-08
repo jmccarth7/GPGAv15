@@ -146,8 +146,8 @@ do  i_GP_Individual=1,n_GP_Individuals
 
     if( abs( GP_Child_Individual_SSE(i_GP_Individual) ) > 1.0D-20 )then
         GP_Population_Ranked_Fitness(i_GP_Individual) = &
-             sse0  /  GP_Child_Individual_SSE(i_GP_Individual) 
-             !1.0d0 /  GP_Child_Individual_SSE(i_GP_Individual) 
+             sse0  /  GP_Child_Individual_SSE(i_GP_Individual)
+             !1.0d0 /  GP_Child_Individual_SSE(i_GP_Individual)
     else
         GP_Population_Ranked_Fitness(i_GP_Individual) = 0.0D0
     endif ! abs( dff ) > 1.0D-20
@@ -378,10 +378,12 @@ if( i_GP_generation == 1                                 .or. &
         enddo node_loop2 ! i_node
     enddo tree_loop2 ! i_tree
 
-    !call print_trees( i_GP_Best_Parent, i_GP_Best_Parent, & 
-    !                  GP_Adult_Population_Node_Type, '    ' )                                             
-                                                                                                         
- 
+    write(GP_print_unit,'(/A,1x,I6)') &
+         'gpcf: print the tree for individual ', i_GP_Best_Parent                 
+
+    call print_trees( i_GP_Best_Parent, i_GP_Best_Parent, &
+                      GP_Adult_Population_Node_Type, 'best parent' )
+
 endif ! i_GP_generation == 1 .or. ...
 
 

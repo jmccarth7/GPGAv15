@@ -431,7 +431,6 @@ write(GA_print_unit,'(A,1x,I6,12(1x,E15.7)/(12(1x,E15.7)))') &
       'calcfit: i_GA_Best_Parent, parent_parameters ', &
                 i_GA_Best_Parent, &
                 (parent_parameters( jj, i_GA_Best_Parent ),jj=1,n_parameters)
-                !i_GA_Best_Parent, parent_parameters( 1:n_parameters, i_GA_Best_Parent )
 
 
 !-----------------------------------------------------------------------

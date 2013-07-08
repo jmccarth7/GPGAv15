@@ -681,7 +681,9 @@ do  i_GP_Generation=1,n_GP_Generations
 
             ! calculate how many parameters total to fit for the specific individual CODE
 
-            n_GP_Parameters=0
+            !n_GP_Parameters=0
+            n_GP_Parameters = n_code_equations   ! debug only
+
             do  i_Tree=1,n_Trees
 
                 do  i_Node=1,n_Nodes
@@ -740,12 +742,14 @@ do  i_GP_Generation=1,n_GP_Generations
             if( myid == 0 )then
 
 
-                write(GP_print_unit,'(/A)') &
+                write(GP_print_unit,'(//A)') &
                  '0: call GPCODE_GA_lmdif_Parameter_Optimization routine'
                 write(GP_print_unit,'(A,2(1x,I6))') &
                  '0: i_GP_Generation, i_GP_individual',i_GP_Generation,i_GP_individual
 
-                write(GA_print_unit,'(/A)') &
+                write(GA_print_unit,'(//A/A)') &
+                 '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>&
+                 &>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',&
                  '0: call GPCODE_GA_lmdif_Parameter_Optimization routine'
                 write(GA_print_unit,'(A,2(1x,I6))') &
                  '0: i_GP_Generation, i_GP_individual',i_GP_Generation,i_GP_individual
@@ -782,7 +786,7 @@ do  i_GP_Generation=1,n_GP_Generations
             !-------------------------------------------------
 
             if( myid == 0 )then
-                write(GP_print_unit,'(A,1x,I6)') &
+                write(GP_print_unit,'(A,1x,I6/)') &
                  '0: aft2 call GPCODE_GA_lmdif_Parameter_Optimization routine'
             endif ! myid == 0
 

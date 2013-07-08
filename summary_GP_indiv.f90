@@ -88,9 +88,9 @@ endif ! i_GP_generation == 1 .or. ...
 !             i_GP_indiv, i_GP_generation
 
 if( Lprint )then
-    write(GP_print_unit, '(/A/6x,6(1x,I10))') &
-      'sgpi: i_GP_generation, i_GP_individual,&
-            &n_code_equations  n_trees  n_nodes  n_levels',  &
+    write(GP_print_unit, '(/A/6(1x,I10))') &
+      'sgpi: i_GP_gen i_GP_indiv   n_code_eq  &
+             &n_trees    n_nodes  n_levels', &
              i_GP_indiv, i_GP_generation, &
              n_code_equations, n_trees, n_nodes, n_levels
 endif ! Lprint 
@@ -135,10 +135,10 @@ write(GP_summary_output_unit, '(A,2(1x,I6))') '> ', i_GP_generation, i_GP_indiv
 
 ! print the node types if node /= -9999
 
-if( Lprint )then
-    write(GP_print_unit,'(A)')  &
-          'sgpi: i_GP_gen  i_GP_indiv   i_node     i_tree    GP_Indiv_Node_Type'
-endif ! Lprint 
+!if( Lprint )then
+!    write(GP_print_unit,'(A)')  &
+!          'sgpi: i_GP_gen  i_GP_indiv   i_node     i_tree    GP_Indiv_Node_Type'
+!endif ! Lprint 
 
 
 do  i_Node=1,n_Nodes
