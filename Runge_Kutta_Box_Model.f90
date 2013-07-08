@@ -30,7 +30,7 @@ integer(kind=4) :: i_CODE_equation
 integer(kind=4) :: j_CODE_equation
 
 integer(kind=4) :: i_time_step
-integer(kind=4) :: i_parameter
+!integer(kind=4) :: i_parameter
 
 !character(str_len) ::  left_node_value_string
 !character(str_len) ::  right_node_value_string

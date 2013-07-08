@@ -129,7 +129,7 @@ write(GP_print_unit,'(/A,1x,E15.7)') 'gpcf: sum of all GP_Child_Indiv_SSE = ', d
 
 ! calculate a normalized ranking of the errors (higher individual SSE == lower value/ranking)
 
-! calculate fitness as 1/individual sse                                                            
+! calculate fitness as 1/individual sse
 
 GP_Population_Ranked_Fitness = 0.0d0
 
@@ -361,23 +361,27 @@ if( i_GP_generation == 1                                 .or. &
 
     write(GP_print_unit,'(/A)') &
          'gpcf: i_node  itree   GP_Adult_Pop_Node_Type(,,i_GP_Best_Parent) '
-    
+
     tree_loop2:&
     do  i_tree=1,n_trees
         node_loop2:&
         do  i_node=1,n_nodes
-    
+
             if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Best_Parent) > -9999  )then
-    
+
                 write(GP_print_unit,'(2x,3(1x,I6))') &
                       i_node, i_tree, &
-                      GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Best_Parent) 
-    
+                      GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Best_Parent)
+
             endif ! GP_Adult_Pop_Node_Type(i_Node,i_Tree,i_GP_Best_Parent) > -9999
-    
+
         enddo node_loop2 ! i_node
     enddo tree_loop2 ! i_tree
 
+    !call print_trees( i_GP_Best_Parent, i_GP_Best_Parent, & 
+    !                  GP_Adult_Population_Node_Type, '    ' )                                             
+                                                                                                         
+ 
 endif ! i_GP_generation == 1 .or. ...
 
 

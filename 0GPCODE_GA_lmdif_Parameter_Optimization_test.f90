@@ -867,6 +867,14 @@ do  i_GP_Generation=1,n_GP_Generations
             GP_Population_Node_Parameters(1:n_Nodes,1:n_Trees, i_GP_Individual) = &
                 GP_Individual_Node_Parameters(1:n_Nodes,1:n_Trees) ! Matrix Operation
 
+            !------------------------------------------------------------------------------
+
+            GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual) = & 
+                             GP_Individual_Node_Type(1:n_Nodes,1:n_Trees)
+
+            GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual) = & 
+                             GP_Individual_Node_Type(1:n_Nodes,1:n_Trees)
+            !------------------------------------------------------------------------------
 
             if( myid == 0 )then
 

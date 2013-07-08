@@ -17,9 +17,9 @@ real(kind=8) :: Child_Parameters(n_maximum_number_parameters,n_GA_Individuals)
 real(kind=4) :: cff
 real(kind=8) :: dff
 
-integer(kind=4) :: i
+!integer(kind=4) :: i
 integer(kind=4) :: i_parameter
-integer(kind=4) :: jj
+!integer(kind=4) :: jj
 
 !----------------------------------------------------------------------------
 

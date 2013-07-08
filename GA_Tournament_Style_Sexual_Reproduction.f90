@@ -41,7 +41,7 @@ real(kind=8) :: cff_2
 
 
 integer(kind=4) :: n_replaced
-integer(kind=4) :: i
+!integer(kind=4) :: i
 integer(kind=4) :: i_parameter
 
 !---------------------------------------------------------------------------
