@@ -886,26 +886,19 @@ do  i_GP_Generation=1,n_GP_Generations
 
                 ! print the node parameters (if there are any)
 
-                !if( &
-                !any( abs( GP_population_node_parameters(:,:, i_GP_individual) ) > 1.0d-20 ) )then
-                !>>>>>>>>>>>>>>>>>>>>>
                     write(GP_print_unit,'(/A/)') &
                        '0:  node  tree  Runge_Kutta_Node_Params&
                        &   GP_population_node_params'
                     do  i_tree=1,n_trees
                         do  i_node=1,n_nodes
-                            !if( abs( GP_population_node_parameters( &
-                            !          i_node,i_tree,i_GP_individual) ) > 1.0d-20   )then
                             if( GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0) then  ! a set parameter
                                 write(GP_print_unit,'(2(1x,I6), 1x, E20.10, 4x, E20.10)') &
                                      i_node, i_tree, &
                                      Runge_Kutta_Node_Parameters(i_node,i_tree), &
                                      GP_population_node_parameters(i_node,i_tree,i_GP_individual)
                             endif ! GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0
-                            !endif !  abs( GP_population_node_parameters(...
                         enddo ! i_node
                     enddo  ! i_tree
-                !endif ! any( abs( GP_population_node_parameters(:,:,i_GP_individual) )> 1.0d-20 )
 
                 !---------------------------------------------------------------------------------
 
