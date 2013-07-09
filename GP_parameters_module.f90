@@ -17,15 +17,17 @@ integer(kind=4) :: user_input_random_seed
 ! this value is the minimum number of parameters for a valid model
 integer(kind=4),parameter :: min_N_param = 2                                                                 
  
+integer(kind=4),parameter :: GP_print_unit = 6
 
 integer(kind=4),parameter :: GA_output_unit = 20
 integer(kind=4),parameter :: GP_output_unit = 30
 
 integer(kind=4),parameter :: GP_summary_output_unit = 40
 
-integer(kind=4),parameter :: GP_print_unit = 6
-
 integer(kind=4),parameter :: unit_gp_out = 50
+
+integer(kind=4),parameter :: GP_log_unit = 80
+
 
 !integer(kind=4), parameter :: n_GP_individuals=1
 integer(kind=4) :: n_GP_individuals

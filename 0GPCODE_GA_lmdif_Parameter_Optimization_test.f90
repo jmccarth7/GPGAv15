@@ -81,6 +81,14 @@ if( myid == 0 )then
           form = 'unformatted', access='sequential', &
           status = 'unknown' )
 
+    open( GP_log_unit, file = 'GP_log', &
+          form = 'formatted', access='sequential', &
+          status = 'unknown' )
+
+    open( GA_log_unit, file = 'GA_log', &
+          form = 'formatted', access='sequential', &
+          status = 'unknown' )
+
 endif !   myid == 0
 
 !------------------------------------------------------------------
@@ -659,13 +667,13 @@ do  i_GP_Generation=1,n_GP_Generations
     do  i_GP_individual=1,n_GP_individuals
 
         if( myid == 0 )then
-            write(GP_print_unit,'(//A)')&
+            write(GP_print_unit,'(/A)')&
                   '0:-----------------------------------------------------------------'
             write(GP_print_unit,'(A,2(1x,I6),4x,L1   )') &
                   '0: i_GP_Gen, i_GP_indiv, Run_GP_Calculate_Fitness ', &
                       i_GP_Generation, i_GP_individual, Run_GP_Calculate_Fitness(i_GP_Individual)
-            write(GP_print_unit,'(A//)')&
-                  '0:-----------------------------------------------------------------'
+            !write(GP_print_unit,'(A/)')&
+            !      '0:-----------------------------------------------------------------'
 
         endif !  myid == 0
 
@@ -1021,6 +1029,8 @@ close( GA_output_unit )
 close( GP_output_unit )
 close( GP_summary_output_unit )
 close( unit_gp_out )
+close( GA_log_unit )
+close( GP_log_unit )
 !------------------------------------------------------------------
 
 ! deallocate variable dimension arrays

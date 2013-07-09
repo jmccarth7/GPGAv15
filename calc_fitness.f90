@@ -445,6 +445,21 @@ write(GA_print_unit,'(A,1x,I6,12(1x,E15.7)/(12(1x,E15.7)))') &
 
 !-----------------------------------------------------------------------
 
+! write information to a GP log file giving:
+! generation, individual, SSE, individual_fitness
+
+!do  i_GA_Individual=1,n_GA_individuals
+!    write(GA_log_unit,'(2(1x,I6),2(1x,E15.7))') &
+!          i_GA_generation, &
+!          i_GA_Individual, &
+!          individual_SSE(i_GA_individual), &
+!          individual_ranked_fitness(i_GA_individual)
+!enddo ! i_GP_individual
+
+!-----------------------------------------------------------------------
+
+
+
 return
 
 

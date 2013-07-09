@@ -7,6 +7,7 @@ implicit none
 ! set the integer parameters
 
 integer(kind=4),parameter :: GA_print_unit = 60
+integer(kind=4),parameter :: GA_log_unit   = 70
 
 
 logical :: Lprint_lmdif

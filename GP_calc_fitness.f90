@@ -137,20 +137,20 @@ do  i_GP_Individual=1,n_GP_Individuals
 
     if(  GP_Individual_N_GP_param( i_GP_Individual ) < min_N_param ) cycle
 
-    !if( abs( dff ) > 1.0D-20 )then
+    !if( abs( dff ) > 1.0D-30 )then
     !    GP_Population_Ranked_Fitness(i_GP_Individual) = &
     !         ( dff - GP_Child_Individual_SSE(i_GP_Individual) ) / dff
     !else
     !    GP_Population_Ranked_Fitness(i_GP_Individual) = 0.0D0
-    !endif ! abs( dff ) > 1.0D-20
+    !endif ! abs( dff ) > 1.0D-30
 
-    if( abs( GP_Child_Individual_SSE(i_GP_Individual) ) > 1.0D-20 )then
+    if( abs( GP_Child_Individual_SSE(i_GP_Individual) ) > 1.0D-30 )then
         GP_Population_Ranked_Fitness(i_GP_Individual) = &
              sse0  /  GP_Child_Individual_SSE(i_GP_Individual)
              !1.0d0 /  GP_Child_Individual_SSE(i_GP_Individual)
     else
         GP_Population_Ranked_Fitness(i_GP_Individual) = 0.0D0
-    endif ! abs( dff ) > 1.0D-20
+    endif ! abs( dff ) > 1.0D-30
 
 enddo ! i_GP_Individual
 
@@ -203,7 +203,7 @@ enddo
 
 do  i_GP_Individual=1,n_GP_Individuals
 
-    if( abs( GP_Integrated_Population_Ranked_Fitness(n_GP_Individuals) ) > 1.0D-20 )then
+    if( abs( GP_Integrated_Population_Ranked_Fitness(n_GP_Individuals) ) > 1.0D-30 )then
 
         GP_Integrated_Population_Ranked_Fitness(i_GP_Individual) = &
         GP_Integrated_Population_Ranked_Fitness(i_GP_Individual) / &
@@ -213,7 +213,7 @@ do  i_GP_Individual=1,n_GP_Individuals
 
         GP_Integrated_Population_Ranked_Fitness(i_GP_Individual) = 0.0D0
 
-    endif ! abs( GP_Integrated_Population_Ranked_Fitness(n_GP_Individuals) ) > 1.0D-20
+    endif ! abs( GP_Integrated_Population_Ranked_Fitness(n_GP_Individuals) ) > 1.0D-30
 
 enddo ! i_GP_Individual
 
@@ -389,10 +389,7 @@ endif ! i_GP_generation == 1 .or. ...
 
 !---------------------------------------------------------------------------
 
-
 GP_Adult_Individual_SSE  =  GP_Child_Individual_SSE
-
-
 
 !---------------------------------------------------------------------------
 
@@ -415,6 +412,21 @@ if( i_GP_generation == 1                                 .or. &
 endif ! i_GP_generation == 1 .or. ...
 
 !off if( i_GP_Generation .eq. 3) Stop
+!-----------------------------------------------------------------------------------------
+
+! write information to a GP log file giving: 
+! generation, individual, SSE, individual_fitness
+
+do  i_GP_Individual=1,n_GP_individuals
+
+    write(GP_log_unit,'(2(1x,I6),2(1x,E15.7))') &
+          i_GP_generation, &
+          i_GP_Individual, &
+          GP_Adult_Individual_SSE(i_GP_Individual), &
+          GP_Population_Ranked_Fitness(i_GP_Individual)
+
+enddo ! i_GP_individual
+
 
 !-----------------------------------------------------------------------------------------
 
