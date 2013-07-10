@@ -91,8 +91,8 @@ do  i_indiv = 1, n_GP_individuals
 
 enddo  ! i_indiv
 
-write(GP_print_unit,'(/A)') 'gcdi:GP_diversity_index '
-write(GP_print_unit,'(10(1x,I6))') GP_diversity_index(1:n_GP_individuals)
+!write(GP_print_unit,'(/A)') 'gcdi:GP_diversity_index '
+!write(GP_print_unit,'(10(1x,I6))') GP_diversity_index(1:n_GP_individuals)
 
 
 return

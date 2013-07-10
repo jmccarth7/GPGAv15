@@ -83,12 +83,12 @@ enddo ! i_parameter
 
 !-----------------------------------------------------------------------------------
 
-write(GA_print_unit,'(/A)') 'calcfit: i_GA_individual, parent params'
+!write(GA_print_unit,'(/A)') 'calcfit: i_GA_individual, parent params'
 
-do  i_GA_individual=1,n_GA_individuals
-    write(GA_print_unit,'(I6,(12(1x,E15.7)))') i_GA_individual, &
-              parent_parameters( 1:n_parameters, i_GA_individual )
-enddo !  i_GA_individual
+!do  i_GA_individual=1,n_GA_individuals
+!    write(GA_print_unit,'(I6,(12(1x,E15.7)))') i_GA_individual, &
+!              parent_parameters( 1:n_parameters, i_GA_individual )
+!enddo !  i_GA_individual
 
 !-----------------------------------------------------------------------------------
 

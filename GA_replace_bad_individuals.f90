@@ -10,7 +10,9 @@ use GP_Data_module
 
 implicit none
 
-real(kind=8)    :: child_parameters(n_GA_Individuals,n_maximum_number_parameters)
+real(kind=8), &
+dimension( n_maximum_number_parameters, n_GA_Individuals ) :: child_parameters
+
 integer(kind=4) :: individual_quality(n_GA_individuals)
 
 real(kind=4) :: cff
