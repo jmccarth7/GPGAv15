@@ -51,7 +51,7 @@ integer(kind=4) :: individual_quality(n_GA_individuals)
 integer(kind=4) :: i_time_step
 integer(kind=4) :: i_parameter
 
-real(kind=8) :: child_parameters(n_GA_individuals,n_maximum_number_parameters)
+real(kind=8) :: child_parameters(n_maximum_number_parameters,n_GA_individuals)
 
 external :: fcn
 
@@ -62,12 +62,12 @@ external :: fcn
 
 do  i_parameter=1,n_parameters
 
-    X_LMDIF(i_parameter) = child_parameters(i_GA_indiv,i_parameter)
+    X_LMDIF(i_parameter) = child_parameters(i_parameter, i_GA_indiv)
 
     !write(GA_print_unit,'(A,3(1x,I6),1x,E20.10)') &
     !      'setrlm:1 myid, i_GA_indiv,i_parameter, child_parameters ', &
     !                myid, i_GA_indiv,i_parameter, &
-    !                child_parameters(i_GA_indiv,i_parameter)
+    !                child_parameters(i_parameter, i_GA_indiv)
     !write(GA_print_unit,'(A,2(1x,I6),1x,E20.10)') &
     !      'setrlm:1 myid, i_parameter,  X_LMDIF', &
     !                myid, i_parameter,  X_LMDIF(i_parameter)
@@ -202,13 +202,13 @@ if (info .eq. 8) info = 4
 
 
 do  i_parameter=1,n_parameters
-    child_parameters(i_GA_indiv,i_parameter) = &
+    child_parameters(i_parameter,i_GA_indiv) = &
                            dabs( x_LMDIF(i_parameter) )
 enddo ! i_parameter
 
 !write(GA_print_unit,'(/A/ 2(1x, I6), 12( 1x,E12.5))') &
-!      'setrlm:4 myid, i_GA_indiv, child_parameters(i_GA_indiv,:)', &
-!                myid, i_GA_indiv, child_parameters(i_GA_indiv,1:n_parameters)
+!      'setrlm:4 myid, i_GA_indiv, child_parameters(:,i_GA_indiv)', &
+!                myid, i_GA_indiv, child_parameters(1:n_parameters, i_GA_indiv)
 
 
 !-----------------------------------------------------------------------------------

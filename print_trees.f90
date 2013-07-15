@@ -9,8 +9,8 @@ subroutine print_trees( n_indiv_start, n_indiv_stop, &
 ! coupled ordinary differential equations
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-use mpi
-use mpi_module
+!use mpi
+!use mpi_module
 
 use GP_Parameters_module
 use GA_Parameters_module
@@ -34,24 +34,28 @@ integer(kind=4), intent(in), &
         dimension( 1:n_nodes, 1:n_trees, n_GP_individuals) :: tree_type
 
 integer(kind=4) :: i_GP_individual
+integer(kind=4) :: j_GP_individual
 integer(kind=4) :: i_Tree
 integer(kind=4) :: i_node
-integer(kind=4) :: jj
+!integer(kind=4) :: jj
 
 !----------------------------------------------------------------------------------------
 
 
 ! print trees
 
-write(GP_print_unit,'(/A/)')  &
+write(GP_print_unit,'(/A)')  &
       'pt: ############################################################################'
-write(GP_print_unit,'(A/)')  tree_descrip
+write(GP_print_unit,'(A)')  tree_descrip
 
 do  i_GP_individual = n_indiv_start, n_indiv_stop
 
     write(GP_print_unit,'(/A,1x,I6)')  'pt: i_GP_indiv ', i_GP_individual
     write(GP_print_unit,'(A)') 'pt: i_tree                    nodes '
     write(GP_print_unit,'(A)') '            1  2  3  4  5  6  7  8  9 10 11 12 13 14 15'
+
+    !j_GP_individual = i_GP_individual
+    !if( n_indiv_start ==  n_indiv_stop ) j_GP_individual = 1
 
     do  i_Tree=1,n_Trees
 

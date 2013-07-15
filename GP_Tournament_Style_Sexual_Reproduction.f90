@@ -36,19 +36,19 @@ integer(kind=4) :: i_node
 
 i_GP_Individual = n_GP_Elitists + n_GP_Asexual_Reproductions
 
-if( myid == 0 )then
-
-    write(GP_print_unit,'(/A,1x,I6)' ) &
-          'gptssr: n_GP_Crossovers ', n_GP_Crossovers
-
-    write(GP_print_unit,'(A,2(1x,I6))' ) &
-          'gptssr: n_GP_Elitists, n_GP_Asexual_Reproductions ', &
-                   n_GP_Elitists, n_GP_Asexual_Reproductions
-    write(GP_print_unit,'(A,1x,I6)' ) &
-          'gptssr: start i_GP_individual  =  ', &
-                   n_GP_Elitists + n_GP_Asexual_Reproductions +1
-
-endif ! myid == 0
+!if( myid == 0 )then
+!
+!    write(GP_print_unit,'(/A,1x,I6)' ) &
+!          'gptssr: n_GP_Crossovers ', n_GP_Crossovers
+!
+!    !write(GP_print_unit,'(A,2(1x,I6))' ) &
+!    !      'gptssr: n_GP_Elitists, n_GP_Asexual_Reproductions ', &
+!    !               n_GP_Elitists, n_GP_Asexual_Reproductions
+!    !write(GP_print_unit,'(A,1x,I6)' ) &
+!    !      'gptssr: start i_GP_individual  =  ', &
+!    !               n_GP_Elitists + n_GP_Asexual_Reproductions +1
+!
+!endif ! myid == 0
 
 
 do  i_GP_Crossover = 1,n_GP_Crossovers
@@ -56,11 +56,11 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
 
     i_GP_Individual = i_GP_Individual+1
 
-    if( myid == 0 )then
-        write(GP_print_unit,'(/A,2(1x,I6)/)' ) &
-              'gptssr: i_GP_Crossover, i_GP_Individual ', &
-                       i_GP_Crossover, i_GP_Individual
-    endif ! myid == 0
+    !if( myid == 0 )then
+    !    write(GP_print_unit,'(/A,2(1x,I6)/)' ) &
+    !          'gptssr: i_GP_Crossover, i_GP_Individual ', &
+    !                   i_GP_Crossover, i_GP_Individual
+    !endif ! myid == 0
 
     !----------------------------------------------------------------------
 

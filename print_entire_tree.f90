@@ -19,8 +19,8 @@ integer(kind=4) :: i_Tree
 integer(kind=4) :: i_Node
 integer(kind=4) :: i_level
 integer(kind=4) :: i_function
-integer(kind=4) :: i_Node_left
-integer(kind=4) :: i_Node_right
+!integer(kind=4) :: i_Node_left
+!integer(kind=4) :: i_Node_right
 
 !----------------------------------------------------------------------------------
 

@@ -10,14 +10,16 @@ use GP_Data_module
 
 implicit none
 
-real(kind=8)    :: child_parameters(n_GA_Individuals,n_maximum_number_parameters)
+real(kind=8), &
+dimension( n_maximum_number_parameters, n_GA_Individuals ) :: child_parameters
+
 integer(kind=4) :: individual_quality(n_GA_individuals)
 
 real(kind=4) :: cff
 real(kind=8) :: dff
 
 integer(kind=4) :: n_replaced
-integer(kind=4) :: i
+!integer(kind=4) :: i
 integer(kind=4) :: i_parameter
 
 
@@ -45,7 +47,7 @@ do  i_GA_Individual = 1, n_GA_Individuals
 
             call random_real(cff) ! random real number generator
             dff = cff
-            Child_Parameters(i_GA_Individual,i_Parameter) = dff
+            Child_Parameters(i_Parameter,i_GA_Individual) = dff
 
 
             !----------------------------------------------------------------------------
@@ -60,8 +62,8 @@ do  i_GA_Individual = 1, n_GA_Individuals
 !!
 !!                        if( i_parameter == linked_parms(1,i) )then
 !!
-!!                            child_parameters(i_GA_Individual, linked_parms(2,i) ) = &
-!!                            child_parameters(i_GA_Individual, linked_parms(1,i) )
+!!                            child_parameters(linked_parms(2,i),i_GA_Individual  ) = &
+!!                            child_parameters(linked_parms(1,i),i_GA_Individual  )
 !!
 !!                            exit
 !!
@@ -80,7 +82,7 @@ do  i_GA_Individual = 1, n_GA_Individuals
             !write(GA_print_unit,'(A,2(1x,I6),1x,E24.16)') &
             !'grbi: i_GA_Individual, i_parameter, Child_Parameters', &
             !       i_GA_Individual, i_parameter, &
-            !       Child_Parameters(i_GA_Individual,i_Parameter)
+            !       Child_Parameters(i_Parameter,i_GA_Individual)
 
         enddo ! i_Parameter
 

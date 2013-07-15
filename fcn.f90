@@ -89,26 +89,28 @@ do i_tree=1,n_trees
 
       endif  ! isnan
 
-      !write(GA_print_unit,'(A,3(1x,I6),1x,E15.7)') &
-      ! 'fcn: i_node, i_tree, i_parameter, Runge_Kutta_Node_Parameters(i_node,i_tree) ', &
-      !       i_node, i_tree, i_parameter, Runge_Kutta_Node_Parameters(i_node,i_tree)
+      !write(GA_print_unit,'(A,4(1x,I4),1x,E15.7)') &
+      ! 'fcn: myid, i_node, i_tree, i_parameter, Runge_Kutta_Node_Params', &
+      !       myid, i_node, i_tree, i_parameter, Runge_Kutta_Node_Parameters(i_node,i_tree)
 
     endif !  GP_individual_node_type(i_node,i_tree) .eq. 0
 
   enddo ! i_node
 enddo  ! i_tree
 
+!write(GA_print_unit,'(/A,2(1x,I4)/)') &
+!       'fcn: myid, i_parameter', myid, i_parameter
 !---------------------------------------------------------------------------------
 
 ! jjm 20130417 >>>>>>>>>>>>>>>
 !do i_tree=1,n_trees
 !  do i_node=1,n_nodes
 !      if( myid == 1) then
-!          if( Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999  )then
-!              write(GA_print_unit,'(A,2(1x,I6),1x,E15.7)') &
-!               'fcn: i_node, i_tree, Runge_Kutta_Node_Parameters(i_node,i_tree) ', &
-!                     i_node, i_tree, Runge_Kutta_Node_Parameters(i_node,i_tree)
-!          endif ! Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999
+!          if( Runge_Kutta_Node_Type( i_node, i_tree ) == 0   )then
+!              write(GA_print_unit,'(A,3(1x,I6),1x,E15.7)') &
+!               'fcn: myid, i_node, i_tree, Runge_Kutta_Node_Parameters(i_node,i_tree) ', &
+!                     myid, i_node, i_tree, Runge_Kutta_Node_Parameters(i_node,i_tree)
+!          endif ! Runge_Kutta_Node_Type( i_node, i_tree ) == 0
 !      endif ! myid == 1   NOTE:  1
 !  enddo ! i_node
 !enddo  ! i_tree
@@ -116,9 +118,9 @@ enddo  ! i_tree
 !  do i_node=1,n_nodes
 !      if( myid == 1) then
 !          if( Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999  )then
-!              write(GA_print_unit,'(A,3(1x,I6))') &
-!               'fcn: i_node, i_tree, Runge_Kutta_Node_Type(i_node,i_tree) ', &
-!                     i_node, i_tree, Runge_Kutta_Node_Type(i_node,i_tree)
+!              write(GA_print_unit,'(A,4(1x,I6))') &
+!               'fcn: myid, i_node, i_tree, Runge_Kutta_Node_Type(i_node,i_tree) ', &
+!                     myid, i_node, i_tree, Runge_Kutta_Node_Type(i_node,i_tree)
 !          endif ! Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999
 !      endif ! myid == 1   NOTE:  1
 !  enddo ! i_node

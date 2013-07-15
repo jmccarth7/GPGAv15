@@ -171,7 +171,7 @@ mpi_module.o:
 print4.o: GA_parameters_module.o GP_parameters_module.o
 print_trees.o: GA_parameters_module.o GA_variables_module.o GP_data_module.o \
 	GP_parameters_module.o GP_variables_module.o \
-	Runge_Kutta_Variables_module.o mpi_module.o
+	Runge_Kutta_Variables_module.o 
 random_real.o: GP_parameters_module.o
 read_cntl_stuff.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
