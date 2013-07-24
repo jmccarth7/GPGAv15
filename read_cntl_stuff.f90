@@ -87,9 +87,10 @@ n_Node_Functions = 7
 n_GP_individuals = 1  !  9
 n_GP_generations = 1
 
-GA_Crossover_Probability   = 0.4d0
-GA_Mutation_Probability    = 0.2d0
-GA_save_elites_Probability = 0.0d0
+GA_Crossover_Probability     = 0.4d0
+GA_Mutation_Probability      = 0.2d0
+GA_rand_replace_Probability  = 0.01d0
+GA_save_elites_Probability   = 0.0d0
 
 GP_Tree_Probability=0.5d0
 
@@ -128,7 +129,8 @@ do
 !------------------------------------------------------------------------------
 
 
-!GA_Crossover_Probability = 0.3d0   ! probability of sexual crossing of parameter strings in GA_lmdif
+!GA_Crossover_Probability = 0.3d0   
+! probability of sexual crossing of parameter strings in GA_lmdif
 
 
     if( Aline(1:len('GA_Crossover_Probability')) == "GA_Crossover_Probability" .or.     &
@@ -143,7 +145,8 @@ do
 !--------------------------------------------------------------------
 
 
-!GA_Mutation_Probability  = 0.1d0   ! probability of mutation in parameter string of GA_lmdif
+!GA_Mutation_Probability  = 0.1d0   
+! probability of mutation in parameter string of GA_lmdif
 
     elseif( Aline(1:len('GA_Mutation_Probability')) == "GA_Mutation_Probability" .or.     &
             Aline(1:len('GA_Mutation_Probability')) == "ga_mutation_probability" ) then
@@ -154,10 +157,26 @@ do
                                                     GA_Mutation_Probability
 
 
+
+!--------------------------------------------------------------------
+
+!GA_rand_replace_Probability  = 0.005d0   ! probability of rand_replace in binary string
+
+    elseif( Aline(1:len('GA_rand_replace_Probability')) == "GA_Rand_Replace_Probability" .or. &
+            Aline(1:len('GA_rand_replace_Probability')) == "ga_rand_replace_probability" ) then
+
+        READ(Aline(len('GA_rand_replace_Probability')+1:), * ) GA_rand_replace_Probability
+
+        write(GP_print_unit,'(A,1x,F10.4)') 'rcntl: GA_rand_replace_Probability = ', &
+                                                    GA_rand_replace_Probability
+
+
+
 !--------------------------------------------------------------------
 
 
-!GA_save_elites_Probability  = 0.005d0   ! probability of saving an individual as an elite individual
+!GA_save_elites_Probability  = 0.005d0   
+! probability of saving an individual as an elite individual
 
     elseif( Aline(1:len('GA_save_elites_Probability')) == "GA_save_elites_Probability" .or.     &
             Aline(1:len('GA_save_elites_Probability')) == "ga_save_elites_probability" ) then
@@ -243,8 +262,7 @@ do
 
 !--------------------------------------------------------------------
 
-
-!n_GA_Generations =  1000 !  5000 ! 1000
+!n_GA_Generations 
 
     elseif( Aline(1:len('n_GA_Generations')) == "n_GA_Generations" .or.     &
             Aline(1:len('n_GA_Generations')) == "n_ga_generations" ) then
@@ -258,7 +276,7 @@ do
 !--------------------------------------------------------------------
 
 
-!n_GA_Individuals =  2000 ! 3  ! 100
+!n_GA_Individuals 
 
     elseif( Aline(1:len('n_GA_Individuals')) == "n_GA_Individuals" .or.     &
             Aline(1:len('n_GA_Individuals')) == "n_GA_Individuals" ) then
@@ -271,7 +289,7 @@ do
 
 !--------------------------------------------------------------------
 
-!n_time_steps= 2000 ! 8 ! 10     ! debug
+!n_time_steps
 
     elseif( Aline(1:len('n_time_steps')) == "N_Time_Steps" .or.     &
             Aline(1:len('n_time_steps')) == "n_time_steps" ) then
@@ -396,7 +414,7 @@ do
 ! the small scale is chosen to scale the random number in random_real
 
     elseif( Aline(1:len('random_scale_fraction')) == &
-                        "random_scale_fraction"        .or.     &
+                        "RANDOM_SCALE_FRACTION"        .or.     &
             Aline(1:len('random_scale_fraction')) == &
                         "random_scale_fraction"           ) then
 
@@ -419,8 +437,8 @@ do
 !        formula involving the mean and std. dev
 
 
-    elseif( Aline(1:len('ga_tournament_style')) == "ga_tournament_style"  .or.     &
-            Aline(1:len('ga_tournament_style')) == "GA_tournament_style"  .or.     &      
+    elseif( Aline(1:len('ga_tournament_style')) == "ga_tournament_style" .or. &
+            Aline(1:len('ga_tournament_style')) == "GA_tournament_style" .or.     &      
             Aline(1:len('ga_tournament_style')) == "GA_TOURNAMENT_STYLE"           ) then
 
         READ(Aline(len('ga_tournament_style')+1:), * )  ga_tournament_style

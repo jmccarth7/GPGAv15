@@ -205,6 +205,11 @@ n_GA_Mutations  = nint(GA_Mutation_Probability  * n_GA_individuals)
 n_GA_save_elites = nint(GA_save_elites_Probability  * n_GA_individuals)
 
 
+! calculate the number of GA random replacements 
+n_GA_rand_replaces  = nint(GA_rand_replace_Probability  * n_GA_individuals)
+
+
+
 if( myid == 0 )then
     write(GA_print_unit,'(A,1x,I6)') &
           'GP_GA_opt: n_GA_Crossovers  ', n_GA_Crossovers
@@ -212,6 +217,10 @@ if( myid == 0 )then
           'GP_GA_opt: n_GA_Mutations   ', n_GA_Mutations
     write(GA_print_unit,'(A,1x,I6)') &
           'GP_GA_opt: n_GA_save_elites ', n_GA_save_elites
+    write(GA_print_unit,'(A,1x,I6)') &
+          'GP_GA_opt: n_GA_rand_replaces   ', n_GA_rand_replaces
+    write(GA_print_unit,'(A,1x,E12.5)') &
+          'GP_GA_opt: GA_rand_replace_Probability ', GA_rand_replace_Probability
 endif ! myid == 0
 
 
@@ -220,28 +229,14 @@ child_parameters( 1:n_maximum_number_parameters, 1:n_GA_individuals) = 0.0d0
 
 !-----------------------------------------------------------------------------
 
-! set up MPI process by computing the number of individuals per cpu (chunk)
+! set up MPI process 
 
-!  assume that the n_GA_individuals are distributed over numprocs - 1
-!  and proc 0 is used to collect modified child parameters
-
-! set chunk size  for each cpu
-
-!if( numprocs > 1 ) then
-!    chunk = n_GA_individuals / ( numprocs - 1 )
-!else
-!    chunk = n_GA_individuals
-!endif ! numprocs > 1
-
-!chunk = max( 1, chunk )
 
 if( myid == 0 )then
 
     write(GA_print_unit,'(/A,2(1x,I6))')&
           'GP_GA_opt: n_GA_individuals, numprocs ', &
                       n_GA_individuals, numprocs
-    !write(GA_print_unit,'(A,1x,I6/)')&
-    !      'GP_GA_opt: chunk ',  chunk
     write(GA_print_unit,'(A,1x,I6/)')&
           'GP_GA_opt: n_parameters ', n_parameters
 
@@ -347,14 +342,11 @@ do  i_GA_generation=1,n_GA_Generations
             !   do "GA Parameter Crossover" Operations Using Tournament-Style Selection
             !   and randomly use it to replace the parents with the new children
 
-
-
             if( n_GA_Crossovers .gt. 0) then
 
                 write(GA_print_unit,'(/A,1x,I6)')&
                       'GP_GA_opt: call GA_Tournament_Style_Sexual_Repro  n_GA_Crossovers',  &
                                                                          n_GA_Crossovers
-
                 call GA_Tournament_Style_Sexual_Reproduction( &
                             Parent_Parameters, Child_Parameters, individual_quality )
 
@@ -377,13 +369,28 @@ do  i_GA_generation=1,n_GA_Generations
 
             endif !   n_GA_Mutations .gt. 0
 
+
+            !-------------------------------------------------------------------------------
+
+            !   do "GA Parameter rand_replace" Operations
+
+            !   select a random, non-elite individual and put new random numbers into 
+            !   its parameters
+
+            if( n_GA_rand_replaces > 0) then
+                write(GA_print_unit,'(/A,1x,I6)')&
+                      'GP_GA_opt: call GA_rand_replace  n_GA_rand_replaces',  &
+                                                        n_GA_rand_replaces
+                call GA_random_replace( Child_Parameters, individual_quality )
+            endif !   n_GA_rand_replaces .gt. 0
+
             !-------------------------------------------------------------------------------
 
 
             ! print child parameters at start of the generation
 
-            if( i_GA_generation == n_GA_generations               .or.  &
-                mod( i_GA_generation, GA_child_print_interval ) == 0      )then
+            !if( i_GA_generation == n_GA_generations               .or.  &
+            !    mod( i_GA_generation, GA_child_print_interval ) == 0      )then
 
                 write(GA_print_unit,'(/A,1x,I6)') &
                 'GP_GA_opt: child parameters at start of generation: ', &
@@ -395,7 +402,7 @@ do  i_GA_generation=1,n_GA_Generations
                          (child_parameters(jj, i_GA_individual),jj = 1,n_parameters )
                 enddo ! i_GA_individual
 
-            endif ! i_GA_generation == n_GA_generations ...
+            !endif ! i_GA_generation == n_GA_generations ...
 
 
 
@@ -466,6 +473,7 @@ do  i_GA_generation=1,n_GA_Generations
 
 
     individual_quality( 1: n_GA_individuals ) = 1
+
     nsafe = 0
 
 
@@ -473,7 +481,7 @@ do  i_GA_generation=1,n_GA_Generations
 
         ! processor 0 sends job assignments to N  processors 
         ! where N is the smaller of (number of processors -1) 
-        !                            number of individuals 
+        !                    and the number of individuals 
 
         ! numsent is the number of messages sent up to now
 
@@ -529,19 +537,23 @@ do  i_GA_generation=1,n_GA_Generations
             sender       = MPI_STAT( MPI_SOURCE ) 
             i_individual = MPI_STAT( MPI_TAG ) 
 
-            !write(GA_print_unit,'(A,5(1x,I6))') &
-            ! 'GP_GA_opt:2 529 myid, MPI_STAT( MPI_SOURCE ), MPI_STAT( MPI_TAG )', &
-            !                  myid, MPI_STAT( MPI_SOURCE ), MPI_STAT( MPI_TAG )
 
             ! received a message from processor "sender" which processed 
             ! individual "i_individual"
 
+
+            !write(GA_print_unit,'(A,5(1x,I6))') &
+            ! 'GP_GA_opt:2 529 myid, MPI_STAT( MPI_SOURCE ), MPI_STAT( MPI_TAG )', &
+            !                  myid, MPI_STAT( MPI_SOURCE ), MPI_STAT( MPI_TAG )
             !write(GA_print_unit,'(A,5(1x,I6))') &
             ! 'GP_GA_opt:2 529 myid, isource, numsent, sender, i_individual ', &
             !                  myid, isource, numsent, sender, i_individual
             !write(GA_print_unit,'(A,2(1x,I6),4x,L1)') &
             !  'GP_GA_opt:2 myid, i_individual, Run_GA_lmdif(i_individual)', &
             !               myid, i_individual, Run_GA_lmdif(i_individual)
+
+
+            ! store the information received in the above message
 
             if( Run_GA_lmdif(i_individual) ) then
 
@@ -568,6 +580,7 @@ do  i_GA_generation=1,n_GA_Generations
 
             !-------------------------------------------------------------------------------------
 
+            ! check to see if all individuals have been processed
 
             !write(GA_print_unit,'(A,1x,I6, 4x,L1)') &
             ! 'GP_GA_opt:2 542 myid, numsent < n_GA_individuals ', &
@@ -597,6 +610,8 @@ do  i_GA_generation=1,n_GA_Generations
 
             else
 
+                ! DONE!
+
                 ! number of tasks sent out is >= number of individuals, so 
                 ! all the work has been completed
 
@@ -622,7 +637,8 @@ do  i_GA_generation=1,n_GA_Generations
         ! than (number of procs) - 1
 
         ! without the code below,  the program hangs because the processors
-        ! n_GA_individuals+1 to numprocs-1  are waiting for a signal to stop
+        ! with numbers  (n_GA_individuals+1)  to (numprocs-1)  
+        ! are waiting for a signal to stop
         ! and that is never going to be sent from the loop above.
 
         ! so when the above loop is finished, send a stop signal to the unused
@@ -645,7 +661,9 @@ do  i_GA_generation=1,n_GA_Generations
 
     else  ! not myid == 0
 
+
         ! code for processors 1 - ( numprocs - 1 ) 
+
 
         ! these processors wait until a message is received from 
         ! processor 0 telling it to process
@@ -723,11 +741,12 @@ do  i_GA_generation=1,n_GA_Generations
             !      'GP_GA_opt:3 send results myid, i_2_individual, individual_SSE(i_2_individual)   ', &
             !                                myid, i_2_individual, individual_SSE(i_2_individual)
 
+
+
             ! send the R-K integration results for individual i_2_individual to processor 0
 
             call MPI_SEND( buffer, n_parameters+2, &
                            MPI_DOUBLE_PRECISION, 0, i_2_individual, MPI_COMM_WORLD, ierr )
-
 
 
             !---------------------------------------------------------------
@@ -789,6 +808,23 @@ do  i_GA_generation=1,n_GA_Generations
         write(GA_print_unit,'(/A,1x,I6/)') &
               'GP_GA_opt: aft call calc_fitness i_GA_generation ', &
                                                 i_GA_generation
+                           
+
+        !write(GA_print_unit,'(/A)') &
+        !  'GP_GA_opt: call select_best_RK_lmdif_result '
+
+        ! this subroutine, if called, will run lmdif on the best individual
+        ! for this generation, instead of waiting to run lmdif after the
+        ! generation loop
+
+        !call select_best_RK_lmdif_result( &
+        !            i_GA_best_parent, parent_parameters, &
+        !            child_parameters, &
+        !            individual_quality, L_stop_run  )     
+
+        !write(GA_print_unit,'(A/)') &
+        !  'GP_GA_opt: aft call select_best_RK_lmdif_result '
+
 
     endif ! myid == 0
 
@@ -846,324 +882,20 @@ call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
 ! then save the parameters of the fitter of the two results, the RK result
 ! and the lmdif result
 
-!    call MPI_FINALIZE(ierr) ! debug only
-!    stop ! debug only
                            
 if( myid == 0  )then
 
-!    write(GA_print_unit,'(/A)') &
-!      'GP_GA_opt: call select_best_RK_lmdif_result '
-
-!    call select_best_RK_lmdif_result( &
-!                i_GA_best_parent, parent_parameters, &
-!                L_stop_run  )     
-
-!    write(GA_print_unit,'(A/)') &
-!      'GP_GA_opt: aft call select_best_RK_lmdif_result '
-
-    !-------------------------------------------------------------------------------
-
-    ! save best parent parameters, then run lmdif to try to improve the best parent
-
-    i_GA_best_parent_1                                         = i_GA_best_parent
-    individual_SSE_best_1                       = individual_SSE(i_GA_best_parent)
-    individual_ranked_fitness_best_1 = individual_ranked_fitness(i_GA_best_parent)
-
-    Individual_Fitness        = Individual_Ranked_Fitness(i_GA_Best_Parent)
-    Individual_Fitness_best_1 = Individual_Fitness
-
-    parent_parameters_best_1(1:n_parameters) =  &
-                            Parent_Parameters(1:n_parameters, i_GA_Best_Parent)
-
-    write(GA_print_unit,'(/A,1x,I10, 2(1x,E24.16))') &
-          'GP_GA_opt: i_GA_best_parent_1, individual_SSE_best_1, &
-                              &individual_ranked_fitness_best_1', &
-                      i_GA_best_parent_1, individual_SSE_best_1, &
-                               individual_ranked_fitness_best_1
-    write(GA_print_unit,'(/A,1x,E24.16/)') &
-          'GP_GA_opt: individual_fitness_best_1 ', individual_fitness_best_1
-
-    !write(GA_print_unit,'(/A/1x,I6, 12(1x,E15.7))') &
-    !      'GP_GA_opt: i_GA_best_parent_1, parent_parameters_best_1(1:n_parameters) ', &
-    !                  i_GA_best_parent_1, parent_parameters_best_1(1:n_parameters)
-
-    write(GA_print_unit,'(/A)') 'GP_GA_opt: i, parent_parameters_best_1(i) '
-    do  i = 1, n_parameters
-        write(GA_print_unit,'(I6, 1x,E24.16 )') i, parent_parameters_best_1(i)
-    enddo
-
-    !-------------------------------------------------------------------------------
-
-    !  run lmdif on best individual
-
-    !write(GA_print_unit,'(/A/)') 'GP_GA_opt: SKIP setup_run_lmdif call '
-    if( L_stop_run )then
-
-        write(GA_print_unit,'(A,2(1x,I6))') &
-          'GP_GA_opt: i_GA_Generation_last, i_GA_Best_Parent  call setup_run_lmdif ', &
-                      i_GA_Generation_last, i_GA_Best_Parent
-    else
-
-        write(GA_print_unit,'(A,2(1x,I6))') &
-          'GP_GA_opt: n_GA_Generations, i_GA_Best_Parent  call setup_run_lmdif ', &
-                      n_GA_Generations, i_GA_Best_Parent
-    endif ! L_stop_run
-
-
-    call setup_run_lmdif( i_GA_Best_Parent, parent_parameters, individual_quality )
-
-
-    if( L_stop_run )then
-
-        write(GA_print_unit,'(A,2(1x,I6))') &
-          'GP_GA_opt: i_GA_Generation_last, i_GA_Best_Parent  aft call setup_run_lmdif ', &
-                      i_GA_Generation_last, i_GA_Best_Parent
-    else
-
-        write(GA_print_unit,'(A,2(1x,I6))') &
-          'GP_GA_opt: n_GA_Generations, i_GA_Best_Parent  aft call setup_run_lmdif ', &
-                      n_GA_Generations, i_GA_Best_Parent
-    endif ! L_stop_run
-
-
-    !-------------------------------------------------------------------------------
-
-
-    !  compute fitness for parameters of the best parent after lmdif has been run
-
-
-    write(GA_print_unit,'(/A)')  &
-          'GP_GA_opt: i_GA_ind, ind_SSE, ind_ranked_fitness  ----  aft lmdif '
-
-
-    write(GA_print_unit,'(/A,1x,I6)') &
-          'GP_GA_opt: lmdif i_GA_best_parent ', i_GA_best_parent
     write(GA_print_unit,'(/A)') &
-          'GP_GA_opt: lmdif i, parent_parameters(i, i_GA_best_parent) '
+      'GP_GA_opt: call select_best_RK_lmdif_result '
 
-    do  i = 1, n_parameters
-        write(GA_print_unit,'(I6, 1x,E24.16 )') &
-              i, parent_parameters(i, i_GA_best_parent)
-    enddo ! i
+    call select_best_RK_lmdif_result( &
+                i_GA_best_parent, parent_parameters, &
+                child_parameters, &
+                individual_quality, L_stop_run  )     
 
+    write(GA_print_unit,'(A/)') &
+      'GP_GA_opt: aft call select_best_RK_lmdif_result '
 
-    if( individual_quality( i_GA_best_parent ) > 0 ) then
-
-        write(GA_print_unit,'(A,1x,I6,1x,E24.16)') &
-              'GP_GA_opt: i_GA_best_parent, individual_SSE', &
-                          i_GA_best_parent, individual_SSE(i_GA_best_parent)
-
-        individual_ranked_fitness(i_GA_best_parent) = indiv_fitness( i_GA_best_parent )
-
-    else
-
-        individual_ranked_fitness(i_GA_best_parent) = 0.0d0
-
-    endif ! individual_quality( i_GA_best_parent ) > 0
-
-
-    Individual_Fitness = Individual_Ranked_Fitness(i_GA_Best_Parent)
-
-
-    write(GA_print_unit,'(/A,1x,I6, 2(1x,E24.16))') &
-          'GP_GA_opt: lmdif i_GA_best_parent, &
-          &individual_SSE, individual_ranked_fitness', &
-                            i_GA_best_parent, &
-                            individual_SSE(i_GA_best_parent), &
-                            individual_ranked_fitness(i_GA_best_parent)
-
-    write(GA_print_unit,'(/A,1x,E24.16/)') &
-          'GP_GA_opt: lmdif individual_fitness ', individual_fitness
-
-
-    !------------------------------------------------------------------------------
-
-    !  test if lmdif has improved the best parent parameters
-
-
-    !  compare the fitness of the parameter set from the RK integrations
-    !  with    the fitness of the parameter set after lmdif has been run
-
-    !  select the set of parameters with the best fitness
-
-
-    write(GA_print_unit,'(/A, 1x,E24.16)') &
-          'GP_GA_opt: fcn   individual_ranked_fitness_best_1            ', &
-                            individual_ranked_fitness_best_1
-    write(GA_print_unit,'(A, 1x,E24.16/)') &
-          'GP_GA_opt: lmdif individual_ranked_fitness(i_GA_best_parent) ', &
-                            individual_ranked_fitness(i_GA_best_parent)
-
-
-    if( individual_ranked_fitness(i_GA_best_parent) < &
-                            individual_ranked_fitness_best_1 )then
-
-        individual_fitness = individual_ranked_fitness_best_1
-
-        Individual_SSE_best_parent = individual_SSE_best_1
-
-
-
-        ! choose the parameters of the best parent from the RK fcn integration
-
-        write(GA_print_unit,'(/A)')&
-              'GP_GA_opt: set the GA-optimized initial condition array '
-
-        write(GA_print_unit,'(/A/1x,I6, 6(1x,E24.16))') &
-              'GP_GA_opt: i_GA_best_parent_1, parent_parameters_best_1(1:n_CODE_Equations) ', &
-                          i_GA_best_parent_1, &
-                          ( parent_parameters_best_1(jj) , jj = 1, n_CODE_Equations)
-
-        GP_Individual_Initial_Conditions(1:n_CODE_Equations) = &
-                parent_parameters_best_1(1:n_CODE_Equations)
-
-        write(GA_print_unit,'(/A/ 6(1x,E24.16))') &
-              'GP_GA_opt: GP_Individual_Initial_Conditions(1:n_CODE_Equations) ', &
-                          (GP_Individual_Initial_Conditions(jj), jj = 1,n_CODE_Equations)
-
-        if( L_stop_run )then
-
-            write( GA_output_unit, '(I6,1x,I6, 12(1x,E15.7))') &
-              i_GA_Generation_last, i_GA_best_parent_1, &
-              individual_ranked_fitness_best_1, &
-              (parent_parameters_best_1(jj),jj = 1,n_parameters)
-
-        else
-
-            write( GA_output_unit, '(I6,1x,I6, 12(1x,E15.7))') &
-              n_GA_Generations, i_GA_best_parent_1, &
-              individual_ranked_fitness_best_1, &
-              (parent_parameters_best_1(jj),jj = 1,n_parameters)
-
-        endif ! L_stop_run
-
-
-        !-------------------------------------------------------------------------------
-
-
-        ! set the GA-optimized CODE parameter set array
-
-
-        write(GA_print_unit,'(/a/)') &
-              'GP_GA_opt: set the GA-optimized CODE parameter array'
-
-        i_parameter = n_CODE_equations ! start at this number because of the
-                                       ! initial conditions (n_CODE_Equations of them)
-
-        do i_tree=1,n_trees
-          do i_node=1,n_nodes
-
-            if( GP_individual_node_type(i_node,i_tree) .eq. 0 ) then  ! there is a set parameter
-
-                !write(GA_print_unit,'(A,3(1x,I6))') &
-                !      'GP_GA_opt:1 i_tree, i_node,  GP_individual_node_type(i_node,i_tree) ', &
-                !                   i_tree, i_node,  GP_individual_node_type(i_node,i_tree)
-
-                i_parameter=i_parameter+1
-
-                GP_Individual_Node_Parameters(i_node,i_tree) = &
-                              parent_parameters_best_1( i_parameter )
-
-                !write(GA_print_unit,'(A,1x,I6,1x,E20.10)') &
-                !      'GP_GA_opt:1 i_Parameter, parent_parameters_best_1( i_parameter ) ', &
-                !                   i_Parameter, parent_parameters_best_1( i_parameter )
-
-                !write(GA_print_unit,'(A,2(1x,I6),1x,E20.10)') &
-                !      'GP_GA_opt:1 i_tree, i_node, GP_indiv_node_params', &
-                !                   i_tree, i_node, GP_individual_node_parameters(i_node,i_tree)
-
-            endif !   GP_individual_node_type(i_node,i_tree) .eq. 0
-
-         enddo ! i_node
-
-        enddo ! i_tree
-
-
-    !--------------------------------------------------------------------------------------
-
-
-    else  ! lmdif is best
-
-        individual_fitness = individual_ranked_fitness(i_GA_best_parent)
-        Individual_SSE_best_parent = individual_SSE(i_GA_best_parent)
-
-        ! choose the parameters from the lmdif output for the best parent  
-
-        write(GA_print_unit,'(/A,1x,I6, 12(1x,E15.7))') &
-              'GP_GA_opt: i_GA_best_parent, Parent_Parameters ', &
-                          i_GA_best_parent, &
-                          (Parent_Parameters(jj, i_GA_Best_Parent),jj= 1,n_parameters)
-
-        GP_Individual_Initial_Conditions(1:n_CODE_Equations) = &
-                        Parent_Parameters(1:n_CODE_Equations,i_GA_Best_Parent)
-
-        write(GA_print_unit,'(/A/ 6(1x,E24.16))') &
-              'GP_GA_opt: GP_Individual_Initial_Conditions(1:n_CODE_Equations) ', &
-                          (GP_Individual_Initial_Conditions(jj),jj=1,n_CODE_Equations)
-
-
-        if( L_stop_run )then
-
-            write( GA_output_unit , '(I6,1x,I6, 12(1x,E15.7))') &
-              i_GA_Generation_last, i_GA_best_parent, &
-              individual_ranked_fitness(i_GA_best_parent), &
-              (parent_parameters(jj, i_GA_best_parent), jj=1,n_parameters)
-        else
-
-            write( GA_output_unit , '(I6,1x,I6, 12(1x,E15.7))') &
-              n_GA_Generations, i_GA_best_parent, &
-              individual_ranked_fitness(i_GA_best_parent), &
-              (parent_parameters(jj, i_GA_best_parent), jj=1,n_parameters)
-
-        endif ! L_stop_run
-
-        !--------------------------------------------------------------------------------------
-
-        ! set the GA-optimized CODE parameter set array
-
-
-        write(GA_print_unit,'(/a/)')&
-              'GP_GA_opt: set the GA-optimized CODE parameter array'
-
-        i_parameter = n_CODE_equations ! start at this number because of the
-                                       ! initial conditions (n_CODE_Equations of them)
-
-        do i_tree=1,n_trees
-          do i_node=1,n_nodes
-
-
-            if( GP_individual_node_type(i_node,i_tree) .eq. 0 ) then  ! there is a set parameter
-
-                !write(GA_print_unit,'(A,4(1x,I6))') &
-                !  'GP_GA_opt:2 myid, i_tree, i_node,  GP_individual_node_type(i_node,i_tree) ', &
-                !               myid, i_tree, i_node,  GP_individual_node_type(i_node,i_tree)
-
-                i_parameter=i_parameter+1
-
-                GP_Individual_Node_Parameters(i_node,i_tree) = &
-                            Parent_Parameters(i_Parameter, i_GA_Best_Parent)
-
-                !write(GA_print_unit,'(A,2(1x,I6),1x,E20.10)') &
-                !      'GP_GA_opt:2 i_GA_Best_Parent,i_Parameter, &
-                !                  &Parent_Parameters(i_Parameter,i_GA_Best_Parent) ', &
-                !                   i_GA_Best_Parent,i_Parameter, &
-                !                   Parent_Parameters(i_Parameter, i_GA_Best_Parent)
-
-                !write(GA_print_unit,'(A,2(1x,I6),1x,E20.10)') &
-                !      'GP_GA_opt:2 i_tree, i_node, GP_indiv_node_params', &
-                !                   i_tree, i_node, GP_individual_node_parameters(i_node,i_tree)
-
-            endif ! GP_individual_node_type(i_node,i_tree) .eq. 0
-
-          enddo ! i_node
-
-        enddo ! i_tree
-
-
-
-    endif ! individual_ranked_fitness...
-
-    !-------------------------------------------------------------------------------
 
 endif ! myid == 0
 
@@ -1174,13 +906,15 @@ endif ! myid == 0
 ! broadcast individual_fitness
 
 
-!write(GA_print_unit,'(/A,1x,I6)') 'GP_GA_opt: broadcast individual_fitness myid = ', myid
+!write(GA_print_unit,'(/A,1x,I6)') &
+! 'GP_GA_opt: broadcast individual_fitness myid = ', myid
 
 message_len = 1
 call MPI_BCAST( individual_fitness, message_len,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
-!write(GA_print_unit,'(/A,1x,I6)') 'GP_GA_opt: aft broadcast individual_fitness  ierr = ', ierr
+!write(GA_print_unit,'(/A,1x,I6)') &
+! 'GP_GA_opt: aft broadcast individual_fitness  ierr = ', ierr
 
 
 !------------------------------------------------------------------------
@@ -1234,7 +968,6 @@ call MPI_BCAST( GP_Individual_Initial_Conditions, message_len,    &
 
 
 !------------------------------------------------------------------------
-
 
 
 if( myid == 0  )then

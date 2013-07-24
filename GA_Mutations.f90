@@ -13,14 +13,12 @@ real(kind=8) :: child_parameters(n_maximum_number_parameters,n_GA_Individuals)
 real(kind=4) :: cff
 real(kind=8) :: dff
 
-!integer (kind=4) :: i
 integer (kind=4) :: i_GA_Mutation
 integer (kind=4) :: i_GA_Individual_Mutation, i_Parameter_Mutation
 
 integer(kind=4) :: individual_quality(n_GA_individuals)
 
 integer (kind=4) :: n_mutated
-!integer(kind=4) :: i_parameter
 
 !---------------------------------------------------------------------
 
@@ -46,7 +44,9 @@ do i_GA_Mutation=1,n_GA_Mutations
   ! check_for_elite generates random numbers for the individual number
   ! until it finds one not in the list of elite individuals
 
+
   call check_for_elite( i_GA_Individual_mutation )
+
 
   !--------------------------------------------------------------------
 
@@ -58,7 +58,6 @@ do i_GA_Mutation=1,n_GA_Mutations
   !  &child_parameters(1:n_parameters, i_GA_Individual_mutation ) ', &
   !                    i_GA_Individual_mutation,  &
   !   child_parameters(1:n_parameters, i_GA_Individual_mutation)
-
 
   !--------------------------------------------------------------------
 
@@ -109,40 +108,6 @@ do i_GA_Mutation=1,n_GA_Mutations
 
 
   n_mutated  = n_mutated  + 1
-
-
-  !----------------------------------------------------------------------------
-!!
-!!  !  this checks if any of the parameters have been marked as linked
-!!  !  That is, if parameter N is the same parameter as parameter M, then
-!!  !  choose a random number for parameter N and use the same number for
-!!  !  parameter M
-!!
-!!
-!!  if( n_linked_parms > 0 )then
-!!
-!!      if( any( i_parameter_mutation == linked_parms(2,:) )    ) cycle
-!!
-!!      if( any( i_parameter_mutation == linked_parms(1,:) )    )then
-!!
-!!          do  i = 1, n_linked_parms
-!!
-!!              if( i_parameter_mutation == linked_parms(1,i) )then
-!!
-!!                  child_parameters(linked_parms(2,i), i_GA_Individual_Mutation ) = &
-!!                  child_parameters(i_Parameter_Mutation,i_GA_Individual_Mutation)
-!!
-!!                  exit
-!!
-!!              endif ! i_parameter_mutation == linked_parms(i,1)
-!!
-!!          enddo ! i
-!!
-!!      endif !  any( i_parameter_mutation == linked_parms(1,:) )
-!!
-!!  endif !  n_linked_parms > 0
-!!
-  !----------------------------------------------------------------------------
 
 enddo
 

@@ -35,6 +35,7 @@ integer (kind=4) ::    i_GA_Best_Parent
 integer (kind=4) ::    n_counted
 integer (kind=4) ::    index_min_sse
 integer (kind=4) ::    icount
+integer (kind=4) ::    i
 
 real(kind=8), parameter :: max_err = 1.0d8  !100.0d0
 
@@ -66,6 +67,9 @@ logical :: L_stop_run
 integer(kind=4) :: jj
 integer(kind=4) :: i_parameter
 
+real(kind=8),dimension(7),parameter :: answerLV = &
+ (/ 30.0d0, 2.0d0, 0.4d0  , 0.02d0 , 0.6d0  , 0.5d0 , 0.02d0 /)
+
 !----------------------------------------------------------------------------------
 
 L_stop_run = .FALSE.
@@ -80,6 +84,21 @@ do  i_parameter=1,n_parameters
 
     enddo !  i_GA_individual
 enddo ! i_parameter
+
+!-----------------------------------------------------------------------------------
+
+!write(6,'(/A)') 'calcfit: i_GA_individual, parent params'
+
+do  i_GA_individual=1,n_GA_individuals
+
+    ppe( 1:7, i_GA_individual ) = 0.0d0
+    do  i = 1, n_parameters
+        ppe( i, i_GA_individual ) = answerLV(i) - parent_parameters( i, i_GA_individual )
+    enddo
+    
+enddo !  i_GA_individual
+
+write(444) i_GA_generation, ppe(1:n_parameters, 1:n_GA_individuals)
 
 !-----------------------------------------------------------------------------------
 
@@ -369,9 +388,9 @@ enddo ! i_GA_individual
 
 !-------------------------------------------------------------------------------
 
-if( i_GA_generation == 1                                 .or. &
-    mod(i_GA_generation, GA_child_print_interval ) == 0  .or. &
-    i_GA_generation == n_GA_generations       )then
+!if( i_GA_generation == 1                                 .or. &
+!    mod(i_GA_generation, GA_child_print_interval ) == 0  .or. &
+!    i_GA_generation == n_GA_generations       )then
 
     write(GA_print_unit,'(/A)')&
      'i_GA_ind   ind_SSE            ind_ranked_fitness    integ_rank_fitness  ind_quality'
@@ -386,7 +405,10 @@ if( i_GA_generation == 1                                 .or. &
 
     enddo ! i_GA_individual
 
-endif !  i_GA_generation == 1 ...
+!endif !  i_GA_generation == 1 ...
+
+write(333) i_GA_generation, individual_SSE(1:n_GA_individuals) 
+!write(333) dble( i_GA_generation ), individual_SSE(1:n_GA_individuals) 
 
 !-------------------------------------------------------------------------------
 
@@ -424,9 +446,10 @@ enddo ! i_GA_individual
 
 write(GA_print_unit,'(//A,2(1x, I6))') 'calcfit: Generation, i_GA_Best_Parent ', &
                                             i_GA_Generation, i_GA_Best_Parent
-write(GA_print_unit,'(A,1x,I6,1x,E15.7)') &
-      'calcfit: i_GA_Best_Parent, individual_ranked_fitness(i_GA_Best_Parent) ', &
-                i_GA_Best_Parent, individual_ranked_fitness(i_GA_Best_Parent)
+write(GA_print_unit,'(A,1x,I6,2(1x,E15.7))') &
+      'calcfit: i_GA_Best_Parent, indiv_ranked_fitness, indiv_SSE', &
+                i_GA_Best_Parent, individual_ranked_fitness(i_GA_Best_Parent), &
+                                  individual_SSE(i_GA_Best_Parent)
 write(GA_print_unit,'(A,1x,I6,12(1x,E15.7)/(12(1x,E15.7)))') &
       'calcfit: i_GA_Best_Parent, parent_parameters ', &
                 i_GA_Best_Parent, &
@@ -448,16 +471,15 @@ write(GA_print_unit,'(A,1x,I6,12(1x,E15.7)/(12(1x,E15.7)))') &
 ! write information to a GP log file giving:
 ! generation, individual, SSE, individual_fitness
 
-!do  i_GA_Individual=1,n_GA_individuals
-!    write(GA_log_unit,'(2(1x,I6),2(1x,E15.7))') &
-!          i_GA_generation, &
-!          i_GA_Individual, &
-!          individual_SSE(i_GA_individual), &
-!          individual_ranked_fitness(i_GA_individual)
-!enddo ! i_GP_individual
+do  i_GA_Individual=1,n_GA_individuals
+    write(GA_log_unit,'(2(1x,I6),2(1x,E15.7))') &
+          i_GA_generation, &
+          i_GA_Individual, &
+          individual_SSE(i_GA_individual), &
+          individual_ranked_fitness(i_GA_individual)
+enddo ! i_GP_individual
 
 !-----------------------------------------------------------------------
-
 
 
 return

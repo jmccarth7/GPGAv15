@@ -34,22 +34,10 @@ real (kind=4) ::     bff,cff
 
 ! code below attempts to get a better balance of random numbers
 
-! choose a random number between 0 and 1
-
-! if <  0.3,  get another random number in the range [0.,1.]
-! if >= 0.3,  get another random number in the range [0.,50.]
-
 !-----------------------------------------------------------------
 
 call random_number(cff) ! uniform random number generator
 
-!if( cff <= 0.6 )then
-!    call random_number(bff) ! uniform random number generator
-!    bff = 1.0 * bff
-!else
-!    call random_number(bff) ! uniform random number generator
-!    bff = 30. * bff
-!endif
 
 !--------------------------------------
 ! defaults
@@ -73,7 +61,7 @@ else
 
 endif
 
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
 return
+
 end
-!234567890123456789012345678901234567890123456789012345678901234567890

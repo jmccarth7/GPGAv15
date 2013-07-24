@@ -20,7 +20,7 @@ real(kind=8) :: dff
 !  generate indices for the tournament selection
 
 !  keep generating numbers until one is found
-!  which is not an index of an elite individual which must not be replaced
+!  which is not the index of an elite individual -- which must not be replaced
 
 !  ksafe is used to prevent infinite loops
 

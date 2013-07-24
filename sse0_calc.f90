@@ -17,7 +17,6 @@ real(kind=8) :: ssum, ssum2, totobs, cff
 
 integer(kind=4) :: i_CODE_equation
 integer(kind=4) :: i_time_step
-!integer(kind=4) :: i_parameter
 
 !-------------------------------------------------------------------------------
 

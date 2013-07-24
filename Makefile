@@ -6,6 +6,7 @@ SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 allocate_arrays1.f90 \
 	deallocate_arrays1.f90 enorm.f90 fcn.f90 fdjac2.f90 \
 	GA_Fitness_Proportionate_Asexual_Reproduction.f90 GA_Mutations.f90 \
 	GA_parameters_module.f90 GA_replace_bad_individuals.f90 \
+	GA_random_replace.f90 \
 	GA_save_elites.f90 GA_Tournament_Style_Sexual_Reproduction.f90 \
 	GA_variables_module.f90 gaussian_random_number_generator.f90 \
 	GP_calc_diversity_index.f90 GP_calc_fitness.f90 \
@@ -20,6 +21,7 @@ SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 allocate_arrays1.f90 \
 	mpi_module.f90 print4.f90 print_trees.f90 qrfac.f90 \
 	qrsolv.f90 random_real.f90 read_cntl_stuff.f90 \
 	Runge_Kutta_Box_Model.f90 Runge_Kutta_Variables_module.f90 \
+	select_best_RK_lmdif_result.f90 \
 	set_answer_arrays.f90 setup_run_fcn.f90 setup_run_lmdif.f90 sort.f90 \
 	sse0_calc.f90 summary_GP_indiv.f90 swap_module.f90 \
 	bcast3.f90 print_gp_node_type_parm.f90 bcast2.f90 set_modified_indiv.f90 \
@@ -31,6 +33,7 @@ OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o allocate_arrays1.o \
 	comp_GP_child_indiv_sse.o deallocate_arrays1.o enorm.o fcn.o fdjac2.o \
 	GA_Fitness_Proportionate_Asexual_Reproduction.o GA_Mutations.o \
 	GA_parameters_module.o GA_replace_bad_individuals.o GA_save_elites.o \
+	GA_random_replace.o \
 	GA_Tournament_Style_Sexual_Reproduction.o GA_variables_module.o \
 	gaussian_random_number_generator.o GP_calc_diversity_index.o \
 	GP_calc_fitness.o GP_Check_Terminals.o GP_Clean_Tree_Nodes.o \
@@ -45,6 +48,7 @@ OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o allocate_arrays1.o \
 	mpi_module.o print4.o print_trees.o qrfac.o qrsolv.o random_real.o \
 	read_cntl_stuff.o Runge_Kutta_Box_Model.o \
 	Runge_Kutta_Variables_module.o set_answer_arrays.o setup_run_fcn.o \
+	select_best_RK_lmdif_result.o \
 	setup_run_lmdif.o sort.o sse0_calc.o summary_GP_indiv.o swap_module.o \
 	bcast3.o print_gp_node_type_parm.o bcast2.o set_modified_indiv.o \
 	print_values2.o print_values1.o bcast1.o print_entire_tree.o
@@ -118,6 +122,8 @@ GA_Fitness_Proportionate_Asexual_Reproduction.o: GA_parameters_module.o \
 	GP_variables_module.o mpi_module.o
 GA_Mutations.o: GA_parameters_module.o GA_variables_module.o GP_data_module.o \
 	GP_parameters_module.o GP_variables_module.o mpi_module.o
+GA_rand_replace.o: GA_parameters_module.o GA_variables_module.o GP_data_module.o \
+	GP_parameters_module.o GP_variables_module.o mpi_module.o
 GA_replace_bad_individuals.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o
 GA_save_elites.o: GA_parameters_module.o GA_variables_module.o \
@@ -154,6 +160,9 @@ GP_Tree_Swap.o: GA_parameters_module.o GA_variables_module.o \
 	GP_parameters_module.o GP_variables_module.o mpi_module.o
 GP_variables_module.o: GP_parameters_module.o
 GPCODE_GA_lmdif_Parameter_Optimization.o: GA_parameters_module.o \
+	GA_variables_module.o GP_data_module.o GP_parameters_module.o \
+	GP_variables_module.o clock_module.o mpi_module.o
+select_best_RK_lmdif_result.o: GA_parameters_module.o \
 	GA_variables_module.o GP_data_module.o GP_parameters_module.o \
 	GP_variables_module.o clock_module.o mpi_module.o
 indiv_fitness.o: GA_parameters_module.o GA_variables_module.o \

@@ -72,9 +72,6 @@ if(  icall  == 0  )then
 
     n_maximum_number_parameters = n_CODE_equations +  n_nodes
 
-    !!n_linked_parms = 2
-
-    !!n_linked_parms_dim = max( n_linked_parms, 1 )
 
     if( myid == 0 )then
         write(GP_print_unit,'(A,1x,I6)') 'ivNPZ: n_levels           ', n_levels
@@ -82,8 +79,6 @@ if(  icall  == 0  )then
         write(GP_print_unit,'(A,1x,I6)') 'ivNPZ: n_CODE_equations   ', n_CODE_equations
         write(GP_print_unit,'(A,1x,I6)') 'ivNPZ: n_trees            ', n_trees
         write(GP_print_unit,'(A,1x,I6)') 'ivNPZ: n_nodes            ', n_nodes
-        !!write(GP_print_unit,'(A,1x,I6)') 'ivNPZ: n_linked_parms     ', n_linked_parms
-        !!write(GP_print_unit,'(A,1x,I6)') 'ivNPZ: n_linked_parms_dim ', n_linked_parms_dim
         write(GP_print_unit,'(/A,1x,I6/)') 'ivNPZ: n_maximum_number_parameters ', &
                                                    n_maximum_number_parameters
     endif ! myid == 0
@@ -211,68 +206,6 @@ GP_Individual_Node_Parameters(22,11)=1.0D+0  ! Grazing Control; Ranges between 0
 GP_Individual_Node_Type(23,11)=-2            ! Phytoplankton
 
 !-------------------------------------------------------------------------------
-
-! strings
-
-!node_type_string(1,5)= ' *  '          ! '*'
-!node_type_string(2,5)= ' *  '               ! '*'
-!node_type_string(3,5)= ' V  '               ! Phytoplankton Maximum Growth Rate
-!node_parameters_string(3,5)=' V  '    ! Phytoplankton Maximum Growth Rate, Ranges between 0.20 <==> 3.0 [d-1]
-!node_type_string(4,5)= ' I2 '         ! Michealis-Menton Term'
-!node_type_string(5,5)= ' P  '         ! Phytoplankton
-!node_type_string(8,5)= 'KNO3'         ! K_NO3, Half-Saturation Term for Michaelis-Menton Term  [ug-at N l-1]
-!node_parameters_string(8,5)= 'KNO3'   ! K_NO3, Half-Saturation Term for Michaelis-Menton Term  [ug-at N l-1]
-!node_type_string(9,5)= ' N  '         ! [NO3]
-!
-!node_type_string(1,8)= ' *  '         ! '*'
-!node_type_string(2,8)= ' P  '         ! Phytoplankton
-!node_type_string(3,8)= ' m  '         ! Phytoplankton Mortality Rate; [d-1]
-!node_parameters_string(1,8)='pmor'    ! Phytoplankton Mortality Rate; [d-1]
-!
-!node_type_string(1,9)= ' *  '         ! '*'
-!node_type_string(2,9)= ' Z  '         ! Zooplankton
-!node_type_string(3,9)= ' *  '         ! '*'
-!node_type_string(6,9)= ' b  '         ! Zooplankton Maximum Grazing Rate
-!node_parameters_string(6,9)='zgm '    ! Zooplankton Maximum Grazing Rate; Ranges between 0.16 <==> 1.5 [d-1]
-!node_type_string(7,9)= ' I1 '         ! Ivlev Exponential Function (1 - e^-abs(left*right))
-!!off GA_Individual_Node_Type(7,4)=7          ! Mayzaud-Poulet Exponential Function abs(left*right)*(1 - e^-abs(left*right))
-!node_type_string(14,9)= 'Rm '         ! Grazing_Control
-!node_parameters_string(14,9)='GrCt'   ! Grazing Control; Ranges between 0.10 <==> 2.0 [d-1]
-!node_type_string(15,9)= ' P  '        ! Phytoplankton
-!
-!node_type_string(1,11)= ' +  '        ! '+'
-!node_type_string(2,11)= ' *  '        ! '*'
-!node_type_string(3,11)= ' *  '        ! '*'
-!node_type_string(4,11)= 'assm'        ! Zooplankton Assimilation Rate; [d-1]
-!node_parameters_string(4,11)='assp'   ! Zooplankton Assimilation Rate; [d-1]
-!node_type_string(5,11)= ' *  '        ! '*'
-!node_type_string(6,11)= ' Z  '        ! Zooplankton
-!node_type_string(7,11)= ' omg'        ! Zooplnakton Mortality Rate; [d-1]
-!node_parameters_string(7,11)= 'zdr '  ! Zooplnakton Mortality Rate; [d-1]
-!node_type_string(10,11)= ' *  '       ! '*'
-!node_type_string(11,11)= ' I1 '       ! Ivlev Exponential Function (1 - e^-abs(left*right))
-!!off GA_Individual_Node_Type(11,11)=7        ! Mayzaud-Poulet Exponential Function abs(left*right)*(1 - e^-abs(left*right))
-!node_type_string(20,11)= ' b  '       ! Zooplankton Maximum Grazing Rate
-!node_parameters_string(20,11)='zgm '  ! Zooplankton Maximum Grazing Rate; Ranges between 0.16 <==> 1.5 [d-1]
-!node_type_string(21,11)= ' Z  '       ! Zooplankton
-!node_type_string(22,11)= 'Rm  '       ! Grazing_control
-!node_parameters_string(22,11)='GrCt'  ! Grazing Control; Ranges between 0.10 <==> 2.0 [d-1]
-!node_type_string(23,11)= ' P  '       ! Phytoplankton
-
-!--------------------------------------------------------------------------------------
-
-! the parameter array will be filled with the same value for parms 7 and 11 ,
-! and for parms 8 and 12
-
-! the linked array will be used when random values are put into parameter values to
-! ensure that the same random value will be in 7 and 11   and in 8 and 12
-
-
-!!linked_parms(1,1) = 7
-!!linked_parms(2,1) = 11
-
-!!linked_parms(1,2) = 8
-!!linked_parms(2,2) = 12
 
 return
 

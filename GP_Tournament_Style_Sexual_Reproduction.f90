@@ -37,17 +37,14 @@ integer(kind=4) :: i_node
 i_GP_Individual = n_GP_Elitists + n_GP_Asexual_Reproductions
 
 !if( myid == 0 )then
-!
 !    write(GP_print_unit,'(/A,1x,I6)' ) &
 !          'gptssr: n_GP_Crossovers ', n_GP_Crossovers
-!
 !    !write(GP_print_unit,'(A,2(1x,I6))' ) &
 !    !      'gptssr: n_GP_Elitists, n_GP_Asexual_Reproductions ', &
 !    !               n_GP_Elitists, n_GP_Asexual_Reproductions
 !    !write(GP_print_unit,'(A,1x,I6)' ) &
 !    !      'gptssr: start i_GP_individual  =  ', &
 !    !               n_GP_Elitists + n_GP_Asexual_Reproductions +1
-!
 !endif ! myid == 0
 
 
@@ -81,7 +78,6 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
 
     if( k_GP_Individual_Male(2) .eq. k_GP_Individual_Male(1)) then
 
-        !if( k_GP_Individual_Male(1) .ne. n_GP_Individuals) then
         if( k_GP_Individual_Male(1)  <   n_GP_Individuals) then
             k_GP_Individual_Male(2) = k_GP_Individual_Male(1) + 1
         else
@@ -101,13 +97,13 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
 
         !if( myid == 0 )then
         !    write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
-        !          'gptssr: k_GP_Indiv_Male(1), GP_Adult_Pop_SSE(k_GP_Indiv_Male(1)) ', &
-        !                   k_GP_Individual_Male(1), &
-        !                   GP_Adult_Population_SSE(k_GP_Individual_Male(1))
+        !       'gptssr: k_GP_Indiv_Male(1), GP_Adult_Pop_SSE(k_GP_Indiv_Male(1)) ', &
+        !                k_GP_Individual_Male(1), &
+        !                GP_Adult_Population_SSE(k_GP_Individual_Male(1))
         !    write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
-        !          'gptssr: k_GP_Indiv_Male(2), GP_Adult_Pop_SSE(k_GP_Indiv_Male(2)) ', &
-        !                   k_GP_Individual_Male(2), &
-        !                   GP_Adult_Population_SSE(k_GP_Individual_Male(2))
+        !       'gptssr: k_GP_Indiv_Male(2), GP_Adult_Pop_SSE(k_GP_Indiv_Male(2)) ', &
+        !                k_GP_Individual_Male(2), &
+        !                GP_Adult_Population_SSE(k_GP_Individual_Male(2))
         !endif ! myid == 0
 
         k_GP_Individual_Male(1) = k_GP_Individual_Male(2)
@@ -155,13 +151,13 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
 
         !if( myid == 0 )then
         !    write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
-        !          'gptssr: k_GP_Indiv_Female(1), GP_Adult_Pop_SSE(k_GP_Indiv_Female(1)) ', &
-        !                   k_GP_Individual_Female(1), &
-        !                   GP_Adult_Population_SSE(k_GP_Individual_Female(1))
+        !       'gptssr: k_GP_Indiv_Female(1), GP_Adult_Pop_SSE(k_GP_Indiv_Female(1)) ', &
+        !                k_GP_Individual_Female(1), &
+        !                GP_Adult_Population_SSE(k_GP_Individual_Female(1))
         !    write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
-        !          'gptssr: k_GP_Indiv_Female(2), GP_Adult_Pop_SSE(k_GP_Indiv_Female(2)) ', &
-        !                   k_GP_Individual_Female(2), &
-        !                   GP_Adult_Population_SSE(k_GP_Individual_Female(2))
+        !       'gptssr: k_GP_Indiv_Female(2), GP_Adult_Pop_SSE(k_GP_Indiv_Female(2)) ', &
+        !                k_GP_Individual_Female(2), &
+        !                GP_Adult_Population_SSE(k_GP_Individual_Female(2))
         !endif ! myid == 0
 
         k_GP_Individual_Female(1)  =  k_GP_Individual_Female(2)
@@ -196,15 +192,15 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
 
     !if( myid == 0 )then
     !    write(GP_print_unit,'(A,1x,I6/(10(1x,I6)))' ) &
-    !          'gptssr: k_GP_Indiv_Male(1), &
-    !          &GP_Adult_Pop_Node_Type(1:n_Nodes,1:n_Trees,k_GP_Indiv_Male(1))', &
-    !          k_GP_Individual_Male(1), &
-    !          GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees,k_GP_Individual_Male(1))
+    !       'gptssr: k_GP_Indiv_Male(1), &
+    !       &GP_Adult_Pop_Node_Type(1:n_Nodes,1:n_Trees,k_GP_Indiv_Male(1))', &
+    !       k_GP_Individual_Male(1), &
+    !       GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees,k_GP_Individual_Male(1))
     !    write(GP_print_unit,'(A,1x,I6/(10(1x,I6)))' ) &
-    !          'gptssr: i_GP_Individual, &
-    !          &GP_Child_Pop_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual)', &
-    !          i_GP_Individual, &
-    !          GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual)
+    !       'gptssr: i_GP_Individual, &
+    !       &GP_Child_Pop_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual)', &
+    !       i_GP_Individual, &
+    !       GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual)
     !endif ! myid == 0
 
 
@@ -239,10 +235,10 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
     !        if( GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Male(1)) /= -9999 )then
     !            if( myid == 0 )then
     !                write(GP_print_unit,'(A,4(1x,I6))' ) &
-    !                      'gptssr: k_GP_Indiv_Male(1),i_node,i_tree, &
-    !                      &GP_Adult_Pop_Node_Type(Male(1)', &
-    !                      k_GP_Individual_Male(1),i_node,i_tree, &
-    !                      GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Male(1))
+    !                   'gptssr: k_GP_Indiv_Male(1),i_node,i_tree, &
+    !                   &GP_Adult_Pop_Node_Type(Male(1)', &
+    !                   k_GP_Individual_Male(1),i_node,i_tree, &
+    !                   GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Male(1))
     !            endif ! myid == 0
     !        endif ! GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Male(1)) /= -9999
     !    enddo !  i_Node
@@ -255,10 +251,10 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
 
         if( myid == 0 )then
             write(6,'(A)')&
-                  'gptssr: Pre-GP_Check_Error [Male] in GP_Tournament_Style_Sexual_Reproduction'
+               'gptssr: Pre-GP_Check_Error [Male] in GP_Tournament_Style_Sexual_Reproduction'
             write(6,'(A,3(1x,I6)/)') &
-                  'gptssr: i_GP_Individual, k_GP_Indiv_Male(1), i_Error  ', &
-                           i_GP_Individual, k_GP_Individual_Male(1), i_Error
+               'gptssr: i_GP_Individual, k_GP_Indiv_Male(1), i_Error  ', &
+                        i_GP_Individual, k_GP_Individual_Male(1), i_Error
         endif ! myid == 0
 
         call MPI_FINALIZE(ierr) 
@@ -276,10 +272,10 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
     !        if( GP_Adult_Population_Node_Type(i_Node,i_Tree, k_GP_Individual_Female(1)) /= -9999 )then
     !            if( myid == 0 )then
     !                write(GP_print_unit,'(A,4(1x,I6))' ) &
-    !                      'gptssr: k_GP_Indiv_Female(1),i_node,i_tree, &
-    !                      &GP_Adult_Pop_Node_Type(Female(1)', &
-    !                      k_GP_Individual_Female(1),i_node,i_tree, &
-    !                      GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Female(1))
+    !                   'gptssr: k_GP_Indiv_Female(1),i_node,i_tree, &
+    !                   &GP_Adult_Pop_Node_Type(Female(1)', &
+    !                   k_GP_Individual_Female(1),i_node,i_tree, &
+    !                   GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Female(1))
     !            endif ! myid == 0
     !        endif ! GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Female(1)) /= -9999
     !    enddo !  i_Node
@@ -291,10 +287,10 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
     if( i_Error .eq. 1) then
         if( myid == 0 )then
             write(6,'(A)')&
-                  'gptssr: Pre-GP_Check_Error [Female] in GP_Tournament_Style_Sexual_Reproduction'
+               'gptssr: Pre-GP_Check_Error [Female] in GP_Tournament_Style_Sexual_Reproduction'
             write(6,'(A,3(1x,I6)/)') &
-                  'gptssr: i_GP_Individual, k_GP_Indiv_Female(1), i_Error  ', &
-                           i_GP_Individual, k_GP_Individual_Female(1), i_Error
+               'gptssr: i_GP_Individual, k_GP_Indiv_Female(1), i_Error  ', &
+                        i_GP_Individual, k_GP_Individual_Female(1), i_Error
         endif ! myid == 0
         call MPI_FINALIZE(ierr) 
         stop 'GP_Tou stop error 2'
@@ -333,10 +329,10 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
     !        if( GP_Child_Population_Node_Type(i_Node,i_Tree, i_GP_Individual) /= -9999 )then
     !            if( myid == 0 )then
     !                write(GP_print_unit,'(A,4(1x,I6))' ) &
-    !                      'gptssr: i_GP_Indiv,i_node,i_tree, &
-    !                      &GP_Child_Pop_Node_Type', &
-    !                      i_GP_Individual,i_node,i_tree, &
-    !                      GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual)
+    !                   'gptssr: i_GP_Indiv,i_node,i_tree, &
+    !                   &GP_Child_Pop_Node_Type', &
+    !                   i_GP_Individual,i_node,i_tree, &
+    !                   GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual)
     !            endif ! myid == 0
     !        endif ! GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Female(1)) /= -9999
     !    enddo !  i_Node
@@ -349,7 +345,7 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
     if( i_Error .eq. 1) then
         if( myid == 0 )then
             write(6,'(A)')&
-                  'gptssr: Post-GP_Check_Error in GP_Tournament_Style_Sexual_Reproduction'
+               'gptssr: Post-GP_Check_Error in GP_Tournament_Style_Sexual_Reproduction'
             write(6,'(A,3(1x,I6)/)') 'gptssr: i_GP_Indiv, i_Male_Tree, i_Error  ', &
                                               i_GP_Individual, i_Male_Tree, i_Error
         endif ! myid == 0

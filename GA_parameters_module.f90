@@ -11,6 +11,7 @@ integer(kind=4),parameter :: GA_log_unit   = 70
 
 
 logical :: Lprint_lmdif
+
 ! set the real parameters
 
 !  NOTE: in the next 2 parameters:
@@ -35,12 +36,14 @@ real(kind=8) :: GA_save_elites_Probability
 real(kind=8) :: GA_Elitist_Probability
 real(kind=8) :: GA_Asexual_Reproduction_Probability
 
+real(kind=8) :: GA_rand_replace_Probability
 
 ! GP Probability of a Tree being assigned
 ! Estimated from previous work by Joel Cohen
 !real (kind=4), parameter :: GP_Tree_Probability=0.5
 
 ! probability of setting a terminal node to a parameter
+
 real (kind=4), parameter :: GP_Set_Terminal_to_Parameter_Probability = 0.6
 
 

@@ -32,8 +32,6 @@ real(kind=8) :: min_fit
 !write(GA_print_unit,'(/A)') ' '
 
 
-
-
 if( n_GA_save_elites < 1 ) return
 
 write(GA_print_unit,'(/A,1x,I6)') &

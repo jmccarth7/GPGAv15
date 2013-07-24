@@ -95,7 +95,6 @@ endif !   myid == 0
 !------------------------------------------------------------------
 
 
-
 ! broadcast the values read in by cpu 0 to others
 
 call bcast1()
@@ -113,7 +112,7 @@ if( user_input_random_seed > 0 )then
 
     clock = user_input_random_seed
 
-    write(6,'(A,1x,I12)') '0: random seed input clock = ', clock
+    write(6,'(A,1x,I12)') '0: user input random seed       clock = ', clock
 
     seed = user_input_random_seed + &
               37 * (/ (i_seed - 1, i_seed = 1, n_seed) /)
@@ -131,8 +130,6 @@ CALL RANDOM_SEED(PUT = seed)
 
 !------------------------------------------------------------------
 
-
-
 ! wait until everybody has the values
 
 call MPI_BARRIER( MPI_COMM_WORLD, ierr )
@@ -140,7 +137,6 @@ call MPI_BARRIER( MPI_COMM_WORLD, ierr )
 !------------------------------------------------------------------
 
 ! set the scalar values for the model
-
 
 call init_values( 0 )
 
@@ -169,9 +165,6 @@ allocate( output_array( n_maximum_number_parameters ) )
 ! set the twin experiment 'nature'
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-! blank/set the values [0. = zero-valued parameter; -9999 = blank node type]
-
-
 
 GP_Population_Node_Type=-9999
 
@@ -199,13 +192,13 @@ call init_values( 1 )
 
 
 !------------------------------------------------------------------
+
 ! set the desired 'twin experiment' population node type
 ! and parameter using the info from the set up file
 
 ! run the Runge-Kutta model only once with proc 0
 
 call set_answer_arrays( )
-
 
 !------------------------------------------------------------------------
 
@@ -219,16 +212,12 @@ if( myid == 0 )then
     do  i = 0, n_time_steps
         write(GP_print_unit,'(I6,8(1x,E15.7))') &
               i, (Runge_Kutta_Solution(i,jj), jj = 1,n_CODE_equations )
-              !i, Runge_Kutta_Solution(i,1:n_CODE_equations)
     enddo ! i
-    !write(GP_print_unit,'(A,1x,I10)') &
-    !      '0: Runge_Kutta message length message_len = ', message_len
 endif ! myid == 0
 
 
 call MPI_BCAST( Runge_Kutta_Solution, message_len,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
-
 
 
 Data_Array=Runge_Kutta_Solution          ! Matrix Operation
@@ -239,7 +228,6 @@ Data_Array=Runge_Kutta_Solution          ! Matrix Operation
 ! compute the data_variance  -- to be used in computing SSE
 
 call comp_data_variance( )
-
 
 !--------------------------------------------------------------------------------
 
@@ -255,6 +243,8 @@ do  i_CODE_equation=1,n_CODE_equations
     answer(n_parameters)=Runge_Kutta_Initial_Conditions(i_CODE_equation)
 enddo ! i_CODE_equation
 
+
+!--------------------------------------------------------------------------------
 
 
 ! calculate how many parameters total to fit for the specific individual CODE
@@ -337,13 +327,16 @@ do  i_GP_Generation=1,n_GP_Generations
 
 
     ! Run_GP_Calculate_Fitness determines if the new GP child
-    ! has to be sent to GA_lmdif for parameter optimization
+    ! has to be put through the R-K process for parameter optimization
+
+    ! Run_GP_Calculate_Fitness will be FALSE is the individual did not
+    ! change on the last generation
 
     Run_GP_Calculate_Fitness=.false.
 
 
     ! randomly create the initial tree arrays for each individual and
-    ! send them all to GA_lmdif for parameter optimization
+    ! send them all to GA_lmdif for parameter optimization on generation 1
 
     if( i_GP_Generation .eq. 1) then
 
@@ -385,9 +378,8 @@ do  i_GP_Generation=1,n_GP_Generations
 
         !---------------------------------------------------------------------------------
 
-        ! wait until everybody has the values
-
-        !call MPI_BARRIER( MPI_COMM_WORLD, ierr )
+        ! compute a "diversity index" which characterizes each individual with a
+        ! number derived from the number of nodes, etc.
 
         if( myid == 0 )then
             call GP_calc_diversity_index( n_GP_individuals,  &
@@ -418,7 +410,7 @@ do  i_GP_Generation=1,n_GP_Generations
             !if( n_GP_Elitists .gt. 0 ) then
             !    write(GP_print_unit,'(A)')'0:  call GP_Elitists '
             !    call GP_Elitists
-                write(GP_print_unit,'(A)') ' '
+            !    write(GP_print_unit,'(A)') ' '
             !endif !  n_GP_Elitists .gt. 0
 
 
@@ -448,8 +440,6 @@ do  i_GP_Generation=1,n_GP_Generations
             endif !  n_GP_Asexual_Reproductions .gt. 0
 
 
-
-
             !  iii) Carry out "GP Tree Crossover" Operations
             !       Using Tournament-Style Sexual Reproduction Selection
             !       and randomly use it to replace the new children
@@ -474,8 +464,6 @@ do  i_GP_Generation=1,n_GP_Generations
 
 
 
-
-
             !   iv) Carry out "GP Parameter Mutation" Operations
 
             if( n_GP_Mutations .gt. 0 )then
@@ -495,8 +483,6 @@ do  i_GP_Generation=1,n_GP_Generations
 
 
 
-
-
             !   Move over any newly created children into the adult domain       ! ???
 
             GP_Adult_Population_Node_Type = GP_Child_Population_Node_Type
@@ -506,7 +492,7 @@ do  i_GP_Generation=1,n_GP_Generations
                   '0:aft  move Child_Node_Type and SSE to Adult'
             !---------------------------------------------------------------------------
 
-            ! calculate the diversity index for each individual
+            ! calculate the diversity index for each individual for generations > 1
 
             write(GP_print_unit,'(/A)')&
                   '0: call GP_calc_diversity_index '
@@ -521,13 +507,10 @@ do  i_GP_Generation=1,n_GP_Generations
         endif ! myid == 0
 
 
-        !call MPI_FINALIZE(ierr)
-        !stop ! debug only
-
         !------------------------------------------------------------------------------------
 
 
-        ! broadcast
+        ! broadcast:
         ! GP_Child_Population_Node_Type
         ! GP_Adult_Population_Node_Type
         ! Parent_Tree_Swap_Node_Type
@@ -588,7 +571,7 @@ do  i_GP_Generation=1,n_GP_Generations
     !endif ! myid == 0
 
 
-    ! GP_Adult_Population_Node_Type
+    ! broadcast GP_Adult_Population_Node_Type
 
     message_len = n_GP_Individuals * n_Nodes * n_Trees
     call MPI_BCAST( GP_Adult_Population_Node_Type, message_len,    &
@@ -812,7 +795,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
             !-------------------------------------------------
 
-            call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! debug only
+            call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
 
 
             ! GPCODE_GA_lmdif_Parameter_Optimization sets:
@@ -1055,7 +1038,6 @@ if( myid == 0 )then
     write(GP_print_unit,'(/A/)') '0: after i_GP_generation loop  '
 endif ! myid == 0
 
-!call MPI_BARRIER( MPI_COMM_WORLD, ierr )
 
 !------------------------------------------------------------------
 

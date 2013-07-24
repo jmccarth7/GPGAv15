@@ -17,7 +17,6 @@ real(kind=8) :: Child_Parameters(n_maximum_number_parameters,n_GA_Individuals)
 real(kind=4) :: cff
 real(kind=8) :: dff
 
-!integer(kind=4) :: i
 integer(kind=4) :: i_parameter
 !integer(kind=4) :: jj
 
@@ -41,32 +40,7 @@ do  i_GA_Individual=1,n_GA_Individuals
         Child_Parameters(i_Parameter,i_GA_Individual) = dff
 
 
-         !----------------------------------------------------------------------------
-
-!!         if( n_linked_parms > 0 )then
-!!
-!!             if( any( i_parameter == linked_parms(2,:) )    ) cycle
-!!
-!!             if( any( i_parameter == linked_parms(1,:) )    )then
-!!
-!!                 do  i = 1, n_linked_parms
-!!
-!!                     if( i_parameter == linked_parms(1,i) )then
-!!
-!!                         child_parameters(linked_parms(2,i),i_GA_Individual) = &
-!!                         child_parameters(linked_parms(1,i),i_GA_Individual)
-!!
-!!                         exit
-!!
-!!                     endif ! i_parameter == linked_parms(i,1)
-!!
-!!                 enddo ! i
-!!
-!!             endif !  any( i_parameter == linked_parms(1,:) )
-!!
-!!         endif !  n_linked_parms > 0
-
-         !----------------------------------------------------------------------------
+        !----------------------------------------------------------------------------
 
 
         !write(GA_print_unit,'(A,2(1x, I6),1x,E24.16 )') &

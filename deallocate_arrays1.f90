@@ -101,9 +101,9 @@ deallocate( btmp )
 deallocate( fbio )
 
 
-deallocate( node_type_string )
-deallocate( node_parameters_string )
-deallocate( tree_evaluation_string )
+!deallocate( node_type_string )
+!deallocate( node_parameters_string )
+!deallocate( tree_evaluation_string )
 !!deallocate( linked_parms )
 
 

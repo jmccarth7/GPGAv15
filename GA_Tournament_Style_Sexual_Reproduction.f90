@@ -41,7 +41,6 @@ real(kind=8) :: cff_2
 
 
 integer(kind=4) :: n_replaced
-!integer(kind=4) :: i
 integer(kind=4) :: i_parameter
 
 !---------------------------------------------------------------------------
@@ -62,6 +61,7 @@ do i_GA_Crossover=1,n_GA_Crossovers
   ! number until it finds one which is not in the elite set of individuals
   ! this non-elite number is returned to the calling program
 
+
   call check_for_elite( k_GA_Individual_Male(1) )
 
 
@@ -77,6 +77,7 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
 
   call check_for_elite( k_GA_Individual_Male(2) )
+
 
   !write(GA_print_unit,'(//A,3(1x,I6))')&
   !      'gato: aft random i_GA_Crossover, k_GA_Individual_Male(1:2)  ', &
@@ -129,11 +130,13 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
   call check_for_elite( k_GA_Individual_Female(1) )
 
+
   !---------------------------------------------------------------------------------
 
   ! pick female parent 2 for sexual crossing of parent parameter strings
 
   call check_for_elite( k_GA_Individual_Female(2) )
+
 
   !write(GA_print_unit,'(/A,3(1x,I6))')&
   !      'gato: aft random i_GA_Crossover, k_GA_Individual_Female(1:2)', &
@@ -277,13 +280,13 @@ do i_GA_Crossover=1,n_GA_Crossovers
       old_female = Parent_Parameters(i_GA_Crossover_Point, k_GA_Individual_Female(1))
       mean_parm = 0.5d0 * ( old_male + old_female )
 
-      write(GA_print_unit,'(A,3(1x,E15.7))') 'gato:1 old_male, old_female, mean_parm ', &
-                                                     old_male, old_female, mean_parm
+      !write(GA_print_unit,'(A,3(1x,E15.7))') 'gato:1 old_male, old_female, mean_parm ', &
+      !                                               old_male, old_female, mean_parm
       call random_number( cff )
       std_dev_parm = 0.5d0 + real(cff,kind=8) * mean_parm
 
-      write(GA_print_unit,'(A,3(1x,E15.7))') 'gato:1 cff, mean_parm, std_dev_parm    ', &
-                                                     cff, mean_parm, std_dev_parm
+      !write(GA_print_unit,'(A,3(1x,E15.7))') 'gato:1 cff, mean_parm, std_dev_parm    ', &
+      !                                               cff, mean_parm, std_dev_parm
 
       call random_number( cff )
       cff_1 = real( cff, kind = 8 )
@@ -300,43 +303,13 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
       Child_One_Parameters(i_GA_Crossover_Point) =  abs( dff )  ! jjm 20130604
 
-      write(GA_print_unit,'(A,3(1x,E15.7))') &
-         'gato:1 cff_1, cff_2, Child_One_Parameters(i_GA_Crossover_Point) ', &
-                 cff_1, cff_2, Child_One_Parameters(i_GA_Crossover_Point)
+      !write(GA_print_unit,'(A,3(1x,E15.7))') &
+      !   'gato:1 cff_1, cff_2, Child_One_Parameters(i_GA_Crossover_Point) ', &
+      !           cff_1, cff_2, Child_One_Parameters(i_GA_Crossover_Point)
 
   endif
 
 
-
-!!!----------------------------------------------------------------------------
-!!
-!!  if( n_linked_parms > 0 )then
-!!
-!!      if( any( i_GA_Crossover_Point == linked_parms(:,:) )    )then
-!!
-!!              do  i = 1, n_linked_parms
-!!
-!!                  if( i_GA_Crossover_Point == linked_parms(1,i) )then
-!!
-!!                      child_one_parameters(linked_parms(2,i) ) = &
-!!                      child_one_parameters(linked_parms(1,i) )
-!!
-!!                  endif ! i_GA_Crossover_Point == linked_parms(i,1)
-!!
-!!                  if( i_GA_Crossover_Point == linked_parms(2,i) )then
-!!
-!!                      child_one_parameters(linked_parms(1,i) ) = &
-!!                      child_one_parameters(linked_parms(2,i) )
-!!
-!!                  endif ! i_GA_Crossover_Point == linked_parms(i,1)
-!!
-!!
-!!              enddo ! i
-!!
-!!      endif !  any( i_GA_Crossover_Point == linked_parms(1,:) )
-!!
-!!  endif !  n_linked_parms > 0
-!!
   !----------------------------------------------------------------------------
 
 
@@ -386,13 +359,13 @@ do i_GA_Crossover=1,n_GA_Crossovers
       old_female = Parent_Parameters( i_GA_Crossover_Point, k_GA_Individual_Female(1) )
       mean_parm = 0.5d0 * ( old_male + old_female )
 
-      write(GA_print_unit,'(A,3(1x,E15.7))') 'gato:2 old_male, old_female, mean_parm ', &
-                                                     old_male, old_female, mean_parm
+      !write(GA_print_unit,'(A,3(1x,E15.7))') 'gato:2 old_male, old_female, mean_parm ', &
+      !                                               old_male, old_female, mean_parm
       call random_number( cff )
       std_dev_parm = 0.5d0 + real(cff,kind=8) * mean_parm
 
-      write(GA_print_unit,'(A,3(1x,E15.7))') 'gato:2 cff, mean_parm, std_dev_parm    ', &
-                                                     cff, mean_parm, std_dev_parm
+      !write(GA_print_unit,'(A,3(1x,E15.7))') 'gato:2 cff, mean_parm, std_dev_parm    ', &
+      !                                               cff, mean_parm, std_dev_parm
 
       call random_number( cff )
       cff_1 = real( cff, kind = 8 )
@@ -405,9 +378,9 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
       Child_Two_Parameters(i_GA_Crossover_Point) = dff
 
-      write(GA_print_unit,'(A,3(1x,E15.7))') &
-         'gato:2 cff_1, cff_2, Child_Two_Parameters(i_GA_Crossover_Point) ', &
-                 cff_1, cff_2, Child_Two_Parameters(i_GA_Crossover_Point)
+      !write(GA_print_unit,'(A,3(1x,E15.7))') &
+      !   'gato:2 cff_1, cff_2, Child_Two_Parameters(i_GA_Crossover_Point) ', &
+      !           cff_1, cff_2, Child_Two_Parameters(i_GA_Crossover_Point)
 
 
   endif
@@ -415,39 +388,8 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
 
   !----------------------------------------------------------------------------
+
   Child_Two_Parameters(i_GA_Crossover_Point) = dff
-
-
-!!!----------------------------------------------------------------------------
-!!
-!!  if( n_linked_parms > 0 )then
-!!
-!!      if( any( i_GA_Crossover_Point == linked_parms(:,:) )    )then
-!!
-!!              do  i = 1, n_linked_parms
-!!
-!!                  if( i_GA_Crossover_Point == linked_parms(1,i) )then
-!!
-!!                      child_two_parameters(linked_parms(2,i) ) = &
-!!                      child_two_parameters(linked_parms(1,i) )
-!!
-!!                  endif ! i_GA_Crossover_Point == linked_parms(i,1)
-!!
-!!                  if( i_GA_Crossover_Point == linked_parms(2,i) )then
-!!
-!!                      child_two_parameters(linked_parms(1,i) ) = &
-!!                      child_two_parameters(linked_parms(2,i) )
-!!
-!!                  endif ! i_GA_Crossover_Point == linked_parms(i,1)
-!!
-!!
-!!              enddo ! i
-!!
-!!      endif !  any( i_GA_Crossover_Point == linked_parms(1,:) )
-!!
-!!  endif !  n_linked_parms > 0
-
-
 
   !--------------------------------------------------------------------------------
 

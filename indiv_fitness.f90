@@ -26,7 +26,7 @@ integer (kind=4),intent(in) ::    individual
 !                           sse0/individual_SSE(individual)
 
 
-indiv_fitness = sse0/individual_SSE( individual )
+indiv_fitness = sse0 / individual_SSE( individual )
 
 
 

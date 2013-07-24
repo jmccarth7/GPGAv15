@@ -259,10 +259,6 @@ do  i_GP_Individual=1,n_GP_Individuals
         stop  'GP Tree Build error'
     endif
 
-    !call MPI_FINALIZE(ierr)  ! debug only
-    !stop                     ! debug only
-
-
 enddo !  i_GP_Individual
 
 

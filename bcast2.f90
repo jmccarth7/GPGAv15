@@ -29,10 +29,7 @@ integer :: message_len
 !----------------------------------------------------------------------------------------
 
 
-
-
         ! broadcast
-
 
 
         message_len = n_GP_Individuals * n_Nodes * n_Trees
@@ -82,8 +79,6 @@ integer :: message_len
 
         call MPI_BCAST( Run_GP_Calculate_Fitness , n_GP_Individuals,    &
                         MPI_LOGICAL,  0, MPI_COMM_WORLD, ierr )
-
-
 
 
 return

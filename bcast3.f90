@@ -65,7 +65,6 @@ call MPI_BCAST( GP_Integrated_Population_Ranked_Fitness, n_GP_individuals,    &
 
 
 
-
 return
 
 end subroutine bcast3

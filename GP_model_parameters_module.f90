@@ -13,7 +13,7 @@ integer(kind=4) :: n_CODE_equations
 
 
 ! number of possible node functions
-! [needed for tree generations/alterations
+! [needed for tree generations/alterations]
 
 integer(kind=4) :: n_Node_Functions   ! =7
 

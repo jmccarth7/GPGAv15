@@ -117,9 +117,9 @@ allocate( btmp(n_CODE_equations) )
 allocate( fbio(n_CODE_equations) )
 
 
-allocate( node_type_string( n_nodes, n_trees ) )
-allocate( node_parameters_string( n_nodes, n_trees ) )
-allocate( tree_evaluation_string( n_nodes, n_trees ) )
+!allocate( node_type_string( n_nodes, n_trees ) )
+!allocate( node_parameters_string( n_nodes, n_trees ) )
+!allocate( tree_evaluation_string( n_nodes, n_trees ) )
 
 !!allocate( linked_parms( 2, n_linked_parms_dim ) )
 
@@ -130,6 +130,9 @@ allocate( GP_Adult_Population_Parameter_Solution( 1:n_Maximum_Number_Parameters,
 allocate( GP_Child_Population_Parameter_Solution( 1:n_Maximum_Number_Parameters, 1:n_GP_Individuals ) )
 allocate( GP_Adult_Population_SSE( n_GP_Individuals  )  )
 allocate( GP_Child_Population_SSE( n_GP_Individuals  )  )
+
+allocate( ppe(n_Maximum_Number_Parameters,n_GA_individuals )  )
+
 !>>>>>>>>>>>>>
 
 
@@ -212,10 +215,9 @@ btmp = 0.0d0
 fbio = 0.0d0
 
 
-node_type_string = ' '
-node_parameters_string = ' '
-tree_evaluation_string = ' '
-
+!node_type_string = ' '
+!node_parameters_string = ' '
+!tree_evaluation_string = ' '
 
 !!linked_parms = 0
 

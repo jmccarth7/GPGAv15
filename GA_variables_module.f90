@@ -8,6 +8,8 @@ integer (kind=4) :: n_GA_Asexual_Repoductions
 integer (kind=4) :: n_GA_Crossovers
 integer (kind=4) :: n_GA_Mutations
 
+integer (kind=4) :: n_GA_rand_replaces
+
 integer (kind=4) :: n_GA_save_elites
 
 !integer(kind=4), dimension( n_GA_individuals ) :: individual_elites
@@ -15,6 +17,7 @@ integer(kind=4), allocatable, dimension(:) :: individual_elites
 
 real(kind=8) :: GA_Individual_Lowest_SSE
 
+real(kind=8),allocatable, dimension(:,:) :: ppe  ! debug
 
 ! must be kept for re-evaluations of next generations
 !real(kind=8) :: GA_Adult_Individual_SSE(n_GA_Individuals)

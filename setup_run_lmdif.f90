@@ -87,7 +87,7 @@ info = 0
 
 !off      maxfev=100*(n_time_steps+1)*100
 
-maxfev= 1000 ! 50 ! 10 ! 10000
+maxfev= 2000 ! 50 ! 10 ! 10000
 
 ftol=1.0D-10
 xtol=1.0D-10
@@ -112,9 +112,12 @@ if( Lprint_lmdif )then
                                myid, n_time_steps, n_parameters, i_GA_indiv
     write(GA_print_unit,'(/A)') 'setrlm: lmdif parameters '
 
-    write(GA_print_unit,'(A,3(1x,E15.7))') 'setrlm: ftol, xtol, gtol     ', ftol, xtol, gtol
-    write(GA_print_unit,'(A,3(1x,I10))')   'setrlm: mode, nprint, ldfjac ', mode, nprint, ldfjac
-    write(GA_print_unit,'(A,3(1x,E15.7))') 'setrlm: tol,epsfcn, factor   ', tol, epsfcn,factor
+    write(GA_print_unit,'(A,3(1x,E15.7))') 'setrlm: ftol, xtol, gtol     ', &
+                                                    ftol, xtol, gtol
+    write(GA_print_unit,'(A,3(1x,I10))')   'setrlm: mode, nprint, ldfjac ', &
+                                                    mode, nprint, ldfjac
+    write(GA_print_unit,'(A,3(1x,E15.7))') 'setrlm: tol,epsfcn, factor   ', &
+                                                    tol, epsfcn,factor
 
     write(GA_print_unit,'(A,1x,I10)')   'setrlm: maxfev ', maxfev
     write(GA_print_unit,'(A,1x,I10)')   'setrlm: info   ', info
@@ -135,39 +138,39 @@ if( Lprint_lmdif )then
           'setrlm: aft call lmdif, myid, n_time_steps, n_parameters, info ', &
                                    myid, n_time_steps, n_parameters, info
 
-    if( info >= 0 ) then
-
-        write(GA_print_unit,'(A,1x,I10/)') 'setrlm: info flag =  ', info
-
-        write(GA_print_unit,'(A/)') &
-        '#######################################################################################'
-        write(GA_print_unit,'(A)') 'INFO, error flag.  '
-
-        write(GA_print_unit,'(/A)') &
-        'If the user has terminated execution, INFO is set to the (negative) value of IFLAG.'
-        write(GA_print_unit,'(A)') 'See the description  of FCN.'
-
-        write(GA_print_unit,'(/A/)') 'Otherwise, INFO is set as follows:'
-
-        write(GA_print_unit,'(A)')  '0, improper input parameters.'
-        write(GA_print_unit,'(A)')  &
-        '1, both actual and predicted relative reductions in the sum of squares are at most FTOL.'
-        write(GA_print_unit,'(A)')  &
-        '2, relative error between two consecutive iterates is at most XTOL.'
-        write(GA_print_unit,'(A)')  '3, conditions for INFO = 1 and INFO = 2 both hold.'
-        write(GA_print_unit,'(A)')  '4, the cosine of the angle between FVEC and &
-              &any column of the Jacobian is at most GTOL in absolute value.'
-        write(GA_print_unit,'(A)')  '5, number of calls to FCN has reached or exceeded MAXFEV.'
-        write(GA_print_unit,'(A)')  &
-        '6, FTOL is too small.  No further reduction in the sum of squares is possible.'
-        write(GA_print_unit,'(A)')  &
-        '7, XTOL is too small.  No further improvement in the approximate solution X is possible.'
-        write(GA_print_unit,'(A)') '8, GTOL is too small.  FVEC is orthogonal &
-              &to the columns of the Jacobian to machine precision.'
-        write(GA_print_unit,'(/A/)') &
-        '#######################################################################################'
-
-    endif ! info > 0
+!!    if( info >= 0 ) then
+!!
+!!        write(GA_print_unit,'(A,1x,I10/)') 'setrlm: info flag =  ', info
+!!
+!!        write(GA_print_unit,'(A/)') &
+!!        '#######################################################################################'
+!!        write(GA_print_unit,'(A)') 'INFO, error flag.  '
+!!
+!!        write(GA_print_unit,'(/A)') &
+!!        'If the user has terminated execution, INFO is set to the (negative) value of IFLAG.'
+!!        write(GA_print_unit,'(A)') 'See the description  of FCN.'
+!!
+!!        write(GA_print_unit,'(/A/)') 'Otherwise, INFO is set as follows:'
+!!
+!!        write(GA_print_unit,'(A)')  '0, improper input parameters.'
+!!        write(GA_print_unit,'(A)')  &
+!!        '1, both actual and predicted relative reductions in the sum of squares are at most FTOL.'
+!!        write(GA_print_unit,'(A)')  &
+!!        '2, relative error between two consecutive iterates is at most XTOL.'
+!!        write(GA_print_unit,'(A)')  '3, conditions for INFO = 1 and INFO = 2 both hold.'
+!!        write(GA_print_unit,'(A)')  '4, the cosine of the angle between FVEC and &
+!!              &any column of the Jacobian is at most GTOL in absolute value.'
+!!        write(GA_print_unit,'(A)')  '5, number of calls to FCN has reached or exceeded MAXFEV.'
+!!        write(GA_print_unit,'(A)')  &
+!!        '6, FTOL is too small.  No further reduction in the sum of squares is possible.'
+!!        write(GA_print_unit,'(A)')  &
+!!        '7, XTOL is too small.  No further improvement in the approximate solution X is possible.'
+!!        write(GA_print_unit,'(A)') '8, GTOL is too small.  FVEC is orthogonal &
+!!              &to the columns of the Jacobian to machine precision.'
+!!        write(GA_print_unit,'(/A/)') &
+!!        '#######################################################################################'
+!!
+!!    endif ! info > 0
 
     Lprint_lmdif = .FALSE.
 endif ! Lprint_lmdif
@@ -243,11 +246,11 @@ if( individual_quality( i_GA_indiv ) > 0 ) then
 
 endif !  individual_quality( i_GA_indiv ) > 0
 
-!write(GA_print_unit,'(A,3(1x,I6), 1x, E15.7)') &
-!      'setrlm: myid, i_GA_indiv, individual_quality, individual_SSE', &
-!               myid, i_GA_indiv, &
-!               individual_quality( i_GA_indiv ), &
-!               individual_SSE(i_GA_indiv)
+write(GA_print_unit,'(A,3(1x,I6), 1x, E15.7)') &
+      'setrlm: myid, i_GA_indiv, individual_quality, individual_SSE', &
+               myid, i_GA_indiv, &
+               individual_quality( i_GA_indiv ), &
+               individual_SSE(i_GA_indiv)
 
 
 

@@ -74,7 +74,6 @@ if( myid == 0 )then
     do  i_tree = 1, n_trees
         do  i_node = 1, n_nodes
 
-            !if( Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999 )then
             if( Runge_Kutta_Node_Type( i_node, i_tree ) == 0     )then
                 write(6,'(A,2(1x,I6),1x,E15.7)') &
                   'saa: i_tree, i_node, Runge_Kutta_Node_Parameters( i_node, i_tree ) ', &

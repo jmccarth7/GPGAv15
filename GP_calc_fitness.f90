@@ -46,7 +46,6 @@ integer(kind=4),intent(in) :: i_GP_Generation
 integer(kind=4) :: i_Tree
 integer(kind=4) :: i_Node
 
-!integer(kind=4),parameter :: min_N_param = 2
 
 integer(kind=4) :: i_CODE_equation
 
@@ -55,10 +54,9 @@ real(kind=8), dimension(n_maximum_number_parameters) :: output_array
 real (kind=8) ::  dff
 
 
-!----------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------------
 
 ! this routine is only called by processor 0
-
 
 
 output_array = 0.0d0
@@ -69,7 +67,7 @@ write(GP_print_unit,'(/A/(5(1x,E15.7)))') 'gpcf: GP_Child_Individual_SSE = ',&
                                                  GP_Child_Individual_SSE
 
 
-!---------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------------
 
 ! fitness reset region (??)
 
@@ -100,7 +98,6 @@ endif ! i_GP_generation ...
 dff=0.0d0
 do  i_GP_Individual=1,n_GP_Individuals
 
-    !if(  GP_Individual_N_GP_param( i_GP_Individual ) <= 0 ) cycle
     if(  GP_Individual_N_GP_param( i_GP_Individual ) < min_N_param ) cycle
 
     dff=dff+GP_Child_Individual_SSE(i_GP_Individual)
@@ -162,7 +159,7 @@ if( i_GP_generation == 1                                 .or. &
 
     write(GP_print_unit,'(/A)') &
           'gpcf: i_GP_indiv, GP_Child_Indiv_SSE GP_Pop_Ranked_Fitness   '
-          !'gpcf: i_GP_indiv, GP_Indiv_Ranked_Fitness '
+         !'gpcf: i_GP_indiv, GP_Indiv_Ranked_Fitness '
 
     do  i_GP_Individual=1,n_GP_Individuals
         write(GP_print_unit,'(5x,I6,2(5x,E15.7))') &
@@ -412,7 +409,7 @@ if( i_GP_generation == 1                                 .or. &
 endif ! i_GP_generation == 1 .or. ...
 
 !off if( i_GP_Generation .eq. 3) Stop
-!-----------------------------------------------------------------------------------------
+!----------------------------------------------------------------------------------
 
 ! write information to a GP log file giving: 
 ! generation, individual, SSE, individual_fitness
