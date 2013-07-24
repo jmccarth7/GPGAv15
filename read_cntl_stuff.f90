@@ -92,7 +92,7 @@ GA_Mutation_Probability      = 0.2d0
 GA_rand_replace_Probability  = 0.01d0
 GA_save_elites_Probability   = 0.0d0
 
-GP_Tree_Probability=0.5d0
+GP_Tree_Probability          = 0.5d0
 
 ! Note: The next 4 parameters must add up to 1.0
 GP_Elitist_Probability              = 0.1d0
@@ -101,6 +101,12 @@ GP_Crossover_Probability            = 0.4d0
 GP_Mutation_Probability             = 0.1d0
 
 ga_tournament_style = 0
+
+n_time_steps = 2500
+
+dt = 10.0d0 / 1440.0d0  ! 10 minutes
+
+model = 'LV'
 
 
 !---------------------------------------------------------------------
@@ -279,7 +285,7 @@ do
 !n_GA_Individuals 
 
     elseif( Aline(1:len('n_GA_Individuals')) == "n_GA_Individuals" .or.     &
-            Aline(1:len('n_GA_Individuals')) == "n_GA_Individuals" ) then
+            Aline(1:len('n_GA_Individuals')) == "n_ga_individuals" ) then
 
         READ(Aline(len('n_GA_Individuals')+1:), * ) n_GA_Individuals
 
@@ -478,6 +484,10 @@ do
 !--------------------------------------------------------------------
 
     else
+
+        write(GP_print_unit,'(//A//)') 'rcntl: WARNING: UNRECOGNIZED OPTION '
+
+        write(GP_print_unit,'(//A,1x,A//)') 'rcntl: Aline =', trim( Aline )           
 
 
     endif !   Aline(1:6) == ???
