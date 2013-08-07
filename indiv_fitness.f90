@@ -20,10 +20,12 @@ integer (kind=4),intent(in) ::    individual
 !--------------------------------------------------------------------
 
 
+!if( L_ga_print )then                                                                                
 !write(GA_print_unit,'(A,1x,I6,2(1x,E24.16))') &
 !      'indfit: individual, SSE , sse0/sse', &
 !               individual, individual_SSE(individual), &
 !                           sse0/individual_SSE(individual)
+!endif ! L_ga_print  
 
 
 indiv_fitness = sse0 / individual_SSE( individual )

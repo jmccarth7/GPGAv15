@@ -64,6 +64,7 @@ do  i_parameter=1,n_parameters
 
     X_LMDIF(i_parameter) = child_parameters(i_parameter, i_GA_indiv)
 
+!if( L_ga_print )then                                                                                
     !write(GA_print_unit,'(A,3(1x,I6),1x,E20.10)') &
     !      'setrlm:1 myid, i_GA_indiv,i_parameter, child_parameters ', &
     !                myid, i_GA_indiv,i_parameter, &
@@ -71,12 +72,15 @@ do  i_parameter=1,n_parameters
     !write(GA_print_unit,'(A,2(1x,I6),1x,E20.10)') &
     !      'setrlm:1 myid, i_parameter,  X_LMDIF', &
     !                myid, i_parameter,  X_LMDIF(i_parameter)
+!endif ! L_ga_print  
 
 enddo ! i_parameter
 
+!if( L_ga_print )then                                                                                
 !write(GA_print_unit,'(/A/ 2(1x, I6), 12( 1x,E12.5))') &
 !      'setrlm:1 myid, i_GA_indiv, X_LMDIF', &
 !                myid, i_GA_indiv, X_LMDIF(1:n_parameters)
+!endif ! L_ga_print  
 
 
 ! for each of these first individuals, optimize the variables using lmdif.f
@@ -102,11 +106,14 @@ nprint= 1  ! set back to zero after diag
 
 ldfjac=n_time_steps
 
+!if( L_ga_print )then                                                                                
 !write(GA_print_unit,*) 'setrlm: i_GA_indiv ', i_GA_indiv
+!endif ! L_ga_print  
 
 !----------------------------------------------------------------------------------------
 
 if( Lprint_lmdif )then
+    if( L_ga_print )then                                                                                
     write(GA_print_unit,'(/A,4(1x,I6))') &
           'setrlm: call lmdif, myid, n_time_steps, n_parameters, i_GA_indiv ', &
                                myid, n_time_steps, n_parameters, i_GA_indiv
@@ -121,6 +128,7 @@ if( Lprint_lmdif )then
 
     write(GA_print_unit,'(A,1x,I10)')   'setrlm: maxfev ', maxfev
     write(GA_print_unit,'(A,1x,I10)')   'setrlm: info   ', info
+    endif ! L_ga_print  
 endif ! Lprint_lmdif
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -134,6 +142,7 @@ call lmdif( fcn, n_time_steps, n_parameters, x_LMDIF, fvec, &
 
 if( Lprint_lmdif )then
 
+if( L_ga_print )then                                                                                
     write(GA_print_unit,'(A,4(1x,I10)/)') &
           'setrlm: aft call lmdif, myid, n_time_steps, n_parameters, info ', &
                                    myid, n_time_steps, n_parameters, info
@@ -171,6 +180,7 @@ if( Lprint_lmdif )then
 !!        '#######################################################################################'
 !!
 !!    endif ! info > 0
+endif ! L_ga_print  
 
     Lprint_lmdif = .FALSE.
 endif ! Lprint_lmdif
@@ -183,11 +193,14 @@ if( info < 0 ) then
 
     individual_quality( i_GA_indiv ) = -1
     individual_SSE(i_GA_indiv) =  1.0D+12
+
+    if( L_ga_print )then   
     write(GA_print_unit,'(/A/ 3(1x, I6),  1x,E12.5)') &
           'setrlm:3 myid, i_GA_indiv, individual_quality(i_GA_indiv), &
                                       &individual_SSE(i_GA_indiv) ', &
                     myid, i_GA_indiv, individual_quality(i_GA_indiv), &
                                        individual_SSE(i_GA_indiv)
+    endif ! L_ga_print  
     return
 
 endif ! info < 0
@@ -199,9 +212,11 @@ if (info .eq. 8) info = 4
 
 !-----------------------------------------------------------------------------------
 
+!if( L_ga_print )then                                                                                
 !write(GA_print_unit,'(/A/ 2(1x, I6), 12( 1x,E12.5))') &
 !      'setrlm:3 myid, i_GA_indiv, X_LMDIF', &
 !                myid, i_GA_indiv, X_LMDIF(1:n_parameters)
+!endif ! L_ga_print  
 
 
 do  i_parameter=1,n_parameters
@@ -209,9 +224,11 @@ do  i_parameter=1,n_parameters
                            dabs( x_LMDIF(i_parameter) )
 enddo ! i_parameter
 
+!if( L_ga_print )then                                                                                
 !write(GA_print_unit,'(/A/ 2(1x, I6), 12( 1x,E12.5))') &
 !      'setrlm:4 myid, i_GA_indiv, child_parameters(:,i_GA_indiv)', &
 !                myid, i_GA_indiv, child_parameters(1:n_parameters, i_GA_indiv)
+!endif ! L_ga_print  
 
 
 !-----------------------------------------------------------------------------------
@@ -223,7 +240,9 @@ enddo ! i_parameter
 
 
 
+!if( L_ga_print )then                                                                                
 !write(GA_print_unit,'(/A/)')'setrlm: calculate the individual SSE values '
+!endif ! L_ga_print  
 
 
 if( individual_quality( i_GA_indiv ) > 0 ) then
@@ -246,11 +265,13 @@ if( individual_quality( i_GA_indiv ) > 0 ) then
 
 endif !  individual_quality( i_GA_indiv ) > 0
 
+if( L_ga_print )then                                                                                
 write(GA_print_unit,'(A,3(1x,I6), 1x, E15.7)') &
       'setrlm: myid, i_GA_indiv, individual_quality, individual_SSE', &
                myid, i_GA_indiv, &
                individual_quality( i_GA_indiv ), &
                individual_SSE(i_GA_indiv)
+endif ! L_ga_print  
 
 
 

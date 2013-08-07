@@ -36,9 +36,11 @@ n_replaced  = 0
 i_loop:&
 do  i_GA_Individual = 1, n_GA_Individuals
 
-    !write(GA_print_unit,'(A,1x,I6,1x,I6)') &
+    !if( L_ga_print )then 
+    !    write(GA_print_unit,'(A,1x,I6,1x,I6)') &
     !      'grbi: i_GA_Individual, individual_quality', &
     !             i_GA_Individual, individual_quality( i_GA_Individual )
+    !endif ! L_ga_print
 
     if( individual_quality( i_GA_Individual ) < 0 )then
 
@@ -48,10 +50,12 @@ do  i_GA_Individual = 1, n_GA_Individuals
             dff = cff
             Child_Parameters(i_Parameter,i_GA_Individual) = dff
 
-            !write(GA_print_unit,'(A,2(1x,I6),1x,E24.16)') &
-            !'grbi: i_GA_Individual, i_parameter, Child_Parameters', &
-            !       i_GA_Individual, i_parameter, &
-            !       Child_Parameters(i_Parameter,i_GA_Individual)
+            !if( L_ga_print )then 
+            !    write(GA_print_unit,'(A,2(1x,I6),1x,E24.16)') &
+            !    'grbi: i_GA_Individual, i_parameter, Child_Parameters', &
+            !           i_GA_Individual, i_parameter, &
+            !           Child_Parameters(i_Parameter,i_GA_Individual)
+            !endif ! L_ga_print
 
         enddo ! i_Parameter
 
@@ -72,8 +76,11 @@ do  i_GA_Individual = 1, n_GA_Individuals
 
 enddo i_loop  ! i_GA_Individual
 
-write(GA_print_unit,'(A,1x,I6,1x,i10/)') 'grbi: i_GA_generation, n_replaced ', &
-                                                i_GA_generation, n_replaced
+if( L_ga_print )then 
+    write(GA_print_unit,'(A,1x,I6,1x,i10/)') &
+          'grbi: i_GA_generation, n_replaced ', &
+                 i_GA_generation, n_replaced
+endif ! L_ga_print
 
 return
 

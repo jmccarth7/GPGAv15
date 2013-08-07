@@ -92,7 +92,7 @@ GA_Mutation_Probability      = 0.2d0
 GA_rand_replace_Probability  = 0.01d0
 GA_save_elites_Probability   = 0.0d0
 
-GP_Tree_Probability          = 0.5d0
+GP_Tree_Probability=0.5d0
 
 ! Note: The next 4 parameters must add up to 1.0
 GP_Elitist_Probability              = 0.1d0
@@ -107,6 +107,9 @@ n_time_steps = 2500
 dt = 10.0d0 / 1440.0d0  ! 10 minutes
 
 model = 'LV'
+
+GA_print_flag = 1
+L_GA_print = .TRUE. 
 
 
 !---------------------------------------------------------------------
@@ -477,6 +480,37 @@ do
 
         write(GP_print_unit,'(A,1x,I12)') 'rcntl: user_input_random_seed =', &
                                                   user_input_random_seed
+
+
+!--------------------------------------------------------------------
+
+
+!  GA_print   if GA_print_flag >  0 - write printout to GA_print_unit
+!             if GA_print_flag <= 0 - do not write printout to GA_print_unit
+
+!  GA_print   DEFAULT =   GA_print_flag >  0 - write printout to GA_print_unit
+
+
+
+    elseif( Aline(1:len('GA_print')) == "GA_print"  .or.     &
+            Aline(1:len('GA_print')) == "ga_print"           ) then
+
+        READ(Aline(len('GA_print')+1:), * )  GA_print_flag
+
+
+        if( GA_print_flag > 0 )then
+            L_GA_print = .TRUE.
+        else
+            L_GA_print = .FALSE. 
+        endif ! GA_print_flag > 0
+
+        write(GP_print_unit,'(A,1x,I12)') 'rcntl: GA_print_flag =', &
+                                                  GA_print_flag
+        write(GP_print_unit,'(A,4x,L1 )') 'rcntl: L_GA_print =', &
+                                                  L_GA_print
+
+
+
 
 
 

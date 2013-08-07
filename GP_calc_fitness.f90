@@ -271,7 +271,7 @@ write(GP_print_unit,'(A,2(1x,I6),2(1x,E15.7)/)') &
 
 !---------------------------------------------------------------------------
 
-! fill output array of parameters for best individual and write on GP_output_unit
+! fill output array of parameters for best individual and write on GP_print_unit
 
 
 write(GP_print_unit,'(/A)') &
@@ -297,9 +297,9 @@ write(GP_print_unit,'(/A,2(1x,I6)/)') &
       'gpcf: before tree loop n_code_equations, nop ', &
                               n_code_equations, nop
 write(GP_print_unit,'(/A)') &
-     'gpcf: i_node  itree  nop  GP_pop_node_params(i_node,i_tree,i_GP_Best_Parent)'
+     'gpcf: i_node  itree  nop  &
+     &GP_pop_node_params(i_node,i_tree,i_GP_Best_Parent)'
 
-nop = nop + 1
 
 tree_loop:&
 do  i_tree=1,n_trees
@@ -309,6 +309,8 @@ do  i_tree=1,n_trees
 
         if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Best_Parent) == 0 )then
 
+            nop = nop + 1
+
             write(GP_print_unit,'(2x,3(1x,I6), 1x, E20.10, 4x, E20.10)') &
                   i_node, i_tree, nop, &
                   GP_population_node_parameters(i_node,i_tree,i_GP_Best_Parent)
@@ -316,7 +318,6 @@ do  i_tree=1,n_trees
             output_array(nop) = &
                    GP_population_node_parameters(i_node,i_tree,i_GP_Best_Parent)
 
-            nop = nop + 1
 
         endif ! GP_Adult_Pop_Node_Type(i_Node,i_Tree,i_GP_Best_Parent) == 0
 
@@ -416,7 +417,8 @@ endif ! i_GP_generation == 1 .or. ...
 
 do  i_GP_Individual=1,n_GP_individuals
 
-    write(GP_log_unit,'(2(1x,I6),2(1x,E15.7))') &
+    !write(GP_log_unit,'(2(1x,I6),2(1x,E15.7))') &
+    write(GP_log_unit) &
           i_GP_generation, &
           i_GP_Individual, &
           GP_Adult_Individual_SSE(i_GP_Individual), &

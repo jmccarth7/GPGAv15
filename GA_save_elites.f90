@@ -20,7 +20,9 @@ real(kind=8) :: min_fit
 
 !----------------------------------------------------------------------
 
-!write(GA_print_unit,'(/A/)') 'gase: at entry'
+!if( L_ga_print )then 
+!    write(GA_print_unit,'(/A/)') 'gase: at entry'
+!endif ! L_ga_print 
 
 ! for each individual,i,  choose a random number in  [0.0, 1.0]
 ! the range of the integrated_ranked_fitness is also [0.0, 1.0]
@@ -29,13 +31,14 @@ real(kind=8) :: min_fit
 !  the integrated_ranked_fitness(j) > random number
 ! then replace child parameters of i with child parameters of j
 
-!write(GA_print_unit,'(/A)') ' '
 
 
 if( n_GA_save_elites < 1 ) return
 
+if( L_ga_print )then 
 write(GA_print_unit,'(/A,1x,I6)') &
       'gase: n_GA_save_elites ', n_GA_save_elites
+endif ! L_ga_print 
 
 
 
@@ -51,12 +54,14 @@ temp_fitness = individual_ranked_fitness
 
 call sort( n_GA_individuals, temp_fitness )
 
-!write(GA_print_unit,'(/A/)') &
-!      'gase: i, individual_ranked_fitness(i), temp_fitness(i)'
-!do  i = 1, n_GA_individuals
-!    write(GA_print_unit,'(I6,2(1x,E15.7))') &
-!    i, individual_ranked_fitness(i), temp_fitness(i)
-!enddo
+!if( L_ga_print )then 
+!    write(GA_print_unit,'(/A/)') &
+!          'gase: i, individual_ranked_fitness(i), temp_fitness(i)'
+!    do  i = 1, n_GA_individuals
+!        write(GA_print_unit,'(I6,2(1x,E15.7))') &
+!        i, individual_ranked_fitness(i), temp_fitness(i)
+!    enddo
+!endif ! L_ga_print 
 
 !-----------------------------------------------------------------------
 
@@ -68,9 +73,11 @@ call sort( n_GA_individuals, temp_fitness )
 
 min_fit = 1.0D20
 
-!write(GA_print_unit,'(A,2(1x,I6))') &
-!      'gase: n_GA_individuals, n_GA_individuals - n_GA_save_elites + 1 ',&
-!             n_GA_individuals, n_GA_individuals - n_GA_save_elites + 1
+!if( L_ga_print )then 
+!    write(GA_print_unit,'(A,2(1x,I6))') &
+!          'gase: n_GA_individuals, n_GA_individuals - n_GA_save_elites + 1 ',&
+!                 n_GA_individuals, n_GA_individuals - n_GA_save_elites + 1
+!endif ! L_ga_print 
 
 ! do the loop this way since temp_fitness
 ! is sorted in ascending order of fitness
@@ -85,8 +92,10 @@ enddo ! i
 
 deallocate( temp_fitness )
 
+if( L_ga_print )then 
 write(GA_print_unit,'(A,1x,E15.7/)') &
       'gase: min_fit to be elite ', min_fit
+endif ! L_ga_print 
 
 
 !-----------------------------------------------------------------------
@@ -120,18 +129,22 @@ enddo ! i
 
 !-----------------------------------------------------------------------
 
-!write(GA_print_unit,'(A,1x,1x,I6)') &
-!      'gase: elites for generation', i_GA_generation
-!do  i = 1, n_GA_save_elites
-!    write(GA_print_unit,'(A,1x,I6,2x,2(1x,I6))') &
-!          'gase: generation, i, individual_elites(i) ', &
-!            i_GA_generation, i, individual_elites(i)
-!enddo ! i
+if( L_ga_print )then                                                                                
 
-write(GA_print_unit,'(A,1x,1x,I6)') &
-      'gase: elites for generation', i_GA_generation
-write(GA_print_unit,'(10(1x,I6))')&
-       individual_elites(1:n_GA_save_elites)
+    !write(GA_print_unit,'(A,1x,1x,I6)') &
+    !      'gase: elites for generation', i_GA_generation
+    !do  i = 1, n_GA_save_elites
+    !    write(GA_print_unit,'(A,1x,I6,2x,2(1x,I6))') &
+    !          'gase: generation, i, individual_elites(i) ', &
+    !            i_GA_generation, i, individual_elites(i)
+    !enddo ! i
+    
+    
+    write(GA_print_unit,'(A,1x,1x,I6)') &
+          'gase: elites for generation', i_GA_generation
+    write(GA_print_unit,'(10(1x,I6))')&
+           individual_elites(1:n_GA_save_elites)
+endif ! L_ga_print  
 
 
 

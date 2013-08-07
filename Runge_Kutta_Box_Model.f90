@@ -181,13 +181,17 @@ do i_time_step=1,n_time_steps
                  Tree_Evaluation(i_function,i_tree)=cff*(1.0D+0-dexp(-1.0D+0*cff))
 
 
+                 !if( L_ga_print )then                                                                                
                  !write(GA_print_unit,'(8x, A, 1x,I2,3(1x,E15.7) )') &
                  ! 'icff, left, right, tree_eval ', &
                  !  icff, left_node_value, right_node_value, tree_evaluation(i_function,i_tree)
+                 !endif ! L_ga_print  
 
                CASE DEFAULT
 
+                 if( L_ga_print )then
                  write(GA_print_unit,*) 'wrong case number chosen in Runge Kutta evaluations'
+                 endif ! L_ga_print  
                  stop 'RK bad case number'
 
             END SELECT
@@ -206,9 +210,11 @@ do i_time_step=1,n_time_steps
 
       Tree_Value(i_tree)=Tree_Evaluation(1,i_tree)
 
+      !if( L_ga_print )then               
       !write(GA_print_unit,'(8x, A, 1x,E15.7)') &
       !      'RKBM: tree_eval(1, i_tree )  = ', &
       !       tree_evaluation(1, i_tree )
+      !endif ! L_ga_print  
 
     enddo !  i_tree
 
@@ -228,11 +234,13 @@ do i_time_step=1,n_time_steps
           ! 'dabs' forces flow of material in one direction
           bioflo(i_CODE_equation,j_CODE_equation)=dabs(tree_value(i_tree))
 
+          !if( L_ga_print )then 
           !write(GA_print_unit,'(A,3(1x,I6),2(2x, E15.7))') &
           !'RKBM:1 i_tree, i_code_equation, j_code_equation, &
           !&tree_value(i_tree), bioflo(i_CODE_equation,j_CODE_equation) ', &
           !        i_tree, i_code_equation, j_code_equation, &
           ! tree_value(i_tree), bioflo(i_CODE_equation,j_CODE_equation)
+          !endif ! L_ga_print  
 
         else
 
@@ -315,9 +323,13 @@ do i_time_step=1,n_time_steps
   if( any( isnan( b_tmp ) ) .or.  any( abs(b_tmp)  > 1.0d20 ) ) then
 
       L_bad_result = .TRUE.
+
+      !if( L_ga_print )then
       !write(GA_print_unit,'(A,2(1x,I6),12(1x,E15.7))') &
       !      'RKBM: bad result myid, i_time_step, b_tmp ', &
       !                        myid, i_time_step, b_tmp(1:n_CODE_equations)
+      !endif ! L_ga_print  
+
       return
 
   endif !   any( isnan( b_tmp ) ) .or.  any( abs(b_tmp) > 1.0d20
@@ -334,9 +346,11 @@ do i_time_step=1,n_time_steps
 
   !---------------------------------------------------------------------------
 
+  !if( L_ga_print )then      
   !write(GA_print_unit,'(A,2(1x,I6),12(1x,E15.7))') &
   !      'RKBM: myid, i_time_step, RK_Soln ', &
   !             myid, i_time_step, Runge_Kutta_Solution(i_time_step,1:n_CODE_equations)
+  !endif ! L_ga_print  
 
 
 

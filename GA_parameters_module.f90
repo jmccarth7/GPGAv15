@@ -9,6 +9,8 @@ implicit none
 integer(kind=4),parameter :: GA_print_unit = 60
 integer(kind=4),parameter :: GA_log_unit   = 70
 
+integer(kind=4) :: GA_print_flag 
+logical         :: L_GA_print
 
 logical :: Lprint_lmdif
 

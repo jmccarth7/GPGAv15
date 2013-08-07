@@ -83,11 +83,11 @@ if( myid == 0 )then
           status = 'unknown' )
 
     open( GP_log_unit, file = 'GP_log', &
-          form = 'formatted', access='sequential', &
+          form = 'unformatted', access='sequential', &
           status = 'unknown' )
 
     open( GA_log_unit, file = 'GA_log', &
-          form = 'formatted', access='sequential', &
+          form = 'unformatted', access='sequential', &
           status = 'unknown' )
 
 endif !   myid == 0
@@ -344,6 +344,8 @@ do  i_GP_Generation=1,n_GP_Generations
         !has to be sent to GA_lmdif for parameter optimization
 
         Run_GP_Calculate_Fitness=.true.
+
+        !---------------------------------------------------------------------------------
 
         if( myid == 0 )then
 
@@ -784,12 +786,17 @@ do  i_GP_Generation=1,n_GP_Generations
                 write(GP_print_unit,'(A,2(1x,I6))') &
                  '0: i_GP_Generation, i_GP_individual',i_GP_Generation,i_GP_individual
 
-                write(GA_print_unit,'(//A/A)') &
-                 '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>&
-                 &>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',&
-                 '0: call GPCODE_GA_lmdif_Parameter_Optimization routine'
-                write(GA_print_unit,'(A,2(1x,I6))') &
-                 '0: i_GP_Generation, i_GP_individual',i_GP_Generation,i_GP_individual
+                if( L_ga_print )then
+                    write(GA_print_unit,'(//A/A)') &
+                     '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>&
+                     &>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',&
+                     '0: call GPCODE_GA_lmdif_Parameter_Optimization routine'
+                    write(GA_print_unit,'(A,2(1x,I6))') &
+                     '0: i_GP_Generation, i_GP_individual',&
+                         i_GP_Generation,i_GP_individual
+                endif ! L_ga_print
+                !write(GA_log_unit,'(A,2(1x,I8))') &
+                ! '0:',i_GP_Generation,i_GP_individual
 
             endif ! myid == 0
 
@@ -808,7 +815,7 @@ do  i_GP_Generation=1,n_GP_Generations
             ! LINK THE SSE OUTPUT TO THE ARRAY AT THE END
             ! ALSO, THE OPTIMAL PARAMETER SETS FROM THE BEST CHILD NEED TO BE PULLED OUT
 
-            call GPCODE_GA_lmdif_Parameter_Optimization()
+            call GPCODE_GA_lmdif_Parameter_Optimization( i_GP_Generation,i_GP_individual )
 
             !if( myid == 0 )then
             !    write(GP_print_unit,'(A,1x,I6)') &

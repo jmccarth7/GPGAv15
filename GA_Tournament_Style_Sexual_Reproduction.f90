@@ -45,7 +45,9 @@ integer(kind=4) :: i_parameter
 
 !---------------------------------------------------------------------------
 
-!write(GA_print_unit,'(/A,1x,I6)')'gato: n_GA_Crossovers', n_GA_Crossovers
+!if( L_ga_print )then
+!    write(GA_print_unit,'(/A,1x,I6)')'gato: n_GA_Crossovers', n_GA_Crossovers
+!endif ! L_ga_print
 
 n_replaced = 0
 
@@ -65,10 +67,12 @@ do i_GA_Crossover=1,n_GA_Crossovers
   call check_for_elite( k_GA_Individual_Male(1) )
 
 
-  !write(GA_print_unit,'(/A,1x,I6)') &
+  !if( L_ga_print )then
+  !    write(GA_print_unit,'(/A,1x,I6)') &
   !      'gato: k_GA_Individual_Male(1)  ', k_GA_Individual_Male(1)
-  !write(GA_print_unit,'(A/(15(1x,I6)))') &
+  !    write(GA_print_unit,'(A/(15(1x,I6)))') &
   !      'gato: individual_elites ', individual_elites
+  !endif ! L_ga_print
 
 
   !--------------------------------------------------------------------
@@ -79,9 +83,11 @@ do i_GA_Crossover=1,n_GA_Crossovers
   call check_for_elite( k_GA_Individual_Male(2) )
 
 
-  !write(GA_print_unit,'(//A,3(1x,I6))')&
+  !if( L_ga_print )then
+  !    write(GA_print_unit,'(//A,3(1x,I6))')&
   !      'gato: aft random i_GA_Crossover, k_GA_Individual_Male(1:2)  ', &
   !                        i_GA_Crossover, k_GA_Individual_Male(1:2)
+  !endif ! L_ga_print
 
   !--------------------------------------------------------------------
 
@@ -106,12 +112,14 @@ do i_GA_Crossover=1,n_GA_Crossovers
   ! best fitness means Individual_Ranked_Fitness is largest
 
 
-  !write(GA_print_unit,'(A,1x,E24.16)')&
+  !if( L_ga_print )then
+  !    write(GA_print_unit,'(A,1x,E24.16)')&
   !      'gato: Individual_Ranked_Fitness(k_GA_Individual_Male(1)) ', &
   !             Individual_Ranked_Fitness(k_GA_Individual_Male(1))
-  !write(GA_print_unit,'(A,1x,E24.16)')&
+  !    write(GA_print_unit,'(A,1x,E24.16)')&
   !      'gato: Individual_Ranked_Fitness(k_GA_Individual_Male(2)) ', &
   !             Individual_Ranked_Fitness(k_GA_Individual_Male(2))
+  !endif ! L_ga_print
 
   if( Individual_Ranked_Fitness(k_GA_Individual_Male(1)) .lt. &
       Individual_Ranked_Fitness(k_GA_Individual_Male(2))        ) then
@@ -120,9 +128,11 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
   endif !   Individual_Ranked_Fitness(k_GA_Individual_Male(1)) .lt. ...
 
-  !write(GA_print_unit,'(A,3(1x,I6))')&
+  !if( L_ga_print )then
+  !    write(GA_print_unit,'(A,3(1x,I6))')&
   !      'gato: selected male i_GA_Crossover, k_GA_Individual_Male(1) ', &
   !                           i_GA_Crossover, k_GA_Individual_Male(1)
+  !endif ! L_ga_print
 
   !---------------------------------------------------------------------------------
 
@@ -138,9 +148,11 @@ do i_GA_Crossover=1,n_GA_Crossovers
   call check_for_elite( k_GA_Individual_Female(2) )
 
 
-  !write(GA_print_unit,'(/A,3(1x,I6))')&
+  !if( L_ga_print )then
+  !    write(GA_print_unit,'(/A,3(1x,I6))')&
   !      'gato: aft random i_GA_Crossover, k_GA_Individual_Female(1:2)', &
   !                        i_GA_Crossover, k_GA_Individual_Female(1:2)
+  !endif ! L_ga_print
 
   !---------------------------------------------------------------------------------
 
@@ -166,12 +178,14 @@ do i_GA_Crossover=1,n_GA_Crossovers
   ! best fitness means Individual_Ranked_Fitness is largest
 
 
-  !write(GA_print_unit,'(A,1x,E24.16)')&
+  !if( L_ga_print )then
+  !    write(GA_print_unit,'(A,1x,E24.16)')&
   !      'gato: Individual_Ranked_Fitness(k_GA_Individual_Female(1)) ', &
   !             Individual_Ranked_Fitness(k_GA_Individual_Female(1))
-  !write(GA_print_unit,'(A,1x,E24.16)')&
+  !    write(GA_print_unit,'(A,1x,E24.16)')&
   !      'gato: Individual_Ranked_Fitness(k_GA_Individual_Female(2)) ', &
   !             Individual_Ranked_Fitness(k_GA_Individual_Female(2))
+  !endif ! L_ga_print
 
 
   if( Individual_Ranked_Fitness(k_GA_Individual_Female(1)) .lt. &
@@ -187,7 +201,7 @@ do i_GA_Crossover=1,n_GA_Crossovers
   !  (just for comparison )
 
   temp_male_parameters(1:n_parameters)   = &
-            Child_Parameters( 1:n_parameters, k_GA_Individual_Male(1) ) 
+            Child_Parameters( 1:n_parameters, k_GA_Individual_Male(1) )
   temp_female_parameters(1:n_parameters) = &
             Child_Parameters( 1:n_parameters, k_GA_Individual_Female(1) )
 
@@ -203,9 +217,11 @@ do i_GA_Crossover=1,n_GA_Crossovers
   i_GA_Crossover_Point=1+int( dff*dble(n_Parameters-2) )
   i_GA_Crossover_Point = min( i_GA_Crossover_Point , n_Parameters )
 
-  !write(GA_print_unit,'(/A,2(1x,I6))')&
+  !if( L_ga_print )then
+  !    write(GA_print_unit,'(/A,2(1x,I6))')&
   !      'gato: i_GA_Crossover, i_GA_Crossover_Point ', &
   !             i_GA_Crossover, i_GA_Crossover_Point
+  !endif ! L_ga_print
 
   !--------------------------------------------------------------------------------
 
@@ -280,13 +296,20 @@ do i_GA_Crossover=1,n_GA_Crossovers
       old_female = Parent_Parameters(i_GA_Crossover_Point, k_GA_Individual_Female(1))
       mean_parm = 0.5d0 * ( old_male + old_female )
 
-      !write(GA_print_unit,'(A,3(1x,E15.7))') 'gato:1 old_male, old_female, mean_parm ', &
-      !                                               old_male, old_female, mean_parm
+      !if( L_ga_print )then
+      !    write(GA_print_unit,'(A,3(1x,E15.7))')&
+      !          'gato:1 old_male, old_female, mean_parm ', &
+      !                  old_male, old_female, mean_parm
+      !endif ! L_ga_print
+
       call random_number( cff )
       std_dev_parm = 0.5d0 + real(cff,kind=8) * mean_parm
 
-      !write(GA_print_unit,'(A,3(1x,E15.7))') 'gato:1 cff, mean_parm, std_dev_parm    ', &
-      !                                               cff, mean_parm, std_dev_parm
+      !if( L_ga_print )then
+      !    write(GA_print_unit,'(A,3(1x,E15.7))') &
+      !          'gato:1 cff, mean_parm, std_dev_parm    ', &
+      !                  cff, mean_parm, std_dev_parm
+      !endif ! L_ga_print
 
       call random_number( cff )
       cff_1 = real( cff, kind = 8 )
@@ -303,9 +326,11 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
       Child_One_Parameters(i_GA_Crossover_Point) =  abs( dff )  ! jjm 20130604
 
-      !write(GA_print_unit,'(A,3(1x,E15.7))') &
+      !if( L_ga_print )then
+      !    write(GA_print_unit,'(A,3(1x,E15.7))') &
       !   'gato:1 cff_1, cff_2, Child_One_Parameters(i_GA_Crossover_Point) ', &
       !           cff_1, cff_2, Child_One_Parameters(i_GA_Crossover_Point)
+      !endif ! L_ga_print
 
   endif
 
@@ -355,17 +380,24 @@ do i_GA_Crossover=1,n_GA_Crossovers
       !    Standard_Deviation * sqrt ( -2.0 * log ( cff_one ) ) * cos ( 2.0 * pi * cff_two ) + Mean
 
 
-      old_male   = Parent_Parameters( i_GA_Crossover_Point, k_GA_Individual_Male(1) ) 
+      old_male   = Parent_Parameters( i_GA_Crossover_Point, k_GA_Individual_Male(1) )
       old_female = Parent_Parameters( i_GA_Crossover_Point, k_GA_Individual_Female(1) )
       mean_parm = 0.5d0 * ( old_male + old_female )
 
-      !write(GA_print_unit,'(A,3(1x,E15.7))') 'gato:2 old_male, old_female, mean_parm ', &
-      !                                               old_male, old_female, mean_parm
+      !if( L_ga_print )then
+      !    write(GA_print_unit,'(A,3(1x,E15.7))') &
+      !          'gato:2 old_male, old_female, mean_parm ', &
+      !                  old_male, old_female, mean_parm
+      !endif ! L_ga_print
+
       call random_number( cff )
       std_dev_parm = 0.5d0 + real(cff,kind=8) * mean_parm
 
-      !write(GA_print_unit,'(A,3(1x,E15.7))') 'gato:2 cff, mean_parm, std_dev_parm    ', &
-      !                                               cff, mean_parm, std_dev_parm
+      !if( L_ga_print )then
+      !    write(GA_print_unit,'(A,3(1x,E15.7))') &
+      !          'gato:2 cff, mean_parm, std_dev_parm    ', &
+      !                  cff, mean_parm, std_dev_parm
+      !endif ! L_ga_print
 
       call random_number( cff )
       cff_1 = real( cff, kind = 8 )
@@ -378,9 +410,11 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
       Child_Two_Parameters(i_GA_Crossover_Point) = dff
 
-      !write(GA_print_unit,'(A,3(1x,E15.7))') &
+      !if( L_ga_print )then
+      !    write(GA_print_unit,'(A,3(1x,E15.7))') &
       !   'gato:2 cff_1, cff_2, Child_Two_Parameters(i_GA_Crossover_Point) ', &
       !           cff_1, cff_2, Child_Two_Parameters(i_GA_Crossover_Point)
+      !endif ! L_ga_print
 
 
   endif
@@ -408,30 +442,29 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
   !  print parameters for selected male and female parents before and after  crossover
 
-  !write(GA_print_unit,'(A,3(1x,I6))')&
-  ! 'gato: selected i_GA_Crossover, &
-  ! &k_GA_Individual_Male(1), k_GA_Individual_Female(1) ', &
-  ! i_GA_Crossover, &
-  ! k_GA_Individual_Male(1), k_GA_Individual_Female(1)
-
-  !write(GA_print_unit,'(A/I6,12(1x,E15.7))')&
-  ! 'gato: before k_GA_Individual_Male(1), &
-  !  &Child_Parameters(1:n_parameters, k_GA_Individual_Male(1)) ', &
-  !  k_GA_Individual_Male(1),   temp_male_parameters(1:n_parameters)
-
-  !write(GA_print_unit,'(A/I6,12(1x,E15.7))')&
-  ! 'gato: after ', &
-  !  k_GA_Individual_Male(1), Child_Parameters(1:n_parameters, k_GA_Individual_Male(1) )
-
-  !write(GA_print_unit,'(A/I6,12(1x,E15.7))')&
-  ! 'gato: before k_GA_Individual_Female(1), &
-  !  &Child_Parameters(1:n_parameters, k_GA_Individual_Female(1))', &
-  !  k_GA_Individual_Female(1), temp_female_parameters(1:n_parameters)
-
-  !write(GA_print_unit,'(A/I6,12(1x,E15.7))')&
-  ! 'gato: after  ', &
-  !  k_GA_Individual_Female(1), &
-  !  &Child_Parameters(1:n_parameters, k_GA_Individual_Female(1) )
+  !if( L_ga_print )then
+  !    write(GA_print_unit,'(A,3(1x,I6))')&
+  !     'gato: selected i_GA_Crossover, &
+  !     &k_GA_Individual_Male(1), k_GA_Individual_Female(1) ', &
+  !     i_GA_Crossover, &
+  !     k_GA_Individual_Male(1), k_GA_Individual_Female(1)
+  !    write(GA_print_unit,'(A/I6,12(1x,E15.7))')&
+  !     'gato: before k_GA_Individual_Male(1), &
+  !      &Child_Parameters(1:n_parameters, k_GA_Individual_Male(1)) ', &
+  !      k_GA_Individual_Male(1),   temp_male_parameters(1:n_parameters)
+  !    write(GA_print_unit,'(A/I6,12(1x,E15.7))')&
+  !     'gato: after ', &
+  !      k_GA_Individual_Male(1), &
+  !      Child_Parameters(1:n_parameters, k_GA_Individual_Male(1) )
+  !    write(GA_print_unit,'(A/I6,12(1x,E15.7))')&
+  !     'gato: before k_GA_Individual_Female(1), &
+  !      &Child_Parameters(1:n_parameters, k_GA_Individual_Female(1))', &
+  !      k_GA_Individual_Female(1), temp_female_parameters(1:n_parameters)
+  !    write(GA_print_unit,'(A/I6,12(1x,E15.7))')&
+  !     'gato: after  ', &
+  !      k_GA_Individual_Female(1), &
+  !      &Child_Parameters(1:n_parameters, k_GA_Individual_Female(1) )
+  !endif ! L_ga_print
 
 
   Run_GA_lmdif( k_GA_Individual_Male(1) )   = .true.
@@ -444,9 +477,11 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
 enddo
 
-write(GA_print_unit,'(A,1x,I6,1x,I10)')&
+if( L_ga_print )then
+    write(GA_print_unit,'(A,1x,I6,1x,I10)')&
       'gato: i_ga_generation, n_replaced in tournament ', &
              i_ga_generation, n_replaced
+endif ! L_ga_print
 
 
 return
