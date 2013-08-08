@@ -773,6 +773,8 @@ do  i_GP_Generation=1,n_GP_Generations
 
                 cycle gp_ind_loop
 
+                !!call GP_tree_reset( i_GP_individual ) 
+
             endif ! n_GP_parameters == 0
 
             !-------------------------------------------------------------------
