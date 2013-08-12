@@ -24,7 +24,7 @@ integer(kind=4) :: i_GP_Asexual_Reproduction
 
 
 
-i_GP_Individual = n_GP_Elitists
+!i_GP_Individual = n_GP_Elitists
 
 !if( myid == 0 )then
 !    write(GP_print_unit,'(/A,1x,I6)' ) &
@@ -38,8 +38,23 @@ i_GP_Individual = n_GP_Elitists
 
 do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
 
-    i_GP_Individual=i_GP_Individual+1
 
+    !--------------------------------------------------------------------------
+
+    !i_GP_Individual=i_GP_Individual+1
+
+    call Random_Number(cff) ! uniform random number generator
+
+    i_GP_individual = min( nint( cff * n_GP_Individuals ) , n_GP_Individuals ) 
+    i_GP_individual = max( 1, i_GP_individual )                                
+
+    if( myid == 0 )then
+        write(6,'(A,2(1x,I6))') &
+              'gpfpar: i_GP_Asexual_Reproduction, i_GP_individual ', &
+                       i_GP_Asexual_Reproduction, i_GP_individual 
+    endif ! myid == 0
+
+    !--------------------------------------------------------------------------
     call Random_Number(cff) ! uniform random number generator
 
     ! normalize to the maximum values so that the range is from [0. to 1.]

@@ -41,9 +41,9 @@ logical Node_Not_Found
 
 
 
-i_GP_Individual_Mutation = 0
+!i_GP_Individual_Mutation = 0
 
-i_GP_Individual = n_GP_Elitists + n_GP_Asexual_Reproductions + n_GP_Crossovers
+!i_GP_Individual = n_GP_Elitists + n_GP_Asexual_Reproductions + n_GP_Crossovers
 
 !if( myid == 0 )then
 !    write(GP_print_unit,'(/A,1x,I6)' ) &
@@ -58,7 +58,25 @@ i_GP_Individual = n_GP_Elitists + n_GP_Asexual_Reproductions + n_GP_Crossovers
 
 do  i_GP_Mutation = 1,n_GP_Mutations
 
-    i_GP_Individual = i_GP_Individual+1
+    !i_GP_Individual = i_GP_Individual+1
+
+
+    !--------------------------------------------------------------------------
+
+    !i_GP_Individual=i_GP_Individual+1
+
+    call Random_Number(cff) ! uniform random number generator
+
+    i_GP_individual = min( nint( cff * n_GP_Individuals ) , n_GP_Individuals )
+    i_GP_individual = max( 1, i_GP_individual )
+
+    if( myid == 0 )then
+        write(6,'(A,2(1x,I6))') &
+              'gpfpar: i_GP_Mutation, i_GP_individual ', &
+                       i_GP_Mutation, i_GP_individual
+    endif ! myid == 0
+
+    !--------------------------------------------------------------------------
 
      ! fill in the chosen Child with the Parent's tree information
 

@@ -53,6 +53,22 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
 
     i_GP_Individual = i_GP_Individual+1
 
+    !--------------------------------------------------------------------------                                              
+                                                                                                                             
+    !i_GP_Individual=i_GP_Individual+1                                                                                       
+                                                                                                                             
+    call Random_Number(cff) ! uniform random number generator                                                                
+                                                                                                                             
+    i_GP_individual = min( nint( cff * n_GP_Individuals ) , n_GP_Individuals )                                               
+    i_GP_individual = max( 1, i_GP_individual )
+                                                                                                                             
+    if( myid == 0 )then
+        write(6,'(A,2(1x,I6))') &                                                                                                
+              'gptssr: i_GP_Crossover, i_GP_individual ', &                                                           
+                       i_GP_Crossover, i_GP_individual                                                                
+    endif ! myid == 0
+                                                                                                                             
+    !--------------------------------------------------------------------------              
     !if( myid == 0 )then
     !    write(GP_print_unit,'(/A,2(1x,I6)/)' ) &
     !          'gptssr: i_GP_Crossover, i_GP_Individual ', &
