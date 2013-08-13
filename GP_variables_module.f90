@@ -110,8 +110,8 @@ real(kind=8),allocatable, dimension(:) :: GP_Child_Individual_SSE
 real(kind=8),allocatable, dimension(:) :: GP_Adult_Population_SSE  ! ???
 real(kind=8),allocatable, dimension(:) :: GP_Child_Population_SSE  ! ???
 
-!real(kind=8),allocatable, dimension(:) :: GP_Individual_Ranked_Fitness
-!real(kind=8),allocatable, dimension(:) :: GP_Integrated_Ranked_Fitness
+real(kind=8),allocatable, dimension(:) :: GP_Individual_Ranked_Fitness
+real(kind=8),allocatable, dimension(:) :: GP_Integrated_Ranked_Fitness
 
 real(kind=8),allocatable, dimension(:) :: GP_Population_Ranked_Fitness               ! ???
 real(kind=8),allocatable, dimension(:) :: GP_Integrated_Population_Ranked_Fitness    ! ???

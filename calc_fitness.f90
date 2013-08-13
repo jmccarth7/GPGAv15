@@ -102,7 +102,7 @@ do  i_GA_individual=1,n_GA_individuals
     
 enddo !  i_GA_individual
 
-write(444) i_GA_generation, ppe(1:n_parameters, 1:n_GA_individuals)
+!write(444) i_GA_generation, ppe(1:n_parameters, 1:n_GA_individuals)
 
 !-----------------------------------------------------------------------------------
 

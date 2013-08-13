@@ -65,17 +65,17 @@ do  i_Tree=1,n_Trees
 
                 ! check Left node
 
-                !write(GP_print_unit,'(A,3(1x,I6))') &
-                !      'gct: i_Node_Left, i_tree, GP_Individual_Node_Type(i_Node_Left,i_Tree) ',&
-                !            i_Node_Left, i_tree, GP_Individual_Node_Type(i_Node_Left,i_Tree)
+                write(GP_print_unit,'(A,3(1x,I6))') &
+                      'gct: i_Node_Left, i_tree, GP_Individual_Node_Type(i_Node_Left,i_Tree) ',&
+                            i_Node_Left, i_tree, GP_Individual_Node_Type(i_Node_Left,i_Tree)
 
                 if( GP_Individual_Node_Type(i_Node_Left,i_Tree) .lt. -n_CODE_Equations ) then
 
                     if( myid == 0 )then
-                        write(GP_print_unit,'(A,3(1x,I6))') &
-                              'gct: Left ', &
-                              i_Node_Left,GP_Individual_Node_Type(i_Function, i_Tree),&
-                                          GP_Individual_Node_Type(i_Node_Left,i_Tree)
+                        !write(GP_print_unit,'(A,3(1x,I6))') &
+                        !      'gct: Left ', &
+                        !      i_Node_Left,GP_Individual_Node_Type(i_Function, i_Tree),&
+                        !                  GP_Individual_Node_Type(i_Node_Left,i_Tree)
                         write(GP_print_unit,'(A,4(1x,I6))') &
                               'gct: i_Node_Left, i_function, i_tree, &
                               &GP_Individual_Node_Type(i_Function, i_Tree)',&
@@ -99,9 +99,9 @@ do  i_Tree=1,n_Trees
 
                 ! check Right node
 
-                !write(GP_print_unit,'(A,3(1x,I6))') &
-                !      'gct: i_Node_Right, i_tree, GP_Individual_Node_Type(i_Node_Right,i_Tree) ',&
-                !            i_Node_Right, i_tree, GP_Individual_Node_Type(i_Node_Right,i_Tree)
+                write(GP_print_unit,'(A,3(1x,I6))') &
+                      'gct: i_Node_Right, i_tree, GP_Individual_Node_Type(i_Node_Right,i_Tree) ',&
+                            i_Node_Right, i_tree, GP_Individual_Node_Type(i_Node_Right,i_Tree)
 
 
                 if( GP_Individual_Node_Type(i_Node_Right,i_Tree) .lt. -n_CODE_Equations) then

@@ -59,8 +59,8 @@ allocate( integrated_ranked_fitness( n_GA_individuals )  )
 allocate( GP_Population_Fitness(n_GP_individuals) )
 allocate( GP_Integrated_Population_Ranked_Fitness( n_GP_Individuals ) )
 
-!allocate( GP_Individual_Ranked_Fitness(n_GP_Individuals) )
-!allocate( GP_Integrated_Ranked_Fitness(n_GP_Individuals) )
+allocate( GP_Individual_Ranked_Fitness(n_GP_Individuals) )
+allocate( GP_Integrated_Ranked_Fitness(n_GP_Individuals) )
 
 allocate( GP_Population_Ranked_Fitness(n_GP_Individuals) )
 
@@ -165,8 +165,8 @@ integrated_ranked_fitness  = 0.0d0
 GP_Population_Fitness = 0.0d0
 GP_Integrated_Population_Ranked_Fitness = 0.0D0
 
-!GP_Individual_Ranked_Fitness = 0.0d0
-!GP_Integrated_Ranked_Fitness = 0.0d0
+GP_Individual_Ranked_Fitness = 0.0d0
+GP_Integrated_Ranked_Fitness = 0.0d0
 GP_Population_Ranked_Fitness = 0.0d0
 
 !GP_Population_Parameter_Solution = 0.0d0

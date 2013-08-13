@@ -28,24 +28,24 @@ integer(kind=4) :: i_Male_Tree
 integer(kind=4) :: i_Female_Tree
 integer(kind=4) :: i_Error
 
-integer(kind=4) :: i_GP_individual                                                                           
-integer(kind=4) :: i_tree                                                                                    
-integer(kind=4) :: i_node                                                                                    
+integer(kind=4) :: i_GP_individual
+integer(kind=4) :: i_tree
+integer(kind=4) :: i_node
 
 !----------------------------------------------------------------------------------
 
 i_GP_Individual = n_GP_Elitists + n_GP_Asexual_Reproductions
 
-!if( myid == 0 )then
-!    write(GP_print_unit,'(/A,1x,I6)' ) &
-!          'gptssr: n_GP_Crossovers ', n_GP_Crossovers
-!    !write(GP_print_unit,'(A,2(1x,I6))' ) &
-!    !      'gptssr: n_GP_Elitists, n_GP_Asexual_Reproductions ', &
-!    !               n_GP_Elitists, n_GP_Asexual_Reproductions
-!    !write(GP_print_unit,'(A,1x,I6)' ) &
-!    !      'gptssr: start i_GP_individual  =  ', &
-!    !               n_GP_Elitists + n_GP_Asexual_Reproductions +1
-!endif ! myid == 0
+if( myid == 0 )then
+    write(GP_print_unit,'(/A,1x,I6)' ) &
+          'gptssr: n_GP_Crossovers ', n_GP_Crossovers
+    write(GP_print_unit,'(A,2(1x,I6))' ) &
+          'gptssr: n_GP_Elitists, n_GP_Asexual_Reproductions ', &
+                   n_GP_Elitists, n_GP_Asexual_Reproductions
+    write(GP_print_unit,'(A,1x,I6)' ) &
+          'gptssr: start i_GP_individual  =  ', &
+                   n_GP_Elitists + n_GP_Asexual_Reproductions +1
+endif ! myid == 0
 
 
 do  i_GP_Crossover = 1,n_GP_Crossovers
@@ -53,22 +53,20 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
 
     i_GP_Individual = i_GP_Individual+1
 
-    !--------------------------------------------------------------------------                                              
-                                                                                                                             
-    !i_GP_Individual=i_GP_Individual+1                                                                                       
-                                                                                                                             
-    call Random_Number(cff) ! uniform random number generator                                                                
-                                                                                                                             
-    i_GP_individual = min( nint( cff * n_GP_Individuals ) , n_GP_Individuals )                                               
-    i_GP_individual = max( 1, i_GP_individual )
-                                                                                                                             
-    if( myid == 0 )then
-        write(6,'(A,2(1x,I6))') &                                                                                                
-              'gptssr: i_GP_Crossover, i_GP_individual ', &                                                           
-                       i_GP_Crossover, i_GP_individual                                                                
-    endif ! myid == 0
-                                                                                                                             
-    !--------------------------------------------------------------------------              
+    !--------------------------------------------------------------------------
+
+    !call Random_Number(cff) ! uniform random number generator
+
+    !i_GP_individual = min( nint( cff * n_GP_Individuals ) , n_GP_Individuals )
+    !i_GP_individual = max( 1, i_GP_individual )
+
+    !if( myid == 0 )then
+    !    write(6,'(A,2(1x,I6))') &
+    !          'gptssr: i_GP_Crossover, i_GP_individual ', &
+    !                   i_GP_Crossover, i_GP_individual
+    !endif ! myid == 0
+
+    !--------------------------------------------------------------------------
     !if( myid == 0 )then
     !    write(GP_print_unit,'(/A,2(1x,I6)/)' ) &
     !          'gptssr: i_GP_Crossover, i_GP_Individual ', &
@@ -84,7 +82,7 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
     k_GP_Individual_Male(1) = min( k_GP_Individual_Male(1) , n_GP_Individuals )
 
     call random_number(cff) ! uniform random number generator
-    k_GP_Individual_Male(2) = 1+int(cff*float(n_GP_Individuals)) 
+    k_GP_Individual_Male(2) = 1+int(cff*float(n_GP_Individuals))
     k_GP_Individual_Male(2) = min( k_GP_Individual_Male(2) , n_GP_Individuals )
 
 
@@ -102,7 +100,7 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
     endif !   k_GP_Individual_Male(2) .eq. k_GP_Individual_Male(1)
 
     k_GP_Individual_Male(2) = min( k_GP_Individual_Male(2) , n_GP_Individuals )
-    k_GP_Individual_Male(2) = max( k_GP_Individual_Male(2) , 1 )                       
+    k_GP_Individual_Male(2) = max( k_GP_Individual_Male(2) , 1 )
 
 
     ! select the individual with the least SSE level between the two chosen males
@@ -140,7 +138,7 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
     k_GP_Individual_Female(2) = min( k_GP_Individual_Female(2) , n_GP_Individuals )
 
     k_GP_Individual_Female(2) = min( k_GP_Individual_Female(2) , n_GP_Individuals )
-    k_GP_Individual_Male(2) = max( k_GP_Individual_Male(2) , 1 )                       
+    k_GP_Individual_Male(2) = max( k_GP_Individual_Male(2) , 1 )
 
     ! Check to make sure that the two females are not the same
 
@@ -242,6 +240,7 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
 
     !-----------------------------------------------------------------------------------------
 
+    ! load this array since GP_Check_Terminals uses it
     GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) =  &
         GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees, k_GP_Individual_Male(1))
 
@@ -273,11 +272,13 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
                         i_GP_Individual, k_GP_Individual_Male(1), i_Error
         endif ! myid == 0
 
-        call MPI_FINALIZE(ierr) 
-        stop 'GP_Tou check error'
+        !call MPI_FINALIZE(ierr)
+        !stop 'GP_Tou check error'
     endif
 
     !-----------------------------------------------------------------------------------------
+
+    ! load this array since GP_Check_Terminals uses it
 
     GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) =  &
         GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees, k_GP_Individual_Female(1))
@@ -308,22 +309,22 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
                'gptssr: i_GP_Individual, k_GP_Indiv_Female(1), i_Error  ', &
                         i_GP_Individual, k_GP_Individual_Female(1), i_Error
         endif ! myid == 0
-        call MPI_FINALIZE(ierr) 
-        stop 'GP_Tou stop error 2'
+        !call MPI_FINALIZE(ierr)
+        !stop 'GP_Tou stop error 2'
     endif
 
 
     !-----------------------------------------------------------------------------------
 
-    !if( myid == 0 )then
-    !    write(6,'(/A)') 'gptssr: call GP_Tree_Swap '
-    !endif ! myid == 0
+    if( myid == 0 )then
+        write(6,'(/A)') 'gptssr: call GP_Tree_Swap '
+    endif ! myid == 0
 
     call GP_Tree_Swap    !   perform the random tree swap
 
-    !if( myid == 0 )then
-    !    write(6,'(A/)') 'gptssr: aft call GP_Tree_Swap '
-    !endif ! myid == 0
+    if( myid == 0 )then
+        write(6,'(A/)') 'gptssr: aft call GP_Tree_Swap '
+    endif ! myid == 0
 
     !-----------------------------------------------------------------------------------
 
@@ -335,6 +336,7 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
 
     !-----------------------------------------------------------------------------------
 
+    ! load this array since GP_Check_Terminals uses it
     GP_Individual_Node_Type(1:n_Nodes,1:n_Trees)  =  &
             GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual)
 
@@ -365,8 +367,8 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
             write(6,'(A,3(1x,I6)/)') 'gptssr: i_GP_Indiv, i_Male_Tree, i_Error  ', &
                                               i_GP_Individual, i_Male_Tree, i_Error
         endif ! myid == 0
-        call MPI_FINALIZE(ierr) 
-        stop 'GP_Tou stop error 3'
+        !call MPI_FINALIZE(ierr)
+        !stop 'GP_Tou stop error 3'
     endif
 
     !-----------------------------------------------------------------------------------

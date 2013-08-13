@@ -58,6 +58,7 @@ real (kind=8) ::  dff
 
 ! this routine is only called by processor 0
 
+! fitness reset region (??)
 
 output_array = 0.0d0
 
@@ -69,7 +70,6 @@ write(GP_print_unit,'(/A/(5(1x,E15.7)))') 'gpcf: GP_Child_Individual_SSE = ',&
 
 !-------------------------------------------------------------------------------------
 
-! fitness reset region (??)
 
 if( i_GP_generation == 1                                 .or. &
     mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
@@ -150,6 +150,7 @@ do  i_GP_Individual=1,n_GP_Individuals
     endif ! abs( dff ) > 1.0D-30
 
 enddo ! i_GP_Individual
+
 
 !-------------------------------------------------------------------------------------------------
 
@@ -443,6 +444,12 @@ enddo ! i_GP_individual
 
 write(unit_gp_out) GP_Node_Type_for_Plotting
 
+
+!-----------------------------------------------------------------------------------------
+
+! re-sort based on rankings
+
+call GP_ranking_sort()
 
 !-----------------------------------------------------------------------------------------
 
