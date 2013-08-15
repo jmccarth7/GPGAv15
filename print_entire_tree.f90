@@ -30,7 +30,8 @@ write(GP_print_unit,'(/A,6(1x,I6))') 'pet: n_CODE_Equations, n_trees, n_levels '
                                            n_CODE_Equations, n_trees, n_levels
 
 write(GP_print_unit,'(/A/)') &
-      'pet: i_Tree, i_Level, i_Function, i_Node, Node_Type(i_Function,i_Tree), Node_Type(i_Node,i_Tree) '
+      'pet:  Tree      Level       Func       Node   Type(Func Tree)  Type(Node Tree)'                      
+      !'pet: i_Tree, i_Level, i_Function, i_Node, Node_Type(i_Function,i_Tree), Node_Type(i_Node,i_Tree) '
 
 
 
@@ -53,15 +54,18 @@ do  i_Tree=1,n_Trees
 
 
 
-            write(GP_print_unit,'(6(1x,I6))') &
-                  i_Tree, i_Level, i_Function, i_Node, &
-                  GP_Individual_Node_Type(i_Function, i_Tree), &
-                  GP_Individual_Node_Type(i_Node, i_Tree)
+            if( .not. ( GP_Individual_Node_Type(i_Function, i_Tree) == -9999 .and. &
+                        GP_Individual_Node_Type(i_Node, i_Tree) == -9999)      ) then
+                write(GP_print_unit,'(5(1x,I10),4x,I10)') &
+                      i_Tree, i_Level, i_Function, i_Node, &
+                      GP_Individual_Node_Type(i_Function, i_Tree), &
+                      GP_Individual_Node_Type(i_Node, i_Tree)
 
-            !write(GP_print_unit,'(A,3(1x,I6)/)') &
-            !      'pet: i_function, i_tree, GP_Individual_Node_Type(i_Function, i_Tree)',&
-            !            i_function, i_tree, GP_Individual_Node_Type(i_Function, i_Tree)
+                !write(GP_print_unit,'(A,3(1x,I6)/)') &
+                !      'pet: i_function, i_tree, GP_Individual_Node_Type(i_Function, i_Tree)',&
+                !            i_function, i_tree, GP_Individual_Node_Type(i_Function, i_Tree)
 
+            endif ! .not. ( GP_Individual_Node_Type(i_Function, i_Tree) == -999 ....        
 
         enddo ! i_node
 

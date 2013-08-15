@@ -81,10 +81,15 @@ if( i_GP_generation == 1                                 .or. &
     write(GP_print_unit,'(A)') &
           'gpcf: i_GP_Indiv, GP_Indiv_N_GP_param(i_GP_Indiv) '
 
-    do  i_GP_Individual=1,n_GP_Individuals
-        write(GP_print_unit,'(5x,2(1x,I6))') &
-                     i_GP_Individual, GP_Individual_N_GP_param(i_GP_Individual)
-    enddo
+    !do  i_GP_Individual=1,n_GP_Individuals
+    !    write(GP_print_unit,'(5x,2(1x,I6))') &
+    !                 i_GP_Individual, GP_Individual_N_GP_param(i_GP_Individual)
+    !enddo
+
+    write(GP_print_unit, '(5(1x,I8," : ", I3))') &
+           ( i_GP_Individual, GP_Individual_N_GP_param(i_GP_Individual), &
+             i_GP_Individual=1,n_GP_Individuals ) 
+
 
     write(GP_print_unit,'(/A)')' '
 
@@ -159,11 +164,11 @@ if( i_GP_generation == 1                                 .or. &
     i_GP_generation == n_GP_generations                          ) then
 
     write(GP_print_unit,'(/A)') &
-          'gpcf: i_GP_indiv, GP_Child_Indiv_SSE GP_Pop_Ranked_Fitness   '
+          'gpcf: i_GP_indiv  GP_Child_Indiv_SSE  GP_Pop_Ranked_Fitness   '
          !'gpcf: i_GP_indiv, GP_Indiv_Ranked_Fitness '
 
     do  i_GP_Individual=1,n_GP_Individuals
-        write(GP_print_unit,'(5x,I6,2(5x,E15.7))') &
+        write(GP_print_unit,'(5x,I6,2x, 2(5x,E15.7))') &
               i_GP_individual, GP_Child_Individual_SSE(i_GP_Individual), &
              GP_Population_Ranked_Fitness(i_GP_Individual)
     enddo
@@ -184,14 +189,14 @@ do  i_GP_Individual=1,n_GP_Individuals
     GP_Integrated_Population_Ranked_Fitness(i_GP_Individual)=dff
 enddo
 
-write(GP_print_unit,'(/A)') &
-    'gpcf: i_GP_indiv  GP_Child_Indiv_SSE  GP_Integ_Pop_Ranked_Fitness '
-do  i_GP_Individual=1,n_GP_Individuals
-    write(GP_print_unit,'(5x,I6,2(5x,E15.7))') &
-           i_GP_individual, &
-           GP_Child_Individual_SSE(i_GP_Individual), &
-           GP_Integrated_Population_Ranked_Fitness(i_GP_Individual)
-enddo
+!write(GP_print_unit,'(/A)') &
+!    'gpcf: i_GP_indiv  GP_Child_Indiv_SSE  GP_Integ_Pop_Ranked_Fitness '
+!do  i_GP_Individual=1,n_GP_Individuals
+!    write(GP_print_unit,'(5x,I6,2(5x,E15.7))') &
+!           i_GP_individual, &
+!           GP_Child_Individual_SSE(i_GP_Individual), &
+!           GP_Integrated_Population_Ranked_Fitness(i_GP_Individual)
+!enddo
 
 !-------------------------------------------------------------------------------------------------
 
@@ -226,7 +231,7 @@ if( i_GP_generation == 1                                 .or. &
 
     do  i_GP_Individual=1,n_GP_Individuals
 
-        write(GP_print_unit,'(5x,I6,2(5x,E15.7))') &
+        write(GP_print_unit,'(5x,I6,2x,2(5x,E15.7))') &
               i_GP_individual, &
               GP_Child_Individual_SSE(i_GP_Individual), &
               GP_Integrated_Population_Ranked_Fitness(i_GP_Individual)
@@ -238,9 +243,9 @@ endif ! i_GP_generation == 1 .or. ...
 !-------------------------------------------------------------------------------------------------
 
 !write(GP_print_unit,*) i_GP_Generation,'MAIN',GP_Population_Ranked_Fitness(1)
-write(GP_print_unit,'(/A,17x,A,21x,I6,8x,E15.7)') &
-      'gpcf: i_GP_Gen,', 'GP_Pop_Ranked_Fit(1) ', &
-             i_GP_Generation, GP_Population_Ranked_Fitness(1)
+!write(GP_print_unit,'(/A,17x,A,21x,I6,8x,E15.7)') &
+!      'gpcf: i_GP_Gen,', 'GP_Pop_Ranked_Fit(1) ', &
+!             i_GP_Generation, GP_Population_Ranked_Fitness(1)
 
 !-------------------------------------------------------------------------------------------------
 
@@ -294,7 +299,10 @@ enddo ! i_CODE_equation
 
 nop = n_CODE_equations
 
-write(GP_print_unit,'(/A,2(1x,I6)/)') &
+write(GP_print_unit,'(/A/)') &
+      'gpcf: count number of parameters, nop, in tree'
+
+write(GP_print_unit,'(A,2(1x,I6))') &
       'gpcf: before tree loop n_code_equations, nop ', &
                               n_code_equations, nop
 write(GP_print_unit,'(/A)') &
@@ -339,6 +347,9 @@ do  i_tree=1,n_trees
     enddo node_loop ! i_node
 enddo tree_loop ! i_tree
 
+write(GP_print_unit,'(A,2(1x,I6)/)') &
+      'gpcf: after tree loop n_code_equations, nop ', &
+                             n_code_equations, nop
 
 write( GP_output_unit, '(I6,1x,I6,1x,E15.7,1x,I6, 12(1x,E15.7))') &
        i_GP_Generation, i_GP_best_parent, &
@@ -359,7 +370,7 @@ if( i_GP_generation == 1                                 .or. &
 
 
     write(GP_print_unit,'(/A)') &
-         'gpcf: i_node  itree   GP_Adult_Pop_Node_Type(,,i_GP_Best_Parent) '
+         'gpcf: i_node  itree     GP_Adult_Pop_Node_Type(,,i_GP_Best_Parent)'
 
     tree_loop2:&
     do  i_tree=1,n_trees
@@ -449,7 +460,7 @@ write(unit_gp_out) GP_Node_Type_for_Plotting
 
 ! re-sort based on rankings
 
-call GP_ranking_sort()
+!!!!call GP_ranking_sort()
 
 !-----------------------------------------------------------------------------------------
 

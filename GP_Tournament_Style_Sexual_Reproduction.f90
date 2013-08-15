@@ -32,6 +32,8 @@ integer(kind=4) :: i_GP_individual
 integer(kind=4) :: i_tree
 integer(kind=4) :: i_node
 
+integer(kind=4) :: i_safe 
+integer(kind=4) :: i_safe_max 
 !----------------------------------------------------------------------------------
 
 i_GP_Individual = n_GP_Elitists + n_GP_Asexual_Reproductions
@@ -48,8 +50,22 @@ if( myid == 0 )then
 endif ! myid == 0
 
 
-do  i_GP_Crossover = 1,n_GP_Crossovers
 
+i_GP_Crossover = 0
+i_Error = 0
+
+i_safe  = 0
+i_safe_max = 2 * n_GP_crossovers 
+
+cross_loop:&
+do
+
+    i_safe  = i_safe  + 1
+    if( i_safe > i_safe_max ) exit cross_loop
+
+
+    i_GP_Crossover = i_GP_Crossover + 1
+    if( i_GP_crossover > n_GP_crossovers) exit cross_loop
 
     i_GP_Individual = i_GP_Individual+1
 
@@ -60,18 +76,12 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
     !i_GP_individual = min( nint( cff * n_GP_Individuals ) , n_GP_Individuals )
     !i_GP_individual = max( 1, i_GP_individual )
 
-    !if( myid == 0 )then
-    !    write(6,'(A,2(1x,I6))') &
-    !          'gptssr: i_GP_Crossover, i_GP_individual ', &
-    !                   i_GP_Crossover, i_GP_individual
-    !endif ! myid == 0
+    if( myid == 0 )then
+        write(6,'(A,3(1x,I6))') &
+              'gptssr: i_GP_Crossover, i_GP_individual, i_safe ', &
+                       i_GP_Crossover, i_GP_individual, i_safe
+    endif ! myid == 0
 
-    !--------------------------------------------------------------------------
-    !if( myid == 0 )then
-    !    write(GP_print_unit,'(/A,2(1x,I6)/)' ) &
-    !          'gptssr: i_GP_Crossover, i_GP_Individual ', &
-    !                   i_GP_Crossover, i_GP_Individual
-    !endif ! myid == 0
 
     !----------------------------------------------------------------------
 
@@ -220,12 +230,8 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
 
     !???! Do the genetic crossovers but only keep the solution
     !???! from one (the male) of the two (male and female) generated child tree
-
-
     !!?? if( CROSS) then
-
     !!??  call Random_Number(cff) ! uniform random number generator
-
     !!??  ! i_Male_Tree    = 1+int(cff*float(n_Trees-1))  ! pick a location from 1 to n_Trees
     !!??  ! i_Female_Tree  = 1+int(cff*float(n_Trees-1))  ! pick a location from 1 to n_Trees
 
@@ -265,8 +271,9 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
     if( i_Error .eq. 1) then
 
         if( myid == 0 )then
-            write(6,'(A)')&
-               'gptssr: Pre-GP_Check_Error [Male] in GP_Tournament_Style_Sexual_Reproduction'
+            write(6,'(/A)')&
+               'gptssr: ERROR: &
+               &Pre-GP_Check_Error [Male] in GP_Tournament_Style_Sexual_Reproduction'
             write(6,'(A,3(1x,I6)/)') &
                'gptssr: i_GP_Individual, k_GP_Indiv_Male(1), i_Error  ', &
                         i_GP_Individual, k_GP_Individual_Male(1), i_Error
@@ -303,8 +310,9 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
 
     if( i_Error .eq. 1) then
         if( myid == 0 )then
-            write(6,'(A)')&
-               'gptssr: Pre-GP_Check_Error [Female] in GP_Tournament_Style_Sexual_Reproduction'
+            write(6,'(/A)')&
+               'gptssr: ERROR &
+               &Pre-GP_Check_Error [Female] in GP_Tournament_Style_Sexual_Reproduction'
             write(6,'(A,3(1x,I6)/)') &
                'gptssr: i_GP_Individual, k_GP_Indiv_Female(1), i_Error  ', &
                         i_GP_Individual, k_GP_Individual_Female(1), i_Error
@@ -316,15 +324,15 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
 
     !-----------------------------------------------------------------------------------
 
-    if( myid == 0 )then
-        write(6,'(/A)') 'gptssr: call GP_Tree_Swap '
-    endif ! myid == 0
+    !if( myid == 0 )then
+    !    write(6,'(/A)') 'gptssr: call GP_Tree_Swap '
+    !endif ! myid == 0
 
     call GP_Tree_Swap    !   perform the random tree swap
 
-    if( myid == 0 )then
-        write(6,'(A/)') 'gptssr: aft call GP_Tree_Swap '
-    endif ! myid == 0
+    !if( myid == 0 )then
+    !    write(6,'(A/)') 'gptssr: aft call GP_Tree_Swap '
+    !endif ! myid == 0
 
     !-----------------------------------------------------------------------------------
 
@@ -362,8 +370,9 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
 
     if( i_Error .eq. 1) then
         if( myid == 0 )then
-            write(6,'(A)')&
-               'gptssr: Post-GP_Check_Error in GP_Tournament_Style_Sexual_Reproduction'
+            write(6,'(/A)')&
+               'gptssr: ERROR &
+               &Post-GP_Check_Error in GP_Tournament_Style_Sexual_Reproduction'
             write(6,'(A,3(1x,I6)/)') 'gptssr: i_GP_Indiv, i_Male_Tree, i_Error  ', &
                                               i_GP_Individual, i_Male_Tree, i_Error
         endif ! myid == 0
@@ -377,8 +386,35 @@ do  i_GP_Crossover = 1,n_GP_Crossovers
 
     !!?? endif ! CROSS
 
-enddo !  i_GP_Crossover
+    !-----------------------------------------------------------------------------------
 
+    !  if you found an error in the tree, reset i_GP_Crossover and i_GP_Individual 
+    !  and try making a new tree and individual
+
+    if( i_Error > 0 )then
+        
+        write(6,'(/A/)')&
+              'gptssr: ERROR: i_Error = 1 so subtract 1 &
+              &from i_GP_Crossover and i_GP_Individual&
+              & and go through the loop again'
+        write(6,'(A,3(1x,I6))') &
+              'gptssr: i_GP_Crossover, i_GP_individual, i_safe ', &
+                       i_GP_Crossover, i_GP_individual, i_safe
+        i_GP_Crossover  = i_GP_Crossover  - 1
+        i_GP_Individual = i_GP_Individual - 1
+        i_Error = 0
+        cycle cross_loop
+
+    endif ! i_Error > 0 
+
+    !-----------------------------------------------------------------------------------
+
+enddo cross_loop
+
+
+write(6,'(/A,3(1x,I6)/)') &
+      'gptssr: at RETURN i_GP_Crossover, i_GP_individual, i_safe ', &
+                         i_GP_Crossover, i_GP_individual, i_safe
 
 return
 

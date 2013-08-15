@@ -91,7 +91,7 @@ if( Lprint )then
     write(GP_print_unit, '(/A/6(1x,I10))') &
       'sgpi: i_GP_gen i_GP_indiv   n_code_eq  &
              &n_trees    n_nodes  n_levels', &
-             i_GP_indiv, i_GP_generation, &
+             i_GP_generation, i_GP_indiv, &
              n_code_equations, n_trees, n_nodes, n_levels
 endif ! Lprint 
 

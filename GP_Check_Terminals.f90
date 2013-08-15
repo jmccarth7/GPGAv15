@@ -65,9 +65,9 @@ do  i_Tree=1,n_Trees
 
                 ! check Left node
 
-                write(GP_print_unit,'(A,3(1x,I6))') &
-                      'gct: i_Node_Left, i_tree, GP_Individual_Node_Type(i_Node_Left,i_Tree) ',&
-                            i_Node_Left, i_tree, GP_Individual_Node_Type(i_Node_Left,i_Tree)
+                !write(GP_print_unit,'(A,3(1x,I6))') &
+                !      'gct: i_Node_Left,  i_tree, GP_Individual_Node_Type(i_Node_Left,i_Tree) ',&
+                !            i_Node_Left,  i_tree, GP_Individual_Node_Type(i_Node_Left,i_Tree)
 
                 if( GP_Individual_Node_Type(i_Node_Left,i_Tree) .lt. -n_CODE_Equations ) then
 
@@ -76,8 +76,8 @@ do  i_Tree=1,n_Trees
                         !      'gct: Left ', &
                         !      i_Node_Left,GP_Individual_Node_Type(i_Function, i_Tree),&
                         !                  GP_Individual_Node_Type(i_Node_Left,i_Tree)
-                        write(GP_print_unit,'(A,4(1x,I6))') &
-                              'gct: i_Node_Left, i_function, i_tree, &
+                        write(GP_print_unit,'(/A,4(1x,I6))') &
+                              'gct: ERROR: i_Node_Left, i_function, i_tree, &
                               &GP_Individual_Node_Type(i_Function, i_Tree)',&
                                     i_Node_Left, i_function, i_tree, &
                                GP_Individual_Node_Type(i_Function, i_Tree)
@@ -99,20 +99,20 @@ do  i_Tree=1,n_Trees
 
                 ! check Right node
 
-                write(GP_print_unit,'(A,3(1x,I6))') &
-                      'gct: i_Node_Right, i_tree, GP_Individual_Node_Type(i_Node_Right,i_Tree) ',&
-                            i_Node_Right, i_tree, GP_Individual_Node_Type(i_Node_Right,i_Tree)
+                !write(GP_print_unit,'(A,3(1x,I6))') &
+                !      'gct: i_Node_Right, i_tree, GP_Individual_Node_Type(i_Node_Right,i_Tree)',&
+                !            i_Node_Right, i_tree, GP_Individual_Node_Type(i_Node_Right,i_Tree)
 
 
                 if( GP_Individual_Node_Type(i_Node_Right,i_Tree) .lt. -n_CODE_Equations) then
 
                     if( myid == 0 )then
-                        write(GP_print_unit,'(A,3(1x,I6))') &
-                          'gct:Right ',&
-                          i_Node_Right,GP_Individual_Node_Type(i_Function,  i_Tree),&
-                                       GP_Individual_Node_Type(i_Node_Right,i_Tree)
-                        write(GP_print_unit,'(A,4(1x,I6))') &
-                          'gct: i_Node_Right, i_function, i_tree, &
+                        !write(GP_print_unit,'(A,3(1x,I6))') &
+                        !  'gct:Right ',&
+                        !  i_Node_Right,GP_Individual_Node_Type(i_Function,  i_Tree),&
+                        !               GP_Individual_Node_Type(i_Node_Right,i_Tree)
+                        write(GP_print_unit,'(/A,4(1x,I6))') &
+                          'gct: ERROR: i_Node_Right, i_function, i_tree, &
                           &GP_Individual_Node_Type(i_Function, i_Tree)',&
                                 i_Node_Right, i_function, i_tree, &
                            GP_Individual_Node_Type(i_Function, i_Tree)
@@ -123,7 +123,6 @@ do  i_Tree=1,n_Trees
                             GP_Individual_Node_Type(i_Node_Right,i_Tree)
 
 
-                        call print_entire_tree( )
 
                     endif ! myid == 0
 
@@ -140,6 +139,16 @@ do  i_Tree=1,n_Trees
     enddo ! i_level
 
 enddo ! i_tree
+
+
+
+! print out the tree for this individual if there is an error
+
+if( myid == 0 )then
+    if( i_Error > 0 )then
+        call print_entire_tree( )
+    endif ! i_Error > 0 
+endif ! myid == 0
 
 
 return

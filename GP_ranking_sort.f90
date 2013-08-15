@@ -21,12 +21,27 @@ integer(kind=4) :: j_GP_Individual
 !logical Carry_On
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+write(6,'(/A/)') 'gprs: entry GP_ranking_sort '
 
 ! Set up a simple 'index' array
 
 do  i_GP_Individual=1,n_GP_Individuals
     Ranked_Fitness_Index(i_GP_Individual)=i_GP_Individual
 enddo
+
+write(6,'(/A)') 'gprs: before sort '
+
+write(6,'(A)')                    &
+      'gprs:i_GP_Individual, Ranked_Fitness_Index(i_GP_Individual), &
+                            &GP_Child_Population_SSE(i_GP_Individual)'
+
+do  i_GP_Individual=1,n_GP_Individuals
+    write(6,'(I6,1x, I6, 1x, E15.7)') &
+          i_GP_Individual, Ranked_Fitness_Index(i_GP_Individual), &
+                           GP_Child_Population_SSE(i_GP_Individual)
+enddo
+
+
 
 ! Now, rank the Individual SSE so that the Individual with the lowest (highest) SSE is First (Last)
 
@@ -47,6 +62,20 @@ do  i_GP_Individual=1,n_GP_Individuals
         endif
     enddo
 enddo
+
+
+write(6,'(/A)') 'gprs: after  sort '
+
+write(6,'(A)')                    &
+      'gprs:i_GP_Individual, Ranked_Fitness_Index(i_GP_Individual), &
+                            &GP_Child_Population_SSE(i_GP_Individual)'
+
+do  i_GP_Individual=1,n_GP_Individuals
+    write(6,'(I6,1x, I6, 1x, E15.7)') &
+          i_GP_Individual, Ranked_Fitness_Index(i_GP_Individual), &
+                           GP_Child_Population_SSE(i_GP_Individual)
+enddo
+
 
 ! Re-rank ALL of the Individuals to keep the code simple and not replicate copies of children
 
@@ -93,6 +122,20 @@ do  i_GP_Individual=1,n_GP_Individuals
           GP_Integrated_Population_Ranked_Fitness(n_GP_Individuals)
 enddo
 
+
+write(6,'(/A)') 'gprs: after  sort '
+
+write(6,'(A)')                    &
+      'gprs:i_GP_Individual, GP_Integrated_Population_Ranked_Fitness(i_GP_Individual)'
+
+do  i_GP_Individual=1,n_GP_Individuals
+    write(6,'(I6, 1x, E15.7)') &
+          i_GP_Individual, GP_Integrated_Population_Ranked_Fitness(i_GP_Individual)
+enddo
+
+
+
+write(6,'(/A)') 'gprs: at return   '
 
 return
 

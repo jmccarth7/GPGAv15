@@ -703,14 +703,14 @@ do  i_GP_Generation=1,n_GP_Generations
 
             enddo ! i_tree
 
-            if( myid == 0 )then
-                write(GP_print_unit,'(/A,3(1x,I6))') &
-                      '0: i_GP_individual, n_nodes, n_trees ', &
-                          i_GP_individual, n_nodes, n_trees
-                write(GP_print_unit,'(A,1x,I6,3x,A,1x,I6/)')&
-                      '0: for i_GP_Individual', i_GP_Individual, &
-                      'the number of parameters is:  n_GP_parameters =', n_GP_parameters
-            endif !  myid == 0
+            !if( myid == 0 )then
+            !    write(GP_print_unit,'(/A,3(1x,I6))') &
+            !          '0: i_GP_individual, n_nodes, n_trees ', &
+            !              i_GP_individual, n_nodes, n_trees
+            !    write(GP_print_unit,'(A,1x,I6,3x,A,1x,I6/)')&
+            !          '0: for i_GP_Individual', i_GP_Individual, &
+            !          'the number of parameters is:  n_GP_parameters =', n_GP_parameters
+            !endif !  myid == 0
 
 
             GP_Individual_N_GP_param(i_GP_individual) = n_GP_parameters
@@ -746,12 +746,13 @@ do  i_GP_Generation=1,n_GP_Generations
             enddo ! i_tree
 
             if( myid == 0 )then
-                write(GP_print_unit,'(/A,3(1x,I6))') &
-                      '0: i_GP_individual, n_nodes, n_trees ', &
-                          i_GP_individual, n_nodes, n_trees
-                write(GP_print_unit,'(A,1x,I6,3x,A,1x,I6/)')&
+                !write(GP_print_unit,'(/A,3(1x,I6))') &
+                !      '0: i_GP_individual, n_nodes, n_trees ', &
+                !          i_GP_individual, n_nodes, n_trees
+                write(GP_print_unit,'(A,1x,I6,2(/3x,A,1x,I6)/)')&
                       '0: for i_GP_Individual', i_GP_Individual, &
-                      'the number of variables in this tree is:', n_GP_vars
+                      'the number of parameters is: ', n_GP_parameters, &
+                      'the number of variables  is: ', n_GP_vars
             endif !  myid == 0
 
 
@@ -762,8 +763,10 @@ do  i_GP_Generation=1,n_GP_Generations
 
             ! cycle the i_GP_individual loop if there are no GP parameters
 
+            !orig if( n_GP_parameters == 0 .or. &
+            !orig     n_GP_parameters < n_code_equations ) then
             if( n_GP_parameters == 0 .or. &
-                n_GP_parameters < n_code_equations ) then
+                n_GP_parameters <=  n_code_equations ) then   ! new jjm 20130814
 
                 if( myid == 0 )then
                     write(GP_print_unit,'(A,1x,I6)')&
@@ -994,8 +997,9 @@ do  i_GP_Generation=1,n_GP_Generations
 
         write(GP_print_unit,'(/A)')&
               '0:#################################################################'
-        write(GP_print_unit,'(A,1x,I6)') '0: call GP_calc_fitness i_GP_gen =', &
-                                                            i_GP_Generation
+        write(GP_print_unit,'(A,1x,I6)') &
+              '0: call GP_calc_fitness i_GP_generation =', &
+                                       i_GP_Generation
         write(GP_print_unit,'(A/)')&
               '0:#################################################################'
 
@@ -1005,8 +1009,9 @@ do  i_GP_Generation=1,n_GP_Generations
 
         write(GP_print_unit,'(/A)')&
               '0:#################################################################'
-        write(GP_print_unit,'(A,1x,I6)') '0: aft call GP_calc_fitness i_GP_gen =', &
-                                                            i_GP_Generation
+        write(GP_print_unit,'(A,1x,I6)') &
+              '0: aft call GP_calc_fitness i_GP_generation =', &
+                                           i_GP_Generation
         write(GP_print_unit,'(A/)')&
               '0:#################################################################'
 
