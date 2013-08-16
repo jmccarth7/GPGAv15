@@ -302,9 +302,10 @@ nop = n_CODE_equations
 write(GP_print_unit,'(/A/)') &
       'gpcf: count number of parameters, nop, in tree'
 
-write(GP_print_unit,'(A,2(1x,I6))') &
-      'gpcf: before tree loop n_code_equations, nop ', &
-                              n_code_equations, nop
+!write(GP_print_unit,'(A,2(1x,I6))') &
+!      'gpcf: before tree loop n_code_equations, nop ', &
+!                              n_code_equations, nop
+
 write(GP_print_unit,'(/A)') &
      'gpcf: i_node  itree  nop  &
      &GP_pop_node_params(i_node,i_tree,i_GP_Best_Parent)'

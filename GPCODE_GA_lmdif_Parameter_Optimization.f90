@@ -913,6 +913,7 @@ do  i_GA_generation=1,n_GA_Generations
 !                  'GP_GA_opt: call select_best_RK_lmdif_result '
 !            endif ! L_ga_print  
 !            call select_best_RK_lmdif_result( &
+!                        i_GP_Generation,i_GP_individual, &
 !                        i_GA_best_parent, parent_parameters, &
 !                        child_parameters, &
 !                        individual_quality, L_stop_run  )     
@@ -998,6 +999,7 @@ if( myid == 0  )then
     endif ! L_ga_print  
 
     call select_best_RK_lmdif_result( &
+                i_GP_Generation,i_GP_individual, &
                 i_GA_best_parent, parent_parameters, &
                 child_parameters, &
                 individual_quality, L_stop_run  )     

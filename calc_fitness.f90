@@ -440,7 +440,8 @@ if( i_GA_generation == 1                                 .or. &
 
 endif !  i_GA_generation == 1 ...
 
-write(333) i_GA_generation, individual_SSE(1:n_GA_individuals) 
+write(333) i_GP_Generation, i_GP_individual, i_GA_generation, &
+           individual_SSE(1:n_GA_individuals) 
 !write(333) dble( i_GA_generation ), individual_SSE(1:n_GA_individuals) 
 
 !-------------------------------------------------------------------------------

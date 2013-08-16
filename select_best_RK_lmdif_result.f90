@@ -1,4 +1,5 @@
 subroutine select_best_RK_lmdif_result( &
+                i_GP_Generation,i_GP_individual, &
                 i_GA_best_parent, parent_parameters, &
                 child_parameters, &
                 individual_quality, L_stop_run )
@@ -90,6 +91,9 @@ integer(kind=4) :: i_Node
 
 integer(kind=4) :: jj
 integer(kind=4) :: i_parameter
+
+integer(kind=4) :: i_GP_Generation
+integer(kind=4) :: i_GP_individual
 
 !----------------------------------------------------------------------
 
@@ -293,12 +297,14 @@ if( individual_ranked_fitness(i_GA_best_parent) <= &
     endif ! L_ga_print  
 
     if( L_stop_run )then
-        write( GA_output_unit, '(I6,1x,I6, 12(1x,E15.7))') &
+        write( GA_output_unit, '(I6,3(1x,I6), 12(1x,E15.7))') &
+          i_GP_Generation,i_GP_individual, &
           i_GA_Generation_last, i_GA_best_parent_1, &
           individual_ranked_fitness_best_1, &
           (parent_parameters_best_1(jj),jj = 1,n_parameters)
     else
-        write( GA_output_unit, '(I6,1x,I6, 12(1x,E15.7))') &
+        write( GA_output_unit, '(I6,3(1x,I6), 12(1x,E15.7))') &
+          i_GP_Generation,i_GP_individual, &
           n_GA_Generations, i_GA_best_parent_1, &
           individual_ranked_fitness_best_1, &
           (parent_parameters_best_1(jj),jj = 1,n_parameters)
@@ -395,12 +401,14 @@ else  ! lmdif is best
 
 
     if( L_stop_run )then
-        write( GA_output_unit , '(I6,1x,I6, 12(1x,E15.7))') &
+        write( GA_output_unit, '(I6,3(1x,I6), 12(1x,E15.7))') &
+          i_GP_Generation,i_GP_individual, &
           i_GA_Generation_last, i_GA_best_parent, &
           individual_ranked_fitness(i_GA_best_parent), &
           (parent_parameters(jj, i_GA_best_parent), jj=1,n_parameters)
     else
-        write( GA_output_unit , '(I6,1x,I6, 12(1x,E15.7))') &
+        write( GA_output_unit, '(I6,3(1x,I6), 12(1x,E15.7))') &
+          i_GP_Generation,i_GP_individual, &
           n_GA_Generations, i_GA_best_parent, &
           individual_ranked_fitness(i_GA_best_parent), &
           (parent_parameters(jj, i_GA_best_parent), jj=1,n_parameters)

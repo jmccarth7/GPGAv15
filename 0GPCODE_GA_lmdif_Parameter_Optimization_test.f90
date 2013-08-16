@@ -74,6 +74,8 @@ Lprint_lmdif = .TRUE.
 
 if( myid == 0 )then
 
+    write(6,'(/A/)') '0: using the old_elite_scheme in GP_Fit* GP_Tou*, GP_Mut*'
+
     ! read the control input from file  "GPCODE_cntl"
 
     call read_cntl_stuff( )

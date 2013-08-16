@@ -438,5 +438,48 @@ USER_INPUT_RANDOM_SEED  345538
 
 Note:	default value = 0 -- i.e. system clock value is used
 
+-------------------------------------------------------------------------------------
+
+File formats:
+
+output_parameters -
+
+     i_GP_Generation
+     i_GP_individual
+     i_GA_Generation_last
+     i_GA_best_parent
+     individual_ranked_fitness_best
+     (parent_parameters_best_1(jj),jj = 1,n_parameters)         
 
 
+GP_output_parameters - 
+
+       i_GP_Generation
+       i_GP_best_parent
+       GP_Population_Ranked_Fitness(i_GP_Best_Parent)
+       nop 
+       output_array(1:nop)                              
+
+
+fort333 - binary
+
+i_GP_Generation
+i_GP_individual
+i_GA_generation
+individual_SSE(1:n_GA_individuals)                    
+
+GA_log - binary
+
+n_GA_individuals
+i_GP_Generation
+i_GP_individual
+i_GA_generation
+individual_SSE(1:n_GA_individuals)
+individual_ranked_fitness(1:n_GA_individuals) 
+
+GP_log - binary
+
+i_GP_generation
+i_GP_Individual
+GP_Adult_Individual_SSE(i_GP_Individual)
+GP_Population_Ranked_Fitness(i_GP_Individual)        
