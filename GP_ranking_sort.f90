@@ -79,11 +79,11 @@ enddo
 
 ! Re-rank ALL of the Individuals to keep the code simple and not replicate copies of children
 
-GP_Adult_Population_Node_Type(1:n_GP_Individuals,1:n_Nodes,1:n_Trees) = &
-GP_Child_Population_Node_Type(Ranked_Fitness_Index(1:n_GP_Individuals),1:n_Nodes,1:n_Trees)
+GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees, 1:n_GP_Individuals) = &
+GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees, Ranked_Fitness_Index(1:n_GP_Individuals) )
 
-GP_Adult_Population_Parameter_Solution(1:n_GP_Individuals,1:n_Maximum_Number_Parameters) = &
-GP_Child_Population_Parameter_Solution(Ranked_Fitness_Index(1:n_GP_Individuals),1:n_Maximum_Number_Parameters)
+GP_Adult_Population_Parameter_Solution(1:n_Maximum_Number_Parameters,1:n_GP_Individuals) = &
+GP_Child_Population_Parameter_Solution(1:n_Maximum_Number_Parameters,Ranked_Fitness_Index(1:n_GP_Individuals) )
 
 GP_Adult_Population_SSE=GP_Child_Population_SSE
 
