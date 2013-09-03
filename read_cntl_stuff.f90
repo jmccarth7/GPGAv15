@@ -519,9 +519,9 @@ do
 
     else
 
-        write(GP_print_unit,'(//A//)') 'rcntl: WARNING: UNRECOGNIZED OPTION '
-
-        write(GP_print_unit,'(//A,1x,A//)') 'rcntl: Aline =', trim( Aline )           
+        write(GP_print_unit,'(/A)') 'rcntl: WARNING: UNRECOGNIZED OPTION '
+        write(GP_print_unit,'(A,1x,A)') 'rcntl: Aline =', trim( Aline )           
+        write(GP_print_unit,'(A/)') 'rcntl: WARNING: UNRECOGNIZED OPTION '
 
 
     endif !   Aline(1:6) == ???

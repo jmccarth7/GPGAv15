@@ -126,11 +126,13 @@ enddo
 write(6,'(/A)') 'gprs: after  sort '
 
 write(6,'(A)')                    &
-      'gprs:i_GP_Individual, GP_Integrated_Population_Ranked_Fitness(i_GP_Individual)'
+      'gprs:i_GP_Individual, GP_Integ_Pop_Rank_Fit,GP_Child_Pop_SSE'
 
 do  i_GP_Individual=1,n_GP_Individuals
-    write(6,'(I6, 1x, E15.7)') &
-          i_GP_Individual, GP_Integrated_Population_Ranked_Fitness(i_GP_Individual)
+    write(6,'(I6, 2(1x, E15.7))') &
+          i_GP_Individual, &
+          GP_Integrated_Population_Ranked_Fitness(i_GP_Individual), &
+          GP_Child_Population_SSE(i_GP_Individual)
 enddo
 
 

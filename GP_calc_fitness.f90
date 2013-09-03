@@ -53,6 +53,10 @@ real(kind=8), dimension(n_maximum_number_parameters) :: output_array
 
 real (kind=8) ::  dff
 
+real (kind=8) ::  mean_fit   
+real (kind=8) ::  rms_fit     
+real (kind=8) ::  std_dev_fit  
+
 
 !-------------------------------------------------------------------------------------
 
@@ -88,7 +92,7 @@ if( i_GP_generation == 1                                 .or. &
 
     write(GP_print_unit, '(5(1x,I8," : ", I3))') &
            ( i_GP_Individual, GP_Individual_N_GP_param(i_GP_Individual), &
-             i_GP_Individual=1,n_GP_Individuals ) 
+             i_GP_Individual=1,n_GP_Individuals )
 
 
     write(GP_print_unit,'(/A)')' '
@@ -390,7 +394,7 @@ if( i_GP_generation == 1                                 .or. &
     enddo tree_loop2 ! i_tree
 
     write(GP_print_unit,'(/A,1x,I6)') &
-         'gpcf: print the tree for individual ', i_GP_Best_Parent                 
+         'gpcf: print the tree for individual ', i_GP_Best_Parent
 
     call print_trees( i_GP_Best_Parent, i_GP_Best_Parent, &
                       GP_Adult_Population_Node_Type, 'best parent' )
@@ -424,8 +428,15 @@ endif ! i_GP_generation == 1 .or. ...
 
 !off if( i_GP_Generation .eq. 3) Stop
 !----------------------------------------------------------------------------------
+call calc_stats( n_GP_individuals, GP_Population_Ranked_Fitness,  &
+                 mean_fit, rms_fit, std_dev_fit )
+write(GP_print_unit,'(/A,3(1x,E15.7)/)') &
+   'gpcf: GP_Population_Ranked_Fitness  mean, rms, std_dev ', &
+                                       mean_fit, rms_fit, std_dev_fit
 
-! write information to a GP log file giving: 
+!----------------------------------------------------------------------------------
+
+! write information to a GP log file giving:
 ! generation, individual, SSE, individual_fitness
 
 do  i_GP_Individual=1,n_GP_individuals
@@ -461,7 +472,7 @@ write(unit_gp_out) GP_Node_Type_for_Plotting
 
 ! re-sort based on rankings
 
-!!!!call GP_ranking_sort()
+call GP_ranking_sort()
 
 !-----------------------------------------------------------------------------------------
 

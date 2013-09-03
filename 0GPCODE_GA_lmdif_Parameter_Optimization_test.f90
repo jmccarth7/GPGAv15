@@ -681,7 +681,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
             ! calculate how many parameters total to fit for the specific individual CODE
 
-            n_GP_Parameters = n_code_equations 
+            n_GP_Parameters = n_code_equations
 
             do  i_Tree=1,n_Trees
 
@@ -698,7 +698,7 @@ do  i_GP_Generation=1,n_GP_Generations
                             !  &GP_Individual_Node_Type, n_GP_parameters ', &
                             !   i_GP_individual, i_node, i_tree, &
                             !   GP_Individual_Node_Type(i_Node,i_Tree), n_GP_parameters
-                    !    endif ! GP_Individual_Node_Type(i_Node,i_Tree) > -9999 
+                    !    endif ! GP_Individual_Node_Type(i_Node,i_Tree) > -9999
                     !endif !  myid == 0
 
                 enddo ! i_node
@@ -720,7 +720,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
             !------------------------------------------------------------------------------
 
-            ! calculate how many variables are in the tree 
+            ! calculate how many variables are in the tree
 
             n_GP_vars = 0
 
@@ -729,7 +729,7 @@ do  i_GP_Generation=1,n_GP_Generations
                 do  i_Node=1,n_Nodes
 
                     if( GP_Individual_Node_Type(i_Node,i_Tree) < 0  .and. &
-                        GP_Individual_Node_Type(i_Node,i_Tree) > -9999  ) then  
+                        GP_Individual_Node_Type(i_Node,i_Tree) > -9999  ) then
                         n_GP_vars = n_GP_vars + 1
                     endif ! GP_Individual_Node_Type(i_Node,i_Tree) > 0 ....
 
@@ -740,7 +740,7 @@ do  i_GP_Generation=1,n_GP_Generations
                             !  &GP_Individual_Node_Type, n_GP_vars ', &
                             !   i_GP_individual, i_node, i_tree, &
                             !   GP_Individual_Node_Type(i_Node,i_Tree), n_GP_vars
-                    !    endif ! GP_Individual_Node_Type(i_Node,i_Tree) > -9999 
+                    !    endif ! GP_Individual_Node_Type(i_Node,i_Tree) > -9999
                     !endif !  myid == 0
 
                 enddo ! i_node
@@ -776,9 +776,32 @@ do  i_GP_Generation=1,n_GP_Generations
                           &  the number of parameters is ', n_GP_parameters
                 endif !  myid == 0
 
+                !------------------------------------------------------------------------
+
+                ! set SSE values for this rejected individual so that
+                ! its fitness will be very small
+
+                GP_Child_Individual_SSE(i_GP_Individual) = 1.0D13
+                GP_Child_Population_SSE(i_GP_Individual) = 1.0D13
+
+                GP_Adult_Individual_SSE(i_GP_Individual) = 1.0D13
+                GP_Adult_Population_SSE(i_GP_Individual) = 1.0D13
+
+                if( myid == 0 )then
+
+                    write(GP_print_unit,'(/A/A,2(1x,I5), 1x, E15.7)')&
+                          '0: rejected for n_GP_parameters <=  n_code_equations',&
+                           'i_GP_gen,i_GP_indiv,GP_Child_Pop_SSE(i_GP_Indiv)  ', &
+                               i_GP_generation, i_GP_individual, &
+                               GP_Child_Population_SSE(i_GP_Individual)
+
+                endif !  myid == 0
+
+                !------------------------------------------------------------------------
+
                 cycle gp_ind_loop
 
-                !!call GP_tree_reset( i_GP_individual ) 
+                !!call GP_tree_reset( i_GP_individual )
 
             endif ! n_GP_parameters == 0
 
@@ -925,10 +948,10 @@ do  i_GP_Generation=1,n_GP_Generations
 
             !------------------------------------------------------------------------------
 
-            GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual) = & 
+            GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual) = &
                              GP_Individual_Node_Type(1:n_Nodes,1:n_Trees)
 
-            GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual) = & 
+            GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual) = &
                              GP_Individual_Node_Type(1:n_Nodes,1:n_Trees)
             !------------------------------------------------------------------------------
 

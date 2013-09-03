@@ -13,6 +13,7 @@ implicit none
 
 real(kind=4) :: cff
 
+integer(kind=4) :: i
 integer(kind=4) :: icff
 integer(kind=4) :: i_GP_individual
 integer(kind=4) :: j_GP_Individual
@@ -22,6 +23,12 @@ integer(kind=4) :: i_GP_Asexual_Reproduction
 
 !-----------------------------------------------------------------------------
 
+do  i = 1, n_GP_individuals
+    write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
+         'gpfpar: i, GP_Child_Population_SSE(i)',&
+                  i, GP_Child_Population_SSE(i)
+enddo
+  
 
 
 i_GP_Individual = n_GP_Elitists
@@ -63,13 +70,13 @@ do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
 
     do  j_GP_Individual=1,n_GP_Individuals
 
-        if( myid == 0 )then
-            write(GP_print_unit,'(A,1x,I6,2(1x,E15.7))' ) &
-              'gpfpar: j_GP_Indiv, cff, &
-              &GP_Integ_Pop_Ranked_Fitness(j_GP_Indiv) ', &
-                       j_GP_Individual, cff, &
-               GP_Integrated_Population_Ranked_Fitness(j_GP_Individual)
-        endif ! myid == 0
+        !if( myid == 0 )then
+        !    write(GP_print_unit,'(A,1x,I6,2(1x,E15.7))' ) &
+        !      'gpfpar: j_GP_Indiv, cff, &
+        !      &GP_Integ_Pop_Ranked_Fitness(j_GP_Indiv) ', &
+        !               j_GP_Individual, cff, &
+        !       GP_Integrated_Population_Ranked_Fitness(j_GP_Individual)
+        !endif ! myid == 0
 
         if( cff .le. GP_Integrated_Population_Ranked_Fitness(j_GP_Individual)) then
 

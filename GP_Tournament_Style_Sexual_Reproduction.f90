@@ -412,9 +412,12 @@ do
 enddo cross_loop
 
 
+!write(6,'(/A,3(1x,I6)/)') &
+!      'gptssr: at RETURN i_GP_Crossover, i_GP_individual, i_safe ', &
+!                         i_GP_Crossover, i_GP_individual, i_safe
 write(6,'(/A,3(1x,I6)/)') &
-      'gptssr: at RETURN i_GP_Crossover, i_GP_individual, i_safe ', &
-                         i_GP_Crossover, i_GP_individual, i_safe
+      'gptssr: at RETURN i_GP_Crossover, i_GP_individual', &
+                         i_GP_Crossover, i_GP_individual
 
 return
 
