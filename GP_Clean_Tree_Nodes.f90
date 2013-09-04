@@ -48,7 +48,7 @@ do  i_GP_Individual=1,n_GP_Individuals
 
                 if( GP_Adult_Population_Node_Type(i_Function,  i_Tree,i_GP_Individual) .gt. 0 .and. &
                     GP_Adult_Population_Node_Type(i_Node_Left, i_Tree,i_GP_Individual) .eq. 0 .and. &
-                    GP_Adult_Population_Node_Type(i_Node_Right,i_Tree,i_GP_Individual) .eq. 0      ) then
+                    GP_Adult_Population_Node_Type(i_Node_Right,i_Tree,i_GP_Individual) .eq. 0 ) then
 
                     GP_Adult_Population_Node_Type(i_Function,  i_Tree,i_GP_Individual) = 0
                     GP_Adult_Population_Node_Type(i_Node_Left, i_Tree,i_GP_Individual) = -9999

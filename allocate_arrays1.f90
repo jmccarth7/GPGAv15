@@ -108,7 +108,13 @@ allocate( Runge_Kutta_Node_Parameters(n_nodes,n_trees) )
 allocate( Runge_Kutta_Node_Type(n_nodes,n_trees) )
 allocate( Runge_Kutta_Initial_Conditions(n_CODE_equations) )
 
+allocate( RK_Solution( 0:n_time_steps, n_CODE_equations )  )
+allocate( RK_Node_Parameters(n_nodes,n_trees) )
+allocate( RK_Node_Type(n_nodes,n_trees) )
+allocate( RK_Initial_Conditions(n_CODE_equations) )
+
 allocate( bioflo(0:n_CODE_equations,0:n_CODE_equations) )
+allocate( bioflo_string(0:n_CODE_equations,0:n_CODE_equations) )
 allocate( b_tmp(n_CODE_equations) )
 
 ! Runge-Kutta specific work arrays
@@ -117,9 +123,10 @@ allocate( btmp(n_CODE_equations) )
 allocate( fbio(n_CODE_equations) )
 
 
-!allocate( node_type_string( n_nodes, n_trees ) )
-!allocate( node_parameters_string( n_nodes, n_trees ) )
-!allocate( tree_evaluation_string( n_nodes, n_trees ) )
+allocate( node_type_string( n_nodes, n_trees ) )
+allocate( node_parameters_string( n_nodes, n_trees ) )
+allocate( tree_evaluation_string( n_nodes, n_trees ) )
+allocate( tree_value_string( n_trees ) )
 
 !!allocate( linked_parms( 2, n_linked_parms_dim ) )
 
@@ -206,6 +213,11 @@ Runge_Kutta_Node_Parameters = 0.0d0
 Runge_Kutta_Node_Type = -9999
 Runge_Kutta_Initial_Conditions = 0.0d0
 
+RK_Solution  = 0.0d0
+RK_Node_Parameters = 0.0d0
+RK_Node_Type = -9999
+RK_Initial_Conditions = 0.0d0
+
 bioflo = 0.0d0
 b_tmp = 0.0d0
 
@@ -215,9 +227,10 @@ btmp = 0.0d0
 fbio = 0.0d0
 
 
-!node_type_string = ' '
-!node_parameters_string = ' '
-!tree_evaluation_string = ' '
+node_type_string = ' '
+node_parameters_string = ' '
+tree_evaluation_string = ' '
+tree_value_string = ' '
 
 !!linked_parms = 0
 

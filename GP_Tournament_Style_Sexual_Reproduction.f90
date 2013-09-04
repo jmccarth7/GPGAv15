@@ -18,6 +18,7 @@ use GA_Variables_module
 implicit none
 
 real(kind=4) :: cff
+real(kind=8) :: sse_ind 
 
 integer(kind=4) :: i_GP_Crossover
 integer(kind=4),dimension(2) :: k_GP_Individual_Male
@@ -32,8 +33,8 @@ integer(kind=4) :: i_GP_individual
 integer(kind=4) :: i_tree
 integer(kind=4) :: i_node
 
-integer(kind=4) :: i_safe 
-integer(kind=4) :: i_safe_max 
+integer(kind=4) :: i_safe
+integer(kind=4) :: i_safe_max
 !----------------------------------------------------------------------------------
 
 i_GP_Individual = n_GP_Elitists + n_GP_Asexual_Reproductions
@@ -55,7 +56,7 @@ i_GP_Crossover = 0
 i_Error = 0
 
 i_safe  = 0
-i_safe_max = 2 * n_GP_crossovers 
+i_safe_max = 2 * n_GP_crossovers
 
 cross_loop:&
 do
@@ -147,8 +148,6 @@ do
     k_GP_Individual_Female(2)  =  1+int(cff*float(n_GP_Individuals))
     k_GP_Individual_Female(2) = min( k_GP_Individual_Female(2) , n_GP_Individuals )
 
-    k_GP_Individual_Female(2) = min( k_GP_Individual_Female(2) , n_GP_Individuals )
-    k_GP_Individual_Male(2) = max( k_GP_Individual_Male(2) , 1 )
 
     ! Check to make sure that the two females are not the same
 
@@ -189,6 +188,7 @@ do
     endif !   GP_Adult_Population_SSE(k_GP_Individual_Female(2)) ...
 
 
+
     !----------------------------------------------------------------------
 
     ! Randomly choose the tree structure location from the best male
@@ -200,6 +200,7 @@ do
 
 
     call Random_Number(cff) ! uniform random number generator
+
     i_Male_Tree=1+int(cff*float(n_Trees))  ! pick a tree
     i_Male_Tree = min( i_Male_Tree , n_Trees )
 
@@ -227,6 +228,13 @@ do
     !       GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual)
     !endif ! myid == 0
 
+    if( myid == 0 )then
+        write(GP_print_unit, &
+           '(A,1x,I4, 1x, A, 1x,E12.5, 1x, A, 1x, I4, 1x, A, 1x, E12.5)' ) &
+           'gptssr: i_GP_Indiv', i_GP_Individual, 'with SSE =', sse_ind, &
+           ' replaced with k_GP_Indiv_Male(1)', k_GP_Individual_Male(1),  &
+           'with SSE =', GP_Adult_Population_SSE( k_GP_Individual_Male(1) ) 
+    endif ! myid == 0
 
     !???! Do the genetic crossovers but only keep the solution
     !???! from one (the male) of the two (male and female) generated child tree
@@ -293,7 +301,7 @@ do
     !-----------------------------------------------------------------------------------------
     !do  i_Tree = 1,n_Trees
     !    do  i_Node = 1,n_Nodes
-    !        if( GP_Adult_Population_Node_Type(i_Node,i_Tree, k_GP_Individual_Female(1)) /= -9999 )then
+    !        if( GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Female(1)) /= -9999 )then
     !            if( myid == 0 )then
     !                write(GP_print_unit,'(A,4(1x,I6))' ) &
     !                   'gptssr: k_GP_Indiv_Female(1),i_node,i_tree, &
@@ -388,11 +396,11 @@ do
 
     !-----------------------------------------------------------------------------------
 
-    !  if you found an error in the tree, reset i_GP_Crossover and i_GP_Individual 
+    !  if you found an error in the tree, reset i_GP_Crossover and i_GP_Individual
     !  and try making a new tree and individual
 
     if( i_Error > 0 )then
-        
+
         write(6,'(/A/)')&
               'gptssr: ERROR: i_Error = 1 so subtract 1 &
               &from i_GP_Crossover and i_GP_Individual&
@@ -405,7 +413,7 @@ do
         i_Error = 0
         cycle cross_loop
 
-    endif ! i_Error > 0 
+    endif ! i_Error > 0
 
     !-----------------------------------------------------------------------------------
 

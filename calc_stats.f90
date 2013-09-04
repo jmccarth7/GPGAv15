@@ -53,7 +53,7 @@ rms  = sqrt( rms )
 
 !write(6,'(A,3(1x,E15.7))') 'cs: xcount, sum1, sum2', &
 !                                xcount, sum1, sum2
-!write(6,'(A,3(1x,E15.7))') 'cs: mean, rms, std_dev ', &
+!write(6,'(A,3(1x,E15.7))') 'cs: mean, rms, std_dev', &
 !                                mean, rms, std_dev
 return
 

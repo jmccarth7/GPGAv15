@@ -16,8 +16,8 @@ real(kind=8) :: cff
 
 integer(kind=4),dimension(n_GP_Individuals) :: Ranked_Fitness
 integer(kind=4) :: icff
-integer(kind=4) :: i_GP_Individual 
-integer(kind=4) :: j_GP_Individual 
+integer(kind=4) :: i_GP_Individual
+integer(kind=4) :: j_GP_Individual
 
 !logical Carry_On
 
@@ -38,10 +38,10 @@ if( myid == 0 )then
     do  i_GP_Individual=1,n_GP_Individuals
         write(GP_print_unit,'(I6,1x,E15.7,1x,I6)')&
               i_GP_Individual, &
-              GP_Population_Ranked_Fitness( i_GP_Individual), Ranked_Fitness(i_GP_Individual) 
+              GP_Population_Ranked_Fitness( i_GP_Individual), Ranked_Fitness(i_GP_Individual)
     enddo
 
-endif ! myid == 0 
+endif ! myid == 0
 
 ! calculate the fitness rankings
 
@@ -78,9 +78,9 @@ if( myid == 0 )then
         'gpel: i_GP_Individual, Fitness( i_GP_Individual), Ranked_Fitness(i_GP_Individual) '
     do  i_GP_Individual=1,n_GP_Individuals
         write(GP_print_unit,'(I6,1x,E15.7,1x,I6)')&
-               i_GP_Individual, Fitness( i_GP_Individual), Ranked_Fitness(i_GP_Individual) 
+               i_GP_Individual, Fitness( i_GP_Individual), Ranked_Fitness(i_GP_Individual)
     enddo
-endif ! myid == 0 
+endif ! myid == 0
 
 
 
@@ -107,7 +107,7 @@ if( myid == 0 )then
                i_GP_Individual, GP_Population_Ranked_Fitness(i_GP_Individual)
     enddo
 
-endif ! myid == 0 
+endif ! myid == 0
 
 do  i_GP_Individual=1,n_GP_Individuals
     GP_Population_Ranked_Fitness(i_GP_Individual)=tmp(i_GP_Individual)
@@ -122,7 +122,7 @@ if( myid == 0 )then
         write(GP_print_unit,'(I6,1x,E15.7)')&
                i_GP_Individual, GP_Population_Ranked_Fitness(i_GP_Individual)
     enddo
-endif ! myid == 0 
+endif ! myid == 0
 
 
 cff=0.0
@@ -134,7 +134,7 @@ enddo ! i_GP_Individual
 
 ! normalize to the integrated ranking values so that the ranking integration ranges from [0. to 1.]
 
-do  i_GP_Individual=1,n_GP_Individuals 
+do  i_GP_Individual=1,n_GP_Individuals
     GP_Integrated_Ranked_Fitness(i_GP_Individual) = &
     GP_Integrated_Ranked_Fitness(i_GP_Individual)/GP_Integrated_Ranked_Fitness(n_GP_Individuals)
 enddo ! i_GP_Individual
@@ -148,7 +148,7 @@ if( myid == 0 )then
         write(GP_print_unit,'(I6,1x,E15.7)')&
                i_GP_Individual, GP_Integrated_Ranked_Fitness(i_GP_Individual)
     enddo
-endif ! myid == 0 
+endif ! myid == 0
 
 
 

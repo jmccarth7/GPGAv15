@@ -20,6 +20,7 @@ integer(kind=4) :: j_GP_Individual
 integer(kind=4) :: i_GP_Asexual_Reproduction
 
 
+real(kind=8) :: sse_ind
 
 !-----------------------------------------------------------------------------
 
@@ -61,10 +62,17 @@ do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
                        i_GP_Asexual_Reproduction, i_GP_individual 
     endif ! myid == 0
 
+    sse_ind = GP_Child_Population_SSE(i_GP_Individual)
+
     !--------------------------------------------------------------------------
+
+
     call Random_Number(cff) ! uniform random number generator
 
-    ! normalize to the maximum values so that the range is from [0. to 1.]
+    ! the range of cff is [0. to 1.]
+
+    ! GP_Integrated_Population_Ranked_Fitness is normalized so that
+    ! the range is from [0. to 1.]
 
     icff = -1
 
@@ -81,6 +89,15 @@ do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
         if( cff .le. GP_Integrated_Population_Ranked_Fitness(j_GP_Individual)) then
 
             icff=j_GP_Individual
+
+            !if( myid == 0 )then
+            !    write(GP_print_unit,'(A,2(1x,I6),1(1x,E15.7))' ) &
+            !      'gpfpar: j_GP_Indiv, icff, &
+            !      &GP_Integ_Pop_Ranked_Fitness(j_GP_Indiv) ', &
+            !               j_GP_Individual, icff, &
+            !       GP_Integrated_Population_Ranked_Fitness(j_GP_Individual)
+            !endif ! myid == 0
+
             exit
 
         endif !   cff .le. GP_Integrated_Population_Ranked_Fitness(j_GP_Individual)
@@ -106,16 +123,18 @@ do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
     GP_Child_Population_SSE(i_GP_Individual) = GP_Adult_Population_SSE(j_GP_Individual)
 
 
-    !if( myid == 0 )then
-    !    !write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
-    !    !      'gpfpar: j_GP_individual, GP_Adult_Population_SSE(j_GP_Individual)',&
-    !    !               j_GP_individual, GP_Adult_Population_SSE(j_GP_Individual)
-    !
-    !    write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
-    !          'gpfpar: i_GP_individual, GP_Child_Population_SSE(i_GP_Individual)',&
-    !                   i_GP_individual, GP_Child_Population_SSE(i_GP_Individual)
-    !
-    !endif ! myid == 0
+    if( myid == 0 )then
+        write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
+              'gpfpar: j_GP_individual, GP_Adult_Population_SSE(j_GP_Individual)',&
+                       j_GP_individual, GP_Adult_Population_SSE(j_GP_Individual)
+    
+        write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
+              'gpfpar: i_GP_individual, GP_Child_Population_SSE(i_GP_Individual)',&
+                       i_GP_individual, sse_ind
+    
+        write(GP_print_unit,'(A)' ) &
+              'gpfpar: j_GP_individual replaces i_GP_individual'
+    endif ! myid == 0
 
 
 

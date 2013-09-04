@@ -108,9 +108,33 @@ dt = 10.0d0 / 1440.0d0  ! 10 minutes
 
 model = 'LV'
 
-GA_print_flag = 1
-L_GA_print = .TRUE. 
 
+GA_print_flag = 0
+L_GA_print = .FALSE.
+
+GA_output_parameters_flag  = 0
+L_GA_output_parameters = .FALSE.
+
+GP_output_parameters_flag  = 0
+L_GP_output_parameters = .FALSE.
+
+fort333_output_flag  = 0
+L_fort333_output = .FALSE.
+
+fort444_output_flag  = 0
+L_fort444_output = .FALSE.
+
+GA_log_flag  = 0
+L_GA_log = .FALSE.
+
+GP_log_flag  = 0
+L_GP_log = .FALSE.
+
+unit50_output_flag  = 0
+L_unit50_output = .FALSE.
+
+print_equations_flag = 0 
+L_print_equations = .FALSE.
 
 !---------------------------------------------------------------------
 
@@ -385,6 +409,8 @@ do
 
 !--------------------------------------------------------------------
 
+! random_scale_small 
+
 ! in random_real, random_scale_small is the smaller of the two scales
 ! used to scale the random number
 
@@ -397,8 +423,9 @@ do
                                                     random_scale_small
 
 
-
 !--------------------------------------------------------------------
+
+! random_scale_large 
 
 ! in random_real, random_scale_large is the larger of the two scales
 ! used to scale the random number
@@ -484,11 +511,12 @@ do
 
 !--------------------------------------------------------------------
 
+!  GA_print   
 
-!  GA_print   if GA_print_flag >  0 - write printout to GA_print_unit
-!             if GA_print_flag <= 0 - do not write printout to GA_print_unit
+! if GA_print_flag >  0 - write printout to GA_print_unit
+! if GA_print_flag <= 0 - do not write printout to GA_print_unit
 
-!  GA_print   DEFAULT =   GA_print_flag >  0 - write printout to GA_print_unit
+! DEFAULT =   GA_print_flag =  0 -  do not write printout to GA_print_unit
 
 
 
@@ -510,9 +538,242 @@ do
                                                   L_GA_print
 
 
+!--------------------------------------------------------------------
+
+! GA output parameters  - formerly the file was called "output_parameters"
+
+
+! if GA_output_parameters_flag >  0 - write printout to GA_output_parameters_unit
+! if GA_output_parameters_flag <= 0 - do not write printout to GA_output_parameters_unit
+
+!  DEFAULT =   GA_output_parameters_flag == 0 
+!              - do not write printout to GA_output_parameters_unit
 
 
 
+    elseif( Aline(1:len('GA_output_parameters')) == "GA_output_parameters"  .or.     &
+            Aline(1:len('GA_output_parameters')) == "ga_output_parameters"           ) then
+
+        READ(Aline(len('GA_output_parameters')+1:), * )  GA_output_parameters_flag
+
+
+        if( GA_output_parameters_flag > 0 )then
+            L_GA_output_parameters = .TRUE.
+        else
+            L_GA_output_parameters = .FALSE. 
+        endif ! GA_output_parameters_flag > 0
+
+        write(GP_print_unit,'(A,1x,I12)') 'rcntl: GA_output_parameters_flag =', &
+                                                  GA_output_parameters_flag
+        write(GP_print_unit,'(A,4x,L1 )') 'rcntl: L_GA_output_parameters =', &
+                                                  L_GA_output_parameters
+
+!--------------------------------------------------------------------
+
+! GP_output_parameters
+
+! if GP_output_parameters_flag >  0 - write printout to GP_output_parameters_unit
+! if GP_output_parameters_flag <= 0 - do not write printout to GP_output_parameters_unit
+
+!  DEFAULT =   GP_output_parameters_flag == 0 
+!              - do not write printout to GA_print_unit
+
+
+
+    elseif( Aline(1:len('GP_output_parameters')) == "GP_output_parameters"  .or.     &
+            Aline(1:len('GP_output_parameters')) == "gp_output_parameters"           ) then
+
+        READ(Aline(len('GP_output_parameters')+1:), * )  GP_output_parameters_flag
+
+
+        if( GP_output_parameters_flag > 0 )then
+            L_GP_output_parameters = .TRUE.
+        else
+            L_GP_output_parameters = .FALSE. 
+        endif ! GP_output_parameters_flag > 0
+
+        write(GP_print_unit,'(A,1x,I12)') 'rcntl: GP_output_parameters_flag =', &
+                                                  GP_output_parameters_flag
+        write(GP_print_unit,'(A,4x,L1 )') 'rcntl: L_GP_output_parameters =', &
+                                                  L_GP_output_parameters
+
+!--------------------------------------------------------------------
+
+! fort333_output   
+
+! if fort333_output_flag >  0 - write printout to fort333_output_unit
+! if fort333_output_flag <= 0 - do not write printout to fort333_output_unit
+
+!  DEFAULT =   fort333_output_flag == 0 
+!              - do not write printout to fort333_output_unit
+
+
+
+    elseif( Aline(1:len('fort333_output')) == "fort333_output"  ) then
+
+
+        READ(Aline(len('fort333_output')+1:), * )  fort333_output_flag
+
+        if( fort333_output_flag > 0 )then
+            L_fort333_output = .TRUE.
+        else
+            L_fort333_output = .FALSE. 
+        endif ! fort333_output_flag > 0
+
+        write(GP_print_unit,'(A,1x,I12)') 'rcntl: fort333_output_flag =', &
+                                                  fort333_output_flag
+        write(GP_print_unit,'(A,4x,L1 )') 'rcntl: L_fort333_output =', &
+                                                  L_fort333_output
+
+
+!--------------------------------------------------------------------
+
+! fort444_output   
+
+! if fort444_output_flag >  0 - write printout to fort444_output_unit
+! if fort444_output_flag <= 0 - do not write printout to fort444_output_unit
+
+!  DEFAULT =   fort444_output_flag == 0 
+!              - do not write printout to fort444_output_unit
+
+
+
+    elseif( Aline(1:len('fort444_output')) == "fort444_output"  ) then
+
+
+        READ(Aline(len('fort444_output')+1:), * )  fort444_output_flag
+
+        if( fort444_output_flag > 0 )then
+            L_fort444_output = .TRUE.
+        else
+            L_fort444_output = .FALSE. 
+        endif ! fort444_output_flag > 0
+
+        write(GP_print_unit,'(A,1x,I12)') 'rcntl: fort444_output_flag =', &
+                                                  fort444_output_flag
+        write(GP_print_unit,'(A,4x,L1 )') 'rcntl: L_fort444_output =', &
+                                                  L_fort444_output
+
+
+!--------------------------------------------------------------------
+
+! GA log
+
+!  if GA_log_flag >  0 - write printout to GA_log_unit
+!  if GA_log_flag <= 0 - do not write printout to GA_log_unit
+
+!  DEFAULT =   GA_log_flag == 0 
+!              - do not write printout to GA_log_unit
+
+
+
+    elseif( Aline(1:len('GA_log')) == "GA_log"  .or.     &
+            Aline(1:len('GA_log')) == "ga_log"           ) then
+
+
+        READ(Aline(len('GA_log')+1:), * )  GA_log_flag
+
+        if( GA_log_flag > 0 )then
+            L_GA_log = .TRUE.
+        else
+            L_GA_log = .FALSE. 
+        endif ! GA_log_flag > 0
+
+        write(GP_print_unit,'(A,1x,I12)') 'rcntl: GA_log_flag =', &
+                                                  GA_log_flag
+        write(GP_print_unit,'(A,4x,L1 )') 'rcntl: L_GA_log =', &
+                                                  L_GA_log
+
+
+!--------------------------------------------------------------------
+
+! GP log
+
+!  if GP_log_flag >  0 - write printout to GP_log_unit
+!  if GP_log_flag <= 0 - do not write printout to GP_log_unit
+
+!  DEFAULT =   GP_log_flag == 0 
+!             - do not write printout to GP_log_unit
+
+
+
+    elseif( Aline(1:len('GP_log')) == "GP_log"  .or.     &
+            Aline(1:len('GP_log')) == "gp_log"           ) then
+
+
+        READ(Aline(len('GP_log')+1:), * )  GP_log_flag
+
+        if( GP_log_flag > 0 )then
+            L_GP_log = .TRUE.
+        else
+            L_GP_log = .FALSE. 
+        endif ! GP_log_flag > 0
+
+        write(GP_print_unit,'(A,1x,I12)') 'rcntl: GP_log_flag =', &
+                                                  GP_log_flag
+        write(GP_print_unit,'(A,4x,L1 )') 'rcntl: L_GP_log =', &
+                                                  L_GP_log
+
+!--------------------------------------------------------------------
+
+
+! unit50_output   
+
+
+! if unit50_output_flag >  0 - write printout to unit50_output_unit
+! if unit50_output_flag <= 0 - do not write printout to unit50_output_unit
+
+!  DEFAULT =   unit50_output_flag ==  0 
+!              - do not write printout to unit50_output_unit
+
+
+
+    elseif( Aline(1:len('unit50_output')) == "unit50_output" ) then
+
+
+        READ(Aline(len('unit50_output')+1:), * )  unit50_output_flag
+
+        if( unit50_output_flag > 0 )then
+            L_unit50_output = .TRUE.
+        else
+            L_unit50_output = .FALSE. 
+        endif ! unit50_output_flag > 0
+
+        write(GP_print_unit,'(A,1x,I12)') 'rcntl: unit50_output_flag =', &
+                                                  unit50_output_flag
+        write(GP_print_unit,'(A,4x,L1 )') 'rcntl: L_unit50_output =', &
+                                                  L_unit50_output
+
+
+
+!--------------------------------------------------------------------
+
+! print equations 
+
+! if print_equations_flag >  0 - write equations together with tree 
+!                                structures in subroutine print_trees
+! if print_equations_flag <= 0 - do not write equations
+
+!  DEFAULT =   print_equations_flag ==  0 
+!                - do not write quations
+
+
+
+    elseif( Aline(1:len('print_equations')) == "print_equations" ) then
+
+
+        READ(Aline(len('print_equations')+1:), * )  print_equations_flag
+
+        if( print_equations_flag > 0 )then
+            L_print_equations = .TRUE.
+        else
+            L_print_equations = .FALSE. 
+        endif ! print_equations_flag > 0
+
+        write(GP_print_unit,'(A,1x,I12)') 'rcntl: print_equations_flag =', &
+                                                  print_equations_flag
+        write(GP_print_unit,'(A,4x,L1 )') 'rcntl: L_print_equations =', &
+                                                  L_print_equations
 
 
 !--------------------------------------------------------------------
@@ -520,9 +781,9 @@ do
     else
 
         write(GP_print_unit,'(/A)') 'rcntl: WARNING: UNRECOGNIZED OPTION '
+
         write(GP_print_unit,'(A,1x,A)') 'rcntl: Aline =', trim( Aline )           
         write(GP_print_unit,'(A/)') 'rcntl: WARNING: UNRECOGNIZED OPTION '
-
 
     endif !   Aline(1:6) == ???
 

@@ -1,4 +1,4 @@
-Description of the unit 5 input control file                        20130724
+Description of the unit 5 input control file                        20130828
                                                                     J. McCarthy
 
 
@@ -438,9 +438,205 @@ USER_INPUT_RANDOM_SEED  345538
 
 Note:	default value = 0 -- i.e. system clock value is used
 
--------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+
+
+GA_print - determines if the GA_print file is generated.
+
+
+col 1-8		GA_print                                              
+col 10-80	GA_print_flag
+
+
+	if GA_print_flag >  0 - write printout to GA_print_unit
+	if GA_print_flag <= 0 - do not write printout to GA_print_unit
+	
+	DEFAULT =   GA_print_flag = 0
+
+Example:
+
+GA_print  1                      
+
+
+--------------------------------------------------------------------------------
+
+
+
+GA_output_parameters - determines if the GA_output_parameters file is generated.
+
+
+col 1-20	GA_output_parameters                                              
+col 21-80	GA_output_parameters_flag
+
+
+	if GA_output_parameters_flag >  0 - write printout to GA_output_parameters_unit
+	if GA_output_parameters_flag <= 0 - do not write printout to GA_output_parameters_unit
+	
+	DEFAULT =   GA_output_parameters_flag = 0
+
+Example:
+
+GA_output_parameters  1                      
+
+
+--------------------------------------------------------------------------------
+
+
+
+GP_output_parameters - determines if the GP_output_parameters file is generated.
+
+
+col 1-20	GP_output_parameters                                              
+col 21-80	GP_output_parameters_flag
+
+
+	if GP_output_parameters_flag >  0 - write printout to GP_output_parameters_unit
+	if GP_output_parameters_flag <= 0 - do not write printout to GP_output_parameters_unit
+	
+	DEFAULT =   GP_output_parameters_flag = 0
+
+Example:
+
+GP_output_parameters  1                      
+
+
+--------------------------------------------------------------------------------
+
+
+
+fort333 - determines if the fort333 file is generated.
+
+
+col 1-7		fort333                                              
+col 9-80	fort333_flag
+
+
+	if fort333_flag >  0 - write printout to fort333_unit
+	if fort333_flag <= 0 - do not write printout to fort333_unit
+	
+	DEFAULT =   fort333_flag = 0
+
+Example:
+
+fort333  1                      
+
+
+--------------------------------------------------------------------------------
+
+
+
+fort444 - determines if the fort444 file is generated.
+
+
+col 1-7		fort444                                              
+col 9-80	fort444_flag
+
+
+	if fort444_flag >  0 - write printout to fort444_unit
+	if fort444_flag <= 0 - do not write printout to fort444_unit
+	
+	DEFAULT =   fort444_flag = 0
+
+Example:
+
+fort444  1                      
+
+
+--------------------------------------------------------------------------------
+
+
+
+GA_log - determines if the GA_log file is generated.
+
+
+col 1-6		GA_log                                              
+col 8-80	GA_log_flag
+
+
+	if GA_log_flag >  0 - write printout to GA_log_unit
+	if GA_log_flag <= 0 - do not write printout to GA_log_unit
+	
+	DEFAULT =   GA_log_flag = 0
+
+Example:
+
+GA_log  1                      
+
+
+--------------------------------------------------------------------------------
+
+
+
+GP_log - determines if the GP_log file is generated.
+
+
+col 1-6		GP_log                                              
+col 8-80	GP_log_flag
+
+
+	if GP_log_flag >  0 - write printout to GP_log_unit
+	if GP_log_flag <= 0 - do not write printout to GP_log_unit
+	
+	DEFAULT =   GP_log_flag = 0
+
+Example:
+
+GP_log  1                      
+
+
+--------------------------------------------------------------------------------
+
+
+
+
+unit50_output- determines if the unit50_output file is generated.
+
+
+col 1-13	unit50_output                                             
+col 15-80	unit50_output_flag
+
+
+	if unit50_output_flag >  0 - write printout to unit50_output_unit
+	if unit50_output_flag <= 0 - do not write printout to unit50_output_unit
+	
+	DEFAULT =   unit50_output_flag = 0
+
+Example:
+
+unit50_output 1                      
+
+
+--------------------------------------------------------------------------------
+
+
+
+print_equations - determines if equations are printed together with the tree
+                  structures in print_trees
+
+
+col 1-8		print_equations                                              
+col 10-80	print_equations_flag
+
+
+	if print_equations_flag >  0 - write equations 
+	if print_equations_flag <= 0 - do not write equations
+	
+	DEFAULT =   print_equations_flag = 0
+
+Example:
+
+print_equations  1                      
+
+
+
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
 File formats:
+
+---------------------------------------------------------------
 
 output_parameters -
 
@@ -452,6 +648,9 @@ output_parameters -
      (parent_parameters_best_1(jj),jj = 1,n_parameters)         
 
 
+---------------------------------------------------------------
+
+
 GP_output_parameters - 
 
        i_GP_Generation
@@ -461,12 +660,30 @@ GP_output_parameters -
        output_array(1:nop)                              
 
 
+
+---------------------------------------------------------------
+
 fort333 - binary
 
 i_GP_Generation
 i_GP_individual
 i_GA_generation
 individual_SSE(1:n_GA_individuals)                    
+
+
+---------------------------------------------------------------
+
+fort444 - binary
+
+??i_GP_Generation
+??i_GP_individual
+??i_GA_generation
+??individual_SSE(1:n_GA_individuals)
+
+
+
+
+---------------------------------------------------------------
 
 GA_log - binary
 
@@ -477,9 +694,18 @@ i_GA_generation
 individual_SSE(1:n_GA_individuals)
 individual_ranked_fitness(1:n_GA_individuals) 
 
+
+---------------------------------------------------------------
+
 GP_log - binary
 
 i_GP_generation
 i_GP_Individual
 GP_Adult_Individual_SSE(i_GP_Individual)
 GP_Population_Ranked_Fitness(i_GP_Individual)        
+
+
+---------------------------------------------------------------
+
+unit50.txt
+

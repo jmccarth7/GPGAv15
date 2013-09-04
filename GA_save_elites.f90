@@ -36,7 +36,7 @@ real(kind=8) :: min_fit
 if( n_GA_save_elites < 1 ) return
 
 if( L_ga_print )then 
-write(GA_print_unit,'(/A,1x,I6)') &
+    write(GA_print_unit,'(/A,1x,I6)') &
       'gase: n_GA_save_elites ', n_GA_save_elites
 endif ! L_ga_print 
 
@@ -93,7 +93,7 @@ enddo ! i
 deallocate( temp_fitness )
 
 if( L_ga_print )then 
-write(GA_print_unit,'(A,1x,E15.7/)') &
+    write(GA_print_unit,'(A,1x,E15.7/)') &
       'gase: min_fit to be elite ', min_fit
 endif ! L_ga_print 
 

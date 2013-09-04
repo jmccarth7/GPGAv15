@@ -78,9 +78,9 @@ do  i_indiv = 1, n_GP_individuals
 
     enddo !  i_tree
 
-    icnt_ops   = int( 100.0d0 * real( icnt_ops,   kind=8 ) / xmax_number_nodes )
-    icnt_vars  = int( 100.0d0 * real( icnt_vars,  kind=8 ) / xmax_number_nodes )
-    icnt_parms = int( 100.0d0 * real( icnt_parms, kind=8 ) / xmax_number_nodes )
+    !icnt_ops   = int( 100.0d0 * real( icnt_ops,   kind=8 ) / xmax_number_nodes )
+    !icnt_vars  = int( 100.0d0 * real( icnt_vars,  kind=8 ) / xmax_number_nodes )
+    !icnt_parms = int( 100.0d0 * real( icnt_parms, kind=8 ) / xmax_number_nodes )
 
     i_diversity = 100 * ( icnt_parms * 100  + icnt_vars ) + icnt_ops
 

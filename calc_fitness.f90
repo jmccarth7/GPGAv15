@@ -102,7 +102,14 @@ do  i_GA_individual=1,n_GA_individuals
     
 enddo !  i_GA_individual
 
-!write(444) i_GA_generation, ppe(1:n_parameters, 1:n_GA_individuals)
+
+
+!-----------------------------------------------------------------------------------
+
+if( L_fort444_output )then
+    write(444) i_GA_generation, ppe(1:n_parameters, 1:n_GA_individuals)
+endif ! L_fort444_output )then
+
 
 !-----------------------------------------------------------------------------------
 
@@ -440,9 +447,16 @@ if( i_GA_generation == 1                                 .or. &
 
 endif !  i_GA_generation == 1 ...
 
-write(333) i_GP_Generation, i_GP_individual, i_GA_generation, &
-           individual_SSE(1:n_GA_individuals) 
-!write(333) dble( i_GA_generation ), individual_SSE(1:n_GA_individuals) 
+
+!-------------------------------------------------------------------------------
+
+if( L_fort333_output )then
+
+    write(333) i_GP_Generation, i_GP_individual, i_GA_generation, &
+               individual_SSE(1:n_GA_individuals) 
+    !write(333) dble( i_GA_generation ), individual_SSE(1:n_GA_individuals) 
+    
+endif !  L_fort333_output
 
 !-------------------------------------------------------------------------------
 
@@ -508,25 +522,28 @@ endif ! L_ga_print
 
 !-----------------------------------------------------------------------
 
-! write information to a GP log file giving:
-! generation, individual, SSE, individual_fitness
+if( L_GA_log )then
 
-!do  i_GA_Individual=1,n_GA_individuals
-!    write(GA_log_unit,'(2(1x,I6),2(1x,E15.7))') &
-!          i_GA_generation, &
-!          i_GA_Individual, &
-!          individual_SSE(i_GA_individual), &
-!          individual_ranked_fitness(i_GA_individual)
-!enddo ! i_GP_individual
+    ! write information to a GA log file giving:
+    ! generation, individual, SSE, individual_fitness
+    
+    !do  i_GA_Individual=1,n_GA_individuals
+    !    write(GA_log_unit,'(2(1x,I6),2(1x,E15.7))') &
+    !          i_GA_generation, &
+    !          i_GA_Individual, &
+    !          individual_SSE(i_GA_individual), &
+    !          individual_ranked_fitness(i_GA_individual)
+    !enddo ! i_GP_individual
+    
+    
+    write(GA_log_unit)  &
+          n_GA_individuals, &
+          i_GP_Generation, i_GP_individual, &
+          i_GA_generation, &
+          individual_SSE(1:n_GA_individuals), &
+          individual_ranked_fitness(1:n_GA_individuals)
 
-
-write(GA_log_unit)  &
-      n_GA_individuals, &
-      i_GP_Generation, i_GP_individual, &
-      i_GA_generation, &
-      individual_SSE(1:n_GA_individuals), &
-      individual_ranked_fitness(1:n_GA_individuals)
-
+endif ! L_GA_log 
 !-----------------------------------------------------------------------
 
 

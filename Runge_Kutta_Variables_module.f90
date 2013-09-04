@@ -21,6 +21,8 @@ integer(kind=4),allocatable, dimension( : , : ) :: Node_Eval_Type
 !real(kind=8) :: bioflo(0:n_CODE_equations,0:n_CODE_equations)
 real(kind=8),allocatable, dimension( : , : ) :: bioflo
 
+character(str_len),allocatable, dimension( : , : ) :: bioflo_string
+
 !real(kind=8) :: b_tmp(n_CODE_equations)
 real(kind=8),allocatable, dimension( : ) :: b_tmp
 

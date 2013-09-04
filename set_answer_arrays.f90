@@ -42,14 +42,24 @@ GP_Node_Type_Answer       = GP_Individual_Node_Type       ! Matrix Operation
 GP_Node_Parameters_Answer = GP_Individual_Node_Parameters ! Matrix Operation
 
 
-do i_GP_Individual=1,n_GP_individuals
-  GP_Node_Type_for_Plotting(1:n_Nodes,1:n_Trees,i_GP_Individual) = &
-                        GP_Node_Type_Answer(1:n_Nodes,1:n_Trees)
-enddo
+!--------------------------------------------------------------------------
 
-if( myid == 0 )then
-    write(unit_gp_out) GP_Node_Type_for_Plotting
-endif ! myid == 0
+if( L_unit50_output )then
+
+    ! calculate array for writing on unit50.txt ( unit_gp_out ) 
+    
+    do i_GP_Individual=1,n_GP_individuals
+      GP_Node_Type_for_Plotting(1:n_Nodes,1:n_Trees,i_GP_Individual) = &
+                            GP_Node_Type_Answer(1:n_Nodes,1:n_Trees)
+    enddo
+    
+    if( myid == 0 )then
+        write(unit_gp_out) GP_Node_Type_for_Plotting
+    endif ! myid == 0
+    
+endif ! L_unit50_output 
+
+!--------------------------------------------------------------------------
 
 ! set the initial population node type using the info obtained
 ! from the set up file

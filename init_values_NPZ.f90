@@ -115,6 +115,11 @@ do  i_tree = 1,n_trees
 
 enddo ! i_tree
 
+
+!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+Node_Probability = (/0.8d0,0.6d0,0.4d0,0.2d0,0.d0/)  ! NOTE: Last value MUST BE 0.0!!!]
+!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 !     This is the tree representation of the NPZ equation set
 !     This terms are calculated in

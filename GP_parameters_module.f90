@@ -19,15 +19,28 @@ integer(kind=4),parameter :: min_N_param = 2
  
 integer(kind=4),parameter :: GP_print_unit = 6
 
-integer(kind=4),parameter :: GA_output_unit = 20
-integer(kind=4),parameter :: GP_output_unit = 30
+!integer(kind=4),parameter :: GA_output_unit = 20
+!integer(kind=4) :: GA_output_parameters_flag  
+!logical         :: L_GA_output_parameters    
+
 
 integer(kind=4),parameter :: GP_summary_output_unit = 40
 
 integer(kind=4),parameter :: unit_gp_out = 50
+integer(kind=4) ::  unit50_output_flag 
+logical ::   L_unit50_output
 
 integer(kind=4),parameter :: GP_log_unit = 80
+integer(kind=4) ::  GP_log_flag 
+logical ::   L_GP_log 
 
+
+integer(kind=4),parameter :: GP_output_unit = 30
+integer(kind=4) ::  GP_output_parameters_flag 
+logical ::          L_GP_output_parameters 
+
+integer(kind=4) ::  print_equations_flag
+logical ::   L_print_equations 
 
 !integer(kind=4), parameter :: n_GP_individuals=1
 integer(kind=4) :: n_GP_individuals
@@ -57,7 +70,10 @@ integer(kind=4) :: n_parameters
 ! NOTE: the last value must be set to zero to set the last level as terminals only.
 
 !-------------------------------------------------------------------
-integer, parameter :: str_len = 80
+integer, parameter :: str_len = 500
+
+character(160) :: tree_node_string 
+character(3) :: node_element_string
 !-------------------------------------------------------------------
 
 ! n_trees=((n_CODE_equations+1)**2)-(n_CODE_equations+1)
@@ -120,6 +136,8 @@ real(kind=8) :: GP_Mutation_Probability
 character(4), allocatable, dimension( : , : )       ::  node_type_string
 character(4), allocatable, dimension( : , : )       ::  node_parameters_string
 character(str_len), allocatable, dimension( : , : ) ::  tree_evaluation_string
+
+character(str_len), allocatable, dimension( : )     ::  tree_value_string
 
 !-------------------------------------------------------------------
 

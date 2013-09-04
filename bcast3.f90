@@ -24,7 +24,7 @@ implicit none
 
 
 
-!----------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 
 
 
@@ -37,6 +37,7 @@ implicit none
 call MPI_BCAST( GP_Adult_Individual_SSE, n_GP_individuals,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
+!------------------------------------------------------------------------------
 
 !if( myid == 0 )then
 !    write(GP_print_unit,'(/A/(5(1x,E15.7)))') &
@@ -53,6 +54,7 @@ call MPI_BCAST( GP_Population_Ranked_Fitness, n_GP_individuals,    &
 !                            GP_Population_Ranked_Fitness
 !endif ! myid == 0
 
+!------------------------------------------------------------------------------
 
 !if( myid == 0 )then
 !    write(GP_print_unit,'(/A/(5(1x,E15.7)))') &

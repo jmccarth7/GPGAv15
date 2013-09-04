@@ -26,7 +26,8 @@ if( n_GA_Mutations < 1 ) return
 
 
 !if( L_ga_print )then 
-!write(GA_print_unit,'(//A,1x,I6/)') 'gam: n_GA_Mutations ', n_GA_Mutations
+!    write(GA_print_unit,'(//A,1x,I6/)') &
+!          'gam: n_GA_Mutations ', n_GA_Mutations
 !endif !  L_ga_print
 
 

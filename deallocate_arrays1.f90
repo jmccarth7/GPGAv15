@@ -85,6 +85,11 @@ deallocate( Runge_Kutta_Node_Parameters )
 deallocate( Runge_Kutta_Initial_Conditions )
 deallocate( Runge_Kutta_Solution )
 
+deallocate( RK_Node_Type )
+deallocate( RK_Node_Parameters )
+deallocate( RK_Initial_Conditions )
+deallocate( RK_Solution )
+
 
 deallocate( Node_Values )
 deallocate( Tree_Evaluation )
@@ -94,6 +99,7 @@ deallocate( Tree_Value )
 deallocate( Node_Eval_Type )
 
 deallocate( bioflo )
+deallocate( bioflo_string  )
 deallocate( b_tmp )
 
 deallocate( kval )
@@ -101,9 +107,10 @@ deallocate( btmp )
 deallocate( fbio )
 
 
-!deallocate( node_type_string )
-!deallocate( node_parameters_string )
-!deallocate( tree_evaluation_string )
+deallocate( node_type_string )
+deallocate( node_parameters_string )
+deallocate( tree_evaluation_string )
+deallocate( tree_value_string )
 !!deallocate( linked_parms )
 
 

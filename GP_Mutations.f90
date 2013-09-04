@@ -193,18 +193,18 @@ do  i_GP_Mutation = 1,n_GP_Mutations
         Node_Not_Found = .true.
         do  i_Node = 1,n_Nodes
             if( Node_Not_Found) then
-            !!!if( GP_Adult_Population_Node_Type( i_GP_Individual_Mutation,i_Node,i_Tree_Mutation) .ge. 0)then
-            if( GP_Child_Population_Node_Type(i_Node,i_Tree_Mutation, i_GP_Individual) .ne. -9999) then
+                if( GP_Child_Population_Node_Type(i_Node,i_Tree_Mutation, i_GP_Individual) &
+                                                                               /= -9999) then
 
-                ! this is a node with a function value
-                icnt = icnt+1
-                if( icnt .eq. Node_to_Mutate) then
-                    Node_to_Mutate = i_Node
-                     Node_Not_Found=.false.
-                    ! exit
-                endif !   icnt .eq. Node_to_Mutate
-            endif !   GP_Adult_Population_Node_Type...
-           endif !  Node_Not_Found
+                    ! this is a node with a function value
+                    icnt = icnt+1
+                    if( icnt .eq. Node_to_Mutate) then
+                        Node_to_Mutate = i_Node
+                        Node_Not_Found=.false.
+                        ! exit
+                    endif !   icnt .eq. Node_to_Mutate
+                endif !   GP_Adult_Population_Node_Type...
+            endif !  Node_Not_Found
         enddo ! i_node
 
 
@@ -214,7 +214,7 @@ do  i_GP_Mutation = 1,n_GP_Mutations
 
         !!node_function = 1+int(float(n_Node_Functions-1)*cff)
 
-        if( GP_Child_Population_Node_Type(Node_to_Mutate,i_Tree_Mutation,i_GP_Individual) .le. 0 ) then
+        if( GP_Child_Population_Node_Type(Node_to_Mutate,i_Tree_Mutation,i_GP_Individual) <= 0 ) then
 
             ! [Ranges from: -n_CODE_Equations to 0]
 
@@ -232,7 +232,7 @@ do  i_GP_Mutation = 1,n_GP_Mutations
 
         endif
 
-        GP_Child_Population_Node_Type( Node_to_Mutate, i_Tree_Mutation, i_GP_Individual) = Node_Function
+        GP_Child_Population_Node_Type(Node_to_Mutate,i_Tree_Mutation,i_GP_Individual) = Node_Function
 
         !orig Run_GP_Calculate_Fitness(i_GP_Individual) = .true.
 
