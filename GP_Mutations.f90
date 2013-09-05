@@ -86,6 +86,13 @@ do  i_GP_Mutation = 1,n_GP_Mutations
 !        enddo ! i_tree
 !    enddo ! i_node
 
+    if( myid == 0 )then
+        write(6,'(A,2(1x,I6))') &
+              'gpfpar: i_GP_Mutation, i_GP_individual ', &
+                       i_GP_Mutation, i_GP_individual
+    endif ! myid == 0
+
+    !--------------------------------------------------------------------------
 
     ! randomly pick one of the n_GP_Individuals to mutate
 

@@ -396,8 +396,8 @@ do
 
     !-----------------------------------------------------------------------------------
 
-    !  if you found an error in the tree, reset i_GP_Crossover and i_GP_Individual
-    !  and try making a new tree and individual
+    !  if you found an error in the tree, reset i_GP_Crossover 
+    !  and try making a new tree and with a new random i_GP_Individual
 
     if( i_Error > 0 )then
 

@@ -48,7 +48,12 @@ real(kind=8) :: t2
 
 character(200) :: tree_descrip
 
-!------------------------------------------------------------------------------
+character(10),parameter :: program_version   = '201308.600'
+character(10),parameter :: modification_date = '20130905'
+character(30),parameter :: branch  = 'old_elite_scheme'
+
+
+!----------------------------------------------------------------------------------------
 
 
 
@@ -82,6 +87,11 @@ if( myid == 0 )then
     write(6,'(A)')'0:  and with no barrier after  call GPCODE  '
     write(6,'(A)')'0: removed barrier in GPCODE aft bcast of L_stop'
 
+    !------------------------------------------------------
+    write(GP_print_unit, '(/A,1x,A,1x,A,1x,A//)') &
+    '0: GPGACODE program version ', trim(program_version), &
+    '   branch:                  ', trim( branch ) , & 
+    '   Last modified on         ', trim( modification_date ) 
     !------------------------------------------------------
 
     ! read the control input from file  "GPCODE_cntl"
@@ -312,7 +322,6 @@ if( myid == 0 )then
     !---------------------------------------------------------------------------
 
 
-    !open( GA_output_unit, file='output_parameters', &
 
     if( L_GA_output_parameters )then
         open( GA_output_unit, file='GA_output_parameters', &

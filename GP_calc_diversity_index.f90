@@ -32,6 +32,11 @@ integer(kind=4) :: i_Node
 
 !---------------------------------------------------------------------------
 
+!    Nodes = tree nodes
+!    parms = independent variables, like L and V   or N, P, Z
+!    vars  = coefficients in the equations
+!    ops   = arithmetic operators and functions 
+
 max_number_nodes = n_trees * n_nodes
 xmax_number_nodes = real( max_number_nodes, kind=8 )
 
