@@ -59,19 +59,19 @@ do i_GA_Crossover=1,n_GA_Crossovers
   ! pick male parent 1 for sexual crossing of parameter strings
 
 
-  ! check_for_elite generates random numbers and computes an individual
+  ! GA_check_for_elite generates random numbers and computes an individual
   ! number until it finds one which is not in the elite set of individuals
   ! this non-elite number is returned to the calling program
 
 
-  call check_for_elite( k_GA_Individual_Male(1) )
+  call GA_check_for_elite( k_GA_Individual_Male(1) )
 
 
   !if( L_ga_print )then
   !    write(GA_print_unit,'(/A,1x,I6)') &
   !      'gato: k_GA_Individual_Male(1)  ', k_GA_Individual_Male(1)
   !    write(GA_print_unit,'(A/(15(1x,I6)))') &
-  !      'gato: individual_elites ', individual_elites
+  !      'gato: ga_individual_elites ', ga_individual_elites
   !endif ! L_ga_print
 
 
@@ -80,7 +80,7 @@ do i_GA_Crossover=1,n_GA_Crossovers
   ! pick male parent 2 for sexual crossing of parameter strings
 
 
-  call check_for_elite( k_GA_Individual_Male(2) )
+  call GA_check_for_elite( k_GA_Individual_Male(2) )
 
 
   !if( L_ga_print )then
@@ -138,14 +138,14 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
   ! pick female parent 1 for sexual crossing of parent parameter strings
 
-  call check_for_elite( k_GA_Individual_Female(1) )
+  call GA_check_for_elite( k_GA_Individual_Female(1) )
 
 
   !---------------------------------------------------------------------------------
 
   ! pick female parent 2 for sexual crossing of parent parameter strings
 
-  call check_for_elite( k_GA_Individual_Female(2) )
+  call GA_check_for_elite( k_GA_Individual_Female(2) )
 
 
   !if( L_ga_print )then

@@ -41,14 +41,14 @@ do i_GA_Mutation=1,n_GA_Mutations
 
   ! randomly pick an individual to mutate [presently a child]
 
-  ! if the index i_GA_Mutation is in the array individual_elites,
+  ! if the index i_GA_Mutation is in the array ga_individual_elites,
   ! do not replace this individual - it is an elite individual
 
-  ! check_for_elite generates random numbers for the individual number
+  ! GA_check_for_elite generates random numbers for the individual number
   ! until it finds one not in the list of elite individuals
 
 
-  call check_for_elite( i_GA_Individual_mutation )
+  call GA_check_for_elite( i_GA_Individual_mutation )
 
 
   !--------------------------------------------------------------------

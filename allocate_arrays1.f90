@@ -27,7 +27,7 @@ implicit none
 ! allocate variable dimension arrays
 
 
-allocate( individual_elites( n_GA_individuals )  )
+allocate( ga_individual_elites( n_GA_individuals )  )
 !allocate( fitness_expectation_value( n_GA_individuals )  )
 
 allocate( Run_GA_lmdif( n_GA_individuals )  )
@@ -144,7 +144,7 @@ allocate( ppe(n_Maximum_Number_Parameters,n_GA_individuals )  )
 
 
 
-individual_elites  = 0
+ga_individual_elites  = 0
 !fitness_expectation_value  = 0.0d0
 
 Run_GA_lmdif  = .FALSE.

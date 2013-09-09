@@ -1,4 +1,4 @@
-subroutine check_for_elite( index0  )
+subroutine GA_check_for_elite( index0  )
 
 use GP_Parameters_module
 use GA_Parameters_module
@@ -49,11 +49,11 @@ do
     !    write(GA_print_unit,'(A,2(1x,I6))')    &
     !          'cfe: ksafe, index0 ', ksafe, index0
     !    write(GA_print_unit,'(A/(15(1x,I6)))') &
-    !          'cfe: individual_elites ',  &
-    !                individual_elites(1:n_GA_save_elites)
+    !          'cfe: ga_individual_elites ',  &
+    !                ga_individual_elites(1:n_GA_save_elites)
     !endif ! L_ga_print  
 
-    if( any( individual_elites == index0 ) )then
+    if( any( ga_individual_elites == index0 ) )then
 
         !if( L_ga_print )then
         !    write(GA_print_unit,'(A,1x,I6)') &
@@ -61,10 +61,10 @@ do
         !endif ! L_ga_print  
         cycle
 
-    endif   ! any( individual_elites == index0 )
+    endif   ! any( ga_individual_elites == index0 )
 
 
-    if( .not. any( individual_elites == index0 ) ) exit
+    if( .not. any( ga_individual_elites == index0 ) ) exit
 
 enddo
 
@@ -74,4 +74,4 @@ enddo
 
 
 return
-end subroutine check_for_elite
+end subroutine GA_check_for_elite

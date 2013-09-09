@@ -104,12 +104,12 @@ endif ! L_ga_print
 
 !-----------------------------------------------------------------------
 
-! set individual_elites array to zero
-individual_elites = 0
+! set ga_individual_elites array to zero
+ga_individual_elites = 0
 
 !-----------------------------------------------------------------------
 
-! store the indices in the array "individual_elites"
+! store the indices in the array "ga_individual_elites"
 ! of the first n_GA_save_elites  individuals
 
 j = 0
@@ -118,7 +118,7 @@ do  i = 1, n_GA_individuals
     if( individual_ranked_fitness(i) >= min_fit ) then
 
         j = j + 1
-        individual_elites(j) = i
+        ga_individual_elites(j) = i
 
     endif ! individual_ranked_fitness(i) > min_fit
 
@@ -135,15 +135,15 @@ if( L_ga_print )then
     !      'gase: elites for generation', i_GA_generation
     !do  i = 1, n_GA_save_elites
     !    write(GA_print_unit,'(A,1x,I6,2x,2(1x,I6))') &
-    !          'gase: generation, i, individual_elites(i) ', &
-    !            i_GA_generation, i, individual_elites(i)
+    !          'gase: generation, i, ga_individual_elites(i) ', &
+    !            i_GA_generation, i, ga_individual_elites(i)
     !enddo ! i
     
     
     write(GA_print_unit,'(A,1x,1x,I6)') &
           'gase: elites for generation', i_GA_generation
     write(GA_print_unit,'(10(1x,I6))')&
-           individual_elites(1:n_GA_save_elites)
+           ga_individual_elites(1:n_GA_save_elites)
 endif ! L_ga_print  
 
 

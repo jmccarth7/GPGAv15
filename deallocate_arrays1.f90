@@ -28,7 +28,7 @@ implicit none
 
 ! deallocate variable dimension arrays
 
-deallocate( individual_elites )
+deallocate( ga_individual_elites )
 deallocate( individual_SSE )
 deallocate( integrated_SSE )
 deallocate( individual_ranked_fitness )

@@ -12,8 +12,8 @@ integer (kind=4) :: n_GA_rand_replaces
 
 integer (kind=4) :: n_GA_save_elites
 
-!integer(kind=4), dimension( n_GA_individuals ) :: individual_elites
-integer(kind=4), allocatable, dimension(:) :: individual_elites
+!integer(kind=4), dimension( n_GA_individuals ) :: ga_individual_elites
+integer(kind=4), allocatable, dimension(:) :: ga_individual_elites
 
 real(kind=8) :: GA_Individual_Lowest_SSE
 
