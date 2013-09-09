@@ -139,8 +139,6 @@ do  i_GP_Mutation = 1,n_GP_Mutations
 
     if( i_Error .eq. 1) then
         if( myid == 0 )then
-            !write(*,*) 'Pre-GP_Check_Error in GP_Mutation',&
-            !         i_GP_Individual,i_GP_Mutation,i_Error
             write(6,'(/A)') 'gpm: Pre-GP_Check_Error in GP_Mutation'
             write(6,'(A,2(1x,I6)/)') 'gpm: i_GP_Individual, i_GP_Mutation, i_Error  ', &
                                            i_GP_Individual, i_GP_Mutation, i_Error
@@ -169,13 +167,8 @@ do  i_GP_Mutation = 1,n_GP_Mutations
 
     do  i_Node = 1, n_Nodes
 
-        !!if( GP_Adult_Population_Node_Type( &
-        !!    i_Node,i_Tree_Mutation,i_GP_Individual_Mutation) .gt. 0) then
-
         if( GP_Child_Population_Node_Type(i_Node,i_Tree_Mutation,i_GP_Individual) .ne. -9999) then
-
             icnt_Nodes = icnt_Nodes+1
-
         endif ! GP_Child_Population_Node_Type...
 
     enddo ! i_node
@@ -210,8 +203,11 @@ do  i_GP_Mutation = 1,n_GP_Mutations
                         Node_Not_Found=.false.
                         ! exit
                     endif !   icnt .eq. Node_to_Mutate
+
                 endif !   GP_Adult_Population_Node_Type...
+
             endif !  Node_Not_Found
+
         enddo ! i_node
 
 
@@ -241,7 +237,6 @@ do  i_GP_Mutation = 1,n_GP_Mutations
 
         GP_Child_Population_Node_Type(Node_to_Mutate,i_Tree_Mutation,i_GP_Individual) = Node_Function
 
-        !orig Run_GP_Calculate_Fitness(i_GP_Individual) = .true.
 
     endif !   icnt_Nodes .gt. 0
 
@@ -270,8 +265,6 @@ do  i_GP_Mutation = 1,n_GP_Mutations
 
 
     !----------------------------------------------------------------------------------
-
-
 
     call GP_Check_Terminals(i_Error)
 

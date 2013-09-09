@@ -5,14 +5,13 @@ module GA_parameters_module
 implicit none
 
 ! set the integer parameters
-                                                                                                       
-integer(kind=4),parameter :: GA_output_unit = 20                                                       
-integer(kind=4) :: GA_output_parameters_flag                                                           
-logical         :: L_GA_output_parameters                                                              
-  
+
+integer(kind=4),parameter :: GA_output_unit = 20
+integer(kind=4) :: GA_output_parameters_flag
+logical         :: L_GA_output_parameters
 
 integer(kind=4),parameter :: GA_print_unit = 60
-integer(kind=4) :: GA_print_flag 
+integer(kind=4) :: GA_print_flag
 logical         :: L_GA_print
 
 
@@ -21,12 +20,12 @@ integer(kind=4) :: GA_log_flag
 logical         :: L_GA_log
 
 
-!integer(kind=4),parameter :: fort333_unit  
+!integer(kind=4),parameter :: fort333_unit
 integer(kind=4) :: fort333_output_flag
 logical         :: L_fort333_output
 
 
-!integer(kind=4),parameter :: fort444_unit  
+!integer(kind=4),parameter :: fort444_unit
 integer(kind=4) :: fort444_output_flag
 logical         :: L_fort444_output
 

@@ -98,12 +98,15 @@ do i_GA_Individual=1,n_GA_Individuals
 
 
   if( any( ga_individual_elites == i_GA_individual ) )then
+
       !if( L_ga_print )then 
       !    write(GA_print_unit,'(A,1x,I6)') &
       !    'gafp: skip -- index is elite i_GA_individual = ', &
       !                                  i_GA_individual
       !endif ! L_ga_print 
+
       cycle
+
   endif   ! any( ga_individual_elites == i_GA_individual )
 
   !--------------------------------------------------------------------------

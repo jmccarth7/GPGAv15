@@ -51,7 +51,6 @@ node_type_string = ' '
 !write(6,'(A)') ' '
 
 k = 0 
-!j = 0  ! orig
 
 do  i_tree = 1, n_trees
 
@@ -65,8 +64,6 @@ do  i_tree = 1, n_trees
 
             k = k + 1 
             !write( parm_string, '(A,I0)') 'v', k
-
-            !node_type_string( i_node, i_tree ) = trim( parm_string )
 
             write( parm_string, '(A,I0)') 'u', k
             node_parameters_string( i_node, i_tree ) = trim( parm_string )
@@ -82,8 +79,6 @@ do  i_tree = 1, n_trees
 
         if( RK_Node_Type( i_node, i_tree ) <  0 )then
 
-            !j = j + 1 
-            !j = min( j, n_code_equations ) 
             j = abs( RK_Node_Type( i_node, i_tree ) )
 
             write( parm_string, '(A,I0)') 'P', j
@@ -105,7 +100,6 @@ do  i_tree = 1, n_trees
 
         case( 0 ) node_select
 
-            !node_type_string( i_node, i_tree ) = 'v' 
             continue
 
 

@@ -22,12 +22,6 @@ integer :: n_parens
 
 integer :: i    
 integer :: len_work
-!integer :: j1    
-!integer :: j2    
-!integer :: indx 
-!integer :: ksafe
-
-!integer,parameter :: ksafe_max = 50
 
 character(*), intent(in) ::  test_string
 

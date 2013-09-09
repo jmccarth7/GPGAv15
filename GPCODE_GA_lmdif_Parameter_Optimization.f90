@@ -344,12 +344,12 @@ do  i_GA_generation=1,n_GA_Generations
             !  replace the parameters of any individual with quality < 0 with new
             !  random numbers
 
-            if( L_ga_print )then
-                write(GA_print_unit,'(/A)')'GP_GA_opt: call GA_replace_bad_individuals  '
-            endif ! L_ga_print
+            !if( L_ga_print )then
+            !    write(GA_print_unit,'(/A)')'GP_GA_opt: call GA_replace_bad_individuals  '
+            !endif ! L_ga_print
 
             !t1 = MPI_Wtime()
-            call GA_replace_bad_individuals(Child_Parameters, individual_quality )
+            !call GA_replace_bad_individuals(Child_Parameters, individual_quality )
 
             !t2 = MPI_Wtime()
 
@@ -377,7 +377,7 @@ do  i_GA_generation=1,n_GA_Generations
             !t2 = MPI_Wtime()
 
             !write(GP_print_unit,'(A,1x,E15.7)') &
-            !  'GP_GA_opt: time spent in GA_Fitness_Proportionate_Reproduction = ', t2 - t1
+            !    'GP_GA_opt: time spent in GA_Fitness_Proportionate_Reproduction = ', t2 - t1
 
             !call system_clock( count=clock2, count_rate=ratec, count_max= maxclk)
             !if( L_ga_print )then
@@ -407,7 +407,7 @@ do  i_GA_generation=1,n_GA_Generations
                 !t2 = MPI_Wtime()
 
                 !write(GP_print_unit,'(A,1x,E15.7)') &
-                !  'GP_GA_opt: time spent in GA_Tournament_Style_Sexual_Reproduction = ', t2 - t1
+                !    'GP_GA_opt: time spent in GA_Tournament_Style_Sexual_Reproduction = ', t2 - t1
 
             endif !   n_GA_Crossovers .gt. 0
 
@@ -431,7 +431,7 @@ do  i_GA_generation=1,n_GA_Generations
                 !t2 = MPI_Wtime()
 
                 !write(GP_print_unit,'(A,1x,E15.7)') &
-                !  'GP_GA_opt: time spent in GA_Mutations = ', t2 - t1
+                !     'GP_GA_opt: time spent in GA_Mutations = ', t2 - t1
 
             endif !   n_GA_Mutations .gt. 0
 
@@ -456,7 +456,7 @@ do  i_GA_generation=1,n_GA_Generations
                 !t2 = MPI_Wtime()
 
                 !write(GP_print_unit,'(A,1x,E15.7)') &
-                !  'GP_GA_opt: time spent in GA_random_replace = ', t2 - t1
+                !     'GP_GA_opt: time spent in GA_random_replace = ', t2 - t1
 
 
             endif !   n_GA_rand_replaces .gt. 0
@@ -587,9 +587,9 @@ do  i_GA_generation=1,n_GA_Generations
             i_GA_individual = i_GA_individual + 1
 
             !if( L_ga_print )then
-            !write(GA_print_unit,'(A,1x,I6, 4x, L1)') &
-            ! 'GP_GA_opt:1 494 i_GA_individual, Run_GA_lmdif(i_GA_individual)  ', &
-            !                  i_GA_individual, Run_GA_lmdif(i_GA_individual)
+            !    write(GA_print_unit,'(A,1x,I6, 4x, L1)') &
+            !     'GP_GA_opt:1 494 i_GA_individual, Run_GA_lmdif(i_GA_individual)  ', &
+            !                      i_GA_individual, Run_GA_lmdif(i_GA_individual)
             !endif ! L_ga_print
 
 
@@ -598,7 +598,7 @@ do  i_GA_generation=1,n_GA_Generations
             numsent = numsent + 1
 
             !if( L_ga_print )then
-            !write(GA_print_unit,'(A,4(1x,I6))') &
+            !    write(GA_print_unit,'(A,4(1x,I6))') &
             !     'GP_GA_opt:1 504 myid, isource, i_GA_individual, numsent ', &
             !                      myid, isource, i_GA_individual, numsent
             !endif ! L_ga_print
@@ -861,17 +861,17 @@ do  i_GA_generation=1,n_GA_Generations
 
             !if( L_ga_print )then
             !    write(GA_print_unit,'(A,3(1x,I6))') &
-            !         'GP_GA_opt:3 705 myid, n_parameters, i_2_individual ', &
-            !                          myid, n_parameters, i_2_individual
+            !    'GP_GA_opt:3 705 myid, n_parameters, i_2_individual', &
+            !                     myid, n_parameters, i_2_individual
             !    write(GA_print_unit,'(A/(5(1x,E15.7)))') &
-            !         'GP_GA_opt:3 child_parameters(1:n_parameters,i_2_individual) ', &
-            !                      child_parameters(1:n_parameters,i_2_individual)
+            !    'GP_GA_opt:3 child_parameters(1:n_parameters,i_2_individual)', &
+            !                 child_parameters(1:n_parameters,i_2_individual)
             !    write(GA_print_unit,'(A,3(1x,I6))') &
-            !         'GP_GA_opt:3 myid, i_2_individual, individual_quality(i_2_individual) ', &
-            !                      myid, i_2_individual,  individual_quality(i_2_individual)
+            !    'GP_GA_opt:3 myid, i_2_individual, individual_quality(i_2_individual)', &
+            !                 myid, i_2_individual,  individual_quality(i_2_individual)
             !    write(GA_print_unit,'(A,2(1x,I6), 1x, E15.7)') &
-            !       'GP_GA_opt:3 send results myid, i_2_individual, individual_SSE(i_2_individual)   ', &
-            !                                 myid, i_2_individual, individual_SSE(i_2_individual)
+            !    'GP_GA_opt:3 send results myid, i_2_individual, individual_SSE(i_2_individual)', &
+            !                              myid, i_2_individual, individual_SSE(i_2_individual)
             !endif ! L_ga_print
 
 
@@ -934,6 +934,7 @@ do  i_GA_generation=1,n_GA_Generations
     if( myid == 0  )then
 
         if( L_ga_print )then
+
             !write(GA_print_unit,'(A)')  'GP_GA_opt: individual_SSE  '
             !write(GA_print_unit,'(5(1x,E15.7))')  individual_SSE(1:n_GA_individuals)
     
@@ -941,6 +942,7 @@ do  i_GA_generation=1,n_GA_Generations
                   'GP_GA_opt: call calc_fitness i_GA_generation ', &
                                                 i_GA_generation
         endif ! L_ga_print
+
 
         call calc_fitness( child_parameters, individual_quality, &
                            i_GA_Best_Parent, Parent_Parameters, L_stop_run, &

@@ -97,14 +97,15 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
                             !write(GP_print_unit,'(A,1x,I6)') 'gtb: Node_Function', Node_Function
 
 
-                            GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) =  Node_Function
+                            GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) =  &
+                                                                             Node_Function
 
                             !  set the node vs terminal selection capability
                             !  for the node inputs at the next level
 
                             !write(GP_print_unit,'(/A,3(1x,I6)/)') &
-                            !      'gtb: i_node , i_Level, N_Levels ', &
-                            !            i_node , i_Level, N_Levels
+                            !  'gtb: i_node, i_Level, N_Levels ', &
+                            !        i_node, i_Level, N_Levels
 
                             if( i_Level .lt. N_Levels-1 ) then
 
@@ -112,12 +113,13 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
 
                                 GP_Child_Population_Node_Type( 2*i_Node  ,i_Tree,i_GP_Individual)=0
                                 GP_Child_Population_Node_Type( 2*i_Node+1,i_Tree,i_GP_Individual)=0
+
                             else
 
                                 ! complete setting the node lowest level nodes with terminals
 
-                                GP_Child_Population_Node_Type( 2*i_Node   ,i_Tree,i_GP_Individual)=-1
-                                GP_Child_Population_Node_Type( 2*i_Node+1 ,i_Tree,i_GP_Individual)=-1
+                                GP_Child_Population_Node_Type( 2*i_Node  ,i_Tree,i_GP_Individual)=-1
+                                GP_Child_Population_Node_Type( 2*i_Node+1,i_Tree,i_GP_Individual)=-1
 
                             endif !   i_Level .lt. N_Levels-1
 
@@ -277,7 +279,7 @@ do  i_GP_Individual=1,n_GP_Individuals
         endif ! myid == 0
         call MPI_FINALIZE(ierr)
         stop  'GP Tree Build error'
-    endif
+    endif !   i_Error .eq. 1 
 
 enddo !  i_GP_Individual
 

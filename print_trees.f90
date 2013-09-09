@@ -29,8 +29,6 @@ character(*),intent(in) :: tree_descrip
 
 character(2),dimension( 1:n_nodes ) :: tree_type_string
 
-!character(160) :: tree_node_string
-!character(3) :: node_element_string
 
 integer(kind=4), intent(in), &
         dimension( 1:n_nodes, 1:n_trees, n_GP_individuals) :: tree_type

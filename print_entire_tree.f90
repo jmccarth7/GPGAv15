@@ -31,7 +31,6 @@ write(GP_print_unit,'(/A,6(1x,I6))') 'pet: n_CODE_Equations, n_trees, n_levels '
 
 write(GP_print_unit,'(/A/)') &
       'pet:  Tree      Level       Func       Node   Type(Func Tree)  Type(Node Tree)'                      
-      !'pet: i_Tree, i_Level, i_Function, i_Node, Node_Type(i_Function,i_Tree), Node_Type(i_Node,i_Tree) '
 
 
 

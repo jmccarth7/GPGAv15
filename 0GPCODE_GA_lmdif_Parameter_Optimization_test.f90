@@ -49,7 +49,7 @@ real(kind=8) :: t2
 character(200) :: tree_descrip
 
 character(10),parameter :: program_version   = '201308.600'
-character(10),parameter :: modification_date = '20130905'
+character(10),parameter :: modification_date = '20130909'
 character(30),parameter :: branch  = 'old_elite_scheme'
 
 
@@ -90,8 +90,8 @@ if( myid == 0 )then
     !------------------------------------------------------
     write(GP_print_unit, '(/3(A,1x,A,1x)//)') &
     '0: GPGACODE program version', trim(program_version), &
-    '  branch:', trim( branch ) , & 
-    '  Last modified on:', trim( modification_date ) 
+    '  branch:', trim( branch ) , &
+    '  Last modified on:', trim( modification_date )
     !------------------------------------------------------
 
 
@@ -465,9 +465,12 @@ do  i_GP_Generation=1,n_GP_Generations
             !call print_trees( i_GP_generation, 1, n_GP_individuals, GP_Adult_Population_Node_Type, &
             !                  trim( tree_descrip )  )
 
+            !----------------------------------------------------------------------------------
+
             !   i) move the top n_GP_Elitists into the next generation
 
             ! remove 20130419  JM code uses ranking so no need for elite
+
             !if( n_GP_Elitists .gt. 0 ) then
             !    write(GP_print_unit,'(A)')'0:  call GP_Elitists '
             !    call GP_Elitists
@@ -479,6 +482,7 @@ do  i_GP_Generation=1,n_GP_Generations
             !call print_trees( i_GP_generation, 1, n_GP_individuals, GP_Child_Population_Node_Type, &
             !                    trim( tree_descrip )  )
 
+            !----------------------------------------------------------------------------------
 
             !   ii) Carry out "GP Fitness-Proportionate Reproduction"
 
@@ -507,6 +511,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
             endif !  n_GP_Asexual_Reproductions .gt. 0
 
+            !----------------------------------------------------------------------------------
 
             !  iii) Carry out "GP Tree Crossover" Operations
             !       Using Tournament-Style Sexual Reproduction Selection
@@ -517,7 +522,7 @@ do  i_GP_Generation=1,n_GP_Generations
                 write(GP_print_unit,'(/A,1x,I6/)') &
                       '0: call GP_Tournament_Style_Sexual_Reproduction n_GP_Crossovers =', &
                                                                        n_GP_Crossovers
-                
+
                 !t1 = MPI_Wtime()
                 call GP_Tournament_Style_Sexual_Reproduction
                 !t2 = MPI_Wtime()
@@ -538,6 +543,7 @@ do  i_GP_Generation=1,n_GP_Generations
             endif !  n_GP_Crossovers .gt. 0
 
 
+            !----------------------------------------------------------------------------------
 
             !   iv) Carry out "GP Parameter Mutation" Operations
 
@@ -545,8 +551,6 @@ do  i_GP_Generation=1,n_GP_Generations
 
                 write(GP_print_unit,'(/A,1x,I6/)')'0: call GP_Mutations n_GP_Mutations =', &
                                                                         n_GP_Mutations
-
-
 
                 !t1 = MPI_Wtime()
                 call GP_Mutations
@@ -565,6 +569,7 @@ do  i_GP_Generation=1,n_GP_Generations
             endif !  n_GP_Mutations .gt. 0
 
 
+            !---------------------------------------------------------------------------
 
             !   Move over any newly created children into the adult domain       ! ???
 
@@ -573,6 +578,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
             write(GP_print_unit,'(/A)')&
                   '0:aft  move Child_Node_Type and SSE to Adult'
+
             !---------------------------------------------------------------------------
 
             ! calculate the diversity index for each individual for generations > 1
@@ -745,7 +751,6 @@ do  i_GP_Generation=1,n_GP_Generations
     !-----------------------------------------------------------------------------------
 
 
-
     gp_ind_loop:&
     do  i_GP_individual=1,n_GP_individuals
 
@@ -768,7 +773,7 @@ do  i_GP_Generation=1,n_GP_Generations
         if( Run_GP_Calculate_Fitness(i_GP_Individual) ) then
 
             GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) = &
-              GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual)
+               GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual)
 
 
             !------------------------------------------------------------------------------
@@ -841,6 +846,8 @@ do  i_GP_Generation=1,n_GP_Generations
 
             enddo ! i_tree
 
+            !------------------------------------------------------------------------------
+
             if( myid == 0 )then
                 !write(GP_print_unit,'(/A,3(1x,I6))') &
                 !      '0: i_GP_individual, n_nodes, n_trees ', &
@@ -855,7 +862,7 @@ do  i_GP_Generation=1,n_GP_Generations
             !-------------------------------------------------------------------
 
             ! cycle the i_GP_individual loop if there are no GP parameters
-            ! or if n_GP_parameters <=  n_code_equations 
+            ! or if n_GP_parameters <=  n_code_equations
 
             !orig if( n_GP_parameters == 0 .or. &
             !orig     n_GP_parameters < n_code_equations ) then
@@ -1058,7 +1065,7 @@ do  i_GP_Generation=1,n_GP_Generations
                     do  i_tree=1,n_trees
                         do  i_node=1,n_nodes
                                 ! a set parameter
-                            if( GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0 ) then  
+                            if( GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0 ) then
                                 write(GP_print_unit,'(2(1x,I6), 1x, E20.10, 4x, E20.10)') &
                                  i_node, i_tree, &
                                  Runge_Kutta_Node_Parameters(i_node,i_tree), &

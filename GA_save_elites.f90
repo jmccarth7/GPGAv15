@@ -151,4 +151,3 @@ endif ! L_ga_print
 
 return
 end subroutine GA_save_elites
-

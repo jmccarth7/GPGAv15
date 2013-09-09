@@ -255,6 +255,7 @@ do
     !-----------------------------------------------------------------------------------------
 
     ! load this array since GP_Check_Terminals uses it
+
     GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) =  &
         GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees, k_GP_Individual_Male(1))
 
@@ -329,7 +330,6 @@ do
         !stop 'GP_Tou stop error 2'
     endif
 
-
     !-----------------------------------------------------------------------------------
 
     !if( myid == 0 )then
@@ -344,7 +344,7 @@ do
 
     !-----------------------------------------------------------------------------------
 
-    !   move one of the swapped trees into the new child GP_Child_Population_Node_Type
+    ! move one of the swapped trees into the new child GP_Child_Population_Node_Type
 
     GP_Child_Population_Node_Type(1:n_Nodes,i_Male_Tree, i_GP_Individual)  =  &
                   Parent_Tree_Swap_Node_Type(1:n_Nodes,1)
@@ -353,6 +353,7 @@ do
     !-----------------------------------------------------------------------------------
 
     ! load this array since GP_Check_Terminals uses it
+
     GP_Individual_Node_Type(1:n_Nodes,1:n_Trees)  =  &
             GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual)
 
@@ -420,10 +421,10 @@ do
 enddo cross_loop
 
 
-!write(6,'(/A,3(1x,I6)/)') &
+!write(GP_print_unit,'(/A,3(1x,I6)/)') &
 !      'gptssr: at RETURN i_GP_Crossover, i_GP_individual, i_safe ', &
 !                         i_GP_Crossover, i_GP_individual, i_safe
-write(6,'(/A,3(1x,I6)/)') &
+write(GP_print_unit,'(/A,3(1x,I6)/)') &
       'gptssr: at RETURN i_GP_Crossover, i_GP_individual', &
                          i_GP_Crossover, i_GP_individual
 

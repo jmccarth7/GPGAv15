@@ -22,23 +22,6 @@ use Runge_Kutta_Variables_module
 implicit none
 
 
-!integer,intent(in) :: n_indiv_start
-!integer,intent(in) :: n_indiv_stop
-!character(*),intent(in) :: tree_descrip
-
-!character(2),dimension( 1:n_nodes ) :: tree_type_string
-
-!character(160) :: tree_node_string
-!character(3) :: node_element_string
-
-!integer(kind=4), intent(in), &
-!        dimension( 1:n_nodes, 1:n_trees, n_GP_individuals) :: tree_type
-
-!integer(kind=4) :: i_GP_individual
-!integer(kind=4) :: j_GP_individual
-!integer(kind=4) :: i_Tree
-!integer(kind=4) :: i_node
-!integer(kind=4) :: i_gen 
 integer(kind=4) :: jj
 
 !----------------------------------------------------------------------------------------

@@ -318,6 +318,7 @@ write(GP_print_unit,'(/A)') &
 
 tree_loop:&
 do  i_tree=1,n_trees
+
     node_loop:&
     do  i_node=1,n_nodes
 
@@ -350,6 +351,7 @@ do  i_tree=1,n_trees
 
 
     enddo node_loop ! i_node
+
 enddo tree_loop ! i_tree
 
 write(GP_print_unit,'(/A,2(1x,I6))') &
@@ -434,12 +436,15 @@ GP_Adult_Individual_SSE  =  GP_Child_Individual_SSE
 !endif ! i_GP_generation == 1 .or. ...
 !
 !!off if( i_GP_Generation .eq. 3) Stop
+
 !-------------------------------------------------------------------------------
+
 call calc_stats( n_GP_individuals, GP_Population_Ranked_Fitness,  &
                  mean_fit, rms_fit, std_dev_fit ) 
 write(GP_print_unit,'(/A,1x,I6,3(1x,E15.7)/)') &
    'gpcf: GP_Gen, GP_Pop_Rank_Fit mean, rms, std_dev', &
           i_GP_Generation, mean_fit, rms_fit, std_dev_fit 
+
 !-------------------------------------------------------------------------------
 
 if( L_GP_log )then 

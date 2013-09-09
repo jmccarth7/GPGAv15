@@ -401,6 +401,7 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
       call random_number( cff )
       cff_1 = real( cff, kind = 8 )
+
       call random_number( cff )
       cff_2 = real( cff, kind = 8 )
 

@@ -63,12 +63,12 @@ do i_CODE_equation=1,n_CODE_equations
       Data_Variance(i_CODE_equation)=1.0D+0
   endif !   dff .gt. 0.0D+0
 
-  if(  abs( Data_Variance(i_CODE_equation) ) < 1.0D-30 )then
-       write(GP_print_unit,'(/A,1x,I6,2x,E15.7)') &
+  if( abs( Data_Variance(i_CODE_equation) ) < 1.0D-30 )then
+      write(GP_print_unit,'(/A,1x,I6,2x,E15.7)') &
        '0: i_CODE_equation, Data_Variance(i_CODE_equation) ', &
            i_CODE_equation, Data_Variance(i_CODE_equation)
-       write(GP_print_unit,'(A/)') '0: bad data variance -- stopping program '
-       stop 'bad data var'
+      write(GP_print_unit,'(A/)') '0: bad data variance -- stopping program '
+      stop 'bad data var'
 
   endif ! abs( Data_Variance(i_CODE_equation) ) < 1.0D-30
 

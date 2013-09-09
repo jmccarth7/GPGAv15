@@ -61,9 +61,7 @@ tree_evaluation_string = node_parameters_string
 
 !-------------------------------------------------------------------------------
 
-
 i_time_step=1
-
 
 iter = 1
 
@@ -109,8 +107,9 @@ do  i_tree=1,n_trees
             !    !write(6,'(A,1x,I6)')'RKBM: i_function = ', i_function
             !    write(6,'(A,1x,I6)')'RKBM: i_node_left  = ', i_node_left
             !    write(6,'(A,1x,I6)')'RKBM: i_node_right = ', i_node_right
-            !    write(6,'(A,3(1x,I6))') 'RKBM: i_function, i_tree, node_eval_type(i_function,i_tree) ', &
-            !                                   i_function, i_tree, node_eval_type(i_function,i_tree)
+            !    write(6,'(A,3(1x,I6))') &
+            !          'RKBM: i_function, i_tree, node_eval_type(i_function,i_tree) ', &
+            !                 i_function, i_tree, node_eval_type(i_function,i_tree)
             !endif ! node_eval_type(i_function,i_tree) > -9999
       
       
@@ -118,8 +117,8 @@ do  i_tree=1,n_trees
       
                 icff=Node_Eval_Type(i_node_left,i_tree)
         
-                !write(6,'(/A,3(1x,I6))')'        RKBM: icff, i_node_left, i_tree = ', &
-                !                                       icff, i_node_left, i_tree
+                !write(6,'(/A,3(1x,I6))')'RKBM: icff, i_node_left, i_tree = ', &
+                !                               icff, i_node_left, i_tree
         
                 if( icff .eq. 0) then
         
@@ -133,14 +132,13 @@ do  i_tree=1,n_trees
         
                     if( iter .eq. 1) then
         
-        
-        
                         left_node_value_string = node_type_string(i_node_left, i_tree )
         
                         !write(6,*) 'i_node_left, i_tree, left_node_value_string ', &
                         !            i_node_left, i_tree, trim(left_node_value_string)
-                        !!write(6,*) 'i_node_left, i_tree, node_parameters_string(i_node_left, i_tree ) ', &
-                        !!            i_node_left, i_tree, node_parameters_string(i_node_left, i_tree ) 
+                        !!write(6,*) &
+                        !!'i_node_left, i_tree, node_parameters_string(i_node_left, i_tree ) ', &
+                        !! i_node_left, i_tree, node_parameters_string(i_node_left, i_tree ) 
 
                     else
         
@@ -149,8 +147,9 @@ do  i_tree=1,n_trees
         
                         !write(6,*) 'i_node_left, i_tree, left_node_value_string ', &
                         !            i_node_left, i_tree, trim(left_node_value_string)
-                        !!write(6,*) 'i_node_left, i_tree, node_parameters_string(i_node_left, i_tree ) ', &
-                        !!            i_node_left, i_tree, node_parameters_string(i_node_left, i_tree ) 
+                        !!write(6,*) &
+                        !!'i_node_left, i_tree, node_parameters_string(i_node_left, i_tree ) ', &
+                        !! i_node_left, i_tree, node_parameters_string(i_node_left, i_tree ) 
         
                     endif ! iter .eq. 1
         
@@ -158,8 +157,8 @@ do  i_tree=1,n_trees
         
                 icff=node_eval_type(i_node_right,i_tree)
         
-                !write(6,'(/A,3(1x,I6))')'        RKBM: icff, i_node_right, i_tree = ', &
-                !                                       icff, i_node_right, i_tree
+                !write(6,'(/A,3(1x,I6))')'RKBM: icff, i_node_right, i_tree = ', &
+                !                               icff, i_node_right, i_tree
         
                 if( icff .eq. 0) then
         
@@ -178,8 +177,9 @@ do  i_tree=1,n_trees
         
                         !write(6,*) 'r2:i_node_right, i_tree, right_node_value_string ', &
                         !               i_node_right, i_tree, trim(right_node_value_string)
-                        !!write(6,*) 'r2:i_node_right, i_tree,  node_parameters_string(i_node_right, i_tree ) ', &
-                        !!               i_node_right, i_tree,  node_parameters_string(i_node_right, i_tree )
+                        !!write(6,*)&
+                        !!'r2:i_node_right, i_tree, node_parameters_string(i_node_right, i_tree ) ',&
+                        !!    i_node_right, i_tree, node_parameters_string(i_node_right, i_tree )
         
                     else
         
@@ -188,8 +188,9 @@ do  i_tree=1,n_trees
         
                         !write(6,*) 'r3: i_node_right, i_tree, right_node_value_string ', &
                         !                i_node_right, i_tree, trim(right_node_value_string)
-                        !!write(6,*) 'r3:i_node_right, i_tree,  node_parameters_string(i_node_right, i_tree ) ', &
-                        !!               i_node_right, i_tree,  node_parameters_string(i_node_right, i_tree )
+                        !!write(6,*) &
+                        !!'r3:i_node_right, i_tree, node_parameters_string(i_node_right, i_tree ) ', &
+                        !!    i_node_right, i_tree, node_parameters_string(i_node_right, i_tree )
         
                     endif ! iter .eq. 1
         
