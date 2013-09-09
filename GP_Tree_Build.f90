@@ -58,7 +58,8 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
             GP_Child_Population_Node_Type(1,i_Tree,i_GP_Individual)=0
 
             i_Node=0
-            do  i_Level=1,n_Levels-1
+            !original do  i_Level=1,n_Levels-1
+            do  i_Level=1,n_Levels   ! -1             ! debug only   debug only  !!!!!!!!!!!
 
                 n_Nodes_at_Level=int(2**(i_Level-1))
 
