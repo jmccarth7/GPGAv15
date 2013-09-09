@@ -35,6 +35,10 @@ integer(kind=4) :: i_node
 
 integer(kind=4) :: i_safe
 integer(kind=4) :: i_safe_max
+
+integer(kind=4) :: kk                
+character(6) ::  flag
+
 !----------------------------------------------------------------------------------
 
 i_GP_Individual = n_GP_Elitists + n_GP_Asexual_Reproductions
@@ -69,6 +73,7 @@ do
     if( i_GP_crossover > n_GP_crossovers) exit cross_loop
 
     i_GP_Individual = i_GP_Individual+1
+    sse_ind = GP_Adult_Population_SSE(i_GP_Individual )
 
     !--------------------------------------------------------------------------
 
@@ -332,22 +337,52 @@ do
 
     !-----------------------------------------------------------------------------------
 
-    !if( myid == 0 )then
-    !    write(6,'(/A)') 'gptssr: call GP_Tree_Swap '
-    !endif ! myid == 0
+    if( myid == 0 )then
+        write(6,'(/A)') 'gptssr: bef call GP_Tree_Swap '
+
+        ! >> debug 
+        call print_trees( 1, i_GP_Individual, i_GP_Individual, &
+                              GP_Child_Population_Node_Type,  &
+                              'tree bef tree swap'  )
+        ! << debug 
+
+    endif ! myid == 0
+
 
     call GP_Tree_Swap    !   perform the random tree swap
 
-    !if( myid == 0 )then
-    !    write(6,'(A/)') 'gptssr: aft call GP_Tree_Swap '
-    !endif ! myid == 0
+
+    if( myid == 0 )then
+        write(6,'(A/)') 'gptssr: aft call GP_Tree_Swap '
+    endif ! myid == 0
 
     !-----------------------------------------------------------------------------------
 
     ! move one of the swapped trees into the new child GP_Child_Population_Node_Type
 
+    write(6,'(//A)') 'gptssr:  kk, GP_Child_Population_Node_Type(kk,i_Male_Tree, i_GP_Individual) &
+                   &, Parent_Tree_Swap_Node_Type(kk,1) '
+    do  kk = 1, n_nodes
+
+        flag = ' '
+        if( GP_Child_Population_Node_Type(kk,i_Male_Tree, i_GP_Individual) /=  Parent_Tree_Swap_Node_Type(kk,1) )then
+            flag = '<<<<<<'
+        endif 
+        write(6,'(3(1x,I6),1x,A)')  &
+              kk, GP_Child_Population_Node_Type(kk,i_Male_Tree, i_GP_Individual),  &
+                     Parent_Tree_Swap_Node_Type(kk,1) , flag
+
+    enddo ! kk
+
     GP_Child_Population_Node_Type(1:n_Nodes,i_Male_Tree, i_GP_Individual)  =  &
                   Parent_Tree_Swap_Node_Type(1:n_Nodes,1)
+
+
+    ! >> debug 
+    call print_trees( 1, i_GP_Individual, i_GP_Individual, &
+                      GP_Child_Population_Node_Type,  &
+                      'tree AFTER tree swap'  )
+    ! << debug 
 
 
     !-----------------------------------------------------------------------------------
