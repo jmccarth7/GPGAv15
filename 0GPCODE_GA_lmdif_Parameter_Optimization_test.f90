@@ -88,11 +88,12 @@ if( myid == 0 )then
     write(6,'(A)')'0: removed barrier in GPCODE aft bcast of L_stop'
 
     !------------------------------------------------------
-    write(GP_print_unit, '(/A,1x,A,1x,A,1x,A//)') &
-    '0: GPGACODE program version ', trim(program_version), &
-    '   branch:                  ', trim( branch ) , & 
-    '   Last modified on         ', trim( modification_date ) 
+    write(GP_print_unit, '(/3(A,1x,A,1x)//)') &
+    '0: GPGACODE program version', trim(program_version), &
+    '  branch:', trim( branch ) , & 
+    '  Last modified on:', trim( modification_date ) 
     !------------------------------------------------------
+
 
     ! read the control input from file  "GPCODE_cntl"
 
