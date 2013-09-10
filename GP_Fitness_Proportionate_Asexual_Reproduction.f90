@@ -24,24 +24,24 @@ real(kind=8) :: sse_ind
 
 !-----------------------------------------------------------------------------
 
-do  i = 1, n_GP_individuals
-    write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
-         'gpfpar: i, GP_Child_Population_SSE(i)',&
-                  i, GP_Child_Population_SSE(i)
-enddo
+!do  i = 1, n_GP_individuals
+!    write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
+!         'gpfpar: i, GP_Child_Population_SSE(i)',&
+!                  i, GP_Child_Population_SSE(i)
+!enddo
   
 
 
 i_GP_Individual = n_GP_Elitists
 
-if( myid == 0 )then
-    write(GP_print_unit,'(/A,1x,I6)' ) &
-          'gpfpar: n_GP_Asexual_Reproductions ', n_GP_Asexual_Reproductions
-    write(GP_print_unit,'(A,1x,I6)' ) &
-          'gpfpar: n_GP_Elitists         ', n_GP_Elitists
-    write(GP_print_unit,'(A,1x,I6)' ) &
-          'gpfpar: start i_GP_individual ', n_GP_Elitists  + 1
-endif ! myid == 0
+!if( myid == 0 )then
+!    write(GP_print_unit,'(/A,1x,I6)' ) &
+!          'gpfpar: n_GP_Asexual_Reproductions ', n_GP_Asexual_Reproductions
+!    write(GP_print_unit,'(A,1x,I6)' ) &
+!          'gpfpar: n_GP_Elitists         ', n_GP_Elitists
+!    write(GP_print_unit,'(A,1x,I6)' ) &
+!          'gpfpar: start i_GP_individual ', n_GP_Elitists  + 1
+!endif ! myid == 0
 
 
 do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
@@ -56,11 +56,11 @@ do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
     !i_GP_individual = min( nint( cff * n_GP_Individuals ) , n_GP_Individuals ) 
     !i_GP_individual = max( 1, i_GP_individual )                                
 
-    if( myid == 0 )then
-        write(6,'(A,2(1x,I6))') &
-              'gpfpar: i_GP_Asexual_Reproduction, i_GP_individual ', &
-                       i_GP_Asexual_Reproduction, i_GP_individual 
-    endif ! myid == 0
+    !if( myid == 0 )then
+    !    write(6,'(A,2(1x,I6))') &
+    !          'gpfpar: i_GP_Asexual_Reproduction, i_GP_individual ', &
+    !                   i_GP_Asexual_Reproduction, i_GP_individual 
+    !endif ! myid == 0
 
     sse_ind = GP_Child_Population_SSE(i_GP_Individual)
 
@@ -123,18 +123,16 @@ do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
     GP_Child_Population_SSE(i_GP_Individual) = GP_Adult_Population_SSE(j_GP_Individual)
 
 
-    if( myid == 0 )then
-        write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
-              'gpfpar: j_GP_individual, GP_Adult_Population_SSE(j_GP_Individual)',&
-                       j_GP_individual, GP_Adult_Population_SSE(j_GP_Individual)
-    
-        write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
-              'gpfpar: i_GP_individual, GP_Child_Population_SSE(i_GP_Individual)',&
-                       i_GP_individual, sse_ind
-    
-        write(GP_print_unit,'(A)' ) &
-              'gpfpar: j_GP_individual replaces i_GP_individual'
-    endif ! myid == 0
+    !if( myid == 0 )then
+    !    write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
+    !          'gpfpar: j_GP_individual, GP_Adult_Population_SSE(j_GP_Individual)',&
+    !                   j_GP_individual, GP_Adult_Population_SSE(j_GP_Individual)
+    !    write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
+    !          'gpfpar: i_GP_individual, GP_Child_Population_SSE(i_GP_Individual)',&
+    !                   i_GP_individual, sse_ind
+    !    write(GP_print_unit,'(A)' ) &
+    !          'gpfpar: j_GP_individual replaces i_GP_individual'
+    !endif ! myid == 0
 
 
 

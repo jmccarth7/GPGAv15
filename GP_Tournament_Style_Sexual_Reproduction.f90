@@ -43,16 +43,16 @@ character(6) ::  flag
 
 i_GP_Individual = n_GP_Elitists + n_GP_Asexual_Reproductions
 
-if( myid == 0 )then
-    write(GP_print_unit,'(/A,1x,I6)' ) &
-          'gptssr: n_GP_Crossovers ', n_GP_Crossovers
-    write(GP_print_unit,'(A,2(1x,I6))' ) &
-          'gptssr: n_GP_Elitists, n_GP_Asexual_Reproductions ', &
-                   n_GP_Elitists, n_GP_Asexual_Reproductions
-    write(GP_print_unit,'(A,1x,I6)' ) &
-          'gptssr: start i_GP_individual  =  ', &
-                   n_GP_Elitists + n_GP_Asexual_Reproductions +1
-endif ! myid == 0
+!if( myid == 0 )then
+!    write(GP_print_unit,'(/A,1x,I6)' ) &
+!          'gptssr: n_GP_Crossovers ', n_GP_Crossovers
+!    write(GP_print_unit,'(A,2(1x,I6))' ) &
+!          'gptssr: n_GP_Elitists, n_GP_Asexual_Reproductions ', &
+!                   n_GP_Elitists, n_GP_Asexual_Reproductions
+!    write(GP_print_unit,'(A,1x,I6)' ) &
+!          'gptssr: start i_GP_individual  =  ', &
+!                   n_GP_Elitists + n_GP_Asexual_Reproductions +1
+!endif ! myid == 0
 
 
 
@@ -82,11 +82,11 @@ do
     !i_GP_individual = min( nint( cff * n_GP_Individuals ) , n_GP_Individuals )
     !i_GP_individual = max( 1, i_GP_individual )
 
-    if( myid == 0 )then
-        write(6,'(A,3(1x,I6))') &
-              'gptssr: i_GP_Crossover, i_GP_individual, i_safe ', &
-                       i_GP_Crossover, i_GP_individual, i_safe
-    endif ! myid == 0
+    !if( myid == 0 )then
+    !    write(6,'(A,3(1x,I6))') &
+    !          'gptssr: i_GP_Crossover, i_GP_individual, i_safe ', &
+    !                   i_GP_Crossover, i_GP_individual, i_safe
+    !endif ! myid == 0
 
 
     !----------------------------------------------------------------------
@@ -233,13 +233,13 @@ do
     !       GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual)
     !endif ! myid == 0
 
-    if( myid == 0 )then
-        write(GP_print_unit, &
-           '(A,1x,I4, 1x, A, 1x,E12.5, 1x, A, 1x, I4, 1x, A, 1x, E12.5)' ) &
-           'gptssr: i_GP_Indiv', i_GP_Individual, 'with SSE =', sse_ind, &
-           ' replaced with k_GP_Indiv_Male(1)', k_GP_Individual_Male(1),  &
-           'with SSE =', GP_Adult_Population_SSE( k_GP_Individual_Male(1) ) 
-    endif ! myid == 0
+    !if( myid == 0 )then
+    !    write(GP_print_unit, &
+    !       '(A,1x,I4, 1x, A, 1x,E12.5, 1x, A, 1x, I4, 1x, A, 1x, E12.5)' ) &
+    !       'gptssr: i_GP_Indiv', i_GP_Individual, 'with SSE =', sse_ind, &
+    !       ' replaced with k_GP_Indiv_Male(1)', k_GP_Individual_Male(1),  &
+    !       'with SSE =', GP_Adult_Population_SSE( k_GP_Individual_Male(1) ) 
+    !endif ! myid == 0
 
     !???! Do the genetic crossovers but only keep the solution
     !???! from one (the male) of the two (male and female) generated child tree
@@ -337,52 +337,49 @@ do
 
     !-----------------------------------------------------------------------------------
 
-    if( myid == 0 )then
-        write(6,'(/A)') 'gptssr: bef call GP_Tree_Swap '
-
-        ! >> debug 
-        call print_trees( 1, i_GP_Individual, i_GP_Individual, &
-                              GP_Child_Population_Node_Type,  &
-                              'tree bef tree swap'  )
-        ! << debug 
-
-    endif ! myid == 0
+    !if( myid == 0 )then
+    !    write(6,'(/A)') 'gptssr: bef call GP_Tree_Swap '
+    !    ! >> debug 
+    !    call print_trees( 1, i_GP_Individual, i_GP_Individual, &
+    !                          GP_Child_Population_Node_Type,  &
+    !                          'tree bef tree swap'  )
+    !    ! << debug 
+    !endif ! myid == 0
 
 
     call GP_Tree_Swap    !   perform the random tree swap
 
 
-    if( myid == 0 )then
-        write(6,'(A/)') 'gptssr: aft call GP_Tree_Swap '
-    endif ! myid == 0
+    !if( myid == 0 )then
+    !    write(6,'(A/)') 'gptssr: aft call GP_Tree_Swap '
+    !endif ! myid == 0
 
     !-----------------------------------------------------------------------------------
 
     ! move one of the swapped trees into the new child GP_Child_Population_Node_Type
 
-    write(6,'(//A)') 'gptssr:  kk, GP_Child_Population_Node_Type(kk,i_Male_Tree, i_GP_Individual) &
-                   &, Parent_Tree_Swap_Node_Type(kk,1) '
-    do  kk = 1, n_nodes
+    !write(6,'(//A)') 'gptssr:  kk, GP_Child_Population_Node_Type(kk,i_Male_Tree, i_GP_Individual) &
+    !               &, Parent_Tree_Swap_Node_Type(kk,1) '
+    !do  kk = 1, n_nodes
+    !    flag = ' '
+    !    if( GP_Child_Population_Node_Type(kk,i_Male_Tree, i_GP_Individual) /=  Parent_Tree_Swap_Node_Type(kk,1) )then
+    !        flag = '<<<<<<'
+    !    endif 
+    !    write(6,'(3(1x,I6),1x,A)')  &
+    !          kk, GP_Child_Population_Node_Type(kk,i_Male_Tree, i_GP_Individual),  &
+    !                 Parent_Tree_Swap_Node_Type(kk,1) , flag
+    !enddo ! kk
 
-        flag = ' '
-        if( GP_Child_Population_Node_Type(kk,i_Male_Tree, i_GP_Individual) /=  Parent_Tree_Swap_Node_Type(kk,1) )then
-            flag = '<<<<<<'
-        endif 
-        write(6,'(3(1x,I6),1x,A)')  &
-              kk, GP_Child_Population_Node_Type(kk,i_Male_Tree, i_GP_Individual),  &
-                     Parent_Tree_Swap_Node_Type(kk,1) , flag
-
-    enddo ! kk
 
     GP_Child_Population_Node_Type(1:n_Nodes,i_Male_Tree, i_GP_Individual)  =  &
                   Parent_Tree_Swap_Node_Type(1:n_Nodes,1)
 
 
-    ! >> debug 
-    call print_trees( 1, i_GP_Individual, i_GP_Individual, &
-                      GP_Child_Population_Node_Type,  &
-                      'tree AFTER tree swap'  )
-    ! << debug 
+    !! >> debug 
+    !call print_trees( 1, i_GP_Individual, i_GP_Individual, &
+    !                  GP_Child_Population_Node_Type,  &
+    !                  'tree AFTER tree swap'  )
+    !! << debug 
 
 
     !-----------------------------------------------------------------------------------
@@ -459,9 +456,9 @@ enddo cross_loop
 !write(GP_print_unit,'(/A,3(1x,I6)/)') &
 !      'gptssr: at RETURN i_GP_Crossover, i_GP_individual, i_safe ', &
 !                         i_GP_Crossover, i_GP_individual, i_safe
-write(GP_print_unit,'(/A,3(1x,I6)/)') &
-      'gptssr: at RETURN i_GP_Crossover, i_GP_individual', &
-                         i_GP_Crossover, i_GP_individual
+!write(GP_print_unit,'(/A,3(1x,I6)/)') &
+!      'gptssr: at RETURN i_GP_Crossover, i_GP_individual', &
+!                         i_GP_Crossover, i_GP_individual
 
 return
 

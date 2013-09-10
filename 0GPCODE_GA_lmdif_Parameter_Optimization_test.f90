@@ -689,9 +689,9 @@ do  i_GP_Generation=1,n_GP_Generations
     ! print trees after call to GP_Clean_Tree_Nodes
 
     if( myid == 0 )then
-        if( i_GP_generation == 1                                  .or. &
-            mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
-            i_GP_generation == n_GP_generations                          )then
+        !if( i_GP_generation == 1                                  .or. &
+        !    mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
+        !    i_GP_generation == n_GP_generations                          )then
 
 
             !t1 = MPI_Wtime()
@@ -706,7 +706,7 @@ do  i_GP_Generation=1,n_GP_Generations
             !write(GP_print_unit,'(A,1x,E15.7)') &
             !  '0: time spent in print_trees = ', t2 - t1
 
-        endif ! i_GP_generation == 1 .or. ...
+        !endif ! i_GP_generation == 1 .or. ...
 
     endif !  myid == 0
 

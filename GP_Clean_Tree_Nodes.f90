@@ -59,14 +59,13 @@ do  i_GP_Individual=1,n_GP_Individuals
                 !write(6,'(A,2(1x,I6))') &
                 !      'gpctn:  i_Function, GP_Adult_Population_Node_Type(i_Function, i_Tree,i_GP_Individual)', &
                 !               i_Function, GP_Adult_Population_Node_Type(i_Function, i_Tree,i_GP_Individual)
-
                 !write(6,'(A,2(1x,I6))') &
                 ! 'gpctn: i_Node_Left, GP_Adult_Population_Node_Type(i_Node_Left, i_Tree,i_GP_Individual)', &
                 !         i_Node_Left, GP_Adult_Population_Node_Type(i_Node_Left, i_Tree,i_GP_Individual)
-
                 !write(6,'(A,2(1x,I6))') &
                 ! 'gpctn: i_Node_Right, GP_Adult_Population_Node_Type(i_Node_Right, i_Tree,i_GP_Individual)', &
                 !         i_Node_Right, GP_Adult_Population_Node_Type(i_Node_Right, i_Tree,i_GP_Individual)
+
 
                 if( GP_Adult_Population_Node_Type(i_Function,  i_Tree,i_GP_Individual) .gt. 0 .and. &
                     GP_Adult_Population_Node_Type(i_Node_Left, i_Tree,i_GP_Individual) .eq. 0 .and. &

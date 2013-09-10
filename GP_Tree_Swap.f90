@@ -56,21 +56,15 @@ logical :: NODE_NOT_FOUND
 
 !--------------------------------------------------------------------------
 
-write(6,'(/A,1x,I6)') 'gpts: at entry n_nodes = ', n_nodes
-
-write(6,'(A)') 'gpts: kk, Parent_Tree_Swap_Node_Type(kk,1) '
-do  kk = 1, n_nodes
-
-    write(6,'(3(1x,I6))') kk, Parent_Tree_Swap_Node_Type(kk,1) 
-
-enddo ! kk 
-
-write(6,'(A)') 'gpts: kk, Parent_Tree_Swap_Node_Type(kk,2) '
-do  kk = 1, n_nodes
-
-    write(6,'(3(1x,I6))') kk, Parent_Tree_Swap_Node_Type(kk,2) 
-
-enddo ! kk 
+!write(6,'(/A,1x,I6)') 'gpts: at entry n_nodes = ', n_nodes
+!write(6,'(A)') 'gpts: kk, Parent_Tree_Swap_Node_Type(kk,1) '
+!do  kk = 1, n_nodes
+!    write(6,'(3(1x,I6))') kk, Parent_Tree_Swap_Node_Type(kk,1) 
+!enddo ! kk 
+!write(6,'(A)') 'gpts: kk, Parent_Tree_Swap_Node_Type(kk,2) '
+!do  kk = 1, n_nodes
+!    write(6,'(3(1x,I6))') kk, Parent_Tree_Swap_Node_Type(kk,2) 
+!enddo ! kk 
 
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -552,21 +546,15 @@ Parent_Tree_Swap_Node_Type = Child_Tree_Swap_Node_Type
 
 
 
-write(6,'(/A,1x,I6)') 'gpts: at RETURN n_nodes = ', n_nodes
-
-write(6,'(A)') 'gpts: kk, Parent_Tree_Swap_Node_Type(kk,1) '
-do  kk = 1, n_nodes
-
-    write(6,'(3(1x,I6))') kk, Parent_Tree_Swap_Node_Type(kk,1) 
-
-enddo ! kk 
-
-write(6,'(A)') 'gpts: kk, Parent_Tree_Swap_Node_Type(kk,2) '
-do  kk = 1, n_nodes
-
-    write(6,'(3(1x,I6))') kk, Parent_Tree_Swap_Node_Type(kk,2) 
-
-enddo ! kk 
+!write(6,'(/A,1x,I6)') 'gpts: at RETURN n_nodes = ', n_nodes
+!write(6,'(A)') 'gpts: kk, Parent_Tree_Swap_Node_Type(kk,1) '
+!do  kk = 1, n_nodes
+!    write(6,'(3(1x,I6))') kk, Parent_Tree_Swap_Node_Type(kk,1) 
+!enddo ! kk 
+!write(6,'(A)') 'gpts: kk, Parent_Tree_Swap_Node_Type(kk,2) '
+!do  kk = 1, n_nodes
+!    write(6,'(3(1x,I6))') kk, Parent_Tree_Swap_Node_Type(kk,2) 
+!enddo ! kk 
 
 
 return
