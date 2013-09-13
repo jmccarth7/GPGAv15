@@ -69,8 +69,13 @@ logical :: L_stop_run
 integer(kind=4) :: jj
 integer(kind=4) :: i_parameter
 
-real(kind=8),dimension(7),parameter :: answerLV = &
- (/ 30.0d0, 2.0d0, 0.4d0  , 0.02d0 , 0.6d0  , 0.5d0 , 0.02d0 /)
+!real(kind=8),dimension(7),parameter :: answerLV = &
+! (/ 30.0d0, 2.0d0, 0.4d0  , 0.02d0 , 0.6d0  , 0.5d0 , 0.02d0 /)
+
+real(kind=8),dimension(17),parameter :: answerLV = &
+ (/ 30.0d0, 2.0d0, 0.4d0  , 0.02d0 , 0.6d0  , 0.5d0 , 0.02d0, &
+    0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
+    0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0   /)
 
 !----------------------------------------------------------------------------------
 
@@ -91,22 +96,24 @@ enddo ! i_parameter
 
 !-----------------------------------------------------------------------------------
 
-!write(6,'(/A)') 'calcfit: i_GA_individual, parent params'
-
-do  i_GA_individual=1,n_GA_individuals
-
-    ppe( 1:7, i_GA_individual ) = 0.0d0
-    do  i = 1, n_parameters
-        ppe( i, i_GA_individual ) = answerLV(i) - parent_parameters( i, i_GA_individual )
-    enddo
-    
-enddo !  i_GA_individual
-
-
-
-!-----------------------------------------------------------------------------------
-
 if( L_fort444_output )then
+
+
+    !write(6,'(/A)') 'calcfit: i_GA_individual, parent params'
+
+    do  i_GA_individual=1,n_GA_individuals
+
+        ppe( 1:n_parameters, i_GA_individual ) = 0.0d0
+        do  i = 1, n_parameters
+            ppe( i, i_GA_individual ) = answerLV(i) - parent_parameters( i, i_GA_individual )
+        enddo
+
+    enddo !  i_GA_individual
+
+
+
+
+
     write(444) i_GA_generation, ppe(1:n_parameters, 1:n_GA_individuals)
 endif ! L_fort444_output )then
 
