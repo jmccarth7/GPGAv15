@@ -159,14 +159,15 @@ do i_time_step=1,n_time_steps
                CASE(6)  ! 'Michealis-Menton (abs(RHS) / (abs(LHS) + abs(RHS)))'
 
 
-                 cff=abs(left_node_value)+abs(right_node_value)
-                 if (cff .gt. 0.0D+0) then
-                     Tree_Evaluation(i_function,i_tree)=abs(right_node_value)/cff
+                 cff = abs(left_node_value) + abs(right_node_value)
 
+                 if( cff .gt. 0.0D+0 ) then
+
+                     Tree_Evaluation(i_function,i_tree) = abs(right_node_value)/cff
 
                  else
-                     Tree_Evaluation(i_function,i_tree)=0.0D+0
 
+                     Tree_Evaluation(i_function,i_tree)=0.0D+0
 
                  endif
 
