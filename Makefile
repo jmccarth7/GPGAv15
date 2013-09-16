@@ -1,4 +1,4 @@
-PROG =	GPGACODE_test
+PROG =	GPGACODE_test_old_elite_scheme
 
 SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 allocate_arrays1.f90 \
 	bcast1.f90 bcast2.f90 bcast3.f90 calc_fitness.f90 calc_stats.f90 \
@@ -78,11 +78,11 @@ CFLAGS = -O
 
 # note: mpif90 is based on gfortran
 FC = /opt/openmpi-1.6/bin/mpif90
-FFLAGS =  -O3   -ffree-form -Wall # -fcheck=bounds # -fbacktrace # -fdefault-integer-8  # -FR = -free
+FFLAGS =  -O3   -ffree-form # -Wall # -fcheck=bounds # -fbacktrace # -fdefault-integer-8  # -FR = -free
 
 # note: mpif90 is based on gfortran
 F90 = /opt/openmpi-1.6/bin/mpif90
-F90FLAGS =  -O3  -ffree-form  -Wall # -fcheck=bounds #  -fbacktrace #-fdefault-integer-8  # -FR = -free
+F90FLAGS =  -O3  -ffree-form #  -Wall # -fcheck=bounds #  -fbacktrace #-fdefault-integer-8  # -FR = -free
 
 LDFLAGS = -L/opt/openmpi-1.6/lib \
           -I/Developer/SDKs/MacOSX10.6.sdk/usr/include
