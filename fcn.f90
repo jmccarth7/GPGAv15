@@ -162,56 +162,113 @@ endif
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+
+!!>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+!
+!! if the result of the RK process was good, compute the fvec (and maybe SSE)
+!
+!!SSE=0.0D+0
+!do i_time_step=1,n_time_steps
+!
+!  fvec(i_time_step)=0.
+!
+!  !if( L_ga_print )then 
+!  !    write(GA_print_unit,'(/A,1x,I6, 1x,I10)')'fcn: myid, i_time_step ', myid, i_time_step
+!  !endif ! L_ga_print  
+!
+!  do  i_CODE_equation=1,n_CODE_equations
+!
+!      !if( L_ga_print )then 
+!      !    write(GA_print_unit,'(A,2(1x,I6), 3(1x,E15.7))') &
+!      !          'fcn: myid, i_eqn, RK_soln, data_array, var ', &
+!      !                myid, i_CODE_equation,                   &
+!      !                Runge_Kutta_Solution(i_time_step,i_CODE_equation), &
+!      !                Data_Array(i_time_step,i_CODE_equation), &
+!      !                data_variance(i_CODE_equation)
+!
+!      !    write(GA_print_unit,'(A,2(1x,I6), 1x,E15.7)') &
+!      !          'fcn: myid, i_eqn, data_variance ', &
+!      !                myid, i_CODE_equation, data_variance(i_CODE_equation)
+!      !endif ! L_ga_print  
+!
+!
+!      fvec(i_time_step) = fvec(i_time_step)  +                              &
+!        (   Data_Array(i_time_step,i_CODE_equation) -                       &
+!            Runge_Kutta_Solution(i_time_step,i_CODE_equation)   )**2  *     &
+!                                           Data_Variance_inv(i_CODE_equation)
+!
+!
+!  enddo ! i_CODE_equation
+!
+!
+!  !SSE = SSE + fvec(i_time_step)
+!
+!  !if( L_ga_print )then  
+!  !    write(GA_print_unit,'(A,1x,I6, 1x,I6, 1x, E15.7)')&
+!  !          'fcn: myid, i_time_step, fvec ', &
+!  !                myid, i_time_step, fvec(i_time_step)
+!  !endif ! L_ga_print  
+!
+!enddo ! i_time_step
+!
+!!if( L_ga_print )then                                                                                
+!!    write(GA_print_unit,'(A,1x,I6,2x,E24.16)') 'fcn: myid, SSE = ',myid, SSE
+!!endif ! L_ga_print  
+!
+!!<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+!>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 ! if the result of the RK process was good, compute the fvec (and maybe SSE)
 
 !SSE=0.0D+0
-do i_time_step=1,n_time_steps
 
-  fvec(i_time_step)=0.
+fvec(:) = 0.0d0
 
-  !if( L_ga_print )then 
-  !    write(GA_print_unit,'(/A,1x,I6, 1x,I10)')'fcn: myid, i_time_step ', myid, i_time_step
-  !endif ! L_ga_print  
+do  i_CODE_equation=1,n_CODE_equations
 
-  do  i_CODE_equation=1,n_CODE_equations
+    do  i_time_step=1,n_time_steps
 
-      !if( L_ga_print )then 
-      !    write(GA_print_unit,'(A,2(1x,I6), 3(1x,E15.7))') &
-      !          'fcn: myid, i_eqn, RK_soln, data_array, var ', &
-      !                myid, i_CODE_equation,                   &
-      !                Runge_Kutta_Solution(i_time_step,i_CODE_equation), &
-      !                Data_Array(i_time_step,i_CODE_equation), &
-      !                data_variance(i_CODE_equation)
+  
+  
+        !if( L_ga_print )then 
+        !    write(GA_print_unit,'(A,2(1x,I6), 3(1x,E15.7))') &
+        !          'fcn: myid, i_eqn, RK_soln, data_array, var ', &
+        !                myid, i_CODE_equation,                   &
+        !                Runge_Kutta_Solution(i_time_step,i_CODE_equation), &
+        !                Data_Array(i_time_step,i_CODE_equation), &
+        !                data_variance(i_CODE_equation)
+  
+        !    write(GA_print_unit,'(A,2(1x,I6), 1x,E15.7)') &
+        !          'fcn: myid, i_eqn, data_variance ', &
+        !                myid, i_CODE_equation, data_variance(i_CODE_equation)
+        !endif ! L_ga_print  
+  
+  
+        fvec(i_time_step) = fvec(i_time_step)  +                              &
+          (   Data_Array(i_time_step,i_CODE_equation) -                       &
+              Runge_Kutta_Solution(i_time_step,i_CODE_equation)   )**2  *     &
+                                             Data_Variance_inv(i_CODE_equation)
+  
+  
+    enddo ! i_time_step
 
-      !    write(GA_print_unit,'(A,2(1x,I6), 1x,E15.7)') &
-      !          'fcn: myid, i_eqn, data_variance ', &
-      !                myid, i_CODE_equation, data_variance(i_CODE_equation)
-      !endif ! L_ga_print  
 
+    !SSE = SSE + fvec(i_time_step)
 
-      fvec(i_time_step) = fvec(i_time_step)  +                              &
-        (   Data_Array(i_time_step,i_CODE_equation) -                       &
-            Runge_Kutta_Solution(i_time_step,i_CODE_equation)   )**2  *     &
-                                           Data_Variance_inv(i_CODE_equation)
+    !if( L_ga_print )then  
+    !    write(GA_print_unit,'(A,1x,I6, 1x,I6, 1x, E15.7)')&
+    !          'fcn: myid, i_time_step, fvec ', &
+    !                myid, i_time_step, fvec(i_time_step)
+    !endif ! L_ga_print  
 
-
-  enddo ! i_CODE_equation
-
-
-  !SSE = SSE + fvec(i_time_step)
-
-  !if( L_ga_print )then  
-  !    write(GA_print_unit,'(A,1x,I6, 1x,I6, 1x, E15.7)')&
-  !          'fcn: myid, i_time_step, fvec ', &
-  !                myid, i_time_step, fvec(i_time_step)
-  !endif ! L_ga_print  
-
-enddo ! i_time_step
+enddo ! i_CODE_equation
 
 !if( L_ga_print )then                                                                                
 !    write(GA_print_unit,'(A,1x,I6,2x,E24.16)') 'fcn: myid, SSE = ',myid, SSE
 !endif ! L_ga_print  
 
+!<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 return
 

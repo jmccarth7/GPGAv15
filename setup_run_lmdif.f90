@@ -267,8 +267,8 @@ if( individual_quality( i_GA_indiv ) > 0 ) then
 
     do i_time_step=1,n_time_steps
 
-       if( isnan(fvec(i_time_step)) ) fvec(i_time_step) = 0.0d0
-       if( abs(fvec(i_time_step)) >  1.0d20 ) fvec(i_time_step) =  1.0d20
+       if( isnan(fvec(i_time_step)) .or.  &
+           abs(fvec(i_time_step)) >  1.0d20 ) fvec(i_time_step) =  1.0d20
 
        !write(10, *) 'setrlm: i_time_step, fvec(i_time_step) ', &
        !                      i_time_step, fvec(i_time_step)

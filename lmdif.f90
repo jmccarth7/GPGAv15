@@ -262,15 +262,15 @@ subroutine lmdif ( fcn, m, n, x, fvec, ftol, xtol, gtol, maxfev, epsfcn, &
 !
 !  If requested, call FCN to enable printing of iterates.
 !
-     if ( 0 < nprint ) then
-       iflag = 0
-       if ( mod ( iter-1, nprint ) == 0 ) then
-         call fcn ( m, n, x, fvec, iflag )
-       end if
-       if ( iflag < 0 ) then
-         go to 300
-       end if
-     end if
+!     if ( 0 < nprint ) then                       ! jjm
+!       iflag = 0                                  ! jjm
+!       if ( mod ( iter-1, nprint ) == 0 ) then    ! jjm
+!         call fcn ( m, n, x, fvec, iflag )        ! jjm
+!       end if                                     ! jjm
+!       if ( iflag < 0 ) then                      ! jjm
+!         go to 300                                ! jjm
+!       end if                                     ! jjm
+!     end if                                       ! jjm
 !
 !  Compute the QR factorization of the jacobian.
 !
@@ -510,9 +510,9 @@ subroutine lmdif ( fcn, m, n, x, fvec, ftol, xtol, gtol, maxfev, epsfcn, &
 
   iflag = 0
 
-  if ( nprint > 0 ) then
-    call fcn ( m, n, x, fvec, iflag )
-  end if
+  !if ( nprint > 0 ) then                    !jjm
+  !  call fcn ( m, n, x, fvec, iflag )       !jjm
+  !end if                                    !jjm
 
   return
 end

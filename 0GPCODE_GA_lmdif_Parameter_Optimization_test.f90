@@ -178,15 +178,15 @@ call MPI_BARRIER( MPI_COMM_WORLD, ierr )
 
 !------------------------------------------------------------------
 
-! set the scalar values for the model
-
-call init_values( 0 )
-
-!------------------------------------------------------------------
-
 ! load table of 2**ilevel - 1  for RK process
 
 call load_pow2_level(  ) 
+
+!------------------------------------------------------------------
+
+! set the scalar values for the model
+
+call init_values( 0 )
 
 !------------------------------------------------------------------
 

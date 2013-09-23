@@ -43,19 +43,26 @@ integer(kind=4) :: iter
 
 ! start the time stepping loop
 
-do i_time_step=1,n_time_steps
+do  i_time_step=1,n_time_steps
 
-  b_tmp = Runge_Kutta_Solution(i_time_step-1,1:n_CODE_equations)  ! Array Assignment
+  b_tmp = Runge_Kutta_Solution( i_time_step-1 , 1:n_CODE_equations )  ! Array Assignment
 
   ! carry out a Runge-Kutta time step
 
-  do iter=1,4
+  do  iter=1,4
 
     !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     !   Evaluate the trees
     !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
     tree_value=0.0D+0
+
+    !jjm note:  could you initialize tree_evaluationa and node_eval_type only once
+    !  and use another array in place of tree_evaluation after the select case statement?
+
+    ! jjm note: would it save a small amount of time to use node instead of i_node_left and
+    ! use node+1 instead of i_node_right ?
+
 
     Tree_Evaluation = Runge_Kutta_Node_Parameters       ! Matrix Assignment
     Node_Eval_Type  = Runge_Kutta_Node_Type             ! Matrix Assignment
@@ -70,7 +77,7 @@ do i_time_step=1,n_time_steps
 
         !orig do i_node=2**i_level,(2*(2**i_level))-1,2     ! run through each function at the level
 
-        do i_node=pow2_table(i_level)+1, pow2_table(i_level+1) , 2  ! run through each function at the level
+        do  i_node = pow2_table(i_level)+1 , pow2_table(i_level+1) , 2  ! run through each function at the level
 
           i_function=i_function+1       ! sets the 'function' node's index
 
@@ -80,17 +87,17 @@ do i_time_step=1,n_time_steps
           i_node_right=i_node+1         ! sets the 'right terminal' node's index;
                                         !    i_node_right=(i_function*2)+1 would also work
 
-          if (Node_Eval_Type(i_function,i_tree) .gt. 0) then ! run the calculation
+          if( Node_Eval_Type(i_function,i_tree) .gt. 0) then ! run the calculation
 
             icff=Node_Eval_Type(i_node_left,i_tree)
 
-            if (icff .eq. 0) then
+            if( icff .eq. 0) then
 
               left_node_value=Tree_Evaluation(i_node_left,i_tree)
 
-            elseif (icff .lt. 0 .and. icff .ne. -9999) then
+            elseif( icff .lt. 0 .and. icff .ne. -9999) then
 
-              if (iter .eq. 1) then
+              if( iter .eq. 1) then
                 left_node_value=b_tmp(abs(icff))
               else
                 left_node_value=btmp(abs(icff))
@@ -100,13 +107,13 @@ do i_time_step=1,n_time_steps
 
             icff=node_eval_type(i_node_right,i_tree)
 
-            if (icff .eq. 0) then
+            if( icff .eq. 0) then
 
               right_node_value=Tree_Evaluation(i_node_right,i_tree)
 
-            elseif (icff .lt. 0 .and. icff .ne. -9999) then
+            elseif( icff .lt. 0 .and. icff .ne. -9999) then
 
-              if (iter .eq. 1) then
+              if( iter .eq. 1) then
                 right_node_value=b_tmp(abs(icff))
               else
                 right_node_value=btmp(abs(icff))
@@ -149,7 +156,7 @@ do i_time_step=1,n_time_steps
                CASE(4)  ! protected: LHS/RHS
 
 
-                 !if (right_node_value .ne. 0.0D+0) then
+                 !if( right_node_value .ne. 0.0D+0) then
                  if( abs(right_node_value) > 1.0d-50 ) then
 
                      Tree_Evaluation(i_function,i_tree)=left_node_value/right_node_value
@@ -165,7 +172,8 @@ do i_time_step=1,n_time_steps
 
 
                  cff=dabs(left_node_value*right_node_value)
-                 Tree_Evaluation(i_function,i_tree)=1.0D+0-dexp(-1.0D+0*cff)
+
+                 Tree_Evaluation(i_function,i_tree) = 1.0D+0 - dexp(-1.0D+0*cff)
 
 
                CASE(6)  ! 'Michealis-Menton (abs(RHS) / (abs(LHS) + abs(RHS)))'
@@ -236,11 +244,13 @@ do i_time_step=1,n_time_steps
     !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
     i_tree=0
+    bioflo = 0.0D0
+
     do i_CODE_equation=0,n_CODE_equations   ! source of material
 
       do j_CODE_equation=0,n_CODE_equations ! sink of material
 
-        if (i_CODE_equation .ne. j_CODE_equation) then
+        if( i_CODE_equation .ne. j_CODE_equation) then
 
           i_tree=i_tree+1
 
@@ -255,9 +265,9 @@ do i_time_step=1,n_time_steps
           !     tree_value(i_tree), bioflo(i_CODE_equation,j_CODE_equation)
           !endif ! L_ga_print  
 
-        else
+        !else
 
-          bioflo(i_CODE_equation,j_CODE_equation)=0.0D+0   ! never flow to/from same component
+        !  bioflo(i_CODE_equation,j_CODE_equation)=0.0D+0   ! never flow to/from same component
 
         endif !   i_CODE_equation .ne. j_CODE_equation
 
@@ -299,26 +309,26 @@ do i_time_step=1,n_time_steps
 
       kval(iter,i_CODE_equation) = dt * fbio(i_CODE_equation)
 
-      if (iter .eq. 1) then
+      if( iter .eq. 1) then
 
         !btmp(i_CODE_equation) = b_tmp(i_CODE_equation) + &
         !                        (kval(iter,i_CODE_equation)/2.0D+0)
         btmp(i_CODE_equation) = b_tmp(i_CODE_equation) + &
                                 kval(iter,i_CODE_equation) * one_half
 
-      elseif (iter .eq. 2) then
+      elseif( iter .eq. 2) then
 
         !btmp(i_CODE_equation) = b_tmp(i_CODE_equation) + &
         !                        (kval(iter,i_CODE_equation)/2.0D+0)
         btmp(i_CODE_equation) = b_tmp(i_CODE_equation) + &
                                 kval(iter,i_CODE_equation) * one_half
 
-      elseif (iter .eq. 3) then
+      elseif( iter .eq. 3) then
 
         btmp(i_CODE_equation) = b_tmp(i_CODE_equation) + &
                                 kval(iter,i_CODE_equation)
 
-      elseif (iter .eq. 4) then
+      elseif( iter .eq. 4) then
 
         !cff =  kval(1,i_CODE_equation)/6.0D+0  + &
         !       kval(2,i_CODE_equation)/3.0D+0  + &
@@ -342,7 +352,7 @@ do i_time_step=1,n_time_steps
         !         kval(4,i_CODE_equation) * one_half ) * one_third
 
         cff = ( ( kval(1,i_CODE_equation) + kval(4,i_CODE_equation) ) * one_half + &
-                  kval(2,i_CODE_equation) + kval(3,i_CODE_equation) ) * one_third
+                  kval(2,i_CODE_equation) + kval(3,i_CODE_equation)             ) * one_third
 
         !write(6,'(A,1x,I1,1x,I6,1x,i1,1x,I1,5(1x,E24.16))') &
         !        'RuKbm:', myid, i_time_step, iter, i_CODE_equation, &

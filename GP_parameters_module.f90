@@ -198,6 +198,16 @@ real(kind=8) ::  random_scale_fraction
 real(kind=8) :: sum_lmdif
 
 
+!--------------------------------------------------------------------                                                              
+                                                                                                                                   
+! table to store 2**level - 1  for use in RK integration                                                                           
+                                                                                                                                   
+integer, parameter :: max_level = 10                                                                                               
+integer, dimension(0:max_level) :: pow2_table                                                                                      
+                                                                                                                                   
+!--------------------------------------------------------------------                                                              
+                                                                                                                                   
+ 
 
 
 end module GP_parameters_module
