@@ -37,6 +37,7 @@ deallocate( integrated_ranked_fitness )
 deallocate( Run_GA_lmdif )
 deallocate( Data_Array  )
 deallocate( Data_Variance )
+deallocate( Data_Variance_inv )
 
 deallocate( GP_Population_Node_Parameters )
 deallocate( GP_Individual_Node_Parameters )

@@ -48,9 +48,9 @@ real(kind=8) :: t2
 
 character(200) :: tree_descrip
 
-character(10),parameter :: program_version   = '201308.600'
-character(10),parameter :: modification_date = '20130909'
-character(30),parameter :: branch  = 'old_elite_scheme'
+character(10),parameter :: program_version   = '201308.605'
+character(10),parameter :: modification_date = '20130923'
+character(30),parameter :: branch  = 'old_elite_scheme_RKmods2'
 
 
 !----------------------------------------------------------------------------------------
@@ -81,7 +81,10 @@ Lprint_lmdif = .TRUE.
 
 if( myid == 0 )then
 
+    write(6,'(/A/)') '0: changed RK sub to make it faster'
     write(6,'(/A/)') '0: using the old_elite_scheme in GP_Fit* GP_Tou*, GP_Mut*'
+    write(6,'(/A/)') '0: fast mod 1: remove GP diversity and tree printout     '
+    write(6,'(/A/)') '0: fast mod 1: remove GP_calc_fit, GP_ranking, summary printout  '
     write(6,'(A)')'0:  run with clean tree call for only processor 0'
     write(6,'(A)')'0:  run with no barrier before call GPCODE  '
     write(6,'(A)')'0:  and with no barrier after  call GPCODE  '
@@ -126,6 +129,7 @@ endif !   myid == 0
 
 !------------------------------------------------------------------
 
+sum_lmdif = 0.0d0
 
 ! broadcast the values read in by cpu 0 to others
 
@@ -177,6 +181,12 @@ call MPI_BARRIER( MPI_COMM_WORLD, ierr )
 ! set the scalar values for the model
 
 call init_values( 0 )
+
+!------------------------------------------------------------------
+
+! load table of 2**ilevel - 1  for RK process
+
+call load_pow2_level(  ) 
 
 !------------------------------------------------------------------
 
@@ -442,11 +452,11 @@ do  i_GP_Generation=1,n_GP_Generations
         ! compute a "diversity index" which characterizes each individual with a
         ! number derived from the number of nodes, etc.
 
-        if( myid == 0 )then
-            call GP_calc_diversity_index( n_GP_individuals,  &
-                                          GP_Adult_Population_Node_Type, &
-                                          i_diversity, i_gp_generation )
-        endif ! myid == 0
+        !if( myid == 0 )then
+        !    call GP_calc_diversity_index( n_GP_individuals,  &
+        !                                  GP_Adult_Population_Node_Type, &
+        !                                  i_diversity, i_gp_generation )
+        !endif ! myid == 0
 
         !-----------------------------------------------------------------------------
 
@@ -583,13 +593,13 @@ do  i_GP_Generation=1,n_GP_Generations
 
             ! calculate the diversity index for each individual for generations > 1
 
-            write(GP_print_unit,'(/A)')&
-                  '0: call GP_calc_diversity_index '
+            !write(GP_print_unit,'(/A)')&
+            !      '0: call GP_calc_diversity_index '
 
             !t1 = MPI_Wtime()
-            call GP_calc_diversity_index( n_GP_individuals, &
-                                          GP_Child_Population_Node_Type, &
-                                          i_diversity, i_gp_generation )
+            !call GP_calc_diversity_index( n_GP_individuals, &
+            !                              GP_Child_Population_Node_Type, &
+            !                              i_diversity, i_gp_generation )
             !t2 = MPI_Wtime()
 
             !write(GP_print_unit,'(A,1x,E15.7)') &
@@ -688,27 +698,27 @@ do  i_GP_Generation=1,n_GP_Generations
 
     ! print trees after call to GP_Clean_Tree_Nodes
 
-    if( myid == 0 )then
-        !if( i_GP_generation == 1                                  .or. &
-        !    mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
-        !    i_GP_generation == n_GP_generations                          )then
+    !if( myid == 0 )then
+    !    !if( i_GP_generation == 1                                  .or. &
+    !    !    mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
+    !    !    i_GP_generation == n_GP_generations                          )then
 
 
-            !t1 = MPI_Wtime()
+    !        !t1 = MPI_Wtime()
 
-            tree_descrip =  ' trees after call to GP_Clean_Tree_Nodes'
-            call print_trees( i_GP_generation, 1, n_GP_individuals, &
-                              GP_Adult_Population_Node_Type, &
-                              trim( tree_descrip )  )
+    !        tree_descrip =  ' trees after call to GP_Clean_Tree_Nodes'
+    !        call print_trees( i_GP_generation, 1, n_GP_individuals, &
+    !                          GP_Adult_Population_Node_Type, &
+    !                          trim( tree_descrip )  )
 
-            !t2 = MPI_Wtime()
+    !        !t2 = MPI_Wtime()
 
-            !write(GP_print_unit,'(A,1x,E15.7)') &
-            !  '0: time spent in print_trees = ', t2 - t1
+    !        !write(GP_print_unit,'(A,1x,E15.7)') &
+    !        !  '0: time spent in print_trees = ', t2 - t1
 
-        !endif ! i_GP_generation == 1 .or. ...
+    !    !endif ! i_GP_generation == 1 .or. ...
 
-    endif !  myid == 0
+    !endif !  myid == 0
 
     !-----------------------------------------------------------------------------------------
     !>>>>>>>>>> jjm 20130417
@@ -1126,7 +1136,9 @@ do  i_GP_Generation=1,n_GP_Generations
           '0:#################################################################'
 
         !t1 = MPI_Wtime()
+
         call GP_calc_fitness( i_GP_generation, output_array )
+
         !t2 = MPI_Wtime()
 
 
@@ -1174,9 +1186,11 @@ enddo generation_loop !  i_GP_Generation
 
 if( myid == 0 )then
     write(GP_print_unit,'(/A/)') '0: after i_GP_generation loop  '
+
+
+    write(GP_print_unit,'(/A,1x,E15.7/)') '0: sum of time spent in lmdif = ', sum_lmdif
+
 endif ! myid == 0
-
-
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 ! plot results

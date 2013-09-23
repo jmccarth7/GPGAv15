@@ -16,6 +16,8 @@ use Runge_Kutta_Variables_module
 
 implicit none
 
+real(kind=8),parameter  :: one_third = 1.0d0 / 3.0d0
+real(kind=8),parameter  :: one_half  = 0.5d0
 real(kind=8) :: cff
 
 integer(kind=4) :: i_Tree
@@ -31,6 +33,11 @@ integer(kind=4) :: j_CODE_equation
 
 integer(kind=4) :: i_time_step
 
+real(kind=8) :: left_node_value,right_node_value                                                                        
+!real(kind=8) :: cff                                                                                                    
+                                                                                                                        
+integer(kind=4) :: icff                                                                                                
+integer(kind=4) :: iter      
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
@@ -57,9 +64,13 @@ do i_time_step=1,n_time_steps
 
       do i_level=n_levels-1,1,-1   ! move up the tree structure from level "n_level-1" to level "1"
 
-        i_function=(2**(i_level-1))-1 ! the function number at the right end of the upper level
+        !origi_function=(2**(i_level-1))-1 ! the function number at the right end of the upper level
+        !i_function= 2**(i_level-1) - 1 ! the function number at the right end of the upper level
+        i_function= pow2_table(i_level-1) ! the function number at the right end of the upper level
 
-        do i_node=2**i_level,(2*(2**i_level))-1,2     ! run through each function at the level
+        !orig do i_node=2**i_level,(2*(2**i_level))-1,2     ! run through each function at the level
+
+        do i_node=pow2_table(i_level)+1, pow2_table(i_level+1) , 2  ! run through each function at the level
 
           i_function=i_function+1       ! sets the 'function' node's index
 
@@ -138,13 +149,14 @@ do i_time_step=1,n_time_steps
                CASE(4)  ! protected: LHS/RHS
 
 
-                 if (right_node_value .ne. 0.0D+0) then
+                 !if (right_node_value .ne. 0.0D+0) then
+                 if( abs(right_node_value) > 1.0d-50 ) then
 
                      Tree_Evaluation(i_function,i_tree)=left_node_value/right_node_value
 
                  else
 
-                     Tree_Evaluation(i_function,i_tree)=0.
+                     Tree_Evaluation(i_function,i_tree)=0.0d0
 
                  endif
 
@@ -213,7 +225,7 @@ do i_time_step=1,n_time_steps
 
       !if( L_ga_print )then               
       !    write(GA_print_unit,'(8x, A, 1x,E15.7)') &
-      !          'RKBM: tree_eval(1, i_tree )  = ', &
+      !          'RuKbm: tree_eval(1, i_tree )  = ', &
       !           tree_evaluation(1, i_tree )
       !endif ! L_ga_print  
 
@@ -237,7 +249,7 @@ do i_time_step=1,n_time_steps
 
           !if( L_ga_print )then 
           !    write(GA_print_unit,'(A,3(1x,I6),2(2x, E15.7))') &
-          !    'RKBM:1 i_tree, i_code_equation, j_code_equation, &
+          !    'RuKbm:1 i_tree, i_code_equation, j_code_equation, &
           !    &tree_value(i_tree), bioflo(i_CODE_equation,j_CODE_equation) ', &
           !            i_tree, i_code_equation, j_code_equation, &
           !     tree_value(i_tree), bioflo(i_CODE_equation,j_CODE_equation)
@@ -253,9 +265,11 @@ do i_time_step=1,n_time_steps
 
     enddo !  i_CODE_equation
 
-    do i_CODE_equation=1,n_CODE_equations   ! source of material
-      fbio(i_CODE_equation)=0.0D+0
-    enddo ! i_CODE_equation
+    !do i_CODE_equation=1,n_CODE_equations   ! source of material
+    !  fbio(i_CODE_equation)=0.0D+0
+    !enddo ! i_CODE_equation
+
+    fbio(1:n_CODE_equations) = 0.0D+0
 
     !   bring in the component flow sources and sinks
 
@@ -283,17 +297,21 @@ do i_time_step=1,n_time_steps
 
     do i_CODE_equation=1,n_CODE_equations
 
-      kval(iter,i_CODE_equation)=dt*fbio(i_CODE_equation)
+      kval(iter,i_CODE_equation) = dt * fbio(i_CODE_equation)
 
       if (iter .eq. 1) then
 
+        !btmp(i_CODE_equation) = b_tmp(i_CODE_equation) + &
+        !                        (kval(iter,i_CODE_equation)/2.0D+0)
         btmp(i_CODE_equation) = b_tmp(i_CODE_equation) + &
-                                (kval(iter,i_CODE_equation)/2.0D+0)
+                                kval(iter,i_CODE_equation) * one_half
 
       elseif (iter .eq. 2) then
 
+        !btmp(i_CODE_equation) = b_tmp(i_CODE_equation) + &
+        !                        (kval(iter,i_CODE_equation)/2.0D+0)
         btmp(i_CODE_equation) = b_tmp(i_CODE_equation) + &
-                                (kval(iter,i_CODE_equation)/2.0D+0)
+                                kval(iter,i_CODE_equation) * one_half
 
       elseif (iter .eq. 3) then
 
@@ -302,10 +320,33 @@ do i_time_step=1,n_time_steps
 
       elseif (iter .eq. 4) then
 
-        cff =  kval(1,i_CODE_equation)/6.0D+0  + &
-               kval(2,i_CODE_equation)/3.0D+0  + &
-               kval(3,i_CODE_equation)/3.0D+0  + &
-               kval(4,i_CODE_equation)/6.0D+0
+        !cff =  kval(1,i_CODE_equation)/6.0D+0  + &
+        !       kval(2,i_CODE_equation)/3.0D+0  + &
+        !       kval(3,i_CODE_equation)/3.0D+0  + &
+        !       kval(4,i_CODE_equation)/6.0D+0
+
+        !write(6,'(A,1x,I1,1x,I6,1x,i1,1x,I1,5(1x,E24.16))') &
+        !        'RuKbm:', myid, i_time_step, iter, i_CODE_equation, &
+        !                 kval(1:4,i_code_equation),cff  
+
+        !write(6,'(/A,4(1x,I6))') &
+        !        'RuKbm: myid, i_time_step, iter, i_CODE_equation  ', &
+        !               myid, i_time_step, iter, i_CODE_equation  
+        !write(6,'(A,2(1x,I6),5(1x,E15.7))') &
+        !        'RuKbm: myid, i_CODE_equation, kval(1:4,i_code_equation),cff  ', &
+        !               myid, i_CODE_equation, kval(1:4,i_code_equation),cff  
+
+        !cff =  ( kval(1,i_CODE_equation) * one_half  + &
+        !         kval(2,i_CODE_equation)             + &
+        !         kval(3,i_CODE_equation)             + &
+        !         kval(4,i_CODE_equation) * one_half ) * one_third
+
+        cff = ( ( kval(1,i_CODE_equation) + kval(4,i_CODE_equation) ) * one_half + &
+                  kval(2,i_CODE_equation) + kval(3,i_CODE_equation) ) * one_third
+
+        !write(6,'(A,1x,I1,1x,I6,1x,i1,1x,I1,5(1x,E24.16))') &
+        !        'RuKbm:', myid, i_time_step, iter, i_CODE_equation, &
+        !                kval(1:4,i_code_equation),cff  
 
         b_tmp(i_CODE_equation)=b_tmp(i_CODE_equation)  +  cff
 
@@ -327,8 +368,8 @@ do i_time_step=1,n_time_steps
 
       !if( L_ga_print )then
       !    write(GA_print_unit,'(A,2(1x,I6),12(1x,E15.7))') &
-      !          'RKBM: bad result myid, i_time_step, b_tmp ', &
-      !                            myid, i_time_step, b_tmp(1:n_CODE_equations)
+      !          'RuKbm: bad result myid, i_time_step, b_tmp ', &
+      !                             myid, i_time_step, b_tmp(1:n_CODE_equations)
       !endif ! L_ga_print  
 
       return
@@ -349,10 +390,13 @@ do i_time_step=1,n_time_steps
 
   !if( L_ga_print )then      
   !    write(GA_print_unit,'(A,2(1x,I6),12(1x,E15.7))') &
-  !          'RKBM: myid, i_time_step, RK_Soln ', &
+  !          'RuKbm: myid, i_time_step, RK_Soln ', &
   !                 myid, i_time_step, Runge_Kutta_Solution(i_time_step,1:n_CODE_equations)
   !endif ! L_ga_print  
 
+  !write(6,'(A,1x,I1,1x,i6,3(1x,E24.16))') &
+  !      'RuKbm: myid, i_time_step, RK_Soln ', &
+  !              myid, i_time_step, Runge_Kutta_Solution(i_time_step,1:n_CODE_equations)
 
 
 enddo ! i_time_step

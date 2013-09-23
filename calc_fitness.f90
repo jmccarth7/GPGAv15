@@ -96,8 +96,8 @@ enddo ! i_parameter
 
 !-----------------------------------------------------------------------------------
 
-if( L_fort444_output )then
 
+if( L_fort444_output )then
 
     !write(6,'(/A)') 'calcfit: i_GA_individual, parent params'
 

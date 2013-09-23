@@ -34,6 +34,12 @@ integer ::  i_tree
 integer ::  i_gen
 integer ::  i_indiv 
 
+integer ::  icff    
+
+integer ::  iter    
+real(kind=8) :: left_node_value,right_node_value                                                                       
+
+
 !-------------------------------------------------------------------------------
 
 
@@ -82,15 +88,20 @@ do  i_tree=1,n_trees
   
     do  i_level=n_levels-1,1,-1   ! move up the tree structure from level "n_level-1" to level "1"
   
-        i_function=(2**(i_level-1))-1 ! the function number at the right end of the upper level
-  
+        !orig i_function=(2**(i_level-1))-1 ! the function number at the right end of the upper level
+        i_function= pow2_table(i_level-1) ! the function number at the right end of the upper level
+
         !write(6,'(A,1x,I6)')'RKBM: i_level    = ', i_level
         !write(6,'(A,1x,I6)')'RKBM: i_function = ', i_function
         !write(6,'(A,3(1x,I6))') 'RKBM: i_function, i_tree, node_eval_type(i_function,i_tree) ', &
         !                               i_function, i_tree, node_eval_type(i_function,i_tree)
+
+
+
     
-        do  i_node=2**i_level,(2*(2**i_level))-1,2     ! run through each function at the level
-    
+        !orig do  i_node=2**i_level,(2*(2**i_level))-1,2     ! run through each function at the level
+        do  i_node=pow2_table(i_level)+1, pow2_table(i_level+1) , 2  ! run through each function at the level
+
             !write(6,'(A,1x,I6)')'RKBM: i_node     = ', i_node
       
             i_function=i_function+1       ! sets the 'function' node's index

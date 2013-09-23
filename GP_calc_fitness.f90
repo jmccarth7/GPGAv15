@@ -226,22 +226,22 @@ enddo ! i_GP_Individual
 
 !-------------------------------------------------------------------------------
 
-if( i_GP_generation == 1                                 .or. &
-    mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
-    i_GP_generation == n_GP_generations                          ) then
+!if( i_GP_generation == 1                                 .or. &
+!    mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
+!    i_GP_generation == n_GP_generations                          ) then
 
-    write(GP_print_unit,'(/A)') &
-      'gpcf: i_GP_indiv  GP_Child_Indiv_SSE  GP_Integ_Pop_Ranked_Fitness (norm)'
+!    write(GP_print_unit,'(/A)') &
+!      'gpcf: i_GP_indiv  GP_Child_Indiv_SSE  GP_Integ_Pop_Ranked_Fitness (norm)'
 
-    do  i_GP_Individual=1,n_GP_Individuals
+!    do  i_GP_Individual=1,n_GP_Individuals
 
-        write(GP_print_unit,'(5x,I6,2x,2(5x,E15.7))') &
-              i_GP_individual, &
-              GP_Child_Individual_SSE(i_GP_Individual), &
-              GP_Integrated_Population_Ranked_Fitness(i_GP_Individual)
-    enddo
+!        write(GP_print_unit,'(5x,I6,2x,2(5x,E15.7))') &
+!              i_GP_individual, &
+!              GP_Child_Individual_SSE(i_GP_Individual), &
+!              GP_Integrated_Population_Ranked_Fitness(i_GP_Individual)
+!    enddo
 
-endif ! i_GP_generation == 1 .or. ...
+!endif ! i_GP_generation == 1 .or. ...
 
 
 !-------------------------------------------------------------------------------

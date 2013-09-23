@@ -64,7 +64,7 @@ real(kind=8) :: GA_rand_replace_Probability
 
 ! probability of setting a terminal node to a parameter
 
-real (kind=4), parameter :: GP_Set_Terminal_to_Parameter_Probability = 0.6
+real(kind=8), parameter :: GP_Set_Terminal_to_Parameter_Probability = 0.6d0
 
 
 ! determines how the GA_Tournament subroutine works
@@ -76,7 +76,7 @@ real (kind=4), parameter :: GP_Set_Terminal_to_Parameter_Probability = 0.6
 
 integer(kind=4) :: ga_tournament_style
 
-real (kind=4), parameter :: PI = 3.141592653589793D0
+real(kind=8), parameter :: PI = 3.141592653589793D0
 
 ! GA routine-specific variables that can be modified
 

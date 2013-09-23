@@ -195,6 +195,7 @@ real(kind=8) ::  random_scale_fraction
 
 
 
+real(kind=8) :: sum_lmdif
 
 
 

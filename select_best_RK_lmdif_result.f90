@@ -23,22 +23,22 @@ use GP_data_module
 
 implicit none
 
-integer :: child_number
+!integer :: child_number
 
-integer ::  start_individ
-integer ::  stop_individ
-integer ::  start_limit
-integer ::  stop_limit
-integer ::  isource
-integer ::  iproc
-integer ::  chunk
-integer ::  message_len
-integer ::  numsent
-integer ::  sender
-integer ::  nsafe
-integer ::  i_dummy
-integer ::  i_individual
-integer ::  i_2_individual
+!integer ::  start_individ
+!integer ::  stop_individ
+!integer ::  start_limit
+!integer ::  stop_limit
+!integer ::  isource
+!integer ::  iproc
+!integer ::  chunk
+!integer ::  message_len
+!integer ::  numsent
+!integer ::  sender
+!integer ::  nsafe
+!integer ::  i_dummy
+!integer ::  i_individual
+!integer ::  i_2_individual
 
 integer,parameter ::  itag  = 1
 integer,parameter ::  itag2 = 2
@@ -59,8 +59,8 @@ real(kind=8),dimension(n_maximum_number_parameters) :: parent_parameters_best_1
 
 
 
-real(kind=8) :: buffer(n_maximum_number_parameters + 2)
-real(kind=8) :: buffer_recv(n_maximum_number_parameters + 2)
+!real(kind=8) :: buffer(n_maximum_number_parameters + 2)
+!real(kind=8) :: buffer_recv(n_maximum_number_parameters + 2)
 
 
 integer (kind=4) ::      i
@@ -84,7 +84,7 @@ real(kind=8), external :: indiv_fitness
 
 logical :: L_stop_run
 
-logical :: Lprint_GA
+!logical :: Lprint_GA
 
 integer(kind=4) :: i_Tree
 integer(kind=4) :: i_Node

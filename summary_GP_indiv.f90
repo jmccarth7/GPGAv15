@@ -61,13 +61,11 @@ logical :: Lprint
 ! set Lprint so printing is done only under the conditions in the if-test
 
 Lprint = .FALSE.
-if( i_GP_generation == 1                                  .or. &
-    mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
-    i_GP_generation == n_GP_generations                          )then
-
-    Lprint = .TRUE.
-
-endif ! i_GP_generation == 1 .or. ...
+!if( i_GP_generation == 1                                  .or. &
+!    mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
+!    i_GP_generation == n_GP_generations                          )then
+!    Lprint = .TRUE.
+!endif ! i_GP_generation == 1 .or. ...
 
 !--------------------------------------------------------------------------------
 

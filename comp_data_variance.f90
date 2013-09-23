@@ -45,46 +45,63 @@ endif
 
 do i_CODE_equation=1,n_CODE_equations
 
-  ssum  = 0.0D+0
-  ssum2 = 0.0D+0
-
-  do  i_time_step=0,n_time_steps
-      ssum  = ssum  +  Data_Array(i_time_step,i_CODE_equation)
-      ssum2 = ssum2 +  Data_Array(i_time_step,i_CODE_equation)**2
-  enddo !   i_time_step
-
-  totobs=dble(n_time_steps+1)
-
-  dff=( (totobs*ssum2)-(ssum**2) ) / ( totobs*(totobs-1.0D+0) )
-
-  if( dff .gt. 0.0D+0) then  ! set variance to observed variance for normalize by the s.d.
-      Data_Variance(i_CODE_equation)=dff
-  else ! set variance to 1.0 for normalization to be 'unaltered'
-      Data_Variance(i_CODE_equation)=1.0D+0
-  endif !   dff .gt. 0.0D+0
-
-  if( abs( Data_Variance(i_CODE_equation) ) < 1.0D-30 )then
-      write(GP_print_unit,'(/A,1x,I6,2x,E15.7)') &
-       '0: i_CODE_equation, Data_Variance(i_CODE_equation) ', &
-           i_CODE_equation, Data_Variance(i_CODE_equation)
-      write(GP_print_unit,'(A/)') '0: bad data variance -- stopping program '
-      stop 'bad data var'
-
-  endif ! abs( Data_Variance(i_CODE_equation) ) < 1.0D-30
-
-  if( myid == 0 )then
-      write(GP_print_unit,'(A,1x,I6,2x,E15.7)') &
-           '0: i_CODE_equation, Data_Variance(i_CODE_equation) ', &
-               i_CODE_equation, Data_Variance(i_CODE_equation)
-  endif ! myid == 0
-
+    ssum  = 0.0D+0
+    ssum2 = 0.0D+0
+  
+    do  i_time_step=0,n_time_steps
+        ssum  = ssum  +  Data_Array(i_time_step,i_CODE_equation)
+        ssum2 = ssum2 +  Data_Array(i_time_step,i_CODE_equation)**2
+    enddo !   i_time_step
+  
+    totobs=dble(n_time_steps+1)
+  
+    dff=( (totobs*ssum2)-(ssum**2) ) / ( totobs*(totobs-1.0D+0) )
+  
+    if( dff .gt. 0.0D+0) then  ! set variance to observed variance for normalize by the s.d.
+        Data_Variance(i_CODE_equation)=dff
+    else ! set variance to 1.0 for normalization to be 'unaltered'
+        Data_Variance(i_CODE_equation)=1.0D+0
+    endif !   dff .gt. 0.0D+0
+  
+    ! compute data_variance_inv
+  
+    if( abs( Data_Variance(i_CODE_equation) ) > 0.0D0 ) then
+        Data_Variance_inv(i_CODE_equation) = 1.0D0 / Data_Variance(i_CODE_equation)
+    endif ! abs( data_var...
+  
+    if( abs( Data_Variance(i_CODE_equation) ) < 1.0D-30 )then
+        write(GP_print_unit,'(/A,1x,I6,2x,E15.7)') &
+         '0: i_CODE_equation, Data_Variance(i_CODE_equation) ', &
+             i_CODE_equation, Data_Variance(i_CODE_equation)
+        write(GP_print_unit,'(A/)') '0: bad data variance -- stopping program '
+        stop 'bad data var'
+  
+    endif ! abs( Data_Variance(i_CODE_equation) ) < 1.0D-30
+  
+    if( abs( Data_Variance_inv(i_CODE_equation) ) <= 0.0D0  )then
+        write(GP_print_unit,'(/A,1x,I6,2x,E15.7)') &
+         '0: i_CODE_equation, Data_Variance_inv(i_CODE_equation) ', &
+             i_CODE_equation, Data_Variance_inv(i_CODE_equation)
+        write(GP_print_unit,'(A/)') '0: bad data variance inv -- stopping program '
+        stop 'bad data var_inv'
+  
+    endif ! abs( Data_Variance_inv(i_CODE_equation) ) <=0.0D0
+  
+  
+    if( myid == 0 )then
+        write(GP_print_unit,'(A,1x,I6,2(2x,E15.7))') &
+             '0: i_CODE_equation, Data_Variance, Data_Variance_inv ', &
+                 i_CODE_equation, Data_Variance(i_CODE_equation), &
+                                  Data_Variance_inv(i_CODE_equation)
+    endif ! myid == 0
+  
 enddo !  i_CODE_equation
-
+  
 if( myid == 0 )then
     write(GP_print_unit,'(A)') ' '
 endif !  myid == 0
-
-
+  
+  
 return
-
+  
 end subroutine comp_data_variance

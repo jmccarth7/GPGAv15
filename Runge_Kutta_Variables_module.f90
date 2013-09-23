@@ -41,14 +41,20 @@ real(kind=8),allocatable, dimension( : ) :: btmp
 real(kind=8),allocatable, dimension( : ) :: fbio
 
 
+! table to store 2**level - 1  for use in RK integration
+
+integer, parameter :: max_level = 10                                                                          
+integer, dimension(0:max_level) :: pow2_table                                                                 
+ 
+
 !--------------------------------------------------------------------
 
 
-real(kind=8) :: left_node_value,right_node_value
+!real(kind=8) :: left_node_value,right_node_value
 !real(kind=8) :: cff
 
-integer (kind=4) :: icff
-integer (kind=4) :: iter
+!integer (kind=4) :: icff
+!integer (kind=4) :: iter
 
 real(kind=8),dimension(4) :: Runge_Kutta_Time_Step
 

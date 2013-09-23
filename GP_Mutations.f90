@@ -19,6 +19,7 @@ use GA_Variables_module
 implicit none
 
 real(kind=4) :: cff
+real(kind=8) :: dff
 
 integer(kind=4) :: i_GP_Mutation
 integer(kind=4) :: i_GP_Individual_Mutation
@@ -97,12 +98,13 @@ do  i_GP_Mutation = 1,n_GP_Mutations
     ! randomly pick one of the n_GP_Individuals to mutate
 
     call Random_Number(cff) ! uniform random number generator
+    dff = cff
 
 
     ! randomly choose from the population pool
     ! randomly pick one of the n_GP_Individuals Adults to mutate
 
-    i_GP_Individual_Mutation = 1+int(cff*float(n_GP_Individuals))  ! -1))
+    i_GP_Individual_Mutation = 1+int(dff*float(n_GP_Individuals))  ! -1))
     i_GP_Individual_Mutation = min( i_GP_Individual_Mutation , n_GP_Individuals )
 
 ! choose sequentially from the best of the population
@@ -153,8 +155,9 @@ do  i_GP_Mutation = 1,n_GP_Mutations
     ! Randomly choose which tree to mutate
 
     call random_number(cff) ! uniform random number generator
+    dff = cff
 
-    i_Tree_Mutation = 1+int(cff*float(n_Trees))    ! randomly pick one of the equation trees
+    i_Tree_Mutation = 1+int(dff*float(n_Trees))    ! randomly pick one of the equation trees
     i_Tree_Mutation = min( i_Tree_Mutation , n_Trees )
 
 
@@ -184,8 +187,9 @@ do  i_GP_Mutation = 1,n_GP_Mutations
         !   randomly choose a node to mutate
 
         call random_number(cff) ! uniform random number generator
+        dff = cff
 
-        Node_to_Mutate = 1+int(cff*float(icnt_Nodes))
+        Node_to_Mutate = 1+int(dff*float(icnt_Nodes))
         Node_to_Mutate = min( Node_to_Mutate , icnt_Nodes )
 
 
@@ -214,6 +218,7 @@ do  i_GP_Mutation = 1,n_GP_Mutations
         !   fill in the child node with the randomly chosen node function mutation
 
         call random_number(cff) ! uniform random number generator
+        dff = cff
 
         !!node_function = 1+int(float(n_Node_Functions-1)*cff)
 
@@ -221,7 +226,7 @@ do  i_GP_Mutation = 1,n_GP_Mutations
 
             ! [Ranges from: -n_CODE_Equations to 0]
 
-            Node_Function = -1 *  int(cff*float(n_CODE_Equations + 1 ))
+            Node_Function = -1 *  int(dff*float(n_CODE_Equations + 1 ))
 
             Node_Function = max( Node_Function , -n_CODE_Equations )
 
@@ -229,7 +234,7 @@ do  i_GP_Mutation = 1,n_GP_Mutations
 
             ! [Ranges from: 1 to n_Node_Functions]
 
-            Node_Function =  1 +  int(cff*float( n_Node_Functions ))
+            Node_Function =  1 +  int(dff*float( n_Node_Functions ))
 
             Node_Function =  min( Node_Function, n_Node_Functions )
 

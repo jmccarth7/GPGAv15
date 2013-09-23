@@ -18,6 +18,7 @@ use GA_Variables_module
 implicit none
 
 real(kind=4) :: cff
+real(kind=8) :: dff     
 real(kind=8) :: sse_ind 
 
 integer(kind=4) :: i_GP_Crossover
@@ -94,11 +95,14 @@ do
     ! pick the male parent for sexual crossing of parameter strings
 
     call random_number(cff) ! uniform random number generator
-    k_GP_Individual_Male(1) = 1+int(cff*float(n_GP_Individuals))
+    dff = cff 
+
+    k_GP_Individual_Male(1) = 1+int(dff*real(n_GP_Individuals,kind=8))
     k_GP_Individual_Male(1) = min( k_GP_Individual_Male(1) , n_GP_Individuals )
 
     call random_number(cff) ! uniform random number generator
-    k_GP_Individual_Male(2) = 1+int(cff*float(n_GP_Individuals))
+    dff = cff
+    k_GP_Individual_Male(2) = 1+int(dff*real(n_GP_Individuals,kind=8))
     k_GP_Individual_Male(2) = min( k_GP_Individual_Male(2) , n_GP_Individuals )
 
 
@@ -146,11 +150,13 @@ do
     ! pick the female parent for sexual crossing of parent parameter strings
 
     call Random_Number(cff) ! uniform random number generator
-    k_GP_Individual_Female(1)  =  1+int(cff*float(n_GP_Individuals))
+    dff = cff 
+    k_GP_Individual_Female(1)  =  1+int(dff*real(n_GP_Individuals,kind=8))
     k_GP_Individual_Female(1) = min( k_GP_Individual_Female(1) , n_GP_Individuals )
 
     call Random_Number(cff) ! uniform random number generator
-    k_GP_Individual_Female(2)  =  1+int(cff*float(n_GP_Individuals))
+    dff = cff
+    k_GP_Individual_Female(2)  =  1+int(dff*real(n_GP_Individuals,kind=8))
     k_GP_Individual_Female(2) = min( k_GP_Individual_Female(2) , n_GP_Individuals )
 
 
@@ -205,13 +211,15 @@ do
 
 
     call Random_Number(cff) ! uniform random number generator
+    dff = cff 
 
-    i_Male_Tree=1+int(cff*float(n_Trees))  ! pick a tree
+    i_Male_Tree=1+int(dff*real(n_Trees,kind=8))  ! pick a tree
     i_Male_Tree = min( i_Male_Tree , n_Trees )
 
 
     call Random_Number(cff) ! uniform random number generator
-    i_Female_Tree=1+int(cff*float(n_Trees))  ! pick a tree
+    dff = cff 
+    i_Female_Tree=1+int(dff*real(n_Trees,kind=8))  ! pick a tree
     i_Female_Tree = min( i_Female_Tree , n_Trees )
 
 
@@ -245,8 +253,8 @@ do
     !???! from one (the male) of the two (male and female) generated child tree
     !!?? if( CROSS) then
     !!??  call Random_Number(cff) ! uniform random number generator
-    !!??  ! i_Male_Tree    = 1+int(cff*float(n_Trees-1))  ! pick a location from 1 to n_Trees
-    !!??  ! i_Female_Tree  = 1+int(cff*float(n_Trees-1))  ! pick a location from 1 to n_Trees
+    !!??  ! i_Male_Tree    = 1+int(cff*real(n_Trees-1,kind=8))  ! pick a location from 1 to n_Trees
+    !!??  ! i_Female_Tree  = 1+int(cff*real(n_Trees-1,kind=8))  ! pick a location from 1 to n_Trees
 
     ! move the selected trees from the selected
     ! male and female individuals that are to be randomly swapped

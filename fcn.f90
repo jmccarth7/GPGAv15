@@ -16,12 +16,12 @@ integer(kind=4),intent(in)  :: mm  ! n_tsteps
 integer(kind=4),intent(in)  :: nn  ! n_parms
 
 
-real (kind=8) :: fvec(n_time_steps)
+real(kind=8) :: fvec(n_time_steps)
 
-real (kind=8) :: x(n_maximum_number_parameters)
+real(kind=8) :: x(n_maximum_number_parameters)
 
 
-integer (kind=4) :: iflag
+integer(kind=4) :: iflag
 
 integer(kind=4) :: i_Tree
 integer(kind=4) :: i_Node
@@ -188,14 +188,12 @@ do i_time_step=1,n_time_steps
       !                myid, i_CODE_equation, data_variance(i_CODE_equation)
       !endif ! L_ga_print  
 
-      !if( abs( Data_Variance(i_CODE_equation) ) > 1.0d-20 )then
 
-          fvec(i_time_step) = fvec(i_time_step)  +                                  &
-            (   Data_Array(i_time_step,i_CODE_equation) -                       &
-                Runge_Kutta_Solution(i_time_step,i_CODE_equation)   )**2  /     &
-                                                       Data_Variance(i_CODE_equation)
+      fvec(i_time_step) = fvec(i_time_step)  +                              &
+        (   Data_Array(i_time_step,i_CODE_equation) -                       &
+            Runge_Kutta_Solution(i_time_step,i_CODE_equation)   )**2  *     &
+                                           Data_Variance_inv(i_CODE_equation)
 
-      !endif ! abs( Data_Variance(i_CODE_equation) ) > 1.0d-20
 
   enddo ! i_CODE_equation
 

@@ -25,9 +25,9 @@ integer, intent(in)  ::  i_GA_indiv
 
 ! lmdif arrays and variables
 
-real (kind=8) :: x_LMDIF(n_maximum_number_parameters)
-real (kind=8) :: fvec(n_time_steps)
-real (kind=8) :: ftol,xtol,gtol
+real(kind=8) :: x_LMDIF(n_maximum_number_parameters)
+real(kind=8) :: fvec(n_time_steps)
+real(kind=8) :: ftol,xtol,gtol
 
 
 real(kind=8), parameter :: tol = 1.0d-30
@@ -35,11 +35,11 @@ real(kind=8), parameter :: epsfcn = 1.0d-6    ! original
 real(kind=8), parameter :: factor=1.0D+0
 real(kind=8), parameter :: zero = 0.0d0
 
-real (kind=8) :: diag(n_parameters)
-real (kind=8) :: fjac(n_time_steps,n_parameters)
-real (kind=8) :: qtf(n_parameters)
-integer (kind=4) :: maxfev,ldfjac,mode,nprint,info,nfev
-integer (kind=4) :: ipvt(n_parameters)
+real(kind=8) :: diag(n_parameters)
+real(kind=8) :: fjac(n_time_steps,n_parameters)
+real(kind=8) :: qtf(n_parameters)
+integer(kind=4) :: maxfev,ldfjac,mode,nprint,info,nfev
+integer(kind=4) :: ipvt(n_parameters)
 
 
 ! individual_quality contains information on the result of lmdif
@@ -54,6 +54,9 @@ integer(kind=4) :: i_parameter
 real(kind=8) :: child_parameters(n_maximum_number_parameters,n_GA_individuals)
 
 external :: fcn
+
+real (kind=8) :: t1
+real (kind=8) :: t2
 
 !--------------------------------------------------------------------------------------------
 
@@ -89,7 +92,8 @@ info = 0
 
 !off      maxfev=100*(n_time_steps+1)*100
 
-maxfev= 2000 ! 50 ! 10 ! 10000
+!maxfev= 2000 ! 50 ! 10 ! 10000
+maxfev= 1000 
 
 ftol=1.0D-10
 xtol=1.0D-10
@@ -133,9 +137,20 @@ endif ! Lprint_lmdif
 
 L_bad_result = .false.
 
+t1 = MPI_Wtime()
 call lmdif( fcn, n_time_steps, n_parameters, x_LMDIF, fvec, &
             ftol, xtol, gtol, maxfev, epsfcn, &
             diag, mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf )
+
+t2 = MPI_Wtime()
+
+write(6,'(A,1x,E15.7)') 'setrlm: time spent in lmdif = ', t2 - t1
+
+sum_lmdif = sum_lmdif + ( t2 - t1 )
+
+write(6,'(A,4(1x,I10)/)') &
+      'setrlm: aft call lmdif, myid, n_time_steps, n_parameters, info ', &
+                               myid, n_time_steps, n_parameters, info
 
 if( Lprint_lmdif )then
 

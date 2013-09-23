@@ -145,8 +145,8 @@ if( LV_model1 )then
     Runge_Kutta_Initial_Conditions(1) = 30.0D+0  ! [prey]         [mmol N m-3]
     Runge_Kutta_Initial_Conditions(2) = 2.0D+0   ! [predator]     [mmol N m-3]
 else
-    Runge_Kutta_Initial_Conditions(1) = 19.66561   ! 30.0D+0  ! [prey]         [mmol N m-3]
-    Runge_Kutta_Initial_Conditions(2) = 0.3960451  ! 2.0D+0   ! [predator]     [mmol N m-3]
+    Runge_Kutta_Initial_Conditions(1) = 19.66561d0   ! 30.0D+0  ! [prey]         [mmol N m-3]
+    Runge_Kutta_Initial_Conditions(2) = 0.3960451d0  ! 2.0D+0   ! [predator]     [mmol N m-3]
 endif  ! LV_model1
 
 

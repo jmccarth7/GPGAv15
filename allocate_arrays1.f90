@@ -34,6 +34,7 @@ allocate( Run_GA_lmdif( n_GA_individuals )  )
 
 allocate( Data_Array( 0:n_time_steps, n_CODE_equations )  )
 allocate( Data_Variance( n_CODE_equations )  )
+allocate( Data_Variance_inv( n_CODE_equations )  )
 
 allocate( Parent_Tree_Swap_Node_Type(n_Nodes,2) )
 allocate( Run_GP_Calculate_Fitness(n_GP_Individuals) )
@@ -151,6 +152,7 @@ Run_GA_lmdif  = .FALSE.
 
 Data_Array  = 0.0d0
 Data_Variance  = 0.0d0
+Data_Variance_inv  = 0.0d0
 
 Parent_Tree_Swap_Node_Type = 0
 Run_GP_Calculate_Fitness = .FALSE.

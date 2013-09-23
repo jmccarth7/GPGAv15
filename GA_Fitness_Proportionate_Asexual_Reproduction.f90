@@ -19,10 +19,10 @@ real(kind=4) :: cff
 real(kind=8) :: dff
 real(kind=8) :: mean_fit_before
 real(kind=8) :: mean_fit_after
-integer (kind=4) :: icff
+integer(kind=4) :: icff
 
-integer (kind=4) :: icount
-integer (kind=4) :: n_replaced
+integer(kind=4) :: icount
+integer(kind=4) :: n_replaced
 integer(kind=4) :: i_parameter
 
 !--------------------------------------------------------------------------
