@@ -40,9 +40,9 @@ implicit none
 !integer ::  i_individual
 !integer ::  i_2_individual
 
-integer,parameter ::  itag  = 1
-integer,parameter ::  itag2 = 2
-integer,parameter ::  itag3 = 3
+!integer,parameter ::  itag  = 1
+!integer,parameter ::  itag2 = 2
+!integer,parameter ::  itag3 = 3
 
 
 real(kind=8),&

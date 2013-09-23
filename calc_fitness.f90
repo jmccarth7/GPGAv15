@@ -40,6 +40,7 @@ integer (kind=4),intent(in) :: i_GP_Generation
 integer (kind=4),intent(in) :: i_GP_individual  
 
 real(kind=8), parameter :: max_err = 1.0d8  !100.0d0
+real(kind=8), parameter :: max_err2 = max_err**2           
 
 real(kind=8) :: edit_level
 real(kind=8) :: mean_individual_fit
@@ -97,25 +98,22 @@ enddo ! i_parameter
 !-----------------------------------------------------------------------------------
 
 
-if( L_fort444_output )then
-
-    !write(6,'(/A)') 'calcfit: i_GA_individual, parent params'
-
-    do  i_GA_individual=1,n_GA_individuals
-
-        ppe( 1:n_parameters, i_GA_individual ) = 0.0d0
-        do  i = 1, n_parameters
-            ppe( i, i_GA_individual ) = answerLV(i) - parent_parameters( i, i_GA_individual )
-        enddo
-
-    enddo !  i_GA_individual
-
-
-
-
-
-    write(444) i_GA_generation, ppe(1:n_parameters, 1:n_GA_individuals)
-endif ! L_fort444_output )then
+!if( L_fort444_output )then
+!
+!    !write(6,'(/A)') 'calcfit: i_GA_individual, parent params'
+!
+!    do  i_GA_individual=1,n_GA_individuals
+!
+!        ppe( 1:n_parameters, i_GA_individual ) = 0.0d0
+!        do  i = 1, n_parameters
+!            ppe( i, i_GA_individual ) = answerLV(i) - parent_parameters( i, i_GA_individual )
+!        enddo
+!
+!    enddo !  i_GA_individual
+!
+!    write(444) i_GA_generation, ppe(1:n_parameters, 1:n_GA_individuals)
+!
+!endif ! L_fort444_output )then
 
 
 !-----------------------------------------------------------------------------------
@@ -150,7 +148,7 @@ endif ! L_fort444_output )then
 ! to the maximum, user-specified, error
 
 
-edit_level = real(n_time_steps,kind=8) * max_err**2
+edit_level = real(n_time_steps,kind=8) * max_err2
 
 if( L_ga_print )then                                                                                
     write(GA_print_unit,'(/A,1x,I6, 2(1x, E12.4))') &
