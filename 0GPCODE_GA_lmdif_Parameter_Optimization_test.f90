@@ -1137,7 +1137,12 @@ do  i_GP_Generation=1,n_GP_Generations
 
         !t1 = MPI_Wtime()
 
-        call GP_calc_fitness( i_GP_generation, output_array )
+        !call GP_calc_fitness( i_GP_generation, output_array )
+        call GP_calc_fitness( i_GP_generation, output_array, &
+                              i_GP_individual, &                                                            
+                              i_GA_best_parent, parent_parameters, &                                                        
+                              child_parameters, &                                                                           
+                              individual_quality, L_stop_run  ) 
 
         !t2 = MPI_Wtime()
 

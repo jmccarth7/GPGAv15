@@ -1,4 +1,8 @@
-subroutine GP_calc_fitness( i_GP_Generation, output_array )
+!subroutine GP_calc_fitness( i_GP_Generation, output_array )
+subroutine GP_calc_fitness( i_GP_generation, output_array, &                                                                     
+                            i_GA_best_parent, parent_parameters, &                                                               
+                            child_parameters, &                                                                                  
+                            individual_quality, L_stop_run  )    
 
 ! program written by: Dr. John R. Moisan [NASA/GSFC] 31 January, 2013
 
