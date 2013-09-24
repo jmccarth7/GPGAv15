@@ -19,6 +19,7 @@ SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 allocate_arrays1.f90 \
 	GP_parameters_module.f90 GP_ranking_sort.f90 \
 	GP_Tournament_Style_Sexual_Reproduction.f90 GP_Tree_Build.f90 \
 	GP_Tree_Build_single.f90 GP_Tree_Swap.f90 GP_variables_module.f90 \
+	GP_select_best_RK_lmdif_result.f90 \
 	GPCODE_GA_lmdif_Parameter_Optimization.f90 indiv_fitness.f90 \
 	init_values.f90 init_values_LV.f90 init_values_NPZ.f90 \
 	Initialize_GA_Child_Parameters.f90 lmdif.f90 lmpar.f90 \
@@ -31,7 +32,7 @@ SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 allocate_arrays1.f90 \
 	Runge_Kutta_Box_Model.f90 Runge_Kutta_Variables_module.f90 \
 	select_best_RK_lmdif_result.f90 set_answer_arrays.f90 \
 	set_modified_indiv.f90 setup_run_fcn.f90 setup_run_lmdif.f90 sort.f90 \
-	sse0_calc.f90 summary_GP_indiv.f90 swap_module.f90
+	sse0_calc.f90 summary_GP_indiv.f90 summary_GP_indiv2.f90 swap_module.f90
 
 OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o allocate_arrays1.o \
 	bcast1.o bcast2.o bcast3.o calc_fitness.o calc_stats.o \
@@ -50,6 +51,7 @@ OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o allocate_arrays1.o \
 	GP_ranking_sort.o GP_Tournament_Style_Sexual_Reproduction.o \
 	GP_Tree_Build.o GP_Tree_Build_single.o GP_Tree_Swap.o \
 	GP_variables_module.o GPCODE_GA_lmdif_Parameter_Optimization.o \
+	GP_select_best_RK_lmdif_result.o \
 	indiv_fitness.o init_values.o init_values_LV.o init_values_NPZ.o \
 	Initialize_GA_Child_Parameters.o lmdif.o lmpar.o load_pow2_level.o \
 	mpi_module.o parse_fbio_strings.o print4.o print_entire_tree.o \
@@ -60,7 +62,7 @@ OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o allocate_arrays1.o \
 	Runge_Kutta_Box_Model.o Runge_Kutta_Variables_module.o \
 	select_best_RK_lmdif_result.o set_answer_arrays.o \
 	set_modified_indiv.o setup_run_fcn.o setup_run_lmdif.o sort.o \
-	sse0_calc.o summary_GP_indiv.o swap_module.o
+	sse0_calc.o summary_GP_indiv.o summary_GP_indiv2.o swap_module.o
 
 LIBS =	
 
@@ -251,6 +253,9 @@ rm_exp_paren.o: GP_parameters_module.o GP_variables_module.o \
 Runge_Kutta_Box_Model.o: GA_parameters_module.o GP_parameters_module.o \
 	GP_variables_module.o Runge_Kutta_Variables_module.o mpi_module.o
 Runge_Kutta_Variables_module.o: GP_parameters_module.o
+GP_select_best_RK_lmdif_result.o: GA_parameters_module.o GA_variables_module.o \
+	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
+	clock_module.o mpi_module.o
 select_best_RK_lmdif_result.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
 	clock_module.o mpi_module.o
@@ -270,5 +275,8 @@ sort.o: GA_parameters_module.o GP_parameters_module.o swap_module.o
 sse0_calc.o: GA_variables_module.o GP_data_module.o GP_parameters_module.o \
 	GP_variables_module.o mpi_module.o
 summary_GP_indiv.o: GA_parameters_module.o GA_variables_module.o \
+	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
+	Runge_Kutta_Variables_module.o mpi_module.o
+summary_GP_indiv2.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
 	Runge_Kutta_Variables_module.o mpi_module.o

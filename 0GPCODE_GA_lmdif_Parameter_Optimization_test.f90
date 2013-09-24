@@ -34,11 +34,13 @@ integer(kind=4) :: i_Tree
 integer(kind=4) :: i_Node
 
 integer(kind=4) :: jj
+integer(kind=4) :: nop
 
 integer(kind=4) :: i_CODE_equation
 
 integer(kind=4) :: n_GP_vars
 
+integer(kind=4) :: i_GP_best_parent
 
 real(kind=8), allocatable, dimension(:) :: answer
 real(kind=8), allocatable, dimension(:) :: output_array
@@ -180,7 +182,7 @@ call MPI_BARRIER( MPI_COMM_WORLD, ierr )
 
 ! load table of 2**ilevel - 1  for RK process
 
-call load_pow2_level(  ) 
+call load_pow2_level(  )
 
 !------------------------------------------------------------------
 
@@ -839,7 +841,9 @@ do  i_GP_Generation=1,n_GP_Generations
 
                     if( GP_Individual_Node_Type(i_Node,i_Tree) < 0  .and. &
                         GP_Individual_Node_Type(i_Node,i_Tree) > -9999  ) then
+
                         n_GP_vars = n_GP_vars + 1
+
                     endif ! GP_Individual_Node_Type(i_Node,i_Tree) > 0 ....
 
                     !if( myid == 0 )then
@@ -963,7 +967,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
             ! wait until everybody has the values
 
-            !call MPI_BARRIER( MPI_COMM_WORLD, ierr )
+            call MPI_BARRIER( MPI_COMM_WORLD, ierr )
 
             !-------------------------------------------------
 
@@ -1106,14 +1110,12 @@ do  i_GP_Generation=1,n_GP_Generations
 
         if( myid == 0 )then
 
-
             ! this prints a summary of the initial conditions,
             ! parameters,  and node types for this individual,
             ! after being optimized in GPCODE*opt
             ! and writes the tree to the summary file
 
             call summary_GP_indiv( i_GP_generation, i_GP_individual )
-
 
         endif !  myid == 0
 
@@ -1139,10 +1141,9 @@ do  i_GP_Generation=1,n_GP_Generations
 
         !call GP_calc_fitness( i_GP_generation, output_array )
         call GP_calc_fitness( i_GP_generation, output_array, &
-                              i_GP_individual, &                                                            
-                              i_GA_best_parent, parent_parameters, &                                                        
-                              child_parameters, &                                                                           
-                              individual_quality, L_stop_run  ) 
+                              i_GP_best_parent, nop ) !, parent_parameters, &
+                              !child_parameters, &
+                              !individual_quality, L_stop_run  )
 
         !t2 = MPI_Wtime()
 
@@ -1162,6 +1163,9 @@ do  i_GP_Generation=1,n_GP_Generations
 
     !---------------------------------------------------------------------------
 
+
+
+    !---------------------------------------------------------------------------
     !write(10) GP_Adult_Population_SSE   ! ???
 
     !write(*,*) i_GP_Generation,&
@@ -1187,15 +1191,55 @@ do  i_GP_Generation=1,n_GP_Generations
 enddo generation_loop !  i_GP_Generation
 
 
+call MPI_BARRIER( MPI_COMM_WORLD, ierr )
 
+
+!---------------------------------------------------------------------------
 
 if( myid == 0 )then
     write(GP_print_unit,'(/A/)') '0: after i_GP_generation loop  '
 
-
     write(GP_print_unit,'(/A,1x,E15.7/)') '0: sum of time spent in lmdif = ', sum_lmdif
 
 endif ! myid == 0
+
+!---------------------------------------------------------------------------
+
+if( myid == 0 )then
+
+    tree_loop:&
+    do  i_tree=1,n_trees
+
+        node_loop:&
+        do  i_node=1,n_nodes
+
+            if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Best_Parent) == 0 )then
+
+                write(GP_print_unit,'(2x,3(1x,I6), 1x, E20.10, 4x, E20.10)') &
+                      i_node, i_tree, nop, &
+                      GP_population_node_parameters(i_node,i_tree,i_GP_Best_Parent)
+
+
+            endif ! GP_Adult_Pop_Node_Type(i_Node,i_Tree,i_GP_Best_Parent) == 0
+
+            write(GP_print_unit,'(3(1x,I6))') i_tree, i_node, nop
+
+        enddo node_loop ! i_node
+
+    enddo tree_loop ! i_tree
+
+    write(GP_print_unit,'(A,1x,I6,1x,E15.7)') &
+          '0: i_GP_best_parent, GP_child_individual_sse( i_GP_best_parent ) ', &
+              i_GP_best_parent, GP_child_individual_sse( i_GP_best_parent )
+
+    call GP_select_best_RK_lmdif_result( i_GP_best_parent, output_array , nop )
+
+endif ! myid == 0
+
+!---------------------------------------------------------------------------
+
+
+
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 ! plot results

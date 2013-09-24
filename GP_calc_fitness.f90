@@ -1,8 +1,9 @@
 !subroutine GP_calc_fitness( i_GP_Generation, output_array )
-subroutine GP_calc_fitness( i_GP_generation, output_array, &                                                                     
-                            i_GA_best_parent, parent_parameters, &                                                               
-                            child_parameters, &                                                                                  
-                            individual_quality, L_stop_run  )    
+subroutine GP_calc_fitness( i_GP_generation, output_array, &
+                            i_GP_best_parent, nop )
+!, parent_parameters, &
+!                            child_parameters, &
+!                            individual_quality, L_stop_run  )
 
 ! program written by: Dr. John R. Moisan [NASA/GSFC] 31 January, 2013
 
@@ -71,8 +72,8 @@ output_array = 0.0d0
 
 !write(GP_print_unit,'(A,1x,I6)') 'gpcf: i_GP_generation ',  i_GP_generation
 
-!write(GP_print_unit,'(/A/(5(1x,E15.7)))') 'gpcf: GP_Child_Individual_SSE = ',&
-!                                                 GP_Child_Individual_SSE
+write(GP_print_unit,'(/A/(5(1x,E15.7)))') 'gpcf: GP_Child_Individual_SSE = ',&
+                                                 GP_Child_Individual_SSE
 
 
 !-------------------------------------------------------------------------------
@@ -136,7 +137,7 @@ enddo ! i_gp_individual
 
 !-------------------------------------------------------------------------------
 
-! calculate a normalized ranking of the errors 
+! calculate a normalized ranking of the errors
 ! (higher individual SSE == lower value/ranking)
 
 ! calculate fitness as 1/individual sse
@@ -285,7 +286,7 @@ write(GP_print_unit,'(/A,2(1x,I6),2(1x,E15.7))') &
 
 !---------------------------------------------------------------------------
 
-! fill output array of parameters for best individual 
+! fill output array of parameters for best individual
 ! and write on GP_print_unit
 
 
@@ -340,7 +341,7 @@ do  i_tree=1,n_trees
 
         endif ! GP_Adult_Pop_Node_Type(i_Node,i_Tree,i_GP_Best_Parent) == 0
 
-        !write(GP_print_unit,'(3(1x,I6))') i_tree, i_node, nop
+        write(GP_print_unit,'(3(1x,I6))') i_tree, i_node, nop
 
         if( nop > n_maximum_number_parameters ) then
             write(GP_print_unit,'(A)') &
@@ -363,6 +364,22 @@ write(GP_print_unit,'(/A,2(1x,I6))') &
                              n_code_equations, nop
 
 !---------------------------------------------------------------------------
+                                                                                                            
+do  i_tree = 1, n_trees                                                                                 
+    do  i_node = 1, n_nodes                                                                             
+                                                                                                            
+            !write(GP_print_unit,'(A,3(1x,I6))') &                                                          
+            !'gpsbrl:1 i_tree, i_node,  GP_Adult_Population_Node_Type(:,:,i_gp_best_parent) ', &            
+            !          i_tree, i_node,  GP_Adult_Population_Node_Type(i_node,i_tree,i_gp_best_parent)       
+        write(GP_print_unit,'(A,3(1x,I6))') &                                                           
+        'gpsbrl:1 i_tree, i_node,  GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Best_Parent) ', &
+                  i_tree, i_node,  GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Best_Parent)
+    enddo ! i_node                                                                                      
+enddo ! i_tree                                                                                          
+                              
+
+
+!---------------------------------------------------------------------------
 
 if( L_GP_output_parameters )then
 
@@ -370,14 +387,14 @@ if( L_GP_output_parameters )then
            i_GP_Generation, i_GP_best_parent, &
            GP_Population_Ranked_Fitness(i_GP_Best_Parent), &
            nop, output_array(1:nop)
-    
+
     !write(GP_print_unit, '(//A,1x,I6,1x,I6,1x,E15.7,1x,I6, 12(1x,E15.7))') &
     ! 'gpcf: i_GP_gen,i_GP_best_parent,GP_indiv_ranked_fit, nop, output_array', &
     !        i_GP_Generation, i_GP_best_parent, &
     !       GP_Population_Ranked_Fitness(i_GP_Best_Parent), &
     !       nop, output_array(1:nop)
 
-endif ! L_GP_output_parameters 
+endif ! L_GP_output_parameters
 
 !---------------------------------------------------------------------------
 
@@ -444,58 +461,69 @@ GP_Adult_Individual_SSE  =  GP_Child_Individual_SSE
 !-------------------------------------------------------------------------------
 
 call calc_stats( n_GP_individuals, GP_Population_Ranked_Fitness,  &
-                 mean_fit, rms_fit, std_dev_fit ) 
+                 mean_fit, rms_fit, std_dev_fit )
 write(GP_print_unit,'(/A,1x,I6,3(1x,E15.7)/)') &
    'gpcf: GP_Gen, GP_Pop_Rank_Fit mean, rms, std_dev', &
-          i_GP_Generation, mean_fit, rms_fit, std_dev_fit 
+          i_GP_Generation, mean_fit, rms_fit, std_dev_fit
 
 !-------------------------------------------------------------------------------
 
-if( L_GP_log )then 
+if( L_GP_log )then
 
     ! write information to a GP log file giving:
     ! generation, individual, SSE, individual_fitness
-    
+
     do  i_GP_Individual=1,n_GP_individuals
-    
+
         !write(GP_log_unit,'(2(1x,I6),2(1x,E15.7))') &
         write(GP_log_unit) &
               i_GP_generation, &
               i_GP_Individual, &
               GP_Adult_Individual_SSE(i_GP_Individual), &
               GP_Population_Ranked_Fitness(i_GP_Individual)
-    
+
     enddo ! i_GP_individual
 
-endif ! L_GP_log 
+endif ! L_GP_log
 
 !-------------------------------------------------------------------------------
 
 if( L_unit50_output )then
 
     ! calculate array for writing on unit50.txt ( unit_gp_out )
-    
+
     do i_GP_Individual=1,n_GP_individuals
-    
+
        GP_Node_Type_for_Plotting(1:n_Nodes,1:n_Trees,i_GP_Individual) = &
             GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual)
-    
+
        !off  GP_Node_Type_for_Plotting(1:n_Nodes,1:n_Trees,i_GP_Individual) = &
        !off  GP_Node_Type_Answer(1:n_Nodes,1:n_Trees)
-    
+
     enddo ! i_GP_individual
-    
-    
-    
+
+
+
     write(unit_gp_out) GP_Node_Type_for_Plotting
 
-endif ! L_unit50_output 
+endif ! L_unit50_output
 
 !------------------------------------------------------------------------------
 
-! re-sort based on rankings
+! don't call GP_ranking_sort on last generation since after the generation loop
+! GP_select_best...      is called and uses the arrays and the i_GP_best parent
 
-call GP_ranking_sort()
+! GP_ranking re-orders all these arrays, so that the best parent is no longer at
+! the index it was in GP_calc_fitness
+
+if( i_GP_generation < n_GP_generations )then
+
+    ! re-sort based on rankings
+
+    call GP_ranking_sort()
+
+endif ! i_GP_generation < n_GP_generations
+
 
 !-------------------------------------------------------------------------------
 

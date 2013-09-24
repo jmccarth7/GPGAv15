@@ -173,7 +173,8 @@ endif ! L_ga_print
 
 !t3 = MPI_Wtime()
 
-call setup_run_lmdif( i_GA_Best_Parent, parent_parameters, individual_quality )
+!call setup_run_lmdif( i_GA_Best_Parent, parent_parameters, individual_quality, &
+!                      L_GA_print, GA_print_unit )
 
 !t4 = MPI_Wtime()
 
