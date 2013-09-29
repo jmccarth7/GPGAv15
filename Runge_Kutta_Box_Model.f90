@@ -156,8 +156,8 @@ do  i_time_step=1,n_time_steps
                CASE(4)  ! protected: LHS/RHS
 
 
-                 !if( right_node_value .ne. 0.0D+0) then
-                 if( abs(right_node_value) > 1.0d-50 ) then
+                 if( right_node_value .ne. 0.0D+0) then
+                 !if( abs(right_node_value) > 1.0d-50 ) then
 
                      Tree_Evaluation(i_function,i_tree)=left_node_value/right_node_value
 
@@ -183,7 +183,7 @@ do  i_time_step=1,n_time_steps
 
                  if( cff .gt. 0.0D+0 ) then
 
-                     Tree_Evaluation(i_function,i_tree) = abs(right_node_value)/cff
+                     Tree_Evaluation(i_function,i_tree) = abs(right_node_value) / cff
 
                  else
 
@@ -244,8 +244,6 @@ do  i_time_step=1,n_time_steps
     !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
     i_tree=0
-    bioflo = 0.0D0
-
     do i_CODE_equation=0,n_CODE_equations   ! source of material
 
       do j_CODE_equation=0,n_CODE_equations ! sink of material
@@ -255,6 +253,7 @@ do  i_time_step=1,n_time_steps
           i_tree=i_tree+1
 
           ! 'dabs' forces flow of material in one direction
+
           bioflo(i_CODE_equation,j_CODE_equation)=dabs(tree_value(i_tree))
 
           !if( L_ga_print )then 
@@ -275,11 +274,9 @@ do  i_time_step=1,n_time_steps
 
     enddo !  i_CODE_equation
 
-    !do i_CODE_equation=1,n_CODE_equations   ! source of material
-    !  fbio(i_CODE_equation)=0.0D+0
-    !enddo ! i_CODE_equation
-
-    fbio(1:n_CODE_equations) = 0.0D+0
+    do i_CODE_equation=1,n_CODE_equations   ! source of material
+      fbio(i_CODE_equation)=0.0D+0
+    enddo ! i_CODE_equation
 
     !   bring in the component flow sources and sinks
 
@@ -311,17 +308,17 @@ do  i_time_step=1,n_time_steps
 
       if( iter .eq. 1) then
 
-        !btmp(i_CODE_equation) = b_tmp(i_CODE_equation) + &
-        !                        (kval(iter,i_CODE_equation)/2.0D+0)
         btmp(i_CODE_equation) = b_tmp(i_CODE_equation) + &
-                                kval(iter,i_CODE_equation) * one_half
+                                (kval(iter,i_CODE_equation)/2.0D+0)
+        !btmp(i_CODE_equation) = b_tmp(i_CODE_equation) + &
+        !                        kval(iter,i_CODE_equation) * one_half
 
       elseif( iter .eq. 2) then
 
-        !btmp(i_CODE_equation) = b_tmp(i_CODE_equation) + &
-        !                        (kval(iter,i_CODE_equation)/2.0D+0)
         btmp(i_CODE_equation) = b_tmp(i_CODE_equation) + &
-                                kval(iter,i_CODE_equation) * one_half
+                                (kval(iter,i_CODE_equation)/2.0D+0)
+        !btmp(i_CODE_equation) = b_tmp(i_CODE_equation) + &
+        !                        kval(iter,i_CODE_equation) * one_half
 
       elseif( iter .eq. 3) then
 
@@ -330,10 +327,10 @@ do  i_time_step=1,n_time_steps
 
       elseif( iter .eq. 4) then
 
-        !cff =  kval(1,i_CODE_equation)/6.0D+0  + &
-        !       kval(2,i_CODE_equation)/3.0D+0  + &
-        !       kval(3,i_CODE_equation)/3.0D+0  + &
-        !       kval(4,i_CODE_equation)/6.0D+0
+        cff =  kval(1,i_CODE_equation)/6.0D+0  + &
+               kval(2,i_CODE_equation)/3.0D+0  + &
+               kval(3,i_CODE_equation)/3.0D+0  + &
+               kval(4,i_CODE_equation)/6.0D+0
 
         !write(6,'(A,1x,I1,1x,I6,1x,i1,1x,I1,5(1x,E24.16))') &
         !        'RuKbm:', myid, i_time_step, iter, i_CODE_equation, &
@@ -341,18 +338,18 @@ do  i_time_step=1,n_time_steps
 
         !write(6,'(/A,4(1x,I6))') &
         !        'RuKbm: myid, i_time_step, iter, i_CODE_equation  ', &
-        !               myid, i_time_step, iter, i_CODE_equation  
+        !                myid, i_time_step, iter, i_CODE_equation  
         !write(6,'(A,2(1x,I6),5(1x,E15.7))') &
         !        'RuKbm: myid, i_CODE_equation, kval(1:4,i_code_equation),cff  ', &
-        !               myid, i_CODE_equation, kval(1:4,i_code_equation),cff  
+        !                myid, i_CODE_equation, kval(1:4,i_code_equation),cff  
 
         !cff =  ( kval(1,i_CODE_equation) * one_half  + &
         !         kval(2,i_CODE_equation)             + &
         !         kval(3,i_CODE_equation)             + &
         !         kval(4,i_CODE_equation) * one_half ) * one_third
 
-        cff = ( ( kval(1,i_CODE_equation) + kval(4,i_CODE_equation) ) * one_half + &
-                  kval(2,i_CODE_equation) + kval(3,i_CODE_equation)             ) * one_third
+        !cff = ( ( kval(1,i_CODE_equation) + kval(4,i_CODE_equation) ) * one_half + &
+        !          kval(2,i_CODE_equation) + kval(3,i_CODE_equation)             ) * one_third
 
         !write(6,'(A,1x,I1,1x,I6,1x,i1,1x,I1,5(1x,E24.16))') &
         !        'RuKbm:', myid, i_time_step, iter, i_CODE_equation, &

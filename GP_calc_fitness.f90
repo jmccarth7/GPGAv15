@@ -341,7 +341,7 @@ do  i_tree=1,n_trees
 
         endif ! GP_Adult_Pop_Node_Type(i_Node,i_Tree,i_GP_Best_Parent) == 0
 
-        write(GP_print_unit,'(3(1x,I6))') i_tree, i_node, nop
+        !write(GP_print_unit,'(3(1x,I6))') i_tree, i_node, nop
 
         if( nop > n_maximum_number_parameters ) then
             write(GP_print_unit,'(A)') &
@@ -364,19 +364,18 @@ write(GP_print_unit,'(/A,2(1x,I6))') &
                              n_code_equations, nop
 
 !---------------------------------------------------------------------------
-                                                                                                            
-do  i_tree = 1, n_trees                                                                                 
-    do  i_node = 1, n_nodes                                                                             
-                                                                                                            
-            !write(GP_print_unit,'(A,3(1x,I6))') &                                                          
-            !'gpsbrl:1 i_tree, i_node,  GP_Adult_Population_Node_Type(:,:,i_gp_best_parent) ', &            
-            !          i_tree, i_node,  GP_Adult_Population_Node_Type(i_node,i_tree,i_gp_best_parent)       
-        write(GP_print_unit,'(A,3(1x,I6))') &                                                           
-        'gpsbrl:1 i_tree, i_node,  GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Best_Parent) ', &
-                  i_tree, i_node,  GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Best_Parent)
-    enddo ! i_node                                                                                      
-enddo ! i_tree                                                                                          
-                              
+
+!do  i_tree = 1, n_trees
+!    do  i_node = 1, n_nodes
+!            !write(GP_print_unit,'(A,3(1x,I6))') &
+!            !'gpsbrl:1 i_tree, i_node,  GP_Adult_Population_Node_Type(:,:,i_gp_best_parent) ', &
+!            !          i_tree, i_node,  GP_Adult_Population_Node_Type(i_node,i_tree,i_gp_best_parent)
+!        write(GP_print_unit,'(A,3(1x,I6))') &
+!        'gpsbrl:1 i_tree, i_node,  GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Best_Parent) ', &
+!                  i_tree, i_node,  GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Best_Parent)
+!    enddo ! i_node
+!enddo ! i_tree
+
 
 
 !---------------------------------------------------------------------------

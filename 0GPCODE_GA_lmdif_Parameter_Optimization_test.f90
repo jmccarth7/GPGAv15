@@ -1139,11 +1139,8 @@ do  i_GP_Generation=1,n_GP_Generations
 
         !t1 = MPI_Wtime()
 
-        !call GP_calc_fitness( i_GP_generation, output_array )
         call GP_calc_fitness( i_GP_generation, output_array, &
-                              i_GP_best_parent, nop ) !, parent_parameters, &
-                              !child_parameters, &
-                              !individual_quality, L_stop_run  )
+                              i_GP_best_parent, nop ) 
 
         !t2 = MPI_Wtime()
 
@@ -1207,26 +1204,18 @@ endif ! myid == 0
 
 if( myid == 0 )then
 
-    tree_loop:&
-    do  i_tree=1,n_trees
-
-        node_loop:&
-        do  i_node=1,n_nodes
-
-            if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Best_Parent) == 0 )then
-
-                write(GP_print_unit,'(2x,3(1x,I6), 1x, E20.10, 4x, E20.10)') &
-                      i_node, i_tree, nop, &
-                      GP_population_node_parameters(i_node,i_tree,i_GP_Best_Parent)
-
-
-            endif ! GP_Adult_Pop_Node_Type(i_Node,i_Tree,i_GP_Best_Parent) == 0
-
-            write(GP_print_unit,'(3(1x,I6))') i_tree, i_node, nop
-
-        enddo node_loop ! i_node
-
-    enddo tree_loop ! i_tree
+    !tree_loop:&
+    !do  i_tree=1,n_trees
+    !    node_loop:&
+    !    do  i_node=1,n_nodes
+    !        if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Best_Parent) == 0 )then
+    !            write(GP_print_unit,'(2x,2(1x,I6), 1x, E20.10, 4x, E20.10)') &
+    !                  i_node, i_tree,  &
+    !                  GP_population_node_parameters(i_node,i_tree,i_GP_Best_Parent)
+    !        endif ! GP_Adult_Pop_Node_Type(i_Node,i_Tree,i_GP_Best_Parent) == 0
+    !        write(GP_print_unit,'(3(1x,I6))') i_tree, i_node, nop
+    !    enddo node_loop ! i_node
+    !enddo tree_loop ! i_tree
 
     write(GP_print_unit,'(A,1x,I6,1x,E15.7)') &
           '0: i_GP_best_parent, GP_child_individual_sse( i_GP_best_parent ) ', &
