@@ -50,8 +50,8 @@ real(kind=8) :: t2
 
 character(200) :: tree_descrip
 
-character(10),parameter :: program_version   = '201308.605'
-character(10),parameter :: modification_date = '20130923'
+character(10),parameter :: program_version   = '201308.701'
+character(10),parameter :: modification_date = '20130929'
 character(30),parameter :: branch  = 'old_elite_scheme_RKmods2'
 
 
@@ -262,7 +262,6 @@ call set_answer_arrays( )
 
 ! then broadcast the R-K result to all processors
 
-message_len = ( n_time_steps + 1 ) * n_CODE_equations
 
 if( myid == 0 )then
     write(GP_print_unit,'(/A/)') &
@@ -273,9 +272,29 @@ if( myid == 0 )then
     enddo ! i
 endif ! myid == 0
 
+call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
 
+message_len = ( n_time_steps + 1 ) * n_CODE_equations
 call MPI_BCAST( Runge_Kutta_Solution, message_len,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+
+call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
+
+!message_len =  n_time_steps + 1
+!do  i = 1, n_code_equations
+!    call MPI_BCAST( Runge_Kutta_Solution(1,i) , message_len,    &
+!                    MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+!enddo ! i
+
+
+!do  i = 1, n_code_equations
+!    write(6,'(A,2(1x,I6),1x,E15.7)') '0: myid, i, Runge_Kutta_Solution(12,i)  ', &
+!                                         myid, i, Runge_Kutta_Solution(12,i) 
+!    write(6,'(A,2(1x,I6),1x,E15.7)') '0: myid, i, Runge_Kutta_Solution(15,i)  ', &
+!                                         myid, i, Runge_Kutta_Solution(15,i) 
+!enddo ! i
+
+
 
 
 Data_Array=Runge_Kutta_Solution          ! Matrix Operation
@@ -444,10 +463,42 @@ do  i_GP_Generation=1,n_GP_Generations
         !      '0: broadcast  GP_Adult_Population_Node_Type Generation = ',i_GP_Generation
         !endif ! myid == 0
 
-        message_len = n_GP_Individuals * n_Nodes * n_Trees
+        !call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
 
+        !t1 = MPI_Wtime()
+
+
+        !delta_ind = n_GP_individuals / 10
+        !message_len = delta_ind * n_Nodes * n_Trees
+
+        !k = 1
+        !do
+        !    if( isub2 >= n_GP_individuals ) exit
+
+        !    isub1 = 1 + delta_ind * (k-1)
+        !    isub2 = 1 + delta_ind *  k
+        !    if( isub2 > n_GP_individuals ) isub2 = n_GP_individuals
+        !enddo
+
+        call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
+
+        message_len = n_GP_Individuals * n_Nodes * n_Trees
         call MPI_BCAST( GP_Adult_Population_Node_Type, message_len,    &
                         MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
+
+        call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
+                                                                                                                        
+        !call mult_bcast( GP_Adult_Population_Node_Type )                                                                        
+                                                                                                                        
+
+        !call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
+
+        !t2 = MPI_Wtime()
+
+        !if( myid == 0 )then
+        !    write(GP_print_unit,'(A,1x,E15.7)') &
+        !      '0: time spent in bcast GP_Adult_Pop_Node_Type 2 = ', t2 - t1
+        !endif ! myid == 0
 
         !---------------------------------------------------------------------------------
 
@@ -680,20 +731,35 @@ do  i_GP_Generation=1,n_GP_Generations
 
 
     ! broadcast GP_Adult_Population_Node_Type
+    call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
 
     message_len = n_GP_Individuals * n_Nodes * n_Trees
     call MPI_BCAST( GP_Adult_Population_Node_Type, message_len,    &
                     MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
-    if( myid == 0 )then
-        write(GP_print_unit,'(A,1x,I6)') &
-          '0: aft broadcast  GP_Adult_Pop_Node_Type  Generation = ',&
-                                                i_GP_Generation
-    endif ! myid == 0
+
+    call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
+
+    !call mult_bcast( GP_Adult_Population_Node_Type ) 
+
+    !if( myid == 0 )then
+    !    write(GP_print_unit,'(A,1x,I6)') &
+    !      '0: aft broadcast  GP_Adult_Pop_Node_Type  Generation = ',&
+    !                                            i_GP_Generation
+    !endif ! myid == 0
 
     !if( myid == 0 )then
     !    write(GP_print_unit,'(/A,1x,I6/)') &
     !          '0: AFT GP_Clean_Tree_Nodes   Generation = ', &
     !                                      i_GP_Generation
+    !endif ! myid == 0
+
+    !call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
+
+    !t2 = MPI_Wtime()
+
+    !if( myid == 0 )then
+    !    write(GP_print_unit,'(A,1x,E15.7)') &
+    !      '0: time spent in bcast GP_Adult_Pop_Node_Type = ', t2 - t1
     !endif ! myid == 0
 
     !-----------------------------------------------------------------------------------------
@@ -778,14 +844,17 @@ do  i_GP_Generation=1,n_GP_Generations
         endif !  myid == 0
 
 
-        GP_Individual_Node_Parameters = 0.0d0
-                             ! these get set randomly in the GA-lmdif search algorithm
 
 
         if( Run_GP_Calculate_Fitness(i_GP_Individual) ) then
 
             GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) = &
                GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual)
+
+
+            ! these get set randomly in the GA-lmdif search algorithm
+
+            GP_Individual_Node_Parameters(1:n_Nodes,1:n_Trees) = 0.0d0
 
 
             !------------------------------------------------------------------------------
@@ -841,9 +910,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
                     if( GP_Individual_Node_Type(i_Node,i_Tree) < 0  .and. &
                         GP_Individual_Node_Type(i_Node,i_Tree) > -9999  ) then
-
                         n_GP_vars = n_GP_vars + 1
-
                     endif ! GP_Individual_Node_Type(i_Node,i_Tree) > 0 ....
 
                     !if( myid == 0 )then
@@ -938,7 +1005,7 @@ do  i_GP_Generation=1,n_GP_Generations
                      '0: call GPCODE_GA_lmdif_Parameter_Optimization routine'
                     write(GA_print_unit,'(A,2(1x,I6)/)') &
                      '0: i_GP_Generation, i_GP_individual',&
-                         i_GP_Generation,i_GP_individual
+                         i_GP_Generation, i_GP_individual
                 endif ! L_ga_print
 
             endif ! myid == 0
@@ -967,7 +1034,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
             ! wait until everybody has the values
 
-            call MPI_BARRIER( MPI_COMM_WORLD, ierr )
+            !call MPI_BARRIER( MPI_COMM_WORLD, ierr )
 
             !-------------------------------------------------
 
@@ -1003,8 +1070,8 @@ do  i_GP_Generation=1,n_GP_Generations
                     output_array( i_CODE_equation ) = &
                                GP_individual_initial_conditions(i_CODE_equation)
 
-                    !write(GA_output_unit,'(E24.16)') &
-                    !      GP_individual_initial_conditions(i_CODE_equation)
+                    write(GA_output_unit,'(E24.16)') &
+                          GP_individual_initial_conditions(i_CODE_equation)
 
                 enddo ! i_CODE_equation
 
@@ -1110,12 +1177,14 @@ do  i_GP_Generation=1,n_GP_Generations
 
         if( myid == 0 )then
 
+
             ! this prints a summary of the initial conditions,
             ! parameters,  and node types for this individual,
             ! after being optimized in GPCODE*opt
             ! and writes the tree to the summary file
 
             call summary_GP_indiv( i_GP_generation, i_GP_individual )
+
 
         endif !  myid == 0
 
@@ -1136,6 +1205,28 @@ do  i_GP_Generation=1,n_GP_Generations
                                    i_GP_Generation
         write(GP_print_unit,'(A/)')&
           '0:#################################################################'
+
+        !>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  debug
+        ! print the node parameters (if there are any)
+
+        write(GP_print_unit,'(/A/)') &
+           '0:  i_GP_indiv node  tree  GP_population_node_params'
+        do  i_GP_individual = 1, n_GP_individuals
+            do  i_tree=1,n_trees
+                do  i_node=1,n_nodes
+                        ! a set parameter
+                    if( GP_Adult_population_Node_Type(i_Node,i_Tree, i_GP_individual ) .eq. 0 ) then
+                        if( GP_population_node_parameters(i_node,i_tree,i_GP_individual) > 0.0d0 )then
+                        write(GP_print_unit,'(3(1x,I6),  4x, E20.10)') &
+                         i_GP_individual, i_node, i_tree, &
+                         GP_population_node_parameters(i_node,i_tree,i_GP_individual)
+                        endif ! GP_population_node_parameters(i_node,i_tree,i_GP_individual) > 0.0d0 
+                    endif ! GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0
+
+                enddo ! i_node
+            enddo  ! i_tree
+        enddo ! i_GP_individual
+        !<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  debug
 
         !t1 = MPI_Wtime()
 
@@ -1188,15 +1279,12 @@ do  i_GP_Generation=1,n_GP_Generations
 enddo generation_loop !  i_GP_Generation
 
 
-call MPI_BARRIER( MPI_COMM_WORLD, ierr )
 
-
-!---------------------------------------------------------------------------
 
 if( myid == 0 )then
     write(GP_print_unit,'(/A/)') '0: after i_GP_generation loop  '
 
-    write(GP_print_unit,'(/A,1x,E15.7/)') '0: sum of time spent in lmdif = ', sum_lmdif
+    !write(GP_print_unit,'(/A,1x,E15.7/)') '0: sum of time spent in lmdif = ', sum_lmdif
 
 endif ! myid == 0
 
@@ -1228,6 +1316,11 @@ endif ! myid == 0
 !---------------------------------------------------------------------------
 
 
+if( myid == 0 )then
+
+    write(GP_print_unit,'(/A,1x,E15.7/)') '0: sum of time spent in lmdif = ', sum_lmdif
+
+endif ! myid == 0
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 

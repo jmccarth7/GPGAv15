@@ -78,6 +78,8 @@ write(GP_print_unit,'(/A/(5(1x,E15.7)))') 'gpcf: GP_Child_Individual_SSE = ',&
 
 !-------------------------------------------------------------------------------
 
+write(GP_print_unit,'(/A,1x,I6/)') &
+      'gpcf: i_GP_generation ',  i_GP_generation
 
 if( i_GP_generation == 1                                 .or. &
     mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
@@ -235,16 +237,16 @@ enddo ! i_GP_Individual
 !    mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
 !    i_GP_generation == n_GP_generations                          ) then
 
-!    write(GP_print_unit,'(/A)') &
-!      'gpcf: i_GP_indiv  GP_Child_Indiv_SSE  GP_Integ_Pop_Ranked_Fitness (norm)'
+    write(GP_print_unit,'(/A)') &
+      'gpcf: i_GP_indiv  GP_Child_Indiv_SSE  GP_Integ_Pop_Ranked_Fitness (norm)'
 
-!    do  i_GP_Individual=1,n_GP_Individuals
+    do  i_GP_Individual=1,n_GP_Individuals
 
-!        write(GP_print_unit,'(5x,I6,2x,2(5x,E15.7))') &
-!              i_GP_individual, &
-!              GP_Child_Individual_SSE(i_GP_Individual), &
-!              GP_Integrated_Population_Ranked_Fitness(i_GP_Individual)
-!    enddo
+        write(GP_print_unit,'(5x,I6,2x,2(5x,E15.7))') &
+              i_GP_individual, &
+              GP_Child_Individual_SSE(i_GP_Individual), &
+              GP_Integrated_Population_Ranked_Fitness(i_GP_Individual)
+    enddo
 
 !endif ! i_GP_generation == 1 .or. ...
 
@@ -461,6 +463,7 @@ GP_Adult_Individual_SSE  =  GP_Child_Individual_SSE
 
 call calc_stats( n_GP_individuals, GP_Population_Ranked_Fitness,  &
                  mean_fit, rms_fit, std_dev_fit )
+
 write(GP_print_unit,'(/A,1x,I6,3(1x,E15.7)/)') &
    'gpcf: GP_Gen, GP_Pop_Rank_Fit mean, rms, std_dev', &
           i_GP_Generation, mean_fit, rms_fit, std_dev_fit

@@ -89,7 +89,7 @@ enddo ! i_parameter
 !if( myid == 1 )then
 !    if( L_ga_print )then                                                                                
 !        write(GA_print_unit,'(/A,4(1x,I10))') &
-!              'setrf: call fcn, myid, i_GA_indiv, n_time_steps, n_parameters     ', &
+!              'setrf: call fcn, myid, i_GA_indiv, n_time_steps, n_parameters', &
 !                                myid, i_GA_indiv, n_time_steps, n_parameters
 !    endif ! L_ga_print  
 !endif ! myid == 1

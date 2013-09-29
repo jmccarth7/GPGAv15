@@ -23,10 +23,13 @@ implicit none
 
 
 
+integer :: buffer_length
+
 
 !-------------------------------------------------------------------------------
 
 
+call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary? 
 
 !if( myid == 0 )then
 !    write(GP_print_unit,'(/A/(5(1x,E15.7)))') &
@@ -44,6 +47,28 @@ call MPI_BCAST( GP_Adult_Individual_SSE, n_GP_individuals,    &
 !          '0: broadcast GP_Population_Ranked_Fitness ',&
 !                        GP_Population_Ranked_Fitness
 !endif ! myid == 0
+call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary? 
+
+buffer_length = n_nodes * n_trees * n_GP_individuals
+
+call MPI_BCAST( GP_population_node_parameters,  buffer_length,    &
+                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+
+!if( myid == 0 )then
+!    write(GP_print_unit,'(/A/(5(1x,E15.7)))') &
+!          '0: AFT broadcast GP_Population_Ranked_Fitness ',&
+!                            GP_Population_Ranked_Fitness
+!endif ! myid == 0
+
+!------------------------------------------------------------------------------
+
+
+!if( myid == 0 )then
+!    write(GP_print_unit,'(/A/(5(1x,E15.7)))') &
+!          '0: broadcast GP_Population_Ranked_Fitness ',&
+!                        GP_Population_Ranked_Fitness
+!endif ! myid == 0
+call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary? 
 
 call MPI_BCAST( GP_Population_Ranked_Fitness, n_GP_individuals,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
@@ -61,10 +86,12 @@ call MPI_BCAST( GP_Population_Ranked_Fitness, n_GP_individuals,    &
 !          '0: broadcast GP_Integrated_Population_Ranked_Fitness ',&
 !                        GP_Integrated_Population_Ranked_Fitness
 !endif ! myid == 0
+call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary? 
 
 call MPI_BCAST( GP_Integrated_Population_Ranked_Fitness, n_GP_individuals,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
+call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary? 
 
 
 return

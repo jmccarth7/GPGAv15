@@ -12,7 +12,6 @@ use GA_Variables_module
 implicit none
 
 real(kind=4) :: cff
-real(kind=8) :: dff
 
 integer(kind=4) :: i
 integer(kind=4) :: icff
@@ -69,7 +68,6 @@ do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
 
 
     call Random_Number(cff) ! uniform random number generator
-    dff = cff
 
     ! the range of cff is [0. to 1.]
 
@@ -88,7 +86,7 @@ do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
         !       GP_Integrated_Population_Ranked_Fitness(j_GP_Individual)
         !endif ! myid == 0
 
-        if( dff .le. GP_Integrated_Population_Ranked_Fitness(j_GP_Individual)) then
+        if( cff .le. GP_Integrated_Population_Ranked_Fitness(j_GP_Individual)) then
 
             icff=j_GP_Individual
 
@@ -102,7 +100,7 @@ do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
 
             exit
 
-        endif !   dff .le. GP_Integrated_Population_Ranked_Fitness(j_GP_Individual)
+        endif !   cff .le. GP_Integrated_Population_Ranked_Fitness(j_GP_Individual)
 
     enddo ! j_GP_Individual
 

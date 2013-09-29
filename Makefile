@@ -90,6 +90,20 @@ LIBS= -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Dev
       -L/Developer/SDKs/MacOSX10.6.sdk/usr/lib
 
 
+##########################################################################################
+##FC = mpiifort
+#FC = tau_f90.sh
+#FFLAGS = -O3  -free   #-traceback -warn all #-C -ftrapuv  # -warn all   # -ftrace=full    # -fzero -Wall
+##F90 = mpiifort
+#F90 = tau_f90.sh
+#
+#F90FLAGS = -O3  -free #-traceback -warn all #-C -ftrapuv  # -warn all   #  -ftrace=full    # -fzero -Wall
+#LDFLAGS =
+##LIBS=-L\${MKLPATH}/libmkl_intel_thread.a  -Llibiomp5.so
+#########################################################################################
+
+
+
 
 all: $(PROG)
 

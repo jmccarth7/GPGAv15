@@ -96,12 +96,12 @@ do i_CODE_equation=1,n_CODE_equations
     endif ! myid == 0
   
 enddo !  i_CODE_equation
-  
+
 if( myid == 0 )then
     write(GP_print_unit,'(A)') ' '
 endif !  myid == 0
-  
-  
+
+
 return
-  
+
 end subroutine comp_data_variance

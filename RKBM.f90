@@ -88,8 +88,8 @@ do  i_tree=1,n_trees
   
     do  i_level=n_levels-1,1,-1   ! move up the tree structure from level "n_level-1" to level "1"
   
-        !orig i_function=(2**(i_level-1))-1 ! the function number at the right end of the upper level
         i_function= pow2_table(i_level-1) ! the function number at the right end of the upper level
+        !i_function=(2**(i_level-1))-1 ! the function number at the right end of the upper level
 
         !write(6,'(A,1x,I6)')'RKBM: i_level    = ', i_level
         !write(6,'(A,1x,I6)')'RKBM: i_function = ', i_function
@@ -99,8 +99,8 @@ do  i_tree=1,n_trees
 
 
     
-        !orig do  i_node=2**i_level,(2*(2**i_level))-1,2     ! run through each function at the level
         do  i_node=pow2_table(i_level)+1, pow2_table(i_level+1) , 2  ! run through each function at the level
+        !do  i_node=2**i_level,(2*(2**i_level))-1,2     ! run through each function at the level
 
             !write(6,'(A,1x,I6)')'RKBM: i_node     = ', i_node
       

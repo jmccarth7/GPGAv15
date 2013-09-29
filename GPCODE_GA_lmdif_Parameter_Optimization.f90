@@ -95,6 +95,9 @@ real(kind=8) :: t2
 
 !----------------------------------------------------------------------
 
+i_dummy = 0
+
+
 buffer(1:n_maximum_number_parameters+2)      = 0.0D0
 buffer_recv(1:n_maximum_number_parameters+2) = 0.0D0
 
@@ -515,9 +518,13 @@ do  i_GA_generation=1,n_GA_Generations
     !                  myid, n_GA_Individuals, n_maximum_number_parameters, child_number
     !endif ! L_ga_print
 
+    call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
+
     call MPI_BCAST( Child_Parameters,  child_number,    &
                     MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
+    call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
+!    !-------------------------------------------------------------------------------
     !if( L_ga_print )then
     !    write(GA_print_unit,'(/A,2(1x,I10)/)') &
     !     'GP_GA_opt: child  broadcast myid, ierr = ', myid, ierr
@@ -540,8 +547,10 @@ do  i_GA_generation=1,n_GA_Generations
     !      'GP_GA_opt:  broadcast Run_GA_lmdif i_GA_generation ', i_GA_generation
     !endif ! L_ga_print
 
+    call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
     call MPI_BCAST( Run_GA_lmdif,  n_GA_Individuals,    &
                         MPI_LOGICAL, 0, MPI_COMM_WORLD, ierr )
+    call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
 
     !if( L_ga_print )then
     !    write(GA_print_unit,'(A,1x,I10/)') &
@@ -813,7 +822,7 @@ do  i_GA_generation=1,n_GA_Generations
             !---------------------------------------------------------------
 
             !if( L_ga_print )then
-            !    write(GA_print_unit,'(A,3(1x,I6))') &
+            !    write(GA_print_unit,'(A,2(1x,I6))') &
             !      'GP_GA_opt:3  myid, MPI_STAT( MPI_TAG ) ', &
             !                    myid, MPI_STAT( MPI_TAG )
             !endif ! L_ga_print
@@ -847,7 +856,7 @@ do  i_GA_generation=1,n_GA_Generations
             if( Run_GA_lmdif(i_2_individual)) then
 
                 !if( L_ga_print )then
-                !    write(GA_print_unit,'(A,3(1x,I6))') &
+                !    write(GA_print_unit,'(A,2(1x,I6))') &
                 !      'GP_GA_opt:3 call setup_run_fcn  myid, i_2_individual   ', &
                 !                                       myid, i_2_individual
                 !endif ! L_ga_print
@@ -956,8 +965,8 @@ do  i_GA_generation=1,n_GA_Generations
 
         if( L_ga_print )then
 
-            !write(GA_print_unit,'(A)')  'GP_GA_opt: individual_SSE  '
-            !write(GA_print_unit,'(5(1x,E15.7))')  individual_SSE(1:n_GA_individuals)
+            write(GA_print_unit,'(A)')  'GP_GA_opt: individual_SSE  '
+            write(GA_print_unit,'(5(1x,E15.7))')  individual_SSE(1:n_GA_individuals)
     
             write(GA_print_unit,'(/A,1x,I6)') &
                   'GP_GA_opt: call calc_fitness i_GA_generation ', &
@@ -1017,11 +1026,12 @@ do  i_GA_generation=1,n_GA_Generations
 
     !-------------------------------------------------------------------
 
+    call MPI_BARRIER( MPI_COMM_WORLD, ierr )   ! necessary ?
 
     call MPI_BCAST( L_stop_run,  1,    &
                     MPI_LOGICAL, 0, MPI_COMM_WORLD, ierr )
 
-    !call MPI_BARRIER( MPI_COMM_WORLD, ierr )   ! necessary ?
+    call MPI_BARRIER( MPI_COMM_WORLD, ierr )   ! necessary ?
 
     if( L_stop_run )then
 
@@ -1103,6 +1113,7 @@ if( myid == 0  )then
 endif ! myid == 0
 
 
+call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
 
 !------------------------------------------------------------------------
 
@@ -1185,6 +1196,12 @@ call MPI_BCAST( GP_Individual_Initial_Conditions, message_len,    &
 !     'GP_GA_opt: aft broadcast GP_Individual_Initial_Conditions ierr = ', ierr
 !endif ! L_ga_print
 
+
+!------------------------------------------------------------------------
+
+
+
+call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
 
 !------------------------------------------------------------------------
 

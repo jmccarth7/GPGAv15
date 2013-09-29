@@ -33,11 +33,10 @@ integer(kind=4) :: j_CODE_equation
 
 integer(kind=4) :: i_time_step
 
-real(kind=8) :: left_node_value,right_node_value                                                                        
-!real(kind=8) :: cff                                                                                                    
-                                                                                                                        
-integer(kind=4) :: icff                                                                                                
-integer(kind=4) :: iter      
+integer(kind=4) :: icff             
+integer(kind=4) :: iter             
+real(kind=8) :: left_node_value  
+real(kind=8) :: right_node_value  
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
@@ -264,9 +263,9 @@ do  i_time_step=1,n_time_steps
           !     tree_value(i_tree), bioflo(i_CODE_equation,j_CODE_equation)
           !endif ! L_ga_print  
 
-        !else
+        else
 
-        !  bioflo(i_CODE_equation,j_CODE_equation)=0.0D+0   ! never flow to/from same component
+          bioflo(i_CODE_equation,j_CODE_equation)=0.0D+0   ! never flow to/from same component
 
         endif !   i_CODE_equation .ne. j_CODE_equation
 
@@ -305,6 +304,11 @@ do  i_time_step=1,n_time_steps
     do i_CODE_equation=1,n_CODE_equations
 
       kval(iter,i_CODE_equation) = dt * fbio(i_CODE_equation)
+
+      !write(6,'(A,1x,I1,1x,I6,1x,i1,3(1x,E24.16))') &
+      !          'RuKbm:1', myid, iter, i_CODE_equation, &
+      !                   kval(iter,i_code_equation),dt, &
+      !                    fbio(i_CODE_equation)
 
       if( iter .eq. 1) then
 

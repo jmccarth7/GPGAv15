@@ -62,14 +62,18 @@ real(kind=8) :: child_parameters(n_maximum_number_parameters,n_indiv)
 
 external :: fcn
 
-real (kind=8) :: t1
-real (kind=8) :: t2
+real(kind=8) :: t1
+real(kind=8) :: t2
+real(kind=8) :: delta_wt
 
 !--------------------------------------------------------------------------------------------
+write(6,'(A,3(1x,I6),1x,E20.10)') &
+          'setrlm:1 myid, myprint_unit, n_parameters', &
+                    myid, myprint_unit, n_parameters
 
-write(myprint_unit,'(A,2(1x,I6),1x,E20.10)') &
-          'setrlm:1 myid, n_parameters', &
-                    myid, n_parameters
+write(myprint_unit,'(A,3(1x,I6),1x,E20.10)') &
+          'setrlm:1 myid, myprint_unit, n_parameters', &
+                    myid, myprint_unit, n_parameters
 
 do  i_parameter=1,n_parameters
 
@@ -102,8 +106,7 @@ info = 0
 
 !off      maxfev=100*(n_time_steps+1)*100
 
-!maxfev= 2000 ! 50 ! 10 ! 10000
-maxfev= 1000 
+maxfev= 2000 ! 50 ! 10 ! 10000
 
 ftol=1.0D-10
 xtol=1.0D-10
@@ -111,7 +114,7 @@ xtol=1.0D-10
 gtol=zero
 
 mode=1
-info=1
+info=0 ! 1
 
 ! nprint < 0  means no printout
 nprint= 1  ! set back to zero after diag
@@ -153,14 +156,23 @@ call lmdif( fcn, n_time_steps, n_parameters, x_LMDIF, fvec, &
             diag, mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf )
 
 t2 = MPI_Wtime()
-
-write(6,'(A,1x,E15.7)') 'setrlm: time spent in lmdif = ', t2 - t1
+delta_wt = MPI_Wtick()
 
 sum_lmdif = sum_lmdif + ( t2 - t1 )
+
+write(6,'(/A,1x,E15.7)') 'setrlm: time spent in lmdif = ', t2 - t1
+write(6,'(A,1x,E15.7)')  'setrlm: time increment      = ', delta_wt
+write(6,'(A,1x,E15.7/)') 'setrlm:          sum_ lmdif = ', sum_lmdif 
+
 
 write(6,'(A,3(1x,I3),1x,I10/)') &
       'setrlm: aft call lmdif, myid, n_parameters, info, n_time_steps', &
                                myid, n_parameters, info, n_time_steps 
+
+write(myprint_unit,'(/A,1x,E15.7)') 'setrlm: time spent in lmdif = ', t2 - t1
+write(myprint_unit,'(A,1x,E15.7)')  'setrlm: time increment      = ', delta_wt
+write(myprint_unit,'(A,1x,E15.7/)') 'setrlm:          sum_ lmdif = ', sum_lmdif 
+
 
 if( Lprint_lmdif )then
 

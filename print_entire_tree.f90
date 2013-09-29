@@ -40,9 +40,11 @@ do  i_Tree=1,n_Trees
 
         i_Function = pow2_table( i_level - 1 ) ! 2**(i_Level-1) -1 ! calculated the function number
                                                                    ! at the right end of the upper level
+        !i_Function = 2**(i_Level-1) -1               ! calculated the function number
+                                                     ! at the right end of the upper level
 
-        !do  i_Node=2**i_Level, 2*(2**i_Level)-1 , 2  ! run through each function at the level
         do  i_Node= pow2_table( i_level ) + 1 , pow2_table( i_level + 1 ) , 2  ! run through each function at the level
+        !do  i_Node=2**i_Level, 2*(2**i_Level)-1 , 2  ! run through each function at the level
 
             i_Function=i_Function+1                  ! sets the 'function' node's index
 

@@ -391,8 +391,7 @@ do i_GA_Crossover=1,n_GA_Crossovers
       !endif ! L_ga_print
 
       call random_number( cff )
-      dff = cff
-      std_dev_parm = 0.5d0 + dff  * mean_parm
+      std_dev_parm = 0.5d0 + real(cff,kind=8) * mean_parm
 
       !if( L_ga_print )then
       !    write(GA_print_unit,'(A,3(1x,E15.7))') &

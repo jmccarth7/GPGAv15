@@ -12,7 +12,6 @@ use GA_Variables_module
 implicit none
 
 real(kind=4) :: cff
-real(kind=8) :: dff
 
 integer(kind=4) :: i_GP_individual
 integer(kind=4) :: i_Error
@@ -49,12 +48,11 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
 
 
         call random_number(cff) ! uniform random number generator
-        dff = cff
 
-        !write(GP_print_unit,'(/A,2(1x,E15.7))') 'gtb: dff, GP_Tree_Probability ', &
-        !                                              dff, GP_Tree_Probability 
+        !write(GP_print_unit,'(/A,2(1x,E15.7))') 'gtb: cff, GP_Tree_Probability ', &
+        !                                              cff, GP_Tree_Probability 
 
-        if( dff .le. GP_Tree_Probability ) then  ! go ahead - put in an equation
+        if( cff .le. GP_Tree_Probability ) then  ! go ahead - put in an equation
 
             ! always set the first node to zero
             GP_Child_Population_Node_Type(1,i_Tree,i_GP_Individual)=0
@@ -63,6 +61,7 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
             do  i_Level=1,n_Levels-1                    !original 
                                                         !debug do  i_Level=1,n_Levels   ! -1    
                 n_Nodes_at_Level= pow2_table( i_level-1 ) + 1 ! int(2**(i_Level-1))
+                !n_Nodes_at_Level=int(2**(i_Level-1))
 
                 !write(GP_print_unit,'(/A,2(1x,I6)/)') &
                 ! 'gtb: i_level, n_Nodes_at_Level ', &
@@ -77,22 +76,20 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
                         ! randomly decide function or terminal
 
                         call random_number(cff) ! uniform random number generator
-                        dff = cff
 
 
                         !write(GP_print_unit,'(A,1x,I6,2(1x,F10.4))') &
-                        !      'gtb: i_Level, dff, Node_Probability(i_Level)', &
-                        !            i_Level, dff, Node_Probability(i_Level)
+                        !      'gtb: i_Level, cff, Node_Probability(i_Level)', &
+                        !            i_Level, cff, Node_Probability(i_Level)
 
-                        if( dff .lt. Node_Probability(i_Level) ) then  ! set as a terminal
+                        if( cff .lt. Node_Probability(i_Level) ) then  ! set as a terminal
 
                             call random_number(cff) ! uniform random number generator
-                            dff = cff
 
-                            node_function=1+int(dff*real(n_Node_Functions,kind=8))
+                            node_function=1+int(cff*float(n_Node_Functions))
 
-                            !write(GP_print_unit,'(A,1x,I6,1x,F10.4)') 'gtb: Node_Function, dff ', &
-                            !                                                Node_Function, dff
+                            !write(GP_print_unit,'(A,1x,I6,1x,F10.4)') 'gtb: Node_Function, cff ', &
+                            !                                                Node_Function, cff
                             !write(GP_print_unit,'(A,1x,I6)') 'gtb: n_Node_Functions', &
                             !                                       n_Node_Functions
 
@@ -135,7 +132,7 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
                             GP_Child_Population_Node_Type(i_Node,i_Tree, i_GP_Individual)=-1
 
 
-                        endif !   dff .lt. Node_Probability(i_Level)
+                        endif !   cff .lt. Node_Probability(i_Level)
 
                     endif !  GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) .eq. 0
 
@@ -143,13 +140,13 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
 
             enddo !  i_Level
 
-        endif !   dff .le. GP_Tree_Probability
+        endif !   cff .le. GP_Tree_Probability
 
     enddo !  i_Tree
 
     !write(GP_print_unit,'(/A,3(1x,I6)/)') &
     !      'gtb:1 i_GP_individual, n_nodes, n_trees ',  i_GP_individual, n_nodes, n_trees
-    !write(GP_print_unit,'(A))') &
+    !write(GP_print_unit,'(A)') &
     !      'gtb: i_node, i_tree, GP_Child_Population_Node_Type( i_Node,i_Tree,i_GP_Individual)'
     !do  i_Tree=1,n_Trees
     !    do  i_Node=1,n_Nodes
@@ -177,6 +174,7 @@ do  i_GP_Individual=1,n_GP_Individuals
         do  i_Level=1,n_Levels
 
             n_Nodes_at_Level = pow2_table( i_level - 1 ) + 1  ! int(2**(i_Level-1))
+            !n_Nodes_at_Level = int(2**(i_Level-1))
 
             do  i_Level_Node = 1,n_Nodes_at_Level
 
@@ -185,24 +183,26 @@ do  i_GP_Individual=1,n_GP_Individuals
                 if( GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) .eq. -1) then
 
                     call random_number(cff)   ! uniform random number generator
-                    dff = cff
 
-                    if( dff .le. GP_Set_Terminal_to_Parameter_Probability ) then
+                    !write(GP_print_unit,'(A,1x,I6,2(1x,F10.4))') &
+                    !          'gtb:2 i_Level, cff, GP_Set_Terminal_to_Parameter_Probability', &
+                    !                 i_Level, cff, GP_Set_Terminal_to_Parameter_Probability
+
+                    if( cff .le. GP_Set_Terminal_to_Parameter_Probability ) then
 
                         ! Set the Terminal to a Parameter
 
                         call random_number(cff) ! uniform random number generator
-                        dff = cff
 
                         ! One of the OBSERVATIONS, one for each equations N, P, Z, etc.
 
-                        Node_Variable=1+int(dff*real(n_CODE_Equations,kind=8))
+                        Node_Variable=1+int(cff*float(n_CODE_Equations))
 
                         Node_Variable = min( Node_Variable, n_CODE_Equations )
 
-                        !write(GP_print_unit,'(A,2(1x,I6))') &
-                        !      'gtb: Node_Variable, n_CODE_Equations', &
-                        !            Node_Variable, n_CODE_Equations
+                        !write(GP_print_unit,'(A,1x,E15.7, 2(1x,I6))') &
+                        !      'gtb:2 cff, Node_Variable, n_CODE_Equations', &
+                        !             cff, Node_Variable, n_CODE_Equations
 
                         GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) = -Node_Variable
 
@@ -213,7 +213,7 @@ do  i_GP_Individual=1,n_GP_Individuals
 
                         GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) = 0
 
-                    endif !   dff .le. GP_Set_Terminal_to_Parameter_Probability
+                    endif !   cff .le. GP_Set_Terminal_to_Parameter_Probability
                 endif !   GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) .eq. -1
             enddo !  i_Level_Node
         enddo !  i_Level
