@@ -37,7 +37,7 @@ real(kind=8) :: ftol,xtol,gtol
 
 
 real(kind=8), parameter :: tol = 1.0d-30
-real(kind=8), parameter :: epsfcn = 1.0d-6    ! original
+real(kind=8), parameter :: epsfcn = 1.0d-9   ! 1.0d-6    ! original
 real(kind=8), parameter :: factor=1.0D+0
 real(kind=8), parameter :: zero = 0.0d0
 
@@ -67,11 +67,8 @@ real(kind=8) :: t2
 real(kind=8) :: delta_wt
 
 !--------------------------------------------------------------------------------------------
-write(6,'(A,3(1x,I6),1x,E20.10)') &
-          'setrlm:1 myid, myprint_unit, n_parameters', &
-                    myid, myprint_unit, n_parameters
 
-write(myprint_unit,'(A,3(1x,I6),1x,E20.10)') &
+write(myprint_unit,'(//A,3(1x,I6),1x,E20.10)') &
           'setrlm:1 myid, myprint_unit, n_parameters', &
                     myid, myprint_unit, n_parameters
 
@@ -160,19 +157,13 @@ delta_wt = MPI_Wtick()
 
 sum_lmdif = sum_lmdif + ( t2 - t1 )
 
-write(6,'(/A,1x,E15.7)') 'setrlm: time spent in lmdif = ', t2 - t1
-write(6,'(A,1x,E15.7)')  'setrlm: time increment      = ', delta_wt
-write(6,'(A,1x,E15.7/)') 'setrlm:          sum_ lmdif = ', sum_lmdif 
-
-
-write(6,'(A,3(1x,I3),1x,I10/)') &
-      'setrlm: aft call lmdif, myid, n_parameters, info, n_time_steps', &
-                               myid, n_parameters, info, n_time_steps 
-
 write(myprint_unit,'(/A,1x,E15.7)') 'setrlm: time spent in lmdif = ', t2 - t1
 write(myprint_unit,'(A,1x,E15.7)')  'setrlm: time increment      = ', delta_wt
 write(myprint_unit,'(A,1x,E15.7/)') 'setrlm:          sum_ lmdif = ', sum_lmdif 
 
+!write(6,'(A,3(1x,I3),1x,I10/)') &
+!      'setrlm: aft call lmdif, myid, n_parameters, info, n_time_steps', &
+!                               myid, n_parameters, info, n_time_steps 
 
 if( Lprint_lmdif )then
 

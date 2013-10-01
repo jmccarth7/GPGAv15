@@ -216,7 +216,7 @@ GP_Individual_Node_Type(14,5) = 0            ! predator biomass-specific feeding
 if( LV_model1 )then
     GP_Individual_Node_Parameters(14,5) = 0.02d0 ! [0.0005, 0.02; predator biomass-specific feeding rate [d-1]
 else
-    GP_Individual_Node_Parameters(14,5) = 0.2585400E+00  ! 0.02  ! predator biomass-specific feeding rate [d-1]
+    GP_Individual_Node_Parameters(14,5) = 0.2585400D+00  ! 0.02  ! predator biomass-specific feeding rate [d-1]
 endif  ! LV_model1
 
 GP_Individual_Node_Type(15,5) = -1 ! Phytoplankton

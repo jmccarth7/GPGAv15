@@ -1070,8 +1070,11 @@ do  i_GP_Generation=1,n_GP_Generations
                     output_array( i_CODE_equation ) = &
                                GP_individual_initial_conditions(i_CODE_equation)
 
-                    write(GA_output_unit,'(E24.16)') &
-                          GP_individual_initial_conditions(i_CODE_equation)
+                    if( L_GA_output_parameters )then 
+                        write(GA_output_unit,'(E24.16)') &
+                              GP_individual_initial_conditions(i_CODE_equation)
+                    endif ! L_GA_output_parameters )then 
+                     
 
                 enddo ! i_CODE_equation
 

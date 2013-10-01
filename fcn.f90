@@ -201,7 +201,7 @@ endif
 !SSE=0.0D+0
 do i_time_step=1,n_time_steps
 
-  fvec(i_time_step)=0.
+  fvec(i_time_step)=0.0D0
 
   !if( L_ga_print )then 
   !    write(GA_print_unit,'(/A,1x,I6, 1x,I10)')'fcn: myid, i_time_step ', myid, i_time_step
