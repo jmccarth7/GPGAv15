@@ -43,6 +43,14 @@ do  i_Tree=1,n_Trees
         !i_Function = 2**(i_Level-1) -1               ! calculated the function number
                                                      ! at the right end of the upper level
 
+        !write(6,'(A,2(1x,I6))') 'pet: 2**(i_Level-1) -1 , pow2_table( i_level - 1 ) ', &
+        !                              2**(i_Level-1) -1 , pow2_table( i_level - 1 ) 
+
+        !write(6,'(A,2(1x,I6))') 'pet: 2**i_Level , pow2_table( i_level ) + 1 ', &
+        !                              2**i_Level , pow2_table( i_level ) + 1 
+        !write(6,'(A,2(1x,I6))') 'pet: 2*(2**i_Level)-1 , pow2_table( i_level + 1 ) ', &
+        !                              2*(2**i_Level)-1 , pow2_table( i_level + 1 ) 
+
         do  i_Node= pow2_table( i_level ) + 1 , pow2_table( i_level + 1 ) , 2  ! run through each function at the level
         !do  i_Node=2**i_Level, 2*(2**i_Level)-1 , 2  ! run through each function at the level
 

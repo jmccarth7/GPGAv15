@@ -133,6 +133,9 @@ if( MALE_CROSS .and. FEMALE_CROSS) then
             n_nodes_at_level =  pow2_table( i_level-1 ) + 1 ! int(2**(i_level-1))
             !n_nodes_at_level = int(2**(i_level-1))
 
+            !write(6,'(A,2(1x,I6))') 'gpts: int(2**(i_Level-1)) , pow2_table( i_level-1 ) + 1 ', &        
+            !                               int(2**(i_Level-1)) , pow2_table( i_level-1 ) + 1 
+
             do  i_node_at_level = 1,n_nodes_at_level
 
                 i_node = (n_nodes_at_level-1)+i_node_at_level
@@ -225,6 +228,9 @@ if( MALE_CROSS .and. FEMALE_CROSS) then
         icff = pow2_table( i_level-1 ) 
         !icff = (2**(i_level-1))-1
 
+        !write(6,'(A,2(1x,I6))') 'gpts: (2**(i_level-1))-1 , pow2_table( i_level-1 ) ', &
+        !                               (2**(i_level-1))-1 , pow2_table( i_level-1 ) 
+
         if( i_parent_one_swap_node .gt. icff) then
             parent_one_max_swap_level = i_level
         endif !   i_parent_one_swap_node .gt. icff
@@ -253,6 +259,9 @@ if( MALE_CROSS .and. FEMALE_CROSS) then
 
         n_nodes_at_level = pow2_table( i_level-1 ) + 1    ! int(2**(i_level-1))
         !n_nodes_at_level = int(2**(i_level-1))
+
+        !write(6,'(A,2(1x,I6))') 'gpts: int(2**(i_level-1)) , pow2_table( i_level-1 ) + 1 ', &
+        !                               int(2**(i_level-1)) , pow2_table( i_level-1 ) + 1 
 
         Parent_two_max_swap_level = n_levels-i_level+1
 
@@ -295,6 +304,9 @@ if( MALE_CROSS .and. FEMALE_CROSS) then
 
         icff = pow2_table( i_level - 1 )  ! (2**(i_level-1))-1
         !icff = (2**(i_level-1))-1
+
+        !write(6,'(A,2(1x,I6))') 'gpts: (2**(i_level-1))-1 , pow2_table( i_level - 1 ) ', &
+        !                               (2**(i_level-1))-1 , pow2_table( i_level - 1 ) 
 
         if( i_parent_two_swap_node .gt. icff) then
             Parent_two_max_swap_level = i_level
@@ -358,6 +370,9 @@ if( MALE_CROSS .and. FEMALE_CROSS) then
             i_levels = i_levels+1
             i_child_swap_node = i_child_swap_node*2
 
+            !write(6,'(A,2(1x,I6))') 'gpts: 2**i_levels , pow2_table( i_levels ) + 1 ', & 
+            !                               2**i_levels , pow2_table( i_levels ) + 1 
+                                      
             do  i_node = 1, pow2_table( i_levels ) + 1    ! 2**i_levels
             !do  i_node = 1,2**i_levels
                 i_Child_Node_Point = i_Child_Swap_Node -1 + i_Node
@@ -395,6 +410,9 @@ if( MALE_CROSS .and. FEMALE_CROSS) then
                 i_child_swap_node   =  i_child_swap_node*2
                 i_parent_swap_node  =  i_parent_swap_node*2
 
+                !write(6,'(A,2(1x,I6))') 'gpts: 2**i_levels , pow2_table( i_levels ) + 1 ', & 
+                !                               2**i_levels , pow2_table( i_levels ) + 1 
+
                 do  i_node = 1, pow2_table( i_levels ) + 1      !  2**i_levels
                 !do  i_node = 1,2**i_levels
                     i_Child_Node_Point  = i_Child_Swap_Node  -1 + i_Node
@@ -425,6 +443,8 @@ elseif( .not. MALE_CROSS .and. FEMALE_CROSS) then  ! the Male tree is empty
 
         n_Nodes_at_Level = pow2_table( i_level - 1 ) + 1   ! int(2**(i_Level-1))
         !n_Nodes_at_Level = int(2**(i_Level-1))
+        !write(6,'(A,2(1x,I6))') 'gpts: int(2**(i_Level-1)) , pow2_table( i_level - 1 ) + 1 ', &
+        !                               int(2**(i_Level-1)) , pow2_table( i_level - 1 ) + 1 
 
         do  i_Node_at_Level = 1,n_Nodes_at_Level
 
@@ -471,6 +491,8 @@ elseif( .not. MALE_CROSS .and. FEMALE_CROSS) then  ! the Male tree is empty
 
         n_Nodes_at_Level = pow2_table( i_level-1 ) + 1    !  int(2**(i_Level-1))
         !n_Nodes_at_Level = int(2**(i_Level-1))
+        !write(6,'(A,2(1x,I6))') 'gpts: int(2**(i_Level-1)) , pow2_table( i_level - 1 ) + 1 ', &
+        !                               int(2**(i_Level-1)) , pow2_table( i_level - 1 ) + 1 
 
         do  i_level_Node = 1,n_Nodes_at_Level
 
@@ -501,6 +523,8 @@ elseif( .not. MALE_CROSS .and. FEMALE_CROSS) then  ! the Male tree is empty
 
         icff = pow2_table( i_level-1 )   !2**(i_Level-1) - 1
         !icff = 2**(i_Level-1) - 1
+        !write(6,'(A,2(1x,I6))') 'gpts: 2**(i_Level-1) - 1 ,  pow2_table( i_level-1 ) ', &
+        !                               2**(i_Level-1) - 1 ,  pow2_table( i_level-1 ) 
 
         if( i_Parent_Two_Swap_Node .gt. icff) Parent_Two_Max_Swap_Level = i_Level
     enddo
@@ -535,6 +559,9 @@ elseif( .not. MALE_CROSS .and. FEMALE_CROSS) then  ! the Male tree is empty
 
             i_Child_Swap_Node = i_Child_Swap_Node*2
             i_Parent_Swap_Node = i_Parent_Swap_Node*2
+
+            !write(6,'(A,2(1x,I6))') 'gpts: 2**i_Levels , pow2_table( i_levels ) + 1 ', &
+            !                               2**i_Levels , pow2_table( i_levels ) + 1 
 
             do  i_Node = 1, pow2_table( i_levels ) + 1  ! 2**i_Levels
             !do  i_Node = 1,2**i_Levels

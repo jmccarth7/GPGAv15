@@ -74,7 +74,16 @@ do  i_time_step=1,n_time_steps
         !i_function= 2**(i_level-1) - 1 ! the function number at the right end of the upper level
         i_function= pow2_table(i_level-1) ! the function number at the right end of the upper level
 
+        !write(6,'(A,2(1x,I6))') 'rkbm:  2**(i_level-1) - 1 , pow2_table(i_level-1) ', &
+        !                                2**(i_level-1) - 1 , pow2_table(i_level-1) 
+
         !orig do i_node=2**i_level,(2*(2**i_level))-1,2     ! run through each function at the level
+
+        !write(6,'(A,2(1x,I6))') 'rkbm:  2**i_level,  pow2_table(i_level)+1 ', &
+        !                                2**i_level,  pow2_table(i_level)+1 
+
+        !write(6,'(A,2(1x,I6))') 'rkbm:  (2*(2**i_level))-1 , pow2_table(i_level+1) ', &
+        !                                (2*(2**i_level))-1 , pow2_table(i_level+1) 
 
         do  i_node = pow2_table(i_level)+1 , pow2_table(i_level+1) , 2  ! run through each function at the level
 
@@ -405,9 +414,6 @@ do  i_time_step=1,n_time_steps
   !                 myid, i_time_step, Runge_Kutta_Solution(i_time_step,1:n_CODE_equations)
   !endif ! L_ga_print  
 
-  !write(6,'(A,1x,I1,1x,i6,3(1x,E24.16))') &
-  !      'RuKbm: myid, i_time_step, RK_Soln ', &
-  !              myid, i_time_step, Runge_Kutta_Solution(i_time_step,1:n_CODE_equations)
 
 
 enddo ! i_time_step

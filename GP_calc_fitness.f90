@@ -1,9 +1,5 @@
-!subroutine GP_calc_fitness( i_GP_Generation, output_array )
 subroutine GP_calc_fitness( i_GP_generation, output_array, &
                             i_GP_best_parent, nop )
-!, parent_parameters, &
-!                            child_parameters, &
-!                            individual_quality, L_stop_run  )
 
 ! program written by: Dr. John R. Moisan [NASA/GSFC] 31 January, 2013
 
@@ -236,18 +232,18 @@ enddo ! i_GP_Individual
 !if( i_GP_generation == 1                                 .or. &
 !    mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
 !    i_GP_generation == n_GP_generations                          ) then
-
-    write(GP_print_unit,'(/A)') &
-      'gpcf: i_GP_indiv  GP_Child_Indiv_SSE  GP_Integ_Pop_Ranked_Fitness (norm)'
-
-    do  i_GP_Individual=1,n_GP_Individuals
-
-        write(GP_print_unit,'(5x,I6,2x,2(5x,E15.7))') &
-              i_GP_individual, &
-              GP_Child_Individual_SSE(i_GP_Individual), &
-              GP_Integrated_Population_Ranked_Fitness(i_GP_Individual)
-    enddo
-
+!
+!    write(GP_print_unit,'(/A)') &
+!      'gpcf: i_GP_indiv  GP_Child_Indiv_SSE  GP_Integ_Pop_Ranked_Fitness (norm)'
+!
+!    do  i_GP_Individual=1,n_GP_Individuals
+!
+!        write(GP_print_unit,'(5x,I6,2x,2(5x,E15.7))') &
+!              i_GP_individual, &
+!              GP_Child_Individual_SSE(i_GP_Individual), &
+!              GP_Integrated_Population_Ranked_Fitness(i_GP_Individual)
+!    enddo
+!
 !endif ! i_GP_generation == 1 .or. ...
 
 
@@ -369,9 +365,6 @@ write(GP_print_unit,'(/A,2(1x,I6))') &
 
 !do  i_tree = 1, n_trees
 !    do  i_node = 1, n_nodes
-!            !write(GP_print_unit,'(A,3(1x,I6))') &
-!            !'gpsbrl:1 i_tree, i_node,  GP_Adult_Population_Node_Type(:,:,i_gp_best_parent) ', &
-!            !          i_tree, i_node,  GP_Adult_Population_Node_Type(i_node,i_tree,i_gp_best_parent)
 !        write(GP_print_unit,'(A,3(1x,I6))') &
 !        'gpsbrl:1 i_tree, i_node,  GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Best_Parent) ', &
 !                  i_tree, i_node,  GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Best_Parent)

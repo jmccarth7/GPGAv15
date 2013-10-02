@@ -90,9 +90,6 @@ do i_tree=1,n_trees
     !write(6,'(A,4(1x,I6))') &
     !       'fcn: i_tree, i_node, GP_Individual_Node_Type ', &
     !             i_tree, i_node, GP_Individual_Node_Type( i_node,i_tree)
-    !!write(6,'(A,4(1x,I6))') &
-    !!       'fcn: myid, i_node, i_tree, Runge_Kutta_Node_Type ', &
-    !!             myid, i_node, i_tree, Runge_Kutta_Node_Type( i_node,i_tree)
     !endif !  myid == 0 
 
     if( GP_Individual_Node_Type(i_node,i_tree) .eq. 0) then  ! set the node_parameter
@@ -116,12 +113,11 @@ do i_tree=1,n_trees
       endif  ! isnan
 
       !if( L_ga_print )then    
-          !write(GA_print_unit,'(A,4(1x,I4),1x,E15.7)') &
-      !if( myid == 0 )then
-      !      write(6,'(A,4(1x,I4),1x,E15.7)') &
-      !       'fcn: myid, i_tree, i_node, i_parameter, Runge_Kutta_Node_Params', &
-      !             myid, i_tree, i_node, i_parameter, Runge_Kutta_Node_Parameters(i_node,i_tree)
-      !endif !  myid == 0 
+      !    if( myid == 0 )then
+      !         write(GA_print_unit,'(A,4(1x,I4),1x,E15.7)') &
+      !         'fcn: myid, i_tree, i_node, i_parameter, Runge_Kutta_Node_Params', &
+      !               myid, i_tree, i_node, i_parameter, Runge_Kutta_Node_Parameters(i_node,i_tree)
+      !    endif !  myid == 0 
       !endif ! L_ga_print  
 
     endif !  GP_individual_node_type(i_node,i_tree) .eq. 0
@@ -132,8 +128,8 @@ enddo  ! i_tree
 !if( L_ga_print )then                                                                                
     !write(GA_print_unit,'(/A,2(1x,I4)/)') &
     !if( myid == 0 )then
-    !write(6,'(/A,2(1x,I4)/)') &
-    !       'fcn: myid, i_parameter', myid, i_parameter
+    !    write(6,'(/A,2(1x,I4)/)') &
+    !           'fcn: myid, i_parameter', myid, i_parameter
     !endif !  myid == 0 
 !endif ! L_ga_print  
 !---------------------------------------------------------------------------------

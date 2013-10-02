@@ -34,11 +34,11 @@ integer(kind=4) :: i_Tree
 integer(kind=4) :: i_Node
 
 integer(kind=4) :: jj
-integer(kind=4) :: nop
 
 integer(kind=4) :: i_CODE_equation
 
 integer(kind=4) :: n_GP_vars
+integer(kind=4) :: nop          
 
 integer(kind=4) :: i_GP_best_parent
 
@@ -1287,13 +1287,10 @@ enddo generation_loop !  i_GP_Generation
 if( myid == 0 )then
     write(GP_print_unit,'(/A/)') '0: after i_GP_generation loop  '
 
-    !write(GP_print_unit,'(/A,1x,E15.7/)') '0: sum of time spent in lmdif = ', sum_lmdif
 
-endif ! myid == 0
 
-!---------------------------------------------------------------------------
+    !---------------------------------------------------------------------------
 
-if( myid == 0 )then
 
     !tree_loop:&
     !do  i_tree=1,n_trees
@@ -1312,14 +1309,14 @@ if( myid == 0 )then
           '0: i_GP_best_parent, GP_child_individual_sse( i_GP_best_parent ) ', &
               i_GP_best_parent, GP_child_individual_sse( i_GP_best_parent )
 
+
     call GP_select_best_RK_lmdif_result( i_GP_best_parent, output_array , nop )
 
-endif ! myid == 0
-
-!---------------------------------------------------------------------------
 
 
-if( myid == 0 )then
+
+    !---------------------------------------------------------------------------
+
 
     write(GP_print_unit,'(/A,1x,E15.7/)') '0: sum of time spent in lmdif = ', sum_lmdif
 

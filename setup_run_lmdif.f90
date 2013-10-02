@@ -71,6 +71,9 @@ real(kind=8) :: delta_wt
 write(myprint_unit,'(//A,3(1x,I6),1x,E20.10)') &
           'setrlm:1 myid, myprint_unit, n_parameters', &
                     myid, myprint_unit, n_parameters
+write(myprint_unit,'(/A,2(1x,I10))') &
+      'setrlm: at entry i_GA_indiv, individual_quality(i_GA_indiv) ', &
+                        i_GA_indiv, individual_quality(i_GA_indiv) 
 
 do  i_parameter=1,n_parameters
 
@@ -148,10 +151,12 @@ endif ! Lprint_lmdif
 L_bad_result = .false.
 
 t1 = MPI_Wtime()
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+write(myprint_unit,'(/A/)') 'setrlm: RUN LMDIF '
 call lmdif( fcn, n_time_steps, n_parameters, x_LMDIF, fvec, &
             ftol, xtol, gtol, maxfev, epsfcn, &
             diag, mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf )
-
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 t2 = MPI_Wtime()
 delta_wt = MPI_Wtick()
 

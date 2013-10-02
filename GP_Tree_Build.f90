@@ -63,6 +63,9 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
                 n_Nodes_at_Level= pow2_table( i_level-1 ) + 1 ! int(2**(i_Level-1))
                 !n_Nodes_at_Level=int(2**(i_Level-1))
 
+                !write(6,'(A,2(1x,I6))') 'gtb: int(2**(i_Level-1)) , pow2_table( i_level-1 ) + 1 ', &
+                !                              int(2**(i_Level-1)) , pow2_table( i_level-1 ) + 1 
+
                 !write(GP_print_unit,'(/A,2(1x,I6)/)') &
                 ! 'gtb: i_level, n_Nodes_at_Level ', &
                 !       i_level, n_Nodes_at_Level
@@ -175,6 +178,9 @@ do  i_GP_Individual=1,n_GP_Individuals
 
             n_Nodes_at_Level = pow2_table( i_level - 1 ) + 1  ! int(2**(i_Level-1))
             !n_Nodes_at_Level = int(2**(i_Level-1))
+
+            !write(6,'(A,2(1x,I6))') 'gtb: int(2**(i_Level-1)) , pow2_table( i_level-1 ) + 1 ', &
+            !                              int(2**(i_Level-1)) , pow2_table( i_level-1 ) + 1 
 
             do  i_Level_Node = 1,n_Nodes_at_Level
 

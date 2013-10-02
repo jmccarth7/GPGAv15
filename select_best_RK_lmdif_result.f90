@@ -124,8 +124,8 @@ endif ! myid == 0
 ! then run lmdif to try to improve the best parent
 
 
-i_GA_best_parent_1                                         = i_GA_best_parent
-individual_SSE_best_1                       = individual_SSE(i_GA_best_parent)
+i_GA_best_parent_1               = i_GA_best_parent
+individual_SSE_best_1            = individual_SSE(i_GA_best_parent)
 individual_ranked_fitness_best_1 = individual_ranked_fitness(i_GA_best_parent)
 
 Individual_Fitness        = Individual_Ranked_Fitness(i_GA_Best_Parent)
@@ -158,23 +158,27 @@ endif ! L_ga_print
 
 !  run lmdif on best individual from the RK process
 
-if( L_ga_print )then
-    if( L_stop_run )then
-        write(GA_print_unit,'(A,2(1x,I6))') &
-          'sbrl: i_GA_Generation_last, i_GA_Best_Parent  call setup_run_lmdif ', &
-                 i_GA_Generation_last, i_GA_Best_Parent
-    else
-        write(GA_print_unit,'(A,2(1x,I6))') &
-          'sbrl: n_GA_Generations, i_GA_Best_Parent  call setup_run_lmdif ', &
-                 n_GA_Generations, i_GA_Best_Parent
-    endif ! L_stop_run
-endif ! L_ga_print
+!if( L_ga_print )then
+!    if( L_stop_run )then
+!        write(GA_print_unit,'(A,2(1x,I6))') &
+!          'sbrl: i_GA_Generation_last, i_GA_Best_Parent  call setup_run_lmdif ', &
+!                 i_GA_Generation_last, i_GA_Best_Parent
+!    else
+!        write(GA_print_unit,'(A,2(1x,I6))') &
+!          'sbrl: n_GA_Generations, i_GA_Best_Parent  call setup_run_lmdif ', &
+!                 n_GA_Generations, i_GA_Best_Parent
+!    endif ! L_stop_run
+!endif ! L_ga_print
 
 
 !t3 = MPI_Wtime()
 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 !call setup_run_lmdif( i_GA_Best_Parent, parent_parameters, individual_quality, &
 !                      L_GA_print, GA_print_unit )
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 !t4 = MPI_Wtime()
 
@@ -184,17 +188,17 @@ endif ! L_ga_print
 !              i_GP_Generation,i_GP_individual, t4 - t3
 
 
-if( L_ga_print )then
-    if( L_stop_run )then
-        write(GA_print_unit,'(A,2(1x,I6))') &
-          'sbrl: i_GA_Generation_last, i_GA_Best_Parent  aft call setup_run_lmdif ', &
-                 i_GA_Generation_last, i_GA_Best_Parent
-    else
-        write(GA_print_unit,'(A,2(1x,I6))') &
-          'sbrl: n_GA_Generations, i_GA_Best_Parent  aft call setup_run_lmdif ', &
-                 n_GA_Generations, i_GA_Best_Parent
-    endif ! L_stop_run
-endif ! L_ga_print
+!if( L_ga_print )then
+!    if( L_stop_run )then
+!        write(GA_print_unit,'(A,2(1x,I6))') &
+!          'sbrl: i_GA_Generation_last, i_GA_Best_Parent  aft call setup_run_lmdif ', &
+!                 i_GA_Generation_last, i_GA_Best_Parent
+!    else
+!        write(GA_print_unit,'(A,2(1x,I6))') &
+!          'sbrl: n_GA_Generations, i_GA_Best_Parent  aft call setup_run_lmdif ', &
+!                 n_GA_Generations, i_GA_Best_Parent
+!    endif ! L_stop_run
+!endif ! L_ga_print
 
 
 !-------------------------------------------------------------------------------
@@ -206,8 +210,7 @@ endif ! L_ga_print
 if( L_ga_print )then
 
     write(GA_print_unit,'(/A)')  &
-          'sbrl: i_GA_ind, ind_SSE, ind_ranked_fitness  ----  aft lmdif '
-
+          'sbrl: i_GA_ind, ind_SSE, ind_ranked_fitness  '  !----  aft lmdif '
 
     write(GA_print_unit,'(/A,1x,I6)') &
           'sbrl: lmdif i_GA_best_parent ', i_GA_best_parent
@@ -362,15 +365,15 @@ if( individual_ranked_fitness(i_GA_best_parent) <= &
             GP_Individual_Node_Parameters(i_node,i_tree) = &
                           parent_parameters_best_1( i_parameter )
 
-            !if( L_ga_print )then
+            if( L_ga_print )then
             !    write(GA_print_unit,'(A,1x,I6,1x,E20.10)') &
             !          'sbrl:1 i_Parameter, parent_parameters_best_1( i_parameter ) ', &
             !                  i_Parameter, parent_parameters_best_1( i_parameter )
 
-            !    write(GA_print_unit,'(A,2(1x,I6),1x,E20.10)') &
-            !          'sbrl:1 i_tree, i_node, GP_indiv_node_params', &
-            !                  i_tree, i_node, GP_individual_node_parameters(i_node,i_tree)
-            !endif ! L_ga_print
+                write(GA_print_unit,'(A,2(1x,I6),1x,E20.10)') &
+                      'sbrl:1 i_tree, i_node, GP_indiv_node_params', &
+                              i_tree, i_node, GP_individual_node_parameters(i_node,i_tree)
+            endif ! L_ga_print
 
         endif !   GP_individual_node_type(i_node,i_tree) .eq. 0
 
@@ -471,16 +474,16 @@ else  ! lmdif is best
             GP_Individual_Node_Parameters(i_node,i_tree) = &
                         Parent_Parameters(i_Parameter, i_GA_Best_Parent)
 
-            !if( L_ga_print )then
+            if( L_ga_print )then
             !    write(GA_print_unit,'(A,2(1x,I6),1x,E20.10)') &
             !          'sbrl:2 i_GA_Best_Parent,i_Parameter, &
             !                 &Parent_Parameters(i_Parameter,i_GA_Best_Parent) ', &
             !                  i_GA_Best_Parent,i_Parameter, &
             !                  Parent_Parameters(i_Parameter, i_GA_Best_Parent)
-            !    write(GA_print_unit,'(A,2(1x,I6),1x,E20.10)') &
-            !          'sbrl:2 i_tree, i_node, GP_indiv_node_params', &
-            !                  i_tree, i_node, GP_individual_node_parameters(i_node,i_tree)
-            !endif ! L_ga_print
+                write(GA_print_unit,'(A,2(1x,I6),1x,E20.10)') &
+                      'sbrl:2 i_tree, i_node, GP_indiv_node_params', &
+                              i_tree, i_node, GP_individual_node_parameters(i_node,i_tree)
+            endif ! L_ga_print
 
         endif ! GP_individual_node_type(i_node,i_tree) .eq. 0
 

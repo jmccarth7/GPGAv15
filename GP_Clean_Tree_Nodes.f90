@@ -41,9 +41,17 @@ do  i_GP_Individual=1,n_GP_Individuals
             i_Function = pow2_table( i_level - 1 )    ! 2**(i_Level-1) - 1
             !i_Function = 2**(i_Level-1) - 1
 
+
+            !write(6,'(A,2(1x,I6))') 'gpctn:  2**(i_Level-1) - 1 , pow2_table( i_level - 1 )   ', &
+            !                                 2**(i_Level-1) - 1 , pow2_table( i_level - 1 )  
             !write(6,'(A,1x,I6)') 'gpctn: i_function ', i_function
 
             ! run through each function at the level
+
+            !write(6,'(A,2(1x,I6))') 'gpctn: 2**i_Level , pow2_table( i_level ) + 1 ', &
+            !                                2**i_Level , pow2_table( i_level ) + 1 
+            !write(6,'(A,2(1x,I6))') 'gpctn: 2*(2**i_Level)-1, pow2_table( i_level+1 ) ', &
+            !                                2*(2**i_Level)-1, pow2_table( i_level+1 ) 
 
             do  i_Node = pow2_table( i_level ) + 1 , pow2_table( i_level+1 ), 2 
             !do  i_Node = 2**i_Level, 2*(2**i_Level)-1, 2

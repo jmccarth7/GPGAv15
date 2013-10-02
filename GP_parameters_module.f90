@@ -19,10 +19,6 @@ integer(kind=4),parameter :: min_N_param = 2
  
 integer(kind=4),parameter :: GP_print_unit = 6
 
-!integer(kind=4),parameter :: GA_output_unit = 20
-!integer(kind=4) :: GA_output_parameters_flag  
-!logical         :: L_GA_output_parameters    
-
 
 integer(kind=4),parameter :: GP_summary_output_unit = 40
 

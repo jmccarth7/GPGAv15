@@ -91,6 +91,9 @@ do  i_tree=1,n_trees
         i_function= pow2_table(i_level-1) ! the function number at the right end of the upper level
         !i_function=(2**(i_level-1))-1 ! the function number at the right end of the upper level
 
+        !write(6,'(A,2(1x,I6))') 'RKBM:  (2**(i_level-1))-1 , pow2_table(i_level-1) ', &
+        !                                (2**(i_level-1))-1 , pow2_table(i_level-1) 
+
         !write(6,'(A,1x,I6)')'RKBM: i_level    = ', i_level
         !write(6,'(A,1x,I6)')'RKBM: i_function = ', i_function
         !write(6,'(A,3(1x,I6))') 'RKBM: i_function, i_tree, node_eval_type(i_function,i_tree) ', &
@@ -98,6 +101,10 @@ do  i_tree=1,n_trees
 
 
 
+        !write(6,'(A,2(1x,I6))') 'RKBM:  2**i_level , pow2_table(i_level)+1 ', &
+        !                                2**i_level , pow2_table(i_level)+1 
+        !write(6,'(A,2(1x,I6))') 'RKBM:  (2*(2**i_level))-1 ,  pow2_table(i_level+1) ', &
+        !                                (2*(2**i_level))-1 ,  pow2_table(i_level+1) 
     
         do  i_node=pow2_table(i_level)+1, pow2_table(i_level+1) , 2  ! run through each function at the level
         !do  i_node=2**i_level,(2*(2**i_level))-1,2     ! run through each function at the level
