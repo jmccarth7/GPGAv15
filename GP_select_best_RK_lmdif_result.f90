@@ -421,7 +421,7 @@ if( GP_individual_ranked_fitness(i_GP_best_parent) <= &
     endif ! L_GP_output_parameters
 
     write(GP_print_unit, '(/A,1x,I6,1x,I6,1x,E15.7,1x,I6, 12(1x,E15.7))') &
-         'gpcf: i_GP_gen,i_GP_best_parent,GP_indiv_ranked_fit, nop, output_array', &
+         'gpsbrl: i_GP_gen,i_GP_best_parent,GP_indiv_ranked_fit, nop, output_array', &
                 i_GP_Generation, i_GP_best_parent, &
                 GP_individual_ranked_fitness(i_GP_Best_Parent), &
                 nop, output_array(1:nop)
@@ -570,7 +570,7 @@ else  ! lmdif is best
     endif ! L_GP_output_parameters
 
         write(GP_print_unit, '(//A,1x,I6,1x,I6,1x,E15.7,1x,I6, 12(1x,E15.7))') &
-         'gpcf: i_GP_gen,i_GP_best_parent,GP_indiv_ranked_fit, nop, output_array', &
+         'gpsbrl: i_GP_gen,i_GP_best_parent,GP_indiv_ranked_fit, nop, output_array', &
                 i_GP_Generation, i_GP_best_parent, &
                GP_individual_ranked_fitness(i_GP_Best_Parent), &
                nop, output_array(1:nop)
