@@ -10,9 +10,9 @@ character(str_len) :: work_string
 character(str_len) :: work_string2
 
 integer :: len_in_string
-integer :: i
-integer :: j
-integer :: par2
+!integer :: i
+!integer :: j
+!integer :: par2
 integer :: ksafe
 integer :: index1
 integer :: index2

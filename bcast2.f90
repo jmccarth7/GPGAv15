@@ -25,8 +25,8 @@ implicit none
 
 integer :: message_len
 
-real(kind=8) :: t1                                                                                                      
-real(kind=8) :: t2 
+!real(kind=8) :: t1                                                                                                      
+!real(kind=8) :: t2 
 
 !----------------------------------------------------------------------------------------
 

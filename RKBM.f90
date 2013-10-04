@@ -37,11 +37,14 @@ integer ::  i_indiv
 integer ::  icff    
 
 integer ::  iter    
-real(kind=8) :: left_node_value,right_node_value                                                                       
+!real(kind=8) :: left_node_value
+real(kind=8) :: right_node_value                                                                       
 
 
 !-------------------------------------------------------------------------------
 
+cff = 0.0D0
+right_node_value = 0.0D0
 
 !write(6,*)'RKBM: allocate tree_value_string '
 !allocate( tree_value_string( n_trees) )

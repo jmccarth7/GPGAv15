@@ -30,14 +30,14 @@ integer(kind=4) :: i_Female_Tree
 integer(kind=4) :: i_Error
 
 integer(kind=4) :: i_GP_individual
-integer(kind=4) :: i_tree
-integer(kind=4) :: i_node
+!integer(kind=4) :: i_tree
+!integer(kind=4) :: i_node
 
 integer(kind=4) :: i_safe
 integer(kind=4) :: i_safe_max
 
-integer(kind=4) :: kk                
-character(6) ::  flag
+!integer(kind=4) :: kk                
+!character(6) ::  flag
 
 !----------------------------------------------------------------------------------
 

@@ -7,7 +7,7 @@ use Runge_Kutta_Variables_module
 
 implicit none
 
-real(kind=8) :: cff
+!real(kind=8) :: cff
 
 
 character(4),parameter  ::  op_string = '+-/*'
@@ -31,6 +31,9 @@ integer,parameter :: ksafe_max = 50
 character(*) ::  work_string
 
 !---------------------------------------------------------------------
+
+j1 = 0
+j2 = 0
 
 ! Syntax rules
 

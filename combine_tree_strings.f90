@@ -15,7 +15,7 @@ use Runge_Kutta_Variables_module
 
 implicit none
 
-real(kind=8) :: cff
+!real(kind=8) :: cff
 
 
 

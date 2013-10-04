@@ -34,11 +34,11 @@ integer(kind=4), intent(in), &
         dimension( 1:n_nodes, 1:n_trees, n_GP_individuals) :: tree_type
 
 integer(kind=4) :: i_GP_individual
-integer(kind=4) :: j_GP_individual
+!integer(kind=4) :: j_GP_individual
 integer(kind=4) :: i_Tree
 integer(kind=4) :: i_node
 integer(kind=4) :: i_gen 
-integer(kind=4) :: jj
+!integer(kind=4) :: jj
 
 !----------------------------------------------------------------------------------------
 

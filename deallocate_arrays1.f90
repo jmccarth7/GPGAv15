@@ -31,6 +31,9 @@ implicit none
 deallocate( ga_individual_elites )
 deallocate( individual_SSE )
 deallocate( integrated_SSE )
+
+deallocate( GP_N_parms )
+
 deallocate( individual_ranked_fitness )
 deallocate( integrated_ranked_fitness )
 !deallocate( fitness_expectation_value )

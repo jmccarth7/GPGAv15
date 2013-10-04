@@ -18,8 +18,8 @@ integer(kind=4) :: i_GP_Individual
 integer(kind=4) :: j_GP_Individual
 
 integer(kind=4) :: icff              
-integer(kind=4) :: i_tree            
-integer(kind=4) :: i_node            
+!integer(kind=4) :: i_tree            
+!integer(kind=4) :: i_node            
 
 real(kind=8), dimension( 1:n_Nodes,1:n_Trees, 1:n_GP_individuals ) :: &
               GP_population_node_parameters_temp

@@ -7,7 +7,7 @@ use Runge_Kutta_Variables_module
 
 implicit none
 
-real(kind=8) :: cff
+!real(kind=8) :: cff
 
 
 character(4),parameter  ::  op_string = '+-/*'
@@ -23,9 +23,9 @@ data three_char_array / '1.0',  '0.0' /
 
 
 integer :: i
-integer :: j
-integer :: j1
-integer :: j2
+!integer :: j
+!integer :: j1
+!integer :: j2
 integer :: indx
 integer :: ksafe
 integer :: len_work

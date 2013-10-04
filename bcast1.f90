@@ -14,8 +14,8 @@ use Runge_Kutta_Variables_module
 
 implicit none
 
-integer,dimension( 7 )      :: integer_buffer
-real(kind=8),dimension( 9 ) :: real_buffer
+!integer,dimension( 7 )      :: integer_buffer
+!real(kind=8),dimension( 9 ) :: real_buffer
 
 
 !----------------------------------------------------------------------------------------

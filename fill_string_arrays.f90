@@ -10,13 +10,13 @@ use Runge_Kutta_Variables_module
 
 implicit none
 
-real(kind=8) :: cff
 
 
+!real(kind=8) :: cff
 
-character(str_len) ::  left_node_value_string
-character(str_len) ::  right_node_value_string
-character(str_len) ::  cff_string
+!character(str_len) ::  left_node_value_string
+!character(str_len) ::  right_node_value_string
+!character(str_len) ::  cff_string
 !character(str_len) ::  out_string
 
 character(4) ::  parm_string

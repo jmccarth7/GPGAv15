@@ -24,13 +24,13 @@ integer :: i_GP_individual
 
 integer :: child_number
 
-integer ::  start_individ
-integer ::  stop_individ
-integer ::  start_limit
-integer ::  stop_limit
+!integer ::  start_individ
+!integer ::  stop_individ
+!integer ::  start_limit
+!integer ::  stop_limit
 integer ::  isource
-integer ::  iproc
-integer ::  chunk
+!integer ::  iproc
+!integer ::  chunk
 integer ::  message_len
 integer ::  numsent
 integer ::  sender
@@ -50,11 +50,11 @@ real(kind=8),&
  dimension(n_maximum_number_parameters,n_GA_individuals) ::  child_parameters
 
 
-real(kind=8) :: individual_SSE_best_1
-real(kind=8) :: individual_ranked_fitness_best_1
-real(kind=8) :: Individual_Fitness_best_1
+!real(kind=8) :: individual_SSE_best_1
+!real(kind=8) :: individual_ranked_fitness_best_1
+!real(kind=8) :: Individual_Fitness_best_1
 
-real(kind=8),dimension(n_maximum_number_parameters) :: parent_parameters_best_1
+!real(kind=8),dimension(n_maximum_number_parameters) :: parent_parameters_best_1
 
 
 
@@ -62,11 +62,11 @@ real(kind=8) :: buffer(n_maximum_number_parameters + 2)
 real(kind=8) :: buffer_recv(n_maximum_number_parameters + 2)
 
 
-integer (kind=4) ::      i
-integer (kind=4) :: i_GA_Best_Parent
-integer (kind=4) :: i_GA_Best_Parent_1
+integer(kind=4) ::      i
+integer(kind=4) :: i_GA_Best_Parent
+!integer(kind=4) :: i_GA_Best_Parent_1
 
-integer (kind=4) :: i_GA_generation_last
+integer(kind=4) :: i_GA_generation_last
 
 real(kind=8), parameter :: tol = 1.0d-30
 
@@ -88,10 +88,10 @@ integer(kind=4) :: i_Tree
 integer(kind=4) :: i_Node
 
 integer(kind=4) :: jj
-integer(kind=4) :: i_parameter
+!integer(kind=4) :: i_parameter
 
-real(kind=8) :: t1
-real(kind=8) :: t2
+!real(kind=8) :: t1
+!real(kind=8) :: t2
 
 !----------------------------------------------------------------------
 
@@ -1000,7 +1000,8 @@ do  i_GA_generation=1,n_GA_Generations
         !                i_GP_Generation,i_GP_individual, &
         !                i_GA_best_parent, parent_parameters, &
         !                child_parameters, &
-        !                individual_quality, L_stop_run  )
+        !                L_stop_run  )
+        !                !individual_quality, L_stop_run  )
         !endif ! mod( i_GA_generation, 10 ) == 0
 
         !if( L_ga_print )then
@@ -1094,7 +1095,8 @@ if( myid == 0  )then
                 i_GP_Generation,i_GP_individual, &
                 i_GA_best_parent, parent_parameters, &
                 child_parameters, &
-                individual_quality, L_stop_run  )
+                L_stop_run  )
+                !individual_quality, L_stop_run  )
 
     !t2 = MPI_Wtime()
 

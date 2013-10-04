@@ -10,7 +10,7 @@ character(str_len) :: work_string
 
 integer :: len_in_string
 integer :: i
-integer :: j
+!integer :: j
 integer :: par2
 
 !-------------------------------------------------------------------------

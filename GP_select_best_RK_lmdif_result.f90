@@ -44,7 +44,7 @@ integer(kind=4) :: i
 integer(kind=4) :: i_GP_best_Parent
 integer(kind=4) :: i_GP_best_Parent_1
 
-integer(kind=4) :: i_GP_generation_last
+!integer(kind=4) :: i_GP_generation_last
 
 real(kind=8), parameter :: tol = 1.0d-30
 
@@ -59,7 +59,7 @@ integer(kind=4) :: individual_quality(n_GP_individuals)
 
 real(kind=8), external :: indiv_fitness
 
-logical :: L_stop_run
+!logical :: L_stop_run
 
 !logical :: Lprint_GA
 
@@ -70,10 +70,10 @@ integer(kind=4) :: jj
 integer(kind=4) :: i_parameter
 
 integer(kind=4) :: i_GP_Generation
-integer(kind=4) :: i_GP_individual
+!integer(kind=4) :: i_GP_individual
 
-real(kind=8) :: t3
-real(kind=8) :: t4
+!real(kind=8) :: t3
+!real(kind=8) :: t4
 
 
 logical :: L_GP_print

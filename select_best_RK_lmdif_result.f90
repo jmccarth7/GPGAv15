@@ -2,7 +2,8 @@ subroutine select_best_RK_lmdif_result( &
                 i_GP_Generation,i_GP_individual, &
                 i_GA_best_parent, parent_parameters, &
                 child_parameters, &
-                individual_quality, L_stop_run )
+                L_stop_run )
+                !individual_quality, L_stop_run )
 
 ! written by: Dr. John R. Moisan [NASA/GSFC] 5 December, 2012
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -23,26 +24,6 @@ use GP_data_module
 
 implicit none
 
-!integer :: child_number
-
-!integer ::  start_individ
-!integer ::  stop_individ
-!integer ::  start_limit
-!integer ::  stop_limit
-!integer ::  isource
-!integer ::  iproc
-!integer ::  chunk
-!integer ::  message_len
-!integer ::  numsent
-!integer ::  sender
-!integer ::  nsafe
-!integer ::  i_dummy
-!integer ::  i_individual
-!integer ::  i_2_individual
-
-!integer,parameter ::  itag  = 1
-!integer,parameter ::  itag2 = 2
-!integer,parameter ::  itag3 = 3
 
 
 real(kind=8),&
@@ -58,9 +39,6 @@ real(kind=8) :: Individual_Fitness_best_1
 real(kind=8),dimension(n_maximum_number_parameters) :: parent_parameters_best_1
 
 
-
-!real(kind=8) :: buffer(n_maximum_number_parameters + 2)
-!real(kind=8) :: buffer_recv(n_maximum_number_parameters + 2)
 
 
 integer (kind=4) ::      i
@@ -78,13 +56,12 @@ real(kind=8),parameter :: zero = 0.0d0
 ! if lmdif encounters an error, set individual_quality to -1
 ! if < 0 , reject this individual  ! jjm
 
-integer(kind=4),intent(in) :: individual_quality(n_GA_individuals)
+!integer(kind=4),intent(in) :: individual_quality(n_GA_individuals)
 
 real(kind=8), external :: indiv_fitness
 
 logical :: L_stop_run
 
-!logical :: Lprint_GA
 
 integer(kind=4) :: i_Tree
 integer(kind=4) :: i_Node
@@ -95,8 +72,8 @@ integer(kind=4) :: i_parameter
 integer(kind=4) :: i_GP_Generation
 integer(kind=4) :: i_GP_individual
 
-real(kind=8) :: t3
-real(kind=8) :: t4
+!real(kind=8) :: t3
+!real(kind=8) :: t4
 
 !----------------------------------------------------------------------
 
@@ -154,51 +131,6 @@ if( L_ga_print )then
 
 endif ! L_ga_print
 
-!-------------------------------------------------------------------------------
-
-!  run lmdif on best individual from the RK process
-
-!if( L_ga_print )then
-!    if( L_stop_run )then
-!        write(GA_print_unit,'(A,2(1x,I6))') &
-!          'sbrl: i_GA_Generation_last, i_GA_Best_Parent  call setup_run_lmdif ', &
-!                 i_GA_Generation_last, i_GA_Best_Parent
-!    else
-!        write(GA_print_unit,'(A,2(1x,I6))') &
-!          'sbrl: n_GA_Generations, i_GA_Best_Parent  call setup_run_lmdif ', &
-!                 n_GA_Generations, i_GA_Best_Parent
-!    endif ! L_stop_run
-!endif ! L_ga_print
-
-
-!t3 = MPI_Wtime()
-
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-!call setup_run_lmdif( i_GA_Best_Parent, parent_parameters, individual_quality, &
-!                      L_GA_print, GA_print_unit )
-
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-!t4 = MPI_Wtime()
-
-!write(GP_print_unit,'(A,2(1x,I6),1x,E15.7)') &
-!          'sbrl: i_GP_Generation,i_GP_individual, &
-!           &time spent in setup_run_lmdif = ', &
-!              i_GP_Generation,i_GP_individual, t4 - t3
-
-
-!if( L_ga_print )then
-!    if( L_stop_run )then
-!        write(GA_print_unit,'(A,2(1x,I6))') &
-!          'sbrl: i_GA_Generation_last, i_GA_Best_Parent  aft call setup_run_lmdif ', &
-!                 i_GA_Generation_last, i_GA_Best_Parent
-!    else
-!        write(GA_print_unit,'(A,2(1x,I6))') &
-!          'sbrl: n_GA_Generations, i_GA_Best_Parent  aft call setup_run_lmdif ', &
-!                 n_GA_Generations, i_GA_Best_Parent
-!    endif ! L_stop_run
-!endif ! L_ga_print
 
 
 !-------------------------------------------------------------------------------

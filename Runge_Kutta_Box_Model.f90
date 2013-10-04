@@ -40,6 +40,10 @@ real(kind=8) :: right_node_value
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+left_node_value  = 0.0D0
+right_node_value = 0.0D0
+
+
 ! start the time stepping loop
 
 do  i_time_step=1,n_time_steps

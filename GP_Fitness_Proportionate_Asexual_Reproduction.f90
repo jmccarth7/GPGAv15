@@ -13,7 +13,7 @@ implicit none
 
 real(kind=4) :: cff
 
-integer(kind=4) :: i
+!integer(kind=4) :: i
 integer(kind=4) :: icff
 integer(kind=4) :: i_GP_individual
 integer(kind=4) :: j_GP_Individual
