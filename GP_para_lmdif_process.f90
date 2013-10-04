@@ -307,11 +307,11 @@ call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
 !      'gplp:  broadcast Run_GA_lmdif i_GP_generation ', i_GP_generation
 !endif ! L_GP_print
 
-call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
-call MPI_BCAST( Run_GA_lmdif,  n_GP_individuals,    &
-                    MPI_LOGICAL, 0, MPI_COMM_WORLD, ierr )
-call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
-
+!call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
+!call MPI_BCAST( Run_GA_lmdif,  n_GP_individuals,    &
+!                    MPI_LOGICAL, 0, MPI_COMM_WORLD, ierr )
+!call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
+!
 !if( L_GP_print )then
 !    write(GP_print_unit,'(A,1x,I10/)') &
 !     'gplp: Run_GA_lmdif  broadcast ierr = ', ierr
@@ -428,30 +428,30 @@ if( myid == 0  )then
 
         ! store the information received in the above message
 
-        if( Run_GA_lmdif(i_individual) ) then
+        !if( Run_GA_lmdif(i_individual) ) then
 
             child_parameters(1:n_parameters,i_individual) =  &
                                  buffer_recv(1:n_parameters)
 
-            individual_SSE(i_individual)     =       buffer_recv( n_parameters+1)
+            GP_Child_Individual_SSE(i_individual)     =       buffer_recv( n_parameters+1)
             individual_quality(i_individual) = nint( buffer_recv( n_parameters+2) )
 
             !if( L_GP_print )then
             !    write(GP_print_unit,'(A,3(1x,I6))') &
             !     'gplp:2 554 myid, n_parameters, i_individual ', &
-            !                      myid, n_parameters, i_individual
+            !                 myid, n_parameters, i_individual
             !    write(GP_print_unit,'(A/(5(1x,E15.7)))') &
             !     'gplp:2 child_parameters(1:n_parameters,i_individual) ', &
-            !                  child_parameters(1:n_parameters,i_individual)
+            !             child_parameters(1:n_parameters,i_individual)
             !    write(GP_print_unit,'(A,2(1x,I6),1x,E15.7)') &
-            !     'gplp:2 myid, i_individual, individual_SSE(i_individual)', &
-            !                  myid, i_individual, individual_SSE(i_individual)
+            !     'gplp:2 myid, i_individual, GP_Child_Individual_SSE(i_individual)', &
+            !             myid, i_individual, GP_Child_Individual_SSE(i_individual)
             !    write(GP_print_unit,'(A,3(1x,I6))') &
             !     'gplp:2 myid, i_individual, individual_quality(i_individual) ', &
-            !                  myid, i_individual,  individual_quality(i_individual)
+            !             myid, i_individual,  individual_quality(i_individual)
             !endif ! L_GP_print
 
-        endif ! Run_GA_lmdif(i_individual)
+        !endif ! Run_GA_lmdif(i_individual)
 
         !-------------------------------------------------------------------------------------
 
@@ -460,7 +460,7 @@ if( myid == 0  )then
         !if( L_GP_print )then
         !    write(GP_print_unit,'(A,1x,I6, 4x,L1)') &
         !     'gplp:2 542 myid, numsent < n_GP_individuals ', &
-        !                      myid, numsent < n_GP_individuals
+        !                 myid, numsent < n_GP_individuals
         !endif ! L_GP_print
 
         if( numsent <  n_GP_individuals )then
@@ -480,7 +480,7 @@ if( myid == 0  )then
 
             !write(GP_print_unit,'(A,4(1x,I6))') &
             !     'gplp:2 554 send   myid, sender, numsent, i_GP_individual ', &
-            !                             myid, sender, numsent, i_GP_individual
+            !                        myid, sender, numsent, i_GP_individual
 
             ! just sent a new task, so increment the number sent
 
@@ -489,7 +489,7 @@ if( myid == 0  )then
             !if( L_GP_print )then
             !    write(GP_print_unit,'(A,4(1x,I6))') &
             !     'gplp:2 556  myid, sender, numsent, i_GP_individual ', &
-            !                       myid, sender, numsent, i_GP_individual
+            !                  myid, sender, numsent, i_GP_individual
             !endif ! L_GP_print
 
 
@@ -506,7 +506,7 @@ if( myid == 0  )then
             !if( L_GP_print )then
             !    write(GP_print_unit,'(A,3(1x,I6))') &
             !      'gplp:2 send msg to stop  myid, numsent, i_GP_individual ', &
-            !                                     myid, numsent, i_GP_individual
+            !                                myid, numsent, i_GP_individual
             !endif ! L_GP_print
 
             call MPI_SEND( MPI_BOTTOM, 0, MPI_DOUBLE_PRECISION,    &
@@ -597,7 +597,7 @@ else  ! not myid == 0
         !if( L_GP_print )then
         !    write(GP_print_unit,'(A,4(1x,I6))') &
         !      'gplp:3  myid, i_dummy, MPI_STAT( MPI_TAG ), i_2_individual ', &
-        !                    myid, i_dummy, MPI_STAT( MPI_TAG ), i_2_individual
+        !               myid, i_dummy, MPI_STAT( MPI_TAG ), i_2_individual
         !endif ! L_GP_print
 
         buffer = 0.0D0
@@ -608,12 +608,12 @@ else  ! not myid == 0
         !                   myid, i_2_individual, Run_GA_lmdif(i_2_individual)
         !endif ! L_GP_print
 
-        if( Run_GA_lmdif(i_2_individual)) then
+        !if( Run_GA_lmdif(i_2_individual)) then
 
             !if( L_GP_print )then
             !    write(GP_print_unit,'(A,2(1x,I6))') &
             !      'gplp:3 call setup_run_fcn  myid, i_2_individual   ', &
-            !                                       myid, i_2_individual
+            !                                  myid, i_2_individual
             !endif ! L_GP_print
 
             ! do the Runge-Kutta integration for individual i_2_individual
@@ -631,35 +631,35 @@ else  ! not myid == 0
 
             !write(GP_print_unit,'(A,2(1x,I6),1x,E15.7)') &
             !  'gplp: myid, i_2_individual, time spent in setup_run_fcn = ', &
-            !      myid, i_2_individual, t2 - t1
+            !         myid, i_2_individual, t2 - t1
 
             !if( L_GP_print )then
             !    write(GP_print_unit,'(A,3(1x,I6))') &
             !      'gplp:3 AFTER call setup_run_fcn  myid, i_2_individual   ', &
-            !                                             myid, i_2_individual
+            !                                        myid, i_2_individual
             !endif ! L_GP_print
 
             !-------------------------------------------------------------------------
 
             buffer(1:n_parameters) = child_parameters(1:n_parameters,i_2_individual)
-            buffer(n_parameters+1) = individual_SSE(i_2_individual)
+            buffer(n_parameters+1) = GP_Child_Individual_SSE(i_2_individual)
             buffer(n_parameters+2) = real( individual_quality(i_2_individual), kind=8 )
 
-        endif !  Run_GA_lmdif(i_2_individual)
+        !endif !  Run_GA_lmdif(i_2_individual)
 
         !if( L_GP_print )then
         !    write(GP_print_unit,'(A,3(1x,I6))') &
         !    'gplp:3 705 myid, n_parameters, i_2_individual', &
-        !                     myid, n_parameters, i_2_individual
+        !                myid, n_parameters, i_2_individual
         !    write(GP_print_unit,'(A/(5(1x,E15.7)))') &
         !    'gplp:3 child_parameters(1:n_parameters,i_2_individual)', &
-        !                 child_parameters(1:n_parameters,i_2_individual)
+        !            child_parameters(1:n_parameters,i_2_individual)
         !    write(GP_print_unit,'(A,3(1x,I6))') &
         !    'gplp:3 myid, i_2_individual, individual_quality(i_2_individual)', &
-        !                 myid, i_2_individual, individual_quality(i_2_individual)
+        !            myid, i_2_individual, individual_quality(i_2_individual)
         !    write(GP_print_unit,'(A,2(1x,I6), 1x, E15.7)') &
-        !    'gplp:3 send results myid, i_2_individual, individual_SSE(i_2_individual)', &
-        !                              myid, i_2_individual, individual_SSE(i_2_individual)
+        !    'gplp:3 send results myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)', &
+        !                         myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)
         !endif ! L_GP_print
 
 
@@ -710,67 +710,101 @@ call MPI_BARRIER( MPI_COMM_WORLD, ierr )
 !if( L_GP_print )then
 !    write(GP_print_unit,'(A,2(1x,I6))') &
 !      'gplp: after barrier 2 i_GP_generation, myid = ', &
-!                                  i_GP_generation, myid
+!                             i_GP_generation, myid
 !endif ! L_GP_print
 
 !-------------------------------------------------------------------
 
 
-!  calculate the fitness for this generation
+! load the new child parameters into the population node parameters 
 
 
-if( myid == 0  )then
+if( myid == 0 )then
 
-    if( L_GP_print )then
-
-        write(GP_print_unit,'(A)')  'gplp: individual_SSE  '
-        write(GP_print_unit,'(5(1x,E15.7))')  individual_SSE(1:n_GP_individuals)
-
-        write(GP_print_unit,'(/A,1x,I6)') &
-              'gplp: call calc_fitness i_GP_generation ', &
-                                            i_GP_generation
-    endif ! L_GP_print
-
-
-    call calc_fitness( child_parameters, individual_quality, &
-                       i_GA_Best_Parent, Parent_Parameters, L_stop_run, &
-                       i_GP_Generation, i_GP_individual )
-
-
-    if( L_GP_print )then
-        write(GP_print_unit,'(/A,1x,I6/)') &
-              'gplp: aft call calc_fitness i_GP_generation ', &
-                                                i_GP_generation
-    endif ! L_GP_print
-
-    !---------------------------------------------------------------------
-
-    ! this subroutine, if called, will run lmdif on the best individual
-    ! for this generation, instead of waiting to run lmdif after the
-    ! generation loop
-
-    !if( mod( i_GP_generation, 10 ) == 0 )then
-    !    if( L_GP_print )then
-    !        write(GP_print_unit,'(/A)') &
-    !          'gplp: call select_best_RK_lmdif_result '
-    !    endif ! L_GP_print
-    !    call select_best_RK_lmdif_result( &
-    !                i_GP_Generation,i_GP_individual, &
-    !                i_GA_best_parent, parent_parameters, &
-    !                child_parameters, &
-    !                individual_quality, L_stop_run  )
-    !endif ! mod( i_GP_generation, 10 ) == 0
-
-    !if( L_GP_print )then
-    !    write(GP_print_unit,'(A/)') &
-    !      'gplp: aft call select_best_RK_lmdif_result '
-    !endif ! L_GP_print
-
-    !---------------------------------------------------------------------
-
-
+    do  i_GP_individual = 1, n_GP_individuals
+    
+        n_parameters = 0
+    
+    
+        do  i_tree=1,n_trees
+            do  i_node=1,n_nodes
+    
+                if( GP_Adult_population_Node_Type(i_Node,i_Tree, i_GP_individual ) .eq. 0 ) then
+    
+                    n_parameters = n_parameters + 1 
+                   
+                    GP_population_node_parameters(i_node,i_tree,i_GP_individual) = &
+                                child_parameters( n_parameters, i_GP_individual) 
+    
+                endif ! GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0
+    
+            enddo ! i_node
+        enddo  ! i_tree
+    
+    
+    enddo ! i_GP_individual
 
 endif ! myid == 0
+
+!-----------------------------------------------------------------------------
+
+!
+!
+!!  calculate the fitness for this generation
+!
+!
+!if( myid == 0  )then
+!
+!    if( L_GP_print )then
+!
+!        write(GP_print_unit,'(A)')  'gplp: GP_Child_Individual_SSE  '
+!        write(GP_print_unit,'(5(1x,E15.7))')  GP_Child_Individual_SSE(1:n_GP_individuals)
+!
+!        write(GP_print_unit,'(/A,1x,I6)') &
+!              'gplp: call calc_fitness i_GP_generation ', &
+!                                       i_GP_generation
+!    endif ! L_GP_print
+!
+!
+!    call calc_fitness( child_parameters, individual_quality, &
+!                       i_GA_Best_Parent, Parent_Parameters, L_stop_run, &
+!                       i_GP_Generation, i_GP_individual )
+!
+!
+!    if( L_GP_print )then
+!        write(GP_print_unit,'(/A,1x,I6/)') &
+!              'gplp: aft call calc_fitness i_GP_generation ', &
+!                                                i_GP_generation
+!    endif ! L_GP_print
+!
+!    !---------------------------------------------------------------------
+!
+!    ! this subroutine, if called, will run lmdif on the best individual
+!    ! for this generation, instead of waiting to run lmdif after the
+!    ! generation loop
+!
+!    !if( mod( i_GP_generation, 10 ) == 0 )then
+!    !    if( L_GP_print )then
+!    !        write(GP_print_unit,'(/A)') &
+!    !          'gplp: call select_best_RK_lmdif_result '
+!    !    endif ! L_GP_print
+!    !    call select_best_RK_lmdif_result( &
+!    !                i_GP_Generation,i_GP_individual, &
+!    !                i_GA_best_parent, parent_parameters, &
+!    !                child_parameters, &
+!    !                individual_quality, L_stop_run  )
+!    !endif ! mod( i_GP_generation, 10 ) == 0
+!
+!    !if( L_GP_print )then
+!    !    write(GP_print_unit,'(A/)') &
+!    !      'gplp: aft call select_best_RK_lmdif_result '
+!    !endif ! L_GP_print
+!
+!    !---------------------------------------------------------------------
+!
+!
+!
+!endif ! myid == 0
 
 !if( i_GP_generation > 1 )then
 !    if( L_GP_print )then
@@ -784,27 +818,27 @@ endif ! myid == 0
 
 !-------------------------------------------------------------------
 
-call MPI_BARRIER( MPI_COMM_WORLD, ierr )   ! necessary ?
+!call MPI_BARRIER( MPI_COMM_WORLD, ierr )   ! necessary ?
 
-call MPI_BCAST( L_stop_run,  1,    &
-                MPI_LOGICAL, 0, MPI_COMM_WORLD, ierr )
+!call MPI_BCAST( L_stop_run,  1,    &
+!                MPI_LOGICAL, 0, MPI_COMM_WORLD, ierr )
 
-call MPI_BARRIER( MPI_COMM_WORLD, ierr )   ! necessary ?
+!call MPI_BARRIER( MPI_COMM_WORLD, ierr )   ! necessary ?
 
-if( L_stop_run )then
-
-    !if( L_GP_print )then
-    !    write(GP_print_unit,'(/A,1x,I6/)') &
-    !    'gplp: L_stop_fitness is true &
-    !     &so last generation is i_GP_generation ', &
-    !                            i_GP_generation
-    !endif ! L_GP_print
-
-    i_GP_generation_last = i_GP_generation
-
-    exit
-
-endif ! L_stop_run
+!if( L_stop_run )then
+!
+!    !if( L_GP_print )then
+!    !    write(GP_print_unit,'(/A,1x,I6/)') &
+!    !    'gplp: L_stop_fitness is true &
+!    !     &so last generation is i_GP_generation ', &
+!    !                            i_GP_generation
+!    !endif ! L_GP_print
+!
+!    i_GP_generation_last = i_GP_generation
+!
+!    exit
+!
+!endif ! L_stop_run
 
 
 
@@ -825,53 +859,53 @@ call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
 !endif ! L_GP_print
 
 !----------------------------------------------------------------------
-
-
-! finished all generations,
-
-! now call lmdif on the best individual of the last generation
-! and determine if lmdif has improved the fitness of this individual
-! then save the parameters of the fitter of the two results, the RK result
-! and the lmdif result
-
-! GP_Individual_Node_Parameters loaded from the best parent parameters (RK or lmdif)
-! after the RK process and lmdif
-
-
-if( myid == 0  )then
-
-    if( L_GP_print )then
-        write(GP_print_unit,'(/A)') &
-          'gplp: call select_best_RK_lmdif_result '
-    endif ! L_GP_print
-
-    !t1 = MPI_Wtime()
-
-    call select_best_RK_lmdif_result( &
-                i_GP_Generation,i_GP_individual, &
-                i_GA_best_parent, parent_parameters, &
-                child_parameters, &
-                individual_quality, L_stop_run  )
-
-    !t2 = MPI_Wtime()
-
-    !write(GP_print_unit,'(A,2(1x,I6),1x,E15.7)') &
-    !      'gplp: i_GP_Generation,i_GP_individual, &
-    !       &time spent in select_best_RK_lmdif_result = ', &
-    !          i_GP_Generation,i_GP_individual, t2 - t1
-
-
-    if( L_GP_print )then
-        write(GP_print_unit,'(A/)') &
-          'gplp: aft call select_best_RK_lmdif_result '
-    endif ! L_GP_print
-
-
-endif ! myid == 0
-
-
-call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
-
+!
+!
+!! finished all generations,
+!
+!! now call lmdif on the best individual of the last generation
+!! and determine if lmdif has improved the fitness of this individual
+!! then save the parameters of the fitter of the two results, the RK result
+!! and the lmdif result
+!
+!! GP_Individual_Node_Parameters loaded from the best parent parameters (RK or lmdif)
+!! after the RK process and lmdif
+!
+!
+!if( myid == 0  )then
+!
+!    if( L_GP_print )then
+!        write(GP_print_unit,'(/A)') &
+!          'gplp: call select_best_RK_lmdif_result '
+!    endif ! L_GP_print
+!
+!    !t1 = MPI_Wtime()
+!
+!    call select_best_RK_lmdif_result( &
+!                i_GP_Generation,i_GP_individual, &
+!                i_GA_best_parent, parent_parameters, &
+!                child_parameters, &
+!                individual_quality, L_stop_run  )
+!
+!    !t2 = MPI_Wtime()
+!
+!    !write(GP_print_unit,'(A,2(1x,I6),1x,E15.7)') &
+!    !      'gplp: i_GP_Generation,i_GP_individual, &
+!    !       &time spent in select_best_RK_lmdif_result = ', &
+!    !          i_GP_Generation,i_GP_individual, t2 - t1
+!
+!
+!    if( L_GP_print )then
+!        write(GP_print_unit,'(A/)') &
+!          'gplp: aft call select_best_RK_lmdif_result '
+!    endif ! L_GP_print
+!
+!
+!endif ! myid == 0
+!
+!
+!call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
+!
 !------------------------------------------------------------------------
 
 ! broadcast individual_fitness
