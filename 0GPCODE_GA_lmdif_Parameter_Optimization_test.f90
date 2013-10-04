@@ -50,9 +50,9 @@ real(kind=8) :: t2
 
 character(200) :: tree_descrip
 
-character(10),parameter :: program_version   = '201308.701'
-character(10),parameter :: modification_date = '20130929'
-character(30),parameter :: branch  = 'old_elite_scheme_RKmods2'
+character(10),parameter :: program_version   = '201308.001'
+character(10),parameter :: modification_date = '20131004'
+character(30),parameter :: branch  =  'old_elite_parallel_lmdif'
 
 
 !----------------------------------------------------------------------------------------
@@ -83,6 +83,7 @@ Lprint_lmdif = .TRUE.
 
 if( myid == 0 )then
 
+    write(6,'(/A/)') '0: run lmdif in parallel on each GP generation'
     write(6,'(/A/)') '0: changed RK sub to make it faster'
     write(6,'(/A/)') '0: using the old_elite_scheme in GP_Fit* GP_Tou*, GP_Mut*'
     write(6,'(/A/)') '0: fast mod 1: remove GP diversity and tree printout     '
@@ -1196,6 +1197,18 @@ do  i_GP_Generation=1,n_GP_Generations
 
 
     !-------------------------------------------------------------------------------------
+
+    !  call routine to run lmdif in parallel on all the GP individuals
+
+
+    call  GP_para_lmdif_process( )
+
+
+
+
+
+    !-------------------------------------------------------------------------------------
+
 
     ! do fitness calculations for this GP generation
 

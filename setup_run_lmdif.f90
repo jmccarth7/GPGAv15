@@ -151,12 +151,16 @@ endif ! Lprint_lmdif
 L_bad_result = .false.
 
 t1 = MPI_Wtime()
+
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 write(myprint_unit,'(/A/)') 'setrlm: RUN LMDIF '
 call lmdif( fcn, n_time_steps, n_parameters, x_LMDIF, fvec, &
             ftol, xtol, gtol, maxfev, epsfcn, &
             diag, mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf )
+
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 t2 = MPI_Wtime()
 delta_wt = MPI_Wtick()
 
