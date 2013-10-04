@@ -93,13 +93,13 @@ integer(kind=4) :: i_parameter
 real(kind=8) :: t1
 real(kind=8) :: t2
 
-                                                                                                                     
-logical :: L_GP_print                                                                                                
-                                                                                                                     
-!----------------------------------------------------------------------                                              
-                                                                                                                     
-L_GP_print = .TRUE.                                                                                                  
-  
+
+logical :: L_GP_print
+
+!----------------------------------------------------------------------
+
+L_GP_print = .TRUE.
+
 i_dummy = 0
 
 
@@ -142,11 +142,11 @@ endif ! myid == 0
 !        !        !endif ! abs( GP_Indiv_Node_Param(i_node,i_tree) ) > 1.0e-20
 !        !    enddo ! i_node
 !        !enddo  ! i_tree
-!    
+!
 !        write(GP_print_unit,'(/A)') &
 !                     'gplp: i_node, i_tree, GP_Indiv_Node_Type'
-!    
-!    
+!
+!
 !        do  i_tree=1,n_trees
 !            do  i_node=1,n_nodes
 !                if( GP_Individual_Node_Type(i_node,i_tree) > -9999 )then
@@ -157,7 +157,7 @@ endif ! myid == 0
 !                endif ! GP_Indiv_Node_Type(i_node,i_tree) > -9999
 !            enddo ! i_node
 !        enddo  ! i_tree
-!    
+!
 !        write(GP_print_unit,'(A)')' '
 !    endif ! L_GP_print
 !
@@ -175,10 +175,64 @@ if( n_parameters .le. 0) then
     stop 'n_par<=0'
 endif
 
+!-----------------------------------------------------------------------------
 
 
-!child_parameters( 1:n_maximum_number_parameters, 1:n_GP_individuals) = 0.0d0
+!>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  debug
+! print the node parameters (if there are any)
 
+if( myid == 0 )then
+    write(GP_print_unit,'(/A/)') &
+       'gplp:  i_GP_indiv node  tree  GP_population_node_params'
+    do  i_GP_individual = 1, n_GP_individuals
+        do  i_tree=1,n_trees
+            do  i_node=1,n_nodes
+                if( GP_Adult_population_Node_Type(i_Node,i_Tree, i_GP_individual ) .eq. 0 ) then
+                    if( GP_population_node_parameters(i_node,i_tree,i_GP_individual) > 0.0d0 )then
+                        write(GP_print_unit,'(3(1x,I6),  4x, E20.10)') &
+                         i_GP_individual, i_node, i_tree, &
+                         GP_population_node_parameters(i_node,i_tree,i_GP_individual)
+                    endif ! GP_population_node_parameters(i_node,i_tree,i_GP_individual) > 0.0d0
+                endif ! GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0
+    
+            enddo ! i_node
+        enddo  ! i_tree
+    enddo ! i_GP_individual
+endif ! myid == 0
+
+!<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  debug
+
+
+! load the population node parameters into the child parameters
+
+
+if( myid == 0 )then
+
+    child_parameters( 1:n_maximum_number_parameters, 1:n_GP_individuals) = 0.0d0
+    do  i_GP_individual = 1, n_GP_individuals
+    
+        n_parameters = 0
+    
+    
+        do  i_tree=1,n_trees
+            do  i_node=1,n_nodes
+    
+                if( GP_Adult_population_Node_Type(i_Node,i_Tree, i_GP_individual ) .eq. 0 ) then
+    
+                    n_parameters = n_parameters + 1 
+                   
+                    child_parameters( n_parameters, i_GP_individual) =  &
+                         GP_population_node_parameters(i_node,i_tree,i_GP_individual)
+    
+                endif ! GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0
+    
+            enddo ! i_node
+        enddo  ! i_tree
+    
+    
+    enddo ! i_GP_individual
+
+endif ! myid == 0
 
 !-----------------------------------------------------------------------------
 
@@ -221,7 +275,7 @@ child_number =  n_GP_individuals * n_maximum_number_parameters
 !if( L_GP_print )then
 !    write(GP_print_unit,'(A,4(1x,I6)/)') &
 !     'gplp:  myid, n_GP_individuals, n_maximum_number_parameters, child_number = ', &
-!                  myid, n_GP_individuals, n_maximum_number_parameters, child_number
+!             myid, n_GP_individuals, n_maximum_number_parameters, child_number
 !endif ! L_GP_print
 
 call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
@@ -513,7 +567,7 @@ else  ! not myid == 0
         !if( myid == 1 )then
         !    write(GP_print_unit,'(A,1x,I6)') &
         !          'gplp: myid  proc1 in recv_loop', myid
-        !endif 
+        !endif
 
 
 
@@ -567,8 +621,11 @@ else  ! not myid == 0
             !t1 = MPI_Wtime()
 
 
-            call setup_run_fcn( i_2_individual, child_parameters, individual_quality )
-
+            !call setup_run_fcn( i_2_individual, child_parameters, individual_quality )
+            call setup_run_para_lmdif( i_2_individual, child_parameters, &
+                                       individual_quality, &
+                                       n_GP_individuals, GP_child_individual_SSE,  &
+                                       L_GP_print, GP_print_unit )
 
             !t2 = MPI_Wtime()
 
@@ -789,7 +846,7 @@ if( myid == 0  )then
     endif ! L_GP_print
 
     !t1 = MPI_Wtime()
-    
+
     call select_best_RK_lmdif_result( &
                 i_GP_Generation,i_GP_individual, &
                 i_GA_best_parent, parent_parameters, &

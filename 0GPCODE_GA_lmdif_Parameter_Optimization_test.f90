@@ -1244,12 +1244,16 @@ do  i_GP_Generation=1,n_GP_Generations
         enddo ! i_GP_individual
         !<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  debug
 
+        !----------------------------------------------------------------------------------
         !t1 = MPI_Wtime()
+
+        ! do fitness calculations for this GP generation
 
         call GP_calc_fitness( i_GP_generation, output_array, &
                               i_GP_best_parent, nop ) 
 
         !t2 = MPI_Wtime()
+        !----------------------------------------------------------------------------------
 
 
         !write(GP_print_unit,'(A,1x,E15.7)') &
