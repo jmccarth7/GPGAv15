@@ -58,7 +58,7 @@ integer(kind=4) :: individual_quality(n_indiv)
 integer(kind=4) :: i_time_step
 integer(kind=4) :: i_parameter
 
-real(kind=8) :: child_parameters(n_maximum_number_parameters,n_indiv)
+real(kind=8) :: child_parameters( n_maximum_number_parameters, n_indiv )
 
 external :: fcn
 
@@ -68,12 +68,14 @@ real(kind=8) :: delta_wt
 
 !--------------------------------------------------------------------------------------------
 
+n_parameters = GP_n_parms( i_G_indiv ) 
+
 write(myprint_unit,'(//A,3(1x,I6),1x,E20.10)') &
           'strplm:1 myid, myprint_unit, n_parameters', &
                     myid, myprint_unit, n_parameters
-write(myprint_unit,'(/A,2(1x,I10))') &
-      'strplm: at entry i_G_indiv, individual_quality(i_G_indiv) ', &
-                        i_G_indiv, individual_quality(i_G_indiv) 
+write(myprint_unit,'(/A,1x,I3,2(1x,I10))') &
+      'strplm: at entry myid, i_G_indiv, individual_quality(i_G_indiv) ', &
+                        myid, i_G_indiv, individual_quality(i_G_indiv) 
 
 !>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -129,7 +131,7 @@ nprint= 1  ! set back to zero after diag
 ldfjac=n_time_steps
 
 !if( L_myprint )then
-    write(myprint_unit,*) 'strplm: i_G_indiv ', i_G_indiv
+!    write(myprint_unit,*) 'strplm: i_G_indiv ', i_G_indiv
 !endif ! L_myprint
 
 !----------------------------------------------------------------------------------------
@@ -139,16 +141,16 @@ if( Lprint_lmdif )then
         write(myprint_unit,'(/A,4(1x,I6))') &
          'strplm: call lmdif, myid, n_time_steps, n_parameters, i_G_indiv ', &
                               myid, n_time_steps, n_parameters, i_G_indiv
-        write(myprint_unit,'(/A)') 'strplm: lmdif parameters '
+        !write(myprint_unit,'(/A)') 'strplm: lmdif parameters '
 
-        write(myprint_unit,'(A,3(1x,I10))')   'strplm: mode, nprint, ldfjac ', &
-                                                       mode, nprint, ldfjac
-        write(myprint_unit,'(A,3(1x,E15.7))') 'strplm: ftol, xtol, gtol     ', &
-                                                       ftol, xtol, gtol
-        write(myprint_unit,'(A,3(1x,E15.7))') 'strplm: tol,epsfcn, factor   ', &
-                                                       tol, epsfcn,factor
-        write(myprint_unit,'(A,1x,I10)')   'strplm: maxfev ', maxfev
-        write(myprint_unit,'(A,1x,I10)')   'strplm: info   ', info
+        !write(myprint_unit,'(A,3(1x,I10))')   'strplm: mode, nprint, ldfjac ', &
+        !                                               mode, nprint, ldfjac
+        !write(myprint_unit,'(A,3(1x,E15.7))') 'strplm: ftol, xtol, gtol     ', &
+        !                                               ftol, xtol, gtol
+        !write(myprint_unit,'(A,3(1x,E15.7))') 'strplm: tol,epsfcn, factor   ', &
+        !                                               tol, epsfcn,factor
+        !write(myprint_unit,'(A,1x,I10)')   'strplm: maxfev ', maxfev
+        !write(myprint_unit,'(A,1x,I10)')   'strplm: info   ', info
     endif ! L_myprint
 endif ! Lprint_lmdif
 
@@ -161,7 +163,8 @@ t1 = MPI_Wtime()
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-write(myprint_unit,'(/A/)') 'strplm: RUN LMDIF '
+write(myprint_unit,'(/A,1x,I3/)') 'strplm: RUN LMDIF  myid = ', myid 
+
 call lmdif( fcn, n_time_steps, n_parameters, x_LMDIF, fvec, &
             ftol, xtol, gtol, maxfev, epsfcn, &
             diag, mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf )
@@ -169,13 +172,13 @@ call lmdif( fcn, n_time_steps, n_parameters, x_LMDIF, fvec, &
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 t2 = MPI_Wtime()
-delta_wt = MPI_Wtick()
+!delta_wt = MPI_Wtick()
 
 sum_lmdif = sum_lmdif + ( t2 - t1 )
 
-write(myprint_unit,'(/A,1x,E15.7)') 'strplm: time spent in lmdif = ', t2 - t1
-write(myprint_unit,'(A,1x,E15.7)')  'strplm: time increment      = ', delta_wt
-write(myprint_unit,'(A,1x,E15.7/)') 'strplm:          sum_ lmdif = ', sum_lmdif 
+!write(myprint_unit,'(/A,1x,E15.7)') 'strplm: time spent in lmdif = ', t2 - t1
+!write(myprint_unit,'(A,1x,E15.7)')  'strplm: time increment      = ', delta_wt
+!write(myprint_unit,'(A,1x,E15.7/)') 'strplm:          sum_ lmdif = ', sum_lmdif 
 
 !write(6,'(A,3(1x,I3),1x,I10/)') &
 !      'strplm: aft call lmdif, myid, n_parameters, info, n_time_steps', &
@@ -243,7 +246,7 @@ if( info < 0 ) then
           'strplm:3 myid, i_G_indiv, individual_quality(i_G_indiv), &
                                       &my_indiv_SSE(i_G_indiv) ', &
                     myid, i_G_indiv, individual_quality(i_G_indiv), &
-                                      my_indiv_SSE(i_G_indiv)
+                                       my_indiv_SSE(i_G_indiv)
     endif ! L_myprint
     return
 
@@ -256,11 +259,11 @@ if (info .eq. 8) info = 4
 
 !-----------------------------------------------------------------------------------
 
-!if( L_myprint )then
+if( L_myprint )then
     write(myprint_unit,'(/A/ 2(1x, I6), 12( 1x,E12.5))') &
           'strplm:3 myid, i_G_indiv, X_LMDIF', &
                     myid, i_G_indiv, X_LMDIF(1:n_parameters)
-!endif ! L_myprint
+endif ! L_myprint
 
 
 do  i_parameter=1,n_parameters
@@ -268,11 +271,11 @@ do  i_parameter=1,n_parameters
                            dabs( x_LMDIF(i_parameter) )
 enddo ! i_parameter
 
-!if( L_myprint )then
+if( L_myprint )then
     write(myprint_unit,'(/A/ 2(1x, I6), 12( 1x,E12.5))') &
      'strplm:4 myid, i_G_indiv, child_parameters(:,i_G_indiv)', &
                myid, i_G_indiv, child_parameters(1:n_parameters, i_G_indiv)
-!endif ! L_myprint
+endif ! L_myprint
 
 
 !-----------------------------------------------------------------------------------

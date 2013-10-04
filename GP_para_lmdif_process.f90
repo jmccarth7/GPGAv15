@@ -213,7 +213,6 @@ if( myid == 0 )then
     
         n_parameters = 0
     
-    
         do  i_tree=1,n_trees
             do  i_node=1,n_nodes
     
@@ -229,7 +228,8 @@ if( myid == 0 )then
             enddo ! i_node
         enddo  ! i_tree
     
-    
+        GP_n_parms( i_GP_individual ) = n_parameters 
+
     enddo ! i_GP_individual
 
 endif ! myid == 0
@@ -296,6 +296,43 @@ call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
 !              ( child_parameters(jj,i_GP_individual), jj = 1,n_parameters )
 !    enddo ! i_GP_individual
 !endif ! L_GP_print
+
+
+!------------------------------------------------------------------------
+
+!  broadcast GP_n_parms
+
+
+!if( L_GP_print )then
+!    write(GP_print_unit,'(/A,2(1x,I6))') &
+!    'gplp:  broadcast GP_N_parms  myid, i_GP_generation ', &
+!                                  myid, i_GP_generation
+!endif ! L_GP_print
+
+
+!if( L_GP_print )then
+!    write(GP_print_unit,'(A,4(1x,I6)/)') &
+!     'gplp:  myid, n_GP_individuals =', &
+!             myid, n_GP_individuals
+!endif ! L_GP_print
+
+
+call MPI_BCAST( GP_n_parms,  n_GP_individuals,    &
+                MPI_INTEGER, 0, MPI_COMM_WORLD, ierr )
+
+call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
+
+!if( L_GP_print )then
+!    write(GP_print_unit,'(/A,2(1x,I10)/)') &
+!     'gplp: child  broadcast myid, ierr = ', myid, ierr
+!    write(GP_print_unit,'(/A,2(1x,I10)/)') &
+!     'gplp: myid, n_GP_individuals = ', myid, n_GP_individuals
+!    do  i_GP_individual = 1, n_GP_individuals
+!        write(GP_print_unit,'(I3,1x,I3,1x,12(1x,E15.7))') &
+!              myid, i_GP_individual, GP_N_parms(i_GP_individual)
+!    enddo ! i_GP_individual
+!endif ! L_GP_print
+
 
 
 !------------------------------------------------------------------------
@@ -373,9 +410,10 @@ if( myid == 0  )then
         !                 myid, isource, numsent
         !endif ! L_GP_print
 
+        n_parameters = GP_n_parms( isource ) 
 
         buffer_recv = 0.0d0
-        call MPI_RECV( buffer_recv, n_parameters+2, &
+        call MPI_RECV( buffer_recv, n_maximum_number_parameters+2, &
                        MPI_DOUBLE_PRECISION, &
                        MPI_ANY_SOURCE, MPI_ANY_TAG,  &
                        MPI_COMM_WORLD, MPI_STAT,  ierr )
@@ -404,11 +442,11 @@ if( myid == 0  )then
         ! store the information received in the above message
 
 
-        child_parameters(1:n_parameters,i_individual) =  &
-                             buffer_recv(1:n_parameters)
+        child_parameters(1:n_maximum_number_parameters,i_individual) =  &
+                             buffer_recv(1:n_maximum_number_parameters)
 
-        GP_Child_Individual_SSE(i_individual)     =       buffer_recv( n_parameters+1)
-        individual_quality(i_individual) = nint( buffer_recv( n_parameters+2) )
+        GP_Child_Individual_SSE(i_individual) =  buffer_recv( n_maximum_number_parameters+1)
+        individual_quality(i_individual) = nint( buffer_recv( n_maximum_number_parameters+2) )
 
         !if( L_GP_print )then
         !    write(GP_print_unit,'(A,3(1x,I6))') &
@@ -450,10 +488,10 @@ if( myid == 0  )then
                            sender, numsent+1,  MPI_COMM_WORLD, ierr )
 
 
-
             !write(GP_print_unit,'(A,4(1x,I6))') &
             !     'gplp:2 554 send   myid, sender, numsent, i_GP_individual ', &
             !                        myid, sender, numsent, i_GP_individual
+
 
             ! just sent a new task, so increment the number sent
 
@@ -493,7 +531,7 @@ if( myid == 0  )then
 
     !----------------------------------------------------------------------
 
-    ! this section takes care of the case where there are fewer GA individuals
+    ! this section takes care of the case where there are fewer GP individuals
     ! than (number of procs) - 1
 
     ! without the code below,  the program hangs because the processors
@@ -543,7 +581,6 @@ else  ! not myid == 0
         !endif
 
 
-
         call MPI_RECV( i_dummy, 1, MPI_INTEGER,    &
                        0, MPI_ANY_TAG,  MPI_COMM_WORLD, MPI_STAT, ierr )
 
@@ -552,7 +589,7 @@ else  ! not myid == 0
         !if( L_GP_print )then
         !    write(GP_print_unit,'(A,2(1x,I6))') &
         !      'gplp:3  myid, MPI_STAT( MPI_TAG ) ', &
-        !                    myid, MPI_STAT( MPI_TAG )
+        !               myid, MPI_STAT( MPI_TAG )
         !endif ! L_GP_print
 
         ! was a stop signal received ?
@@ -578,7 +615,7 @@ else  ! not myid == 0
         !if( L_GP_print )then
         !    write(GP_print_unit,'(A,2(1x,I6),4x,L1)') &
         !      'gplp:3 myid, i_2_individual, Run_GA_lmdif(i_2_individual)', &
-        !                   myid, i_2_individual, Run_GA_lmdif(i_2_individual)
+        !              myid, i_2_individual, Run_GA_lmdif(i_2_individual)
         !endif ! L_GP_print
 
 
@@ -599,6 +636,7 @@ else  ! not myid == 0
                                    individual_quality, &
                                    n_GP_individuals, GP_child_individual_SSE,  &
                                    L_GP_print, GP_print_unit )
+
         !-------------------------------------------------------------------------
 
         !t2 = MPI_Wtime()
@@ -614,10 +652,12 @@ else  ! not myid == 0
         !endif ! L_GP_print
 
         !-------------------------------------------------------------------------
+        n_parameters = GP_n_parms( i_2_individual )
 
-        buffer(1:n_parameters) = child_parameters(1:n_parameters,i_2_individual)
-        buffer(n_parameters+1) = GP_Child_Individual_SSE(i_2_individual)
-        buffer(n_parameters+2) = real( individual_quality(i_2_individual), kind=8 )
+        buffer(1:n_maximum_number_parameters) = &
+                 child_parameters(1:n_maximum_number_parameters,i_2_individual)
+        buffer(n_maximum_number_parameters+1) = GP_Child_Individual_SSE(i_2_individual)
+        buffer(n_maximum_number_parameters+2) = real( individual_quality(i_2_individual), kind=8 )
 
 
         !if( L_GP_print )then
@@ -639,7 +679,7 @@ else  ! not myid == 0
 
         ! send the R-K integration results for individual i_2_individual to processor 0
 
-        call MPI_SEND( buffer, n_parameters+2, &
+        call MPI_SEND( buffer, n_maximum_number_parameters+2, &
                        MPI_DOUBLE_PRECISION, 0, i_2_individual, MPI_COMM_WORLD, ierr )
 
 
@@ -787,12 +827,13 @@ call MPI_BCAST( GP_Child_Individual_SSE, message_len,    &
 
 !------------------------------------------------------------------------
 
-! broadcast GP_Individual_Node_Parameters
+! broadcast GP_population_node_parameters
 
 
 !if( L_GP_print )then
 !    write(GP_print_unit,'(/A,1x,I6)') &
-!     'gplp: broadcast GP_Individual_Node_Parameters  myid = ', myid
+!     'gplp: broadcast GP_population_node_parameters myid = ', myid
+
 !endif ! L_GP_print
 
 message_len = n_trees * n_nodes * n_GP_individuals
@@ -802,7 +843,7 @@ call MPI_BCAST( GP_population_node_parameters, message_len,    &
 
 !if( L_GP_print )then
 !    write(GP_print_unit,'(/A,1x,I6)') &
-!     'gplp: aft broadcast GP_Individual_Node_Parameters  ierr = ', ierr
+!     'gplp: aft broadcast GP_population_node_parameters  ierr = ', ierr
 !endif ! L_GP_print
 
 
@@ -816,11 +857,11 @@ call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
 
 !if( myid == 0  )then
 !    if( L_GP_print )then
-!        write(GP_print_unit,'(//A/)') 'gplp:  final parent parameters  '
-!        write(GP_print_unit,'(A)') 'i_GP_individual                  parent_parameters '
+!        write(GP_print_unit,'(//A/)') 'gplp:  final child parameters  '
+!        write(GP_print_unit,'(A)') 'i_GP_individual                  child_parameters '
 !        do  i_GP_individual = 1, n_GP_individuals
 !            write(GP_print_unit,'(I6,12(1x,E15.7 ))') &
-!              i_GP_individual, parent_parameters(1:n_parameters,i_GP_individual)
+!              i_GP_individual, child_parameters(1:n_parameters,i_GP_individual)
 !        enddo !  i_GP_individual
 !    endif ! L_GP_print
 !endif ! myid == 0

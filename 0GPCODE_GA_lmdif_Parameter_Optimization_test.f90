@@ -52,7 +52,7 @@ character(200) :: tree_descrip
 
 character(10),parameter :: program_version   = '201308.001'
 character(10),parameter :: modification_date = '20131004'
-character(30),parameter :: branch  =  'old_elite_parallel_lmdif'
+character(50),parameter :: branch  =  'old_elite_parallel_lmdif'
 
 
 !----------------------------------------------------------------------------------------
@@ -464,22 +464,6 @@ do  i_GP_Generation=1,n_GP_Generations
         !      '0: broadcast  GP_Adult_Population_Node_Type Generation = ',i_GP_Generation
         !endif ! myid == 0
 
-        !call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
-
-        !t1 = MPI_Wtime()
-
-
-        !delta_ind = n_GP_individuals / 10
-        !message_len = delta_ind * n_Nodes * n_Trees
-
-        !k = 1
-        !do
-        !    if( isub2 >= n_GP_individuals ) exit
-
-        !    isub1 = 1 + delta_ind * (k-1)
-        !    isub2 = 1 + delta_ind *  k
-        !    if( isub2 > n_GP_individuals ) isub2 = n_GP_individuals
-        !enddo
 
         call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
 
@@ -489,12 +473,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
         call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
                                                                                                                         
-        !call mult_bcast( GP_Adult_Population_Node_Type )                                                                        
                                                                                                                         
-
-        !call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
-
-        !t2 = MPI_Wtime()
 
         !if( myid == 0 )then
         !    write(GP_print_unit,'(A,1x,E15.7)') &
@@ -558,7 +537,9 @@ do  i_GP_Generation=1,n_GP_Generations
 
 
                 !t1 = MPI_Wtime()
+
                 call GP_Fitness_Proportionate_Asexual_Reproduction
+
                 !t2 = MPI_Wtime()
 
                 !write(GP_print_unit,'(A,1x,E15.7)') &
@@ -588,7 +569,9 @@ do  i_GP_Generation=1,n_GP_Generations
                                                                        n_GP_Crossovers
 
                 !t1 = MPI_Wtime()
+
                 call GP_Tournament_Style_Sexual_Reproduction
+
                 !t2 = MPI_Wtime()
 
 
@@ -617,7 +600,9 @@ do  i_GP_Generation=1,n_GP_Generations
                                                                         n_GP_Mutations
 
                 !t1 = MPI_Wtime()
+
                 call GP_Mutations
+
                 !t2 = MPI_Wtime()
 
                 !write(GP_print_unit,'(A,1x,E15.7)') &
@@ -703,7 +688,8 @@ do  i_GP_Generation=1,n_GP_Generations
     !        mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
     !        i_GP_generation == n_GP_generations                          )then
     !        tree_descrip =  ' trees before call to GP_Clean_Tree_Nodes'
-    !        call print_trees( i_GP_generation, 1, n_GP_individuals, GP_Adult_Population_Node_Type, &
+    !        call print_trees( i_GP_generation, 1, n_GP_individuals, &
+    !                          GP_Adult_Population_Node_Type, &
     !                          trim( tree_descrip )  )
     !    endif ! i_GP_generation == 1
     !endif !  myid == 0
@@ -740,7 +726,6 @@ do  i_GP_Generation=1,n_GP_Generations
 
     call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
 
-    !call mult_bcast( GP_Adult_Population_Node_Type ) 
 
     !if( myid == 0 )then
     !    write(GP_print_unit,'(A,1x,I6)') &
@@ -748,20 +733,6 @@ do  i_GP_Generation=1,n_GP_Generations
     !                                            i_GP_Generation
     !endif ! myid == 0
 
-    !if( myid == 0 )then
-    !    write(GP_print_unit,'(/A,1x,I6/)') &
-    !          '0: AFT GP_Clean_Tree_Nodes   Generation = ', &
-    !                                      i_GP_Generation
-    !endif ! myid == 0
-
-    !call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
-
-    !t2 = MPI_Wtime()
-
-    !if( myid == 0 )then
-    !    write(GP_print_unit,'(A,1x,E15.7)') &
-    !      '0: time spent in bcast GP_Adult_Pop_Node_Type = ', t2 - t1
-    !endif ! myid == 0
 
     !-----------------------------------------------------------------------------------------
 
@@ -835,12 +806,12 @@ do  i_GP_Generation=1,n_GP_Generations
 
         if( myid == 0 )then
             write(GP_print_unit,'(//A)')&
-             '0:----------------------------------------------------------------------'
+            '0:----------------------------------------------------------------------'
             write(GP_print_unit,'(A,2(1x,I6),3x,L1)') &
                   '0: i_GP_Gen, i_GP_indiv, Run_GP_Calculate_Fitness', &
                       i_GP_Generation, i_GP_individual, Run_GP_Calculate_Fitness(i_GP_Individual)
             write(GP_print_unit,'(A/)')&
-             '0:----------------------------------------------------------------------'
+            '0:----------------------------------------------------------------------'
 
         endif !  myid == 0
 
@@ -853,7 +824,7 @@ do  i_GP_Generation=1,n_GP_Generations
                GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual)
 
 
-            ! these get set randomly in the GA-lmdif search algorithm
+            ! these get set randomly in the GA-lmdif search algorithm ( in GPCODE* )
 
             GP_Individual_Node_Parameters(1:n_Nodes,1:n_Trees) = 0.0d0
 
@@ -1086,8 +1057,6 @@ do  i_GP_Generation=1,n_GP_Generations
             ! compute GP_Child_Individual_SSE(i_GP_Individual)
             ! and     GP_Child_Population_SSE(i_GP_Individual)
 
-            !!call comp_GP_child_indiv_sse(i_GP_Individual, i_GP_generation)
-
             ! use the best sse from the GPCODE subroutine
 
             GP_Child_Individual_SSE(i_GP_Individual) = Individual_SSE_best_parent
@@ -1136,6 +1105,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
             GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual) = &
                              GP_Individual_Node_Type(1:n_Nodes,1:n_Trees)
+
             !------------------------------------------------------------------------------
 
             if( myid == 0 )then
@@ -1144,26 +1114,26 @@ do  i_GP_Generation=1,n_GP_Generations
 
                 ! print the node parameters (if there are any)
 
-                    write(GP_print_unit,'(/A/)') &
+                write(GP_print_unit,'(/A/)') &
                        '0:  node  tree  Runge_Kutta_Node_Params&
                                   &   GP_population_node_params'
-                    do  i_tree=1,n_trees
-                        do  i_node=1,n_nodes
-                                ! a set parameter
-                            if( GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0 ) then
-                                write(GP_print_unit,'(2(1x,I6), 1x, E20.10, 4x, E20.10)') &
-                                 i_node, i_tree, &
-                                 Runge_Kutta_Node_Parameters(i_node,i_tree), &
-                                 GP_population_node_parameters(i_node,i_tree,i_GP_individual)
-                            endif ! GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0
+                do  i_tree=1,n_trees
+                    do  i_node=1,n_nodes
+                        if( GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0 ) then
+                            write(GP_print_unit,'(2(1x,I6), 1x, E20.10, 4x, E20.10)') &
+                             i_node, i_tree, &
+                             Runge_Kutta_Node_Parameters(i_node,i_tree), &
+                             GP_population_node_parameters(i_node,i_tree,i_GP_individual)
+                        endif ! GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0
 
-                        enddo ! i_node
-                    enddo  ! i_tree
+                    enddo ! i_node
+                enddo  ! i_tree
 
                 !---------------------------------------------------------------------------------
 
                 write(GP_print_unit,'(/A)') &
                       '0:---------------------------------------------------------------'
+
                 !write(GP_print_unit,'(/A)')  &
                 !      '0: after loading GP_Pop arrays with GP_indiv array values '
                 !write(GP_print_unit,'(A/)')  &
@@ -1181,14 +1151,12 @@ do  i_GP_Generation=1,n_GP_Generations
 
         if( myid == 0 )then
 
-
             ! this prints a summary of the initial conditions,
             ! parameters,  and node types for this individual,
             ! after being optimized in GPCODE*opt
             ! and writes the tree to the summary file
 
             call summary_GP_indiv( i_GP_generation, i_GP_individual )
-
 
         endif !  myid == 0
 
@@ -1232,12 +1200,11 @@ do  i_GP_Generation=1,n_GP_Generations
         do  i_GP_individual = 1, n_GP_individuals
             do  i_tree=1,n_trees
                 do  i_node=1,n_nodes
-                        ! a set parameter
                     if( GP_Adult_population_Node_Type(i_Node,i_Tree, i_GP_individual ) .eq. 0 ) then
                         if( GP_population_node_parameters(i_node,i_tree,i_GP_individual) > 0.0d0 )then
-                        write(GP_print_unit,'(3(1x,I6),  4x, E20.10)') &
-                         i_GP_individual, i_node, i_tree, &
-                         GP_population_node_parameters(i_node,i_tree,i_GP_individual)
+                            write(GP_print_unit,'(3(1x,I6),  4x, E20.10)') &
+                             i_GP_individual, i_node, i_tree, &
+                             GP_population_node_parameters(i_node,i_tree,i_GP_individual)
                         endif ! GP_population_node_parameters(i_node,i_tree,i_GP_individual) > 0.0d0 
                     endif ! GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0
 
@@ -1274,22 +1241,6 @@ do  i_GP_Generation=1,n_GP_Generations
     !---------------------------------------------------------------------------
 
 
-
-    !---------------------------------------------------------------------------
-    !write(10) GP_Adult_Population_SSE   ! ???
-
-    !write(*,*) i_GP_Generation,&
-    ! 'MAIN',(GP_Adult_Population_SSE(i),i=1,9),GP_Adult_Population_SSE(n_GP_Individuals) ! ???
-
-    !new write(10) i_CASE,i_GP_Generation,GP_Adult_Population_SSE
-
-    !new write(*,*) i_CASE,i_GP_Generation,'MAIN',&
-    !new       (GP_Adult_Population_SSE(i),i=1,9),GP_Adult_Population_SSE(n_GP_Individuals)
-
-
-    !---------------------------------------------------------------------------
-
-
     !if( myid == 0 )then
     !    call print_gp_node_type_parm( )
     !endif ! myid == 0
@@ -1305,7 +1256,6 @@ enddo generation_loop !  i_GP_Generation
 
 if( myid == 0 )then
     write(GP_print_unit,'(/A/)') '0: after i_GP_generation loop  '
-
 
 
     !---------------------------------------------------------------------------
@@ -1330,8 +1280,6 @@ if( myid == 0 )then
 
 
     call GP_select_best_RK_lmdif_result( i_GP_best_parent, output_array , nop )
-
-
 
 
     !---------------------------------------------------------------------------

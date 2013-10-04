@@ -202,7 +202,10 @@ integer, parameter :: max_level = 10
 integer, dimension(0:max_level) :: pow2_table                                                                                      
                                                                                                                                    
 !--------------------------------------------------------------------                                                              
-                                                                                                                                   
+
+! number of parameters for each GP individual
+
+integer, allocatable, dimension(:) :: GP_n_parms                                                                                                                                   
  
 
 

@@ -45,11 +45,13 @@ allocate( GA_Child_Individual_SSE(n_GA_Individuals) )
 allocate( GP_Adult_Individual_SSE(n_GP_Individuals) )
 allocate( GP_Child_Individual_SSE(n_GP_Individuals) )
 
+
 allocate( individual_SSE( n_GA_individuals )  )
 
 allocate( GA_Integrated_SSE(n_GA_Individuals) )
 allocate( integrated_SSE( n_GA_individuals )  )
 
+allocate( GP_n_parms( n_GP_individuals )  )
 
 allocate( GA_Individual_Ranked_Fitness(n_GA_Individuals) )
 allocate( individual_ranked_fitness( n_GA_individuals )  )
@@ -164,6 +166,8 @@ individual_SSE  = 0.0d0
 
 GA_Integrated_SSE = 0.0d0
 integrated_SSE  = 0.0d0
+
+GP_n_parms = 0
 
 GA_Individual_Ranked_Fitness = 0.0d0
 individual_ranked_fitness  = 0.0d0
