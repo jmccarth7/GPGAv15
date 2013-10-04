@@ -1200,8 +1200,13 @@ do  i_GP_Generation=1,n_GP_Generations
 
     !  call routine to run lmdif in parallel on all the GP individuals
 
+    !  GP_para_lmdif_process returns arrays to be used in GP_calc_fitness:
 
-    call  GP_para_lmdif_process( )
+    !   GP_population_node_parameters
+    !   GP_child_individual_sse
+
+
+    call  GP_para_lmdif_process( i_GP_generation )
 
 
     !-------------------------------------------------------------------------------------

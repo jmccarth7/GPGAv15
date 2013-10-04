@@ -127,7 +127,7 @@ enddo ! i_gp_individual
 !              'gpcf: i_GP_Indiv, GP_Child_Indiv_SSE(i_GP_Indiv) '
 !    do  i_GP_Individual=1,n_GP_Individuals
 !        write(GP_print_unit,'(6x,I6,6x,E15.7)') &
-!                     i_GP_Individual, GP_Child_Individual_SSE(i_GP_Individual)
+!               i_GP_Individual, GP_Child_Individual_SSE(i_GP_Individual)
 !    enddo ! i_gp_individual
 !
 !endif ! i_GP_generation ...
@@ -366,8 +366,8 @@ write(GP_print_unit,'(/A,2(1x,I6))') &
 !do  i_tree = 1, n_trees
 !    do  i_node = 1, n_nodes
 !        write(GP_print_unit,'(A,3(1x,I6))') &
-!        'gpsbrl:1 i_tree, i_node,  GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Best_Parent) ', &
-!                  i_tree, i_node,  GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Best_Parent)
+!        'gpsbrl:1 i_tree, i_node, GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Best_Parent)', &
+!                  i_tree, i_node, GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Best_Parent)
 !    enddo ! i_node
 !enddo ! i_tree
 
