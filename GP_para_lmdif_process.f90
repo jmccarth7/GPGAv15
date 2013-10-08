@@ -24,13 +24,7 @@ integer :: i_GP_individual
 
 integer :: child_number
 
-!integer ::  start_individ
-!integer ::  stop_individ
-!integer ::  start_limit
-!integer ::  stop_limit
 integer ::  isource
-!integer ::  iproc
-!integer ::  chunk
 integer ::  message_len
 integer ::  numsent
 integer ::  sender
@@ -44,18 +38,8 @@ integer,parameter ::  itag2 = 2
 integer,parameter ::  itag3 = 3
 
 
-!real(kind=8),&
-! dimension(n_maximum_number_parameters,n_GP_individuals) ::  parent_parameters
 real(kind=8),&
  dimension(n_maximum_number_parameters,n_GP_individuals) ::  child_parameters
-
-
-!real(kind=8) :: individual_SSE_best_1
-!real(kind=8) :: individual_ranked_fitness_best_1
-!real(kind=8) :: Individual_Fitness_best_1
-
-!real(kind=8),dimension(n_maximum_number_parameters) :: parent_parameters_best_1
-
 
 
 real(kind=8) :: buffer(n_maximum_number_parameters + 2)
@@ -63,10 +47,6 @@ real(kind=8) :: buffer_recv(n_maximum_number_parameters + 2)
 
 
 integer(kind=4) :: i
-!integer(kind=4) :: i_GP_Best_Parent
-!integer(kind=4) :: i_GP_Best_Parent_1
-
-!integer(kind=4) :: i_GP_generation_last
 
 real(kind=8), parameter :: tol = 1.0d-30
 
@@ -81,18 +61,9 @@ integer(kind=4), dimension( n_GP_individuals ) :: individual_quality
 
 real(kind=8), external :: indiv_fitness
 
-!logical :: L_stop_run
-
 
 integer(kind=4) :: i_Tree
 integer(kind=4) :: i_Node
-
-!integer(kind=4) :: jj
-!integer(kind=4) :: i_parameter
-
-!real(kind=8) :: t1
-!real(kind=8) :: t2
-
 
 logical :: L_GP_print
 
@@ -183,14 +154,14 @@ endif
 
 if( myid == 0 )then
     write(GP_print_unit,'(/A/)') &
-       'gplp:  i_GP_indiv node  tree  GP_population_node_params'
+       'gplp: i_GP_indiv tree  node  GP_population_node_params'
     do  i_GP_individual = 1, n_GP_individuals
         do  i_tree=1,n_trees
             do  i_node=1,n_nodes
                 if( GP_Adult_population_Node_Type(i_Node,i_Tree, i_GP_individual ) .eq. 0 ) then
                     if( GP_population_node_parameters(i_node,i_tree,i_GP_individual) > 0.0d0 )then
-                        write(GP_print_unit,'(3(1x,I6),  4x, E20.10)') &
-                         i_GP_individual, i_node, i_tree, &
+                        write(GP_print_unit,'(3(1x,I7),  4x, E20.10)') &
+                         i_GP_individual, i_tree, i_node, &
                          GP_population_node_parameters(i_node,i_tree,i_GP_individual)
                     endif ! GP_population_node_parameters(i_node,i_tree,i_GP_individual) > 0.0d0
                 endif ! GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0
@@ -245,8 +216,15 @@ if( myid == 0 )then
         write(GP_print_unit,'(/A,2(1x,I6))')&
           'gplp: n_GP_individuals, numprocs ', &
                  n_GP_individuals, numprocs
-        write(GP_print_unit,'(A,1x,I6/)')&
-          'gplp: n_parameters ', n_parameters
+        write(GP_print_unit,'(/A)')&
+          'gplp: i_GP_individual   n_parameters '
+        do  i_GP_individual = 1, n_GP_individuals
+
+            write(GP_print_unit, '(I8,10x,I8)') &
+                  i_GP_individual, GP_n_parms( i_GP_individual )
+
+        enddo  !  i_GP_individual 
+        write(GP_print_unit,'(A)') ' '
     endif ! L_GP_print
 
 endif ! myid == 0
@@ -339,10 +317,11 @@ call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
 
 if( myid == 0 )then
     if( L_GP_print )then
-        write(GP_print_unit,'(/A,1x,I6/)') &
-              'gplp: begin parallel lmdif segment i_GP_generation ', &
+        write(GP_print_unit,'(/A,1x,I6)') &
+              'gplp: begin parallel lmdif segment i_GP_generation', &
                                                   i_GP_generation
-        write(GP_print_unit,'(A,1x,I6/)') 'gplp: n_GP_individuals ', &
+        write(GP_print_unit,'(A,1x,I6/)') &
+              'gplp:                             n_GP_individuals', &
                                                  n_GP_individuals
     endif ! L_GP_print
 endif !  myid == 0

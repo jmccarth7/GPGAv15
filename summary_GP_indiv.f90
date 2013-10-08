@@ -137,7 +137,7 @@ write(GP_summary_output_unit, '(A,2(1x,I6))') '> ', i_GP_generation, i_GP_indiv
 
 !if( Lprint )then
 !    write(GP_print_unit,'(A)')  &
-!          'sgpi: i_GP_gen  i_GP_indiv   i_node     i_tree    GP_Indiv_Node_Type'
+!          'sgpi: i_GP_gen  i_GP_indiv   i_tree     i_node    GP_Indiv_Node_Type'
 !endif ! Lprint 
 
 
@@ -148,12 +148,12 @@ do  i_Node=1,n_Nodes
 
             !if( Lprint )then
             !    write(GP_print_unit,'(2(1x,I10),3(1x,I10))') &
-            !          i_GP_generation, i_GP_indiv,i_node, i_tree, &
+            !          i_GP_generation, i_GP_indiv,i_tree, i_node, &
             !          GP_Individual_Node_Type(i_Node,i_Tree)
             !endif ! Lprint 
 
             write(GP_summary_output_unit, '(2x,2(1x,I6),3(1x,I3))') &
-                  i_GP_generation, i_GP_indiv,i_node, i_tree, &
+                  i_GP_generation, i_GP_indiv,i_tree, i_node, &
                   GP_Individual_Node_Type(i_Node,i_Tree)
 
         endif !   GP_Node_Type_Answer(i_Node,i_Tree) .ne. -9999 ...
@@ -189,7 +189,7 @@ endif ! Lprint
 
 if( Lprint )then
     write(GP_print_unit,'(/A/)') &
-       'sgpi: i_GP_gen i_GP_indiv     node        tree  GP_population_node_parameters'
+       'sgpi: i_GP_gen i_GP_indiv     tree        node  GP_population_node_parameters'
 
     do  i_tree=1,n_trees
         do  i_node=1,n_nodes
@@ -199,7 +199,7 @@ if( Lprint )then
 
             if( GP_Individual_Node_Type(i_Node,i_Tree) == 0               ) then
                 write(GP_print_unit,'(2(1x,I10), 2(1x,I10),1x, E20.10)') &
-                      i_GP_generation, i_GP_indiv,i_node, i_tree, &
+                      i_GP_generation, i_GP_indiv,i_tree, i_node, &
                       GP_population_node_parameters(i_node,i_tree,i_GP_indiv)
 
             endif  ! GP_Individual_Node_Type(i_Node,i_Tree) == 0   
@@ -220,7 +220,7 @@ do  i_tree=1,n_trees
 
         if( GP_Individual_Node_Type(i_Node,i_Tree) == 0               ) then
             write(GP_summary_output_unit,'(2x,2(1x,I6),2(1x,I3), 1x, E20.10)') &
-                  i_GP_generation, i_GP_indiv,i_node, i_tree, &
+                  i_GP_generation, i_GP_indiv,i_tree, i_node, &
                   GP_population_node_parameters( i_node,i_tree, i_GP_indiv)
 
         endif ! GP_Individual_Node_Type(i_Node,i_Tree) == 0               ) then
