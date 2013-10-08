@@ -478,11 +478,11 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
 enddo
 
-if( L_ga_print )then
-    write(GA_print_unit,'(A,1x,I6,1x,I10)')&
-      'gato: i_ga_generation, n_replaced in tournament ', &
-             i_ga_generation, n_replaced
-endif ! L_ga_print
+!if( L_ga_print )then
+!    write(GA_print_unit,'(A,1x,I6,1x,I10)')&
+!      'gato: i_ga_generation, n_replaced in tournament ', &
+!             i_ga_generation, n_replaced
+!endif ! L_ga_print
 
 
 return

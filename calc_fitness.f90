@@ -188,9 +188,9 @@ enddo ! i_GA_individual
 ! calculate the integrated ranked fitness levels
 ! to support the "Fitness Proportionate Reproduction" events
 
-if( L_ga_print )then                                                                                
-    write(GA_print_unit,'(/A/)')'calcfit: calculate the integrated ranked fitness levels'
-endif ! L_ga_print  
+!if( L_ga_print )then                                                                                
+!    write(GA_print_unit,'(/A/)')'calcfit: calculate the integrated ranked fitness levels'
+!endif ! L_ga_print  
 
 !----------------------------------------------------------------------------------
 
@@ -371,7 +371,7 @@ if( L_ga_print )then
     write(GA_print_unit,'(/A,2(1x,I6))')       'calcfit: n_GA_individuals, icount      ',&
                                                          n_GA_individuals, icount
     
-    write(GA_print_unit,'(/A,1x,I6,1x,E15.7)') 'calcfit: i_GA_generation, mean_fitness ',&
+    write(GA_print_unit,'(A,1x,I6,1x,E15.7)')  'calcfit: i_GA_generation, mean_fitness ',&
                                                          i_GA_generation, mean_fitness
     write(GA_print_unit,'(A,1x,I6,1x,E15.7/)') 'calcfit: i_GA_generation, sigma_fitness',&
                                                          i_GA_generation, sigma_fitness
@@ -503,8 +503,8 @@ enddo ! i_GA_individual
 !------------------------------------------------------------------------------
 
 if( L_ga_print )then                                                                                
-    write(GA_print_unit,'(//A,2(1x, I6))') 'calcfit: Generation, i_GA_Best_Parent ', &
-                                                i_GA_Generation, i_GA_Best_Parent
+    write(GA_print_unit,'(/A,2(1x, I6))') 'calcfit: Generation, i_GA_Best_Parent ', &
+                                               i_GA_Generation, i_GA_Best_Parent
     write(GA_print_unit,'(A,1x,I6,2(1x,E15.7))') &
           'calcfit: i_GA_Best_Parent, indiv_ranked_fitness, indiv_SSE', &
                     i_GA_Best_Parent, individual_ranked_fitness(i_GA_Best_Parent), &
