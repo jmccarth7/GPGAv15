@@ -81,7 +81,7 @@ buffer2_recv(1:n_maximum_number_parameters+2) = 0.0D0
 
 
 
-n_parms = n_GP_parameters
+!!!n_parms = n_GP_parameters
 
 
 
@@ -89,10 +89,10 @@ if( myid == 0 )then
     if( L_GP_print )then
         write(GP_print_unit,'(//A)') 'gplp: at entry  '
         write(GP_print_unit,'(A,1x,E15.7)') 'gplp: dt ', dt
-        write(GP_print_unit,'(A,1x,I10)') &
-              'gplp: n_parms    =   ', n_parms
-        write(GP_print_unit,'(A,1x,I10)') &
-              'gplp: n_GP_parameters =   ', n_GP_parameters
+        !write(GP_print_unit,'(A,1x,I10)') &
+        !      'gplp: n_parms    =   ', n_parms
+        !write(GP_print_unit,'(A,1x,I10)') &
+        !      'gplp: n_GP_parameters =   ', n_GP_parameters
     endif ! L_GP_print
 
 endif ! myid == 0
@@ -138,16 +138,6 @@ endif ! myid == 0
 ! jjm 20130417 <<<<<<<<<<<<<<<
 
 
-
-
-if( n_parms .le. 0) then
-    write(GP_print_unit,'(A)')        &
-          'gplp: ERROR: n_parms </= 0'
-    write(GP_print_unit,'(A,1x,I10)') &
-          'gplp: n_parms =   ', n_parms
-    stop 'n_par<=0'
-endif
-
 !-----------------------------------------------------------------------------
 
 
@@ -179,6 +169,8 @@ endif ! myid == 0
 ! load the population node parameters into the child parameters
 
 
+n_parms = 0
+
 if( myid == 0 )then
 
     child_parameters( 1:n_maximum_number_parameters, 1:n_GP_individuals) = 0.0d0
@@ -206,6 +198,16 @@ if( myid == 0 )then
     enddo ! i_GP_individual
 
 endif ! myid == 0
+
+
+
+!if( n_parms <=  0) then
+!    write(GP_print_unit,'(A)')        &
+!          'gplp: ERROR: n_parms </= 0'
+!    write(GP_print_unit,'(A,1x,I10)') &
+!          'gplp: n_parms =   ', n_parms
+!    stop 'n_par<=0'
+!endif
 
 !-----------------------------------------------------------------------------
 

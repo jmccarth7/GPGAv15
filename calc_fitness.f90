@@ -150,11 +150,11 @@ enddo ! i_parameter
 
 edit_level = real(n_time_steps,kind=8) * max_err2
 
-if( L_ga_print )then                                                                                
-    write(GA_print_unit,'(/A,1x,I6, 2(1x, E12.4))') &
-          'calcfit: n_time_steps, max_err, edit_level ', &
-                    n_time_steps, max_err, edit_level
-endif ! L_ga_print  
+!if( L_ga_print )then                                                                                
+!    write(GA_print_unit,'(/A,1x,I6, 2(1x, E12.4))') &
+!          'calcfit: n_time_steps, max_err, edit_level ', &
+!                    n_time_steps, max_err, edit_level
+!endif ! L_ga_print  
 
 !-----------------------------------------------------------------------------------
 
@@ -201,10 +201,10 @@ enddo ! i_GA_individual
 
 ! calculate the individual fitness
 
-if( L_ga_print )then                                                                                
-    write(GA_print_unit,'(A,1x,E24.16)')  'calcfit: sse0 ', sse0
-    !write(GA_print_unit,'(A)')  'calcfit: i_GA_ind, ind_SSE, ind_ranked_fitness   ind_quality'
-endif ! L_ga_print  
+!if( L_ga_print )then                                                                                
+!    write(GA_print_unit,'(A,1x,E24.16)')  'calcfit: sse0 ', sse0
+!    !write(GA_print_unit,'(A)')  'calcfit: i_GA_ind, ind_SSE, ind_ranked_fitness   ind_quality'
+!endif ! L_ga_print  
 
 do  i_GA_individual=1,n_GA_individuals
 
@@ -304,16 +304,16 @@ if( n_counted > 0 )then
 endif ! n_counted > 0
 
 
-if( L_ga_print )then                                                                                
-    write(GA_print_unit,'(/A,1x,I6,1x,E15.7)')&
-          'calcfit: generation, sum_individual_fit  =', i_GA_generation, sum_individual_fit
-    write(GA_print_unit,'(A,1x,I6,1x,E15.7)')&
-          'calcfit: generation, mean_individual_fit =', i_GA_generation, mean_individual_fit
-    write(GA_print_unit,'(A,1x,I6,1x,E15.7, 1x, I6)')&
-          'calcfit: generation, min_sse, index      =', i_GA_generation, min_sse, index_min_sse
-    write(GA_print_unit,'(A,2(1x,I6)/)')&
-          'calcfit: generation, number good         =', i_GA_generation, n_counted
-endif ! L_ga_print  
+!if( L_ga_print )then                                                                                
+!    write(GA_print_unit,'(/A,1x,I6,1x,E15.7)')&
+!          'calcfit: generation, sum_individual_fit  =', i_GA_generation, sum_individual_fit
+!    write(GA_print_unit,'(A,1x,I6,1x,E15.7)')&
+!          'calcfit: generation, mean_individual_fit =', i_GA_generation, mean_individual_fit
+!    write(GA_print_unit,'(A,1x,I6,1x,E15.7, 1x, I6)')&
+!          'calcfit: generation, min_sse, index      =', i_GA_generation, min_sse, index_min_sse
+!    write(GA_print_unit,'(A,2(1x,I6)/)')&
+!          'calcfit: generation, number good         =', i_GA_generation, n_counted
+!endif ! L_ga_print  
 
 mean_individual_SSE = 0.0D0
 
@@ -323,8 +323,8 @@ endif ! n_counted > 0
 
 
 if( L_ga_print )then                                                                                
-    write(GA_print_unit,'(/A,1x,I6,1x,E15.7 )')&
-          'calcfit: generation, sum_individual_SSE  =', i_GA_generation, sum_individual_SSE
+    !write(GA_print_unit,'(/A,1x,I6,1x,E15.7 )')&
+    !      'calcfit: generation, sum_individual_SSE  =', i_GA_generation, sum_individual_SSE
     write(GA_print_unit,'(A,1x,I6,1x,E15.7 )')&
           'calcfit: generation, mean_individual_SSE =', i_GA_generation, mean_individual_SSE
 endif ! L_ga_print  
@@ -370,7 +370,6 @@ endif
 if( L_ga_print )then                                                                                
     write(GA_print_unit,'(/A,2(1x,I6))')       'calcfit: n_GA_individuals, icount      ',&
                                                          n_GA_individuals, icount
-    
     write(GA_print_unit,'(A,1x,I6,1x,E15.7)')  'calcfit: i_GA_generation, mean_fitness ',&
                                                          i_GA_generation, mean_fitness
     write(GA_print_unit,'(A,1x,I6,1x,E15.7/)') 'calcfit: i_GA_generation, sigma_fitness',&

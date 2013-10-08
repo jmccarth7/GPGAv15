@@ -125,8 +125,6 @@ if( myid == 0) then
     
         write(GA_print_unit,'(/A)') &
                      'GP_GA_opt: i_tree, i_node, GP_Indiv_Node_Type'
-    
-    
         do  i_tree=1,n_trees
             do  i_node=1,n_nodes
                 if( GP_Individual_Node_Type(i_node,i_tree) > -9999 )then
@@ -287,16 +285,16 @@ do  i_GA_generation=1,n_GA_Generations
 
             ! print child parameters at start of the generation
 
-            if( L_ga_print )then
-                write(GA_print_unit,'(/A,1x,I6)') &
-                'GP_GA_opt:1 child parameters at start of generation: ', &
-                                                    i_GA_generation
-                do  i_GA_individual = 1, n_GA_Individuals
-                    write(GA_print_unit,'(I6,1x,12(1x,E15.7))') &
-                          i_GA_individual, &
-                          ( child_parameters(jj,i_GA_individual), jj = 1,n_parameters )
-                enddo ! i_GA_individual
-            endif ! L_ga_print
+            !if( L_ga_print )then
+            !    write(GA_print_unit,'(/A,1x,I6)') &
+            !    'GP_GA_opt:1 child parameters at start of generation: ', &
+            !                                        i_GA_generation
+            !    do  i_GA_individual = 1, n_GA_Individuals
+            !        write(GA_print_unit,'(I6,1x,12(1x,E15.7))') &
+            !              i_GA_individual, &
+            !              ( child_parameters(jj,i_GA_individual), jj = 1,n_parameters )
+            !    enddo ! i_GA_individual
+            !endif ! L_ga_print
 
 
 
@@ -316,9 +314,9 @@ do  i_GA_generation=1,n_GA_Generations
 
             !   save the most fit individuals for the next generation
 
-            if( L_ga_print )then
-                write(GA_print_unit,'(/A)')'GP_GA_opt: call GA_save_elites '
-            endif ! L_ga_print
+            !if( L_ga_print )then
+            !    write(GA_print_unit,'(/A)')'GP_GA_opt: call GA_save_elites '
+            !endif ! L_ga_print
 
             !t1 = MPI_Wtime()
 
@@ -349,12 +347,12 @@ do  i_GA_generation=1,n_GA_Generations
             !   do initial "GA Fitness-Proportionate Reproduction"
             !   to create a new population of children for all n_GA_individual
 
-            if( L_ga_print )then
-                write(GA_print_unit,'(/A)')&
-                      'GP_GA_opt: call GA_Fitness_Proportionate_Reproduction '
-                !write(GA_print_unit,'(/A)')&
-                !     'GP_GA_opt: SKIP GA_Fitness_Proportionate_Reproduction '
-            endif ! L_ga_print
+            !if( L_ga_print )then
+            !    write(GA_print_unit,'(/A)')&
+            !          'GP_GA_opt: call GA_Fitness_Proportionate_Reproduction '
+            !    !write(GA_print_unit,'(/A)')&
+            !    !     'GP_GA_opt: SKIP GA_Fitness_Proportionate_Reproduction '
+            !endif ! L_ga_print
 
 
             !call system_clock( count=clock1, count_rate=ratec, count_max= maxclk)
@@ -384,11 +382,11 @@ do  i_GA_generation=1,n_GA_Generations
 
             if( n_GA_Crossovers .gt. 0) then
 
-                if( L_ga_print )then
-                    write(GA_print_unit,'(/A,1x,I6)')&
-                      'GP_GA_opt: call GA_Tournament_Style_Sexual_Repro  n_GA_Crossovers',  &
-                                                                         n_GA_Crossovers
-                endif ! L_ga_print
+                !if( L_ga_print )then
+                !    write(GA_print_unit,'(/A,1x,I6)')&
+                !      'GP_GA_opt: call GA_Tournament_Style_Sexual_Repro  n_GA_Crossovers',  &
+                !                                                         n_GA_Crossovers
+                !endif ! L_ga_print
 
                 !t1 = MPI_Wtime()
                 call GA_Tournament_Style_Sexual_Reproduction( &
@@ -410,10 +408,10 @@ do  i_GA_generation=1,n_GA_Generations
 
             if( n_GA_Mutations .gt. 0) then
 
-                if( L_ga_print )then
-                    write(GA_print_unit,'(/A,1x,I6)')&
-                      'GP_GA_opt: call GA_Mutations  n_GA_Mutations',  n_GA_Mutations
-                endif ! L_ga_print
+                !if( L_ga_print )then
+                !    write(GA_print_unit,'(/A,1x,I6)')&
+                !      'GP_GA_opt: call GA_Mutations  n_GA_Mutations',  n_GA_Mutations
+                !endif ! L_ga_print
 
                 !t1 = MPI_Wtime()
                 call GA_Mutations( Child_Parameters, individual_quality )
@@ -434,11 +432,11 @@ do  i_GA_generation=1,n_GA_Generations
 
             if( n_GA_rand_replaces > 0) then
 
-                if( L_ga_print )then
-                    write(GA_print_unit,'(/A,1x,I6)')&
-                      'GP_GA_opt: call GA_rand_replace  n_GA_rand_replaces',  &
-                                                        n_GA_rand_replaces
-                endif ! L_ga_print
+                !if( L_ga_print )then
+                !    write(GA_print_unit,'(/A,1x,I6)')&
+                !      'GP_GA_opt: call GA_rand_replace  n_GA_rand_replaces',  &
+                !                                        n_GA_rand_replaces
+                !endif ! L_ga_print
 
                 !t1 = MPI_Wtime()
                 call GA_random_replace( Child_Parameters, individual_quality )
@@ -455,16 +453,18 @@ do  i_GA_generation=1,n_GA_Generations
 
             ! print child parameters at start of the generation
 
-            if( i_GA_generation == n_GA_generations               .or.  &
-                mod( i_GA_generation, GA_child_print_interval ) == 0      )then
+            !if( i_GA_generation == n_GA_generations               .or.  &
+            !    mod( i_GA_generation, GA_child_print_interval ) == 0      )then
+
+            if( i_GA_generation == n_GA_generations  )then
 
                 if( L_ga_print )then
                     write(GA_print_unit,'(/A,1x,I6)') &
-                    'GP_GA_opt:2 child parameters at start of generation: ', &
-                                                         i_GA_generation
+                    'GP_GA_opt:2 child parameters at start of GA generation:', &
+                                                            i_GA_generation
 
                     do  i_GA_individual = 1, n_GA_Individuals
-                        write(GA_print_unit,'(I6,1x,12(1x,E15.7))') &
+                        write(GA_print_unit,'(I6,1x,5(1x,E15.7)/(5(1x,E15.7)))') &
                               i_GA_individual, &
                              (child_parameters(jj, i_GA_individual),&
                                                jj = 1,n_parameters )

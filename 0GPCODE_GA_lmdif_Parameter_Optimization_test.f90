@@ -38,7 +38,7 @@ integer(kind=4) :: jj
 integer(kind=4) :: i_CODE_equation
 
 integer(kind=4) :: n_GP_vars
-integer(kind=4) :: nop          
+integer(kind=4) :: nop
 
 integer(kind=4) :: i_GP_best_parent
 
@@ -290,9 +290,9 @@ call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
 
 !do  i = 1, n_code_equations
 !    write(6,'(A,2(1x,I6),1x,E15.7)') '0: myid, i, Runge_Kutta_Solution(12,i)  ', &
-!                                         myid, i, Runge_Kutta_Solution(12,i) 
+!                                         myid, i, Runge_Kutta_Solution(12,i)
 !    write(6,'(A,2(1x,I6),1x,E15.7)') '0: myid, i, Runge_Kutta_Solution(15,i)  ', &
-!                                         myid, i, Runge_Kutta_Solution(15,i) 
+!                                         myid, i, Runge_Kutta_Solution(15,i)
 !enddo ! i
 
 
@@ -472,8 +472,8 @@ do  i_GP_Generation=1,n_GP_Generations
                         MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
 
         call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
-                                                                                                                        
-                                                                                                                        
+
+
 
         !if( myid == 0 )then
         !    write(GP_print_unit,'(A,1x,E15.7)') &
@@ -877,7 +877,7 @@ do  i_GP_Generation=1,n_GP_Generations
                       &n_GP_parameters, n_maximum_number_parameters', &
                       myid, i_GP_generation, i_GP_Individual, &
                        n_GP_parameters, n_maximum_number_parameters
-                
+
             !     n_GP_parameters = n_maximum_number_parameters
             endif
 
@@ -955,7 +955,7 @@ do  i_GP_Generation=1,n_GP_Generations
                 GP_Adult_Population_SSE(i_GP_Individual) = 1.0D13
 
                 GP_Individual_N_GP_param(i_GP_individual) = 0
-                n_GP_parameters                           = 0 
+                n_GP_parameters                           = 0
 
 
                 if( myid == 0 )then
@@ -1057,11 +1057,11 @@ do  i_GP_Generation=1,n_GP_Generations
                     output_array( i_CODE_equation ) = &
                                GP_individual_initial_conditions(i_CODE_equation)
 
-                    if( L_GA_output_parameters )then 
+                    if( L_GA_output_parameters )then
                         write(GA_output_unit,'(E24.16)') &
                               GP_individual_initial_conditions(i_CODE_equation)
-                    endif ! L_GA_output_parameters )then 
-                     
+                    endif ! L_GA_output_parameters )then
+
 
                 enddo ! i_CODE_equation
 
@@ -1179,6 +1179,17 @@ do  i_GP_Generation=1,n_GP_Generations
     enddo  gp_ind_loop    !   i_GP_individual
 
 
+    !!!-------------------------------------------------------------------------------------
+    !!! export the number of parameters per individual
+    !!
+    !!call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
+    !!
+    !!message_len = ( n_time_steps + 1 ) * n_CODE_equations
+    !!call MPI_BCAST( GP_Individual_N_GP_param, n_GP_individuals,   &
+    !!            MPI_INTEGER, 0, MPI_COMM_WORLD, ierr )
+    !!
+    !!call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
+    !!
     !-------------------------------------------------------------------------------------
 
     !  call routine to run lmdif in parallel on all the GP individuals
@@ -1230,7 +1241,7 @@ do  i_GP_Generation=1,n_GP_Generations
                             write(GP_print_unit,'(3(1x,I6),  4x, E20.10)') &
                              i_GP_individual, i_tree, i_node, &
                              GP_population_node_parameters(i_node,i_tree,i_GP_individual)
-                        endif ! GP_population_node_parameters(i_node,i_tree,i_GP_individual) > 0.0d0 
+                        endif ! GP_population_node_parameters(i_node,i_tree,i_GP_individual) > 0.0d0
                     endif ! GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0
 
                 enddo ! i_node
@@ -1244,7 +1255,7 @@ do  i_GP_Generation=1,n_GP_Generations
         ! do fitness calculations for this GP generation
 
         call GP_calc_fitness( i_GP_generation, output_array, &
-                              i_GP_best_parent, nop ) 
+                              i_GP_best_parent, nop )
 
         !t2 = MPI_Wtime()
         !----------------------------------------------------------------------------------
