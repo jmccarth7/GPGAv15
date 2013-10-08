@@ -23,9 +23,10 @@ implicit none
 
 
 integer, intent(in)  ::  i_GA_indiv
-
 integer, intent(in)  ::  n_indiv
+
 real(kind=8),dimension(n_indiv)  ::  my_indiv_SSE
+
 logical, intent(in)  ::  L_myprint
 integer, intent(in)  ::  myprint_unit
 
@@ -41,11 +42,11 @@ real(kind=8), parameter :: epsfcn = 1.0d-9   ! 1.0d-6    ! original
 real(kind=8), parameter :: factor=1.0D+0
 real(kind=8), parameter :: zero = 0.0d0
 
-real(kind=8) :: diag(n_parameters)
-real(kind=8) :: fjac(n_time_steps,n_parameters)
-real(kind=8) :: qtf(n_parameters)
+real(kind=8) :: diag(n_maximum_number_parameters)
+real(kind=8) :: fjac(n_time_steps,n_maximum_number_parameters)
+real(kind=8) :: qtf(n_maximum_number_parameters)
 integer(kind=4) :: maxfev,ldfjac,mode,nprint,info,nfev
-integer(kind=4) :: ipvt(n_parameters)
+integer(kind=4) :: ipvt(n_maximum_number_parameters)
 
 
 ! individual_quality contains information on the result of lmdif
@@ -122,7 +123,7 @@ nprint= 1  ! set back to zero after diag
 ldfjac=n_time_steps
 
 !if( L_myprint )then
-    write(myprint_unit,*) 'setrlm: i_GA_indiv ', i_GA_indiv
+    write(myprint_unit,'(A,1x,I10)') 'setrlm: i_GA_indiv', i_GA_indiv
 !endif ! L_myprint
 
 !----------------------------------------------------------------------------------------
@@ -134,14 +135,14 @@ if( Lprint_lmdif )then
                               myid, n_time_steps, n_parameters, i_GA_indiv
         write(myprint_unit,'(/A)') 'setrlm: lmdif parameters '
 
-        write(myprint_unit,'(A,3(1x,I10))')   'setrlm: mode, nprint, ldfjac ', &
+        write(myprint_unit,'(A,3(1x,I10))')   'setrlm: mode, nprint, ldfjac', &
                                                        mode, nprint, ldfjac
-        write(myprint_unit,'(A,3(1x,E15.7))') 'setrlm: ftol, xtol, gtol     ', &
+        write(myprint_unit,'(A,3(1x,E15.7))') 'setrlm: ftol, xtol, gtol    ', &
                                                        ftol, xtol, gtol
-        write(myprint_unit,'(A,3(1x,E15.7))') 'setrlm: tol,epsfcn, factor   ', &
+        write(myprint_unit,'(A,3(1x,E15.7))') 'setrlm: tol,epsfcn, factor  ', &
                                                        tol, epsfcn,factor
-        write(myprint_unit,'(A,1x,I10)')   'setrlm: maxfev ', maxfev
-        write(myprint_unit,'(A,1x,I10)')   'setrlm: info   ', info
+        write(myprint_unit,'(A,1x,I10)')   'setrlm: maxfev', maxfev
+        write(myprint_unit,'(A,1x,I10)')   'setrlm: info  ', info
     endif ! L_myprint
 endif ! Lprint_lmdif
 
@@ -286,7 +287,7 @@ if( individual_quality( i_GA_indiv ) > 0 ) then
 
     !write(10,*) 'setrlm: i_GA_indiv ', i_GA_indiv
 
-    my_indiv_SSE(i_GA_indiv)=0.0D+0
+    my_indiv_SSE(i_GA_indiv) = 0.0D+0
 
     do i_time_step=1,n_time_steps
 

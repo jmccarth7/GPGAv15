@@ -1,4 +1,5 @@
-subroutine setup_run_para_lmdif( i_G_indiv,  child_parameters, individual_quality, &
+subroutine setup_run_para_lmdif( i_G_indiv,  child_parameters, &
+                                 individual_quality, &
                                  n_indiv, my_indiv_SSE, &
                                  n_parms, &
                                  L_myprint, myprint_unit  )
@@ -24,10 +25,11 @@ implicit none
 
 
 integer, intent(in)  ::  i_G_indiv
-
 integer, intent(in)  ::  n_indiv
 integer, intent(in)  ::  n_parms
+
 real(kind=8),dimension(n_indiv)  ::  my_indiv_SSE
+
 logical, intent(in)  ::  L_myprint
 integer, intent(in)  ::  myprint_unit
 
@@ -54,7 +56,6 @@ integer(kind=4) :: ipvt(n_maximum_number_parameters)
 ! if lmdif encounters an error, set individual_quality to -1
 ! if < 0 , reject this individual  ! jjm
 
-!integer(kind=4) :: individual_quality(n_GA_individuals)
 integer(kind=4) :: individual_quality(n_indiv)
 
 integer(kind=4) :: i_time_step
@@ -70,19 +71,19 @@ real(kind=8) :: t2
 
 !--------------------------------------------------------------------------------------------
 
-!!!!!!!!n_parameters = GP_n_parms( i_G_indiv ) 
+!!!!!!!!n_parameters = GP_n_parms( i_G_indiv )
 
 !write(myprint_unit,'(//A,3(1x,I6),1x,E20.10)') &
-!          'strplm:1 at entry myid, myprint_unit, n_parms', &
-!                             myid, myprint_unit, n_parms
+!      'strplm:1 at entry myid, myprint_unit, n_parms', &
+!                         myid, myprint_unit, n_parms
 !write(myprint_unit,'(/A,1x,I3,2(1x,I10))') &
-!      'strplm: at entry myid, i_G_indiv, individual_quality(i_G_indiv) ', &
-!                        myid, i_G_indiv, individual_quality(i_G_indiv) 
+!      'strplm: at entry myid, i_G_indiv, individual_quality(i_G_indiv)', &
+!                        myid, i_G_indiv, individual_quality(i_G_indiv)
 
 !>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) = &                                                         
-               GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees,i_G_indiv) 
+GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) = &
+               GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees,i_G_indiv)
 
 !<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -92,12 +93,12 @@ do  i_parameter=1,n_parms
 
     !if( L_myprint )then
         !write(myprint_unit,'(A,3(1x,I6),1x,E20.10)') &
-        !      'strplm:1 myid, i_G_indiv,i_parameter, child_parameters ', &
-        !                myid, i_G_indiv,i_parameter, &
-        !                child_parameters(i_parameter, i_G_indiv)
+        !  'strplm:1 myid, i_G_indiv,i_parameter, child_parameters', &
+        !            myid, i_G_indiv,i_parameter, &
+        !            child_parameters(i_parameter, i_G_indiv)
         !write(myprint_unit,'(A,2(1x,I6),1x,E20.10)') &
-        !      'strplm:1 myid, i_parameter,  X_LMDIF', &
-        !                myid, i_parameter,  X_LMDIF(i_parameter)
+        !  'strplm:1 myid, i_parameter,  X_LMDIF', &
+        !            myid, i_parameter,  X_LMDIF(i_parameter)
     !endif ! L_myprint
 
 enddo ! i_parameter
@@ -109,7 +110,7 @@ enddo ! i_parameter
 !endif ! L_myprint
 
 
-! for each of these first individuals, optimize the variables using lmdif.f
+! for each of these individuals, optimize the variables using lmdif.f
 
 info = 0
 
@@ -130,10 +131,11 @@ info=0 ! 1
 ! nprint < 0  means no printout
 nprint= 1  ! set back to zero after diag
 
-ldfjac=n_time_steps
+ldfjac = n_time_steps
 
 !if( L_myprint )then
-!    write(myprint_unit,*) 'strplm: i_G_indiv ', i_G_indiv
+!    write(myprint_unit,'(A,1x,I10)') &
+!         'strplm: i_G_indiv', i_G_indiv
 !endif ! L_myprint
 
 !----------------------------------------------------------------------------------------
@@ -141,18 +143,18 @@ ldfjac=n_time_steps
 !if( Lprint_lmdif )then
 !    if( L_myprint )then
 !        !write(myprint_unit,'(/A,4(1x,I6))') &
-!        ! 'strplm: call lmdif, myid, n_time_steps, n_parms, i_G_indiv ', &
+!        ! 'strplm: call lmdif, myid, n_time_steps, n_parms, i_G_indiv', &
 !        !                      myid, n_time_steps, n_parms, i_G_indiv
 !        !write(myprint_unit,'(/A)') 'strplm: lmdif parameters '
 !
-!        !write(myprint_unit,'(A,3(1x,I10))')   'strplm: mode, nprint, ldfjac ', &
+!        !write(myprint_unit,'(A,3(1x,I10))')   'strplm: mode, nprint, ldfjac', &
 !        !                                               mode, nprint, ldfjac
-!        !write(myprint_unit,'(A,3(1x,E15.7))') 'strplm: ftol, xtol, gtol     ', &
+!        !write(myprint_unit,'(A,3(1x,E15.7))') 'strplm: ftol, xtol, gtol    ', &
 !        !                                               ftol, xtol, gtol
-!        !write(myprint_unit,'(A,3(1x,E15.7))') 'strplm: tol,epsfcn, factor   ', &
+!        !write(myprint_unit,'(A,3(1x,E15.7))') 'strplm: tol,epsfcn, factor  ', &
 !        !                                               tol, epsfcn,factor
-!        !write(myprint_unit,'(A,1x,I10)')   'strplm: maxfev ', maxfev
-!        !write(myprint_unit,'(A,1x,I10)')   'strplm: info   ', info
+!        !write(myprint_unit,'(A,1x,I10)')   'strplm: maxfev', maxfev
+!        !write(myprint_unit,'(A,1x,I10)')   'strplm: info  ', info
 !    endif ! L_myprint
 !endif ! Lprint_lmdif
 
@@ -166,7 +168,7 @@ t1 = MPI_Wtime()
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-!write(myprint_unit,'(/A,1x,I3/)') 'strplm: RUN LMDIF  myid = ', myid
+!write(myprint_unit,'(/A,1x,I3/)') 'strplm: RUN LMDIF myid =', myid
 
 
 call lmdif( fcn, n_time_steps, n_parms, x_LMDIF, fvec, &
@@ -182,11 +184,11 @@ sum_lmdif = sum_lmdif + ( t2 - t1 )
 
 !write(myprint_unit,'(/A,1x,E15.7)') 'strplm: time spent in lmdif = ', t2 - t1
 !write(myprint_unit,'(A,1x,E15.7)')  'strplm: time increment      = ', delta_wt
-!write(myprint_unit,'(A,1x,E15.7/)') 'strplm:          sum_ lmdif = ', sum_lmdif 
+!write(myprint_unit,'(A,1x,E15.7/)') 'strplm:          sum_ lmdif = ', sum_lmdif
 
 !write(6,'(A,3(1x,I3),1x,I10/)') &
 !      'strplm: aft call lmdif, myid, n_parms, info, n_time_steps', &
-!                               myid, n_parms, info, n_time_steps 
+!                               myid, n_parms, info, n_time_steps
 
 if( Lprint_lmdif )then
 
@@ -194,22 +196,23 @@ if( Lprint_lmdif )then
 
         !write(myprint_unit,'(A,3(1x,I3),1x,I10/)') &
         !      'strplm: aft call lmdif, myid, n_parms, info, n_time_steps', &
-        !                               myid, n_parms, info, n_time_steps 
-    
+        !                               myid, n_parms, info, n_time_steps
+
         !!if( info >= 0 ) then
-        !!    
+        !!
         !!    write(myprint_unit,'(A,1x,I10/)') 'strplm: info flag =  ', info
-        !!    
+        !!
         !!    write(myprint_unit,'(A/)') &
         !!    '######################################################################################'
         !!    write(myprint_unit,'(A)') 'INFO, error flag.  '
-        !!    
+        !!
         !!    write(myprint_unit,'(/A)') &
-        !!    'If the user has terminated execution, INFO is set to the (negative) value of IFLAG.'
+        !!    'If the user has terminated execution, &
+        !!    &INFO is set to the (negative) value of IFLAG.'
         !!    write(myprint_unit,'(A)') 'See the description  of FCN.'
-        !!    
+        !!
         !!    write(myprint_unit,'(/A/)') 'Otherwise, INFO is set as follows:'
-        !!    
+        !!
         !!    write(myprint_unit,'(A)')  '0, improper input parameters.'
         !!    write(myprint_unit,'(A)')  &
         !!    '1, both actual and predicted relative reductions &
@@ -219,7 +222,8 @@ if( Lprint_lmdif )then
         !!    write(myprint_unit,'(A)')  '3, conditions for INFO = 1 and INFO = 2 both hold.'
         !!    write(myprint_unit,'(A)')  '4, the cosine of the angle between FVEC and &
         !!          &any column of the Jacobian is at most GTOL in absolute value.'
-        !!    write(myprint_unit,'(A)')  '5, number of calls to FCN has reached or exceeded MAXFEV.'
+        !!    write(myprint_unit,'(A)')  &
+        !!    '5, number of calls to FCN has reached or exceeded MAXFEV.'
         !!    write(myprint_unit,'(A)')  &
         !!    '6, FTOL is too small.  No further reduction in the sum of squares is possible.'
         !!    write(myprint_unit,'(A)')  &
@@ -229,7 +233,7 @@ if( Lprint_lmdif )then
         !!          &to the columns of the Jacobian to machine precision.'
         !!    write(myprint_unit,'(/A/)') &
         !!    '######################################################################################'
-        !!    
+        !!
         !!endif ! info > 0
     endif ! L_myprint
 
@@ -248,7 +252,7 @@ if( info < 0 ) then
     if( L_myprint )then
         write(myprint_unit,'(/A/ 3(1x, I6),  1x,E12.5)') &
           'strplm:3 myid, i_G_indiv, individual_quality(i_G_indiv), &
-                                      &my_indiv_SSE(i_G_indiv) ', &
+                                      &my_indiv_SSE(i_G_indiv)', &
                     myid, i_G_indiv, individual_quality(i_G_indiv), &
                                        my_indiv_SSE(i_G_indiv)
     endif ! L_myprint

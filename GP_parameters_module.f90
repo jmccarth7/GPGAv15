@@ -38,7 +38,6 @@ logical ::          L_GP_output_parameters
 integer(kind=4) ::  print_equations_flag
 logical ::   L_print_equations 
 
-!integer(kind=4), parameter :: n_GP_individuals=1
 integer(kind=4) :: n_GP_individuals
 
 integer(kind=4) :: n_GP_Generations

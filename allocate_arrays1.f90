@@ -143,6 +143,15 @@ allocate( GP_Child_Population_SSE( n_GP_Individuals  )  )
 
 allocate( ppe(n_Maximum_Number_Parameters,n_GA_individuals )  )
 
+
+allocate( buffer( n_maximum_number_parameters + 2 ) )
+allocate( buffer_recv( n_maximum_number_parameters + 2 ) )
+
+allocate( buffer2( n_maximum_number_parameters + 2 ) )
+allocate( buffer2_recv( n_maximum_number_parameters + 2 ) )
+                                                                                              
+                                                                                              
+ 
 !>>>>>>>>>>>>>
 
 
@@ -248,6 +257,10 @@ GP_Child_Population_Parameter_Solution = 0.0d0
 GP_Child_Population_SSE = 0.0d0
 !>>>>>>>>>>>>>
 
+buffer       = 0.0d0
+buffer_recv  = 0.0d0
+buffer2      = 0.0d0
+buffer2_recv = 0.0d0
 
 return
 
