@@ -412,11 +412,11 @@ do  i_time_step=1,n_time_steps
 
   !---------------------------------------------------------------------------
 
-  !if( L_ga_print )then      
-  !    write(GA_print_unit,'(A,2(1x,I6),12(1x,E15.7))') &
-  !          'RuKbm: myid, i_time_step, RK_Soln ', &
-  !                 myid, i_time_step, Runge_Kutta_Solution(i_time_step,1:n_CODE_equations)
-  !endif ! L_ga_print  
+  if( L_ga_print .and. myid == 1 .and. mod( i_time_step, 50 ) == 0 )then      
+      write(GA_print_unit,'(A,2(1x,I6),12(1x,E15.7))') &
+            'RuKbm: myid, i_time_step, RK_Soln ', &
+                    myid, i_time_step, Runge_Kutta_Solution(i_time_step,1:n_CODE_equations)
+  endif ! L_ga_print  
 
 
 

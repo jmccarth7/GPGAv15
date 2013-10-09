@@ -83,16 +83,16 @@ real(kind=8) :: t2mt1
 
 !--------------------------------------------------------------------------------------------
 
-
-write(myprint_unit,'(/A,5(1x,I6))') &
+if( i_G_indiv == 1 )then
+write(myprint_unit,'(A,5(1x,I6))') &
  'strplm:1 at entry myid, myprint_unit, i_G_indiv, n_parms, n_parms_dim', &
                     myid, myprint_unit, i_G_indiv, n_parms, n_parms_dim
 
-
-write(myprint_unit,'(/A,3(1x,I6))') &
+write(myprint_unit,'(A,3(1x,I6))') &
  'strplm:1 at entry myid, n_indiv, individual_quality', &
                     myid, n_indiv, individual_quality
 
+endif ! i_G_indiv == 1
 
 
 
@@ -103,8 +103,8 @@ if( n_parms <= 0 ) then
     individual_quality = -1
     my_indiv_SSE =  1.0D+12
 
-    if( L_myprint )then
-        write(myprint_unit,'(/A, 3(1x, I6),  1x,E12.5)') &
+    if( L_myprint .and. i_G_indiv == 1 )then
+        write(myprint_unit,'(A, 3(1x, I6),  1x,E12.5)') &
           'strplm:0 myid, i_G_indiv, indiv_qual, &
                                   &my_indiv_SSE',&
                     myid, i_G_indiv, individual_quality, &
@@ -129,7 +129,7 @@ do  i_parameter=1,n_parms
 
     X_LMDIF(i_parameter) = child_parameters(i_parameter)
 
-    if( L_myprint )then
+    if( L_myprint  .and. i_G_indiv == 1)then
         write(myprint_unit,'(A,3(1x,I6),1x,E20.10)') &
           'strplm:1 myid, i_G_indiv,i_parameter, child_parameters', &
                     myid, i_G_indiv,i_parameter, &
@@ -141,8 +141,8 @@ do  i_parameter=1,n_parms
 
 enddo ! i_parameter
 
-if( L_myprint )then
-    write(myprint_unit,'(/A, 2(1x, I6), 20( 1x,E12.5))') &
+if( L_myprint .and. i_G_indiv == 1 )then
+    write(myprint_unit,'(A, 2(1x, I6), 20( 1x,E12.5))') &
           'strplm:1 myid, i_G_indiv, X_LMDIF', &
                     myid, i_G_indiv, X_LMDIF(1:n_parms)
 endif ! L_myprint
@@ -205,8 +205,9 @@ t1 = MPI_Wtime()
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-
-!write(myprint_unit,'(/A,1x,I3/)') 'strplm: RUN LMDIF myid =', myid
+if( myid == 1 )then
+    write(myprint_unit,'(/A,1x,I3/)') 'strplm: RUN LMDIF myid =', myid
+endif ! myid == 1 
 
 
 call lmdif( fcn, n_time_steps, n_parms, x_LMDIF, fvec, &
@@ -227,9 +228,11 @@ call MPI_REDUCE( t2mt1, sum_lmdif, 1, MPI_DOUBLE_PRECISION, &
 !write(myprint_unit,'(A,1x,E15.7)')  'strplm: time increment      = ', delta_wt
 !write(myprint_unit,'(A,1x,E15.7/)') 'strplm:          sum_ lmdif = ', sum_lmdif
 
-!write(6,'(A,3(1x,I3),1x,I10/)') &
-!      'strplm: aft call lmdif, myid, n_parms, info, n_time_steps', &
-!                               myid, n_parms, info, n_time_steps
+if( myid == 1 )then
+    write(6,'(A,3(1x,I3),1x,I10/)') &
+          'strplm: aft call lmdif, myid, n_parms, info, n_time_steps', &
+                                   myid, n_parms, info, n_time_steps
+endif ! myid == 1 
 
 if( Lprint_lmdif )then
 
@@ -285,13 +288,13 @@ endif ! Lprint_lmdif
 
 ! if info < 0 , delete this individual
 
-if( info < 0 ) then
+if( info <= 0 ) then
 
     individual_quality  = -1
     my_indiv_SSE =  1.0D+12
 
-    if( L_myprint )then
-        write(myprint_unit,'(/A, 3(1x, I6),  1x,E12.5)') &
+    if( L_myprint  .and. i_G_indiv == 1 )then
+        write(myprint_unit,'(A, 3(1x, I6),  1x,E12.5)') &
           'strplm:3 myid, i_G_indiv, indiv_qual, &
                                   &my_indiv_SSE',&
                     myid, i_G_indiv, individual_quality, &
@@ -320,8 +323,8 @@ do  i_parameter=1,n_parms
                            dabs( x_LMDIF(i_parameter) )
 enddo ! i_parameter
 
-if( L_myprint )then
-    write(myprint_unit,'(/A, 2(1x, I6), 20( 1x,E12.5))') &
+if( L_myprint .and. i_G_indiv == 1 )then
+    write(myprint_unit,'(A, 2(1x, I6), 20( 1x,E12.5))') &
      'strplm:4 myid, i_G_indiv, child_parameters', &
                myid, i_G_indiv, child_parameters(1:n_parms)
 endif ! L_myprint
@@ -361,7 +364,7 @@ if( individual_quality > 0 ) then
 
 endif !  individual_quality > 0
 
-if( L_myprint )then
+if( L_myprint .and. i_G_indiv == 1 )then
     write(myprint_unit,'(A,3(1x,I6), 1x, E15.7)') &
       'strplm: myid, i_G_indiv, indiv_qual, my_indiv_SSE', &
                myid, i_G_indiv, &
