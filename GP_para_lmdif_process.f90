@@ -690,7 +690,7 @@ else  ! not myid == 0
             real( individual_quality(i_2_individual), kind=8 )
 
 
-        !if( L_GP_print )then
+        if( L_GP_print )then
         !    write(GP_print_unit,'(A,3(1x,I6))') &
         !    'gplp:3 705 myid, n_parms, i_2_individual', &
         !                myid, n_parms, i_2_individual
@@ -700,11 +700,11 @@ else  ! not myid == 0
         !    write(GP_print_unit,'(A,3(1x,I6))') &
         !    'gplp:3 myid, i_2_individual, individual_quality(i_2_individual)', &
         !            myid, i_2_individual, individual_quality(i_2_individual)
-        !    write(GP_print_unit,'(A,2(1x,I6), 1x, E15.7)') &
-        !    'gplp:3 send results &
-        !     &myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)', &
-        !      myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)
-        !endif ! L_GP_print
+            write(GP_print_unit,'(A,2(1x,I6), 1x, E15.7)') &
+            'gplp:3 send results &
+             &myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)', &
+              myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)
+        endif ! L_GP_print
 
 
 

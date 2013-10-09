@@ -102,7 +102,6 @@ GP_individual_node_type(1:n_nodes,1:n_trees)  = &
             GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_best_parent )
 
 do  i = 1, nop
-
     write(GP_print_unit,'(A,1x,I3, 1x,E15.7)') &
           'gpsbrl: i, output_array(i)', &
                    i, output_array(i) 

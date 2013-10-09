@@ -84,9 +84,19 @@ real(kind=8) :: t2mt1
 !--------------------------------------------------------------------------------------------
 
 
-write(myprint_unit,'(/A,4(1x,I6))') &
- 'strplm:1 at entry myid, myprint_unit, i_G_indiv, n_parms', &
-                    myid, myprint_unit, i_G_indiv, n_parms
+write(myprint_unit,'(/A,5(1x,I6))') &
+ 'strplm:1 at entry myid, myprint_unit, i_G_indiv, n_parms, n_parms_dim', &
+                    myid, myprint_unit, i_G_indiv, n_parms, n_parms_dim
+
+
+write(myprint_unit,'(/A,3(1x,I6))') &
+ 'strplm:1 at entry myid, n_indiv, individual_quality', &
+                    myid, n_indiv, individual_quality
+
+
+
+
+                                 
 
 if( n_parms <= 0 ) then
 
@@ -95,7 +105,7 @@ if( n_parms <= 0 ) then
 
     if( L_myprint )then
         write(myprint_unit,'(/A, 3(1x, I6),  1x,E12.5)') &
-          'strplm:3 myid, i_G_indiv, indiv_qual, &
+          'strplm:0 myid, i_G_indiv, indiv_qual, &
                                   &my_indiv_SSE',&
                     myid, i_G_indiv, individual_quality, &
                                            my_indiv_SSE
@@ -119,15 +129,15 @@ do  i_parameter=1,n_parms
 
     X_LMDIF(i_parameter) = child_parameters(i_parameter)
 
-    !if( L_myprint )then
-        !write(myprint_unit,'(A,3(1x,I6),1x,E20.10)') &
-        !  'strplm:1 myid, i_G_indiv,i_parameter, child_parameters', &
-        !            myid, i_G_indiv,i_parameter, &
-        !            child_parameters(i_parameter)
+    if( L_myprint )then
+        write(myprint_unit,'(A,3(1x,I6),1x,E20.10)') &
+          'strplm:1 myid, i_G_indiv,i_parameter, child_parameters', &
+                    myid, i_G_indiv,i_parameter, &
+                    child_parameters(i_parameter)
         !write(myprint_unit,'(A,2(1x,I6),1x,E20.10)') &
         !  'strplm:1 myid, i_parameter,  X_LMDIF', &
         !            myid, i_parameter,  X_LMDIF(i_parameter)
-    !endif ! L_myprint
+    endif ! L_myprint
 
 enddo ! i_parameter
 

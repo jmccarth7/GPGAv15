@@ -216,7 +216,6 @@ do i_time_step=1,n_time_steps
       !                Runge_Kutta_Solution(i_time_step,i_CODE_equation), &
       !                Data_Array(i_time_step,i_CODE_equation), &
       !                data_variance(i_CODE_equation)
-
       !    write(GA_print_unit,'(A,2(1x,I6), 1x,E15.7)') &
       !          'fcn: myid, i_eqn, data_variance ', &
       !                myid, i_CODE_equation, data_variance(i_CODE_equation)
