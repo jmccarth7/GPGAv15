@@ -1,7 +1,7 @@
 subroutine setup_run_para_lmdif( i_G_indiv,  child_parameters, &
                                  individual_quality, &
                                  n_indiv, my_indiv_SSE, &
-                                 n_parms, &
+                                 n_parms, n_parms_dim, &
                                  L_myprint, myprint_unit  )
 
 ! written by: Dr. John R. Moisan [NASA/GSFC] 5 December, 2012
@@ -27,15 +27,18 @@ implicit none
 integer, intent(in)  ::  i_G_indiv
 integer, intent(in)  ::  n_indiv
 integer, intent(in)  ::  n_parms
+integer, intent(in)  ::  n_parms_dim
 
-real(kind=8),dimension(n_indiv)  ::  my_indiv_SSE
+!real(kind=8),dimension(n_indiv)  ::  my_indiv_SSE
+real(kind=8)  ::  my_indiv_SSE
 
 logical, intent(in)  ::  L_myprint
 integer, intent(in)  ::  myprint_unit
 
 ! lmdif arrays and variables
 
-real(kind=8) :: x_LMDIF(n_maximum_number_parameters)
+!real(kind=8) :: x_LMDIF(n_maximum_number_parameters)
+real(kind=8) :: x_LMDIF(n_parms_dim)                        
 real(kind=8) :: fvec(n_time_steps)
 real(kind=8) :: ftol,xtol,gtol
 
@@ -45,23 +48,31 @@ real(kind=8), parameter :: epsfcn = 1.0d-9   ! 1.0d-6    ! original
 real(kind=8), parameter :: factor=1.0D+0
 real(kind=8), parameter :: zero = 0.0d0
 
-real(kind=8) :: diag(n_maximum_number_parameters)
-real(kind=8) :: fjac(n_time_steps,n_maximum_number_parameters)
-real(kind=8) :: qtf(n_maximum_number_parameters)
+!real(kind=8) :: diag(n_maximum_number_parameters)
+!real(kind=8) :: fjac(n_time_steps,n_maximum_number_parameters)
+!real(kind=8) :: qtf(n_maximum_number_parameters)
+real(kind=8) :: diag(n_parms_dim)                       
+real(kind=8) :: fjac(n_time_steps,n_parms_dim)                       
+real(kind=8) :: qtf(n_parms_dim)
+
 integer(kind=4) :: maxfev,ldfjac,mode,nprint,info,nfev
-integer(kind=4) :: ipvt(n_maximum_number_parameters)
+
+!integer(kind=4) :: ipvt(n_maximum_number_parameters)
+integer(kind=4) :: ipvt(n_parms_dim)                          
 
 
 ! individual_quality contains information on the result of lmdif
 ! if lmdif encounters an error, set individual_quality to -1
 ! if < 0 , reject this individual  ! jjm
 
-integer(kind=4),dimension(n_indiv) :: individual_quality
+!integer(kind=4),dimension(n_indiv) :: individual_quality
+integer(kind=4) :: individual_quality
 
 integer(kind=4) :: i_time_step
 integer(kind=4) :: i_parameter
 
-real(kind=8) :: child_parameters( n_maximum_number_parameters, n_indiv )
+!real(kind=8) :: child_parameters( n_maximum_number_parameters, n_indiv )
+real(kind=8) :: child_parameters( n_parms_dim )                                 
 
 external :: fcn
 
@@ -72,31 +83,30 @@ real(kind=8) :: t2mt1
 
 !--------------------------------------------------------------------------------------------
 
-!!!!!!!!n_parameters = GP_n_parms( i_G_indiv )
 
-write(myprint_unit,'(//A,3(1x,I6),1x,E20.10)') &
- 'strplm:1 at entry myid, myprint_unit, n_parms', &
-                    myid, myprint_unit, n_parms
+write(myprint_unit,'(/A,4(1x,I6))') &
+ 'strplm:1 at entry myid, myprint_unit, i_G_indiv, n_parms', &
+                    myid, myprint_unit, i_G_indiv, n_parms
 
 if( n_parms <= 0 ) then
 
-    individual_quality( i_G_indiv ) = -1
-    my_indiv_SSE(i_G_indiv) =  1.0D+12
+    individual_quality = -1
+    my_indiv_SSE =  1.0D+12
 
     if( L_myprint )then
-        write(myprint_unit,'(/A/ 3(1x, I6),  1x,E12.5)') &
-          'strplm:3 myid, i_G_indiv, individual_quality(i_G_indiv), &
-                                          &my_indiv_SSE(i_G_indiv)',&
-                    myid, i_G_indiv, individual_quality(i_G_indiv), &
-                                           my_indiv_SSE(i_G_indiv)
+        write(myprint_unit,'(/A, 3(1x, I6),  1x,E12.5)') &
+          'strplm:3 myid, i_G_indiv, indiv_qual, &
+                                  &my_indiv_SSE',&
+                    myid, i_G_indiv, individual_quality, &
+                                           my_indiv_SSE
     endif ! L_myprint
 
 endif ! n_parms <= 0 
 
 
 !write(myprint_unit,'(/A,1x,I3,2(1x,I10))') &
-! 'strplm: at entry myid, i_G_indiv, individual_quality(i_G_indiv)', &
-!                   myid, i_G_indiv, individual_quality(i_G_indiv)
+! 'strplm: at entry myid, i_G_indiv, individual_quality', &
+!                   myid, i_G_indiv, individual_quality
 
 !>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -107,13 +117,13 @@ GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) = &
 
 do  i_parameter=1,n_parms
 
-    X_LMDIF(i_parameter) = child_parameters(i_parameter, i_G_indiv)
+    X_LMDIF(i_parameter) = child_parameters(i_parameter)
 
     !if( L_myprint )then
         !write(myprint_unit,'(A,3(1x,I6),1x,E20.10)') &
         !  'strplm:1 myid, i_G_indiv,i_parameter, child_parameters', &
         !            myid, i_G_indiv,i_parameter, &
-        !            child_parameters(i_parameter, i_G_indiv)
+        !            child_parameters(i_parameter)
         !write(myprint_unit,'(A,2(1x,I6),1x,E20.10)') &
         !  'strplm:1 myid, i_parameter,  X_LMDIF', &
         !            myid, i_parameter,  X_LMDIF(i_parameter)
@@ -122,7 +132,7 @@ do  i_parameter=1,n_parms
 enddo ! i_parameter
 
 if( L_myprint )then
-    write(myprint_unit,'(/A/ 2(1x, I6), 20( 1x,E12.5))') &
+    write(myprint_unit,'(/A, 2(1x, I6), 20( 1x,E12.5))') &
           'strplm:1 myid, i_G_indiv, X_LMDIF', &
                     myid, i_G_indiv, X_LMDIF(1:n_parms)
 endif ! L_myprint
@@ -267,15 +277,15 @@ endif ! Lprint_lmdif
 
 if( info < 0 ) then
 
-    individual_quality( i_G_indiv ) = -1
-    my_indiv_SSE(i_G_indiv) =  1.0D+12
+    individual_quality  = -1
+    my_indiv_SSE =  1.0D+12
 
     if( L_myprint )then
-        write(myprint_unit,'(/A/ 3(1x, I6),  1x,E12.5)') &
-          'strplm:3 myid, i_G_indiv, individual_quality(i_G_indiv), &
-                                          &my_indiv_SSE(i_G_indiv)',&
-                    myid, i_G_indiv, individual_quality(i_G_indiv), &
-                                           my_indiv_SSE(i_G_indiv)
+        write(myprint_unit,'(/A, 3(1x, I6),  1x,E12.5)') &
+          'strplm:3 myid, i_G_indiv, indiv_qual, &
+                                  &my_indiv_SSE',&
+                    myid, i_G_indiv, individual_quality, &
+                                           my_indiv_SSE
     endif ! L_myprint
     return
 
@@ -296,14 +306,14 @@ if (info .eq. 8) info = 4
 
 
 do  i_parameter=1,n_parms
-    child_parameters(i_parameter,i_G_indiv) = &
+    child_parameters(i_parameter) = &
                            dabs( x_LMDIF(i_parameter) )
 enddo ! i_parameter
 
 if( L_myprint )then
-    write(myprint_unit,'(/A/ 2(1x, I6), 20( 1x,E12.5))') &
-     'strplm:4 myid, i_G_indiv, child_parameters(:,i_G_indiv)', &
-               myid, i_G_indiv, child_parameters(1:n_parms, i_G_indiv)
+    write(myprint_unit,'(/A, 2(1x, I6), 20( 1x,E12.5))') &
+     'strplm:4 myid, i_G_indiv, child_parameters', &
+               myid, i_G_indiv, child_parameters(1:n_parms)
 endif ! L_myprint
 
 
@@ -321,11 +331,11 @@ endif ! L_myprint
 !endif ! L_myprint
 
 
-if( individual_quality( i_G_indiv ) > 0 ) then
+if( individual_quality > 0 ) then
 
     !write(10,*) 'strplm: i_G_indiv ', i_G_indiv
 
-    my_indiv_SSE(i_G_indiv)=0.0D+0
+    my_indiv_SSE = 0.0D+0
 
     do i_time_step=1,n_time_steps
 
@@ -335,18 +345,18 @@ if( individual_quality( i_G_indiv ) > 0 ) then
        !write(10, *) 'strplm: i_time_step, fvec(i_time_step) ', &
        !                      i_time_step, fvec(i_time_step)
 
-       my_indiv_SSE(i_G_indiv) = my_indiv_SSE(i_G_indiv) + fvec(i_time_step)
+       my_indiv_SSE = my_indiv_SSE + fvec(i_time_step)
 
     enddo ! i_time_step
 
-endif !  individual_quality( i_G_indiv ) > 0
+endif !  individual_quality > 0
 
 if( L_myprint )then
     write(myprint_unit,'(A,3(1x,I6), 1x, E15.7)') &
-      'strplm: myid, i_G_indiv, individual_quality, my_indiv_SSE', &
+      'strplm: myid, i_G_indiv, indiv_qual, my_indiv_SSE', &
                myid, i_G_indiv, &
-               individual_quality( i_G_indiv ), &
-               my_indiv_SSE(i_G_indiv)
+               individual_quality, &
+               my_indiv_SSE
 endif ! L_myprint
 
 
