@@ -1190,6 +1190,8 @@ do  i_GP_Generation=1,n_GP_Generations
     !!
     !!call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
     !!
+
+
     !-------------------------------------------------------------------------------------
 
     !  call routine to run lmdif in parallel on all the GP individuals
