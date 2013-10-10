@@ -36,11 +36,11 @@ logical,parameter :: L_GP_print = .TRUE.
 
 !---------------------------------------------------------------------
 
-!if( GP_para_flag .and. myid == 1 )then
-!    write(GP_print_unit,'(A,1x,I6)') &
-!           'fcn: n_CODE_equations', &
-!                 n_CODE_equations
-!endif ! myid == 1
+if( GP_para_flag .and. myid == 1 )then
+    write(GP_print_unit,'(A,2(1x,I6))') &
+           'fcn: n_CODE_equations, nn', &
+                 n_CODE_equations, nn
+endif ! myid == 1
 
 ! move the values you are trying to fit into
 ! the initial conditions and variable terms
@@ -134,12 +134,13 @@ do i_tree=1,n_trees
   enddo ! i_node
 enddo  ! i_tree
 
-!if( L_GP_print )then
-!    if( GP_para_flag .and. myid == 1 )then
-!        write(6,'(/A,3(1x,I4)/)') &
-!               'fcn: myid, i_parameter, nn', myid, i_parameter, nn
-!    endif !  myid == 1
-!endif ! L_GP_print
+if( L_GP_print )then
+    if( GP_para_flag .and. myid == 1 )then
+        write(6,'(/A,3(1x,I4)/)') &
+               'fcn: myid, i_parameter, nn', myid, i_parameter, nn
+    endif !  myid == 1
+endif ! L_GP_print
+
 !---------------------------------------------------------------------------------
 
 ! jjm 20130417 >>>>>>>>>>>>>>>
@@ -189,11 +190,11 @@ call Runge_Kutta_Box_Model
 
 
 if( L_bad_result ) then
-    if( L_GP_print ) then !.and. GP_para_flag .and. myid == 1 )then
-        write(GP_print_unit,'(A,1x,I6,4x,L1)') &
-              'fcn: aft call Runge_Kutta_Box_Model  myid, L_bad_result = ', &
-                                                    myid, L_bad_result
-    endif ! L_GP_print
+    !if( L_GP_print ) then !.and. GP_para_flag .and. myid == 1 )then
+    !    write(GP_print_unit,'(A,1x,I6,4x,L1)') &
+    !          'fcn: aft call Runge_Kutta_Box_Model  myid, L_bad_result = ', &
+    !                                                myid, L_bad_result
+    !endif ! L_GP_print
     iflag = -1
     return
 endif
@@ -202,7 +203,7 @@ endif
 
 ! if the result of the RK process was good, compute the fvec (and maybe sse_local)
 
-sse_local=0.0D+0
+!sse_local=0.0D+0
 do i_time_step=1,n_time_steps
 
   fvec(i_time_step)=0.0D0
@@ -240,7 +241,7 @@ do i_time_step=1,n_time_steps
   enddo ! i_CODE_equation
 
 
-  sse_local = sse_local + fvec(i_time_step)
+  !sse_local = sse_local + fvec(i_time_step)
 
   !if( L_GP_print .and. GP_para_flag .and. myid == 1 .and. i_time_step == n_time_steps )then
   !   write(GP_print_unit,'(A,1x,I6, 1x,I6, 1x, E15.7)')&

@@ -1211,8 +1211,6 @@ do  i_GP_Generation=1,n_GP_Generations
             write(GP_print_unit, '(I6,10x,E15.7)') &
                   i_GP_Individual,  GP_Adult_Population_SSE(i_GP_Individual)
         enddo
-
-
     endif ! myid == 0
     !-------------------------------------------------------------------------------------
 

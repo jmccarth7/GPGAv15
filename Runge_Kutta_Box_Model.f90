@@ -386,17 +386,19 @@ do  i_time_step=1,n_time_steps
 
 
 
+  !---------------------------------------------------------------------------
+
   ! if b_tmp is bad on any time step, then return with a bad result
 
   if( any( isnan( b_tmp ) ) .or.  any( abs(b_tmp)  > 1.0d20 ) ) then
 
       L_bad_result = .TRUE.
 
-      if( L_GP_print )then
-          write(GP_print_unit,'(A,2(1x,I6),12(1x,E15.7))') &
-                'RuKbm: bad result myid, i_time_step, b_tmp ', &
-                                   myid, i_time_step, b_tmp(1:n_CODE_equations)
-      endif ! L_ga_print  
+      !if( L_GP_print )then
+      !    write(GP_print_unit,'(A,2(1x,I6),12(1x,E15.7))') &
+      !          'RuKbm: bad result myid, i_time_step, b_tmp ', &
+      !                             myid, i_time_step, b_tmp(1:n_CODE_equations)
+      !endif ! L_ga_print  
 
       return
 

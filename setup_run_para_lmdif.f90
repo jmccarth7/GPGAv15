@@ -124,11 +124,14 @@ endif ! n_parms <= 0
 
 
 
-!>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+!-------------------------------------------------------------------------------
 
 GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) = &
                GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees,i_G_indiv)
 
+!-------------------------------------------------------------------------------
+
+!>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                                                                                                                    
 if( L_myprint .and. i_G_indiv == 1 )then
                                                                                                                    
@@ -228,9 +231,9 @@ t1 = MPI_Wtime()
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-if( myid == 1 )then
-    write(myprint_unit,'(/A,1x,I3/)') 'strplm: RUN LMDIF myid =', myid
-endif ! myid == 1 
+!if( myid == 1 )then
+!    write(myprint_unit,'(/A,1x,I3/)') 'strplm: RUN LMDIF myid =', myid
+!endif ! myid == 1 
 
 
 call lmdif( fcn, n_time_steps, n_parms, x_LMDIF, fvec, &
