@@ -71,6 +71,9 @@ integer(kind=4) :: individual_quality
 integer(kind=4) :: i_time_step
 integer(kind=4) :: i_parameter
 
+integer(kind=4) :: i_tree     
+integer(kind=4) :: i_node       
+
 !real(kind=8) :: child_parameters( n_maximum_number_parameters, n_indiv )
 real(kind=8) :: child_parameters( n_parms_dim )                                 
 
@@ -84,13 +87,13 @@ real(kind=8) :: t2mt1
 !--------------------------------------------------------------------------------------------
 
 if( i_G_indiv == 1 )then
-write(myprint_unit,'(A,5(1x,I6))') &
- 'strplm:1 at entry myid, myprint_unit, i_G_indiv, n_parms, n_parms_dim', &
-                    myid, myprint_unit, i_G_indiv, n_parms, n_parms_dim
-
-write(myprint_unit,'(A,3(1x,I6))') &
- 'strplm:1 at entry myid, n_indiv, individual_quality', &
-                    myid, n_indiv, individual_quality
+    write(myprint_unit,'(A,5(1x,I6))') &
+     'strplm:1 at entry myid, myprint_unit, i_G_indiv, n_parms, n_parms_dim', &
+                        myid, myprint_unit, i_G_indiv, n_parms, n_parms_dim
+    
+    write(myprint_unit,'(A,3(1x,I6))') &
+     'strplm:1 at entry myid, n_indiv, individual_quality', &
+                        myid, n_indiv, individual_quality
 
 endif ! i_G_indiv == 1
 
@@ -103,6 +106,12 @@ if( n_parms <= 0 ) then
     individual_quality = -1
     my_indiv_SSE =  1.0D+12
 
+    if( L_myprint  )then
+        write(myprint_unit,'(A, 2(1x, I6))') &
+          'strplm:0 myid, n_parms <=0  myid,  n_parms = ', &
+                                       myid,  n_parms
+    endif ! L_myprint
+
     if( L_myprint .and. i_G_indiv == 1 )then
         write(myprint_unit,'(A, 3(1x, I6),  1x,E12.5)') &
           'strplm:0 myid, i_G_indiv, indiv_qual, &
@@ -114,14 +123,28 @@ if( n_parms <= 0 ) then
 endif ! n_parms <= 0 
 
 
-!write(myprint_unit,'(/A,1x,I3,2(1x,I10))') &
-! 'strplm: at entry myid, i_G_indiv, individual_quality', &
-!                   myid, i_G_indiv, individual_quality
 
 !>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) = &
                GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees,i_G_indiv)
+
+                                                                                                                   
+if( L_myprint .and. i_G_indiv == 1 )then
+                                                                                                                   
+    do  i_tree=1,n_trees                                                                                   
+        do  i_node=1,n_nodes                                                                               
+            if( GP_individual_Node_Type(i_Node,i_Tree) > -9999 )then                
+                write(GP_print_unit,'(8x,4(1x,I6))') &                                                     
+                      i_tree, i_node, &                                                 
+                      GP_individual_Node_Type(i_Node,i_Tree)                      
+            endif !   GP_individual_Node_Type(i_Node,i_Tree) > -9999 
+        enddo ! i_node                                                                                     
+    enddo  ! i_tree                                                                                        
+                                                                                                                   
+    write(GP_print_unit,'(A)')' '                                                                              
+
+endif ! L_myprint
 
 !<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 

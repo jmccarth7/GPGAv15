@@ -55,8 +55,9 @@ character(10),parameter :: modification_date = '20131004'
 character(50),parameter :: branch  =  'old_elite_parallel_lmdif'
 
 
-!----------------------------------------------------------------------------------------
+!---------------------------------------------------------------------------------------
 
+GP_para_flag = .FALSE.
 
 
 !---------------------------------------
@@ -1192,6 +1193,27 @@ do  i_GP_Generation=1,n_GP_Generations
     !!
 
 
+    if( myid == 0 )then
+        write(GP_print_unit,'(/A,1x,I6)') &
+          '0: before GP_para_lmdif_process   i_GP_generation =', i_GP_Generation
+
+        write(GP_print_unit, '(/A )') &
+              '0:i_GP_Individual,  GP_Individual_N_GP_param '
+        do  i_GP_individual = 1, n_GP_individuals
+            write(GP_print_unit, '(I6,10x,I6 )') &
+                  i_GP_Individual,  GP_Individual_N_GP_param(i_GP_individual)
+        enddo
+
+
+        write(GP_print_unit, '(/A )') &
+              '0:i_GP_Individual,  GP_Adult_Population_SSE'
+        do  i_GP_individual = 1, n_GP_individuals
+            write(GP_print_unit, '(I6,10x,E15.7)') &
+                  i_GP_Individual,  GP_Adult_Population_SSE(i_GP_Individual)
+        enddo
+
+
+    endif ! myid == 0
     !-------------------------------------------------------------------------------------
 
     !  call routine to run lmdif in parallel on all the GP individuals
@@ -1212,8 +1234,11 @@ do  i_GP_Generation=1,n_GP_Generations
     endif ! myid == 0
 
 
+    GP_para_flag = .TRUE. 
+
     call  GP_para_lmdif_process( i_GP_generation )
 
+    GP_para_flag = .FALSE.
 
     !-------------------------------------------------------------------------------------
 

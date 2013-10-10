@@ -37,8 +37,8 @@ real(kind=8),allocatable, dimension(:)  :: buffer
 real(kind=8),allocatable, dimension(:)  :: buffer_recv
 
 ! in GP_para*lmdif*f90
-real(kind=8),allocatable, dimension(:)  :: buffer2
-real(kind=8),allocatable, dimension(:)  :: buffer2_recv
+!real(kind=8),allocatable, dimension(:)  :: buffer2
+!real(kind=8),allocatable, dimension(:)  :: buffer2_recv
 
 
 ! GP_Solution(0:n_Time_Steps,n_CODE_Equations)

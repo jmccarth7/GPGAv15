@@ -42,8 +42,8 @@ real(kind=8),&
  dimension(n_maximum_number_parameters,n_GP_individuals) ::  child_parameters
 
 
-!real(kind=8) :: buffer2(n_maximum_number_parameters + 2)
-!real(kind=8) :: buffer2_recv(n_maximum_number_parameters + 2)
+real(kind=8) :: buffer2(n_maximum_number_parameters + 2)
+real(kind=8) :: buffer2_recv(n_maximum_number_parameters + 2)
 
 
 integer(kind=4) :: i
@@ -108,32 +108,38 @@ if( myid == 0) then
     if( L_GP_print )then
         write(GP_print_unit,'(A)')' '
         write(GP_print_unit,'(A)') &
-                      'gplp: i_tree, i_node, GP_Indiv_Node_Param'
-        do  i_tree=1,n_trees
-            do  i_node=1,n_nodes
-                !if( abs( GP_Individual_Node_Parameters(i_node,i_tree) ) > 1.0e-20 )then
-                    !write(GP_print_unit,'(A,2(1x,I6),1x,E15.7)') &
-                    !  'gplp: i_tree, i_node, GP_Indiv_Node_Param', &
-                    write(GP_print_unit,'(8x,2(1x,I6),1x,E15.7)') &
-                    i_tree, i_node, GP_Individual_Node_Parameters(i_node,i_tree)
-                !endif ! abs( GP_Indiv_Node_Param(i_node,i_tree) ) > 1.0e-20
-            enddo ! i_node
-        enddo  ! i_tree
+                      'gplp: i_GP_indiv, i_tree, i_node, GP_pop_Node_Param'
+        do  i_GP_individual = 1, n_GP_individuals 
+            do  i_tree=1,n_trees
+                do  i_node=1,n_nodes
+                    if( abs( GP_Individual_Node_Parameters(i_node,i_tree) ) > 0.0d0 )then
+                        !write(GP_print_unit,'(A,2(1x,I6),1x,E15.7)') &
+                        !  'gplp: i_tree, i_node, GP_Indiv_Node_Param', &
+                        write(GP_print_unit,'(8x,3(1x,I6),1x,E15.7)') &
+                        i_GP_individual, i_tree, i_node, &
+                          GP_population_Node_Parameters(i_node,i_tree, i_GP_individual)
+                    endif ! abs( GP_Indiv_Node_Param(i_node,i_tree) ) > 0.0d0   
+                enddo ! i_node
+            enddo  ! i_tree
+        enddo  ! i_GP_individual
 
         write(GP_print_unit,'(/A)') &
-                     'gplp: i_tree, i_node, GP_Indiv_Node_Type'
+                     'gplp: i_GP_indiv, i_tree, i_node, GP_pop_Node_Type'
 
 
-        do  i_tree=1,n_trees
-            do  i_node=1,n_nodes
-                if( GP_Individual_Node_Type(i_node,i_tree) > -9999 )then
-                    !write(GP_print_unit,'(A,3(1x,I6))') &
-                    !'gplp: i_tree, i_node, GP_Indiv_Node_Type', &
-                    write(GP_print_unit,'(8x,3(1x,I6))') &
-                            i_tree, i_node, GP_Individual_Node_Type(i_node,i_tree)
-                endif ! GP_Indiv_Node_Type(i_node,i_tree) > -9999
-            enddo ! i_node
-        enddo  ! i_tree
+        do  i_GP_individual = 1, n_GP_individuals 
+            do  i_tree=1,n_trees
+                do  i_node=1,n_nodes
+                    if( GP_Adult_population_Node_Type(i_Node,i_Tree,i_GP_individual ) > -9999 )then
+                        !write(GP_print_unit,'(A,3(1x,I6))') &
+                        !'gplp: i_tree, i_node, GP_Indiv_Node_Type', &
+                        write(GP_print_unit,'(8x,4(1x,I6))') &
+                                i_GP_individual, i_tree, i_node, &
+                                GP_Adult_population_Node_Type(i_Node,i_Tree,i_GP_individual ) 
+                    endif ! GP_Adult_population_Node_Type(i_Node,i_Tree,i_GP_individual ) > -9999
+                enddo ! i_node
+            enddo  ! i_tree
+        enddo  ! i_GP_individual
 
         write(GP_print_unit,'(A)')' '
     endif ! L_GP_print
@@ -156,7 +162,7 @@ if( myid == 0 )then
             do  i_node=1,n_nodes
                 if( GP_Adult_population_Node_Type(i_Node,i_Tree,i_GP_individual ) == 0 ) then
                     if( GP_population_node_parameters(i_node,i_tree,i_GP_individual) > 0.0d0 )then
-                        write(GP_print_unit,'(3(1x,I10),  4x, E20.10)') &
+                        write(GP_print_unit,'(3(1x,I8),  1x, E20.10)') &
                          i_GP_individual, i_tree, i_node, &
                          GP_population_node_parameters(i_node,i_tree,i_GP_individual)
                     endif ! GP_population_node_parameters(i_node,i_tree,i_GP_individual)>0.0d0
@@ -226,9 +232,11 @@ endif ! myid == 0
 
 if( myid == 0  )then
     if( L_GP_print )then
+
         write(GP_print_unit,'(//A/)') 'gplp:  initial child parameters  '
         write(GP_print_unit,'(A)') &
               'i_GP_individual                  child_parameters '
+
         do  i_GP_individual = 1, n_GP_individuals
 
             write(GP_print_unit,'(/A)') &

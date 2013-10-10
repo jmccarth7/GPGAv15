@@ -205,7 +205,7 @@ integer, dimension(0:max_level) :: pow2_table
 ! number of parameters for each GP individual
 
 integer, allocatable, dimension(:) :: GP_n_parms                                                                                                                                   
- 
+logical :: GP_para_flag   
 
 
 end module GP_parameters_module
