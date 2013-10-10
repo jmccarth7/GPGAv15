@@ -36,11 +36,11 @@ logical,parameter :: L_GP_print = .TRUE.
 
 !---------------------------------------------------------------------
 
-if( GP_para_flag .and. myid == 1 )then
-    write(GP_print_unit,'(A,1x,I6)') &
-           'fcn: n_CODE_equations', &
-                 n_CODE_equations
-endif ! myid == 1
+!if( GP_para_flag .and. myid == 1 )then
+!    write(GP_print_unit,'(A,1x,I6)') &
+!           'fcn: n_CODE_equations', &
+!                 n_CODE_equations
+!endif ! myid == 1
 
 ! move the values you are trying to fit into
 ! the initial conditions and variable terms
@@ -134,12 +134,12 @@ do i_tree=1,n_trees
   enddo ! i_node
 enddo  ! i_tree
 
-if( L_GP_print )then
-    if( GP_para_flag .and. myid == 1 )then
-        write(6,'(/A,3(1x,I4)/)') &
-               'fcn: myid, i_parameter, nn', myid, i_parameter, nn
-    endif !  myid == 1
-endif ! L_GP_print
+!if( L_GP_print )then
+!    if( GP_para_flag .and. myid == 1 )then
+!        write(6,'(/A,3(1x,I4)/)') &
+!               'fcn: myid, i_parameter, nn', myid, i_parameter, nn
+!    endif !  myid == 1
+!endif ! L_GP_print
 !---------------------------------------------------------------------------------
 
 ! jjm 20130417 >>>>>>>>>>>>>>>
@@ -189,7 +189,7 @@ call Runge_Kutta_Box_Model
 
 
 if( L_bad_result ) then
-    if( L_GP_print .and. GP_para_flag .and. myid == 1 )then
+    if( L_GP_print ) then !.and. GP_para_flag .and. myid == 1 )then
         write(GP_print_unit,'(A,1x,I6,4x,L1)') &
               'fcn: aft call Runge_Kutta_Box_Model  myid, L_bad_result = ', &
                                                     myid, L_bad_result
@@ -250,9 +250,9 @@ do i_time_step=1,n_time_steps
 
 enddo ! i_time_step
 
-if( L_GP_print .and. GP_para_flag .and. myid == 1  )then
-    write(GP_print_unit,'(A,1x,I6,2x,E24.16)') 'fcn: myid, sse_local = ',myid, sse_local
-endif ! L_GP_print
+!if( L_GP_print .and. GP_para_flag .and. myid == 1  )then
+!    write(GP_print_unit,'(A,1x,I6,2x,E24.16)') 'fcn: myid, sse_local = ',myid, sse_local
+!endif ! L_GP_print
 
 
 return
