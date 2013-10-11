@@ -19,6 +19,7 @@ integer(kind=4) :: i_GP_individual
 integer(kind=4) :: j_GP_Individual
 integer(kind=4) :: i_GP_Asexual_Reproduction
 
+integer(kind=4) :: i_parm                         
 
 real(kind=8) :: sse_ind
 
@@ -29,7 +30,7 @@ real(kind=8) :: sse_ind
 !         'gpfpar: i, GP_Child_Population_SSE(i)',&
 !                  i, GP_Child_Population_SSE(i)
 !enddo
-  
+
 
 
 i_GP_Individual = n_GP_Elitists
@@ -53,13 +54,13 @@ do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
 
     !call Random_Number(cff) ! uniform random number generator
 
-    !i_GP_individual = min( nint( cff * n_GP_Individuals ) , n_GP_Individuals ) 
-    !i_GP_individual = max( 1, i_GP_individual )                                
+    !i_GP_individual = min( nint( cff * n_GP_Individuals ) , n_GP_Individuals )
+    !i_GP_individual = max( 1, i_GP_individual )
 
     !if( myid == 0 )then
     !    write(6,'(A,2(1x,I6))') &
     !          'gpfpar: i_GP_Asexual_Reproduction, i_GP_individual ', &
-    !                   i_GP_Asexual_Reproduction, i_GP_individual 
+    !                   i_GP_Asexual_Reproduction, i_GP_individual
     !endif ! myid == 0
 
     sse_ind = GP_Child_Population_SSE(i_GP_Individual)
@@ -140,6 +141,30 @@ do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
 
 
 enddo ! i_GP_Asexual_Reproduction
+
+
+
+
+! debug
+write(6,'(/A)') 'gpfpar: GP_Adult_Population_Parameter_Solution  at end of GP_Fit...'
+do  i_GP_individual = 1, n_GP_individuals
+    do  i_parm = 1, n_Maximum_Number_Parameters
+        write(6,'(A,1x,I6,1x,I6, 10x, E15.7)') &
+          'gpfpar: before:', i_GP_Individual, i_parm, &
+                GP_Adult_Population_Parameter_Solution(i_parm, i_GP_individual )
+    enddo
+enddo ! i_GP_individual
+
+! debug
+write(6,'(/A)') 'gpfpar: GP_Child_Population_Parameter_Solution  at end of GP_Fit...'
+do  i_GP_individual = 1, n_GP_individuals
+    do  i_parm = 1, n_Maximum_Number_Parameters
+        write(6,'(A,1x,I6,1x,I6, 10x, E15.7)') &
+          'gpfpar: before:', i_GP_Individual, i_parm, &
+                GP_Child_Population_Parameter_Solution(i_parm, i_GP_individual )
+    enddo
+enddo ! i_GP_individual
+
 
 
 return

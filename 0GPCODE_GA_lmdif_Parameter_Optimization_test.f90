@@ -34,6 +34,7 @@ integer(kind=4) :: i_Tree
 integer(kind=4) :: i_Node
 
 integer(kind=4) :: jj
+integer(kind=4) :: nn
 
 integer(kind=4) :: i_CODE_equation
 
@@ -416,7 +417,8 @@ do  i_GP_Generation=1,n_GP_Generations
     ! Run_GP_Calculate_Fitness will be FALSE is the individual did not
     ! change on the last generation
 
-    Run_GP_Calculate_Fitness=.false.
+    !Run_GP_Calculate_Fitness= .TRUE.  ! debug only .false.
+    Run_GP_Calculate_Fitness= .false.
 
 
     ! randomly create the initial tree arrays for each individual and
@@ -1098,6 +1100,8 @@ do  i_GP_Generation=1,n_GP_Generations
             GP_Population_Initial_Conditions(1:n_CODE_Equations, i_GP_Individual) = &
                 GP_Individual_Initial_Conditions(1:n_CODE_Equations) ! Matrix Operation
 
+
+
             !if( myid == 0 )then
             !    write(GP_print_unit,'(A,2(1x,I5), 5(1x, E15.7))')&
             !          '0:3 i_GP_gen,i_GP_indiv,&
@@ -1106,6 +1110,36 @@ do  i_GP_Generation=1,n_GP_Generations
             !           GP_Population_Initial_Conditions(1:n_CODE_Equations, i_GP_Individual)
             !endif !  myid == 0
 
+            !------------------------------------------------------------------------------
+
+            ! load the array GP_Adult_Population_Parameter_Solution 
+
+            !  first the initial conditions
+
+            GP_Adult_Population_Parameter_Solution(1:n_CODE_equations, i_GP_Individual) = &
+                GP_Individual_Initial_Conditions(1:n_CODE_Equations) 
+
+
+            ! then the rest of the parameters 
+
+            nn = n_code_equations
+
+            do  i_Tree=1,n_Trees
+
+                do  i_Node=1,n_Nodes
+
+                    if( GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0) then 
+
+                        nn = nn + 1
+
+                        GP_Adult_Population_Parameter_Solution( nn, i_GP_Individual ) = &
+                                GP_Individual_Node_Parameters(i_Node,i_Tree) 
+
+                    endif ! GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0
+
+                enddo ! i_node
+
+            enddo ! i_tree
 
             !-------------------------------------------------------------------------------------
 
@@ -1240,6 +1274,12 @@ do  i_GP_Generation=1,n_GP_Generations
 
     !-------------------------------------------------------------------------------------
 
+                                                                                                                        
+    GP_Child_Population_Parameter_Solution(1:n_Maximum_Number_Parameters, 1:n_GP_Individuals) = &
+    GP_Adult_Population_Parameter_Solution(1:n_Maximum_Number_Parameters, 1:n_GP_Individuals)
+
+
+    !-------------------------------------------------------------------------------------
 
     ! do fitness calculations for this GP generation
 
@@ -1296,6 +1336,27 @@ do  i_GP_Generation=1,n_GP_Generations
                                        i_GP_Generation
         write(GP_print_unit,'(A/)')&
           '0:#################################################################'
+        !>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  debug
+        ! print the node parameters (if there are any)
+
+        write(GP_print_unit,'(/A/)') &
+           '0:  i_GP_indiv tree  node  GP_population_node_params'
+        do  i_GP_individual = 1, n_GP_individuals
+            do  i_tree=1,n_trees
+                do  i_node=1,n_nodes
+                    if( GP_Adult_population_Node_Type(i_Node,i_Tree, i_GP_individual ) .eq. 0 ) then
+                        if( GP_population_node_parameters(i_node,i_tree,i_GP_individual) > 0.0d0 )then
+                            write(GP_print_unit,'(3(1x,I6),  4x, E20.10)') &
+                             i_GP_individual, i_tree, i_node, &
+                             GP_population_node_parameters(i_node,i_tree,i_GP_individual)
+                        endif ! GP_population_node_parameters(i_node,i_tree,i_GP_individual) > 0.0d0
+                    endif ! GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0
+
+                enddo ! i_node
+            enddo  ! i_tree
+        enddo ! i_GP_individual
+        !<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  debug
+
 
     endif ! myid == 0
 
