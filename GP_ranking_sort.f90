@@ -188,6 +188,9 @@ enddo ! i_GP_individual
 
 GP_Adult_Population_SSE=GP_Child_Population_SSE
 
+GP_Adult_Individual_SSE=GP_Child_Population_SSE
+GP_Child_Individual_SSE=GP_Child_Population_SSE
+
 ! Copy this back across to the Child Population values
 ! to allow the Elite codes to propagate along in the next generations
 

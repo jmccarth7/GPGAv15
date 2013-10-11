@@ -1125,7 +1125,6 @@ do  i_GP_Generation=1,n_GP_Generations
             nn = n_code_equations
 
             do  i_Tree=1,n_Trees
-
                 do  i_Node=1,n_Nodes
 
                     if( GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0) then 
@@ -1138,7 +1137,6 @@ do  i_GP_Generation=1,n_GP_Generations
                     endif ! GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0
 
                 enddo ! i_node
-
             enddo ! i_tree
 
             !-------------------------------------------------------------------------------------
