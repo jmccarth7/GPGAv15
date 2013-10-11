@@ -664,20 +664,20 @@ else  ! not myid == 0
         buffer(n_maximum_number_parameters+2) = real( individual_quality(i_2_individual), kind=8 )
 
 
-        if( L_GP_print )then
-            write(GP_print_unit,'(A,3(1x,I6))') &
-            'gplp:3 705 myid, n_parameters, i_2_individual', &
-                        myid, n_parameters, i_2_individual
+        !if( L_GP_print )then
+        !    write(GP_print_unit,'(A,3(1x,I6))') &
+        !    'gplp:3 705 myid, n_parameters, i_2_individual', &
+        !                myid, n_parameters, i_2_individual
         !    write(GP_print_unit,'(A/(5(1x,E15.7)))') &
         !    'gplp:3 child_parameters(1:n_parameters,i_2_individual)', &
         !            child_parameters(1:n_parameters,i_2_individual)
         !    write(GP_print_unit,'(A,3(1x,I6))') &
         !    'gplp:3 myid, i_2_individual, individual_quality(i_2_individual)', &
         !            myid, i_2_individual, individual_quality(i_2_individual)
-            write(GP_print_unit,'(A,2(1x,I6), 1x, E15.7)') &
-            'gplp:3 send results myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)', &
-                                 myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)
-        endif ! L_GP_print
+        !    write(GP_print_unit,'(A,2(1x,I6), 1x, E15.7)') &
+        !    'gplp:3 send results myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)', &
+        !                         myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)
+        !endif ! L_GP_print
 
 
 
@@ -724,11 +724,11 @@ endif ! myid == 0
 
 call MPI_BARRIER( MPI_COMM_WORLD, ierr )
 
-if( L_GP_print )then
-    write(GP_print_unit,'(A,2(1x,I6))') &
-      'gplp: after barrier 2 i_GP_generation, myid = ', &
-                             i_GP_generation, myid
-endif ! L_GP_print
+!if( L_GP_print )then
+!    write(GP_print_unit,'(A,2(1x,I6))') &
+!      'gplp: after barrier 2 i_GP_generation, myid = ', &
+!                             i_GP_generation, myid
+!endif ! L_GP_print
 
 !-------------------------------------------------------------------
 
@@ -784,20 +784,20 @@ endif ! myid == 0
 
 call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
 
-if( L_GP_print )then
-    write(GP_print_unit,'(A,1x,I6)') &
-          'gplp: after barrier 3 myid = ', myid
-endif ! L_GP_print
+!if( L_GP_print )then
+!    write(GP_print_unit,'(A,1x,I6)') &
+!          'gplp: after barrier 3 myid = ', myid
+!endif ! L_GP_print
 
 !------------------------------------------------------------------------
 
 ! broadcast individual_quality 
 
 
-if( L_GP_print )then
-    write(GP_print_unit,'(/A,1x,I6)') &
-     'gplp: broadcast individual_quality myid = ', myid
-endif ! L_GP_print
+!if( L_GP_print )then
+!    write(GP_print_unit,'(/A,1x,I6)') &
+!     'gplp: broadcast individual_quality myid = ', myid
+!endif ! L_GP_print
 
 message_len = n_GP_individuals
 call MPI_BCAST( individual_quality, message_len,    &
@@ -814,10 +814,10 @@ call MPI_BCAST( individual_quality, message_len,    &
 ! broadcast GP_Child_Individual_SSE
 
 
-if( L_GP_print )then
-    write(GP_print_unit,'(/A,1x,I6)') &
-     'gplp: broadcast Individual_SSE_best_parent myid = ', myid
-endif ! L_GP_print
+!if( L_GP_print )then
+!    write(GP_print_unit,'(/A,1x,I6)') &
+!     'gplp: broadcast Individual_SSE_best_parent myid = ', myid
+!endif ! L_GP_print
 
 message_len = n_GP_individuals
 call MPI_BCAST( GP_Child_Individual_SSE, message_len,    &
@@ -834,11 +834,10 @@ call MPI_BCAST( GP_Child_Individual_SSE, message_len,    &
 ! broadcast GP_population_node_parameters
 
 
-if( L_GP_print )then
-    write(GP_print_unit,'(/A,1x,I6)') &
-     'gplp: broadcast GP_population_node_parameters myid = ', myid
-
-endif ! L_GP_print
+!if( L_GP_print )then
+!    write(GP_print_unit,'(/A,1x,I6)') &
+!     'gplp: broadcast GP_population_node_parameters myid = ', myid
+!endif ! L_GP_print
 
 message_len = n_trees * n_nodes * n_GP_individuals
 
