@@ -120,11 +120,11 @@ do i_GA_Mutation=1,n_GA_Mutations
 
 enddo
 
-if( L_ga_print )then 
-    write(GA_print_unit,'(A,1x,I6,1x,I10/)') &
-      'gam: i_GA_generation, n_mutated ',  &
-            i_GA_generation, n_mutated
-endif ! L_ga_print 
+!if( L_ga_print )then 
+!    write(GA_print_unit,'(A,1x,I6,1x,I10/)') &
+!      'gam: i_GA_generation, n_mutated ',  &
+!            i_GA_generation, n_mutated
+!endif ! L_ga_print 
 
 return
 end subroutine GA_Mutations

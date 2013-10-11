@@ -112,12 +112,12 @@ parent_parameters_best_1(1:n_parameters) =  &
                         Parent_Parameters(1:n_parameters, i_GA_Best_Parent)
 
 if( L_ga_print )then
-    write(GA_print_unit,'(/A,1x,I10, 2(1x,E24.16))') &
+    write(GA_print_unit,'(/A,1x,I10, 2(1x,E20.10))') &
           'sbrl: i_GA_best_parent_1, individual_SSE_best_1, &
                          &individual_ranked_fitness_best_1', &
                  i_GA_best_parent_1, individual_SSE_best_1, &
                           individual_ranked_fitness_best_1
-    write(GA_print_unit,'(/A,1x,E24.16/)') &
+    write(GA_print_unit,'(/A,1x,E20.10/)') &
           'sbrl: individual_fitness_best_1 ', individual_fitness_best_1
 
     !write(GA_print_unit,'(/A/1x,I6, 12(1x,E15.7))') &
@@ -126,7 +126,7 @@ if( L_ga_print )then
 
     write(GA_print_unit,'(/A)') 'sbrl: i, parent_parameters_best_1(i) '
     do  i = 1, n_parameters
-        write(GA_print_unit,'(I6, 1x,E24.16 )') i, parent_parameters_best_1(i)
+        write(GA_print_unit,'(I6, 1x,E20.10 )') i, parent_parameters_best_1(i)
     enddo
 
 endif ! L_ga_print
@@ -150,13 +150,13 @@ if( L_ga_print )then
           'sbrl: lmdif i, parent_parameters(i, i_GA_best_parent) '
 
     do  i = 1, n_parameters
-        write(GA_print_unit,'(I6, 1x,E24.16 )') &
+        write(GA_print_unit,'(I6, 1x,E20.10 )') &
               i, parent_parameters(i, i_GA_best_parent)
     enddo ! i
 
 
 
-    write(GA_print_unit,'(A,1x,I6,1x,E24.16)') &
+    write(GA_print_unit,'(A,1x,I6,1x,E20.10)') &
           'sbrl: i_GA_best_parent, individual_SSE', &
                  i_GA_best_parent, individual_SSE(i_GA_best_parent)
 
@@ -170,14 +170,14 @@ Individual_Fitness = Individual_Ranked_Fitness(i_GA_Best_Parent)
 
 
 if( L_ga_print )then
-    write(GA_print_unit,'(/A,1x,I6, 2(1x,E24.16))') &
+    write(GA_print_unit,'(/A,1x,I6, 2(1x,E20.10))') &
           'sbrl: lmdif i_GA_best_parent, &
           &individual_SSE, individual_ranked_fitness', &
                        i_GA_best_parent, &
                        individual_SSE(i_GA_best_parent), &
                        individual_ranked_fitness(i_GA_best_parent)
 
-    write(GA_print_unit,'(/A,1x,E24.16/)') &
+    write(GA_print_unit,'(/A,1x,E20.10/)') &
           'sbrl: lmdif individual_fitness ', individual_fitness
 endif ! L_ga_print
 
@@ -195,10 +195,10 @@ endif ! L_ga_print
 
 
 if( L_ga_print )then
-    write(GA_print_unit,'(/A, 1x,E24.16)') &
+    write(GA_print_unit,'(/A, 1x,E20.10)') &
           'sbrl: fcn   individual_ranked_fitness_best_1            ', &
                        individual_ranked_fitness_best_1
-    write(GA_print_unit,'(A, 1x,E24.16/)') &
+    write(GA_print_unit,'(A, 1x,E20.10/)') &
           'sbrl: lmdif individual_ranked_fitness(i_GA_best_parent) ', &
                        individual_ranked_fitness(i_GA_best_parent)
 endif ! L_ga_print
@@ -230,7 +230,7 @@ if( individual_ranked_fitness(i_GA_best_parent) <= &
         write(GA_print_unit,'(/A)')&
               'sbrl: set the GA-optimized initial condition array '
 
-        write(GA_print_unit,'(/A/1x,I6, 6(1x,E24.16))') &
+        write(GA_print_unit,'(/A/1x,I6, 6(1x,E20.10))') &
               'sbrl: i_GA_best_parent_1, parent_parameters_best_1(1:n_CODE_Equations) ', &
                      i_GA_best_parent_1, &
                      ( parent_parameters_best_1(jj), jj = 1, n_CODE_Equations )
@@ -244,7 +244,7 @@ if( individual_ranked_fitness(i_GA_best_parent) <= &
 
 
     if( L_ga_print )then
-        write(GA_print_unit,'(/A/ 6(1x,E24.16))') &
+        write(GA_print_unit,'(/A/ 6(1x,E20.10))') &
               'sbrl: GP_Individual_Initial_Conditions(1:n_CODE_Equations) ', &
                    ( GP_Individual_Initial_Conditions(jj), jj = 1,n_CODE_Equations )
     endif ! L_ga_print
@@ -352,7 +352,7 @@ else  ! lmdif is best
 
 
     if( L_ga_print )then
-        write(GA_print_unit,'(/A/ 6(1x,E24.16))') &
+        write(GA_print_unit,'(/A/ 6(1x,E20.10))') &
               'sbrl: GP_Individual_Initial_Conditions(1:n_CODE_Equations) ', &
                     (GP_Individual_Initial_Conditions(jj),jj=1,n_CODE_Equations)
     endif ! L_ga_print

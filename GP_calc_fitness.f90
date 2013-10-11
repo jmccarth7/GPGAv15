@@ -68,9 +68,17 @@ output_array = 0.0d0
 
 !write(GP_print_unit,'(A,1x,I6)') 'gpcf: i_GP_generation ',  i_GP_generation
 
-write(GP_print_unit,'(/A/(5(1x,E15.7)))') 'gpcf: GP_Child_Individual_SSE = ',&
-                                                 GP_Child_Individual_SSE
+!write(GP_print_unit,'(/A/(5(1x,E15.7)))') 'gpcf: GP_Child_Individual_SSE = ',&
+!                                                 GP_Child_Individual_SSE
 
+write(GP_print_unit,'(/A/)') &
+  'gpcf: i_GP_individual, GP_Child_Individual_SSE(i_GP_individual) '
+do  i_GP_individual = 1, n_GP_individuals
+
+    write(GP_print_unit,'(I6,1x,E15.7)')  &
+          i_GP_individual, GP_Child_Individual_SSE(i_GP_individual)
+
+enddo ! i_GP_individual
 
 !-------------------------------------------------------------------------------
 
@@ -315,7 +323,7 @@ write(GP_print_unit,'(/A)') &
 !                              n_code_equations, nop
 
 write(GP_print_unit,'(/A)') &
-     'gpcf: i_node  itree  nop  &
+     'gpcf: i_tree  i_node  nop  &
      &GP_pop_node_params(i_node,i_tree,i_GP_Best_Parent)'
 
 
@@ -330,7 +338,7 @@ do  i_tree=1,n_trees
             nop = nop + 1
 
             write(GP_print_unit,'(2x,3(1x,I6), 1x, E20.10, 4x, E20.10)') &
-                  i_node, i_tree, nop, &
+                  i_tree, i_node, nop, &
                   GP_population_node_parameters(i_node,i_tree,i_GP_Best_Parent)
 
             output_array(nop) = &
@@ -398,7 +406,7 @@ if( i_GP_generation == 1                                 .or. &
 
 
     write(GP_print_unit,'(/A)') &
-         'gpcf: i_node  itree   GP_Adult_Pop_Node_Type(,,i_GP_Best_Parent)'
+         'gpcf: i_tree  i_node   GP_Adult_Pop_Node_Type(,,i_GP_Best_Parent)'
 
     tree_loop2:&
     do  i_tree=1,n_trees
@@ -409,7 +417,7 @@ if( i_GP_generation == 1                                 .or. &
                                                                 > -9999  )then
 
                 write(GP_print_unit,'(2x,3(1x,I6))') &
-                  i_node, i_tree, &
+                  i_tree, i_node, &
                   GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Best_Parent)
 
             endif !GP_Adult_Pop_Node_Type(i_Node,i_Tree,i_GP_Best_Parent)> -9999

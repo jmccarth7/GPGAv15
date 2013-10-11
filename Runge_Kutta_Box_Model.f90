@@ -38,6 +38,8 @@ integer(kind=4) :: iter
 real(kind=8) :: left_node_value  
 real(kind=8) :: right_node_value  
 
+logical,parameter :: L_GP_print = .TRUE. 
+
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 left_node_value  = 0.0D0
@@ -384,14 +386,16 @@ do  i_time_step=1,n_time_steps
 
 
 
+  !---------------------------------------------------------------------------
+
   ! if b_tmp is bad on any time step, then return with a bad result
 
   if( any( isnan( b_tmp ) ) .or.  any( abs(b_tmp)  > 1.0d20 ) ) then
 
       L_bad_result = .TRUE.
 
-      !if( L_ga_print )then
-      !    write(GA_print_unit,'(A,2(1x,I6),12(1x,E15.7))') &
+      !if( L_GP_print )then
+      !    write(GP_print_unit,'(A,2(1x,I6),12(1x,E15.7))') &
       !          'RuKbm: bad result myid, i_time_step, b_tmp ', &
       !                             myid, i_time_step, b_tmp(1:n_CODE_equations)
       !endif ! L_ga_print  
@@ -412,10 +416,10 @@ do  i_time_step=1,n_time_steps
 
   !---------------------------------------------------------------------------
 
-  !if( L_ga_print )then      
-  !    write(GA_print_unit,'(A,2(1x,I6),12(1x,E15.7))') &
+  !if( L_GP_print .and. GP_para_flag .and. myid == 1 .and. mod( i_time_step, 50 ) == 0 )then      
+  !    write(GP_print_unit,'(A,2(1x,I6),12(1x,E15.7))') &
   !          'RuKbm: myid, i_time_step, RK_Soln ', &
-  !                 myid, i_time_step, Runge_Kutta_Solution(i_time_step,1:n_CODE_equations)
+  !                  myid, i_time_step, Runge_Kutta_Solution(i_time_step,1:n_CODE_equations)
   !endif ! L_ga_print  
 
 

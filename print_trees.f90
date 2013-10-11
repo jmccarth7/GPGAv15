@@ -47,7 +47,7 @@ integer(kind=4) :: i_gen
 
 write(GP_print_unit,'(/A)')  &
  'pt: ############################################################################'
-write(GP_print_unit,'(A)')  tree_descrip
+if( len( trim(tree_descrip) ) > 0 )write(GP_print_unit,'(A)')  tree_descrip
 
 !write(GP_print_unit,'(A,2(1x,I6))' ) &
 !     'pt: n_indiv_start, n_indiv_stop ', n_indiv_start, n_indiv_stop        
@@ -67,7 +67,6 @@ do  i_GP_individual = n_indiv_start, n_indiv_stop
     endif !  n_indiv_stop - n_indiv_start > 1
 
     write(GP_print_unit,'(A)') 'pt: i_tree                    nodes '
-    !write(GP_print_unit,'(A)') '            1  2  3  4  5  6  7  8  9 10 11 12 13 14 15'
     write(GP_print_unit,'(10x,A)') trim( tree_node_string ) 
 
 
@@ -86,8 +85,6 @@ do  i_GP_individual = n_indiv_start, n_indiv_stop
 
             if( Tree_Type( i_node, i_tree, i_GP_individual) == -9999 )then
                 tree_type_string(i_node)  = ' .'
-                !tree_type_string(i_node)  = '  '
-                !tree_type_string(i_node)  = '**'
             else
                 write(tree_type_string(i_node), '(I2)') &
                       tree_type( i_node, i_tree, i_GP_individual )
@@ -122,7 +119,7 @@ do  i_GP_individual = n_indiv_start, n_indiv_stop
 
 enddo  ! i_GP_individual
 
-write(GP_print_unit,'(/A/)')  &
+write(GP_print_unit,'(A/)')  &
       'pt: ############################################################################'
 
 

@@ -38,7 +38,6 @@ logical ::          L_GP_output_parameters
 integer(kind=4) ::  print_equations_flag
 logical ::   L_print_equations 
 
-!integer(kind=4), parameter :: n_GP_individuals=1
 integer(kind=4) :: n_GP_individuals
 
 integer(kind=4) :: n_GP_Generations
@@ -206,7 +205,7 @@ integer, dimension(0:max_level) :: pow2_table
 ! number of parameters for each GP individual
 
 integer, allocatable, dimension(:) :: GP_n_parms                                                                                                                                   
- 
+logical :: GP_para_flag   
 
 
 end module GP_parameters_module

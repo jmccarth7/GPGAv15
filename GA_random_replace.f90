@@ -108,11 +108,11 @@ do  i_GA_replace=1,n_GA_rand_replaces
 
 enddo
 
-if( L_ga_print )then 
-    write(GA_print_unit,'(A,1x,I6,1x,I10/)') &
-      'garr: i_GA_generation, n_replaced ',  &
-             i_GA_generation, n_replaced
-endif ! L_ga_print 
+!if( L_ga_print )then 
+!    write(GA_print_unit,'(A,1x,I6,1x,I10/)') &
+!      'garr: i_GA_generation, n_replaced ',  &
+!             i_GA_generation, n_replaced
+!endif ! L_ga_print 
 
 return
 end subroutine GA_random_replace

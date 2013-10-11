@@ -24,11 +24,11 @@ integer(kind=4) :: i_parameter
 
 Run_GA_lmdif=.true.
 
-!if( L_ga_print )then                                                                                
-!    write(GA_print_unit,'(/A,1x, I6/)')  'Init: n_parameters ', n_Parameters
+if( L_ga_print )then                                                                                
+    write(GA_print_unit,'(/A,1x, I6/)')  'Init: n_parameters ', n_Parameters
 !    write(GA_print_unit,'(/A/)') &
 !          'Init:  i_GA_individual  child parameters(:,i_GA_individual)  '
-!endif ! L_ga_print  
+endif ! L_ga_print  
 
 
 do  i_GA_Individual=1,n_GA_Individuals

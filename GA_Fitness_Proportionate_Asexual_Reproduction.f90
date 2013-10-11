@@ -244,17 +244,17 @@ else
 endif ! icount > 0
 
 
-if( L_ga_print )then 
-    write(GA_print_unit,'(/A,1x,I6,1x, E20.10)') &
-          'gafp: i_ga_generation, mean_fit_before      ', &
-                 i_ga_generation, mean_fit_before
-    write(GA_print_unit,'(A,1x,I6,1x, E20.10)')  &
-          'gafp: i_ga_generation, mean_fit_after       ', &
-                 i_ga_generation, mean_fit_after
-    write(GA_print_unit,'(A,1x,I6,2(1x,I10)/)')  &
-          'gafp: i_ga_generation, n_replaced, icount   ', &
-                 i_ga_generation, n_replaced, icount
-endif !  L_ga_print 
+!if( L_ga_print )then 
+!    write(GA_print_unit,'(/A,1x,I6,1x, E20.10)') &
+!          'gafp: i_ga_generation, mean_fit_before      ', &
+!                 i_ga_generation, mean_fit_before
+!    write(GA_print_unit,'(A,1x,I6,1x, E20.10)')  &
+!          'gafp: i_ga_generation, mean_fit_after       ', &
+!                 i_ga_generation, mean_fit_after
+!    write(GA_print_unit,'(A,1x,I6,2(1x,I10)/)')  &
+!          'gafp: i_ga_generation, n_replaced, icount   ', &
+!                 i_ga_generation, n_replaced, icount
+!endif !  L_ga_print 
 
 return
 

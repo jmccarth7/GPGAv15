@@ -193,7 +193,9 @@ subroutine lmdif ( fcn, m, n, x, fvec, ftol, xtol, gtol, maxfev, epsfcn, &
   real ( kind = 8 ) wa2(n)
   real ( kind = 8 ) wa3(n)
   real ( kind = 8 ) wa4(m)
+
   real ( kind = 8 ) x(n)
+
   real ( kind = 8 ) xnorm
   real ( kind = 8 ) xtol
 

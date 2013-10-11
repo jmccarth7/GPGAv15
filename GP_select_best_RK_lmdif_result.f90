@@ -1,5 +1,5 @@
 subroutine GP_select_best_RK_lmdif_result( &
-                i_GP_best_parent, output_array, nop ) !parent_parameters )
+                i_GP_best_parent, output_array, nop ) 
 
 ! written by: Dr. John R. Moisan [NASA/GSFC] 5 December, 2012
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -87,7 +87,7 @@ individual_quality(1:n_GP_individuals) = 1
 n_parameters =  nop  !  n_GP_parameters
 
 write(GP_print_unit,'(A,2(1x,I10))') &
-              'gpsbrl: nop, n_parameters   ', nop, n_parameters 
+              'gpsbrl: nop, n_parameters', nop, n_parameters 
 
 Parent_Parameters = 0.0d0
 Parent_Parameters(1:n_parameters, i_GP_best_Parent) = output_array(1:n_parameters)
@@ -95,23 +95,21 @@ Parent_Parameters(1:n_parameters, i_GP_best_Parent) = output_array(1:n_parameter
 i_GP_Generation = n_GP_Generations
 
 write(GP_print_unit,'(A,1x,I10)') &
-              'gpsbrl: i_GP_best_parent    ', i_GP_best_parent 
+              'gpsbrl: i_GP_best_parent ', i_GP_best_parent 
 
 
 GP_individual_node_type(1:n_nodes,1:n_trees)  = &
             GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_best_parent )
 
 do  i = 1, nop
-
     write(GP_print_unit,'(A,1x,I3, 1x,E15.7)') &
-          'gpsbrl: i, output_array(i) ', &
+          'gpsbrl: i, output_array(i)', &
                    i, output_array(i) 
 enddo 
 
 
 !do  i_tree = 1, n_trees
 !    do  i_node = 1, n_nodes
-!
 !        write(GP_print_unit,'(A,3(1x,I6))') &
 !        'gpsbrl:1 i_tree, i_node,  GP_Adult_Population_Node_Type(:,:,i_gp_best_parent) ', &
 !                  i_tree, i_node,  GP_Adult_Population_Node_Type(i_node,i_tree,i_gp_best_parent)
