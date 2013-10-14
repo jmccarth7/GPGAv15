@@ -66,16 +66,16 @@ message_len = n_GP_Individuals * n_Nodes * n_Trees
 call MPI_BCAST( GP_Adult_Population_Node_Type, message_len,    &
                 MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
 
-!---------------------------------------------------------------------
-
-call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?                                                         
-
-! Parent_Tree_Swap_Node_Type
-
-message_len = 2 * n_Nodes
-call MPI_BCAST( Parent_Tree_Swap_Node_Type, message_len,    &
-                MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
-
+!!---------------------------------------------------------------------
+!
+!call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?                                                         
+!
+!! Parent_Tree_Swap_Node_Type
+!
+!message_len = 2 * n_Nodes
+!call MPI_BCAST( Parent_Tree_Swap_Node_Type, message_len,    &
+!                MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
+!
 !---------------------------------------------------------------------
 
 ! GP_Child_Individual_SSE

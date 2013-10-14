@@ -50,7 +50,7 @@ integer(kind=4) :: i_Node
 
 integer(kind=4) :: i_CODE_equation
 
-real(kind=8), dimension(n_maximum_number_parameters) :: output_array
+real(kind=8), dimension(n_maximum_number_parameters), intent(out) :: output_array
 
 real (kind=8) ::  dff
 
