@@ -134,7 +134,7 @@ endif !   myid == 0
 
 !------------------------------------------------------------------
 
-sum_lmdif = 0.0d0
+!sum_lmdif = 0.0d0
 
 ! broadcast the values read in by cpu 0 to others
 
@@ -770,10 +770,10 @@ do  i_GP_Generation=1,n_GP_Generations
             ! sets:
             ! GP_Adult_Population_Node_Type
         
-            write(GP_print_unit,'(/A,1x,I6)') &
-                  '0: call GP_Clean_Tree_Nodes   Generation =', i_GP_Generation
-            write(GP_print_unit,'(A)') &
-                  '0: GP_Clean_Tree_Nodes  modifies GP_Adult_Population_Node_Type'
+            !write(GP_print_unit,'(/A,1x,I6)') &
+            !      '0: call GP_Clean_Tree_Nodes   Generation =', i_GP_Generation
+            !write(GP_print_unit,'(A)') &
+            !      '0: GP_Clean_Tree_Nodes  modifies GP_Adult_Population_Node_Type'
     
     
             call GP_Clean_Tree_Nodes
@@ -1068,9 +1068,9 @@ do  i_GP_Generation=1,n_GP_Generations
             ! these arrays are broadcast in GPCODE_GA...
 
 
-            write(GA_print_unit,'(A,3(1x,I6)/)') &
-                     '0: myid, i_GP_Generation, i_GP_individual',&
-                         myid, i_GP_Generation, i_GP_individual
+            !write(GA_print_unit,'(A,3(1x,I6)/)') &
+            !         '0: myid, i_GP_Generation, i_GP_individual',&
+            !             myid, i_GP_Generation, i_GP_individual
             !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
             call GPCODE_GA_lmdif_Parameter_Optimization( i_GP_Generation,i_GP_individual )
@@ -1510,7 +1510,7 @@ if( myid == 0 )then
     !---------------------------------------------------------------------------
 
 
-    write(GP_print_unit,'(/A,1x,E15.7/)') '0: sum of time spent in lmdif = ', sum_lmdif
+    !write(GP_print_unit,'(/A,1x,E15.7/)') '0: sum of time spent in lmdif = ', sum_lmdif
 
 endif ! myid == 0
 

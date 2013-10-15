@@ -90,44 +90,44 @@ do  i_GP_Individual=1,n_GP_Individuals
 enddo
 
 ! debug
-write(6,'(/A)') 'gprs: before applying  sort to GP_population_node_parameters '
-do  i_GP_individual = 1, n_GP_individuals
-    do  i_tree = 1, n_trees
-        do  i_node = 1, n_nodes
-            if( GP_Child_Population_Node_Type(i_Node,i_Tree, i_GP_individual ) == 0 )then
-                if( GP_population_node_parameters(i_Node,i_Tree, i_GP_individual ) > 0.0d0 )then
-                    write(6,'(A,1x,I6,2(1x,I3), 1x, E15.7)') &
-                      'gprs: before:', i_GP_Individual, i_tree, i_node, &
-                             GP_population_node_parameters(i_Node,i_Tree, i_GP_individual )
-                endif ! GP_population_node_parameters(i_Node,i_Tree, i_GP_individual ) > 0.0d0
-            endif ! GP_Child_Population_Node_Type(i_Node,i_Tree, i_GP_individual ) == 0 
-        enddo
-    enddo
-enddo ! i_GP_individual
+!write(6,'(/A)') 'gprs: before applying  sort to GP_population_node_parameters '
+!do  i_GP_individual = 1, n_GP_individuals
+!    do  i_tree = 1, n_trees
+!        do  i_node = 1, n_nodes
+!            if( GP_Child_Population_Node_Type(i_Node,i_Tree, i_GP_individual ) == 0 )then
+!                if( GP_population_node_parameters(i_Node,i_Tree, i_GP_individual ) > 0.0d0 )then
+!                    write(6,'(A,1x,I6,2(1x,I3), 1x, E15.7)') &
+!                      'gprs: before:', i_GP_Individual, i_tree, i_node, &
+!                             GP_population_node_parameters(i_Node,i_Tree, i_GP_individual )
+!                endif ! GP_population_node_parameters(i_Node,i_Tree, i_GP_individual ) > 0.0d0
+!            endif ! GP_Child_Population_Node_Type(i_Node,i_Tree, i_GP_individual ) == 0 
+!        enddo
+!    enddo
+!enddo ! i_GP_individual
 
 ! debug
-write(6,'(/A)') 'gprs: before applying  sort to GP_Adult_Population_Parameter_Solution '
-do  i_GP_individual = 1, n_GP_individuals
-    do  i_parm = 1, n_Maximum_Number_Parameters
-        if( abs( GP_Adult_Population_Parameter_Solution(i_parm, i_GP_individual ) ) > 0.0d0 )then
-            write(6,'(A,1x,I6,1x,I6, 10x, E15.7)') &
-              'gprs: before:', i_GP_Individual, i_parm, &
-                    GP_Adult_Population_Parameter_Solution(i_parm, i_GP_individual ) 
-        endif ! abs( GP_Adult_Population_Parameter_Solution(i_parm, i_GP_individual ) ) > 0.0d0
-    enddo
-enddo ! i_GP_individual
+!write(6,'(/A)') 'gprs: before applying  sort to GP_Adult_Population_Parameter_Solution '
+!do  i_GP_individual = 1, n_GP_individuals
+!    do  i_parm = 1, n_Maximum_Number_Parameters
+!        if( abs( GP_Adult_Population_Parameter_Solution(i_parm, i_GP_individual ) ) > 0.0d0 )then
+!            write(6,'(A,1x,I6,1x,I6, 10x, E15.7)') &
+!              'gprs: before:', i_GP_Individual, i_parm, &
+!                    GP_Adult_Population_Parameter_Solution(i_parm, i_GP_individual ) 
+!        endif ! abs( GP_Adult_Population_Parameter_Solution(i_parm, i_GP_individual ) ) > 0.0d0
+!    enddo
+!enddo ! i_GP_individual
 
 ! debug
-write(6,'(/A)') 'gprs: before applying  sort to GP_Child_Population_Parameter_Solution '
-do  i_GP_individual = 1, n_GP_individuals
-    do  i_parm = 1, n_Maximum_Number_Parameters
-        if( abs( GP_Child_Population_Parameter_Solution(i_parm, i_GP_individual ) ) > 0.0d0 )then
-            write(6,'(A,1x,I6,1x,I6, 10x, E15.7)') &
-              'gprs: before:', i_GP_Individual, i_parm, &
-                    GP_Child_Population_Parameter_Solution(i_parm, i_GP_individual ) 
-        endif !abs( GP_Child_Population_Parameter_Solution(i_parm, i_GP_individual ) ) > 0.0d0 
-    enddo
-enddo ! i_GP_individual
+!write(6,'(/A)') 'gprs: before applying  sort to GP_Child_Population_Parameter_Solution '
+!do  i_GP_individual = 1, n_GP_individuals
+!    do  i_parm = 1, n_Maximum_Number_Parameters
+!        if( abs( GP_Child_Population_Parameter_Solution(i_parm, i_GP_individual ) ) > 0.0d0 )then
+!            write(6,'(A,1x,I6,1x,I6, 10x, E15.7)') &
+!              'gprs: before:', i_GP_Individual, i_parm, &
+!                    GP_Child_Population_Parameter_Solution(i_parm, i_GP_individual ) 
+!        endif !abs( GP_Child_Population_Parameter_Solution(i_parm, i_GP_individual ) ) > 0.0d0 
+!    enddo
+!enddo ! i_GP_individual
 
 
 ! Re-rank ALL of the Individuals to keep the code simple and not replicate copies of children
@@ -142,14 +142,14 @@ GP_Child_Population_Parameter_Solution(1:n_Maximum_Number_Parameters,  &
 !-------------------------------------------------------------------------------------------------
 
 ! debug
-write(6,'(/A)') 'gprs: beforeapplying  sort to GP_Population_Initial_Conditions       '
-do  i_GP_individual = 1, n_GP_individuals
-    do  i_parm = 1, n_CODE_equations               
-        write(6,'(A,1x,I6,1x,I6, 10x, E15.7)') &
-          'gprs: before:', i_GP_Individual, i_parm, &
-                GP_Population_Initial_Conditions(i_parm, i_GP_individual ) 
-    enddo
-enddo ! i_GP_individual
+!write(6,'(/A)') 'gprs: beforeapplying  sort to GP_Population_Initial_Conditions       '
+!do  i_GP_individual = 1, n_GP_individuals
+!    do  i_parm = 1, n_CODE_equations               
+!        write(6,'(A,1x,I6,1x,I6, 10x, E15.7)') &
+!          'gprs: before:', i_GP_Individual, i_parm, &
+!                GP_Population_Initial_Conditions(i_parm, i_GP_individual ) 
+!    enddo
+!enddo ! i_GP_individual
 
 !-------------------------------------------------------------------------------------------------
 
@@ -171,14 +171,14 @@ GP_Population_Initial_Conditions = GP_Population_Initial_Conditions_temp
 !-------------------------------------------------------------------------------------------------
 
 ! debug
-write(6,'(/A)') 'gprs: after  applying  sort to GP_Population_Initial_Conditions       '
-do  i_GP_individual = 1, n_GP_individuals
-    do  i_parm = 1, n_CODE_equations               
-        write(6,'(A,1x,I6,1x,I6, 10x, E15.7)') &
-          'gprs: after:', i_GP_Individual, i_parm, &
-                GP_Population_Initial_Conditions(i_parm, i_GP_individual ) 
-    enddo
-enddo ! i_GP_individual
+!write(6,'(/A)') 'gprs: after  applying  sort to GP_Population_Initial_Conditions       '
+!do  i_GP_individual = 1, n_GP_individuals
+!    do  i_parm = 1, n_CODE_equations               
+!        write(6,'(A,1x,I6,1x,I6, 10x, E15.7)') &
+!          'gprs: after:', i_GP_Individual, i_parm, &
+!                GP_Population_Initial_Conditions(i_parm, i_GP_individual ) 
+!    enddo
+!enddo ! i_GP_individual
 
 
 !-------------------------------------------------------------------------------------------------
@@ -197,28 +197,28 @@ GP_Child_Population_Parameter_Solution=GP_Adult_Population_Parameter_Solution
 !-------------------------------------------------------------------------------------------------
 
 ! debug
-write(6,'(/A)') 'gprs: after  applying  sort to GP_Adult_Population_Parameter_Solution '
-do  i_GP_individual = 1, n_GP_individuals
-    do  i_parm = 1, n_Maximum_Number_Parameters
-        if( abs( GP_Adult_Population_Parameter_Solution(i_parm, i_GP_individual ) ) > 0.0d0 )then
-            write(6,'(A,1x,I6,1x,I6, 10x, E15.7)') &
-              'gprs: after:', i_GP_Individual, i_parm, &
-                    GP_Adult_Population_Parameter_Solution(i_parm, i_GP_individual ) 
-        endif ! abs( GP_Adult_Population_Parameter_Solution(i_parm, i_GP_individual ) ) > 0.0d0 
-    enddo
-enddo ! i_GP_individual
+!write(6,'(/A)') 'gprs: after  applying  sort to GP_Adult_Population_Parameter_Solution '
+!do  i_GP_individual = 1, n_GP_individuals
+!    do  i_parm = 1, n_Maximum_Number_Parameters
+!        if( abs( GP_Adult_Population_Parameter_Solution(i_parm, i_GP_individual ) ) > 0.0d0 )then
+!            write(6,'(A,1x,I6,1x,I6, 10x, E15.7)') &
+!              'gprs: after:', i_GP_Individual, i_parm, &
+!                    GP_Adult_Population_Parameter_Solution(i_parm, i_GP_individual ) 
+!        endif ! abs( GP_Adult_Population_Parameter_Solution(i_parm, i_GP_individual ) ) > 0.0d0 
+!    enddo
+!enddo ! i_GP_individual
 
 ! debug
-write(6,'(/A)') 'gprs: after  applying  sort to GP_Child_Population_Parameter_Solution '
-do  i_GP_individual = 1, n_GP_individuals
-    do  i_parm = 1, n_Maximum_Number_Parameters
-        if( abs( GP_Child_Population_Parameter_Solution(i_parm, i_GP_individual ) ) > 0.0d0 )then
-            write(6,'(A,1x,I6,1x,I6, 10x, E15.7)') &
-              'gprs: after:', i_GP_Individual, i_parm, &
-                    GP_Child_Population_Parameter_Solution(i_parm, i_GP_individual ) 
-        endif ! abs( GP_Child_Population_Parameter_Solution(i_parm, i_GP_individual ) ) > 0.0d0 
-    enddo
-enddo ! i_GP_individual
+!write(6,'(/A)') 'gprs: after  applying  sort to GP_Child_Population_Parameter_Solution '
+!do  i_GP_individual = 1, n_GP_individuals
+!    do  i_parm = 1, n_Maximum_Number_Parameters
+!        if( abs( GP_Child_Population_Parameter_Solution(i_parm, i_GP_individual ) ) > 0.0d0 )then
+!            write(6,'(A,1x,I6,1x,I6, 10x, E15.7)') &
+!              'gprs: after:', i_GP_Individual, i_parm, &
+!                    GP_Child_Population_Parameter_Solution(i_parm, i_GP_individual ) 
+!        endif ! abs( GP_Child_Population_Parameter_Solution(i_parm, i_GP_individual ) ) > 0.0d0 
+!    enddo
+!enddo ! i_GP_individual
 
 !------------------------------------------------------------------------------------------
 
@@ -233,22 +233,22 @@ enddo ! i_GP_individual
 
 GP_population_node_parameters = GP_population_node_parameters_temp
 
-write(6,'(/A)') 'gprs: after applying  sort to GP_population_node_parameters '
+!write(6,'(/A)') 'gprs: after applying  sort to GP_population_node_parameters '
 
 ! debug
-do  i_GP_individual = 1, n_GP_individuals
-    do  i_tree = 1, n_trees
-        do  i_node = 1, n_nodes
-            if( GP_Child_Population_Node_Type(i_Node,i_Tree, i_GP_individual ) == 0 )then
-                if( GP_population_node_parameters(i_Node,i_Tree, i_GP_individual ) > 0.0d0 )then
-                    write(6,'(A,1x,I6,2(1x,I3), 1x, E15.7)') &
-                      'gprs: after:', i_GP_Individual, i_tree, i_node, &
-                             GP_population_node_parameters(i_Node,i_Tree, i_GP_individual )
-                endif ! GP_population_node_parameters(i_Node,i_Tree, i_GP_individual ) > 0.0d0
-            endif ! GP_Child_Population_Node_Type(i_Node,i_Tree, i_GP_individual ) == 0 
-        enddo
-    enddo
-enddo ! i_GP_individual
+!do  i_GP_individual = 1, n_GP_individuals
+!    do  i_tree = 1, n_trees
+!        do  i_node = 1, n_nodes
+!            if( GP_Child_Population_Node_Type(i_Node,i_Tree, i_GP_individual ) == 0 )then
+!                if( GP_population_node_parameters(i_Node,i_Tree, i_GP_individual ) > 0.0d0 )then
+!                    write(6,'(A,1x,I6,2(1x,I3), 1x, E15.7)') &
+!                      'gprs: after:', i_GP_Individual, i_tree, i_node, &
+!                             GP_population_node_parameters(i_Node,i_Tree, i_GP_individual )
+!                endif ! GP_population_node_parameters(i_Node,i_Tree, i_GP_individual ) > 0.0d0
+!            endif ! GP_Child_Population_Node_Type(i_Node,i_Tree, i_GP_individual ) == 0 
+!        enddo
+!    enddo
+!enddo ! i_GP_individual
 
 
 !------------------------------------------------------------------------------------------------

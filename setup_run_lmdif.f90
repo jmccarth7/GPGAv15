@@ -151,7 +151,7 @@ endif ! Lprint_lmdif
 
 L_bad_result = .false.
 
-t1 = MPI_Wtime()
+!t1 = MPI_Wtime()
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -162,14 +162,14 @@ call lmdif( fcn, n_time_steps, n_parameters, x_LMDIF, fvec, &
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-t2 = MPI_Wtime()
-delta_wt = MPI_Wtick()
+!t2 = MPI_Wtime()
+!delta_wt = MPI_Wtick()
 
-sum_lmdif = sum_lmdif + ( t2 - t1 )
+!sum_lmdif = sum_lmdif + ( t2 - t1 )
 
-write(myprint_unit,'(/A,1x,E15.7)') 'setrlm: time spent in lmdif = ', t2 - t1
-write(myprint_unit,'(A,1x,E15.7)')  'setrlm: time increment      = ', delta_wt
-write(myprint_unit,'(A,1x,E15.7/)') 'setrlm:          sum_ lmdif = ', sum_lmdif 
+!write(myprint_unit,'(/A,1x,E15.7)') 'setrlm: time spent in lmdif = ', t2 - t1
+!write(myprint_unit,'(A,1x,E15.7)')  'setrlm: time increment      = ', delta_wt
+!write(myprint_unit,'(A,1x,E15.7/)') 'setrlm:          sum_ lmdif = ', sum_lmdif 
 
 !write(6,'(A,3(1x,I3),1x,I10/)') &
 !      'setrlm: aft call lmdif, myid, n_parameters, info, n_time_steps', &

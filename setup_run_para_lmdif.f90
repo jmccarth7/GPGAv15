@@ -37,8 +37,8 @@ integer, intent(in)  ::  myprint_unit
 
 ! lmdif arrays and variables
 
-!real(kind=8) :: x_LMDIF(n_maximum_number_parameters)
-real(kind=8) :: x_LMDIF(n_parms_dim)
+real(kind=8) :: x_LMDIF(n_maximum_number_parameters)
+!real(kind=8) :: x_LMDIF(n_parms_dim)
 real(kind=8) :: fvec(n_time_steps)
 real(kind=8) :: ftol,xtol,gtol
 
@@ -48,17 +48,17 @@ real(kind=8), parameter :: epsfcn = 1.0d-9   ! 1.0d-6    ! original
 real(kind=8), parameter :: factor=1.0D+0
 real(kind=8), parameter :: zero = 0.0d0
 
-!real(kind=8) :: diag(n_maximum_number_parameters)
-!real(kind=8) :: fjac(n_time_steps,n_maximum_number_parameters)
-!real(kind=8) :: qtf(n_maximum_number_parameters)
-real(kind=8) :: diag(n_parms_dim)
-real(kind=8) :: fjac(n_time_steps,n_parms_dim)
-real(kind=8) :: qtf(n_parms_dim)
+real(kind=8) :: diag(n_maximum_number_parameters)
+real(kind=8) :: fjac(n_time_steps,n_maximum_number_parameters)
+real(kind=8) :: qtf(n_maximum_number_parameters)
+!real(kind=8) :: diag(n_parms_dim)
+!real(kind=8) :: fjac(n_time_steps,n_parms_dim)
+!real(kind=8) :: qtf(n_parms_dim)
 
 integer(kind=4) :: maxfev,ldfjac,mode,nprint,info,nfev
 
-!integer(kind=4) :: ipvt(n_maximum_number_parameters)
-integer(kind=4) :: ipvt(n_parms_dim)
+integer(kind=4) :: ipvt(n_maximum_number_parameters)
+!integer(kind=4) :: ipvt(n_parms_dim)
 
 
 ! individual_quality contains information on the result of lmdif
@@ -87,16 +87,16 @@ real(kind=8) :: t2mt1
 
 !--------------------------------------------------------------------------------------------
 
-if( i_G_indiv == 1 )then
-    write(myprint_unit,'(A,5(1x,I6))') &
-     'strplm:1 at entry myid, myprint_unit, i_G_indiv, n_parms, n_parms_dim', &
-                        myid, myprint_unit, i_G_indiv, n_parms, n_parms_dim
-
-    write(myprint_unit,'(A,3(1x,I6))') &
-     'strplm:1 at entry myid, n_indiv, individual_quality', &
-                        myid, n_indiv, individual_quality
-
-endif ! i_G_indiv == 1
+!if( i_G_indiv == 1 )then
+!    write(myprint_unit,'(A,5(1x,I6))') &
+!     'strplm:1 at entry myid, myprint_unit, i_G_indiv, n_parms, n_parms_dim', &
+!                        myid, myprint_unit, i_G_indiv, n_parms, n_parms_dim
+!
+!    write(myprint_unit,'(A,3(1x,I6))') &
+!     'strplm:1 at entry myid, n_indiv, individual_quality', &
+!                        myid, n_indiv, individual_quality
+!
+!endif ! i_G_indiv == 1
 
 
 
@@ -113,7 +113,8 @@ if( n_parms <= 0 ) then
                                        myid,  n_parms
     endif ! L_myprint
 
-    if( L_myprint .and. i_G_indiv == 1 )then
+    !if( L_myprint .and. i_G_indiv == 1 )then
+    if( L_myprint  )then
         write(myprint_unit,'(A, 3(1x, I6),  1x,E12.5)') &
           'strplm:0 myid, i_G_indiv, indiv_qual, &
                                   &my_indiv_SSE',&
@@ -228,7 +229,7 @@ ldfjac = n_time_steps
 
 L_bad_result = .false.
 
-t1 = MPI_Wtime()
+!t1 = MPI_Wtime()
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -243,13 +244,13 @@ call lmdif( fcn, n_time_steps, n_parms, x_LMDIF, fvec, &
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-t2 = MPI_Wtime()
+!t2 = MPI_Wtime()
 !delta_wt = MPI_Wtick()
 
 !sum_lmdif = sum_lmdif + ( t2 - t1 )
 
-call MPI_REDUCE( t2mt1, sum_lmdif, 1, MPI_DOUBLE_PRECISION, &
-                 MPI_SUM, 0, MPI_COMM_WORLD, ierr )
+!call MPI_REDUCE( t2mt1, sum_lmdif, 1, MPI_DOUBLE_PRECISION, &
+!                 MPI_SUM, 0, MPI_COMM_WORLD, ierr )
 
 !write(myprint_unit,'(/A,1x,E15.7)') 'strplm: time spent in lmdif = ', t2 - t1
 !write(myprint_unit,'(A,1x,E15.7)')  'strplm: time increment      = ', delta_wt
