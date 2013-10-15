@@ -38,7 +38,7 @@ integer, intent(in)  ::  myprint_unit
 ! lmdif arrays and variables
 
 !real(kind=8) :: x_LMDIF(n_maximum_number_parameters)
-real(kind=8) :: x_LMDIF(n_parms_dim)                        
+real(kind=8) :: x_LMDIF(n_parms_dim)
 real(kind=8) :: fvec(n_time_steps)
 real(kind=8) :: ftol,xtol,gtol
 
@@ -51,14 +51,14 @@ real(kind=8), parameter :: zero = 0.0d0
 !real(kind=8) :: diag(n_maximum_number_parameters)
 !real(kind=8) :: fjac(n_time_steps,n_maximum_number_parameters)
 !real(kind=8) :: qtf(n_maximum_number_parameters)
-real(kind=8) :: diag(n_parms_dim)                       
-real(kind=8) :: fjac(n_time_steps,n_parms_dim)                       
+real(kind=8) :: diag(n_parms_dim)
+real(kind=8) :: fjac(n_time_steps,n_parms_dim)
 real(kind=8) :: qtf(n_parms_dim)
 
 integer(kind=4) :: maxfev,ldfjac,mode,nprint,info,nfev
 
 !integer(kind=4) :: ipvt(n_maximum_number_parameters)
-integer(kind=4) :: ipvt(n_parms_dim)                          
+integer(kind=4) :: ipvt(n_parms_dim)
 
 
 ! individual_quality contains information on the result of lmdif
@@ -71,11 +71,11 @@ integer(kind=4) :: individual_quality
 integer(kind=4) :: i_time_step
 integer(kind=4) :: i_parameter
 
-integer(kind=4) :: i_tree     
-integer(kind=4) :: i_node       
+integer(kind=4) :: i_tree
+integer(kind=4) :: i_node
 
 !real(kind=8) :: child_parameters( n_maximum_number_parameters, n_indiv )
-real(kind=8) :: child_parameters( n_parms_dim )                                 
+real(kind=8) :: child_parameters( n_parms_dim )
 
 external :: fcn
 
@@ -90,7 +90,7 @@ if( i_G_indiv == 1 )then
     write(myprint_unit,'(A,5(1x,I6))') &
      'strplm:1 at entry myid, myprint_unit, i_G_indiv, n_parms, n_parms_dim', &
                         myid, myprint_unit, i_G_indiv, n_parms, n_parms_dim
-    
+
     write(myprint_unit,'(A,3(1x,I6))') &
      'strplm:1 at entry myid, n_indiv, individual_quality', &
                         myid, n_indiv, individual_quality
@@ -99,7 +99,7 @@ endif ! i_G_indiv == 1
 
 
 
-                                 
+
 
 if( n_parms <= 0 ) then
 
@@ -120,7 +120,7 @@ if( n_parms <= 0 ) then
                                            my_indiv_SSE
     endif ! L_myprint
 
-endif ! n_parms <= 0 
+endif ! n_parms <= 0
 
 
 
@@ -132,22 +132,22 @@ GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) = &
 !-------------------------------------------------------------------------------
 
 !>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-                                                                                                                   
-if( L_myprint .and. i_G_indiv == 1 )then
-                                                                                                                   
-    do  i_tree=1,n_trees                                                                                   
-        do  i_node=1,n_nodes                                                                               
-            if( GP_individual_Node_Type(i_Node,i_Tree) > -9999 )then                
-                write(GP_print_unit,'(8x,4(1x,I6))') &                                                     
-                      i_tree, i_node, &                                                 
-                      GP_individual_Node_Type(i_Node,i_Tree)                      
-            endif !   GP_individual_Node_Type(i_Node,i_Tree) > -9999 
-        enddo ! i_node                                                                                     
-    enddo  ! i_tree                                                                                        
-                                                                                                                   
-    write(GP_print_unit,'(A)')' '                                                                              
 
-endif ! L_myprint
+!if( L_myprint .and. i_G_indiv == 1 )then
+!
+!    do  i_tree=1,n_trees
+!        do  i_node=1,n_nodes
+!            if( GP_individual_Node_Type(i_Node,i_Tree) > -9999 )then
+!                write(GP_print_unit,'(8x,4(1x,I6))') &
+!                      i_tree, i_node, &
+!                      GP_individual_Node_Type(i_Node,i_Tree)
+!            endif !   GP_individual_Node_Type(i_Node,i_Tree) > -9999
+!        enddo ! i_node
+!    enddo  ! i_tree
+!
+!    write(GP_print_unit,'(A)')' '
+!
+!endif ! L_myprint
 
 !<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -233,7 +233,7 @@ t1 = MPI_Wtime()
 
 !if( myid == 1 )then
 !    write(myprint_unit,'(/A,1x,I3/)') 'strplm: RUN LMDIF myid =', myid
-!endif ! myid == 1 
+!endif ! myid == 1
 
 
 call lmdif( fcn, n_time_steps, n_parms, x_LMDIF, fvec, &
@@ -258,7 +258,7 @@ call MPI_REDUCE( t2mt1, sum_lmdif, 1, MPI_DOUBLE_PRECISION, &
 !    write(6,'(A,3(1x,I3),1x,I10/)') &
 !          'strplm: aft call lmdif, myid, n_parms, info, n_time_steps', &
 !                                   myid, n_parms, info, n_time_steps
-!endif ! myid == 1 
+!endif ! myid == 1
 
 if( Lprint_lmdif )then
 

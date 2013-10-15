@@ -416,7 +416,7 @@ do  i_GP_Generation=1,n_GP_Generations
     ! Run_GP_Calculate_Fitness will be FALSE is the individual did not
     ! change on the last generation
 
-    Run_GP_Calculate_Fitness=.false.
+    Run_GP_Calculate_Fitness= .TRUE.  ! debug only .false.
 
 
     ! randomly create the initial tree arrays for each individual and
