@@ -261,8 +261,8 @@ do
 
     ! load this array since GP_Check_Terminals uses it
 
-    !GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) =  &
-    !    GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees, k_GP_Individual_Male(1))
+    GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) =  &
+        GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees, k_GP_Individual_Male(1))
 
     !-----------------------------------------------------------------------------------------
     !do  i_Tree = 1,n_Trees
@@ -280,8 +280,9 @@ do
     !enddo ! i_Tree
     !-----------------------------------------------------------------------------------------
 
-    call GP_Check_Terminals( &
-         GP_Adult_Population_Node_Type(1, 1,  k_GP_Individual_Male(1)) , i_Error)
+    call GP_Check_Terminals( i_Error)
+    !call GP_Check_Terminals( &
+    !     GP_Adult_Population_Node_Type(1, 1,  k_GP_Individual_Male(1)) , i_Error)
          !GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees, k_GP_Individual_Male(1)), i_Error)
 
     if( i_Error .eq. 1) then
@@ -303,8 +304,8 @@ do
 
     ! load this array since GP_Check_Terminals uses it
 
-    !GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) =  &
-    !    GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees, k_GP_Individual_Female(1))
+    GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) =  &
+        GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees, k_GP_Individual_Female(1))
 
     !-----------------------------------------------------------------------------------------
     !do  i_Tree = 1,n_Trees
@@ -322,8 +323,9 @@ do
     !enddo ! i_Tree
     !-----------------------------------------------------------------------------------------
 
-    call GP_Check_Terminals( &
-         GP_Adult_Population_Node_Type(1, 1, k_GP_Individual_Female(1)) , i_Error)
+    call GP_Check_Terminals( i_Error)
+    !call GP_Check_Terminals( &
+    !     GP_Adult_Population_Node_Type(1, 1, k_GP_Individual_Female(1)) , i_Error)
          !GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees, k_GP_Individual_Female(1)), i_Error)
 
     if( i_Error .eq. 1) then
@@ -391,8 +393,8 @@ do
 
     ! load this array since GP_Check_Terminals uses it
 
-    !GP_Individual_Node_Type(1:n_Nodes,1:n_Trees)  =  &
-    !        GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual)
+    GP_Individual_Node_Type(1:n_Nodes,1:n_Trees)  =  &
+            GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual)
 
     !-----------------------------------------------------------------------------------
 
@@ -412,8 +414,9 @@ do
 
     !-----------------------------------------------------------------------------------------
 
-    call GP_Check_Terminals( &
-         GP_Child_Population_Node_Type(1, 1, i_GP_Individual) , i_Error )
+    call GP_Check_Terminals( i_Error )
+    !call GP_Check_Terminals( &
+    !     GP_Child_Population_Node_Type(1, 1, i_GP_Individual) , i_Error )
          !GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual), i_Error)
 
     if( i_Error .eq. 1) then

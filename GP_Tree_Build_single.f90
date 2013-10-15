@@ -233,8 +233,8 @@ enddo !  i_Tree
 !---------------------------------------------------------------------------------
 ! load array because GP_Check_Terminals uses it
 
-!GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) = &
-!     GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual)
+GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) = &
+     GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual)
 
 !---------------------------------------------------------------------------------
 
@@ -253,8 +253,9 @@ enddo !  i_Tree
 
 !---------------------------------------------------------------------------------
 
-call GP_Check_Terminals( &
-     GP_Child_Population_Node_Type(1, 1, i_GP_Individual) , i_Error)
+call GP_Check_Terminals( i_Error)
+!call GP_Check_Terminals( &
+!     GP_Child_Population_Node_Type(1, 1, i_GP_Individual) , i_Error)
      !GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual), i_Error)
 
 

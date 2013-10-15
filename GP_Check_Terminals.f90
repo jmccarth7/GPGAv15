@@ -1,4 +1,5 @@
-subroutine GP_Check_Terminals( temp_Node_Type, i_Error)
+!subroutine GP_Check_Terminals( temp_Node_Type, i_Error)
+subroutine GP_Check_Terminals( i_Error)
 
 ! This subroutine looks through a specific temp_Node_Type array
 ! for nodes that do not correctly set terminals.
@@ -28,7 +29,7 @@ integer(kind=4) :: i_function
 integer(kind=4) :: i_Node_left
 integer(kind=4) :: i_Node_right
 
-integer(kind=4), dimension(1:n_Nodes,1:n_Trees), intent(in) :: temp_Node_Type
+!integer(kind=4), dimension(1:n_Nodes,1:n_Trees), intent(in) :: temp_Node_Type
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
@@ -71,36 +72,36 @@ do  i_Tree=1,n_Trees
             !            i_Tree, i_Level, i_Function, i_Node, i_Node_Left, i_Node_Right
             !write(GP_print_unit,'(A,6(1x,I6))') 'gct: n_CODE_Equations ', n_CODE_Equations
             !write(GP_print_unit,'(A,3(1x,I6)/)') &
-            !      'gct: i_function, i_tree, temp_Node_Type(i_Function, i_Tree)',&
-            !            i_function, i_tree, temp_Node_Type(i_Function, i_Tree)
+            !      'gct: i_function, i_tree, GP_Individual_Node_Type(i_Function, i_Tree)',&
+            !            i_function, i_tree, GP_Individual_Node_Type(i_Function, i_Tree)
 
-            if( temp_Node_Type(i_Function,i_Tree) .gt. 0) then
+            if( GP_Individual_Node_Type(i_Function,i_Tree) .gt. 0) then
 
                 ! It is a function node if > 0
 
                 ! check Left node
 
                 !write(GP_print_unit,'(A,3(1x,I6))') &
-                !      'gct: i_Node_Left,  i_tree, temp_Node_Type(i_Node_Left,i_Tree) ',&
-                !            i_Node_Left,  i_tree, temp_Node_Type(i_Node_Left,i_Tree)
+                !      'gct: i_Node_Left,  i_tree, GP_Individual_Node_Type(i_Node_Left,i_Tree) ',&
+                !            i_Node_Left,  i_tree, GP_Individual_Node_Type(i_Node_Left,i_Tree)
 
-                if( temp_Node_Type(i_Node_Left,i_Tree) .lt. -n_CODE_Equations ) then
+                if( GP_Individual_Node_Type(i_Node_Left,i_Tree) .lt. -n_CODE_Equations ) then
 
                     if( myid == 0 )then
                         !write(GP_print_unit,'(A,3(1x,I6))') &
                         !      'gct: Left ', &
-                        !      i_Node_Left,temp_Node_Type(i_Function, i_Tree),&
-                        !                  temp_Node_Type(i_Node_Left,i_Tree)
+                        !      i_Node_Left,GP_Individual_Node_Type(i_Function, i_Tree),&
+                        !                  GP_Individual_Node_Type(i_Node_Left,i_Tree)
                         write(GP_print_unit,'(/A,4(1x,I6))') &
                               'gct: ERROR: i_Node_Left, i_function, i_tree, &
-                              &temp_Node_Type(i_Function, i_Tree)',&
+                              &GP_Individual_Node_Type(i_Function, i_Tree)',&
                                     i_Node_Left, i_function, i_tree, &
-                               temp_Node_Type(i_Function, i_Tree)
+                               GP_Individual_Node_Type(i_Function, i_Tree)
                         write(GP_print_unit,'(A,3(1x,I6))') &
                               'gct: i_Node_Left, i_tree, &
-                              &temp_Node_Type(i_Node_Left,i_Tree) ',&
+                              &GP_Individual_Node_Type(i_Node_Left,i_Tree) ',&
                                     i_Node_Left, i_tree, &
-                               temp_Node_Type(i_Node_Left,i_Tree)
+                               GP_Individual_Node_Type(i_Node_Left,i_Tree)
 
                         call print_entire_tree( )
 
@@ -109,33 +110,33 @@ do  i_Tree=1,n_Trees
                     i_Error=1
 
 
-                endif ! temp_Node_Type(i_Node_Left,i_Tree) .lt. -n_CODE_Equations
+                endif ! GP_Individual_Node_Type(i_Node_Left,i_Tree) .lt. -n_CODE_Equations
 
 
                 ! check Right node
 
                 !write(GP_print_unit,'(A,3(1x,I6))') &
-                !      'gct: i_Node_Right, i_tree, temp_Node_Type(i_Node_Right,i_Tree)',&
-                !            i_Node_Right, i_tree, temp_Node_Type(i_Node_Right,i_Tree)
+                !      'gct: i_Node_Right, i_tree, GP_Individual_Node_Type(i_Node_Right,i_Tree)',&
+                !            i_Node_Right, i_tree, GP_Individual_Node_Type(i_Node_Right,i_Tree)
 
 
-                if( temp_Node_Type(i_Node_Right,i_Tree) .lt. -n_CODE_Equations) then
+                if( GP_Individual_Node_Type(i_Node_Right,i_Tree) .lt. -n_CODE_Equations) then
 
                     if( myid == 0 )then
                         !write(GP_print_unit,'(A,3(1x,I6))') &
                         !  'gct:Right ',&
-                        !  i_Node_Right,temp_Node_Type(i_Function,  i_Tree),&
-                        !               temp_Node_Type(i_Node_Right,i_Tree)
+                        !  i_Node_Right,GP_Individual_Node_Type(i_Function,  i_Tree),&
+                        !               GP_Individual_Node_Type(i_Node_Right,i_Tree)
                         write(GP_print_unit,'(/A,4(1x,I6))') &
                           'gct: ERROR: i_Node_Right, i_function, i_tree, &
-                          &temp_Node_Type(i_Function, i_Tree)',&
+                          &GP_Individual_Node_Type(i_Function, i_Tree)',&
                                 i_Node_Right, i_function, i_tree, &
-                           temp_Node_Type(i_Function, i_Tree)
+                           GP_Individual_Node_Type(i_Function, i_Tree)
                         write(GP_print_unit,'(A,3(1x,I6))') &
                           'gct: i_Node_Right, i_tree, &
-                           &temp_Node_Type(i_Node_Right,i_Tree) ',&
+                           &GP_Individual_Node_Type(i_Node_Right,i_Tree) ',&
                                 i_Node_Right, i_tree, &
-                            temp_Node_Type(i_Node_Right,i_Tree)
+                            GP_Individual_Node_Type(i_Node_Right,i_Tree)
 
 
 
@@ -143,11 +144,11 @@ do  i_Tree=1,n_Trees
 
                     i_Error = 1
 
-                endif !   temp_Node_Type(i_Node_Right,i_Tree) .lt. -n_CODE_Equations
+                endif !   GP_Individual_Node_Type(i_Node_Right,i_Tree) .lt. -n_CODE_Equations
 
 
 
-            endif !  temp_Node_Type(i_Function,i_Tree) .gt. 0
+            endif !  GP_Individual_Node_Type(i_Function,i_Tree) .gt. 0
 
         enddo ! i_node
 

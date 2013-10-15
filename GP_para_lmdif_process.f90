@@ -81,8 +81,8 @@ L_GP_print = .TRUE.
 i_dummy = 0
 
 
-buffer2(1:n_maximum_number_parameters+2)      = 0.0D0
-buffer2_recv(1:n_maximum_number_parameters+2) = 0.0D0
+buffer2(1:n_maximum_number_parameters+2)      = 1.0D13
+buffer2_recv(1:n_maximum_number_parameters+2) = 1.0D13
 
 
 
@@ -454,7 +454,7 @@ if( myid == 0  )then
 
         n_parms = GP_n_parms( isource )
 
-        buffer2_recv = 0.0d0
+        buffer2_recv = 1.0d13
         call MPI_RECV( buffer2_recv, n_maximum_number_parameters+2, &
                        MPI_DOUBLE_PRECISION, &
                        MPI_ANY_SOURCE, MPI_ANY_TAG,  &
@@ -655,7 +655,7 @@ else  ! not myid == 0
         !              myid, i_dummy, MPI_STAT(MPI_TAG), i_2_individual
         !endif ! L_GP_print
 
-        buffer2 = 0.0D0
+        buffer2 = 1.0D13
 
 
         if( L_GP_print )then
@@ -701,14 +701,15 @@ else  ! not myid == 0
 
         !t1 = MPI_Wtime()
 
-        call setup_run_para_lmdif( i_2_individual, &
-                                   child_parameters(1:n_parms,i_2_individual), &
-                                   individual_quality(i_2_individual), &
-                                   n_GP_individuals, &
-                                   GP_child_individual_SSE(i_2_individual),  &
-                                   n_parms, n_parms_dim, &
-                                   L_GP_print, GP_print_unit )
+!        call setup_run_para_lmdif( i_2_individual, &
+!                                   child_parameters(1,i_2_individual), &
+!                                   individual_quality(i_2_individual), &
+!                                   n_GP_individuals, &
+!                                   GP_child_individual_SSE(i_2_individual),  &
+!                                   n_parms, n_parms_dim, &
+!                                   L_GP_print, GP_print_unit )
 
+                                   !child_parameters(1:n_parms,i_2_individual), &
         !t2 = MPI_Wtime()
 
         !if( L_GP_print .and. i_2_individual == 1 )then

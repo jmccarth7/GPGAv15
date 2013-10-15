@@ -614,7 +614,7 @@ do  i_GA_generation=1,n_GA_Generations
             !endif ! L_ga_print
 
 
-            buffer_recv = 0.0d0
+            buffer_recv = 1.0d13
             call MPI_RECV( buffer_recv, n_maximum_number_parameters+2, &
                            MPI_DOUBLE_PRECISION, &
                            MPI_ANY_SOURCE, MPI_ANY_TAG,  &
@@ -652,9 +652,9 @@ do  i_GA_generation=1,n_GA_Generations
                 individual_quality(i_individual) = nint( buffer_recv( n_maximum_number_parameters+2) )
 
                 !if( L_ga_print )then
-                !    write(GA_print_unit,'(A,3(1x,I6))') &
-                !     'GP_GA_opt:2 554 myid, n_parameters, i_individual', &
-                !                      myid, n_parameters, i_individual
+                    write(GA_print_unit,'(A,3(1x,I6))') &
+                     'GP_GA_opt:2 554 myid, n_parameters, i_individual', &
+                                      myid, n_parameters, i_individual
                 !    write(GA_print_unit,'(A,1x,I6,1x, A/(5(1x,E15.7)))') &
                 !     'GP_GA_opt:2 myid = ',myid, ' child_parameters(1:n_parameters,i_individual)', &
                 !                  child_parameters(1:n_parameters,i_individual)
@@ -817,8 +817,7 @@ do  i_GA_generation=1,n_GA_Generations
                              myid, i_dummy, MPI_STAT(MPI_TAG), i_2_individual
             endif ! L_ga_print
 
-            buffer = 0.0D0
-
+            buffer = 1.0D13
             if( L_ga_print )then
                 write(GA_print_unit,'(A,2(1x,I6),4x,L1)') &
                 'GP_GA_opt:3 myid, i_2_individual, Run_GA_lmdif(i_2_individual)', &

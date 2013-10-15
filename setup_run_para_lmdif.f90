@@ -75,7 +75,8 @@ integer(kind=4) :: i_tree
 integer(kind=4) :: i_node
 
 !real(kind=8) :: child_parameters( n_maximum_number_parameters, n_indiv )
-real(kind=8) :: child_parameters( n_parms_dim )
+real(kind=8) :: child_parameters( n_maximum_number_parameters )
+!real(kind=8) :: child_parameters( n_parms_dim )
 
 external :: fcn
 
