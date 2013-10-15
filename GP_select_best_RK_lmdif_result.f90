@@ -440,7 +440,6 @@ if( GP_individual_ranked_fitness(i_GP_best_parent) <= &
                   GP_child_individual_SSE(i_GP_best_parent), &
                   GP_individual_ranked_fitness(i_GP_best_parent)
 
-                  !GP_Adult_Individual_SSE(i_GP_best_parent), &
 
         enddo ! i_GP_best_parent
 
@@ -585,7 +584,7 @@ else  ! lmdif is best
         write(GP_log_unit) &
               i_GP_generation, &
               i_GP_best_parent, &
-              GP_Adult_Individual_SSE(i_GP_best_parent), &
+              GP_child_individual_SSE(i_GP_best_parent), &
               GP_individual_ranked_fitness(i_GP_best_parent)
 
 

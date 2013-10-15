@@ -50,7 +50,7 @@ integer(kind=4) :: i_Node
 
 integer(kind=4) :: i_CODE_equation
 
-real(kind=8), dimension(n_maximum_number_parameters) :: output_array
+real(kind=8), dimension(n_maximum_number_parameters), intent(out) :: output_array
 
 real (kind=8) ::  dff
 
@@ -438,23 +438,25 @@ endif ! i_GP_generation == 1 .or. ...
 
 GP_Adult_Individual_SSE  =  GP_Child_Individual_SSE
 
+GP_Adult_Population_SSE  =  GP_Child_Individual_SSE
+GP_Child_Population_SSE  =  GP_Child_Individual_SSE
 !---------------------------------------------------------------------------
 !
 !if( i_GP_generation == 1                                 .or. &
 !    mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
 !    i_GP_generation == n_GP_generations                          ) then
 !
-!    write(GP_print_unit,'(/A)') &
-!          'gpcf: i_GP_Indiv   GP_Adult_Indiv_SSE    GP_Pop_Ranked_Fitness'
-!
-!    do  i_GP_Individual=1,n_GP_individuals
-!
-!        write(GP_print_unit,'(6x,I6,2(7x,E15.7))') &
-!              i_GP_Individual, &
-!              GP_Adult_Individual_SSE(i_GP_Individual), &
-!              GP_Population_Ranked_Fitness(i_GP_Individual)
-!
-!    enddo ! i_GP_individual
+    write(GP_print_unit,'(/A)') &
+          'gpcf: i_GP_Indiv   GP_Adult_Indiv_SSE    GP_Pop_Ranked_Fitness'
+
+    do  i_GP_Individual=1,n_GP_individuals
+
+        write(GP_print_unit,'(6x,I6,2(7x,E15.7))') &
+              i_GP_Individual, &
+              GP_Adult_Individual_SSE(i_GP_Individual), &
+              GP_Population_Ranked_Fitness(i_GP_Individual)
+
+    enddo ! i_GP_individual
 !
 !endif ! i_GP_generation == 1 .or. ...
 !

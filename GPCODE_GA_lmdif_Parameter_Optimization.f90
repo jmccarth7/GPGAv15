@@ -128,8 +128,6 @@ if( myid == 0) then
         do  i_tree=1,n_trees
             do  i_node=1,n_nodes
                 if( GP_Individual_Node_Type(i_node,i_tree) > -9999 )then
-                    !write(GA_print_unit,'(A,3(1x,I6))') &
-                    !'GP_GA_opt: i_tree, i_node, GP_Indiv_Node_Type', &
                     write(GA_print_unit,'(8x,3(1x,I6))') &
                                  i_tree, i_node, GP_Individual_Node_Type(i_node,i_tree)
                 endif ! GP_Indiv_Node_Type(i_node,i_tree) > -9999
@@ -168,63 +166,6 @@ if( tol .lt. zero) then
     stop 'tol < 0.0'
 endif
 
-
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-!
-!CALL RANDOM_SEED(size = n_seed)
-!
-!if( .not. allocated( seed ) )then
-!
-!    ALLOCATE(seed(n_seed))
-!
-!endif ! .not. allocated( seed )
-!
-!CALL SYSTEM_CLOCK(COUNT=clock)
-!seed = clock + 37 * (/ (i_seed - 1, i_seed = 1, n_seed) /)
-!
-!CALL RANDOM_SEED(PUT = seed)
-!
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-
-!if( GA_Crossover_Probability+GA_Mutation_Probability .gt. 1.0d0 ) then
-!    if( myid == 0 )then
-!        if( L_ga_print )then
-!            write(GA_print_unit,'(A)') &
-!            'GP_GA_opt: Sum of Crossover and Mutation Probabilities are too high'
-!        endif ! L_ga_print
-!    endif ! myid == 0
-!endif !   GA_Crossover_Probability+GA_Mutation_Probability .gt. 1.0d0
-!
-!
-!! calculate the number of GA Crossovers
-!n_GA_Crossovers = nint(GA_Crossover_Probability * n_GA_individuals)
-!
-!! calculate the number of GA Mutations
-!n_GA_Mutations  = nint(GA_Mutation_Probability  * n_GA_individuals)
-!
-!! calculate the number of GA elites
-!n_GA_save_elites = nint(GA_save_elites_Probability  * n_GA_individuals)
-!
-!! calculate the number of GA random replacements
-!n_GA_rand_replaces  = nint(GA_rand_replace_Probability  * n_GA_individuals)
-!
-!
-!
-!if( myid == 0 )then
-!    if( L_ga_print )then
-!    write(GA_print_unit,'(A,1x,I6)') &
-!          'GP_GA_opt: n_GA_Crossovers  ', n_GA_Crossovers
-!    write(GA_print_unit,'(A,1x,I6)') &
-!          'GP_GA_opt: n_GA_Mutations   ', n_GA_Mutations
-!    write(GA_print_unit,'(A,1x,I6)') &
-!          'GP_GA_opt: n_GA_save_elites ', n_GA_save_elites
-!    write(GA_print_unit,'(A,1x,I6)') &
-!          'GP_GA_opt: n_GA_rand_replaces   ', n_GA_rand_replaces
-!    write(GA_print_unit,'(A,1x,E12.5)') &
-!          'GP_GA_opt: GA_rand_replace_Probability ', GA_rand_replace_Probability
-!    endif ! L_ga_print
-!endif ! myid == 0
 
 
 child_parameters( 1:n_maximum_number_parameters, 1:n_GA_individuals) = 0.0d0
@@ -274,6 +215,9 @@ do  i_GA_generation=1,n_GA_Generations
 
             !t1 = MPI_Wtime()
 
+            ! sets:
+            !  child_parameters
+
             call Initialize_GA_Child_Parameters(Child_Parameters)
 
             !t2 = MPI_Wtime()
@@ -303,11 +247,14 @@ do  i_GA_generation=1,n_GA_Generations
 
             ! create the second 'generation' of parameter estimates using either:
 
-            !    i) replace individuals with bad RK process results
+            !    i) save elites from last generation from being changed
             !   ii) 'Fitness-Proportionate Reproduction;
             !  iii) GA Crossover;
             !   iv) GA Mutation
-            !    v) save elites from last generation from being changed
+
+
+            !!!!    i) replace individuals with bad RK process results
+
 
 
             !-------------------------------------------------------------------------------
@@ -320,28 +267,36 @@ do  i_GA_generation=1,n_GA_Generations
 
             !t1 = MPI_Wtime()
 
+            ! uses:
+            ! individual_ranked_fitness
+
+            ! sets:
+            ! ga_individual_elites
+
             call GA_save_elites( )
 
             !t2 = MPI_Wtime()
 
             !write(GP_print_unit,'(A,1x,E15.7)') &
             !  'GP_GA_opt: time spent in GA_save_elites = ', t2 - t1
+
             !-------------------------------------------------------------------------------
 
-            !  replace the parameters of any individual with quality < 0 with new
-            !  random numbers
+            !!  replace the parameters of any individual with quality < 0 with new
+            !!  random numbers
 
-            !if( L_ga_print )then
-            !    write(GA_print_unit,'(/A)')'GP_GA_opt: call GA_replace_bad_individuals  '
-            !endif ! L_ga_print
+            !!if( L_ga_print )then
+            !!    write(GA_print_unit,'(/A)')'GP_GA_opt: call GA_replace_bad_individuals  '
+            !!endif ! L_ga_print
 
-            !t1 = MPI_Wtime()
-            !call GA_replace_bad_individuals(Child_Parameters, individual_quality )
+            !!t1 = MPI_Wtime()
+            !!call GA_replace_bad_individuals(Child_Parameters, individual_quality )
 
-            !t2 = MPI_Wtime()
+            !!t2 = MPI_Wtime()
 
-            !write(GP_print_unit,'(A,1x,E15.7)') &
-            !  'GP_GA_opt: time spent in GA_replace_bad_individuals = ', t2 - t1
+            !!write(GP_print_unit,'(A,1x,E15.7)') &
+            !!  'GP_GA_opt: time spent in GA_replace_bad_individuals = ', t2 - t1
+
             !-------------------------------------------------------------------------------
 
             !   do initial "GA Fitness-Proportionate Reproduction"
@@ -355,7 +310,17 @@ do  i_GA_generation=1,n_GA_Generations
             !endif ! L_ga_print
 
 
-            !call system_clock( count=clock1, count_rate=ratec, count_max= maxclk)
+            ! uses:
+            !  individual_quality
+            !  Individual_Ranked_Fitness
+            !  Parent_Parameters
+
+            ! sets:
+            !  Run_GA_lmdif
+            !  individual_quality
+            !  Individual_Ranked_Fitness
+            !  Child_Parameters
+
 
             !t1 = MPI_Wtime()
             call GA_Fitness_Proportionate_Reproduction(&
@@ -366,14 +331,6 @@ do  i_GA_generation=1,n_GA_Generations
             !write(GP_print_unit,'(A,1x,E15.7)') &
             !    'GP_GA_opt: time spent in GA_Fitness_Proportionate_Reproduction = ', t2 - t1
 
-            !call system_clock( count=clock2, count_rate=ratec, count_max= maxclk)
-            !if( L_ga_print )then
-            !!write(GA_print_unit,*) 'GP_GA_opt: clock1,clock2,ratec,maxclk ', &
-            !!                                   clock1,clock2,ratec,maxclk
-            !write(GA_print_unit,*) &
-            !  'GP_GA_opt: GA_Fitness_Proportionate_Reproduction time = ', &
-            !            real(clock2-clock1,kind=4)/real(ratec,kind=4) , ' seconds'
-            !endif ! L_ga_print
 
             !-------------------------------------------------------------------------------
 
@@ -387,6 +344,14 @@ do  i_GA_generation=1,n_GA_Generations
                 !      'GP_GA_opt: call GA_Tournament_Style_Sexual_Repro  n_GA_Crossovers',  &
                 !                                                         n_GA_Crossovers
                 !endif ! L_ga_print
+
+                ! uses:
+                !  Individual_Ranked_Fitness
+
+                ! sets:
+                !  Child_Parameters
+                !  Run_GA_lmdif
+                !  individual_quality
 
                 !t1 = MPI_Wtime()
                 call GA_Tournament_Style_Sexual_Reproduction( &
@@ -414,7 +379,16 @@ do  i_GA_generation=1,n_GA_Generations
                 !endif ! L_ga_print
 
                 !t1 = MPI_Wtime()
+
+                ! uses:
+
+                ! sets:
+                !  child_parameters
+                !  Run_GA_lmdif
+                !  individual_quality
+
                 call GA_Mutations( Child_Parameters, individual_quality )
+
                 !t2 = MPI_Wtime()
 
                 !write(GP_print_unit,'(A,1x,E15.7)') &
@@ -439,7 +413,17 @@ do  i_GA_generation=1,n_GA_Generations
                 !endif ! L_ga_print
 
                 !t1 = MPI_Wtime()
+
+                ! uses:
+
+                ! sets:
+                !  child_parameters
+                !  Run_GA_lmdif
+                !  individual_quality
+
+
                 call GA_random_replace( Child_Parameters, individual_quality )
+
                 !t2 = MPI_Wtime()
 
                 !write(GP_print_unit,'(A,1x,E15.7)') &
@@ -527,7 +511,7 @@ do  i_GA_generation=1,n_GA_Generations
     !      'GP_GA_opt:  broadcast Run_GA_lmdif i_GA_generation ', i_GA_generation
     !endif ! L_ga_print
 
-    call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
+
     call MPI_BCAST( Run_GA_lmdif,  n_GA_Individuals,    &
                         MPI_LOGICAL, 0, MPI_COMM_WORLD, ierr )
     call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
@@ -793,7 +777,6 @@ do  i_GA_generation=1,n_GA_Generations
             !endif 
 
 
-
             call MPI_RECV( i_dummy, 1, MPI_INTEGER,    &
                            0, MPI_ANY_TAG,  MPI_COMM_WORLD, MPI_STAT, ierr )
 
@@ -843,7 +826,17 @@ do  i_GA_generation=1,n_GA_Generations
 
                 !t1 = MPI_Wtime()
 
+                ! uses:
+                !  child_parameters
+
+                ! sets:
+                !  individual_quality
+                !  individual_SSE
+                !  child_parameters
+ 
+
                 call setup_run_fcn( i_2_individual, child_parameters, individual_quality )
+
 
                 !t2 = MPI_Wtime()
 
@@ -952,6 +945,18 @@ do  i_GA_generation=1,n_GA_Generations
         !          'GP_GA_opt: call calc_fitness i_GA_generation ', &
         !                                        i_GA_generation
         !endif ! L_ga_print
+
+
+        ! uses: 
+        !  child_parameters
+        !  individual_quality
+        !  individual_SSE
+
+        ! sets: 
+        !  individual_quality
+        !  individual_ranked_fitness
+        !  integrated_SSE
+        !  integrated_ranked_fitness
 
 
         call calc_fitness( child_parameters, individual_quality, &
@@ -1071,6 +1076,10 @@ if( myid == 0  )then
 
     !t1 = MPI_Wtime()
     
+    ! uses:
+
+    ! sets:
+
     call select_best_RK_lmdif_result( &
                 i_GP_Generation,i_GP_individual, &
                 i_GA_best_parent, parent_parameters, &

@@ -362,7 +362,8 @@ do
     !               &, Parent_Tree_Swap_Node_Type(kk,1) '
     !do  kk = 1, n_nodes
     !    flag = ' '
-    !    if( GP_Child_Population_Node_Type(kk,i_Male_Tree, i_GP_Individual) /=  Parent_Tree_Swap_Node_Type(kk,1) )then
+    !    if( GP_Child_Population_Node_Type(kk,i_Male_Tree, i_GP_Individual) /=  &
+    !                                             Parent_Tree_Swap_Node_Type(kk,1) )then
     !        flag = '<<<<<<'
     !    endif 
     !    write(6,'(3(1x,I6),1x,A)')  &
