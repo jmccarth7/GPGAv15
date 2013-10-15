@@ -71,7 +71,7 @@ do  i_GP_Mutation = 1,n_GP_Mutations
 
     !if( myid == 0 )then
     !    write(6,'(A,2(1x,I6))') &
-    !          'gpfpar: i_GP_Mutation, i_GP_individual ', &
+    !          'gpfmut: i_GP_Mutation, i_GP_individual ', &
     !                   i_GP_Mutation, i_GP_individual
     !endif ! myid == 0
 
@@ -88,7 +88,7 @@ do  i_GP_Mutation = 1,n_GP_Mutations
 
     !if( myid == 0 )then
     !    write(6,'(A,2(1x,I6))') &
-    !          'gpfpar: i_GP_Mutation, i_GP_individual ', &
+    !          'gpfmut: i_GP_Mutation, i_GP_individual ', &
     !                   i_GP_Mutation, i_GP_individual
     !endif ! myid == 0
 
@@ -114,8 +114,8 @@ do  i_GP_Mutation = 1,n_GP_Mutations
     GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees, i_GP_Individual) =  &
         GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees, i_GP_Individual_Mutation)
 
-    GP_Individual_Node_Type(1:n_Nodes,1:n_Trees)  =  &
-      GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees, i_GP_Individual)
+    !GP_Individual_Node_Type(1:n_Nodes,1:n_Trees)  =  &
+    !  GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees, i_GP_Individual)
 
     !----------------------------------------------------------------------------------
 
@@ -135,7 +135,9 @@ do  i_GP_Mutation = 1,n_GP_Mutations
 
     !----------------------------------------------------------------------------------
 
-    call GP_Check_Terminals(i_Error)
+    call GP_Check_Terminals( &
+         GP_Child_Population_Node_Type(1, 1, i_GP_Individual) , i_Error)
+         !GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees, i_GP_Individual), i_Error)
 
     if( i_Error .eq. 1) then
         if( myid == 0 )then
@@ -244,8 +246,8 @@ do  i_GP_Mutation = 1,n_GP_Mutations
     Run_GP_Calculate_Fitness(i_GP_Individual) = .true.
 
 
-    GP_Individual_Node_Type(1:n_Nodes,1:n_Trees)  =  &
-    GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees, i_GP_Individual)
+    !GP_Individual_Node_Type(1:n_Nodes,1:n_Trees)  =  &
+    !GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees, i_GP_Individual)
 
 
     !----------------------------------------------------------------------------------
@@ -266,7 +268,9 @@ do  i_GP_Mutation = 1,n_GP_Mutations
 
     !----------------------------------------------------------------------------------
 
-    call GP_Check_Terminals(i_Error)
+    call GP_Check_Terminals( &
+         GP_Child_Population_Node_Type(1, 1, i_GP_Individual) , i_Error)
+         !GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees, i_GP_Individual), i_Error)
 
     if( i_Error .eq. 1) then
         if( myid == 0 )then

@@ -456,6 +456,13 @@ if( GP_individual_ranked_fitness(i_GP_best_parent) <= &
         write(GP_print_unit, '(/A)') &
             'gpsbrl:1 call summary_GP_indiv2'
 
+        ! uses:
+        !  GP_individual_Initial_Conditions
+        !  GP_Individual_Node_Type
+        !  GP_individual_node_parameters
+
+        ! sets:
+
         call summary_GP_indiv2( i_GP_generation, i_GP_best_parent )
 
         write(GP_print_unit, '(/A)') &

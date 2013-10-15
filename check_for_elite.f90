@@ -30,11 +30,11 @@ do
 
     ksafe = ksafe + 1
 
-    if( ksafe > n_GA_individuals ) then
+    if( ksafe > 100 * n_GA_individuals ) then
         if( L_ga_print )then
-        write(GA_print_unit,'(A,2(1x,I6))') &
-              'cfe: no good index found  ksafe, n_GA_individuals ', &
-                                         ksafe, n_GA_individuals
+            write(GA_print_unit,'(A,2(1x,I6))') &
+                  'cfe: no good index found  ksafe, n_GA_individuals ', &
+                                             ksafe, n_GA_individuals
         endif ! L_ga_print  
         stop 'check_elite bad'
     endif

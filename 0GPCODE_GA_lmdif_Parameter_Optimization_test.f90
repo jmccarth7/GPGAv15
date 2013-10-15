@@ -192,7 +192,7 @@ call load_pow2_level(  )
 ! set the scalar values for the model
                                                                                                                       
 ! sets:
-  n_levels   
+! n_levels   
 ! n_functions    
 ! n_CODE_equations   
 ! n_trees   
@@ -1068,6 +1068,9 @@ do  i_GP_Generation=1,n_GP_Generations
             ! these arrays are broadcast in GPCODE_GA...
 
 
+            write(GA_print_unit,'(A,3(1x,I6)/)') &
+                     '0: myid, i_GP_Generation, i_GP_individual',&
+                         myid, i_GP_Generation, i_GP_individual
             !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
             call GPCODE_GA_lmdif_Parameter_Optimization( i_GP_Generation,i_GP_individual )
@@ -1262,7 +1265,14 @@ do  i_GP_Generation=1,n_GP_Generations
             ! after being optimized in GPCODE*opt
             ! and writes the tree to the summary file
 
+            write(GP_print_unit,'(/A,2(1x,I6))') &
+                      '0: call summary_GP_indiv i_GP_generation, i_GP_individual ', &
+                                                i_GP_generation, i_GP_individual
             call summary_GP_indiv( i_GP_generation, i_GP_individual )
+
+            write(GP_print_unit,'(/A,2(1x,I6))') &
+                      '0: aft call summary_GP_indiv i_GP_generation, i_GP_individual ', &
+                                                i_GP_generation, i_GP_individual
 
         endif !  myid == 0
 

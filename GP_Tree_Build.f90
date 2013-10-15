@@ -258,8 +258,8 @@ do  i_GP_Individual=1,n_GP_Individuals
 
     !---------------------------------------------------------------------------------
 
-    GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) = &
-    GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual)
+    !GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) = &
+    !GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual)
 
     !---------------------------------------------------------------------------------
     !  same printout as above for GP_Child_Population_Node_Type
@@ -280,7 +280,9 @@ do  i_GP_Individual=1,n_GP_Individuals
 
     !---------------------------------------------------------------------------------
 
-    call GP_Check_Terminals(i_Error)
+    call GP_Check_Terminals(&
+         GP_Child_Population_Node_Type( 1, 1, i_GP_Individual) , i_Error )
+         !GP_Child_Population_Node_Type( 1:n_Nodes,1:n_Trees,i_GP_Individual), i_Error )
 
 
     if( i_Error .eq. 1 ) then

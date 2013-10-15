@@ -202,13 +202,13 @@ if( individual_quality( i_GA_indiv ) > 0 ) then
 
 endif !  individual_quality( i_GA_indiv ) > 0
 
-!if( L_ga_print )then                                                                                
-!    write(GA_print_unit,'(A,3(1x,I6), 1x, E24.16)') &
-!          'setrf: myid, i_GA_indiv, individual_quality, individual_SSE', &
-!                  myid, i_GA_indiv, &
-!                  individual_quality( i_GA_indiv ), &
-!                  individual_SSE(i_GA_indiv)
-!endif ! L_ga_print  
+if( L_ga_print )then                                                                                
+    write(GA_print_unit,'(A,3(1x,I6), 1x, E24.16)') &
+          'setrf: myid, i_GA_indiv, individual_quality, individual_SSE', &
+                  myid, i_GA_indiv, &
+                  individual_quality( i_GA_indiv ), &
+                  individual_SSE(i_GA_indiv)
+endif ! L_ga_print  
 
 
 

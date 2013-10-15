@@ -94,10 +94,10 @@ if( myid == 0 )then
     if( L_GP_print )then
         write(GP_print_unit,'(//A)') 'gplp: at entry  '
         write(GP_print_unit,'(A,1x,E15.7)') 'gplp: dt ', dt
-        !write(GP_print_unit,'(A,1x,I10)') &
-        !      'gplp: n_parms    =   ', n_parms
-        !write(GP_print_unit,'(A,1x,I10)') &
-        !      'gplp: n_GP_parameters =   ', n_GP_parameters
+        write(GP_print_unit,'(A,1x,I10)') &
+              'gplp: n_parms    =   ', n_parms
+        write(GP_print_unit,'(A,1x,I10)') &
+              'gplp: n_GP_parameters =   ', n_GP_parameters
     endif ! L_GP_print
 
 endif ! myid == 0
@@ -421,11 +421,11 @@ if( myid == 0  )then
                        isource, isource,  MPI_COMM_WORLD, ierr )
         numsent = numsent + 1
 
-        !if( L_GP_print )then
-        !    write(GP_print_unit,'(A,4(1x,I6))') &
-        !     'gplp:1 504 myid, isource, i_GP_individual, numsent ', &
-        !                 myid, isource, i_GP_individual, numsent
-        !endif ! L_GP_print
+        if( L_GP_print )then
+            write(GP_print_unit,'(A,4(1x,I6))') &
+             'gplp:1 504 myid, isource, i_GP_individual, numsent ', &
+                         myid, isource, i_GP_individual, numsent
+        endif ! L_GP_print
 
     enddo ! isource
 
@@ -433,11 +433,11 @@ if( myid == 0  )then
     ! at this point i_GP_individual = numsent
 
 
-    !if( L_GP_print )then
-    !    write(GP_print_unit,'(A,4(1x,I6))') &
-    !     'gplp: aft source loop 1 myid, i_GP_individual, numsent', &
-    !                              myid, i_GP_individual, numsent
-    !endif ! L_GP_print
+    if( L_GP_print )then
+        write(GP_print_unit,'(A,4(1x,I6))') &
+         'gplp: aft source loop 1 myid, i_GP_individual, numsent', &
+                                  myid, i_GP_individual, numsent
+    endif ! L_GP_print
 
     !-------------------------------------------------------------------------------------
 
@@ -629,11 +629,11 @@ else  ! not myid == 0
 
         !---------------------------------------------------------------
 
-        !if( L_GP_print )then
-        !    write(GP_print_unit,'(A,2(1x,I6))') &
-        !      'gplp:3  myid, MPI_STAT( MPI_TAG ) ', &
-        !               myid, MPI_STAT( MPI_TAG )
-        !endif ! L_GP_print
+        if( L_GP_print )then
+            write(GP_print_unit,'(A,2(1x,I6))') &
+              'gplp:3  myid, MPI_STAT( MPI_TAG ) ', &
+                       myid, MPI_STAT( MPI_TAG )
+        endif ! L_GP_print
 
         ! was a stop signal received ?
 
@@ -658,11 +658,11 @@ else  ! not myid == 0
         buffer2 = 0.0D0
 
 
-        !if( L_GP_print )then
-        !    write(GP_print_unit,'(A,2(1x,I6))') &
-        !      'gplp:3 call setup_run_para_lmdif  myid, i_2_individual', &
-        !                                         myid, i_2_individual
-        !endif ! L_GP_print
+        if( L_GP_print )then
+            write(GP_print_unit,'(A,2(1x,I6))') &
+              'gplp:3 call setup_run_para_lmdif  myid, i_2_individual', &
+                                                 myid, i_2_individual
+        endif ! L_GP_print
 
 
         !-------------------------------------------------------------------------
@@ -787,7 +787,7 @@ else  ! not myid == 0
         !      'gplp: myid,   nsafe = ', myid, nsafe
         !endif ! L_GP_print
 
-        if( nsafe > 10 * n_GP_individuals ) then
+        if( nsafe > 100 * n_GP_individuals ) then
             write(GP_print_unit,'(A,1x,I10)') &
               'gplp: too many iterations  nsafe = ', nsafe
             call MPI_FINALIZE(ierr)
@@ -880,10 +880,10 @@ GP_Adult_Population_Parameter_Solution(1:n_maximum_number_parameters,1:n_GP_indi
 
 call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
 
-!if( L_GP_print )then
-!    write(GP_print_unit,'(A,1x,I6)') &
-!          'gplp: after barrier 3 myid =', myid
-!endif ! L_GP_print
+if( L_GP_print )then
+    write(GP_print_unit,'(A,1x,I6)') &
+          'gplp: after barrier 3 myid =', myid
+endif ! L_GP_print
 
 !------------------------------------------------------------------------
 

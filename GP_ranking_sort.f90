@@ -41,11 +41,9 @@ do  i_GP_Individual=1,n_GP_Individuals
 enddo
 
 !write(6,'(/A)') 'gprs: before sort '
-
 !write(6,'(A)')                    &
 !      'gprs:i_GP_Individual, Ranked_Fitness_Index(i_GP_Individual), &
 !                            &GP_Child_Population_SSE(i_GP_Individual)'
-
 !do  i_GP_Individual=1,n_GP_Individuals
 !    write(6,'(I6,1x, I6, 1x, E15.7)') &
 !          i_GP_Individual, Ranked_Fitness_Index(i_GP_Individual), &
@@ -81,7 +79,6 @@ enddo  ! i_GP_Individual
 
 
 write(6,'(/A)') 'gprs: after  sort '
-
 write(6,'(A)')                    &
       'gprs:i_GP_Individual, Ranked_Fitness_Index, &
                             &GP_Child_Population_SSE'
@@ -99,8 +96,8 @@ do  i_GP_individual = 1, n_GP_individuals
         do  i_node = 1, n_nodes
             if( GP_Child_Population_Node_Type(i_Node,i_Tree, i_GP_individual ) == 0 )then
                 if( GP_population_node_parameters(i_Node,i_Tree, i_GP_individual ) > 0.0d0 )then
-                write(6,'(A,1x,I6,2(1x,I3), 1x, E15.7)') &
-                  'gprs: before:', i_GP_Individual, i_tree, i_node, &
+                    write(6,'(A,1x,I6,2(1x,I3), 1x, E15.7)') &
+                      'gprs: before:', i_GP_Individual, i_tree, i_node, &
                              GP_population_node_parameters(i_Node,i_Tree, i_GP_individual )
                 endif ! GP_population_node_parameters(i_Node,i_Tree, i_GP_individual ) > 0.0d0
             endif ! GP_Child_Population_Node_Type(i_Node,i_Tree, i_GP_individual ) == 0 
@@ -244,8 +241,8 @@ do  i_GP_individual = 1, n_GP_individuals
         do  i_node = 1, n_nodes
             if( GP_Child_Population_Node_Type(i_Node,i_Tree, i_GP_individual ) == 0 )then
                 if( GP_population_node_parameters(i_Node,i_Tree, i_GP_individual ) > 0.0d0 )then
-                write(6,'(A,1x,I6,2(1x,I3), 1x, E15.7)') &
-                  'gprs: after:', i_GP_Individual, i_tree, i_node, &
+                    write(6,'(A,1x,I6,2(1x,I3), 1x, E15.7)') &
+                      'gprs: after:', i_GP_Individual, i_tree, i_node, &
                              GP_population_node_parameters(i_Node,i_Tree, i_GP_individual )
                 endif ! GP_population_node_parameters(i_Node,i_Tree, i_GP_individual ) > 0.0d0
             endif ! GP_Child_Population_Node_Type(i_Node,i_Tree, i_GP_individual ) == 0 
