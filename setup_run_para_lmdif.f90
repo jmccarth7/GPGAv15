@@ -29,7 +29,6 @@ integer, intent(in)  ::  n_indiv
 integer, intent(in)  ::  n_parms
 integer, intent(in)  ::  n_parms_dim
 
-!real(kind=8),dimension(n_indiv)  ::  my_indiv_SSE
 real(kind=8)  ::  my_indiv_SSE
 
 logical, intent(in)  ::  L_myprint
@@ -38,7 +37,6 @@ integer, intent(in)  ::  myprint_unit
 ! lmdif arrays and variables
 
 real(kind=8) :: x_LMDIF(n_maximum_number_parameters)
-!real(kind=8) :: x_LMDIF(n_parms_dim)
 real(kind=8) :: fvec(n_time_steps)
 real(kind=8) :: ftol,xtol,gtol
 
@@ -51,21 +49,16 @@ real(kind=8), parameter :: zero = 0.0d0
 real(kind=8) :: diag(n_maximum_number_parameters)
 real(kind=8) :: fjac(n_time_steps,n_maximum_number_parameters)
 real(kind=8) :: qtf(n_maximum_number_parameters)
-!real(kind=8) :: diag(n_parms_dim)
-!real(kind=8) :: fjac(n_time_steps,n_parms_dim)
-!real(kind=8) :: qtf(n_parms_dim)
 
 integer(kind=4) :: maxfev,ldfjac,mode,nprint,info,nfev
 
 integer(kind=4) :: ipvt(n_maximum_number_parameters)
-!integer(kind=4) :: ipvt(n_parms_dim)
 
 
 ! individual_quality contains information on the result of lmdif
 ! if lmdif encounters an error, set individual_quality to -1
 ! if < 0 , reject this individual  ! jjm
 
-!integer(kind=4),dimension(n_indiv) :: individual_quality
 integer(kind=4) :: individual_quality
 
 integer(kind=4) :: i_time_step
@@ -74,9 +67,7 @@ integer(kind=4) :: i_parameter
 integer(kind=4) :: i_tree
 integer(kind=4) :: i_node
 
-!real(kind=8) :: child_parameters( n_maximum_number_parameters, n_indiv )
 real(kind=8) :: child_parameters( n_maximum_number_parameters )
-!real(kind=8) :: child_parameters( n_parms_dim )
 
 external :: fcn
 

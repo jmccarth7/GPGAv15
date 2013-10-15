@@ -310,8 +310,6 @@ do  i_GA_generation=1,n_GA_Generations
             if( L_ga_print )then
                 write(GA_print_unit,'(A)')&
                       'GP_GA_opt: call GA_Fitness_Proportionate_Reproduction '
-            !    !write(GA_print_unit,'(/A)')&
-            !    !     'GP_GA_opt: SKIP GA_Fitness_Proportionate_Reproduction '
             endif ! L_ga_print
 
 
@@ -525,7 +523,6 @@ do  i_GA_generation=1,n_GA_Generations
                         MPI_LOGICAL, 0, MPI_COMM_WORLD, ierr )
     call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
 
-    !!!!Run_GA_lmdif = .TRUE.   ! debug only
 
     !if( L_ga_print )then
     !    write(GA_print_unit,'(A,1x,I10/)') &
@@ -694,12 +691,12 @@ do  i_GA_generation=1,n_GA_Generations
                                sender, numsent+1,  MPI_COMM_WORLD, ierr )
 
 
-
                 !if( L_ga_print )then
                 !    write(GA_print_unit,'(A,4(1x,I6))') &
                 !      'GP_GA_opt:2 554 send myid, sender, numsent, i_GA_individual', &
                 !                            myid, sender, numsent, i_GA_individual
                 !endif ! L_ga_print
+
 
                 ! just sent a new task, so increment the number sent
 

@@ -69,12 +69,12 @@ real(kind=8) :: delta_wt
 
 !--------------------------------------------------------------------------------------------
 
-write(myprint_unit,'(//A,3(1x,I6),1x,E20.10)') &
-          'setrlm:1 myid, myprint_unit, n_parameters', &
-                    myid, myprint_unit, n_parameters
-write(myprint_unit,'(/A,2(1x,I10))') &
-      'setrlm: at entry i_GA_indiv, individual_quality(i_GA_indiv) ', &
-                        i_GA_indiv, individual_quality(i_GA_indiv) 
+!write(myprint_unit,'(//A,3(1x,I6),1x,E20.10)') &
+!          'setrlm:1 myid, myprint_unit, n_parameters', &
+!                    myid, myprint_unit, n_parameters
+!write(myprint_unit,'(/A,2(1x,I10))') &
+!      'setrlm: at entry i_GA_indiv, individual_quality(i_GA_indiv) ', &
+!                        i_GA_indiv, individual_quality(i_GA_indiv) 
 
 do  i_parameter=1,n_parameters
 
@@ -85,9 +85,9 @@ do  i_parameter=1,n_parameters
         !      'setrlm:1 myid, i_GA_indiv,i_parameter, child_parameters ', &
         !                myid, i_GA_indiv,i_parameter, &
         !                child_parameters(i_parameter, i_GA_indiv)
-        write(myprint_unit,'(A,2(1x,I6),1x,E20.10)') &
-              'setrlm:1 myid, i_parameter,  X_LMDIF', &
-                        myid, i_parameter,  X_LMDIF(i_parameter)
+        !write(myprint_unit,'(A,2(1x,I6),1x,E20.10)') &
+        !      'setrlm:1 myid, i_parameter,  X_LMDIF', &
+        !                myid, i_parameter,  X_LMDIF(i_parameter)
     !endif ! L_myprint
 
 enddo ! i_parameter
@@ -123,7 +123,7 @@ nprint= 1  ! set back to zero after diag
 ldfjac=n_time_steps
 
 !if( L_myprint )then
-    write(myprint_unit,'(A,1x,I10)') 'setrlm: i_GA_indiv', i_GA_indiv
+!    write(myprint_unit,'(A,1x,I10)') 'setrlm: i_GA_indiv', i_GA_indiv
 !endif ! L_myprint
 
 !----------------------------------------------------------------------------------------
@@ -155,7 +155,8 @@ L_bad_result = .false.
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-write(myprint_unit,'(/A/)') 'setrlm: RUN LMDIF '
+!write(myprint_unit,'(/A/)') 'setrlm: RUN LMDIF '
+
 call lmdif( fcn, n_time_steps, n_parameters, x_LMDIF, fvec, &
             ftol, xtol, gtol, maxfev, epsfcn, &
             diag, mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf )
@@ -179,9 +180,9 @@ if( Lprint_lmdif )then
 
     if( L_myprint )then
 
-        write(myprint_unit,'(A,3(1x,I3),1x,I10/)') &
-              'setrlm: aft call lmdif, myid, n_parameters, info, n_time_steps', &
-                                       myid, n_parameters, info, n_time_steps 
+        !write(myprint_unit,'(A,3(1x,I3),1x,I10/)') &
+        !      'setrlm: aft call lmdif, myid, n_parameters, info, n_time_steps', &
+        !                               myid, n_parameters, info, n_time_steps 
     
         !!if( info >= 0 ) then
         !!    
@@ -251,9 +252,9 @@ if (info .eq. 8) info = 4
 !-----------------------------------------------------------------------------------
 
 !if( L_myprint )then
-    write(myprint_unit,'(/A/ 2(1x, I6), 12( 1x,E12.5))') &
-          'setrlm:3 myid, i_GA_indiv, X_LMDIF', &
-                    myid, i_GA_indiv, X_LMDIF(1:n_parameters)
+!    write(myprint_unit,'(/A/ 2(1x, I6), 12( 1x,E12.5))') &
+!          'setrlm:3 myid, i_GA_indiv, X_LMDIF', &
+!                    myid, i_GA_indiv, X_LMDIF(1:n_parameters)
 !endif ! L_myprint
 
 
@@ -263,9 +264,9 @@ do  i_parameter=1,n_parameters
 enddo ! i_parameter
 
 !if( L_myprint )then
-    write(myprint_unit,'(/A/ 2(1x, I6), 12( 1x,E12.5))') &
-     'setrlm:4 myid, i_GA_indiv, child_parameters(:,i_GA_indiv)', &
-               myid, i_GA_indiv, child_parameters(1:n_parameters, i_GA_indiv)
+!    write(myprint_unit,'(/A/ 2(1x, I6), 12( 1x,E12.5))') &
+!     'setrlm:4 myid, i_GA_indiv, child_parameters(:,i_GA_indiv)', &
+!               myid, i_GA_indiv, child_parameters(1:n_parameters, i_GA_indiv)
 !endif ! L_myprint
 
 
@@ -303,13 +304,13 @@ if( individual_quality( i_GA_indiv ) > 0 ) then
 
 endif !  individual_quality( i_GA_indiv ) > 0
 
-if( L_myprint )then
-    write(myprint_unit,'(A,3(1x,I6), 1x, E15.7)') &
-      'setrlm: myid, i_GA_indiv, individual_quality, my_indiv_SSE', &
-               myid, i_GA_indiv, &
-               individual_quality( i_GA_indiv ), &
-               my_indiv_SSE(i_GA_indiv)
-endif ! L_myprint
+!if( L_myprint )then
+!    write(myprint_unit,'(A,3(1x,I6), 1x, E15.7)') &
+!      'setrlm: myid, i_GA_indiv, individual_quality, my_indiv_SSE', &
+!               myid, i_GA_indiv, &
+!               individual_quality( i_GA_indiv ), &
+!               my_indiv_SSE(i_GA_indiv)
+!endif ! L_myprint
 
 
 

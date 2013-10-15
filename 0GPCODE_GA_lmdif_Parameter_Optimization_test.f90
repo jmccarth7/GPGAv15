@@ -697,56 +697,6 @@ do  i_GP_Generation=1,n_GP_Generations
             !      '0: aft call GP_calc_diversity_index '
 
 
-        
-            !-----------------------------------------------------------------------------------------
-            !>>>>>>>>>> jjm 20130417
-            !if( i_GP_generation == 1                                 .or. &
-            !    mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
-            !    i_GP_generation == n_GP_generations                         )then
-            !
-            !    write(GP_print_unit,'(/A, 1x, I6/)') &
-            !          '0: after call to GP_Clean_Tree_Nodes i_GP_generation =',i_GP_generation
-        
-            ! print node type information for each GP individual
-        
-            !    call print_gp_node_type_parm( )
-            !endif !  i_GP_generation == 1 ...
-            !<<<<<<<<<<< jjm 20130417
-        
-
-        endif ! myid == 0
-
-
-        !------------------------------------------------------------------------------------
-
-
-        ! broadcast:
-
-        ! GP_Child_Population_Node_Type
-        ! GP_Adult_Population_Node_Type
-        ! Parent_Tree_Swap_Node_Type (removed from broadcast)
-        ! GP_Child_Individual_SSE
-        ! GP_Adult_Individual_SSE
-        ! GP_Integrated_Population_Ranked_Fitness
-        ! GP_Population_Ranked_Fitness
-        ! Run_GP_Calculate_Fitness 
-
-        !if( myid == 0 )then
-        !    write(GP_print_unit,'(/A)')&
-        !          '0: call bcast2 '
-        !endif ! myid == 0
-
-        call bcast2()
-
-        !if( myid == 0 )then
-        !    write(GP_print_unit,'(/A)')&
-        !          '0: aft call bcast2 '
-        !endif ! myid == 0
-
-    endif ! i_GP_Generation .eq. 1
-
-
-    !------------------------------------------------------------------------------------
             !-----------------------------------------------------------------------------------------
         
             ! print trees before tree clean
@@ -803,22 +753,72 @@ do  i_GP_Generation=1,n_GP_Generations
             !    !  '0: time spent in print_trees = ', t2 - t1
         
             !!endif ! i_GP_generation == 1 .or. ...
+        
+            !-----------------------------------------------------------------------------------------
+            !>>>>>>>>>> jjm 20130417
+            !if( i_GP_generation == 1                                 .or. &
+            !    mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
+            !    i_GP_generation == n_GP_generations                         )then
+            !
+            !    write(GP_print_unit,'(/A, 1x, I6/)') &
+            !          '0: after call to GP_Clean_Tree_Nodes i_GP_generation =',i_GP_generation
+        
+            ! print node type information for each GP individual
+        
+            !    call print_gp_node_type_parm( )
+            !endif !  i_GP_generation == 1 ...
+            !<<<<<<<<<<< jjm 20130417
+        
 
-    ! removed because GP_Tree_Clean now done before call to bcast2 
-    ! which broadcasts GP_Adult_Population_Node_Type
+        endif ! myid == 0
 
 
-    ! broadcast GP_Adult_Population_Node_Type
-    call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
-    message_len = n_GP_Individuals * n_Nodes * n_Trees
-    call MPI_BCAST( GP_Adult_Population_Node_Type, message_len,    &
-                    MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
-    call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
-    !if( myid == 0 )then
-    !    write(GP_print_unit,'(A,1x,I6)') &
-    !      '0: aft broadcast  GP_Adult_Pop_Node_Type  Generation = ',&
-    !                                            i_GP_Generation
-    !endif ! myid == 0
+        !------------------------------------------------------------------------------------
+
+
+        ! broadcast:
+
+        ! GP_Child_Population_Node_Type
+        ! GP_Adult_Population_Node_Type
+        ! Parent_Tree_Swap_Node_Type (removed from broadcast??)
+        ! GP_Child_Individual_SSE
+        ! GP_Adult_Individual_SSE
+        ! GP_Integrated_Population_Ranked_Fitness
+        ! GP_Population_Ranked_Fitness
+        ! Run_GP_Calculate_Fitness 
+
+        !if( myid == 0 )then
+        !    write(GP_print_unit,'(/A)')&
+        !          '0: call bcast2 '
+        !endif ! myid == 0
+
+        call bcast2()
+
+        !if( myid == 0 )then
+        !    write(GP_print_unit,'(/A)')&
+        !          '0: aft call bcast2 '
+        !endif ! myid == 0
+
+    endif ! i_GP_Generation .eq. 1
+
+
+    !------------------------------------------------------------------------------------
+
+    !! removed because GP_Tree_Clean now done before call to bcast2 
+    !! which broadcasts GP_Adult_Population_Node_Type
+
+
+    !! broadcast GP_Adult_Population_Node_Type
+    !call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
+    !message_len = n_GP_Individuals * n_Nodes * n_Trees
+    !call MPI_BCAST( GP_Adult_Population_Node_Type, message_len,    &
+    !                MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
+    !call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
+    !!if( myid == 0 )then
+    !!    write(GP_print_unit,'(A,1x,I6)') &
+    !!      '0: aft broadcast  GP_Adult_Pop_Node_Type  Generation = ',&
+    !!                                            i_GP_Generation
+    !!endif ! myid == 0
 
 
     !-----------------------------------------------------------------------------------------
@@ -1068,9 +1068,6 @@ do  i_GP_Generation=1,n_GP_Generations
             ! these arrays are broadcast in GPCODE_GA...
 
 
-            !write(GA_print_unit,'(A,3(1x,I6)/)') &
-            !         '0: myid, i_GP_Generation, i_GP_individual',&
-            !             myid, i_GP_Generation, i_GP_individual
             !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
             call GPCODE_GA_lmdif_Parameter_Optimization( i_GP_Generation,i_GP_individual )
@@ -1268,11 +1265,12 @@ do  i_GP_Generation=1,n_GP_Generations
             write(GP_print_unit,'(/A,2(1x,I6))') &
                       '0: call summary_GP_indiv i_GP_generation, i_GP_individual ', &
                                                 i_GP_generation, i_GP_individual
+
             call summary_GP_indiv( i_GP_generation, i_GP_individual )
 
             write(GP_print_unit,'(/A,2(1x,I6))') &
                       '0: aft call summary_GP_indiv i_GP_generation, i_GP_individual ', &
-                                                i_GP_generation, i_GP_individual
+                                                    i_GP_generation, i_GP_individual
 
         endif !  myid == 0
 
