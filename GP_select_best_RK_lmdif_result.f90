@@ -196,9 +196,9 @@ endif ! L_GP_print
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-call setup_run_lmdif( i_GP_best_Parent, parent_parameters, individual_quality, &
-                      n_GP_individuals, GP_child_individual_SSE,  &
-                      L_GP_print, GP_print_unit )
+!debug only call setup_run_lmdif( i_GP_best_Parent, parent_parameters, individual_quality, &
+!debug only                       n_GP_individuals, GP_child_individual_SSE,  &
+!debug only                       L_GP_print, GP_print_unit )
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 

@@ -438,7 +438,6 @@ do  i_GP_Generation=1,n_GP_Generations
     ! Run_GP_Calculate_Fitness will be FALSE for generations > 1 
     ! if the individual did not change on the last generation (so it needs no recalculation)
 
-    !Run_GP_Calculate_Fitness= .TRUE.  ! debug only .false.
 
     Run_GP_Calculate_Fitness= .false.
 
@@ -696,79 +695,7 @@ do  i_GP_Generation=1,n_GP_Generations
             !write(GP_print_unit,'(/A)')&
             !      '0: aft call GP_calc_diversity_index '
 
-
-            !-----------------------------------------------------------------------------------------
-        
-            ! print trees before tree clean
-        
-            !if( i_GP_generation == 1                                  .or. &
-            !    mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
-            !    i_GP_generation == n_GP_generations                          )then
-            !    tree_descrip =  ' trees before call to GP_Clean_Tree_Nodes'
-            !    call print_trees( i_GP_generation, 1, n_GP_individuals, &
-            !                      GP_Adult_Population_Node_Type, &
-            !                      trim( tree_descrip )  )
-            !endif ! i_GP_generation == 1
-        
-        
-            !-----------------------------------------------------------------------------------------
-        
-            ! GP_Clean_Tree_Nodes sweeps through the GP_Adult_Population_Node_Type array
-            ! to replace function nodes that have both terminals set as parameters
-            ! and to set the replaced node to a parameter itself
-        
-            ! sets:
-            ! GP_Adult_Population_Node_Type
-        
-            !write(GP_print_unit,'(/A,1x,I6)') &
-            !      '0: call GP_Clean_Tree_Nodes   Generation =', i_GP_Generation
-            !write(GP_print_unit,'(A)') &
-            !      '0: GP_Clean_Tree_Nodes  modifies GP_Adult_Population_Node_Type'
-    
-    
-            call GP_Clean_Tree_Nodes
-    
-    
-            !write(GP_print_unit,'(/A,1x,I6/)') &
-            !         '0: aft call GP_Clean_Tree_Nodes   Generation =', i_GP_Generation
-        
-            !-----------------------------------------------------------------------------------------
-        
-            ! print trees after call to GP_Clean_Tree_Nodes
-        
-            !!if( i_GP_generation == 1                                  .or. &
-            !!    mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
-            !!    i_GP_generation == n_GP_generations                          )then
-        
-            !    !t1 = MPI_Wtime()
-        
-            !    tree_descrip =  ' trees after call to GP_Clean_Tree_Nodes'
-            !    call print_trees( i_GP_generation, 1, n_GP_individuals, &
-            !                      GP_Adult_Population_Node_Type, &
-            !                      trim( tree_descrip )  )
-        
-            !    !t2 = MPI_Wtime()
-        
-            !    !write(GP_print_unit,'(A,1x,E15.7)') &
-            !    !  '0: time spent in print_trees = ', t2 - t1
-        
-            !!endif ! i_GP_generation == 1 .or. ...
-        
-            !-----------------------------------------------------------------------------------------
-            !>>>>>>>>>> jjm 20130417
-            !if( i_GP_generation == 1                                 .or. &
-            !    mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
-            !    i_GP_generation == n_GP_generations                         )then
-            !
-            !    write(GP_print_unit,'(/A, 1x, I6/)') &
-            !          '0: after call to GP_Clean_Tree_Nodes i_GP_generation =',i_GP_generation
-        
-            ! print node type information for each GP individual
-        
-            !    call print_gp_node_type_parm( )
-            !endif !  i_GP_generation == 1 ...
-            !<<<<<<<<<<< jjm 20130417
-        
+            !---------------------------------------------------------------------------
 
         endif ! myid == 0
 
@@ -777,15 +704,13 @@ do  i_GP_Generation=1,n_GP_Generations
 
 
         ! broadcast:
-
         ! GP_Child_Population_Node_Type
         ! GP_Adult_Population_Node_Type
-        ! Parent_Tree_Swap_Node_Type (removed from broadcast??)
+        ! Parent_Tree_Swap_Node_Type
         ! GP_Child_Individual_SSE
-        ! GP_Adult_Individual_SSE
         ! GP_Integrated_Population_Ranked_Fitness
         ! GP_Population_Ranked_Fitness
-        ! Run_GP_Calculate_Fitness 
+        ! Run_GP_Calculate_Fitness array
 
         !if( myid == 0 )then
         !    write(GP_print_unit,'(/A)')&
@@ -802,25 +727,106 @@ do  i_GP_Generation=1,n_GP_Generations
     endif ! i_GP_Generation .eq. 1
 
 
-    !------------------------------------------------------------------------------------
+    !-----------------------------------------------------------------------------------------
 
-    !! removed because GP_Tree_Clean now done before call to bcast2 
-    !! which broadcasts GP_Adult_Population_Node_Type
+    ! print trees before tree clean
 
-
-    !! broadcast GP_Adult_Population_Node_Type
-    !call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
-    !message_len = n_GP_Individuals * n_Nodes * n_Trees
-    !call MPI_BCAST( GP_Adult_Population_Node_Type, message_len,    &
-    !                MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
-    !call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
-    !!if( myid == 0 )then
-    !!    write(GP_print_unit,'(A,1x,I6)') &
-    !!      '0: aft broadcast  GP_Adult_Pop_Node_Type  Generation = ',&
-    !!                                            i_GP_Generation
-    !!endif ! myid == 0
+    !if( myid == 0 )then
+    !    if( i_GP_generation == 1                                  .or. &
+    !        mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
+    !        i_GP_generation == n_GP_generations                          )then
+    !        tree_descrip =  ' trees before call to GP_Clean_Tree_Nodes'
+    !        call print_trees( i_GP_generation, 1, n_GP_individuals, GP_Adult_Population_Node_Type, &
+    !                          trim( tree_descrip )  )
+    !    endif ! i_GP_generation == 1
+    !endif !  myid == 0
 
 
+    !-----------------------------------------------------------------------------------------
+
+    ! GP_Clean_Tree_Nodes sweeps through the GP_Adult_Population_Node_Type array
+    ! to replace function nodes that have both terminals set as parameters
+    ! and to set the replaced node to a parameter itself
+
+    if( myid == 0 )then
+        write(GP_print_unit,'(/A,1x,I6/)') &
+              '0: call GP_Clean_Tree_Nodes   Generation =', i_GP_Generation
+        write(GP_print_unit,'(A)') &
+              '0: GP_Clean_Tree_Nodes  modifies GP_Adult_Population_Node_Type'
+
+
+        call GP_Clean_Tree_Nodes
+
+
+        !write(GP_print_unit,'(/A,1x,I6/)') &
+        !         '0: aft call GP_Clean_Tree_Nodes   Generation =', i_GP_Generation
+
+    endif ! myid == 0
+
+
+    ! broadcast GP_Adult_Population_Node_Type changed by GP_Clean_Tree_Nodes 
+
+    call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
+
+    message_len = n_GP_Individuals * n_Nodes * n_Trees
+    call MPI_BCAST( GP_Adult_Population_Node_Type, message_len,    &
+                    MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
+
+    call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
+
+    if( myid == 0 )then
+        write(GP_print_unit,'(/A,1x,I6)') &
+          '0: aft broadcast  GP_Adult_Pop_Node_Type  Generation = ',&
+                                                i_GP_Generation
+    endif ! myid == 0
+
+    !if( myid == 0 )then
+    !    write(GP_print_unit,'(/A,1x,I6/)') &
+    !          '0: AFT GP_Clean_Tree_Nodes   Generation = ', &
+    !                                      i_GP_Generation
+    !endif ! myid == 0
+
+    !-----------------------------------------------------------------------------------------
+
+    ! print trees after call to GP_Clean_Tree_Nodes
+
+    !if( myid == 0 )then
+    !    !if( i_GP_generation == 1                                  .or. &
+    !    !    mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
+    !    !    i_GP_generation == n_GP_generations                          )then
+
+
+    !        !t1 = MPI_Wtime()
+
+    !        tree_descrip =  ' trees after call to GP_Clean_Tree_Nodes'
+    !        call print_trees( i_GP_generation, 1, n_GP_individuals, &
+    !                          GP_Adult_Population_Node_Type, &
+    !                          trim( tree_descrip )  )
+
+    !        !t2 = MPI_Wtime()
+
+    !        !write(GP_print_unit,'(A,1x,E15.7)') &
+    !        !  '0: time spent in print_trees = ', t2 - t1
+
+    !    !endif ! i_GP_generation == 1 .or. ...
+
+    !endif !  myid == 0
+
+    !-----------------------------------------------------------------------------------------
+    !>>>>>>>>>> jjm 20130417
+    !if( myid == 0 .and.  &
+    !    ( i_GP_generation == 1                                 .or. &
+    !      mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
+    !      i_GP_generation == n_GP_generations                          )  )then
+    !
+    !    write(GP_print_unit,'(/A, 1x, I6/)') &
+    !          '0: after call to GP_Clean_Tree_Nodes i_GP_generation =',i_GP_generation
+
+    ! print node type information for each GP individual
+
+    !    call print_gp_node_type_parm( )
+    !endif !  myid == 0 .and. ...
+    !<<<<<<<<<<< jjm 20130417
     !-----------------------------------------------------------------------------------------
 
 
@@ -1008,8 +1014,10 @@ do  i_GP_Generation=1,n_GP_Generations
                 GP_Adult_Individual_SSE(i_GP_Individual) = 1.0D13
                 GP_Adult_Population_SSE(i_GP_Individual) = 1.0D13
 
-                GP_Individual_N_GP_param(i_GP_individual) = 0
-                n_GP_parameters                           = 0
+                !GP_population_fitness(i_GP_individual) =  0.0D0
+
+                !GP_Individual_N_GP_param(i_GP_individual) = 0
+                !n_GP_parameters                           = 0
 
 
                 if( myid == 0 )then
@@ -1024,6 +1032,7 @@ do  i_GP_Generation=1,n_GP_Generations
                 !------------------------------------------------------------------------
 
                 cycle gp_ind_loop
+                
 
                 !!call GP_tree_reset( i_GP_individual )
 
@@ -1333,7 +1342,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
     GP_para_flag = .TRUE. 
 
-    call  GP_para_lmdif_process( i_GP_generation )
+    !debug only    call  GP_para_lmdif_process( i_GP_generation )
 
     GP_para_flag = .FALSE.
 

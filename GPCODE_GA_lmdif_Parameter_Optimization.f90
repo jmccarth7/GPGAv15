@@ -151,7 +151,8 @@ if( n_parameters .le. 0) then
           'GP_GA_opt: ERROR: n_parameters </= 0'
     write(GA_print_unit,'(A,1x,I10)') &
           'GP_GA_opt: n_parameters =   ', n_parameters
-    stop 'n_par<=0'
+    !orig stop 'n_par<=0'
+    return    ! 'n_par<=0'
 endif
 
 if( n_time_steps .lt. n_parameters) then

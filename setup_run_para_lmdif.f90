@@ -113,6 +113,7 @@ if( n_parms <= 0 ) then
                                            my_indiv_SSE
     endif ! L_myprint
 
+    return   ! 20131016 jjm
 endif ! n_parms <= 0
 
 
@@ -123,8 +124,6 @@ GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) = &
                GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees,i_G_indiv)
 
 !-------------------------------------------------------------------------------
-
-!>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 !if( L_myprint .and. i_G_indiv == 1 )then
 !
@@ -142,7 +141,7 @@ GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) = &
 !
 !endif ! L_myprint
 
-!<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+!-------------------------------------------------------------------------------
 
 do  i_parameter=1,n_parms
 

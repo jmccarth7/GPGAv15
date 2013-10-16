@@ -29,7 +29,7 @@ integer(kind=4) :: j_Node
 integer(kind=4) :: k_Node
 integer(kind=4) :: i_Node_Count
 integer(kind=4) :: i
-!integer(kind=4) :: kk
+integer(kind=4) :: kk
 integer(kind=4) :: icnt
 integer(kind=4) :: icff
 integer(kind=4) :: icnt_parent_one_nodes
@@ -56,15 +56,15 @@ logical :: NODE_NOT_FOUND
 
 !--------------------------------------------------------------------------
 
-!write(6,'(/A,1x,I6)') 'gpts: at entry n_nodes = ', n_nodes
-!write(6,'(A)') 'gpts: kk, Parent_Tree_Swap_Node_Type(kk,1) '
-!do  kk = 1, n_nodes
-!    write(6,'(3(1x,I6))') kk, Parent_Tree_Swap_Node_Type(kk,1) 
-!enddo ! kk 
-!write(6,'(A)') 'gpts: kk, Parent_Tree_Swap_Node_Type(kk,2) '
-!do  kk = 1, n_nodes
-!    write(6,'(3(1x,I6))') kk, Parent_Tree_Swap_Node_Type(kk,2) 
-!enddo ! kk 
+write(6,'(/A,1x,I6)') 'gpts: at entry n_nodes = ', n_nodes
+write(6,'(A)') 'gpts: kk, Parent_Tree_Swap_Node_Type(kk,1) '
+do  kk = 1, n_nodes
+    write(6,'(3(1x,I6))') kk, Parent_Tree_Swap_Node_Type(kk,1) 
+enddo ! kk 
+write(6,'(A)') 'gpts: kk, Parent_Tree_Swap_Node_Type(kk,2) '
+do  kk = 1, n_nodes
+    write(6,'(3(1x,I6))') kk, Parent_Tree_Swap_Node_Type(kk,2) 
+enddo ! kk 
 
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -238,8 +238,8 @@ if( MALE_CROSS .and. FEMALE_CROSS) then
 
     Parent_one_max_swap_level = n_levels  -  Parent_one_max_swap_level + 1
 
-    !write(6,'(A,1x,I6)') 'gts: i_Parent_One_Swap_Node     =', i_Parent_One_Swap_Node
-    !write(6,'(A,1x,I6)') 'gts: Parent_One_Max_Swap_Level  =', Parent_One_Max_Swap_Level
+    write(6,'(A,1x,I6)') 'gts: i_Parent_One_Swap_Node     =', i_Parent_One_Swap_Node
+    write(6,'(A,1x,I6)') 'gts: Parent_One_Max_Swap_Level  =', Parent_One_Max_Swap_Level
 
     !.....................................................................
     !     determine the range of levels that the swap can occur over
@@ -589,15 +589,15 @@ Parent_Tree_Swap_Node_Type = Child_Tree_Swap_Node_Type
 
 
 
-!write(6,'(/A,1x,I6)') 'gpts: at RETURN n_nodes = ', n_nodes
-!write(6,'(A)') 'gpts: kk, Parent_Tree_Swap_Node_Type(kk,1) '
-!do  kk = 1, n_nodes
-!    write(6,'(3(1x,I6))') kk, Parent_Tree_Swap_Node_Type(kk,1) 
-!enddo ! kk 
-!write(6,'(A)') 'gpts: kk, Parent_Tree_Swap_Node_Type(kk,2) '
-!do  kk = 1, n_nodes
-!    write(6,'(3(1x,I6))') kk, Parent_Tree_Swap_Node_Type(kk,2) 
-!enddo ! kk 
+write(6,'(/A,1x,I6)') 'gpts: at RETURN n_nodes = ', n_nodes
+write(6,'(A)') 'gpts: kk, Parent_Tree_Swap_Node_Type(kk,1) '
+do  kk = 1, n_nodes
+    write(6,'(3(1x,I6))') kk, Parent_Tree_Swap_Node_Type(kk,1) 
+enddo ! kk 
+write(6,'(A)') 'gpts: kk, Parent_Tree_Swap_Node_Type(kk,2) '
+do  kk = 1, n_nodes
+    write(6,'(3(1x,I6))') kk, Parent_Tree_Swap_Node_Type(kk,2) 
+enddo ! kk 
 
 
 return
