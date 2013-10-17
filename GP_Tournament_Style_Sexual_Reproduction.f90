@@ -270,9 +270,9 @@ do
     !        if( GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Male(1)) /= -9999 )then
     !            if( myid == 0 )then
     !                write(GP_print_unit,'(A,4(1x,I6))' ) &
-    !                   'gptssr: k_GP_Indiv_Male(1),i_node,i_tree, &
+    !                   'gptssr: k_GP_Indiv_Male(1),i_tree,i_node, &
     !                   &GP_Adult_Pop_Node_Type(Male(1)', &
-    !                   k_GP_Individual_Male(1),i_node,i_tree, &
+    !                   k_GP_Individual_Male(1),i_tree,i_node, &
     !                   GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Male(1))
     !            endif ! myid == 0
     !        endif ! GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Male(1)) /= -9999
@@ -313,9 +313,9 @@ do
     !        if( GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Female(1)) /= -9999 )then
     !            if( myid == 0 )then
     !                write(GP_print_unit,'(A,4(1x,I6))' ) &
-    !                   'gptssr: k_GP_Indiv_Female(1),i_node,i_tree, &
+    !                   'gptssr: k_GP_Indiv_Female(1),i_tree,i_node, &
     !                   &GP_Adult_Pop_Node_Type(Female(1)', &
-    !                   k_GP_Individual_Female(1),i_node,i_tree, &
+    !                   k_GP_Individual_Female(1),i_tree,i_node, &
     !                   GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Female(1))
     !            endif ! myid == 0
     !        endif ! GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Female(1)) /= -9999
@@ -403,9 +403,9 @@ do
     !        if( GP_Child_Population_Node_Type(i_Node,i_Tree, i_GP_Individual) /= -9999 )then
     !            if( myid == 0 )then
     !                write(GP_print_unit,'(A,4(1x,I6))' ) &
-    !                   'gptssr: i_GP_Indiv,i_node,i_tree, &
+    !                   'gptssr: i_GP_Indiv,i_tree,i_node, &
     !                   &GP_Child_Pop_Node_Type', &
-    !                   i_GP_Individual,i_node,i_tree, &
+    !                   i_GP_Individual,i_tree,i_node, &
     !                   GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual)
     !            endif ! myid == 0
     !        endif ! GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Female(1)) /= -9999

@@ -340,10 +340,10 @@ if( GP_individual_ranked_fitness(i_GP_best_parent) <= &
     individual_fitness            = GP_individual_fitness_best_1
     GP_individual_SSE_best_parent = GP_individual_SSE_best_1
 
-!new 20130713
+    !new 20130713
     child_parameters(1:n_parameters,i_GP_best_Parent) =  &
                         parent_parameters_best_1(1:n_parameters)
-!new 20130713
+    !new 20130713
 
     ! choose the parameters of the best parent from the RK fcn integration
 
@@ -386,35 +386,35 @@ if( GP_individual_ranked_fitness(i_GP_best_parent) <= &
     i_parameter = n_CODE_equations ! start at this number because of the
                                    ! initial conditions (n_CODE_Equations of them)
 
-    do i_tree=1,n_trees
-      do i_node=1,n_nodes
+    do  i_tree=1,n_trees
+        do  i_node=1,n_nodes
 
-        if( GP_individual_node_type(i_node,i_tree) .eq. 0 ) then  ! there is a set parameter
+            if( GP_individual_node_type(i_node,i_tree) .eq. 0 ) then  ! there is a set parameter
 
-            !if( L_GP_print )then
-            !    write(GP_print_unit,'(A,3(1x,I6))') &
-            !          'gpsbrl:1 i_tree, i_node,  GP_individual_node_type(i_node,i_tree) ', &
-            !                    i_tree, i_node,  GP_individual_node_type(i_node,i_tree)
-            !endif ! L_GP_print
+                !if( L_GP_print )then
+                !    write(GP_print_unit,'(A,3(1x,I6))') &
+                !          'gpsbrl:1 i_tree, i_node,  GP_individual_node_type(i_node,i_tree) ', &
+                !                    i_tree, i_node,  GP_individual_node_type(i_node,i_tree)
+                !endif ! L_GP_print
+    
+                i_parameter=i_parameter+1
+    
+                GP_Individual_Node_Parameters(i_node,i_tree) = &
+                              parent_parameters_best_1( i_parameter )
+    
+                !if( L_GP_print )then
+                !    write(GP_print_unit,'(A,1x,I6,1x,E20.10)') &
+                !          'gpsbrl:1 i_Parameter, parent_parameters_best_1( i_parameter ) ', &
+                !                  i_Parameter, parent_parameters_best_1( i_parameter )
+    
+                !    write(GP_print_unit,'(A,2(1x,I6),1x,E20.10)') &
+                !          'gpsbrl:1 i_tree, i_node, GP_indiv_node_params', &
+                !                  i_tree, i_node, GP_individual_node_parameters(i_node,i_tree)
+                !endif ! L_GP_print
+    
+            endif !   GP_individual_node_type(i_node,i_tree) .eq. 0
 
-            i_parameter=i_parameter+1
-
-            GP_Individual_Node_Parameters(i_node,i_tree) = &
-                          parent_parameters_best_1( i_parameter )
-
-            !if( L_GP_print )then
-            !    write(GP_print_unit,'(A,1x,I6,1x,E20.10)') &
-            !          'gpsbrl:1 i_Parameter, parent_parameters_best_1( i_parameter ) ', &
-            !                  i_Parameter, parent_parameters_best_1( i_parameter )
-
-            !    write(GP_print_unit,'(A,2(1x,I6),1x,E20.10)') &
-            !          'gpsbrl:1 i_tree, i_node, GP_indiv_node_params', &
-            !                  i_tree, i_node, GP_individual_node_parameters(i_node,i_tree)
-            !endif ! L_GP_print
-
-        endif !   GP_individual_node_type(i_node,i_tree) .eq. 0
-
-     enddo ! i_node
+        enddo ! i_node
 
     enddo ! i_tree
 
@@ -434,8 +434,6 @@ if( GP_individual_ranked_fitness(i_GP_best_parent) <= &
                 i_GP_Generation, i_GP_best_parent, &
                 GP_individual_ranked_fitness(i_GP_Best_Parent), &
                 nop, output_array(1:nop)
-
-
 
 
     if( L_GP_log )then
@@ -481,7 +479,6 @@ if( GP_individual_ranked_fitness(i_GP_best_parent) <= &
 
     endif !  myid == 0
 
-    !----------------------------------------------------------------------------------
 
 !--------------------------------------------------------------------------------------
 
@@ -586,7 +583,7 @@ else  ! lmdif is best
                nop, output_array(1:nop)
     endif ! L_GP_output_parameters
 
-        write(GP_print_unit, '(//A,1x,I6,1x,I6,1x,E15.7,1x,I6, 12(1x,E15.7))') &
+    write(GP_print_unit, '(//A,1x,I6,1x,I6,1x,E15.7,1x,I6, 12(1x,E15.7))') &
          'gpsbrl: i_GP_gen,i_GP_best_parent,GP_indiv_ranked_fit, nop, output_array', &
                 i_GP_Generation, i_GP_best_parent, &
                GP_individual_ranked_fitness(i_GP_Best_Parent), &
