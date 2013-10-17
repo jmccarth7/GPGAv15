@@ -1342,7 +1342,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
     GP_para_flag = .TRUE. 
 
-    !debug only    call  GP_para_lmdif_process( i_GP_generation )
+    call  GP_para_lmdif_process( i_GP_generation )
 
     GP_para_flag = .FALSE.
 

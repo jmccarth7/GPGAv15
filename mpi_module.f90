@@ -4,7 +4,7 @@ use mpi
 
 implicit none
 
-!!!for debug only>>>>
+!!!for debug >>>>
 !!integer(kind=mpiint), parameter ::  MPI_STATUS_SIZE = 1
 !!integer(kind=mpiint)::  MPI_DOUBLE_PRECISION
 !!integer(kind=mpiint)::  MPI_COMM_WORLD
@@ -15,7 +15,7 @@ implicit none
 !!integer(kind=mpiint)::  MPI_stat(MPI_STATUS_SIZE)
 !!integer(kind=mpiint)::  MPI_COMM_WORKERS,MPI_colors,MPI_keys
 !!integer(kind=mpiint)::  NP_from, NP_to, NP_range
-!!!for debug only<<<<
+!!!for debug <<<<
 
 
 integer(kind=4)::  myid, total_proc, MPI_err

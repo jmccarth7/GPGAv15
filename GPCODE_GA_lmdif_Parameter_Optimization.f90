@@ -462,7 +462,6 @@ do  i_GA_generation=1,n_GA_Generations
 
         endif ! i_GA_generation .eq. 1
 
-        !!!Run_GA_lmdif = .TRUE.   ! debug only
 
 
     endif ! myid == 0
