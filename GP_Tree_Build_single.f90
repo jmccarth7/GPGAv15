@@ -132,13 +132,13 @@ do  i_Tree=1,n_Trees                ! for each GPCODE tree
 enddo !  i_Tree
 
 !write(GP_print_unit,'(/A,3(1x,I6)/)') &
-!      'gtbs: i_GP_individual, n_nodes, n_trees ',  i_GP_individual, n_nodes, n_trees
+!      'gtbs: i_GP_individual, n_trees, n_nodes ',  i_GP_individual, n_trees, n_nodes
 !do  i_Tree=1,n_Trees
 !    do  i_Node=1,n_Nodes
 !        if( GP_Child_Population_Node_Type( i_Node,i_Tree,i_GP_Individual) /= -9999 )then
 !            write(GP_print_unit,'(A,3(1x,I6))') &
-!             'gtbs: i_node, i_tree, GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual)',&
-!                    i_node, i_tree, GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual)
+!             'gtbs: i_tree, i_node, GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual)',&
+!                    i_tree, i_node, GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual)
 !        endif ! GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) /= -9999
 !    enddo ! i_node
 !enddo ! i_tree
@@ -217,14 +217,14 @@ enddo !  i_Tree
 !------------------------------------------------------------------------
 
 !write(GP_print_unit,'(/A,3(1x,I6)/)') &
-!      'gtbs: i_GP_individual, n_nodes, n_trees ',  i_GP_individual, n_nodes, n_trees
+!      'gtbs: i_GP_individual, n_trees, n_nodes ',  i_GP_individual, n_trees, n_nodes
 !do  i_Tree=1,n_Trees
 !    do  i_Node=1,n_Nodes
 !        if( GP_Child_Population_Node_Type( i_Node,i_Tree,i_GP_Individual) /= -9999 )then
 !            write(GP_print_unit,'(A,3(1x,I6))') &
-!             'gtbs: i_node, i_tree, &
+!             'gtbs: i_tree, i_node, &
 !              &GP_Child_Population_Node_Type( i_Node,i_Tree,i_GP_Individual)', &
-!                   i_node, i_tree, GP_Child_Population_Node_Type( i_Node,i_Tree,i_GP_Individual)
+!                   i_tree, i_node, GP_Child_Population_Node_Type( i_Node,i_Tree,i_GP_Individual)
 !        endif ! GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) /= -9999
 !    enddo ! i_node
 !enddo ! i_tree
@@ -239,13 +239,13 @@ enddo !  i_Tree
 !---------------------------------------------------------------------------------
 
 !write(GP_print_unit,'(/A,2(1x,I6)/)') &
-!      'gtbs: n_nodes, n_trees ', n_nodes, n_trees
+!      'gtbs: n_trees, n_nodes ', n_trees, n_nodes
 !do  i_Tree=1,n_Trees
 !    do  i_Node=1,n_Nodes
 !        if( GP_Individual_Node_Type(i_Node,i_Tree) /= -9999 )then
 !            write(GP_print_unit,'(A,3(1x,I6))') &
-!                  'gtbs: i_node, i_tree, GP_Individual_Node_Type(i_Node,i_Tree)', &
-!                         i_node, i_tree, GP_Individual_Node_Type(i_Node,i_Tree)
+!                  'gtbs: i_tree, i_node, GP_Individual_Node_Type(i_Node,i_Tree)', &
+!                         i_tree, i_node, GP_Individual_Node_Type(i_Node,i_Tree)
 !        endif ! GP_Individual_Node_Type(i_Node,i_Tree) /= -9999
 !    enddo ! i_node
 !enddo ! i_tree

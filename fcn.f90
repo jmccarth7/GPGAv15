@@ -36,11 +36,11 @@ logical,parameter :: L_GP_print = .TRUE.
 
 !---------------------------------------------------------------------
 
-if( GP_para_flag .and. myid == 3 )then
-    write(GP_print_unit,'(A,2(1x,I6))') &
-           'fcn: n_CODE_equations, nn', &
-                 n_CODE_equations, nn
-endif ! myid == 1
+!if( GP_para_flag .and. myid == 3 )then
+!    write(GP_print_unit,'(A,2(1x,I6))') &
+!           'fcn: n_CODE_equations, nn', &
+!                 n_CODE_equations, nn
+!endif ! myid == 1
 
 ! move the values you are trying to fit into
 ! the initial conditions and variable terms
@@ -54,20 +54,20 @@ do i_CODE_equation=1,n_CODE_equations
 
   Runge_Kutta_Solution(0,i_CODE_equation)=dabs(x(i_CODE_equation))
 
-  if( GP_para_flag .and. myid == 3 )then
-      write(GP_print_unit,'(A,1x,I6, 2(1x,E15.7))') &
-       'fcn: i_CODE_equation, Runge_Kutta_Solution(0,), X', &
-             i_CODE_equation, Runge_Kutta_Solution(0,i_CODE_equation),&
-                                                   x(i_CODE_equation)
-  endif ! myid == 3
+  !if( GP_para_flag .and. myid == 3 )then
+  !    write(GP_print_unit,'(A,1x,I6, 2(1x,E15.7))') &
+  !     'fcn: i_CODE_equation, Runge_Kutta_Solution(0,), X', &
+  !           i_CODE_equation, Runge_Kutta_Solution(0,i_CODE_equation),&
+  !                                                 x(i_CODE_equation)
+  !endif ! myid == 3
 
   if( isnan( Runge_Kutta_Solution(0,i_CODE_equation) ) .or. &
         abs( Runge_Kutta_Solution(0,i_CODE_equation) )  > 1.0D20  )then
 
       !if( L_GP_print )then
-      !    write(GP_print_unit,'(A,1x,I6)') &
-      !          'fcn: bad initial condition i_CODE_equation = ', &
-      !                                      i_CODE_equation
+      !    write(GP_print_unit,'(A,2(1x,I6))') &
+      !          'fcn: bad initial condition myid,i_CODE_equation = ', &
+      !                                      myid,i_CODE_equation
       !endif ! L_GP_print
 
       L_bad_result = .TRUE.
@@ -106,22 +106,22 @@ do i_tree=1,n_trees
       i_parameter=i_parameter+1
       Runge_Kutta_Node_Parameters(i_node,i_tree)=dabs(x(i_parameter))
 
-      if( L_GP_print )then
-          if( GP_para_flag .and. myid == 3 )then
-              write(GP_print_unit,'(A,5(1x,I4),1x,E15.7)') &
-              'fcn: myid, i_tree, i_node, i_parameter, nn,  Runge_Kutta_Node_Params', &
-                    myid, i_tree, i_node, i_parameter, nn,  &
-                                      Runge_Kutta_Node_Parameters(i_node,i_tree)
-          endif !  myid == 3
-      endif ! L_GP_print
+      !if( L_GP_print )then
+      !    if( GP_para_flag .and. myid == 3 )then
+      !        write(GP_print_unit,'(A,5(1x,I4),1x,E15.7)') &
+      !        'fcn: myid, i_tree, i_node, i_parameter, nn,  Runge_Kutta_Node_Params', &
+      !              myid, i_tree, i_node, i_parameter, nn,  &
+      !                                Runge_Kutta_Node_Parameters(i_node,i_tree)
+      !    endif !  myid == 3
+      !endif ! L_GP_print
 
       if( isnan( Runge_Kutta_Node_Parameters(i_node,i_tree) )  .or. &
             abs( Runge_Kutta_Node_Parameters(i_node,i_tree) ) > 1.0D20 ) then
 
           !if( L_GP_print )then
-          !    write(GP_print_unit,'(A,2(1x,I6))') &
-          !          'fcn: bad  Runge_Kutta_Node_Parameters for i_tree, i_node ', &
-          !                                                     i_tree, i_node
+          !    write(GP_print_unit,'(A,3(1x,I6))') &
+          !     'fcn: bad  Runge_Kutta_Node_Parameters for myid, i_tree, i_node ', &
+          !                                                myid, i_tree, i_node
           !endif ! L_GP_print
 
           L_bad_result = .TRUE.
@@ -136,12 +136,12 @@ do i_tree=1,n_trees
   enddo ! i_node
 enddo  ! i_tree
 
-if( L_GP_print )then
-    if( GP_para_flag .and. myid == 3 )then
-        write(6,'(/A,3(1x,I4)/)') &
-               'fcn: myid, i_parameter, nn', myid, i_parameter, nn
-    endif !  myid == 3
-endif ! L_GP_print
+!if( L_GP_print )then
+!    if( GP_para_flag .and. myid == 3 )then
+!        write(6,'(/A,3(1x,I4)/)') &
+!               'fcn: myid, i_parameter, nn', myid, i_parameter, nn
+!    endif !  myid == 3
+!endif ! L_GP_print
 
 !---------------------------------------------------------------------------------
 
@@ -253,9 +253,9 @@ do i_time_step=1,n_time_steps
 
 enddo ! i_time_step
 
-if( L_GP_print .and. GP_para_flag .and. myid == 3  )then
-    write(GP_print_unit,'(A,1x,I6,2x,E24.16)') 'fcn: myid, sse_local = ',myid, sse_local
-endif ! L_GP_print
+!if( L_GP_print .and. GP_para_flag .and. myid == 3  )then
+!    write(GP_print_unit,'(A,1x,I6,2x,E24.16)') 'fcn: myid, sse_local = ',myid, sse_local
+!endif ! L_GP_print
 
 
 return

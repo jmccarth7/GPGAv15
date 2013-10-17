@@ -80,15 +80,15 @@ do  i_parameter=1,n_parameters
 
     X_LMDIF(i_parameter) = child_parameters(i_parameter, i_GA_indiv)
 
-    !if( L_myprint )then
-        !write(myprint_unit,'(A,3(1x,I6),1x,E20.10)') &
-        !      'setrlm:1 myid, i_GA_indiv,i_parameter, child_parameters ', &
-        !                myid, i_GA_indiv,i_parameter, &
-        !                child_parameters(i_parameter, i_GA_indiv)
+    if( L_myprint )then
+        write(myprint_unit,'(A,3(1x,I6),1x,E24.16)') &
+              'setrlm:1 myid, i_GA_indiv,i_parameter, child_parameters ', &
+                        myid, i_GA_indiv,i_parameter, &
+                        child_parameters(i_parameter, i_GA_indiv)
         !write(myprint_unit,'(A,2(1x,I6),1x,E20.10)') &
         !      'setrlm:1 myid, i_parameter,  X_LMDIF', &
         !                myid, i_parameter,  X_LMDIF(i_parameter)
-    !endif ! L_myprint
+    endif ! L_myprint
 
 enddo ! i_parameter
 
@@ -231,7 +231,7 @@ endif ! Lprint_lmdif
 if( info < 0 ) then
 
     individual_quality( i_GA_indiv ) = -1
-    my_indiv_SSE(i_GA_indiv) =  1.0D+12
+    my_indiv_SSE(i_GA_indiv) =  1.0D+13
 
     if( L_myprint )then
         write(myprint_unit,'(/A/ 3(1x, I6),  1x,E12.5)') &
@@ -261,6 +261,10 @@ if (info .eq. 8) info = 4
 do  i_parameter=1,n_parameters
     child_parameters(i_parameter,i_GA_indiv) = &
                            dabs( x_LMDIF(i_parameter) )
+    write(myprint_unit,'(A,3(1x,I6),1x,E24.16)') &
+          'setrlm:4 myid, i_GA_indiv,i_parameter, child_parameters ', &
+                    myid, i_GA_indiv,i_parameter, &
+                    child_parameters(i_parameter, i_GA_indiv)
 enddo ! i_parameter
 
 !if( L_myprint )then
