@@ -702,12 +702,14 @@ else  ! not myid == 0
         !t1 = MPI_Wtime()
 
         call setup_run_para_lmdif( i_2_individual, &
-                                   child_parameters(1:n_parms,i_2_individual), &
+                                   child_parameters(1,i_2_individual), &
                                    individual_quality(i_2_individual), &
                                    n_GP_individuals, &
                                    GP_child_individual_SSE(i_2_individual),  &
                                    n_parms, n_parms_dim, &
                                    L_GP_print, GP_print_unit )
+
+                                   !child_parameters(1:n_parms,i_2_individual), &
 
         !t2 = MPI_Wtime()
 
