@@ -38,7 +38,8 @@ real(kind=8) :: ftol,xtol,gtol
 
 
 real(kind=8), parameter :: tol = 1.0d-30
-real(kind=8), parameter :: epsfcn = 1.0d-9   ! 1.0d-6    ! original
+!real(kind=8), parameter :: epsfcn = 1.0d-6    ! original
+real(kind=8), parameter :: epsfcn = 1.0d-9 
 real(kind=8), parameter :: factor=1.0D+0
 real(kind=8), parameter :: zero = 0.0d0
 
