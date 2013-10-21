@@ -86,11 +86,12 @@ Lprint = .TRUE.
 !             i_GP_indiv, i_GP_generation
 
 if( Lprint )then
-    write(GP_print_unit, '(/A/6(1x,I10))') &
+    write(GP_print_unit, '(/A/7(1x,I10))') &
       'sgpi: i_GP_gen i_GP_indiv   n_code_eq  &
-             &n_trees    n_nodes  n_levels', &
+             &n_trees    n_nodes  n_levels    n_parms', &
              i_GP_generation, i_GP_indiv, &
-             n_code_equations, n_trees, n_nodes, n_levels
+             n_code_equations, n_trees, n_nodes, n_levels, &
+             GP_Individual_N_GP_param(i_GP_indiv)
 endif ! Lprint 
 
 write(GP_summary_output_unit, '(2x,6(1x,I6))') &

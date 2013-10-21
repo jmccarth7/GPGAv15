@@ -212,19 +212,17 @@ if( myid == 0 )then
 endif ! myid == 0
 
 
-if( myid == 0  )then
-    if( L_GP_print )then
-
-        write(GP_print_unit,'(//A/)') 'gplp:  GP_n_parms '
-        write(GP_print_unit,'(A)') &
-              'i_GP_individual                  GP_n_parms '
-
-        do  i_GP_individual = 1, n_GP_individuals
-            write(GP_print_unit,'(I10,10x,I10)') &
-                 i_GP_individual,  GP_n_parms(i_GP_individual) 
-        enddo !  i_GP_individual
-    endif ! L_GP_print
-endif ! myid == 0
+!if( myid == 0  )then
+!    if( L_GP_print )then
+!        write(GP_print_unit,'(//A/)') 'gplp:  GP_n_parms '
+!        write(GP_print_unit,'(A)') &
+!              'i_GP_individual        GP_n_parms '
+!        do  i_GP_individual = 1, n_GP_individuals
+!            write(GP_print_unit,'(I10,10x,I10)') &
+!                 i_GP_individual,  GP_n_parms(i_GP_individual) 
+!        enddo !  i_GP_individual
+!    endif ! L_GP_print
+!endif ! myid == 0
 
 
 !if( n_parms <=  0) then
@@ -408,8 +406,8 @@ if( myid == 0 )then
          'gplp: begin parallel lmdif segment i_GP_generation', &
                                              i_GP_generation
         write(GP_print_unit,'(A,1x,I6/)') &
-         'gplp:                             n_GP_individuals', &
-                                            n_GP_individuals
+         'gplp: n_GP_individuals', &
+                n_GP_individuals
     endif ! L_GP_print
 endif !  myid == 0
 
