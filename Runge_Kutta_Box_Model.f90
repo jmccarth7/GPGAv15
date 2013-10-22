@@ -184,6 +184,7 @@ do  i_time_step=1,n_time_steps
 
                            CASE(5)  ! '1.0D+0 - dexp(-dabs(LHS*RHS))'
 
+
                              cff=dabs(left_node_value*right_node_value)
 
                              Tree_Evaluation(i_function,i_tree) = 1.0D+0 - dexp(-1.0D+0*cff)

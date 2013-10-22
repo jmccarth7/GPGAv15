@@ -18,8 +18,8 @@ integer(kind=4),intent(in)  :: nn  ! n_parms
 
 real(kind=8) :: fvec(n_time_steps)
 
-!real(kind=8) :: x(n_maximum_number_parameters)
-real(kind=8) :: x( nn )
+real(kind=8) :: x(n_maximum_number_parameters)
+!real(kind=8) :: x( nn )
 
 real(kind=8) :: sse_local 
 
@@ -152,8 +152,8 @@ enddo  ! i_tree
 !          if( GP_para_flag .and. myid == 1) then
 !              if( Runge_Kutta_Node_Type( i_node, i_tree ) == 0   )then
 !                  write(GP_print_unit,'(A,3(1x,I6),1x,E15.7)') &
-!                   'fcn: myid, i_node, i_tree, Runge_Kutta_Node_Parameters(i_node,i_tree) ', &
-!                         myid, i_node, i_tree, Runge_Kutta_Node_Parameters(i_node,i_tree)
+!                   'fcn: myid, i_tree, i_node, Runge_Kutta_Node_Parameters(i_node,i_tree) ', &
+!                         myid, i_tree, i_node, Runge_Kutta_Node_Parameters(i_node,i_tree)
 !              endif ! Runge_Kutta_Node_Type( i_node, i_tree ) == 0
 !          endif ! myid == 1   NOTE:  1
 !      enddo ! i_node
@@ -163,8 +163,8 @@ enddo  ! i_tree
 !          if( GP_para_flag .and. myid == 1) then
 !              if( Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999  )then
 !                  write(GP_print_unit,'(A,4(1x,I6))') &
-!                   'fcn: myid, i_node, i_tree, Runge_Kutta_Node_Type(i_node,i_tree) ', &
-!                         myid, i_node, i_tree, Runge_Kutta_Node_Type(i_node,i_tree)
+!                   'fcn: myid, i_tree, i_node, Runge_Kutta_Node_Type(i_node,i_tree) ', &
+!                         myid, i_tree, i_node, Runge_Kutta_Node_Type(i_node,i_tree)
 !              endif ! Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999
 !          endif ! myid == 1   NOTE:  1
 !      enddo ! i_node

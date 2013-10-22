@@ -39,7 +39,8 @@ real(kind=8) :: ftol,xtol,gtol
 
 real(kind=8), parameter :: tol = 1.0d-30
 !real(kind=8), parameter :: epsfcn = 1.0d-6    ! original
-real(kind=8), parameter :: epsfcn = 1.0d-9 
+!real(kind=8), parameter :: epsfcn = 1.0d-9 
+real(kind=8), parameter :: epsfcn = 1.0d-15
 real(kind=8), parameter :: factor=1.0D+0
 real(kind=8), parameter :: zero = 0.0d0
 
@@ -108,10 +109,10 @@ info = 0
 
 !off      maxfev=100*(n_time_steps+1)*100
 
-maxfev= 2000 ! 50 ! 10 ! 10000
+maxfev= 4000  ! 2000 ! 50 ! 10 ! 10000
 
-ftol=1.0D-10
-xtol=1.0D-10
+ftol=1.0D-15   ! 10
+xtol=1.0D-15   ! 10
 
 gtol=zero
 
@@ -297,8 +298,11 @@ if( individual_quality( i_GA_indiv ) > 0 ) then
 
     do i_time_step=1,n_time_steps
 
-       if( isnan(fvec(i_time_step)) .or.  &
-           abs(fvec(i_time_step)) >  1.0d20 ) fvec(i_time_step) =  1.0d20
+       if( isnan(fvec(i_time_step)) ) fvec(i_time_step) = 0.0d0
+       if( abs(fvec(i_time_step)) >  1.0d20 ) fvec(i_time_step) =  1.0d20
+
+!new       if( isnan(fvec(i_time_step)) .or.  &
+!new           abs(fvec(i_time_step)) >  1.0d20 ) fvec(i_time_step) =  1.0d20
 
        !write(10, *) 'setrlm: i_time_step, fvec(i_time_step) ', &
        !                      i_time_step, fvec(i_time_step)

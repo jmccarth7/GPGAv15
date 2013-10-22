@@ -373,28 +373,28 @@ call MPI_BCAST( Child_Parameters,  child_number,    &
 call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
 
 
-if( L_GP_print )then
-    if( myid == 3 )then
-        write(GP_print_unit,'(/A,2(1x,I10))') &
-         'gplp: child  broadcast myid, ierr = ', myid, ierr
-        write(GP_print_unit,'(/A,2(1x,I10))') &
-         'gplp: myid, n_GP_individuals = ', myid, n_GP_individuals
-
-        write(GP_print_unit,'(/A)') &
-         'gplp: myid, i_GP_individual  child_parameters(1:n_parms, i_GP_individual)'
-
-        do  i_GP_individual = 1, n_GP_individuals
-
-            nn = GP_n_parms( i_GP_individual )
-
-            write(GP_print_unit,'(I3,1x,I3,1x,12(1x,E12.5))') &
-             myid, i_GP_individual, &
-             ( child_parameters(jj,i_GP_individual), jj=1,nn )
-
-        enddo ! i_GP_individual
-
-    endif ! myid == 3
-endif ! L_GP_print
+!if( L_GP_print )then
+!    if( myid == 3 )then
+!        write(GP_print_unit,'(/A,2(1x,I10))') &
+!         'gplp: child  broadcast myid, ierr = ', myid, ierr
+!        write(GP_print_unit,'(/A,2(1x,I10))') &
+!         'gplp: myid, n_GP_individuals = ', myid, n_GP_individuals
+!
+!        write(GP_print_unit,'(/A)') &
+!         'gplp: myid, i_GP_individual  child_parameters(1:n_parms, i_GP_individual)'
+!
+!        do  i_GP_individual = 1, n_GP_individuals
+!
+!            nn = GP_n_parms( i_GP_individual )
+!
+!            write(GP_print_unit,'(I3,1x,I3,1x,12(1x,E12.5))') &
+!             myid, i_GP_individual, &
+!             ( child_parameters(jj,i_GP_individual), jj=1,nn )
+!
+!        enddo ! i_GP_individual
+!
+!    endif ! myid == 3
+!endif ! L_GP_print
 
 
 !------------------------------------------------------------------------

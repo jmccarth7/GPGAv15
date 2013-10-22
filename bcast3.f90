@@ -44,8 +44,8 @@ call MPI_BCAST( GP_Adult_Individual_SSE, n_GP_individuals,    &
 
 !if( myid == 0 )then
 !    write(GP_print_unit,'(/A/(5(1x,E15.7)))') &
-!          '0: broadcast GP_Population_Ranked_Fitness ',&
-!                        GP_Population_Ranked_Fitness
+!          '0: broadcast GP_population_node_parameters ',&
+!                        GP_population_node_parameters
 !endif ! myid == 0
 call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary? 
 
@@ -56,8 +56,8 @@ call MPI_BCAST( GP_population_node_parameters,  buffer_length,    &
 
 !if( myid == 0 )then
 !    write(GP_print_unit,'(/A/(5(1x,E15.7)))') &
-!          '0: AFT broadcast GP_Population_Ranked_Fitness ',&
-!                            GP_Population_Ranked_Fitness
+!          '0: AFT broadcast GP_population_node_parameters ',&
+!                            GP_population_node_parameters
 !endif ! myid == 0
 
 !------------------------------------------------------------------------------

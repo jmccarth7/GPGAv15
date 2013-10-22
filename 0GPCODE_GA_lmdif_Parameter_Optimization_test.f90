@@ -459,10 +459,7 @@ do  i_GP_Generation=1,n_GP_Generations
             write(GP_print_unit,'(/A,1x,I6/)') &
               '0: call GP_Tree_Build   Generation = ',i_GP_Generation
 
-            ! initializes the GP_Child_Population_Node_Type array with random trees
-
-            ! sets GP_Adult_Population_Node_Type to GP_Child_Population_Node_Type
-
+            ! initialize the GP_Adult_Population_Node_Type array with random trees
 
             !t1 = MPI_Wtime()
 
@@ -879,7 +876,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
             ! these get set randomly in the GA-lmdif search algorithm ( in GPCODE* )
 
-            GP_Individual_Node_Parameters(1:n_Nodes,1:n_Trees) = 0.0d0
+            ! debug only GP_Individual_Node_Parameters(1:n_Nodes,1:n_Trees) = 0.0d0
 
 
             !------------------------------------------------------------------------------
@@ -958,15 +955,15 @@ do  i_GP_Generation=1,n_GP_Generations
                         n_GP_vars = n_GP_vars + 1
                     endif ! GP_Individual_Node_Type(i_Node,i_Tree) > 0 ....
 
-                    !if( myid == 0 )then
-                    !    if( GP_Individual_Node_Type(i_Node,i_Tree) > -9999 )then
-                    !        write(GP_print_unit,'(A,5(1x,I6))')&
-                    !        '0: i_GP_indiv, i_tree, i_node, &
-                    !          &GP_Indiv_Node_Type, n_GP_vars ', &
-                    !           i_GP_individual, i_tree, i_node, &
-                    !           GP_Individual_Node_Type(i_Node,i_Tree), n_GP_vars
-                    !    endif ! GP_Individual_Node_Type(i_Node,i_Tree) > -9999
-                    !endif !  myid == 0
+                    if( myid == 0 )then
+                        if( GP_Individual_Node_Type(i_Node,i_Tree) > -9999 )then
+                            write(GP_print_unit,'(A,5(1x,I6))')&
+                            '0: i_GP_indiv, i_tree, i_node, &
+                              &GP_Indiv_Node_Type, n_GP_vars ', &
+                               i_GP_individual, i_tree, i_node, &
+                               GP_Individual_Node_Type(i_Node,i_Tree), n_GP_vars
+                        endif ! GP_Individual_Node_Type(i_Node,i_Tree) > -9999
+                    endif !  myid == 0
 
                 enddo ! i_node
 

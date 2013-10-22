@@ -44,8 +44,8 @@ real(kind=8),&
  dimension(n_maximum_number_parameters,n_GA_individuals) ::  child_parameters
 
 
-!real(kind=8) :: buffer(n_maximum_number_parameters + 2)
-!real(kind=8) :: buffer_recv(n_maximum_number_parameters + 2)
+real(kind=8) :: buffer(n_maximum_number_parameters + 2)
+real(kind=8) :: buffer_recv(n_maximum_number_parameters + 2)
 
 
 integer(kind=4) ::      i
@@ -609,7 +609,7 @@ do  i_GA_generation=1,n_GA_Generations
             !endif ! L_ga_print
 
 
-            buffer_recv = 1.0d13
+            buffer_recv = 0.0d0
             call MPI_RECV( buffer_recv, n_maximum_number_parameters+2, &
                            MPI_DOUBLE_PRECISION, &
                            MPI_ANY_SOURCE, MPI_ANY_TAG,  &
@@ -812,7 +812,7 @@ do  i_GA_generation=1,n_GA_Generations
             !                 myid, i_dummy, MPI_STAT(MPI_TAG), i_2_individual
             !endif ! L_ga_print
 
-            buffer = 1.0D13
+            buffer = 0.0D0
             !if( L_ga_print )then
             !    write(GA_print_unit,'(A,2(1x,I6),4x,L1)') &
             !    'GP_GA_opt:3 myid, i_2_individual, Run_GA_lmdif(i_2_individual)', &
