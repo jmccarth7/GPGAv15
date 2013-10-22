@@ -26,6 +26,12 @@ real(kind=8) :: ssum, ssum2, totobs, dff
 integer(kind=4) :: i_CODE_equation
 integer(kind=4) :: i_time_step
 
+integer(kind=4) :: nn                
+
+real(kind=8) :: sum1, sum2, sum3, mean, variance
+real(kind=8) :: variance2
+real(kind=8) :: M2, delta
+
 !----------------------------------------------------------------------------------------
 
 
@@ -45,6 +51,8 @@ endif
 
 do i_CODE_equation=1,n_CODE_equations
 
+    !-------------------------------------------------------------------------------
+    ! original
     ssum  = 0.0D+0
     ssum2 = 0.0D+0
   
@@ -57,6 +65,47 @@ do i_CODE_equation=1,n_CODE_equations
   
     dff=( (totobs*ssum2)-(ssum**2) ) / ( totobs*(totobs-1.0D+0) )
   
+    write(GP_print_unit,'(/A,2x,E24.16)') 'cdv: original dff ', dff
+
+    !-------------------------------------------------------------------------------
+    nn = n_time_steps + 1
+    sum1 = 0.0D0
+    do  i_time_step=0,n_time_steps
+        sum1 = sum1 + Data_Array(i_time_step,i_CODE_equation)
+    enddo 
+
+    mean = sum1/real(nn, kind = 8 )
+ 
+    sum2 = 0.0D0
+    sum3 = 0.0D0
+    do  i_time_step=0,n_time_steps
+        sum2 = sum2 + (Data_Array(i_time_step,i_CODE_equation) - mean)**2
+        sum3 = sum3 + (Data_Array(i_time_step,i_CODE_equation) - mean)
+    enddo 
+
+    variance = ( sum2 - sum3**2/real(nn, kind=8) ) / real(nn-1, kind=8)
+
+    write(GP_print_unit,'(/A,2x,E24.16)') 'cdv: 1 variance     ', variance
+
+    !-------------------------------------------------------------------------------
+    nn = 0
+    mean = 0.0d0
+    M2 = 0.0d0
+ 
+    
+    do  i_time_step=0,n_time_steps
+        nn = nn + 1
+        delta = Data_Array(i_time_step,i_CODE_equation) - mean
+        mean = mean + delta / real(nn, kind=8)
+        M2 = M2 + delta*(Data_Array(i_time_step,i_CODE_equation) - mean)
+    enddo
+ 
+    variance2 = M2/real(nn - 1, kind=8)
+
+    write(GP_print_unit,'(/A,2x,E24.16)') 'cdv: 2 variance2    ', variance2
+
+    !-------------------------------------------------------------------------------
+
     if( dff .gt. 0.0D+0) then  ! set variance to observed variance for normalize by the s.d.
         Data_Variance(i_CODE_equation)=dff
     else ! set variance to 1.0 for normalization to be 'unaltered'
@@ -71,18 +120,18 @@ do i_CODE_equation=1,n_CODE_equations
   
     if( abs( Data_Variance(i_CODE_equation) ) < 1.0D-30 )then
         write(GP_print_unit,'(/A,1x,I6,2x,E15.7)') &
-         '0: i_CODE_equation, Data_Variance(i_CODE_equation) ', &
-             i_CODE_equation, Data_Variance(i_CODE_equation)
-        write(GP_print_unit,'(A/)') '0: bad data variance -- stopping program '
+         'cdv: i_CODE_equation, Data_Variance(i_CODE_equation) ', &
+               i_CODE_equation, Data_Variance(i_CODE_equation)
+        write(GP_print_unit,'(A/)') 'cdv: bad data variance -- stopping program '
         stop 'bad data var'
   
     endif ! abs( Data_Variance(i_CODE_equation) ) < 1.0D-30
   
     if( abs( Data_Variance_inv(i_CODE_equation) ) <= 0.0D0  )then
         write(GP_print_unit,'(/A,1x,I6,2x,E15.7)') &
-         '0: i_CODE_equation, Data_Variance_inv(i_CODE_equation) ', &
-             i_CODE_equation, Data_Variance_inv(i_CODE_equation)
-        write(GP_print_unit,'(A/)') '0: bad data variance inv -- stopping program '
+         'cdv: i_CODE_equation, Data_Variance_inv(i_CODE_equation) ', &
+               i_CODE_equation, Data_Variance_inv(i_CODE_equation)
+        write(GP_print_unit,'(A/)') 'cdv: bad data variance inv -- stopping program '
         stop 'bad data var_inv'
   
     endif ! abs( Data_Variance_inv(i_CODE_equation) ) <=0.0D0
@@ -90,8 +139,8 @@ do i_CODE_equation=1,n_CODE_equations
   
     if( myid == 0 )then
         write(GP_print_unit,'(A,1x,I6,2(2x,E15.7))') &
-             '0: i_CODE_equation, Data_Variance, Data_Variance_inv ', &
-                 i_CODE_equation, Data_Variance(i_CODE_equation), &
+             'cdv: i_CODE_equation, Data_Variance, Data_Variance_inv ', &
+                   i_CODE_equation, Data_Variance(i_CODE_equation), &
                                   Data_Variance_inv(i_CODE_equation)
     endif ! myid == 0
   
