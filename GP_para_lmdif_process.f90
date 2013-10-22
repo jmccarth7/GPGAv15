@@ -55,9 +55,9 @@ integer(kind=4) :: n_parms_dim
 integer(kind=4) :: nn
 integer(kind=4) :: i_CODE_equation
 
-real(kind=8), parameter :: tol = 1.0d-30
+!real(kind=8), parameter :: tol = 1.0d-30
 
-real(kind=8),parameter :: zero = 0.0d0
+!real(kind=8),parameter :: zero = 0.0d0
 
 
 ! individual_quality contains information on the result of lmdif
@@ -166,7 +166,7 @@ if( myid == 0 )then
 
 
     write(GP_print_unit,'(/A)' ) &
-        'gplp: myid, i_GP_individual, n_parms,  child_parameters, GP_pop_init_cond/GP_pop_node_params'
+     'gplp: myid, i_GP_individual, n_parms, child_parameters, GP_pop_init_cond/GP_pop_node_params'
 
     do  i_GP_individual = 1, n_GP_individuals
 
@@ -888,15 +888,16 @@ if( myid == 0 )then
 
     enddo ! i_GP_individual
 
-endif ! myid == 0
 
-!-----------------------------------------------------------------------------
+    !-----------------------------------------------------------------------------
+    ! moved to myid=0 section 20131022 jjm
 
-GP_Adult_Population_Parameter_Solution(1:n_maximum_number_parameters,1:n_GP_individuals) = &
+    GP_Adult_Population_Parameter_Solution(1:n_maximum_number_parameters,1:n_GP_individuals) = &
                       child_parameters(1:n_maximum_number_parameters,1:n_GP_individuals)
 
-!-----------------------------------------------------------------------------
+    !-----------------------------------------------------------------------------
 
+endif ! myid == 0
 
 !if( i_GP_generation > 1 )then
 !    if( L_GP_print )then

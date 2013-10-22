@@ -37,10 +37,10 @@ real(kind=8) :: fvec(n_time_steps)
 real(kind=8) :: ftol,xtol,gtol
 
 
-real(kind=8), parameter :: tol = 1.0d-30
-!real(kind=8), parameter :: epsfcn = 1.0d-6    ! original
+!real(kind=8), parameter :: tol = 1.0d-30
+real(kind=8), parameter :: epsfcn = 1.0d-6    ! original
 !real(kind=8), parameter :: epsfcn = 1.0d-9 
-real(kind=8), parameter :: epsfcn = 1.0d-15
+!real(kind=8), parameter :: epsfcn = 1.0d-15
 real(kind=8), parameter :: factor=1.0D+0
 real(kind=8), parameter :: zero = 0.0d0
 
@@ -111,13 +111,13 @@ info = 0
 
 maxfev= 4000  ! 2000 ! 50 ! 10 ! 10000
 
-ftol=1.0D-15   ! 10
-xtol=1.0D-15   ! 10
+ftol=1.0D-10  ! 15   ! 10
+xtol=1.0D-10  ! 15   ! 10
 
 gtol=zero
 
 mode=1
-info=0 ! 1
+info=1  ! 0 ! 1
 
 ! nprint < 0  means no printout
 nprint= 1  ! set back to zero after diag
@@ -141,8 +141,10 @@ if( Lprint_lmdif )then
                                                        mode, nprint, ldfjac
         write(myprint_unit,'(A,3(1x,E15.7))') 'setrlm: ftol, xtol, gtol    ', &
                                                        ftol, xtol, gtol
-        write(myprint_unit,'(A,3(1x,E15.7))') 'setrlm: tol,epsfcn, factor  ', &
-                                                       tol, epsfcn,factor
+        !write(myprint_unit,'(A,3(1x,E15.7))') 'setrlm: tol,epsfcn, factor  ', &
+        !                                               tol, epsfcn,factor
+        write(myprint_unit,'(A,3(1x,E15.7))') 'setrlm: epsfcn, factor  ', &
+                                                       epsfcn, factor
         write(myprint_unit,'(A,1x,I10)')   'setrlm: maxfev', maxfev
         write(myprint_unit,'(A,1x,I10)')   'setrlm: info  ', info
     endif ! L_myprint

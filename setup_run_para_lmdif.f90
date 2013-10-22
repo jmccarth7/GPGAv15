@@ -38,29 +38,29 @@ integer, intent(in)  ::  myprint_unit
 
 ! lmdif arrays and variables
 
-!real(kind=8) :: x_LMDIF(n_maximum_number_parameters)
-real(kind=8) :: x_LMDIF(n_parms_dim)
+real(kind=8) :: x_LMDIF(n_maximum_number_parameters)
+!real(kind=8) :: x_LMDIF(n_parms_dim)
 real(kind=8) :: fvec(n_time_steps)
 real(kind=8) :: ftol,xtol,gtol
 
 
-real(kind=8), parameter :: tol = 1.0d-30
+!real(kind=8), parameter :: tol = 1.0d-30
 !real(kind=8), parameter :: epsfcn = 1.0d-9   ! 1.0d-6    ! original
-real(kind=8), parameter :: epsfcn = 1.0d-15   ! 1.0d-6    ! original
+real(kind=8), parameter :: epsfcn = 1.0d-6  !-15   ! 1.0d-6    ! original
 real(kind=8), parameter :: factor=1.0D+0
 real(kind=8), parameter :: zero = 0.0d0
 
-!real(kind=8) :: diag(n_maximum_number_parameters)
-!real(kind=8) :: fjac(n_time_steps,n_maximum_number_parameters)
-!real(kind=8) :: qtf(n_maximum_number_parameters)
-real(kind=8) :: diag(n_parms_dim)
-real(kind=8) :: fjac(n_time_steps,n_parms_dim)
-real(kind=8) :: qtf(n_parms_dim)
+real(kind=8) :: diag(n_maximum_number_parameters)
+real(kind=8) :: fjac(n_time_steps,n_maximum_number_parameters)
+real(kind=8) :: qtf(n_maximum_number_parameters)
+!real(kind=8) :: diag(n_parms_dim)
+!real(kind=8) :: fjac(n_time_steps,n_parms_dim)
+!real(kind=8) :: qtf(n_parms_dim)
 
 integer(kind=4) :: maxfev,ldfjac,mode,nprint,info,nfev
 
-!integer(kind=4) :: ipvt(n_maximum_number_parameters)
-integer(kind=4) :: ipvt(n_parms_dim)
+integer(kind=4) :: ipvt(n_maximum_number_parameters)
+!integer(kind=4) :: ipvt(n_parms_dim)
 
 
 ! individual_quality contains information on the result of lmdif
@@ -181,13 +181,13 @@ info = 0
 
 maxfev= 4000 ! 2000 ! 50 ! 10 ! 10000
 
-ftol=1.0D-15   ! 10
-xtol=1.0D-15   ! 10
+ftol=1.0D-15  ! 15   ! 10
+xtol=1.0D-15  ! 15   ! 10
 
 gtol=zero
 
 mode=1
-info=0 ! 1
+info=1  ! 0 ! 1
 
 ! nprint < 0  means no printout
 nprint= 1  ! set back to zero after diag
@@ -230,15 +230,30 @@ L_bad_result = .false.
 
 iunit = 0
 !if( i_G_indiv == 3 )then
-!    write(myprint_unit,'(/A,1x,I3/)') 'strplm: RUN LMDIF myid =', myid
+    write(myprint_unit,'(/A,1x,I3/)') 'strplm: RUN LMDIF myid =', myid
 !    iunit = 1
 !endif ! myid == 3
+
+write(myprint_unit,'(A,2(1x,I10))') 'strplm:input  n_time_steps, n_parms ', &
+                                                   n_time_steps, n_parms
+
+write(myprint_unit,'(A,4(1x,E15.7))') 'strplm:input  ftol, xtol, gtol, epsfcn  ', &
+                                                     ftol, xtol, gtol, epsfcn
+
+write(myprint_unit,'(A,2(1x,I10))') 'strplm:input  maxfev ', maxfev
+
+write(myprint_unit,'(A,2(1x,I10))') 'strplm:input  mode, nprint ', &
+                                                   mode, nprint
+write(myprint_unit,'(A,3(1x,E15.7))') 'strplm:input factor', factor
 
 
 call lmdif( fcn, n_time_steps, n_parms, x_LMDIF, fvec, &
             ftol, xtol, gtol, maxfev, epsfcn, &
             diag, mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf, &
             iunit )
+
+write(myprint_unit,'(A,3(1x,I6))') 'strplm:output info, nfev, ldfjac ', &
+                                                  info, nfev, ldfjac
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 

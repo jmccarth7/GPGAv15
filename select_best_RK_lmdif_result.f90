@@ -47,7 +47,7 @@ integer (kind=4) :: i_GA_Best_Parent_1
 
 integer (kind=4) :: i_GA_generation_last
 
-real(kind=8), parameter :: tol = 1.0d-30
+!real(kind=8), parameter :: tol = 1.0d-30
 
 real(kind=8),parameter :: zero = 0.0d0
 

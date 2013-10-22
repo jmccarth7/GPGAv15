@@ -1311,6 +1311,17 @@ do  i_GP_Generation=1,n_GP_Generations
 
     !-------------------------------------------------------------------------------------
 
+
+    if( myid == 0 )then
+        write(GP_print_unit,'(/A)')&
+          '0:-----------------------------------------------------------------'
+        write(GP_print_unit,'(A,1x,I6)') &
+          '0: call GP_para_lmdif_process i_GP_generation =', &
+                                         i_GP_Generation
+        write(GP_print_unit,'(A/)')&
+          '0:-----------------------------------------------------------------'
+    endif ! myid == 0
+
     !  call routine to run lmdif in parallel on all the GP individuals
 
     !  GP_para_lmdif_process returns arrays to be used in GP_calc_fitness:
@@ -1328,17 +1339,6 @@ do  i_GP_Generation=1,n_GP_Generations
     !  individual_quality
     !  GP_n_parms
     !  GP_Adult_population_parameter_solution 
-
-    if( myid == 0 )then
-        write(GP_print_unit,'(/A)')&
-          '0:-----------------------------------------------------------------'
-        write(GP_print_unit,'(A,1x,I6)') &
-          '0: call GP_para_lmdif_process i_GP_generation =', &
-                                         i_GP_Generation
-        write(GP_print_unit,'(A/)')&
-          '0:-----------------------------------------------------------------'
-    endif ! myid == 0
-
 
     GP_para_flag = .TRUE. 
 

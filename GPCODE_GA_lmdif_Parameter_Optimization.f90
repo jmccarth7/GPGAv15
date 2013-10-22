@@ -53,7 +53,7 @@ integer(kind=4) :: i_GA_Best_Parent
 
 integer(kind=4) :: i_GA_generation_last
 
-real(kind=8), parameter :: tol = 1.0d-30
+!real(kind=8), parameter :: tol = 1.0d-30
 
 real(kind=8),parameter :: zero = 0.0d0
 
@@ -114,14 +114,14 @@ if( myid == 0) then
     if( L_ga_print )then
         !write(GA_print_unit,'(A)')' '
         !write(GA_print_unit,'(A)') &
-        !              'GP_GA_opt: i_node, i_tree, GP_Indiv_Node_Param'
+        !              'GP_GA_opt: i_tree, i_node, GP_Indiv_Node_Param'
         !do  i_tree=1,n_trees
         !    do  i_node=1,n_nodes
         !        !if( abs( GP_Individual_Node_Parameters(i_node,i_tree) ) > 1.0e-20 )then
         !            !write(GA_print_unit,'(A,2(1x,I6),1x,E15.7)') &
-        !            !  'GP_GA_opt: i_node, i_tree, GP_Indiv_Node_Param', &
+        !            !  'GP_GA_opt: i_tree, i_node, GP_Indiv_Node_Param', &
         !            write(GA_print_unit,'(8x,2(1x,I6),1x,E15.7)') &
-        !                          i_node, i_tree, GP_Individual_Node_Parameters(i_node,i_tree)
+        !                          i_tree, i_node, GP_Individual_Node_Parameters(i_node,i_tree)
         !        !endif ! abs( GP_Indiv_Node_Param(i_node,i_tree) ) > 1.0e-20
         !    enddo ! i_node
         !enddo  ! i_tree
@@ -165,10 +165,10 @@ if( n_time_steps .lt. n_parameters) then
     stop 'n_time < n_par'
 endif
 
-if( tol .lt. zero) then
-    write(GA_print_unit,'(A)') 'GP_GA_opt: ERROR: tol < 0'
-    stop 'tol < 0.0'
-endif
+!if( tol .lt. zero) then
+!    write(GA_print_unit,'(A)') 'GP_GA_opt: ERROR: tol < 0'
+!    stop 'tol < 0.0'
+!endif
 
 
 
