@@ -151,15 +151,24 @@ do  i_parameter=1,n_parms
 
     X_LMDIF(i_parameter) = child_parameters(i_parameter)
 
+    ! debug only--------------------------------------------------------------------
+    !if( i_parameter == 1 ) X_LMDIF(i_parameter) = &                      !debug only
+    !                           X_LMDIF(i_parameter) * ( 1.0d0 + 1.0d-6 ) !debug only
+    ! debug only--------------------------------------------------------------------
+
     !if( L_myprint  .and. i_G_indiv == 1)then
     if( L_myprint )then
         write(myprint_unit,'(A,3(1x,I6),1x,E24.16)') &
           'strplm:1 myid, i_G_indiv,i_parameter, child_parameters', &
                     myid, i_G_indiv,i_parameter, &
                     child_parameters(i_parameter)
-    !    !write(myprint_unit,'(A,2(1x,I6),1x,E20.10)') &
-    !    !  'strplm:1 myid, i_parameter,  X_LMDIF', &
-    !    !            myid, i_parameter,  X_LMDIF(i_parameter)
+        !write(myprint_unit,'(A,3(1x,I6),2(1x,E24.16))') &
+        !  'strplm:1 myid, i_G_indiv,i_parameter, child_parameters, X_LMDIF', &
+        !            myid, i_G_indiv,i_parameter, &
+        !            child_parameters(i_parameter),  X_LMDIF(i_parameter)
+        !write(myprint_unit,'(A,2(1x,I6),1x,E20.10)') &
+        !  'strplm:1 myid, i_parameter,  X_LMDIF', &
+        !            myid, i_parameter,  X_LMDIF(i_parameter)
     endif ! L_myprint
 
 enddo ! i_parameter

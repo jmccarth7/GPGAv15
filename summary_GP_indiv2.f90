@@ -107,7 +107,8 @@ do  i_code_eq = 1, n_CODE_Equations
               GP_individual_Initial_Conditions( i_code_eq )
     endif ! Lprint 
 
-    write(GP_summary_output_unit, '(2x,2(1x,I6),1x,I3, 1x, E20.10,2x,A)')&
+    !write(GP_summary_output_unit, '(2x,2(1x,I6),1x,I3, 1x, E20.10,2x,A)')&
+    write(GP_summary_output_unit, '(2x,2(1x,I6),1x,I3, 1x, E24.16,2x,A)')&
           i_GP_generation, i_GP_indiv, i_code_eq, &
           GP_individual_Initial_Conditions( i_code_eq ), &
           'gen_indiv_eq'
@@ -207,7 +208,8 @@ do  i_tree=1,n_trees
     do  i_node=1,n_nodes
 
         if( GP_Individual_Node_Type(i_Node,i_Tree) == 0               ) then
-            write(GP_summary_output_unit,'(2x,2(1x,I6),2(1x,I3), 1x, E20.10)') &
+            !write(GP_summary_output_unit,'(2x,2(1x,I6),2(1x,I3), 1x,E20.10)') &
+            write(GP_summary_output_unit,'(2x,2(1x,I6),2(1x,I3), 1x,E24.16)') &
                   i_GP_generation, i_GP_indiv,i_tree, i_node, &
                   GP_individual_node_parameters( i_node,i_tree )
 
