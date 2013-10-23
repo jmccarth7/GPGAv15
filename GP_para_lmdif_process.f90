@@ -56,7 +56,6 @@ integer(kind=4) :: nn
 integer(kind=4) :: i_CODE_equation
 
 !real(kind=8), parameter :: tol = 1.0d-30
-
 !real(kind=8),parameter :: zero = 0.0d0
 
 
@@ -115,7 +114,7 @@ if( myid == 0) then
         do  i_GP_individual = 1, n_GP_individuals
             do  i_tree=1,n_trees
                 do  i_node=1,n_nodes
-                    if( abs( GP_population_Node_Parameters(i_node,i_tree,i_GP_individual) ) > 0.0d0 )then
+                    if( abs(GP_population_Node_Parameters(i_node,i_tree,i_GP_individual)) > 0.0d0 )then
                         !write(GP_print_unit,'(A,2(1x,I6),1x,E15.7)') &
                         !  'gplp: i_tree, i_node, GP_Indiv_Node_Param', &
                         write(GP_print_unit,'(8x,3(1x,I6),3x,E15.7)') &

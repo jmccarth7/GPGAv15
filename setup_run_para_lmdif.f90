@@ -51,7 +51,7 @@ real(kind=8), parameter :: factor=1.0D+0
 real(kind=8), parameter :: zero = 0.0d0
 
 real(kind=8) :: diag(n_maximum_number_parameters)
-real(kind=8) :: fjac(n_time_steps,n_maximum_number_parameters)
+real(kind=8) :: fjac( n_time_steps , n_maximum_number_parameters )
 real(kind=8) :: qtf(n_maximum_number_parameters)
 !real(kind=8) :: diag(n_parms_dim)
 !real(kind=8) :: fjac(n_time_steps,n_parms_dim)

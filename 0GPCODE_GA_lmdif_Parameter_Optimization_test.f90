@@ -477,6 +477,7 @@ do  i_GP_Generation=1,n_GP_Generations
             !debug only                       GP_Node_Type_Answer(:,:) ! debug only
             !debug only enddo
 
+
         endif ! myid == 0
 
 
