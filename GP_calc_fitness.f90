@@ -513,7 +513,11 @@ if( L_unit50_output )then
 
 endif ! L_unit50_output
 
+
+
 !------------------------------------------------------------------------------
+
+
 
 ! don't call GP_ranking_sort on last generation since after the generation loop
 ! GP_select_best...      is called and uses the arrays and the i_GP_best parent
@@ -525,12 +529,41 @@ if( i_GP_generation < n_GP_generations )then
 
     ! re-sort based on rankings
 
+    ! uses:
+    !  GP_Child_Population_SSE
+    !  GP_population_node_parameters
+    !  GP_Adult_Population_Parameter_Solution
+    !  GP_Child_Population_Parameter_Solution
+    !  GP_Child_Population_Node_Type
+
+    ! sets:
+    !  GP_Child_Population_SSE
+    !  GP_Adult_Population_Parameter_Solution
+    !  GP_Child_Population_Parameter_Solution
+    !  GP_Adult_Population_Node_Type
+    !  GP_Child_Population_Node_Type
+    !  GP_Population_Initial_Conditions
+    !  GP_Adult_Population_SSE
+    !  GP_Adult_Individual_SSE
+    !  GP_Child_Individual_SSE
+    !  GP_population_node_parameters
+    !  GP_Population_Ranked_Fitness
+    !  GP_Integrated_Population_Ranked_Fitness
+
+
+write(GP_print_unit,'(/A,1x,I6/)') &
+   'gpcf: call GP_ranking GP_Gen ', &
+          i_GP_Generation
+
     call GP_ranking_sort()
+
 
 endif ! i_GP_generation < n_GP_generations
 
 
+
 !-------------------------------------------------------------------------------
+
 
 return
 

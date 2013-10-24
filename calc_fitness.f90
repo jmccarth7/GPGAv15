@@ -82,9 +82,10 @@ real(kind=8),dimension(17),parameter :: answerLV = &
 
 L_stop_run = .FALSE.
 
-!if( L_ga_print )then                                                                                
+if( L_ga_print )then                                                                                
 !write(GA_print_unit,'(/A)') 'calcfit:  finished the loop on i_GA_individual  '
-!endif ! L_ga_print  
+write(GA_print_unit,'(/A,1x,I6)') 'calcfit: n_parameters = ', n_parameters                 
+endif ! L_ga_print  
 
 do  i_parameter=1,n_parameters
     do  i_GA_individual=1,n_GA_individuals
@@ -150,11 +151,11 @@ enddo ! i_parameter
 
 edit_level = real(n_time_steps,kind=8) * max_err2
 
-!if( L_ga_print )then                                                                                
-!    write(GA_print_unit,'(/A,1x,I6, 2(1x, E12.4))') &
-!          'calcfit: n_time_steps, max_err, edit_level ', &
-!                    n_time_steps, max_err, edit_level
-!endif ! L_ga_print  
+if( L_ga_print )then                                                                                
+    write(GA_print_unit,'(/A,1x,I6, 2(1x, E12.4))') &
+          'calcfit: n_time_steps, max_err, edit_level ', &
+                    n_time_steps, max_err, edit_level
+endif ! L_ga_print  
 
 !-----------------------------------------------------------------------------------
 

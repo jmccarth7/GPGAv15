@@ -38,7 +38,7 @@ do  i_CODE_equation=1,n_CODE_equations
                                   data_variance_inv(i_CODE_equation)
 enddo !  i_CODE_equation
 
-write(GP_print_unit,*) ' '
+write(GP_print_unit,'(/A/)') 'ssec: using data_variance inv   ' 
 
 
 
@@ -65,9 +65,13 @@ do  i_time_step=1,n_time_steps
         !      'ssec: myid, i_eqn, data_variance ', &
         !            myid, i_CODE_equation, data_variance(i_CODE_equation)
 
-        fvec(i_time_step) = fvec(i_time_step)  +                                  &
-             Data_Array(i_time_step,i_CODE_equation)**2  *     &
+        fvec(i_time_step) = fvec(i_time_step)  +                   &
+             Data_Array(i_time_step,i_CODE_equation)**2  *         &
                                 Data_Variance_inv(i_CODE_equation)
+
+        !fvec(i_time_step) = fvec(i_time_step)  +                 &
+        !     Data_Array(i_time_step,i_CODE_equation)**2  /       &
+        !                        Data_Variance(i_CODE_equation)
     
     enddo ! i_CODE_equation
 
@@ -79,6 +83,7 @@ do  i_time_step=1,n_time_steps
     !             myid, i_time_step, fvec(i_time_step)
 
 enddo ! i_time_step
+
 
 write(GP_print_unit,'(A,1x,I6,2x,E24.16/)') 'ssec: myid, SSE0 = ',myid, SSE0
 

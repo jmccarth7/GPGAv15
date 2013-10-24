@@ -261,8 +261,8 @@ do
 
     ! load this array since GP_Check_Terminals uses it
 
-    GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) =  &
-        GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees, k_GP_Individual_Male(1))
+    !GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) =  &
+    !    GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees, k_GP_Individual_Male(1))
 
     !-----------------------------------------------------------------------------------------
     !do  i_Tree = 1,n_Trees
@@ -270,9 +270,9 @@ do
     !        if( GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Male(1)) /= -9999 )then
     !            if( myid == 0 )then
     !                write(GP_print_unit,'(A,4(1x,I6))' ) &
-    !                   'gptssr: k_GP_Indiv_Male(1),i_node,i_tree, &
+    !                   'gptssr: k_GP_Indiv_Male(1),i_tree,i_node, &
     !                   &GP_Adult_Pop_Node_Type(Male(1)', &
-    !                   k_GP_Individual_Male(1),i_node,i_tree, &
+    !                   k_GP_Individual_Male(1),i_tree,i_node, &
     !                   GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Male(1))
     !            endif ! myid == 0
     !        endif ! GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Male(1)) /= -9999
@@ -280,7 +280,10 @@ do
     !enddo ! i_Tree
     !-----------------------------------------------------------------------------------------
 
-    call GP_Check_Terminals(i_Error)
+    !call GP_Check_Terminals( i_Error)
+    call GP_Check_Terminals( &
+         GP_Adult_Population_Node_Type(1, 1,  k_GP_Individual_Male(1)) , i_Error)
+         !GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees, k_GP_Individual_Male(1)), i_Error)
 
     if( i_Error .eq. 1) then
 
@@ -301,8 +304,8 @@ do
 
     ! load this array since GP_Check_Terminals uses it
 
-    GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) =  &
-        GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees, k_GP_Individual_Female(1))
+    !GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) =  &
+    !    GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees, k_GP_Individual_Female(1))
 
     !-----------------------------------------------------------------------------------------
     !do  i_Tree = 1,n_Trees
@@ -310,9 +313,9 @@ do
     !        if( GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Female(1)) /= -9999 )then
     !            if( myid == 0 )then
     !                write(GP_print_unit,'(A,4(1x,I6))' ) &
-    !                   'gptssr: k_GP_Indiv_Female(1),i_node,i_tree, &
+    !                   'gptssr: k_GP_Indiv_Female(1),i_tree,i_node, &
     !                   &GP_Adult_Pop_Node_Type(Female(1)', &
-    !                   k_GP_Individual_Female(1),i_node,i_tree, &
+    !                   k_GP_Individual_Female(1),i_tree,i_node, &
     !                   GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Female(1))
     !            endif ! myid == 0
     !        endif ! GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Female(1)) /= -9999
@@ -320,7 +323,10 @@ do
     !enddo ! i_Tree
     !-----------------------------------------------------------------------------------------
 
-    call GP_Check_Terminals(i_Error)
+    !call GP_Check_Terminals( i_Error)
+    call GP_Check_Terminals( &
+         GP_Adult_Population_Node_Type(1, 1, k_GP_Individual_Female(1)) , i_Error)
+         !GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees, k_GP_Individual_Female(1)), i_Error)
 
     if( i_Error .eq. 1) then
         if( myid == 0 )then
@@ -387,8 +393,8 @@ do
 
     ! load this array since GP_Check_Terminals uses it
 
-    GP_Individual_Node_Type(1:n_Nodes,1:n_Trees)  =  &
-            GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual)
+    !GP_Individual_Node_Type(1:n_Nodes,1:n_Trees)  =  &
+    !        GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual)
 
     !-----------------------------------------------------------------------------------
 
@@ -397,9 +403,9 @@ do
     !        if( GP_Child_Population_Node_Type(i_Node,i_Tree, i_GP_Individual) /= -9999 )then
     !            if( myid == 0 )then
     !                write(GP_print_unit,'(A,4(1x,I6))' ) &
-    !                   'gptssr: i_GP_Indiv,i_node,i_tree, &
+    !                   'gptssr: i_GP_Indiv,i_tree,i_node, &
     !                   &GP_Child_Pop_Node_Type', &
-    !                   i_GP_Individual,i_node,i_tree, &
+    !                   i_GP_Individual,i_tree,i_node, &
     !                   GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual)
     !            endif ! myid == 0
     !        endif ! GP_Adult_Population_Node_Type(i_Node,i_Tree,k_GP_Individual_Female(1)) /= -9999
@@ -408,7 +414,10 @@ do
 
     !-----------------------------------------------------------------------------------------
 
-    call GP_Check_Terminals(i_Error)
+    !call GP_Check_Terminals( i_Error )
+    call GP_Check_Terminals( &
+         GP_Child_Population_Node_Type(1, 1, i_GP_Individual) , i_Error )
+         !GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual), i_Error)
 
     if( i_Error .eq. 1) then
         if( myid == 0 )then

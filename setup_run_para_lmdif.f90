@@ -29,7 +29,8 @@ integer, intent(in)  ::  n_indiv
 integer, intent(in)  ::  n_parms
 integer, intent(in)  ::  n_parms_dim
 
-!real(kind=8),dimension(n_indiv)  ::  my_indiv_SSE
+integer  ::  iunit
+
 real(kind=8)  ::  my_indiv_SSE
 
 logical, intent(in)  ::  L_myprint
@@ -37,35 +38,35 @@ integer, intent(in)  ::  myprint_unit
 
 ! lmdif arrays and variables
 
-!real(kind=8) :: x_LMDIF(n_maximum_number_parameters)
-real(kind=8) :: x_LMDIF(n_parms_dim)
+real(kind=8) :: x_LMDIF(n_maximum_number_parameters)
+!real(kind=8) :: x_LMDIF(n_parms_dim)
 real(kind=8) :: fvec(n_time_steps)
 real(kind=8) :: ftol,xtol,gtol
 
 
-real(kind=8), parameter :: tol = 1.0d-30
-real(kind=8), parameter :: epsfcn = 1.0d-9   ! 1.0d-6    ! original
+!real(kind=8), parameter :: tol = 1.0d-30
+!real(kind=8), parameter :: epsfcn = 1.0d-9   ! 1.0d-6    ! original
+real(kind=8), parameter :: epsfcn = 1.0d-6  !-15   ! 1.0d-6    ! original
 real(kind=8), parameter :: factor=1.0D+0
 real(kind=8), parameter :: zero = 0.0d0
 
-!real(kind=8) :: diag(n_maximum_number_parameters)
-!real(kind=8) :: fjac(n_time_steps,n_maximum_number_parameters)
-!real(kind=8) :: qtf(n_maximum_number_parameters)
-real(kind=8) :: diag(n_parms_dim)
-real(kind=8) :: fjac(n_time_steps,n_parms_dim)
-real(kind=8) :: qtf(n_parms_dim)
+real(kind=8) :: diag(n_maximum_number_parameters)
+real(kind=8) :: fjac( n_time_steps , n_maximum_number_parameters )
+real(kind=8) :: qtf(n_maximum_number_parameters)
+!real(kind=8) :: diag(n_parms_dim)
+!real(kind=8) :: fjac(n_time_steps,n_parms_dim)
+!real(kind=8) :: qtf(n_parms_dim)
 
 integer(kind=4) :: maxfev,ldfjac,mode,nprint,info,nfev
 
-!integer(kind=4) :: ipvt(n_maximum_number_parameters)
-integer(kind=4) :: ipvt(n_parms_dim)
+integer(kind=4) :: ipvt(n_maximum_number_parameters)
+!integer(kind=4) :: ipvt(n_parms_dim)
 
 
 ! individual_quality contains information on the result of lmdif
 ! if lmdif encounters an error, set individual_quality to -1
 ! if < 0 , reject this individual  ! jjm
 
-!integer(kind=4),dimension(n_indiv) :: individual_quality
 integer(kind=4) :: individual_quality
 
 integer(kind=4) :: i_time_step
@@ -74,8 +75,7 @@ integer(kind=4) :: i_parameter
 integer(kind=4) :: i_tree
 integer(kind=4) :: i_node
 
-!real(kind=8) :: child_parameters( n_maximum_number_parameters, n_indiv )
-real(kind=8) :: child_parameters( n_parms_dim )
+real(kind=8) :: child_parameters( n_maximum_number_parameters )
 
 external :: fcn
 
@@ -86,16 +86,14 @@ real(kind=8) :: t2mt1
 
 !--------------------------------------------------------------------------------------------
 
-if( i_G_indiv == 1 )then
-    write(myprint_unit,'(A,5(1x,I6))') &
-     'strplm:1 at entry myid, myprint_unit, i_G_indiv, n_parms, n_parms_dim', &
-                        myid, myprint_unit, i_G_indiv, n_parms, n_parms_dim
-
-    write(myprint_unit,'(A,3(1x,I6))') &
-     'strplm:1 at entry myid, n_indiv, individual_quality', &
-                        myid, n_indiv, individual_quality
-
-endif ! i_G_indiv == 1
+!if( i_G_indiv == 3 )then
+!    write(myprint_unit,'(A,5(1x,I6))') &
+!     'strplm:1 at entry myid, myprint_unit, i_G_indiv, n_parms, n_parms_dim', &
+!                        myid, myprint_unit, i_G_indiv, n_parms, n_parms_dim
+!    write(myprint_unit,'(A,3(1x,I6))') &
+!     'strplm:1 at entry myid, n_indiv, individual_quality', &
+!                        myid, n_indiv, individual_quality
+!endif ! i_G_indiv == 3
 
 
 
@@ -104,22 +102,25 @@ endif ! i_G_indiv == 1
 if( n_parms <= 0 ) then
 
     individual_quality = -1
-    my_indiv_SSE =  1.0D+12
+    my_indiv_SSE =  1.0D+13
 
-    if( L_myprint  )then
-        write(myprint_unit,'(A, 2(1x, I6))') &
-          'strplm:0 myid, n_parms <=0  myid,  n_parms = ', &
-                                       myid,  n_parms
-    endif ! L_myprint
+    !if( L_myprint  )then
+    !    write(myprint_unit,'(A, 2(1x, I6))') &
+    !      'strplm:0 myid, n_parms <=0  myid,  n_parms = ', &
+    !                                   myid,  n_parms
+    !endif ! L_myprint
 
-    if( L_myprint .and. i_G_indiv == 1 )then
-        write(myprint_unit,'(A, 3(1x, I6),  1x,E12.5)') &
-          'strplm:0 myid, i_G_indiv, indiv_qual, &
-                                  &my_indiv_SSE',&
-                    myid, i_G_indiv, individual_quality, &
-                                           my_indiv_SSE
-    endif ! L_myprint
+    !if( L_myprint .and. i_G_indiv == 1 )then
+    !if( L_myprint .and. i_G_indiv == 3 )then
+    !if( L_myprint  )then
+    !    write(myprint_unit,'(A, 3(1x, I6),  1x,E12.5)') &
+    !      'strplm:0 myid, i_G_indiv, indiv_qual, &
+    !                              &my_indiv_SSE',&
+    !                myid, i_G_indiv, individual_quality, &
+    !                                       my_indiv_SSE
+    !endif ! L_myprint
 
+    return   ! 20131016 jjm
 endif ! n_parms <= 0
 
 
@@ -131,10 +132,7 @@ GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) = &
 
 !-------------------------------------------------------------------------------
 
-!>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-!if( L_myprint .and. i_G_indiv == 1 )then
-!
+!if( L_myprint .and. i_G_indiv == 3 )then
 !    do  i_tree=1,n_trees
 !        do  i_node=1,n_nodes
 !            if( GP_individual_Node_Type(i_Node,i_Tree) > -9999 )then
@@ -144,30 +142,38 @@ GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) = &
 !            endif !   GP_individual_Node_Type(i_Node,i_Tree) > -9999
 !        enddo ! i_node
 !    enddo  ! i_tree
-!
 !    write(GP_print_unit,'(A)')' '
-!
 !endif ! L_myprint
 
-!<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+!-------------------------------------------------------------------------------
 
 do  i_parameter=1,n_parms
 
     X_LMDIF(i_parameter) = child_parameters(i_parameter)
 
+    ! debug only--------------------------------------------------------------------
+    !if( i_parameter == 1 ) X_LMDIF(i_parameter) = &                      !debug only
+    !                           X_LMDIF(i_parameter) * ( 1.0d0 + 1.0d-6 ) !debug only
+    ! debug only--------------------------------------------------------------------
+
     !if( L_myprint  .and. i_G_indiv == 1)then
-    !    write(myprint_unit,'(A,3(1x,I6),1x,E20.10)') &
-    !      'strplm:1 myid, i_G_indiv,i_parameter, child_parameters', &
-    !                myid, i_G_indiv,i_parameter, &
-    !                child_parameters(i_parameter)
-    !    !write(myprint_unit,'(A,2(1x,I6),1x,E20.10)') &
-    !    !  'strplm:1 myid, i_parameter,  X_LMDIF', &
-    !    !            myid, i_parameter,  X_LMDIF(i_parameter)
-    !endif ! L_myprint
+    if( L_myprint )then
+        write(myprint_unit,'(A,3(1x,I6),1x,E24.16)') &
+          'strplm:1 myid, i_G_indiv,i_parameter, child_parameters', &
+                    myid, i_G_indiv,i_parameter, &
+                    child_parameters(i_parameter)
+        !write(myprint_unit,'(A,3(1x,I6),2(1x,E24.16))') &
+        !  'strplm:1 myid, i_G_indiv,i_parameter, child_parameters, X_LMDIF', &
+        !            myid, i_G_indiv,i_parameter, &
+        !            child_parameters(i_parameter),  X_LMDIF(i_parameter)
+        !write(myprint_unit,'(A,2(1x,I6),1x,E20.10)') &
+        !  'strplm:1 myid, i_parameter,  X_LMDIF', &
+        !            myid, i_parameter,  X_LMDIF(i_parameter)
+    endif ! L_myprint
 
 enddo ! i_parameter
 
-!if( L_myprint .and. i_G_indiv == 1 )then
+!if( L_myprint .and. i_G_indiv == 3 )then
 !    write(myprint_unit,'(A, 2(1x, I6), 20( 1x,E12.5))') &
 !          'strplm:1 myid, i_G_indiv, X_LMDIF', &
 !                    myid, i_G_indiv, X_LMDIF(1:n_parms)
@@ -182,15 +188,15 @@ info = 0
 
 !off      maxfev=100*(n_time_steps+1)*100
 
-maxfev= 2000 ! 50 ! 10 ! 10000
+maxfev= 4000 ! 2000 ! 50 ! 10 ! 10000
 
-ftol=1.0D-10
-xtol=1.0D-10
+ftol=1.0D-15  ! 15   ! 10
+xtol=1.0D-15  ! 15   ! 10
 
 gtol=zero
 
 mode=1
-info=0 ! 1
+info=1  ! 0 ! 1
 
 ! nprint < 0  means no printout
 nprint= 1  ! set back to zero after diag
@@ -227,34 +233,52 @@ ldfjac = n_time_steps
 
 L_bad_result = .false.
 
-t1 = MPI_Wtime()
+!t1 = MPI_Wtime()
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-!if( myid == 1 )then
-!    write(myprint_unit,'(/A,1x,I3/)') 'strplm: RUN LMDIF myid =', myid
-!endif ! myid == 1
+iunit = 0
+!if( i_G_indiv == 3 )then
+    write(myprint_unit,'(/A,1x,I3/)') 'strplm: RUN LMDIF myid =', myid
+!    iunit = 1
+!endif ! myid == 3
+
+write(myprint_unit,'(A,2(1x,I10))') 'strplm:input  n_time_steps, n_parms ', &
+                                                   n_time_steps, n_parms
+
+write(myprint_unit,'(A,4(1x,E15.7))') 'strplm:input  ftol, xtol, gtol, epsfcn  ', &
+                                                     ftol, xtol, gtol, epsfcn
+
+write(myprint_unit,'(A,2(1x,I10))') 'strplm:input  maxfev ', maxfev
+
+write(myprint_unit,'(A,2(1x,I10))') 'strplm:input  mode, nprint ', &
+                                                   mode, nprint
+write(myprint_unit,'(A,3(1x,E15.7))') 'strplm:input factor', factor
 
 
 call lmdif( fcn, n_time_steps, n_parms, x_LMDIF, fvec, &
             ftol, xtol, gtol, maxfev, epsfcn, &
-            diag, mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf )
+            diag, mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf, &
+            iunit )
+
+write(myprint_unit,'(A,3(1x,I6))') 'strplm:output info, nfev, ldfjac ', &
+                                                  info, nfev, ldfjac
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-t2 = MPI_Wtime()
+!t2 = MPI_Wtime()
 !delta_wt = MPI_Wtick()
 
 !sum_lmdif = sum_lmdif + ( t2 - t1 )
 
-call MPI_REDUCE( t2mt1, sum_lmdif, 1, MPI_DOUBLE_PRECISION, &
-                 MPI_SUM, 0, MPI_COMM_WORLD, ierr )
+!call MPI_REDUCE( t2mt1, sum_lmdif, 1, MPI_DOUBLE_PRECISION, &
+!                 MPI_SUM, 0, MPI_COMM_WORLD, ierr )
 
 !write(myprint_unit,'(/A,1x,E15.7)') 'strplm: time spent in lmdif = ', t2 - t1
 !write(myprint_unit,'(A,1x,E15.7)')  'strplm: time increment      = ', delta_wt
 !write(myprint_unit,'(A,1x,E15.7/)') 'strplm:          sum_ lmdif = ', sum_lmdif
 
-!if( myid == 1 )then
+!if( i_G_indiv == 3 )then
 !    write(6,'(A,3(1x,I3),1x,I10/)') &
 !          'strplm: aft call lmdif, myid, n_parms, info, n_time_steps', &
 !                                   myid, n_parms, info, n_time_steps
@@ -317,15 +341,17 @@ endif ! Lprint_lmdif
 if( info <= 0 ) then
 
     individual_quality  = -1
-    my_indiv_SSE =  1.0D+12
+    my_indiv_SSE =  1.0D+13
 
-    !if( L_myprint  .and. i_G_indiv == 1 )then
+    !if( L_myprint  .and. i_G_indiv == 3 )then
+    !if( L_myprint )then
     !    write(myprint_unit,'(A, 3(1x, I6),  1x,E12.5)') &
     !      'strplm:3 myid, i_G_indiv, indiv_qual, &
     !                              &my_indiv_SSE',&
     !                myid, i_G_indiv, individual_quality, &
     !                                       my_indiv_SSE
     !endif ! L_myprint
+
     return
 
 endif ! info < 0
@@ -347,9 +373,17 @@ if (info .eq. 8) info = 4
 do  i_parameter=1,n_parms
     child_parameters(i_parameter) = &
                            dabs( x_LMDIF(i_parameter) )
+
+    if( L_myprint  )then
+        write(myprint_unit,'(A,3(1x,I6),1x,E24.16)') &
+          'strplm:4 myid, i_G_indiv,i_parameter, child_parameters', &
+                    myid, i_G_indiv,i_parameter, &
+                    child_parameters(i_parameter)
+    endif ! L_myprint
+
 enddo ! i_parameter
 
-!if( L_myprint .and. i_G_indiv == 1 )then
+!if( L_myprint .and. i_G_indiv == 3 )then
 !    write(myprint_unit,'(A, 2(1x, I6), 20( 1x,E12.5))') &
 !     'strplm:4 myid, i_G_indiv, child_parameters', &
 !               myid, i_G_indiv, child_parameters(1:n_parms)
@@ -378,8 +412,11 @@ if( individual_quality > 0 ) then
 
     do i_time_step=1,n_time_steps
 
-       if( isnan(fvec(i_time_step)) .or.  &
-           abs(fvec(i_time_step)) >  1.0d20 ) fvec(i_time_step) =  1.0d20
+       if( isnan(fvec(i_time_step)) ) fvec(i_time_step) = 0.0d0                 
+       if( abs(fvec(i_time_step)) >  1.0d20 ) fvec(i_time_step) =  1.0d20       
+
+       !newif( isnan(fvec(i_time_step)) .or.  &
+       !new    abs(fvec(i_time_step)) >  1.0d20 ) fvec(i_time_step) =  1.0d20
 
        !write(10, *) 'strplm: i_time_step, fvec(i_time_step) ', &
        !                      i_time_step, fvec(i_time_step)
@@ -390,7 +427,7 @@ if( individual_quality > 0 ) then
 
 endif !  individual_quality > 0
 
-!if( L_myprint .and. i_G_indiv == 1 )then
+!if( L_myprint .and. i_G_indiv == 3 )then
 !    write(myprint_unit,'(A,3(1x,I6), 1x, E15.7)') &
 !      'strplm: myid, i_G_indiv, indiv_qual, my_indiv_SSE', &
 !               myid, i_G_indiv, &
