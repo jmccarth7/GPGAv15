@@ -46,7 +46,8 @@ integer(kind=4) :: i_parameter
 !---------------------------------------------------------------------------
 
 !if( L_ga_print )then
-!    write(GA_print_unit,'(/A,1x,I6)')'gato: n_GA_Crossovers', n_GA_Crossovers
+!    write(GA_print_unit,'(/A,1x,I6)') &
+!          'gato: n_GA_Crossovers', n_GA_Crossovers
 !endif ! L_ga_print
 
 n_replaced = 0

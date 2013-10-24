@@ -20,12 +20,10 @@ integer(kind=4) :: GA_log_flag
 logical         :: L_GA_log
 
 
-!integer(kind=4),parameter :: fort333_unit
 integer(kind=4) :: fort333_output_flag
 logical         :: L_fort333_output
 
 
-!integer(kind=4),parameter :: fort444_unit
 integer(kind=4) :: fort444_output_flag
 logical         :: L_fort444_output
 

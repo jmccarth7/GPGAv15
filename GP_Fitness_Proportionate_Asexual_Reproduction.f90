@@ -52,11 +52,6 @@ do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
 
     i_GP_Individual=i_GP_Individual+1
 
-    !call Random_Number(cff) ! uniform random number generator
-
-    !i_GP_individual = min( nint( cff * n_GP_Individuals ) , n_GP_Individuals )
-    !i_GP_individual = max( 1, i_GP_individual )
-
     !if( myid == 0 )then
     !    write(6,'(A,2(1x,I6))') &
     !          'gpfpar: i_GP_Asexual_Reproduction, i_GP_individual ', &
@@ -117,6 +112,7 @@ do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
     GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual) = &
        GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees,j_GP_Individual)
 
+
     !write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
     !      'gpfpar: i_GP_individual, GP_Child_Population_Parameter_Solution(1,i_GP_Individual)',&
     !               i_GP_individual, GP_Child_Population_Parameter_Solution(1,i_GP_Individual)
@@ -143,9 +139,6 @@ do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
     !          'gpfpar: j_GP_individual replaces i_GP_individual'
     !endif ! myid == 0
 
-
-
-    !!!Run_GP_Calculate_Fitness(i_GP_Individual)=.false.
 
 
 enddo ! i_GP_Asexual_Reproduction

@@ -47,27 +47,19 @@ i_GP_Individual = n_GP_Elitists + n_GP_Asexual_Reproductions + n_GP_Crossovers
 
 !if( myid == 0 )then
 !    write(GP_print_unit,'(/A,1x,I6)' ) &
-!          'gpmut: n_GP_Mutations ', n_GP_Mutations
+!      'gpmut: n_GP_Mutations ', n_GP_Mutations
 !    write(GP_print_unit,'(A,3(1x,I6))' ) &
-!          'gpmut: n_GP_Elitists, n_GP_Asexual_Reproductions, n_GP_Crossovers ', &
-!                  n_GP_Elitists, n_GP_Asexual_Reproductions, n_GP_Crossovers
+!      'gpmut: n_GP_Elitists, n_GP_Asexual_Reproductions, n_GP_Crossovers ', &
+!              n_GP_Elitists, n_GP_Asexual_Reproductions, n_GP_Crossovers
 !    write(GP_print_unit,'(A,1x,I6)' ) &
-!          'gpmut: start i_GP_individual  =  ', &
+!      'gpmut: start i_GP_individual  =  ', &
 !             n_GP_Elitists + n_GP_Asexual_Reproductions + n_GP_Crossovers +1
 !endif ! myid == 0
 
 do  i_GP_Mutation = 1,n_GP_Mutations
 
+
     i_GP_Individual = i_GP_Individual+1
-
-
-    !--------------------------------------------------------------------------
-
-
-    !call Random_Number(cff) ! uniform random number generator
-
-    !i_GP_individual = min( nint( cff * n_GP_Individuals ) , n_GP_Individuals )
-    !i_GP_individual = max( 1, i_GP_individual )
 
     !if( myid == 0 )then
     !    write(6,'(A,2(1x,I6))') &
@@ -77,14 +69,14 @@ do  i_GP_Mutation = 1,n_GP_Mutations
 
     !--------------------------------------------------------------------------
 
-     ! fill in the chosen Child with the Parent's tree information
+    ! fill in the chosen Child with the Parent's tree information
 
-!    do  i_Node = 1,n_Nodes
-!        do  i_Tree = 1,n_Trees
-!            GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual)  =  &
-!            GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Individual)
-!        enddo ! i_tree
-!    enddo ! i_node
+    !do  i_Node = 1,n_Nodes
+    !    do  i_Tree = 1,n_Trees
+    !        GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual)  =  &
+    !        GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Individual)
+    !    enddo ! i_tree
+    !enddo ! i_node
 
     !if( myid == 0 )then
     !    write(6,'(A,2(1x,I6))') &
@@ -102,12 +94,12 @@ do  i_GP_Mutation = 1,n_GP_Mutations
     ! randomly choose from the population pool
     ! randomly pick one of the n_GP_Individuals Adults to mutate
 
-    i_GP_Individual_Mutation = 1+int(cff*float(n_GP_Individuals))  ! -1))
+    i_GP_Individual_Mutation = 1+int(cff*float(n_GP_Individuals)) 
     i_GP_Individual_Mutation = min( i_GP_Individual_Mutation , n_GP_Individuals )
 
-! choose sequentially from the best of the population
-!  [SHOWN TO CONVERGE FASTER THAN RANDOMLY CHOSEN]
-!off i_GP_Individual_Mutation=i_GP_Individual_Mutation+1
+    ! choose sequentially from the best of the population
+    !  [SHOWN TO CONVERGE FASTER THAN RANDOMLY CHOSEN]
+    !off i_GP_Individual_Mutation=i_GP_Individual_Mutation+1
 
     ! Fill in the Child nodes with the chosen Parent's node/tree information
 
@@ -135,10 +127,8 @@ do  i_GP_Mutation = 1,n_GP_Mutations
 
     !----------------------------------------------------------------------------------
 
-    !call GP_Check_Terminals( i_Error)
     call GP_Check_Terminals( &
          GP_Child_Population_Node_Type(1, 1, i_GP_Individual) , i_Error)
-         !GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees, i_GP_Individual), i_Error)
 
     if( i_Error .eq. 1) then
         if( myid == 0 )then
@@ -218,8 +208,6 @@ do  i_GP_Mutation = 1,n_GP_Mutations
 
         call random_number(cff) ! uniform random number generator
 
-        !!node_function = 1+int(float(n_Node_Functions-1)*cff)
-
         if( GP_Child_Population_Node_Type(Node_to_Mutate,i_Tree_Mutation,i_GP_Individual) <= 0 ) then
 
             ! [Ranges from: -n_CODE_Equations to 0]
@@ -247,32 +235,10 @@ do  i_GP_Mutation = 1,n_GP_Mutations
     Run_GP_Calculate_Fitness(i_GP_Individual) = .true.
 
 
-    !GP_Individual_Node_Type(1:n_Nodes,1:n_Trees)  =  &
-    !GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees, i_GP_Individual)
-
-
     !----------------------------------------------------------------------------------
 
-    !write(GP_print_unit,'(/A,2(1x,I6)/)') &
-    !      'gpm:2 n_trees, n_nodes ', n_trees, n_nodes
-    !do  i_Tree=1,n_Trees
-    !    do  i_Node=1,n_Nodes
-    !        if( GP_Individual_Node_Type(i_Node,i_Tree) /= -9999 )then
-    !            write(GP_print_unit,'(A,3(1x,I6))') &
-    !                  'gpm: i_tree, i_node, GP_Individual_Node_Type(i_Node,i_Tree)', &
-    !                        i_tree, i_node, GP_Individual_Node_Type(i_Node,i_Tree)
-    !        endif ! GP_Individual_Node_Type(i_Node,i_Tree) /= -9999
-    !    enddo ! i_node
-    !enddo ! i_tree
-    !write(GP_print_unit,'(/A)') ' '
-
-
-    !----------------------------------------------------------------------------------
-
-    !call GP_Check_Terminals( i_Error)
     call GP_Check_Terminals( &
          GP_Child_Population_Node_Type(1, 1, i_GP_Individual) , i_Error)
-         !GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees, i_GP_Individual), i_Error)
 
     if( i_Error .eq. 1) then
         if( myid == 0 )then

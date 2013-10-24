@@ -25,7 +25,8 @@ integer (kind=4) :: n_replaced
 if( n_GA_rand_replaces < 1 ) return
 
 !if( L_ga_print )then 
-!    write(GA_print_unit,'(//A,1x,I6/)') 'garr: n_GA_rand_replaces ', n_GA_rand_replaces
+!    write(GA_print_unit,'(//A,1x,I6/)') &
+!          'garr: n_GA_rand_replaces ', n_GA_rand_replaces
 !endif ! L_ga_print 
 
 

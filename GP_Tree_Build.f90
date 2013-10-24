@@ -59,12 +59,9 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
 
             i_Node=0
             do  i_Level=1,n_Levels-1                    !original 
-                                                        !debug do  i_Level=1,n_Levels   ! -1    
+                                                   
                 n_Nodes_at_Level= pow2_table( i_level-1 ) + 1 ! int(2**(i_Level-1))
-                !n_Nodes_at_Level=int(2**(i_Level-1))
 
-                !write(6,'(A,2(1x,I6))') 'gtb: int(2**(i_Level-1)) , pow2_table( i_level-1 ) + 1 ', &
-                !                              int(2**(i_Level-1)) , pow2_table( i_level-1 ) + 1 
 
                 !write(GP_print_unit,'(/A,2(1x,I6)/)') &
                 ! 'gtb: i_level, n_Nodes_at_Level ', &
@@ -177,10 +174,7 @@ do  i_GP_Individual=1,n_GP_Individuals
         do  i_Level=1,n_Levels
 
             n_Nodes_at_Level = pow2_table( i_level - 1 ) + 1  ! int(2**(i_Level-1))
-            !n_Nodes_at_Level = int(2**(i_Level-1))
 
-            !write(6,'(A,2(1x,I6))') 'gtb: int(2**(i_Level-1)) , pow2_table( i_level-1 ) + 1 ', &
-            !                              int(2**(i_Level-1)) , pow2_table( i_level-1 ) + 1 
 
             do  i_Level_Node = 1,n_Nodes_at_Level
 
@@ -254,34 +248,11 @@ do  i_GP_Individual=1,n_GP_Individuals
     !enddo ! i_tree
     !write(GP_print_unit,'(/A)') ' '
 
-    !---------------------------------------------------------------------------------
-    ! load this array since GP_check uses it
-    !GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) = &
-    !GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual)
-
-    !---------------------------------------------------------------------------------
-    !  same printout as above for GP_Child_Population_Node_Type
-
-    !write(GP_print_unit,'(/A,2(1x,I6)/)') &
-    !      'gtb: n_trees, n_nodes ', n_trees, n_nodes
-    !write(GP_print_unit,'(A)') &
-    !      'gtb: i_tree, i_node, GP_Individual_Node_Type(i_Node,i_Tree)'
-    !do  i_Tree=1,n_Trees
-    !    do  i_Node=1,n_Nodes
-    !        if( GP_Individual_Node_Type(i_Node,i_Tree) /= -9999 )then
-    !            write(GP_print_unit,'(3(1x,I8))') &
-    !                        i_tree, i_node, GP_Individual_Node_Type(i_Node,i_Tree)
-    !        endif ! GP_Individual_Node_Type(i_Node,i_Tree) /= -9999
-    !    enddo ! i_node
-    !enddo ! i_tree
-    !write(GP_print_unit,'(/A)') ' '
 
     !---------------------------------------------------------------------------------
 
-    !call GP_Check_Terminals( i_Error )
     call GP_Check_Terminals(&
          GP_Child_Population_Node_Type( 1, 1, i_GP_Individual) , i_Error )
-         !GP_Child_Population_Node_Type( 1:n_Nodes,1:n_Trees,i_GP_Individual), i_Error )
 
 
     if( i_Error .eq. 1 ) then

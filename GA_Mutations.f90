@@ -96,7 +96,6 @@ do i_GA_Mutation=1,n_GA_Mutations
   !      'gam: after ', &
   !      i_GA_Individual_mutation,  &
   !      child_parameters(1:n_parameters, i_GA_Individual_mutation )
-
   !    write(GA_print_unit,'(A,1x,I6,1x,E15.7,1x,I6/)') &
   !      'gam: i_GA_Individual_Mutation, child_parameters(i_Parm_Mut, i_GA_Ind_Mut) ', &
   !            i_GA_Individual_Mutation, &

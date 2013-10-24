@@ -191,11 +191,9 @@ do i_GA_Individual=1,n_GA_Individuals
   !    write(GA_print_unit,'(A,2(1x,I6))') &
   !          'gafp: i_GA_Individual replaced by j_GA_individual', &
   !                            i_GA_Individual, j_GA_Individual
-
   !    write(GA_print_unit,'(A,1x,I6, 1x, E15.7/)') &
   !      'gafp:aft loop i_GA_Individual, Individual_Ranked_Fitness', &
   !                     i_GA_Individual, Individual_Ranked_Fitness(i_GA_Individual)
-
   !    write(GA_print_unit,'(I6,12(1x,E15.7))') &
   !      i_GA_Individual,  Child_Parameters(1:n_Parameters,i_GA_Individual)
   !endif ! L_ga_print

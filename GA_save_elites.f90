@@ -75,8 +75,8 @@ min_fit = 1.0D20
 
 !if( L_ga_print )then 
 !    write(GA_print_unit,'(A,2(1x,I6))') &
-!          'gase: n_GA_individuals, n_GA_individuals - n_GA_save_elites + 1 ',&
-!                 n_GA_individuals, n_GA_individuals - n_GA_save_elites + 1
+!      'gase: n_GA_individuals, n_GA_individuals - n_GA_save_elites + 1 ',&
+!             n_GA_individuals, n_GA_individuals - n_GA_save_elites + 1
 !endif ! L_ga_print 
 
 ! do the loop this way since temp_fitness

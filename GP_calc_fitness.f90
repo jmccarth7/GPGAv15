@@ -66,13 +66,12 @@ real (kind=8) ::  std_dev_fit
 
 output_array = 0.0d0
 
-!write(GP_print_unit,'(A,1x,I6)') 'gpcf: i_GP_generation ',  i_GP_generation
 
-!write(GP_print_unit,'(/A/(5(1x,E15.7)))') 'gpcf: GP_Child_Individual_SSE = ',&
-!                                                 GP_Child_Individual_SSE
-
+write(GP_print_unit,'(/A,1x,I6/)') &
+      'gpcf: i_GP_generation ',  i_GP_generation
 write(GP_print_unit,'(/A/)') &
   'gpcf: i_GP_individual, GP_Child_Individual_SSE(i_GP_individual) '
+
 do  i_GP_individual = 1, n_GP_individuals
 
     write(GP_print_unit,'(I6,1x,E15.7)')  &
@@ -82,8 +81,6 @@ enddo ! i_GP_individual
 
 !-------------------------------------------------------------------------------
 
-write(GP_print_unit,'(/A,1x,I6/)') &
-      'gpcf: i_GP_generation ',  i_GP_generation
 
 if( i_GP_generation == 1                                 .or. &
     mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
@@ -154,12 +151,6 @@ do  i_GP_Individual=1,n_GP_Individuals
 
     if(  GP_Individual_N_GP_param( i_GP_Individual ) < min_N_param ) cycle
 
-    !if( abs( dff ) > 1.0D-30 )then
-    !    GP_Population_Ranked_Fitness(i_GP_Individual) = &
-    !         ( dff - GP_Child_Individual_SSE(i_GP_Individual) ) / dff
-    !else
-    !    GP_Population_Ranked_Fitness(i_GP_Individual) = 0.0D0
-    !endif ! abs( dff ) > 1.0D-30
 
     if( abs( GP_Child_Individual_SSE(i_GP_Individual) ) > 1.0D-30 )then
         GP_Population_Ranked_Fitness(i_GP_Individual) = &
@@ -480,7 +471,6 @@ if( L_GP_log )then
 
     do  i_GP_Individual=1,n_GP_individuals
 
-        !write(GP_log_unit,'(2(1x,I6),2(1x,E15.7))') &
         write(GP_log_unit) &
               i_GP_generation, &
               i_GP_Individual, &
@@ -551,9 +541,8 @@ if( i_GP_generation < n_GP_generations )then
     !  GP_Integrated_Population_Ranked_Fitness
 
 
-write(GP_print_unit,'(/A,1x,I6/)') &
-   'gpcf: call GP_ranking GP_Gen ', &
-          i_GP_Generation
+    write(GP_print_unit,'(/A,1x,I6/)') &
+       'gpcf: call GP_ranking GP_Gen ',  i_GP_Generation
 
     call GP_ranking_sort()
 

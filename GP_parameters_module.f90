@@ -48,15 +48,6 @@ integer(kind=4) :: n_GP_parameters
 character(30) :: model
 
 
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-!integer(kind=4) :: i_level
-!integer(kind=4) :: i_function
-!integer(kind=4) :: i_CODE_equation
-!integer(kind=4) :: j_CODE_equation
-!integer(kind=4) :: i_node_left
-!integer(kind=4) :: i_node_right
-
 
 integer(kind=4) :: n_parameters
 
@@ -112,14 +103,6 @@ real(kind=8) :: GP_Crossover_Probability
 !  GP_Mutation_Probability = 0.1 ! prob of mutation in binary string
 real(kind=8) :: GP_Mutation_Probability
 
-!old >>>>>>>>
-!  NOTE: in the next 2 parameters:
-!        GP_Crossover_Probability+GP_Mutation_Probability must be <= 1.
-
-!real(kind=8) :: GP_Crossover_Probability =0.5d0 ! prob of sexual crossing of binary string
-!real(kind=8) :: GP_Mutation_Probability  =0.1d0 ! prob of mutation in binary string
-!old <<<<<<<<
-
 
 !---------------------------------------------------------------------------------------
 
@@ -162,12 +145,7 @@ integer(kind=4),parameter :: number_GP_child_prints = 2 ! 20
 
 !-------------------------------------------------------------------
 
-
-!integer (kind=4) :: i_time_step
-
 logical :: L_bad_result
-
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 
 !----------------------------------------------------------------------------------------
@@ -188,9 +166,6 @@ real(kind=8) ::  random_scale_large
 real(kind=8) ::  random_scale_small
 real(kind=8) ::  random_scale_fraction
 
-
-
-real(kind=8) :: sum_lmdif
 
 
 !--------------------------------------------------------------------                                                              

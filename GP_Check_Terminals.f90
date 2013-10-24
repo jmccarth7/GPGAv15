@@ -1,5 +1,4 @@
 subroutine GP_Check_Terminals( temp_Node_Type, i_Error)
-!subroutine GP_Check_Terminals( i_Error)
 
 ! This subroutine looks through a specific temp_Node_Type array
 ! for nodes that do not correctly set terminals.
@@ -39,23 +38,15 @@ do  i_Tree=1,n_Trees
 
     do  i_Level=1,n_Levels-1
 
+        ! calculate the function number at the right end of the upper level
+
         i_Function = pow2_table( i_level-1)  ! 2**(i_Level-1) -1
-        !i_Function = 2**(i_Level-1) -1               ! calculated the function number
-                                                     ! at the right end of the upper level
 
-        !write(6,'(A,2(1x,I6))') 'cts:  2**(i_Level-1) -1  , pow2_table( i_level-1) ', &   
-        !                               2**(i_Level-1) -1  , pow2_table( i_level-1) 
-
-        !write(6,'(A,2(1x,I6))') 'cts:  2**i_Level ,  pow2_table(i_level) + 1 ', &
-        !                               2**i_Level ,  pow2_table(i_level) + 1
-        !write(6,'(A,2(1x,I6))') 'cts:  2*(2**i_Level)-1 , pow2_table(i_level+1) ', &
-        !                               2*(2**i_Level)-1 , pow2_table(i_level+1) 
 
         ! run through each function at the level
 
         do  i_Node= pow2_table(i_level) + 1,  pow2_table(i_level+1) , 2  
 
-        !do  i_Node=2**i_Level, 2*(2**i_Level)-1 , 2  ! run through each function at the level
 
             i_Function=i_Function+1                  ! sets the 'function' node's index
 
@@ -75,7 +66,7 @@ do  i_Tree=1,n_Trees
             !      'gct: i_function, i_tree, Node_Type(i_Function, i_Tree)',&
             !            i_function, i_tree, temp_Node_Type(i_Function, i_Tree)
 
-            !if( GP_Individual_Node_Type(i_Function,i_Tree) .gt. 0) then
+
             if( temp_Node_Type(i_Function,i_Tree) .gt. 0) then
 
                 ! It is a function node if > 0
@@ -86,7 +77,7 @@ do  i_Tree=1,n_Trees
                 !      'gct: i_Node_Left,  i_tree, Node_Type(i_Node_Left,i_Tree) ',&
                 !            i_Node_Left,  i_tree, temp_Node_Type(i_Node_Left,i_Tree)
 
-                !if( GP_Individual_Node_Type(i_Node_Left,i_Tree) .lt. -n_CODE_Equations ) then
+
                 if( temp_Node_Type(i_Node_Left,i_Tree) .lt. -n_CODE_Equations ) then
 
                     if( myid == 0 )then
@@ -122,7 +113,7 @@ do  i_Tree=1,n_Trees
                 !            i_Node_Right, i_tree, temp_Node_Type(i_Node_Right,i_Tree)
 
 
-                !if( temp_Node_Type(i_Node_Right,i_Tree) .lt. -n_CODE_Equations) then
+
                 if( temp_Node_Type(i_Node_Right,i_Tree) .lt. -n_CODE_Equations) then
 
                     if( myid == 0 )then
@@ -140,9 +131,6 @@ do  i_Tree=1,n_Trees
                         !   &Node_Type(i_Node_Right,i_Tree) ',&
                         !        i_Node_Right, i_tree, &
                         !    temp_Node_Type(i_Node_Right,i_Tree)
-
-
-
                     endif ! myid == 0
 
                     i_Error = 1
