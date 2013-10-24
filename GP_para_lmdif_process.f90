@@ -903,8 +903,8 @@ endif ! myid == 0
 !        write(GP_print_unit,'(A,2(1x,I6))') &
 !          'gplp: at stop  i_GP_generation, myid =', &
 !                          i_GP_generation, myid
-!        call MPI_FINALIZE(ierr) ! debug only
-!        stop ! debug only
+!        call MPI_FINALIZE(ierr) ! debug_only
+!        stop ! debug_only
 !    endif ! L_GP_print
 !endif ! i_GP_generation > 1
 

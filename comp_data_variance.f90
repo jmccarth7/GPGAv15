@@ -67,7 +67,7 @@ do i_CODE_equation=1,n_CODE_equations
   
     dff=( (totobs*ssum2)-(ssum**2) ) / totobs / totobs_m1 
   
-    write(GP_print_unit,'(/A,2x,E24.16)') 'cdv: original dff ', dff
+    !write(GP_print_unit,'(/A,2x,E24.16)') 'cdv: original dff ', dff
 
     !!-------------------------------------------------------------------------------
     !nn = n_time_steps + 1
@@ -140,7 +140,7 @@ do i_CODE_equation=1,n_CODE_equations
   
   
     if( myid == 0 )then
-        write(GP_print_unit,'(A,1x,I6,2(2x,E15.7))') &
+        write(GP_print_unit,'(A,1x,I6,2(1x,E24.16))') &
              'cdv: i_CODE_equation, Data_Variance, Data_Variance_inv ', &
                    i_CODE_equation, Data_Variance(i_CODE_equation), &
                                   Data_Variance_inv(i_CODE_equation)

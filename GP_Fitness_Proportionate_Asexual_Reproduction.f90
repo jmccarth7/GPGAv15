@@ -117,6 +117,14 @@ do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
     GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual) = &
        GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees,j_GP_Individual)
 
+    !write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
+    !      'gpfpar: i_GP_individual, GP_Child_Population_Parameter_Solution(1,i_GP_Individual)',&
+    !               i_GP_individual, GP_Child_Population_Parameter_Solution(1,i_GP_Individual)
+    !write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
+    !      'gpfpar: j_GP_individual, GP_Adult_Population_Parameter_Solution(1,j_GP_Individual)',&
+    !               j_GP_individual, GP_Adult_Population_Parameter_Solution(1,j_GP_Individual)
+
+
     GP_Child_Population_Parameter_Solution(1:n_Maximum_Number_Parameters,i_GP_Individual) = &
        GP_Adult_Population_Parameter_Solution(1:n_Maximum_Number_Parameters,j_GP_Individual)
 

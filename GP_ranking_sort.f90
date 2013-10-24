@@ -281,6 +281,8 @@ enddo
 ! [Fitness = (Total-SSE)/Total 
 !  ==> higher individual SSE == lower value/ranking; Ranging from 0-1]
 
+
+GP_Population_Ranked_Fitness = 0.0D0
 do  i_GP_Individual=1,n_GP_Individuals
     GP_Population_Ranked_Fitness(i_GP_Individual) = &
             ( cff - GP_Child_Population_SSE(i_GP_Individual) ) / cff
@@ -288,6 +290,7 @@ enddo  ! i_GP_Individual
 
 ! Calculate the Integrated Ranked Fitness values for creating the next generation
 
+GP_Integrated_Population_Ranked_Fitness = 0.0D0
 cff=0.0d0
 do  i_GP_Individual=1,n_GP_Individuals
     cff = cff + GP_Population_Ranked_Fitness(i_GP_individual)
@@ -296,11 +299,15 @@ enddo ! i_GP_Individual
 
 ! Normalize to the integrated ranking values so that the ranking integration ranges from [0. to 1.]
 
-do  i_GP_Individual=1,n_GP_Individuals
-    GP_Integrated_Population_Ranked_Fitness(i_GP_Individual) =  &
-         GP_Integrated_Population_Ranked_Fitness(i_GP_Individual) /  &
-                   GP_Integrated_Population_Ranked_Fitness(n_GP_Individuals)
-enddo  ! i_GP_Individual
+if( GP_Integrated_Population_Ranked_Fitness(n_GP_Individuals) > 0.0d0 )then
+
+    do  i_GP_Individual=1,n_GP_Individuals
+        GP_Integrated_Population_Ranked_Fitness(i_GP_Individual) =  &
+             GP_Integrated_Population_Ranked_Fitness(i_GP_Individual) /  &
+                       GP_Integrated_Population_Ranked_Fitness(n_GP_Individuals)
+    enddo  ! i_GP_Individual
+
+endif ! GP_Integrated_Population_Ranked_Fitness(n_GP_Individuals) > 0.0d0 
 
 !------------------------------------------------------------------------------------------
 

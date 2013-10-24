@@ -151,10 +151,10 @@ do  i_parameter=1,n_parms
 
     X_LMDIF(i_parameter) = child_parameters(i_parameter)
 
-    ! debug only--------------------------------------------------------------------
-    !if( i_parameter == 1 ) X_LMDIF(i_parameter) = &                      !debug only
-    !                           X_LMDIF(i_parameter) * ( 1.0d0 + 1.0d-6 ) !debug only
-    ! debug only--------------------------------------------------------------------
+    ! debug_only--------------------------------------------------------------------
+    !if( i_parameter == 1 ) X_LMDIF(i_parameter) = &                      !debug_only
+    !                           X_LMDIF(i_parameter) * ( 1.0d0 + 1.0d-6 ) !debug_only
+    ! debug_only--------------------------------------------------------------------
 
     !if( L_myprint  .and. i_G_indiv == 1)then
     if( L_myprint )then

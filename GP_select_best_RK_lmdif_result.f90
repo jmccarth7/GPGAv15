@@ -347,15 +347,14 @@ if( GP_individual_ranked_fitness(i_GP_best_parent) <= &
 
     ! choose the parameters of the best parent from the RK fcn integration
 
-    if( L_GP_print )then
-        write(GP_print_unit,'(/A)')&
-              'gpsbrl: set the GA-optimized initial condition array '
-
-        write(GP_print_unit,'(/A/1x,I6, 6(1x,E20.10))') &
-              'gpsbrl: i_GP_best_parent_1, parent_parameters_best_1(1:n_CODE_Equations) ', &
-                       i_GP_best_parent_1, &
-                       ( parent_parameters_best_1(jj), jj = 1, n_CODE_Equations )
-    endif ! L_GP_print
+    !if( L_GP_print )then
+    !    write(GP_print_unit,'(/A)')&
+    !          'gpsbrl: set the GA-optimized initial condition array '
+    !    write(GP_print_unit,'(/A/1x,I6, 6(1x,E20.10))') &
+    !          'gpsbrl: i_GP_best_parent_1, parent_parameters_best_1(1:n_CODE_Equations) ', &
+    !                   i_GP_best_parent_1, &
+    !                   ( parent_parameters_best_1(jj), jj = 1, n_CODE_Equations )
+    !endif ! L_GP_print
 
 
 
@@ -378,10 +377,10 @@ if( GP_individual_ranked_fitness(i_GP_best_parent) <= &
     ! load the parameters from the RK process into GP_Individual_Node_Parameters
 
 
-    if( L_GP_print )then
-        write(GP_print_unit,'(/a)') &
-              'gpsbrl: set the GA-optimized CODE parameter array'
-    endif ! L_GP_print
+    !if( L_GP_print )then
+    !    write(GP_print_unit,'(/a)') &
+    !          'gpsbrl: set the GA-optimized CODE parameter array'
+    !endif ! L_GP_print
 
     i_parameter = n_CODE_equations ! start at this number because of the
                                    ! initial conditions (n_CODE_Equations of them)
@@ -434,7 +433,10 @@ if( GP_individual_ranked_fitness(i_GP_best_parent) <= &
                 i_GP_Generation, i_GP_best_parent, &
                 GP_individual_ranked_fitness(i_GP_Best_Parent), &
                 nop, output_array(1:nop)
-
+    write(GP_print_unit, '(/A,1x,I6,1x,I6,1x,E15.7)') &
+         'gpsbrl: i_GP_gen,i_GP_best_parent,GP_indiv_SSE', &
+                i_GP_Generation, i_GP_best_parent, &
+                GP_individual_SSE_best_parent 
 
     if( L_GP_log )then
 
@@ -531,10 +533,10 @@ else  ! lmdif is best
     ! load the parameters output by lmdif into GP_Individual_Node_Parameters
 
 
-    if( L_GP_print )then
-        write(GP_print_unit,'(/a/)')&
-              'gpsbrl: set the GP-optimized CODE parameter array'
-    endif ! L_GP_print
+    !if( L_GP_print )then
+    !    write(GP_print_unit,'(/a/)')&
+    !          'gpsbrl: set the GP-optimized CODE parameter array'
+    !endif ! L_GP_print
 
     i_parameter = n_CODE_equations ! start at this number because of the
                                    ! initial conditions (n_CODE_Equations of them)
@@ -588,6 +590,11 @@ else  ! lmdif is best
                 i_GP_Generation, i_GP_best_parent, &
                GP_individual_ranked_fitness(i_GP_Best_Parent), &
                nop, output_array(1:nop)
+    write(GP_print_unit, '(/A,1x,I6,1x,I6,1x,E15.7)') &
+         'gpsbrl: i_GP_gen,i_GP_best_parent,GP_indiv_SSE', &
+                i_GP_Generation, i_GP_best_parent, &
+                GP_individual_SSE_best_parent 
+
 
 
 

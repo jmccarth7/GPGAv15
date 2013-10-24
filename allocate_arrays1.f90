@@ -138,6 +138,7 @@ allocate( Node_Probability( n_levels ) )
 !>>>>>>>>>>>>>
 allocate( GP_Adult_Population_Parameter_Solution( 1:n_Maximum_Number_Parameters, 1:n_GP_Individuals) )
 allocate( GP_Child_Population_Parameter_Solution( 1:n_Maximum_Number_Parameters, 1:n_GP_Individuals ) )
+
 allocate( GP_Adult_Population_SSE( n_GP_Individuals  )  )
 allocate( GP_Child_Population_SSE( n_GP_Individuals  )  )
 

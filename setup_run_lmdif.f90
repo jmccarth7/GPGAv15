@@ -39,8 +39,9 @@ real(kind=8) :: ftol,xtol,gtol
 
 !real(kind=8), parameter :: tol = 1.0d-30
 real(kind=8), parameter :: epsfcn = 1.0d-6    ! original
-!real(kind=8), parameter :: epsfcn = 1.0d-9 
-!real(kind=8), parameter :: epsfcn = 1.0d-15
+!real(kind=8), parameter :: epsfcn = 1.0d-9  
+!real(kind=8), parameter :: epsfcn = 1.0d-6  ! 15 
+
 real(kind=8), parameter :: factor=1.0D+0
 real(kind=8), parameter :: zero = 0.0d0
 
@@ -111,8 +112,8 @@ info = 0
 
 maxfev= 4000  ! 2000 ! 50 ! 10 ! 10000
 
-ftol=1.0D-10  ! 15   ! 10
-xtol=1.0D-10  ! 15   ! 10
+ftol=1.0D-15  ! 15   ! 10
+xtol=1.0D-15  ! 15   ! 10
 
 gtol=zero
 
@@ -161,9 +162,24 @@ L_bad_result = .false.
 
 !write(myprint_unit,'(/A/)') 'setrlm: RUN LMDIF '
 
+write(myprint_unit,'(A,2(1x,I10))')'setrlm:input  n_time_steps, n_parameters',&
+                                                  n_time_steps, n_parameters
+write(myprint_unit,'(A,4(1x,E15.7))')'setrlm:input ftol, xtol, gtol, epsfcn',&
+                                                   ftol, xtol, gtol, epsfcn
+
+write(myprint_unit,'(A,2(1x,I10))') 'setrlm:input  maxfev ', maxfev
+
+write(myprint_unit,'(A,2(1x,I10))') 'setrlm:input  mode, nprint ', &
+                                                   mode, nprint
+write(myprint_unit,'(A,3(1x,E15.7))') 'setrlm:input    factor  ', factor
+
+
 call lmdif( fcn, n_time_steps, n_parameters, x_LMDIF, fvec, &
             ftol, xtol, gtol, maxfev, epsfcn, &
             diag, mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf, 0 )
+
+write(myprint_unit,'(A,3(1x,I6))') 'setrlm:output info, nfev, ldfjac ', &
+                                                  info, nfev, ldfjac
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 

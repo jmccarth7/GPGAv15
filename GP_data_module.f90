@@ -13,6 +13,5 @@ real(kind=8),allocatable, dimension( : )  :: Data_Variance
 real(kind=8),allocatable, dimension( : )  :: Data_Variance_inv
 
 
-!logical :: GP_para_flag 
 
 end module GP_data_module

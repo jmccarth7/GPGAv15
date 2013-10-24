@@ -113,7 +113,7 @@ endif ! Lprint
 do  i_code_eq = 1, n_CODE_Equations
 
     if( Lprint )then
-        write(GP_print_unit,'(3(1x,I10), 7x, E15.7)')&
+        write(GP_print_unit,'(3(1x,I10), 7x, E24.16)')&
               i_GP_generation, i_GP_indiv, i_code_eq, &
               GP_Population_Initial_Conditions( i_code_eq, i_GP_indiv )
     endif ! Lprint 
@@ -200,7 +200,7 @@ if( Lprint )then
 
 
             if( GP_Individual_Node_Type(i_Node,i_Tree) == 0               ) then
-                write(GP_print_unit,'(2(1x,I10), 2(1x,I10),1x, E20.10)') &
+                write(GP_print_unit,'(2(1x,I10), 2(1x,I10),1x, E24.16)') &
                       i_GP_generation, i_GP_indiv,i_tree, i_node, &
                       GP_population_node_parameters(i_node,i_tree,i_GP_indiv)
 

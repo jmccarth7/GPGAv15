@@ -60,9 +60,9 @@ enddo ! i_ga_individual
 
 
 !!--------------------------------------------------------------------------------
-!!do  i_GA_Individual=1,n_GA_Individuals                           ! debug only
-!!    read(5,*) Child_Parameters(1:n_parameters,i_GA_Individual)   ! debug only
-!!enddo ! i_ga_individual                                          ! debug only
+!!do  i_GA_Individual=1,n_GA_Individuals                           ! debug_only
+!!    read(5,*) Child_Parameters(1:n_parameters,i_GA_Individual)   ! debug_only
+!!enddo ! i_ga_individual                                          ! debug_only
 !!--------------------------------------------------------------------------------
 
 

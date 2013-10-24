@@ -181,11 +181,13 @@ child_parameters( 1:n_maximum_number_parameters, 1:n_GA_individuals) = 0.0d0
 
 
 if( myid == 0 )then
+
     if( L_ga_print )then
         write(GA_print_unit,'(/A,1x,I10, 2(1x,I6)/)')&
           'GP_GA_opt: n_GA_individuals, n_parameters, numprocs ', &
                       n_GA_individuals, n_parameters, numprocs
     endif ! L_ga_print
+
 endif ! myid == 0
 
 !-----------------------------------------------------------------------------
@@ -644,7 +646,7 @@ do  i_GA_generation=1,n_GA_Generations
                                      buffer_recv(1:n_maximum_number_parameters)
 
                 individual_SSE(i_individual)     =       buffer_recv( n_maximum_number_parameters+1)
-                individual_quality(i_individual) = nint( buffer_recv( n_maximum_number_parameters+2) )
+                individual_quality(i_individual) = nint( buffer_recv( n_maximum_number_parameters+2))
 
                 !if( L_ga_print )then
                 !    write(GA_print_unit,'(A,3(1x,I6))') &
@@ -808,11 +810,12 @@ do  i_GA_generation=1,n_GA_Generations
 
             !if( L_ga_print )then
             !    write(GA_print_unit,'(A,4(1x,I6))') &
-            !    'GP_GA_opt:3 myid, i_dummy, MPI_STAT(MPI_TAG), i_2_individual', &
-            !                 myid, i_dummy, MPI_STAT(MPI_TAG), i_2_individual
+            !    'GP_GA_opt:3 myid, i_dummy, MPI_STAT( MPI_TAG ), i_2_individual', &
+            !                 myid, i_dummy, MPI_STAT( MPI_TAG ), i_2_individual
             !endif ! L_ga_print
 
             buffer = 0.0D0
+
             !if( L_ga_print )then
             !    write(GA_print_unit,'(A,2(1x,I6),4x,L1)') &
             !    'GP_GA_opt:3 myid, i_2_individual, Run_GA_lmdif(i_2_individual)', &
@@ -1010,8 +1013,8 @@ do  i_GA_generation=1,n_GA_Generations
     !        write(GA_print_unit,'(A,2(1x,I6))') &
     !          'GP_GA_opt: at stop  i_GA_generation, myid = ', &
     !                               i_GA_generation, myid
-    !        call MPI_FINALIZE(ierr) ! debug only
-    !        stop ! debug only
+    !        call MPI_FINALIZE(ierr) ! debug_only
+    !        stop ! debug_only
     !    endif ! L_ga_print
     !endif ! i_GA_generation > 1
 
