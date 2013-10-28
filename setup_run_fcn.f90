@@ -31,11 +31,6 @@ real (kind=8) :: x_LMDIF(n_maximum_number_parameters)
 real (kind=8) :: fvec(n_time_steps)
 
 
-!real(kind=8), parameter :: tol = 1.0d-30
-!real(kind=8), parameter :: epsfcn = 1.0d-6    ! original
-!real(kind=8), parameter :: epsfcn = 1.0d-9 
-real(kind=8), parameter :: factor=1.0D+0
-real(kind=8), parameter :: zero = 0.0d0
 
 integer(kind=4) ::   info
 integer(kind=4) :: i_time_step
@@ -98,15 +93,20 @@ enddo ! i_parameter
 
 iflag = 1
 
+
+
 call fcn( n_time_steps, n_parameters, x_LMDIF, fvec, iflag )
+
+
+
 info = iflag
 
 
 !if( myid == 1 )then
 !    if( L_ga_print )then                                                                                
 !        write(GA_print_unit,'(A,5(1x,I10)/)') &
-!              'setrf: aft call fcn myid, i_GA_indiv, n_time_steps, n_parameters, info ', &
-!                                   myid, i_GA_indiv, n_time_steps, n_parameters, info
+!         'setrf: aft call fcn myid, i_GA_indiv, n_time_steps, n_parameters, info ', &
+!                              myid, i_GA_indiv, n_time_steps, n_parameters, info
 !    endif ! L_ga_print  
 !endif ! myid == 1
 

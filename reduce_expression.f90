@@ -7,7 +7,6 @@ use Runge_Kutta_Variables_module
 
 implicit none
 
-!real(kind=8) :: cff
 
 
 character(4),parameter  ::  op_string = '+-/*'
@@ -106,6 +105,7 @@ enddo ! j
 call rm_exp_paren( work_string )                                                                   
                                                                                                            
 !write(6,'(A)') 'rex:1 aft call rm_exp_paren '                             
+
 !-------------------------------------------------------------------------
 
 

@@ -1,8 +1,6 @@
 subroutine fill_string_arrays() 
 
 
-!use mpi
-!use mpi_module
 
 use GP_Parameters_module
 use GP_Variables_module
@@ -10,14 +8,6 @@ use Runge_Kutta_Variables_module
 
 implicit none
 
-
-
-!real(kind=8) :: cff
-
-!character(str_len) ::  left_node_value_string
-!character(str_len) ::  right_node_value_string
-!character(str_len) ::  cff_string
-!character(str_len) ::  out_string
 
 character(4) ::  parm_string
 
@@ -34,7 +24,6 @@ node_type_string = ' '
 
 
 !write(6,'(A)') ' '
-
 !do  i_tree = 1, n_trees
 !    do  i_node = 1, n_nodes
 !        if( RK_Node_Type( i_node, i_tree ) /= -9999 )then
@@ -47,7 +36,6 @@ node_type_string = ' '
 !        endif ! RK_Node_Type( i_node, i_tree ) /= -9999
 !    enddo ! i_node
 !enddo ! i_tree
-
 !write(6,'(A)') ' '
 
 k = 0 
@@ -63,6 +51,7 @@ do  i_tree = 1, n_trees
         if( RK_Node_Type( i_node, i_tree ) == 0 )then
 
             k = k + 1 
+
             !write( parm_string, '(A,I0)') 'v', k
 
             write( parm_string, '(A,I0)') 'u', k
@@ -71,6 +60,7 @@ do  i_tree = 1, n_trees
             !write(6,'(A,3(1x,I2),1x,A)')&
             !      'fill: i_tree, i_node, k, parm_string ', &
             !             i_tree, i_node, k, trim(parm_string)
+
             cycle
 
         endif !  RK_Node_Type( i_node, i_tree ) == 0 

@@ -51,8 +51,8 @@ real(kind=8), allocatable, dimension(:) :: output_array
 
 !character(200) :: tree_descrip
 
-character(10),parameter :: program_version   = '201308.001'
-character(10),parameter :: modification_date = '20131004'
+character(10),parameter :: program_version   = '201309.001'
+character(10),parameter :: modification_date = '20131028'
 character(50),parameter :: branch  =  'old_elite_parallel_lmdif'
 
 
@@ -557,7 +557,7 @@ do  i_GP_Generation=1,n_GP_Generations
             if( n_GP_Asexual_Reproductions .gt. 0 )then
 
                 write(GP_print_unit,'(/A,1x,I6)') &
-                      '0: call GP_Fitness_Proportionate_Asexual_Reproduction  &
+                      '0: call GP_Fit_Prop_Asexual_Repro &
                       &n_GP_Asexual_Reproductions =', n_GP_Asexual_Reproductions
 
 
@@ -594,8 +594,8 @@ do  i_GP_Generation=1,n_GP_Generations
             if( n_GP_Crossovers .gt. 0 )then
 
                 write(GP_print_unit,'(A,1x,I6)') &
-                      '0: call GP_Tournament_Style_Sexual_Reproduction n_GP_Crossovers =', &
-                                                                       n_GP_Crossovers
+                      '0: call GP_Tour_Style_Sexual_Repro n_GP_Crossovers =', &
+                                                          n_GP_Crossovers
 
                 call GP_Tournament_Style_Sexual_Reproduction
 
@@ -627,8 +627,8 @@ do  i_GP_Generation=1,n_GP_Generations
 
             if( n_GP_Mutations .gt. 0 )then
 
-                write(GP_print_unit,'(A,1x,I6)')'0: call GP_Mutations n_GP_Mutations =', &
-                                                                      n_GP_Mutations
+                write(GP_print_unit,'(A,13x,I6)')&
+                      '0: call GP_Mutations n_GP_Mutations =', n_GP_Mutations
 
                 call GP_Mutations
 
@@ -1475,31 +1475,6 @@ call MPI_BARRIER( MPI_COMM_WORLD, ierr )
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 
-if( L_unit50_output )then
-    close( unit_gp_out )
-endif ! L_unit50_output
-
-if( L_GP_log )then
-    close( GP_log_unit )
-endif ! L_GP_log
-
-
-if( L_GA_log )then
-    close( GA_log_unit )
-endif ! L_GA_log
-
-
-if( L_GA_output_parameters )then
-    close( GA_output_unit )
-endif ! L_GA_output_parameters
-
-if( L_GP_output_parameters )then
-    close( GP_output_unit )
-endif ! L_GP_output_parameters
-
-
-close( GP_summary_output_unit )
-
 !------------------------------------------------------------------
 
 ! deallocate variable dimension arrays
@@ -1508,6 +1483,37 @@ call deallocate_arrays1( )
 
 deallocate( answer )
 deallocate( output_array )
+
+!------------------------------------------------------------------
+
+if( myid == 0 )then
+
+    if( L_unit50_output )then
+        close( unit_gp_out )
+    endif ! L_unit50_output
+    
+    if( L_GP_log )then
+        close( GP_log_unit )
+    endif ! L_GP_log
+    
+    if( L_GA_log )then
+        close( GA_log_unit )
+    endif ! L_GA_log
+    
+    if( L_GA_output_parameters )then
+        close( GA_output_unit )
+    endif ! L_GA_output_parameters
+    
+    if( L_GP_output_parameters )then
+        close( GP_output_unit )
+    endif ! L_GP_output_parameters
+    
+    
+    close( GP_summary_output_unit )
+    
+
+endif ! myid == 0
+
 
 !------------------------------------------------------------------
 

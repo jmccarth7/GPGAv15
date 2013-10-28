@@ -70,8 +70,6 @@ logical :: L_stop_run
 integer(kind=4) :: jj
 integer(kind=4) :: i_parameter
 
-!real(kind=8),dimension(7),parameter :: answerLV = &
-! (/ 30.0d0, 2.0d0, 0.4d0  , 0.02d0 , 0.6d0  , 0.5d0 , 0.02d0 /)
 
 real(kind=8),dimension(17),parameter :: answerLV = &
  (/ 30.0d0, 2.0d0, 0.4d0  , 0.02d0 , 0.6d0  , 0.5d0 , 0.02d0, &
@@ -83,8 +81,7 @@ real(kind=8),dimension(17),parameter :: answerLV = &
 L_stop_run = .FALSE.
 
 if( L_ga_print )then                                                                                
-!write(GA_print_unit,'(/A)') 'calcfit:  finished the loop on i_GA_individual  '
-write(GA_print_unit,'(/A,1x,I6)') 'calcfit: n_parameters = ', n_parameters                 
+    write(GA_print_unit,'(/A,1x,I6)') 'calcfit: n_parameters = ', n_parameters                 
 endif ! L_ga_print  
 
 do  i_parameter=1,n_parameters
@@ -252,44 +249,44 @@ min_sse = 1.0D20
 index_min_sse = 0
 sum_individual_SSE = 0.0D0
 
-do i_GA_individual=1,n_GA_individuals
+do  i_GA_individual=1,n_GA_individuals
 
-  !if( L_ga_print )then   
-  !    write(GA_print_unit,'(A,2(1x,I6))') &
-  !          'calcfit: i_GA_individual, individual_quality( i_GA_individual )', &
-  !                    i_GA_individual, individual_quality( i_GA_individual )
-  !endif ! L_ga_print  
-
-  if( individual_quality( i_GA_individual ) > 0 ) then
-
-
-      ! indiv_fitness is a function
-
-      !dble_cff = dble_cff +  indiv_fitness( i_GA_individual )    ! new
-      dble_cff = dble_cff +  individual_ranked_fitness(i_GA_individual)
-
-      integrated_SSE(i_GA_individual)=dble_cff   ! integrated_SSE never used
-
-      sum_individual_SSE = sum_individual_SSE +  individual_SSE(i_GA_individual)
-
-      n_counted = n_counted + 1
-
-      !if( L_ga_print )then  
-      !    write(GA_print_unit,'(A,1x,I6,1x,E20.10)') &
-      !          'calcfit: i_GA_individual, integrated_SSE(i_GA_individual)  ', &
-      !                    i_GA_individual, integrated_SSE(i_GA_individual)
-      !endif ! L_ga_print  
-
-
-      if( individual_SSE(i_GA_individual) < min_sse )then
-
-          min_sse = individual_SSE(i_GA_individual)
-          index_min_sse = i_GA_individual
-
-      endif !    individual_SSE(i_GA_individual) < min_sse
-
-
-  endif !   individual_quality( i_GA_individual ) > 0
+    !if( L_ga_print )then   
+    !    write(GA_print_unit,'(A,2(1x,I6))') &
+    !          'calcfit: i_GA_individual, individual_quality( i_GA_individual )', &
+    !                    i_GA_individual, individual_quality( i_GA_individual )
+    !endif ! L_ga_print  
+  
+    if( individual_quality( i_GA_individual ) > 0 ) then
+  
+  
+        ! indiv_fitness is a function
+  
+        !dble_cff = dble_cff +  indiv_fitness( i_GA_individual )    ! new
+        dble_cff = dble_cff +  individual_ranked_fitness(i_GA_individual)
+  
+        integrated_SSE(i_GA_individual)=dble_cff   ! integrated_SSE never used
+  
+        sum_individual_SSE = sum_individual_SSE +  individual_SSE(i_GA_individual)
+  
+        n_counted = n_counted + 1
+  
+        !if( L_ga_print )then  
+        !    write(GA_print_unit,'(A,1x,I6,1x,E20.10)') &
+        !          'calcfit: i_GA_individual, integrated_SSE(i_GA_individual)  ', &
+        !                    i_GA_individual, integrated_SSE(i_GA_individual)
+        !endif ! L_ga_print  
+  
+  
+        if( individual_SSE(i_GA_individual) < min_sse )then
+  
+            min_sse = individual_SSE(i_GA_individual)
+            index_min_sse = i_GA_individual
+  
+        endif !    individual_SSE(i_GA_individual) < min_sse
+  
+  
+    endif !   individual_quality( i_GA_individual ) > 0
 
 enddo ! i_GA_individual
 
@@ -307,13 +304,17 @@ endif ! n_counted > 0
 
 !if( L_ga_print )then                                                                                
 !    write(GA_print_unit,'(/A,1x,I6,1x,E15.7)')&
-!          'calcfit: generation, sum_individual_fit  =', i_GA_generation, sum_individual_fit
+!          'calcfit: generation, sum_individual_fit  =', &
+!               i_GA_generation, sum_individual_fit
 !    write(GA_print_unit,'(A,1x,I6,1x,E15.7)')&
-!          'calcfit: generation, mean_individual_fit =', i_GA_generation, mean_individual_fit
+!          'calcfit: generation, mean_individual_fit =', &
+!               i_GA_generation, mean_individual_fit
 !    write(GA_print_unit,'(A,1x,I6,1x,E15.7, 1x, I6)')&
-!          'calcfit: generation, min_sse, index      =', i_GA_generation, min_sse, index_min_sse
+!          'calcfit: generation, min_sse, index      =', &
+!               i_GA_generation, min_sse, index_min_sse
 !    write(GA_print_unit,'(A,2(1x,I6)/)')&
-!          'calcfit: generation, number good         =', i_GA_generation, n_counted
+!          'calcfit: generation, number good         =', &
+!               i_GA_generation, n_counted
 !endif ! L_ga_print  
 
 mean_individual_SSE = 0.0D0
@@ -325,15 +326,18 @@ endif ! n_counted > 0
 
 if( L_ga_print )then                                                                                
     !write(GA_print_unit,'(/A,1x,I6,1x,E15.7 )')&
-    !      'calcfit: generation, sum_individual_SSE  =', i_GA_generation, sum_individual_SSE
+    !      'calcfit: generation, sum_individual_SSE  =', &
+    !           i_GA_generation, sum_individual_SSE
     write(GA_print_unit,'(A,1x,I6,1x,E15.7 )')&
-          'calcfit: generation, mean_individual_SSE =', i_GA_generation, mean_individual_SSE
+          'calcfit: generation, mean_individual_SSE =', &
+               i_GA_generation, mean_individual_SSE
 endif ! L_ga_print  
 
 
 !---------------------------------------------------------------------------------
 
-!write(GA_print_unit,'(A)')  'calcfit: i_GA_ind, ind_SSE, ind_ranked_fitness   ind_quality'
+!write(GA_print_unit,'(A)') &
+!   'calcfit: i_GA_ind, ind_SSE, ind_ranked_fitness   ind_quality'
 
 mean_fitness = 0.0d0
 sigma_fitness = 0.0d0
@@ -369,12 +373,15 @@ endif
 !var_fitness   = sqrt( var_fitness  / xn )
 
 if( L_ga_print )then                                                                                
-    write(GA_print_unit,'(/A,2(1x,I6))')       'calcfit: n_GA_individuals, icount      ',&
-                                                         n_GA_individuals, icount
-    write(GA_print_unit,'(A,1x,I6,1x,E15.7)')  'calcfit: i_GA_generation, mean_fitness ',&
-                                                         i_GA_generation, mean_fitness
-    write(GA_print_unit,'(A,1x,I6,1x,E15.7/)') 'calcfit: i_GA_generation, sigma_fitness',&
-                                                         i_GA_generation, sigma_fitness
+    write(GA_print_unit,'(/A,2(1x,I6))')       &
+          'calcfit: n_GA_individuals, icount      ',&
+                    n_GA_individuals, icount
+    write(GA_print_unit,'(A,1x,I6,1x,E15.7)')  &
+          'calcfit: i_GA_generation, mean_fitness ',&
+                    i_GA_generation, mean_fitness
+    write(GA_print_unit,'(A,1x,I6,1x,E15.7/)') &
+          'calcfit: i_GA_generation, sigma_fitness',&
+                    i_GA_generation, sigma_fitness
 endif ! L_ga_print  
 
 !---------------------------------------------------------------------------------
@@ -391,8 +398,8 @@ do  i_GA_individual=1,n_GA_individuals  ! calculate the sum of the rankings
     integrated_ranked_fitness(i_GA_individual)=dble_cff
 
     !if( L_ga_print )then  
-    !write(GA_print_unit,'(I6,1x,E24.16)') &
-    !      i_GA_individual, integrated_ranked_fitness(i_GA_individual)
+    !    write(GA_print_unit,'(I6,1x,E24.16)') &
+    !          i_GA_individual, integrated_ranked_fitness(i_GA_individual)
     !endif ! L_ga_print  
 
 
@@ -405,7 +412,8 @@ enddo ! i_GA_individual
 
 
 !if( L_ga_print )then                                                                                
-!    write(GA_print_unit,'(/A)') 'calcfit: i_GA_individual, normalized integrated_ranked_fitness'
+!    write(GA_print_unit,'(/A)') &
+!          'calcfit: i_GA_individual, normalized integrated_ranked_fitness'
 !endif ! L_ga_print  
 
 do  i_GA_individual=1,n_GA_individuals
@@ -550,6 +558,7 @@ if( L_GA_log )then
           individual_ranked_fitness(1:n_GA_individuals)
 
 endif ! L_GA_log 
+
 !-----------------------------------------------------------------------
 
 

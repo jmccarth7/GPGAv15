@@ -34,7 +34,6 @@ integer :: i_tree
 integer :: i_gen
 integer :: i_indiv 
 
-!character(4), allocatable,  dimension( : , : )      ::  node_eval_type_string
 character(str_len),  dimension( n_trees )    ::  tree_string
 
 character(8000),  dimension( n_code_equations )    ::  fbio_string
@@ -102,18 +101,17 @@ do  i_code_equation=0,n_code_equations   ! source of material   ! orig
 
             endif !    len(  trim( tree_string(i_tree) ) ) > 0 
       
+
             !write(GP_print_unit,'(A,3(1x,I3),":",2(2x, A,":" ))') &
             !'cts:1 i_tree, i_code_eq, j_code_eq, &
             !&tree_string, bioflo_str(i..,j..) ', &
             !        i_tree, i_code_equation, j_code_equation, &
             ! trim( tree_string(i_tree) ),  &
             ! trim( bioflo_string(i_code_equation,j_code_equation) ) 
-
             !write(GP_print_unit,'(A,3(1x,I3),2x, A)') &
             !'cts:1 i_tree, i_code_equation, j_code_equation, tree_string ', &
             !       i_tree, i_code_equation, j_code_equation, &
             !       trim( tree_string(i_tree) )
-
             !write(GP_print_unit,'(A,3(1x,I3),2x, A)') &
             !'cts:1 i_tree, i_code_eq, j_code_eq, tree_string, bioflo_str(i..,j..) ', &
             !       i_tree, i_code_equation, j_code_equation, &
@@ -177,6 +175,7 @@ do  i_code_equation=0,n_code_equations   ! source of material
             !i_code_equation, j_code_equation, &
             !trim( bioflo_string(i_code_equation,j_code_equation) )
 
+
             if( len( trim(  bioflo_string(i_code_equation,j_code_equation) ) ) > 0 )then
 
                 if( len( trim( fbio_string(j_code_equation) ) ) > 0 )then
@@ -202,6 +201,7 @@ enddo !  i_code_equation
 
 
 !------------------------------------------------------------------------------------
+
 ! clean out the following artefacts from fbio_strings:
 
 !  +(0)
@@ -255,7 +255,7 @@ do  i_code_equation = 1,n_code_equations
             fbio_string(i_code_equation) = &
                  temp_string(1:indx-1) // trim( temp_string(indx+6:) )
 
-        endif !  index( fbio_string(i_code_equation) , '+(0)'
+        endif !  index( fbio_string(i_code_equation) , '+(0.0)'
 
         ksafe = ksafe + 1
         if( ksafe > 2000 ) exit plus_loop2
@@ -281,7 +281,7 @@ do  i_code_equation = 1,n_code_equations
             fbio_string(i_code_equation) = &
                temp_string(1:indx-1) // trim( temp_string(indx+4:) )
 
-        endif !  index( fbio_string(i_code_equation) , '+(0)'
+        endif !  index( fbio_string(i_code_equation) , '-(0)'
 
         ksafe = ksafe + 1
         if( ksafe > 2000 ) exit minus_loop
@@ -306,7 +306,7 @@ do  i_code_equation = 1,n_code_equations
             fbio_string(i_code_equation) = &
                temp_string(1:indx-1) // trim( temp_string(indx+6:) )
 
-        endif !  index( fbio_string(i_code_equation) , '+(0)'
+        endif !  index( fbio_string(i_code_equation) , '-(0.0)'
 
         ksafe = ksafe + 1
         if( ksafe > 2000 ) exit minus_loop2

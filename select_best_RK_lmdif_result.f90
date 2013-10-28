@@ -3,7 +3,6 @@ subroutine select_best_RK_lmdif_result( &
                 i_GA_best_parent, parent_parameters, &
                 child_parameters, &
                 L_stop_run )
-                !individual_quality, L_stop_run )
 
 ! written by: Dr. John R. Moisan [NASA/GSFC] 5 December, 2012
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -47,9 +46,6 @@ integer (kind=4) :: i_GA_Best_Parent_1
 
 integer (kind=4) :: i_GA_generation_last
 
-!real(kind=8), parameter :: tol = 1.0d-30
-
-real(kind=8),parameter :: zero = 0.0d0
 
 
 ! individual_quality contains information on the result of lmdif
@@ -72,8 +68,6 @@ integer(kind=4) :: i_parameter
 integer(kind=4) :: i_GP_Generation
 integer(kind=4) :: i_GP_individual
 
-!real(kind=8) :: t3
-!real(kind=8) :: t4
 
 !----------------------------------------------------------------------
 
@@ -219,10 +213,10 @@ if( individual_ranked_fitness(i_GA_best_parent) <= &
     individual_fitness         = individual_ranked_fitness_best_1
     Individual_SSE_best_parent = individual_SSE_best_1
 
-!new 20130713
+
     child_parameters(1:n_parameters,i_GA_Best_Parent) =  &
                         parent_parameters_best_1(1:n_parameters)
-!new 20130713
+
 
     ! choose the parameters of the best parent from the RK fcn integration
 
@@ -298,9 +292,10 @@ if( individual_ranked_fitness(i_GA_best_parent) <= &
                           parent_parameters_best_1( i_parameter )
 
             if( L_ga_print )then
-            !    write(GA_print_unit,'(A,1x,I6,1x,E20.10)') &
-            !          'sbrl:1 i_Parameter, parent_parameters_best_1( i_parameter ) ', &
-            !                  i_Parameter, parent_parameters_best_1( i_parameter )
+
+                !write(GA_print_unit,'(A,1x,I6,1x,E20.10)') &
+                !      'sbrl:1 i_Parameter, parent_parameters_best_1( i_parameter ) ', &
+                !              i_Parameter, parent_parameters_best_1( i_parameter )
 
                 write(GA_print_unit,'(A,2(1x,I6),1x,E20.10)') &
                       'sbrl:1 i_tree, i_node, GP_indiv_node_params', &
@@ -332,10 +327,10 @@ else  ! lmdif is best
     individual_fitness         = individual_ranked_fitness(i_GA_best_parent)
     Individual_SSE_best_parent = individual_SSE(i_GA_best_parent)
 
-!new 20130713
+
     child_parameters(1:n_parameters,i_GA_Best_Parent) =  &
                         Parent_Parameters(1:n_parameters, i_GA_Best_Parent)
-!new 20130713
+
 
     ! choose the parameters from the lmdif output for the best parent
 
@@ -407,11 +402,11 @@ else  ! lmdif is best
                         Parent_Parameters(i_Parameter, i_GA_Best_Parent)
 
             if( L_ga_print )then
-            !    write(GA_print_unit,'(A,2(1x,I6),1x,E20.10)') &
-            !          'sbrl:2 i_GA_Best_Parent,i_Parameter, &
-            !                 &Parent_Parameters(i_Parameter,i_GA_Best_Parent) ', &
-            !                  i_GA_Best_Parent,i_Parameter, &
-            !                  Parent_Parameters(i_Parameter, i_GA_Best_Parent)
+                !write(GA_print_unit,'(A,2(1x,I6),1x,E20.10)') &
+                !  'sbrl:2 i_GA_Best_Parent,i_Parameter, &
+                !       &Parent_Parameters(i_Parameter,i_GA_Best_Parent) ', &
+                !          i_GA_Best_Parent,i_Parameter, &
+                !        Parent_Parameters(i_Parameter, i_GA_Best_Parent)
                 write(GA_print_unit,'(A,2(1x,I6),1x,E20.10)') &
                       'sbrl:2 i_tree, i_node, GP_indiv_node_params', &
                               i_tree, i_node, GP_individual_node_parameters(i_node,i_tree)

@@ -314,10 +314,10 @@ endif ! GP_Integrated_Population_Ranked_Fitness(n_GP_Individuals) > 0.0d0
 write(6,'(/A)') 'gprs: after  sort '
 
 write(6,'(A)')                    &
-      'gprs:i_GP_Individual, GP_Integ_Pop_Ranked_Fitness, GP_Pop_Ranked_Fitness, GP_Child_Pop_SSE'
+    'gprs:i_GP_Individual GP_Integ_Pop_Ranked_Fitness GP_Pop_Ranked_Fitness GP_Child_Pop_SSE'
 
 do  i_GP_Individual=1,n_GP_Individuals
-    write(6,'(I10, 24x,3(3x, E15.7))') &
+    write(6,'(I10, 20x,3(3x, E15.7))') &
           i_GP_Individual, GP_Integrated_Population_Ranked_Fitness(i_GP_Individual), &
                            GP_Population_Ranked_Fitness(i_GP_Individual), &
                            GP_Child_Population_SSE(i_GP_Individual)

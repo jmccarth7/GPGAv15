@@ -67,17 +67,14 @@ real (kind=8) ::  std_dev_fit
 output_array = 0.0d0
 
 
-write(GP_print_unit,'(/A,1x,I6/)') &
-      'gpcf: i_GP_generation ',  i_GP_generation
-write(GP_print_unit,'(/A/)') &
-  'gpcf: i_GP_individual, GP_Child_Individual_SSE(i_GP_individual) '
-
-do  i_GP_individual = 1, n_GP_individuals
-
-    write(GP_print_unit,'(I6,1x,E15.7)')  &
-          i_GP_individual, GP_Child_Individual_SSE(i_GP_individual)
-
-enddo ! i_GP_individual
+!write(GP_print_unit,'(/A,1x,I6/)') &
+!      'gpcf: i_GP_generation ',  i_GP_generation
+!write(GP_print_unit,'(/A/)') &
+!  'gpcf: i_GP_individual, GP_Child_Individual_SSE(i_GP_individual) '
+!do  i_GP_individual = 1, n_GP_individuals
+!    write(GP_print_unit,'(I6,1x,E15.7)')  &
+!          i_GP_individual, GP_Child_Individual_SSE(i_GP_individual)
+!enddo ! i_GP_individual
 
 !-------------------------------------------------------------------------------
 
@@ -165,20 +162,20 @@ enddo ! i_GP_Individual
 
 !-------------------------------------------------------------------------------
 
-if( i_GP_generation == 1                                 .or. &
-    mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
-    i_GP_generation == n_GP_generations                          ) then
-
-    write(GP_print_unit,'(/A)') &
-          'gpcf: i_GP_indiv  GP_Child_Indiv_SSE  GP_Pop_Ranked_Fitness   '
-
-    do  i_GP_Individual=1,n_GP_Individuals
-        write(GP_print_unit,'(5x,I6,2x, 2(5x,E15.7))') &
-              i_GP_individual, GP_Child_Individual_SSE(i_GP_Individual), &
-             GP_Population_Ranked_Fitness(i_GP_Individual)
-    enddo
-
-endif ! i_GP_generation == 1 .or. ...
+!if( i_GP_generation == 1                                 .or. &
+!    mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
+!    i_GP_generation == n_GP_generations                          ) then
+!
+!    write(GP_print_unit,'(/A)') &
+!          'gpcf: i_GP_indiv  GP_Child_Indiv_SSE  GP_Pop_Ranked_Fitness   '
+!
+!    do  i_GP_Individual=1,n_GP_Individuals
+!        write(GP_print_unit,'(5x,I6,2x, 2(5x,E15.7))') &
+!              i_GP_individual, GP_Child_Individual_SSE(i_GP_Individual), &
+!             GP_Population_Ranked_Fitness(i_GP_Individual)
+!    enddo
+!
+!endif ! i_GP_generation == 1 .or. ...
 
 !-------------------------------------------------------------------------------
 
@@ -315,7 +312,7 @@ write(GP_print_unit,'(/A)') &
 
 write(GP_print_unit,'(/A)') &
      'gpcf: i_tree  i_node  nop  &
-     &GP_pop_node_params(i_node,i_tree,i_GP_Best_Parent)'
+     &GP_pop_node_params'
 
 
 tree_loop:&
@@ -431,6 +428,7 @@ GP_Adult_Individual_SSE  =  GP_Child_Individual_SSE
 
 GP_Adult_Population_SSE  =  GP_Child_Individual_SSE
 GP_Child_Population_SSE  =  GP_Child_Individual_SSE
+
 !---------------------------------------------------------------------------
 !
 !if( i_GP_generation == 1                                 .or. &
@@ -515,31 +513,32 @@ endif ! L_unit50_output
 ! GP_ranking re-orders all these arrays, so that the best parent is no longer at
 ! the index it was in GP_calc_fitness
 
+
+! re-sort based on rankings
+
+! uses:
+!  GP_Child_Population_SSE
+!  GP_population_node_parameters
+!  GP_Adult_Population_Parameter_Solution
+!  GP_Child_Population_Parameter_Solution
+!  GP_Child_Population_Node_Type
+
+! sets:
+!  GP_Child_Population_SSE
+!  GP_Adult_Population_Parameter_Solution
+!  GP_Child_Population_Parameter_Solution
+!  GP_Adult_Population_Node_Type
+!  GP_Child_Population_Node_Type
+!  GP_Population_Initial_Conditions
+!  GP_Adult_Population_SSE
+!  GP_Adult_Individual_SSE
+!  GP_Child_Individual_SSE
+!  GP_population_node_parameters
+!  GP_Population_Ranked_Fitness
+!  GP_Integrated_Population_Ranked_Fitness
+
+
 if( i_GP_generation < n_GP_generations )then
-
-    ! re-sort based on rankings
-
-    ! uses:
-    !  GP_Child_Population_SSE
-    !  GP_population_node_parameters
-    !  GP_Adult_Population_Parameter_Solution
-    !  GP_Child_Population_Parameter_Solution
-    !  GP_Child_Population_Node_Type
-
-    ! sets:
-    !  GP_Child_Population_SSE
-    !  GP_Adult_Population_Parameter_Solution
-    !  GP_Child_Population_Parameter_Solution
-    !  GP_Adult_Population_Node_Type
-    !  GP_Child_Population_Node_Type
-    !  GP_Population_Initial_Conditions
-    !  GP_Adult_Population_SSE
-    !  GP_Adult_Individual_SSE
-    !  GP_Child_Individual_SSE
-    !  GP_population_node_parameters
-    !  GP_Population_Ranked_Fitness
-    !  GP_Integrated_Population_Ranked_Fitness
-
 
     write(GP_print_unit,'(/A,1x,I6/)') &
        'gpcf: call GP_ranking GP_Gen ',  i_GP_Generation

@@ -39,13 +39,10 @@ integer, intent(in)  ::  myprint_unit
 ! lmdif arrays and variables
 
 real(kind=8) :: x_LMDIF(n_maximum_number_parameters)
-!real(kind=8) :: x_LMDIF(n_parms_dim)
 real(kind=8) :: fvec(n_time_steps)
 real(kind=8) :: ftol,xtol,gtol
 
 
-!real(kind=8), parameter :: tol = 1.0d-30
-!real(kind=8), parameter :: epsfcn = 1.0d-9   ! 1.0d-6    ! original
 real(kind=8), parameter :: epsfcn = 1.0d-6  !-15   ! 1.0d-6    ! original
 real(kind=8), parameter :: factor=1.0D+0
 real(kind=8), parameter :: zero = 0.0d0
@@ -53,14 +50,10 @@ real(kind=8), parameter :: zero = 0.0d0
 real(kind=8) :: diag(n_maximum_number_parameters)
 real(kind=8) :: fjac( n_time_steps , n_maximum_number_parameters )
 real(kind=8) :: qtf(n_maximum_number_parameters)
-!real(kind=8) :: diag(n_parms_dim)
-!real(kind=8) :: fjac(n_time_steps,n_parms_dim)
-!real(kind=8) :: qtf(n_parms_dim)
 
 integer(kind=4) :: maxfev,ldfjac,mode,nprint,info,nfev
 
 integer(kind=4) :: ipvt(n_maximum_number_parameters)
-!integer(kind=4) :: ipvt(n_parms_dim)
 
 
 ! individual_quality contains information on the result of lmdif
@@ -79,10 +72,6 @@ real(kind=8) :: child_parameters( n_maximum_number_parameters )
 
 external :: fcn
 
-real(kind=8) :: t1
-real(kind=8) :: t2
-real(kind=8) :: t2mt1
-!real(kind=8) :: delta_wt
 
 !--------------------------------------------------------------------------------------------
 
@@ -110,7 +99,6 @@ if( n_parms <= 0 ) then
     !                                   myid,  n_parms
     !endif ! L_myprint
 
-    !if( L_myprint .and. i_G_indiv == 1 )then
     !if( L_myprint .and. i_G_indiv == 3 )then
     !if( L_myprint  )then
     !    write(myprint_unit,'(A, 3(1x, I6),  1x,E12.5)') &
@@ -157,19 +145,19 @@ do  i_parameter=1,n_parms
     ! debug_only--------------------------------------------------------------------
 
     !if( L_myprint  .and. i_G_indiv == 1)then
-    if( L_myprint )then
-        write(myprint_unit,'(A,3(1x,I6),1x,E24.16)') &
-          'strplm:1 myid, i_G_indiv,i_parameter, child_parameters', &
-                    myid, i_G_indiv,i_parameter, &
-                    child_parameters(i_parameter)
-        !write(myprint_unit,'(A,3(1x,I6),2(1x,E24.16))') &
-        !  'strplm:1 myid, i_G_indiv,i_parameter, child_parameters, X_LMDIF', &
-        !            myid, i_G_indiv,i_parameter, &
-        !            child_parameters(i_parameter),  X_LMDIF(i_parameter)
-        !write(myprint_unit,'(A,2(1x,I6),1x,E20.10)') &
-        !  'strplm:1 myid, i_parameter,  X_LMDIF', &
-        !            myid, i_parameter,  X_LMDIF(i_parameter)
-    endif ! L_myprint
+    !if( L_myprint )then
+    !    write(myprint_unit,'(A,3(1x,I6),1x,E24.16)') &
+    !      'strplm:1 myid, i_G_indiv,i_parameter, child_parameters', &
+    !                myid, i_G_indiv,i_parameter, &
+    !                child_parameters(i_parameter)
+    !    !write(myprint_unit,'(A,3(1x,I6),2(1x,E24.16))') &
+    !    !  'strplm:1 myid, i_G_indiv,i_parameter, child_parameters, X_LMDIF', &
+    !    !            myid, i_G_indiv,i_parameter, &
+    !    !            child_parameters(i_parameter),  X_LMDIF(i_parameter)
+    !    !write(myprint_unit,'(A,2(1x,I6),1x,E20.10)') &
+    !    !  'strplm:1 myid, i_parameter,  X_LMDIF', &
+    !    !            myid, i_parameter,  X_LMDIF(i_parameter)
+    !endif ! L_myprint
 
 enddo ! i_parameter
 
@@ -233,27 +221,23 @@ ldfjac = n_time_steps
 
 L_bad_result = .false.
 
-!t1 = MPI_Wtime()
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 iunit = 0
 !if( i_G_indiv == 3 )then
-    write(myprint_unit,'(/A,1x,I3/)') 'strplm: RUN LMDIF myid =', myid
+!    write(myprint_unit,'(/A,1x,I3/)') 'strplm: RUN LMDIF myid =', myid
 !    iunit = 1
 !endif ! myid == 3
+!write(myprint_unit,'(A,2(1x,I10))') 'strplm:input  n_time_steps, n_parms ', &
+!                                                   n_time_steps, n_parms
+!write(myprint_unit,'(A,4(1x,E15.7))') 'strplm:input  ftol, xtol, gtol, epsfcn  ', &
+!                                                     ftol, xtol, gtol, epsfcn
+!write(myprint_unit,'(A,2(1x,I10))') 'strplm:input  maxfev ', maxfev
+!write(myprint_unit,'(A,2(1x,I10))') 'strplm:input  mode, nprint ', &
+!                                                   mode, nprint
+!write(myprint_unit,'(A,3(1x,E15.7))') 'strplm:input factor', factor
 
-write(myprint_unit,'(A,2(1x,I10))') 'strplm:input  n_time_steps, n_parms ', &
-                                                   n_time_steps, n_parms
-
-write(myprint_unit,'(A,4(1x,E15.7))') 'strplm:input  ftol, xtol, gtol, epsfcn  ', &
-                                                     ftol, xtol, gtol, epsfcn
-
-write(myprint_unit,'(A,2(1x,I10))') 'strplm:input  maxfev ', maxfev
-
-write(myprint_unit,'(A,2(1x,I10))') 'strplm:input  mode, nprint ', &
-                                                   mode, nprint
-write(myprint_unit,'(A,3(1x,E15.7))') 'strplm:input factor', factor
 
 
 call lmdif( fcn, n_time_steps, n_parms, x_LMDIF, fvec, &
@@ -261,22 +245,13 @@ call lmdif( fcn, n_time_steps, n_parms, x_LMDIF, fvec, &
             diag, mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf, &
             iunit )
 
-write(myprint_unit,'(A,3(1x,I6))') 'strplm:output info, nfev, ldfjac ', &
-                                                  info, nfev, ldfjac
+
+
+!write(myprint_unit,'(A,3(1x,I6))') 'strplm:output info, nfev, ldfjac ', &
+!                                                  info, nfev, ldfjac
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-!t2 = MPI_Wtime()
-!delta_wt = MPI_Wtick()
-
-!sum_lmdif = sum_lmdif + ( t2 - t1 )
-
-!call MPI_REDUCE( t2mt1, sum_lmdif, 1, MPI_DOUBLE_PRECISION, &
-!                 MPI_SUM, 0, MPI_COMM_WORLD, ierr )
-
-!write(myprint_unit,'(/A,1x,E15.7)') 'strplm: time spent in lmdif = ', t2 - t1
-!write(myprint_unit,'(A,1x,E15.7)')  'strplm: time increment      = ', delta_wt
-!write(myprint_unit,'(A,1x,E15.7/)') 'strplm:          sum_ lmdif = ', sum_lmdif
 
 !if( i_G_indiv == 3 )then
 !    write(6,'(A,3(1x,I3),1x,I10/)') &
@@ -333,6 +308,7 @@ if( Lprint_lmdif )then
 
     Lprint_lmdif = .FALSE.
 endif ! Lprint_lmdif
+
 !----------------------------------------------------------------------------------------
 
 
@@ -374,12 +350,12 @@ do  i_parameter=1,n_parms
     child_parameters(i_parameter) = &
                            dabs( x_LMDIF(i_parameter) )
 
-    if( L_myprint  )then
-        write(myprint_unit,'(A,3(1x,I6),1x,E24.16)') &
-          'strplm:4 myid, i_G_indiv,i_parameter, child_parameters', &
-                    myid, i_G_indiv,i_parameter, &
-                    child_parameters(i_parameter)
-    endif ! L_myprint
+    !if( L_myprint  )then
+    !    write(myprint_unit,'(A,3(1x,I6),1x,E24.16)') &
+    !      'strplm:4 myid, i_G_indiv,i_parameter, child_parameters', &
+    !                myid, i_G_indiv,i_parameter, &
+    !                child_parameters(i_parameter)
+    !endif ! L_myprint
 
 enddo ! i_parameter
 

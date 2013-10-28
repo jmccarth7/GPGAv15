@@ -32,15 +32,6 @@ real(kind=8),allocatable,dimension(:,:)       :: GP_Individual_Node_Parameters
 !real(kind=8),allocatable,dimension(:,:)       :: GP_Population_Parameter_Solution
 
 
-! in GPCODE*n.f90
-!real(kind=8),allocatable, dimension(:)  :: buffer
-!real(kind=8),allocatable, dimension(:)  :: buffer_recv
-
-! in GP_para*lmdif*f90
-!real(kind=8),allocatable, dimension(:)  :: buffer2
-!real(kind=8),allocatable, dimension(:)  :: buffer2_recv
-
-
 ! GP_Solution(0:n_Time_Steps,n_CODE_Equations)
 !real(kind=8),allocatable,dimension(:,:) :: GP_Solution
 
@@ -90,17 +81,17 @@ integer(kind=4),allocatable,dimension(:,:) :: Runge_Kutta_Node_Type
 integer(kind=4),allocatable,dimension(:,:) :: RK_Node_Type
 
 !real(kind=8) :: Runge_Kutta_Node_Parameters(n_nodes,n_trees)
-real(kind=8),allocatable,dimension(:,:)       :: Runge_Kutta_Node_Parameters
-real(kind=8),allocatable,dimension(:,:)       :: RK_Node_Parameters
+real(kind=8),allocatable,dimension(:,:)    :: Runge_Kutta_Node_Parameters
+real(kind=8),allocatable,dimension(:,:)    :: RK_Node_Parameters
 
 !real (kind=8) :: Runge_Kutta_Initial_Conditions(n_CODE_equations)
-real (kind=8),allocatable,dimension(:)        :: Runge_Kutta_Initial_Conditions
-real (kind=8),allocatable,dimension(:)        :: RK_Initial_Conditions
+real (kind=8),allocatable,dimension(:)     :: Runge_Kutta_Initial_Conditions
+real (kind=8),allocatable,dimension(:)     :: RK_Initial_Conditions
 
 !real (kind=8) :: Runge_Kutta_Solution(0:n_time_steps,n_CODE_equations)
 !
-real(kind=8),allocatable, dimension(:,:) :: Runge_Kutta_Solution
-real(kind=8),allocatable, dimension(:,:) :: RK_Solution
+real(kind=8),allocatable, dimension(:,:)   :: Runge_Kutta_Solution
+real(kind=8),allocatable, dimension(:,:)   :: RK_Solution
 
 !------------------------------------------------------------------------------
 

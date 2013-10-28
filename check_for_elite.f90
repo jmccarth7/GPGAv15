@@ -69,7 +69,8 @@ do
 enddo
 
 !if( L_ga_print )then                                                                                
-!    write(GA_print_unit,'(A,1x,I6)') 'cfe: at return index0     ', index0
+!    write(GA_print_unit,'(A,1x,I6)') &
+!          'cfe: at return index0     ', index0
 !endif ! L_ga_print  
 
 

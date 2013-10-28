@@ -7,16 +7,10 @@ use Runge_Kutta_Variables_module
 
 implicit none
 
-!real(kind=8) :: cff
 
 
 character(4),parameter  ::  op_string = '+-/*'
 
-!character(str_len) ::  left_node_value_string
-!character(str_len) ::  right_node_value_string
-!character(str_len) ::  cff_string
-!character(str_len) ::  out_string
-!character(str_len) ::  temp_string
 
 integer, intent(in)  :: len_fbio_string
 integer :: j    
@@ -31,7 +25,6 @@ integer :: i_code_equation
 
 integer,parameter :: ksafe_max = 50
 
-!character(str_len),  dimension( n_trees )    ::  tree_string
 
 character(len_fbio_string), dimension( n_code_equations ) ::  fbio_string
 character(len_fbio_string)                                ::  work_string

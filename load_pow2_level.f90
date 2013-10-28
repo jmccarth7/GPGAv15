@@ -10,9 +10,6 @@ use Runge_Kutta_Variables_module
 
 implicit none
 
-!integer, parameter :: max_level = 10
-!integer, dimension(0:max_level) :: pow2_table 
-
 integer ::  i_level
 
 

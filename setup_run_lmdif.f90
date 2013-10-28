@@ -37,10 +37,7 @@ real(kind=8) :: fvec(n_time_steps)
 real(kind=8) :: ftol,xtol,gtol
 
 
-!real(kind=8), parameter :: tol = 1.0d-30
 real(kind=8), parameter :: epsfcn = 1.0d-6    ! original
-!real(kind=8), parameter :: epsfcn = 1.0d-9  
-!real(kind=8), parameter :: epsfcn = 1.0d-6  ! 15 
 
 real(kind=8), parameter :: factor=1.0D+0
 real(kind=8), parameter :: zero = 0.0d0
@@ -56,7 +53,6 @@ integer(kind=4) :: ipvt(n_maximum_number_parameters)
 ! if lmdif encounters an error, set individual_quality to -1
 ! if < 0 , reject this individual  ! jjm
 
-!integer(kind=4) :: individual_quality(n_GA_individuals)
 integer(kind=4) :: individual_quality(n_indiv)
 
 integer(kind=4) :: i_time_step
@@ -142,8 +138,6 @@ if( Lprint_lmdif )then
                                                        mode, nprint, ldfjac
         write(myprint_unit,'(A,3(1x,E15.7))') 'setrlm: ftol, xtol, gtol    ', &
                                                        ftol, xtol, gtol
-        !write(myprint_unit,'(A,3(1x,E15.7))') 'setrlm: tol,epsfcn, factor  ', &
-        !                                               tol, epsfcn,factor
         write(myprint_unit,'(A,3(1x,E15.7))') 'setrlm: epsfcn, factor  ', &
                                                        epsfcn, factor
         write(myprint_unit,'(A,1x,I10)')   'setrlm: maxfev', maxfev
@@ -156,7 +150,6 @@ endif ! Lprint_lmdif
 
 L_bad_result = .false.
 
-!t1 = MPI_Wtime()
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -174,23 +167,19 @@ write(myprint_unit,'(A,2(1x,I10))') 'setrlm:input  mode, nprint ', &
 write(myprint_unit,'(A,3(1x,E15.7))') 'setrlm:input    factor  ', factor
 
 
+
+
 call lmdif( fcn, n_time_steps, n_parameters, x_LMDIF, fvec, &
             ftol, xtol, gtol, maxfev, epsfcn, &
             diag, mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf, 0 )
+
+
 
 write(myprint_unit,'(A,3(1x,I6))') 'setrlm:output info, nfev, ldfjac ', &
                                                   info, nfev, ldfjac
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-!t2 = MPI_Wtime()
-!delta_wt = MPI_Wtick()
-
-!sum_lmdif = sum_lmdif + ( t2 - t1 )
-
-!write(myprint_unit,'(/A,1x,E15.7)') 'setrlm: time spent in lmdif = ', t2 - t1
-!write(myprint_unit,'(A,1x,E15.7)')  'setrlm: time increment      = ', delta_wt
-!write(myprint_unit,'(A,1x,E15.7/)') 'setrlm:          sum_ lmdif = ', sum_lmdif 
 
 !write(6,'(A,3(1x,I3),1x,I10/)') &
 !      'setrlm: aft call lmdif, myid, n_parameters, info, n_time_steps', &

@@ -1,4 +1,4 @@
-subroutine Runge_Kutta_Box_Model
+subroutine Runge_Kutta_Box_Model_new
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ! carry out a prescribed Runge-Kutta numerical integration
@@ -69,21 +69,35 @@ do  i_time_step=1,n_time_steps
         ! use node+1 instead of i_node_right ?
 
 
-        Tree_Evaluation = Runge_Kutta_Node_Parameters       ! Matrix Assignment
-        Node_Eval_Type  = Runge_Kutta_Node_Type             ! Matrix Assignment
+        !Tree_Evaluation = Runge_Kutta_Node_Parameters       ! Matrix Assignment
+        !Node_Eval_Type  = Runge_Kutta_Node_Type             ! Matrix Assignment
+        !  array( 1:n_elements) 
 
-        do  i_tree=1,n_trees
+        !type treex
+        !     integer :: i_node
+        !     integer :: i_tree
+        !     integer :: i_node_type
+        !     read(kind=8) :: value
+        !end type treex
+
+
+        do  i_tree = 1, n_trees        
+
+            if( .not. any( i_tree == array%i_tree ) ) cycle 
 
             do  i_level=n_levels-1,1,-1   ! move up the tree structure from level "n_level-1" to level "1"
 
                 ! the function number at the right end of the upper level
-                i_function= pow2_table(i_level-1)       ! 2**(i_level-1) - 1 
 
-
+                i_function= pow2_table(i_level-1) !  2**(i_level-1) - 1 
 
 
                 ! run through each function at the level
-                do  i_node = pow2_table(i_level)+1 , pow2_table(i_level+1) , 2  ! 2**i_level,(2*(2**i_level))-1,2    
+
+                do  i_node = pow2_table(i_level)+1 , pow2_table(i_level+1) , 2  ! 2**i_level,(2*(2**i_level))-1,2     
+
+                    if( .not. any(  i_node ==  array%i_node ) ) cycle
+
 
                     i_function=i_function+1       ! sets the 'function' node's index
 
@@ -93,13 +107,16 @@ do  i_time_step=1,n_time_steps
                     i_node_right=i_node+1         ! sets the 'right terminal' node's index;
                                                   !    i_node_right=(i_function*2)+1 would also work
 
-                    if( Node_Eval_Type(i_function,i_tree) .gt. 0) then ! run the calculation
+                    call get_node_type( i_function, i_tree, i_node_type1, value1 )
 
-                        icff=Node_Eval_Type(i_node_left,i_tree)
+                    if( i_node_type1         .gt. 0) then ! run the calculation
+                    !if( Node_Eval_Type(i_function,i_tree) .gt. 0) then ! run the calculation
+
+                        icff= i_node_type1    ! Node_Eval_Type(i_node_left,i_tree)
 
                         if( icff .eq. 0) then
 
-                            left_node_value=Tree_Evaluation(i_node_left,i_tree)
+                            left_node_value= value1 ! Tree_Evaluation(i_node_left,i_tree)
 
                         elseif( icff .lt. 0 .and. icff .ne. -9999) then
 
@@ -111,11 +128,13 @@ do  i_time_step=1,n_time_steps
 
                         endif ! icff .eq. 0
 
-                        icff=node_eval_type(i_node_right,i_tree)
+                        call get_node_type( i_node_right, i_tree, i_node_type2, value2 )
+
+                        icff= i_node_type2
 
                         if( icff .eq. 0) then
 
-                            right_node_value=Tree_Evaluation(i_node_right,i_tree)
+                            right_node_value=  value2
 
                         elseif( icff .lt. 0 .and. icff .ne. -9999) then
 
@@ -141,7 +160,7 @@ do  i_time_step=1,n_time_steps
                         !                     abs(left*right)*(1 -e^-abs(left*right))
 
 
-                        SELECT CASE( node_eval_type(i_function,i_tree) )
+                        SELECT CASE( i_node_type1  )
 
 
                            CASE(1)  ! LHS + RHS
@@ -204,15 +223,13 @@ do  i_time_step=1,n_time_steps
                              !if( L_ga_print )then
                              !    write(GA_print_unit,'(8x, A, 1x,I2,3(1x,E15.7) )') &
                              !     'icff, left, right, tree_eval ', &
-                             !      icff, left_node_value, right_node_value, &
-                             !      tree_evaluation(i_function,i_tree)
+                             !      icff, left_node_value, right_node_value, tree_evaluation(i_function,i_tree)
                              !endif ! L_ga_print
 
                            CASE DEFAULT
 
                              if( L_ga_print )then
-                                 write(GA_print_unit,'(/A/)') &
-                                       'wrong case number chosen in Runge Kutta evaluations'
+                                 write(GA_print_unit,*) 'wrong case number chosen in Runge Kutta evaluations'
                              endif ! L_ga_print
                              stop 'RK bad case number'
 
@@ -416,4 +433,4 @@ enddo ! i_time_step
 
 return
 
-end subroutine Runge_Kutta_Box_Model
+end subroutine Runge_Kutta_Box_Model_new

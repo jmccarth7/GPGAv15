@@ -7,8 +7,6 @@ use Runge_Kutta_Variables_module
 
 implicit none
 
-!real(kind=8) :: cff
-
 
 character(4),parameter  ::  op_string = '+-/*'
 
@@ -16,8 +14,6 @@ character(4),parameter  ::  op_string = '+-/*'
 integer :: j    
 integer :: j1    
 integer :: j2    
-!integer :: indx 
-!integer :: ksafe
 integer :: len_work
 
 
@@ -51,7 +47,7 @@ do  j = 1, len_work
         !---------------------------------------------------
         ! skip removing parens if parens part of abs(E) or exp(E)
 
-        !if( index( work_string, 'abs(E)' ) == j - 4 ) cycle 
+
         if( index( work_string, 'abs(E)' ) == j - 4 ) then 
             work_string = work_string(1:j-5) // 'E' // work_string(j+2:len_work)
             cycle

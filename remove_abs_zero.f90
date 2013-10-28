@@ -10,9 +10,6 @@ character(str_len) :: work_string
 character(str_len) :: work_string2
 
 integer :: len_in_string
-!integer :: i
-!integer :: j
-!integer :: par2
 integer :: ksafe
 integer :: index1
 integer :: index2
@@ -37,17 +34,15 @@ ksafe = 0
 index1 = 1
 index2 = len_in_string
 
-!write(6,'(A,1x,I8)') 'raz: index1 = ', index1 
-!write(6,'(A,1x,I8)') 'raz: index2 = ', index2 
+!write(6,'(A,2(1x,I8))') 'raz: index1, index2 = ', index1, index2 
 
 !write(6,'(/A/)') 'raz: begin loop'
 do 
 
     ksafe = ksafe + 1
     
-    !write(6,'(/A,1x,I8)') 'raz: ksafe  = ', ksafe  
-    !write(6,'(A,1x,I8)') 'raz: index1 = ', index1 
-    !write(6,'(A,1x,I8/)') 'raz: index2 = ', index2 
+    !write(6,'(/A,3(1x,I8))') &
+    !  'raz: ksafe, index1, index2  = ', ksafe, index1, index2  
 
     if( index1 > index2 ) exit
     
@@ -130,17 +125,15 @@ ksafe = 0
 index1 = 1
 index2 = len_in_string
 
-!write(6,'(A,1x,I8)') 'raz: index1 = ', index1 
-!write(6,'(A,1x,I8)') 'raz: index2 = ', index2 
+!write(6,'(A,2(1x,I8))') 'raz: index1, index2 = ', index1, index2 
 
 !write(6,'(/A/)') 'raz: begin loop'
 do 
 
     ksafe = ksafe + 1
     
-    !write(6,'(/A,1x,I8)') 'raz: ksafe  = ', ksafe  
-    !write(6,'(A,1x,I8)') 'raz: index1 = ', index1 
-    !write(6,'(A,1x,I8/)') 'raz: index2 = ', index2 
+    !write(6,'(/A,3(1x,I8))') &
+    !  'raz: ksafe, index1, index2  = ', ksafe, index1, index2  
 
     if( index1 > index2 ) exit
     
