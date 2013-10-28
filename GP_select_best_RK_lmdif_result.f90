@@ -107,11 +107,11 @@ if( L_GP_print )then
                   'gpsbrl: nop, n_parameters', nop, n_parameters 
     write(GP_print_unit,'(A,1x,I10)') &
                   'gpsbrl: i_GP_best_parent ', i_GP_best_parent 
-    do  i = 1, nop
-        write(GP_print_unit,'(A,1x,I3, 1x,E15.7)') &
-              'gpsbrl: i, output_array(i)', &
-                       i, output_array(i) 
-    enddo 
+    !do  i = 1, nop
+    !    write(GP_print_unit,'(A,1x,I3, 1x,E15.7)') &
+    !          'gpsbrl: i, output_array(i)', &
+    !                   i, output_array(i) 
+    !enddo 
 
 endif ! L_GP_print
 
