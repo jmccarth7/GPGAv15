@@ -74,14 +74,14 @@ real(kind=8) ::  temp_SSE
 
 !----------------------------------------------------------------------
 
-L_GP_print = .FALSE.
-if( i_GP_generation == 1 .or. &
-    mod( i_GP_generation, GP_child_print_interval ) == 0 .or. & 
-    i_GP_generation == n_GP_generations )then
+!L_GP_print = .FALSE.
+!if( i_GP_generation == 1 .or. &
+!    mod( i_GP_generation, GP_child_print_interval ) == 0 .or. & 
+!    i_GP_generation == n_GP_generations )then
 
     L_GP_print = .TRUE. 
 
-endif ! i_GP_generation...
+!endif ! i_GP_generation...
 
 i_dummy = 0
 
@@ -504,6 +504,7 @@ if( myid == 0  )then
 
 
         !if( L_GP_print .and. i_individual == 3 )then
+        !if( L_GP_print )then
         !    write(GP_print_unit,'(A,3(1x,I6))') &
         !     'gplp:2 554 myid, n_parms, i_individual', &
         !                 myid, n_parms, i_individual
@@ -692,6 +693,7 @@ else  ! not myid == 0
         !endif ! L_GP_print
 
         !if( L_GP_print .and. i_2_individual == 3 )then
+        !if( L_GP_print  )then
         !    write(GP_print_unit,'(A,3(1x,I6))') &
         !     'gplp:6 554 myid, n_parms, i_2_individual', &
         !                 myid, n_parms, i_2_individual
@@ -707,6 +709,9 @@ else  ! not myid == 0
         !endif ! L_GP_print
 
 
+
+        !write(GP_print_unit,'(/A,1x,I4/)') &
+        !     'gplp:6 myid, call setup_run_para_lmdif ', myid
 
         temp_SSE = GP_child_individual_SSE(i_2_individual)
 
@@ -732,6 +737,7 @@ else  ! not myid == 0
         !--------------------------------------------------------------------------
 
         !if( L_GP_print .and. i_2_individual == 3 )then
+        !if( L_GP_print  )then
         !    write(GP_print_unit,'(A,3(1x,I6))') &
         !     'gplp:7 723 myid, n_parms, i_2_individual  AFTER LMDIF ', &
         !                 myid, n_parms, i_2_individual

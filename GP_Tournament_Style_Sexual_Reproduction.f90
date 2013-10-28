@@ -30,8 +30,8 @@ integer(kind=4) :: i_Female_Tree
 integer(kind=4) :: i_Error
 
 integer(kind=4) :: i_GP_individual
-!integer(kind=4) :: i_tree
-!integer(kind=4) :: i_node
+integer(kind=4) :: i_tree
+integer(kind=4) :: i_node
 
 integer(kind=4) :: i_safe
 integer(kind=4) :: i_safe_max
@@ -43,16 +43,16 @@ integer(kind=4) :: i_safe_max
 
 i_GP_Individual = n_GP_Elitists + n_GP_Asexual_Reproductions
 
-!if( myid == 0 )then
-!    write(GP_print_unit,'(/A,1x,I6)' ) &
-!      'gptssr: n_GP_Crossovers ', n_GP_Crossovers
-!    write(GP_print_unit,'(A,2(1x,I6))' ) &
-!      'gptssr: n_GP_Elitists, n_GP_Asexual_Reproductions ', &
-!               n_GP_Elitists, n_GP_Asexual_Reproductions
-!    write(GP_print_unit,'(A,1x,I6)' ) &
-!      'gptssr: start i_GP_individual  =  ', &
-!                   n_GP_Elitists + n_GP_Asexual_Reproductions +1
-!endif ! myid == 0
+if( myid == 0 )then
+    write(GP_print_unit,'(/A,1x,I6)' ) &
+      'gptssr: n_GP_Crossovers ', n_GP_Crossovers
+    write(GP_print_unit,'(A,2(1x,I6))' ) &
+      'gptssr: n_GP_Elitists, n_GP_Asexual_Reproductions ', &
+               n_GP_Elitists, n_GP_Asexual_Reproductions
+    write(GP_print_unit,'(A,1x,I6)' ) &
+      'gptssr: start i_GP_individual  =  ', &
+                   n_GP_Elitists + n_GP_Asexual_Reproductions +1
+endif ! myid == 0
 
 
 
@@ -304,9 +304,9 @@ do
     call GP_Tree_Swap    !   perform the random tree swap
 
 
-    !if( myid == 0 )then
-    !    write(6,'(A/)') 'gptssr: aft call GP_Tree_Swap '
-    !endif ! myid == 0
+    if( myid == 0 )then
+        write(6,'(A/)') 'gptssr: aft call GP_Tree_Swap '
+    endif ! myid == 0
 
     !-----------------------------------------------------------------------------------
 

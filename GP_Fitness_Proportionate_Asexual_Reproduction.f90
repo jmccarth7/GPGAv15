@@ -13,23 +13,26 @@ implicit none
 
 real(kind=4) :: cff
 
-!integer(kind=4) :: i
+integer(kind=4) :: i
 integer(kind=4) :: icff
 integer(kind=4) :: i_GP_individual
 integer(kind=4) :: j_GP_Individual
 integer(kind=4) :: i_GP_Asexual_Reproduction
 
 integer(kind=4) :: i_parm                         
+integer(kind=4) :: iii                            
 
 real(kind=8) :: sse_ind
 
 !-----------------------------------------------------------------------------
 
+!if( myid == 0 )then
 !do  i = 1, n_GP_individuals
 !    write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
-!         'gpfpar: i, GP_Child_Population_SSE(i)',&
-!                  i, GP_Child_Population_SSE(i)
+!         'gpfpar: i, GP_Child_Individual_SSE(i)',&
+!                  i, GP_Child_Individual_SSE(i)
 !enddo
+!endif ! myid == 0
 
 
 
@@ -58,8 +61,13 @@ do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
     !                   i_GP_Asexual_Reproduction, i_GP_individual
     !endif ! myid == 0
 
-    sse_ind = GP_Child_Population_SSE(i_GP_Individual)
+    sse_ind = GP_Child_Individual_SSE(i_GP_Individual)
 
+    !if( myid == 0 )then
+    !    write(6,'(A,1x,I6,1x,E16.7)') &
+    !          'gpfpar: i_GP_individual, GP_Child_Individual_SSE(i_GP_Individual)  ', &
+    !                   i_GP_individual, GP_Child_Individual_SSE(i_GP_Individual)
+    !endif ! myid == 0
     !--------------------------------------------------------------------------
 
 
@@ -116,16 +124,24 @@ do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
     !write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
     !      'gpfpar: i_GP_individual, GP_Child_Population_Parameter_Solution(1,i_GP_Individual)',&
     !               i_GP_individual, GP_Child_Population_Parameter_Solution(1,i_GP_Individual)
-    !write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
-    !      'gpfpar: j_GP_individual, GP_Adult_Population_Parameter_Solution(1,j_GP_Individual)',&
-    !               j_GP_individual, GP_Adult_Population_Parameter_Solution(1,j_GP_Individual)
+    !do  iii = 1, n_maximum_number_parameters
+    !    write(GP_print_unit,'(A,2(1x,I6),1x,E15.7)' ) &
+    !      'gpfpar: j_GP_individual, iii,GP_Adult_Population_Parameter_Solution(iii,j_GP_Individual)',&
+    !               j_GP_individual, iii,GP_Adult_Population_Parameter_Solution(iii,j_GP_Individual)
+    !enddo 
 
 
-    GP_Child_Population_Parameter_Solution(1:n_Maximum_Number_Parameters,i_GP_Individual) = &
-       GP_Adult_Population_Parameter_Solution(1:n_Maximum_Number_Parameters,j_GP_Individual)
+    !GP_Child_Population_Parameter_Solution(1:n_Maximum_Number_Parameters,i_GP_Individual) = &
+    !   GP_Adult_Population_Parameter_Solution(1:n_Maximum_Number_Parameters,j_GP_Individual)
+   
+    if( i_GP_individual /= j_GP_individual )then
+        GP_Adult_Population_Parameter_Solution(1:n_Maximum_Number_Parameters,i_GP_Individual) = &
+        GP_Adult_Population_Parameter_Solution(1:n_Maximum_Number_Parameters,j_GP_Individual)
+    endif !  i_GP_individual /= j_GP_individual
+ 
 
     ! give the child the adult's SSE value
-    GP_Child_Population_SSE(i_GP_Individual) = GP_Adult_Population_SSE(j_GP_Individual)
+    GP_Child_Individual_SSE(i_GP_Individual) = GP_Adult_Population_SSE(j_GP_Individual)
 
 
     !if( myid == 0 )then
@@ -133,7 +149,7 @@ do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
     !          'gpfpar: j_GP_individual, GP_Adult_Population_SSE(j_GP_Individual)',&
     !                   j_GP_individual, GP_Adult_Population_SSE(j_GP_Individual)
     !    write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
-    !          'gpfpar: i_GP_individual, GP_Child_Population_SSE(i_GP_Individual)',&
+    !          'gpfpar: i_GP_individual, GP_Child_Individual_SSE(i_GP_Individual)',&
     !                   i_GP_individual, sse_ind
     !    write(GP_print_unit,'(A)' ) &
     !          'gpfpar: j_GP_individual replaces i_GP_individual'
@@ -147,16 +163,16 @@ enddo ! i_GP_Asexual_Reproduction
 
 
 ! debug
-!write(6,'(/A)') 'gpfpar: GP_Adult_Population_Parameter_Solution  at end of GP_Fit...'
-!do  i_GP_individual = 1, n_GP_individuals
-!    do  i_parm = 1, n_Maximum_Number_Parameters
-!        if( GP_Adult_Population_Parameter_Solution(i_parm, i_GP_individual ) > 0.0d0 )then
-!            write(6,'(A,1x,I6,1x,I6, 10x, E15.7)') &
-!              'gpfpar: before:', i_GP_Individual, i_parm, &
-!                    GP_Adult_Population_Parameter_Solution(i_parm, i_GP_individual )
-!        endif ! GP_Adult_Population_Parameter_Solution > 0.0d0 
-!    enddo
-!enddo ! i_GP_individual
+write(6,'(/A)') 'gpfpar: GP_Adult_Population_Parameter_Solution  at end of GP_Fit...'
+do  i_GP_individual = 1, n_GP_individuals
+    do  i_parm = 1, n_Maximum_Number_Parameters
+        if( GP_Adult_Population_Parameter_Solution(i_parm, i_GP_individual ) > 0.0d0 )then
+            write(6,'(A,1x,I6,1x,I6, 10x, E15.7)') &
+              'gpfpar: ', i_GP_Individual, i_parm, &
+                    GP_Adult_Population_Parameter_Solution(i_parm, i_GP_individual )
+        endif ! GP_Adult_Population_Parameter_Solution > 0.0d0 
+    enddo
+enddo ! i_GP_individual
 
 ! debug
 !write(6,'(/A)') 'gpfpar: GP_Child_Population_Parameter_Solution  at end of GP_Fit...'

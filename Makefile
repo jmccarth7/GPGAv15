@@ -3,7 +3,7 @@ PROG =	GPCODE_test
 SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 allocate_arrays1.f90 \
 	bcast1.f90 bcast2.f90 bcast3.f90 calc_fitness.f90 calc_stats.f90 \
 	check_for_elite.f90 clock_module.f90 combine_tree_strings.f90 \
-	comp_data_variance.f90 comp_GP_child_indiv_sse.f90 count_parens.f90 \
+	comp_data_variance.f90  count_parens.f90 \
 	create_equations.f90 create_tree_node_string.f90 \
 	deallocate_arrays1.f90 enorm.f90 fcn.f90 fdjac2.f90 \
 	fill_string_arrays.f90 \
@@ -38,7 +38,7 @@ SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 allocate_arrays1.f90 \
 OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o allocate_arrays1.o \
 	bcast1.o bcast2.o bcast3.o calc_fitness.o calc_stats.o \
 	check_for_elite.o clock_module.o combine_tree_strings.o \
-	comp_data_variance.o comp_GP_child_indiv_sse.o count_parens.o \
+	comp_data_variance.o  count_parens.o \
 	create_equations.o create_tree_node_string.o deallocate_arrays1.o \
 	enorm.o fcn.o fdjac2.o fill_string_arrays.o \
 	GA_Fitness_Proportionate_Asexual_Reproduction.o GA_Mutations.o \
@@ -133,9 +133,6 @@ check_for_elite.o: GA_parameters_module.o GA_variables_module.o \
 combine_tree_strings.o: GP_model_parameters_module.o GP_parameters_module.o \
 	GP_variables_module.o Runge_Kutta_Variables_module.o
 comp_data_variance.o: GA_parameters_module.o GA_variables_module.o \
-	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
-	Runge_Kutta_Variables_module.o mpi_module.o
-comp_GP_child_indiv_sse.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
 	Runge_Kutta_Variables_module.o mpi_module.o
 count_parens.o: GP_parameters_module.o GP_variables_module.o \

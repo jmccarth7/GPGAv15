@@ -66,7 +66,6 @@ deallocate( GA_Integrated_SSE )
 deallocate( GA_Individual_Ranked_Fitness )
 deallocate( GA_Integrated_Ranked_Fitness )
 
-!deallocate( GP_Population_Parameter_Solution )
 !deallocate( GP_Individual_Parameter_Solution )
 
 
@@ -123,8 +122,8 @@ deallocate( Node_Probability )
 !>>>>>>>>>>>>>
 deallocate( GP_Adult_Population_Parameter_Solution )
 deallocate( GP_Adult_Population_SSE )
-deallocate( GP_Child_Population_Parameter_Solution )
-deallocate( GP_Child_Population_SSE )
+!deallocate( GP_Child_Population_Parameter_Solution )
+!deallocate( GP_Child_Population_SSE )
 !>>>>>>>>>>>>>
 
 !deallocate( buffer )                                         
