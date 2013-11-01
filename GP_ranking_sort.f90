@@ -79,14 +79,14 @@ do  i_GP_Individual=1,n_GP_Individuals
 enddo  ! i_GP_Individual
 
 
-!write(6,'(/A)') 'gprs: after  sort '
-!write(6,'(A)')  'gprs:i_GP_Individual, Ranked_Fitness_Index, &
-!                            &GP_Child_Individual_SSE'
-!do  i_GP_Individual=1,n_GP_Individuals
-!    write(6,'(5x,I10,1x, I10, 16x, E15.7)') &
-!          i_GP_Individual, Ranked_Fitness_Index(i_GP_Individual), &
-!                           GP_Child_Individual_SSE(i_GP_Individual)
-!enddo
+write(6,'(/A)') 'gprs: after  sort '
+write(6,'(A)')  'gprs:i_GP_Individual, Ranked_Fitness_Index, &
+                            &GP_Child_Individual_SSE'
+do  i_GP_Individual=1,n_GP_Individuals
+    write(6,'(5x,I10,1x, I10, 16x, E15.7)') &
+          i_GP_Individual, Ranked_Fitness_Index(i_GP_Individual), &
+                           GP_Child_Individual_SSE(i_GP_Individual)
+enddo
 
 !! debug
 !write(6,'(/A)') 'gprs: before applying  sort to GP_population_node_parameters '
@@ -94,11 +94,11 @@ enddo  ! i_GP_Individual
 !    do  i_tree = 1, n_trees
 !        do  i_node = 1, n_nodes
 !            if( GP_Child_Population_Node_Type(i_Node,i_Tree, i_GP_individual ) == 0 )then
-!                if( GP_population_node_parameters(i_Node,i_Tree, i_GP_individual ) > 0.0d0 )then
+!                !if( GP_population_node_parameters(i_Node,i_Tree, i_GP_individual ) > 0.0d0 )then
 !                    write(6,'(A,1x,I6,2(1x,I3), 1x, E15.7)') &
 !                      'gprs: before:', i_GP_Individual, i_tree, i_node, &
 !                             GP_population_node_parameters(i_Node,i_Tree, i_GP_individual )
-!                endif ! GP_population_node_parameters(i_Node,i_Tree, i_GP_individual ) > 0.0d0
+!                !endif ! GP_population_node_parameters(i_Node,i_Tree, i_GP_individual ) > 0.0d0
 !            endif ! GP_Child_Population_Node_Type(i_Node,i_Tree, i_GP_individual ) == 0
 !        enddo
 !    enddo
@@ -237,21 +237,28 @@ GP_population_node_parameters = GP_population_node_parameters_temp
 
 
 ! debug
-!write(6,'(/A)') 'gprs: after applying  sort to GP_population_node_parameters '
+write(6,'(/A)') 'gprs: after applying  sort to GP_population_node_parameters '
+!write(6,'(A)') &
+! 'gprs: i_GP_Indiv i_tree i_node GP_population_node_parameters'
+!
+!! debug
 !do  i_GP_individual = 1, n_GP_individuals
+!    write(6,'(A,1x,I6)') 'gprs: i_GP_Individual = ', i_GP_Individual
 !    do  i_tree = 1, n_trees
 !        do  i_node = 1, n_nodes
 !            if( GP_Child_Population_Node_Type(i_Node,i_Tree, i_GP_individual ) == 0 )then
-!                if( GP_population_node_parameters(i_Node,i_Tree, i_GP_individual ) > 0.0d0 )then
+!                !if( GP_population_node_parameters(i_Node,i_Tree, i_GP_individual ) > 0.0d0 )then
 !                    write(6,'(A,1x,I6,2(1x,I3), 1x, E15.7)') &
 !                      'gprs: after:', i_GP_Individual, i_tree, i_node, &
 !                             GP_population_node_parameters(i_Node,i_Tree, i_GP_individual )
-!                endif ! GP_population_node_parameters(i_Node,i_Tree, i_GP_individual ) > 0.0d0
+!                !endif ! GP_population_node_parameters(i_Node,i_Tree, i_GP_individual ) > 0.0d0
 !            endif ! GP_Child_Population_Node_Type(i_Node,i_Tree, i_GP_individual ) == 0
 !        enddo
 !    enddo
 !enddo ! i_GP_individual
 
+call print_debug1( 'from GP_ranking_sort after sort GP_population_node_parameters', &
+                    GP_population_node_parameters) 
 
 !------------------------------------------------------------------------------------------------
 
@@ -327,7 +334,7 @@ write(6,'(/A, 1x, E15.7)') &
 GP_Population_Ranked_Fitness = 0.0D0
 do  i_GP_Individual=1,n_GP_Individuals
 
-    if( cff > 0.0D0 .and. GP_Child_Individual_SSE(i_GP_Individual) < 1.0e12 )then
+    if( cff > 0.0D0 )then !.and. GP_Child_Individual_SSE(i_GP_Individual) < 1.0e12 )then
         GP_Population_Ranked_Fitness(i_GP_Individual) = &
                 ( cff - GP_Child_Individual_SSE(i_GP_Individual) ) / cff
     else
@@ -345,7 +352,9 @@ enddo  ! i_GP_Individual
 ! Calculate the Integrated Ranked Fitness values for creating the next generation
 
 GP_Integrated_Population_Ranked_Fitness = 0.0D0
+
 cff=0.0d0
+
 do  i_GP_Individual=1,n_GP_Individuals
     cff = cff + GP_Population_Ranked_Fitness(i_GP_individual)
     GP_Integrated_Population_Ranked_Fitness(i_GP_Individual) = cff

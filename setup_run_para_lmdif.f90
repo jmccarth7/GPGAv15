@@ -2,6 +2,8 @@ subroutine setup_run_para_lmdif( i_G_indiv,  child_parameters, &
                                  individual_quality, &
                                  n_indiv, my_indiv_SSE, &
                                  n_parms, n_parms_dim, &
+                                 info, &
+                                 i_GP_gen, &
                                  L_myprint, myprint_unit  )
 
 ! written by: Dr. John R. Moisan [NASA/GSFC] 5 December, 2012
@@ -28,6 +30,7 @@ integer, intent(in)  ::  i_G_indiv
 integer, intent(in)  ::  n_indiv
 integer, intent(in)  ::  n_parms
 integer, intent(in)  ::  n_parms_dim
+integer, intent(in)  ::  i_GP_gen
 
 integer  ::  iunit
 
@@ -51,7 +54,8 @@ real(kind=8) :: diag(n_maximum_number_parameters)
 real(kind=8) :: fjac( n_time_steps , n_maximum_number_parameters )
 real(kind=8) :: qtf(n_maximum_number_parameters)
 
-integer(kind=4) :: maxfev,ldfjac,mode,nprint,info,nfev
+integer(kind=4) :: maxfev, ldfjac, mode, nprint, nfev
+integer(kind=4) :: info
 
 integer(kind=4) :: ipvt(n_maximum_number_parameters)
 
@@ -65,8 +69,8 @@ integer(kind=4) :: individual_quality
 integer(kind=4) :: i_time_step
 integer(kind=4) :: i_parameter
 
-integer(kind=4) :: i_tree
-integer(kind=4) :: i_node
+!integer(kind=4) :: i_tree
+!integer(kind=4) :: i_node
 
 real(kind=8) :: child_parameters( n_maximum_number_parameters )
 
@@ -115,6 +119,9 @@ endif ! n_parms <= 0
 
 !-------------------------------------------------------------------------------
 
+! GP_Individual_Node_Type is used in fcn
+! and passed to RK subroutine as RK_node_type
+
 GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) = &
                GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees,i_G_indiv)
 
@@ -150,10 +157,10 @@ do  i_parameter=1,n_parms
     !      'strplm:1 myid, i_G_indiv,i_parameter, child_parameters', &
     !                myid, i_G_indiv,i_parameter, &
     !                child_parameters(i_parameter)
-    !    !write(myprint_unit,'(A,3(1x,I6),2(1x,E24.16))') &
-    !    !  'strplm:1 myid, i_G_indiv,i_parameter, child_parameters, X_LMDIF', &
-    !    !            myid, i_G_indiv,i_parameter, &
-    !    !            child_parameters(i_parameter),  X_LMDIF(i_parameter)
+    !      write(myprint_unit,'(A,3(1x,I6),2(1x,E24.16))') &
+    !        'strplm:1 myid, i_G_indiv,i_parameter, child_parameters, X_LMDIF', &
+    !                  myid, i_G_indiv,i_parameter, &
+    !                  child_parameters(i_parameter),  X_LMDIF(i_parameter)
     !    !write(myprint_unit,'(A,2(1x,I6),1x,E20.10)') &
     !    !  'strplm:1 myid, i_parameter,  X_LMDIF', &
     !    !            myid, i_parameter,  X_LMDIF(i_parameter)
@@ -239,11 +246,13 @@ iunit = 0
 !write(myprint_unit,'(A,3(1x,E15.7))') 'strplm:input factor', factor
 
 
+!!!if( i_GP_gen == 1 )then     ! debug only
 
-call lmdif( fcn, n_time_steps, n_parms, x_LMDIF, fvec, &
-            ftol, xtol, gtol, maxfev, epsfcn, &
-            diag, mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf, &
-            iunit )
+    call lmdif( fcn, n_time_steps, n_parms, x_LMDIF, fvec, &
+                ftol, xtol, gtol, maxfev, epsfcn, &
+                diag, mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf, &
+                iunit )
+!!!endif ! i_GP_gen == 1      ! debug only
 
 
 
@@ -261,7 +270,7 @@ call lmdif( fcn, n_time_steps, n_parms, x_LMDIF, fvec, &
 
 if( Lprint_lmdif )then
 
-    if( L_myprint )then
+    !if( L_myprint )then
 
         !write(myprint_unit,'(A,3(1x,I3),1x,I10/)') &
         !      'strplm: aft call lmdif, myid, n_parms, info, n_time_steps', &
@@ -304,7 +313,7 @@ if( Lprint_lmdif )then
         !!    '######################################################################################'
         !!
         !!endif ! info > 0
-    endif ! L_myprint
+    !endif ! L_myprint
 
     Lprint_lmdif = .FALSE.
 endif ! Lprint_lmdif
@@ -382,7 +391,6 @@ enddo ! i_parameter
 
 if( individual_quality > 0 ) then
 
-    !write(10,*) 'strplm: i_G_indiv ', i_G_indiv
 
     my_indiv_SSE = 0.0D+0
 
@@ -394,8 +402,13 @@ if( individual_quality > 0 ) then
        !newif( isnan(fvec(i_time_step)) .or.  &
        !new    abs(fvec(i_time_step)) >  1.0d20 ) fvec(i_time_step) =  1.0d20
 
-       !write(10, *) 'strplm: i_time_step, fvec(i_time_step) ', &
-       !                      i_time_step, fvec(i_time_step)
+       !if( i_time_step == 1 .or. &
+       !    i_time_step == n_time_steps )then
+       !    write(6,'(A,1x,I5)') 'strplm: i_G_indiv ', i_G_indiv
+       !    write(6,'(A,1x,I10,1x,E15.7)') &
+       !          'strplm: i_time_step, fvec(i_time_step) ', &
+       !                   i_time_step, fvec(i_time_step)
+       !endif ! i_time_step == 1 ...
 
        my_indiv_SSE = my_indiv_SSE + fvec(i_time_step)
 

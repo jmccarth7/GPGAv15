@@ -100,8 +100,8 @@ if( L_GP_print )then
     write(GP_print_unit,'(A,1x,E15.7)') 'gpsbrl: dt ', dt
     write(GP_print_unit,'(A,1x,I10)') &
           'gpsbrl: n_parameters    =   ', n_parameters
-    write(GP_print_unit,'(A,1x,I10)') &
-          'gpsbrl: n_GP_parameters =   ', n_GP_parameters
+    !write(GP_print_unit,'(A,1x,I10)') &
+    !      'gpsbrl: n_GP_parameters =   ', n_GP_parameters
 
     write(GP_print_unit,'(A,2(1x,I10))') &
                   'gpsbrl: nop, n_parameters', nop, n_parameters
@@ -157,12 +157,12 @@ parent_parameters_best_1(1:n_parameters) =  &
 
 if( L_GP_print )then
     write(GP_print_unit,'(/A,1x,I10, 2(1x,E24.16))') &
-          'gpsbrl: i_GP_best_parent_1, GP_individual_SSE_best_1, &
-                         &GP_individual_ranked_fitness_best_1', &
+          'gpsbrl: i_GP_best_parent_1, GP_indiv_SSE_best_1, &
+                         &GP_indiv_ranked_fitness_best_1', &
                    i_GP_best_parent_1, GP_individual_SSE_best_1, &
                           GP_individual_ranked_fitness_best_1
     write(GP_print_unit,'(/A,1x,E24.16/)') &
-          'gpsbrl: GP_Individual_Fitness_best_1 ', GP_Individual_Fitness_best_1
+          'gpsbrl: GP_Indiv_Fitness_best_1 ', GP_Individual_Fitness_best_1
 
     write(GP_print_unit,'(/A)') 'gpsbrl: i, parent_parameters_best_1(i) '
     do  i = 1, n_parameters
@@ -245,7 +245,7 @@ if( L_GP_print )then
 
 
     write(GP_print_unit,'(/A,1x,I6,1x,E24.16)') &
-          'gpsbrl: i_GP_best_parent, GP_child_individual_SSE', &
+          'gpsbrl: i_GP_best_parent, GP_child_indiv_SSE', &
                    i_GP_best_parent, GP_child_individual_SSE(i_GP_best_parent)
 
 endif ! L_GP_print
@@ -271,7 +271,7 @@ GP_Individual_Fitness = GP_individual_ranked_fitness(i_GP_best_Parent)
 if( L_GP_print )then
     write(GP_print_unit,'(/A,1x,I6, 2(1x,E24.16))') &
           'gpsbrl: lmdif i_GP_best_parent, &
-          &GP_child_individual_SSE, GP_individual_ranked_fitness', &
+          &GP_child_indiv_SSE, GP_indiv_ranked_fitness', &
                          i_GP_best_parent, &
                          GP_child_individual_SSE(i_GP_best_parent), &
                          GP_individual_ranked_fitness(i_GP_best_parent)
@@ -446,8 +446,9 @@ if( GP_individual_ranked_fitness(i_GP_best_parent) <= &
         ! after being optimized in GPCODE*opt
         ! and writes the tree to the summary file
 
-        write(GP_print_unit, '(/A)') &
-            'gpsbrl:1 call summary_GP_indiv2'
+        !write(GP_print_unit, '(/A)') &
+        !    'gpsbrl:1 call summary_GP_indiv2'
+        write(GP_print_unit, '(/A)')  ' '
 
         ! uses:
         !  GP_individual_Initial_Conditions
@@ -458,8 +459,9 @@ if( GP_individual_ranked_fitness(i_GP_best_parent) <= &
 
         call summary_GP_indiv2( i_GP_generation, i_GP_best_parent )
 
-        write(GP_print_unit, '(/A//)') &
-            'gpsbrl:1 after  call summary_GP_indiv2'
+        !write(GP_print_unit, '(/A//)') &
+        !    'gpsbrl:1 after  call summary_GP_indiv2'
+        write(GP_print_unit, '(/A//)')  ' '
 
     endif !  myid == 0
 
@@ -602,13 +604,15 @@ else  ! lmdif is best
         ! after being optimized in GPCODE*opt
         ! and writes the tree to the summary file
 
-        write(GP_print_unit, '(//A)') &
-            'gpsbrl:2 call summary_GP_indiv2'
+        !write(GP_print_unit, '(//A)') &
+        !    'gpsbrl:2 call summary_GP_indiv2'
+        write(GP_print_unit, '(//A)')  ' '
 
         call summary_GP_indiv2( i_GP_generation, i_GP_best_parent )
 
-        write(GP_print_unit, '(//A)') &
-            'gpsbrl:2 after call summary_GP_indiv2'
+        !write(GP_print_unit, '(//A)') &
+        !    'gpsbrl:2 after call summary_GP_indiv2'
+        write(GP_print_unit, '(//A)')  ' '
 
     endif !  myid == 0
 

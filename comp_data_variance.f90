@@ -140,8 +140,8 @@ do i_CODE_equation=1,n_CODE_equations
 
 
     if( myid == 0 )then
-        write(GP_print_unit,'(A,1x,I6,2(1x,E24.16))') &
-             'cdv: i_CODE_equation, Data_Variance, Data_Variance_inv ', &
+        write(GP_print_unit,'(A,1x,I4,2(1x,E23.16))') &
+             'cdv: i_CODE_eq, Data_Variance, Data_Variance_inv ', &
                    i_CODE_equation, Data_Variance(i_CODE_equation), &
                                   Data_Variance_inv(i_CODE_equation)
     endif ! myid == 0

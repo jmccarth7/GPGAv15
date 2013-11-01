@@ -61,8 +61,8 @@ write(GP_print_unit,'(A//)')'pv2: replacement of bad individuals used'
 
 ! calculate the generation interval for printing the list of children
 
-GA_child_print_interval = n_GA_generations /  number_GA_child_prints
-GP_child_print_interval = n_GP_generations /  number_GP_child_prints
+!GA_child_print_interval = n_GA_generations /  number_GA_child_prints
+!GP_child_print_interval = n_GP_generations /  number_GP_child_prints
 
 write(GP_print_unit,'(A,1x,I6)')   'pv2: GP_child_print_interval ', &
                                          GP_child_print_interval

@@ -23,19 +23,19 @@ integer(kind=4),parameter :: GP_print_unit = 6
 integer(kind=4),parameter :: GP_summary_output_unit = 40
 
 integer(kind=4),parameter :: unit_gp_out = 50
-integer(kind=4) ::  unit50_output_flag
+!integer(kind=4) ::  unit50_output_flag
 logical ::   L_unit50_output
 
 integer(kind=4),parameter :: GP_log_unit = 80
-integer(kind=4) ::  GP_log_flag
+!integer(kind=4) ::  GP_log_flag
 logical ::   L_GP_log
 
 
 integer(kind=4),parameter :: GP_output_unit = 30
-integer(kind=4) ::  GP_output_parameters_flag
+!integer(kind=4) ::  GP_output_parameters_flag
 logical ::          L_GP_output_parameters
 
-integer(kind=4) ::  print_equations_flag
+!integer(kind=4) ::  print_equations_flag
 logical ::   L_print_equations
 
 integer(kind=4) :: n_GP_individuals
@@ -133,15 +133,15 @@ integer(kind=4) :: n_time_steps
 
 ! print if   mod( i_ga_generation, child_print_interval ) == 0
 
-integer(kind=4)           :: GA_child_print_interval
-integer(kind=4)           :: GP_child_print_interval
+integer(kind=4)  :: GA_child_print_interval
+integer(kind=4)  :: GP_child_print_interval
 
 
 
 ! this is the total number of child printouts for the entire run
 
-integer(kind=4),parameter :: number_GA_child_prints = 2 ! 20
-integer(kind=4),parameter :: number_GP_child_prints = 2 ! 20
+integer(kind=4),parameter :: number_GA_child_prints = 10 ! 20
+integer(kind=4),parameter :: number_GP_child_prints = 10 ! 20
 
 !-------------------------------------------------------------------
 

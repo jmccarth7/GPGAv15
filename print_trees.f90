@@ -111,6 +111,10 @@ do  i_GP_individual = n_indiv_start, n_indiv_stop
     ! print equations corresponding to the tree
 
     if( L_print_equations )then
+
+        write(GP_print_unit,'(A)' ) &
+                 'pt: call create_equations '
+
         call create_equations( i_gen, i_GP_individual, tree_type )
     endif ! L_print_equations
 

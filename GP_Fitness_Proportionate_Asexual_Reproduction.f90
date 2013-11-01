@@ -139,6 +139,12 @@ do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
         GP_Adult_Population_Parameter_Solution(1:n_Maximum_Number_Parameters,j_GP_Individual)
     endif !  i_GP_individual /= j_GP_individual
 
+    GP_Population_Node_Parameters(1:n_Nodes,1:n_Trees, i_GP_Individual) = &             ! 20131030
+            GP_Population_Node_Parameters(1:n_Nodes,1:n_Trees, j_GP_Individual)         ! 20131030
+
+    GP_Population_Initial_Conditions(1:n_CODE_Equations, i_GP_Individual) = &           ! 20131030
+            GP_Population_Initial_Conditions(1:n_CODE_Equations, j_GP_Individual)       ! 20131030
+
 
     ! give the child the adult's SSE value
     GP_Child_Individual_SSE(i_GP_Individual) = GP_Adult_Population_SSE(j_GP_Individual)

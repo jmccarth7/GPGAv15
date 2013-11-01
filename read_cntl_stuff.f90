@@ -21,6 +21,17 @@ integer(kind=4), parameter :: line_length   = 150
 
 CHARACTER(line_length) :: Aline
 
+integer(kind=4) :: GA_output_parameters_flag
+integer(kind=4) :: GP_output_parameters_flag
+integer(kind=4) :: GA_print_flag
+integer(kind=4) :: GA_log_flag
+integer(kind=4) :: GP_log_flag
+integer(kind=4) :: fort333_output_flag
+integer(kind=4) :: fort444_output_flag
+integer(kind=4) ::  unit50_output_flag
+
+integer(kind=4) :: print_equations_flag
+
 
 real(kind=8) :: dt_min
 

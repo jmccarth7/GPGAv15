@@ -114,9 +114,9 @@ if( L_ga_print )then
     write(GA_print_unit,'(/A,1x,E24.16/)') &
           'sbrl: individual_fitness_best_1 ', individual_fitness_best_1
 
-    write(GA_print_unit,'(/A/1x,I6, 12(1x,E15.7))') &
-          'sbrl: i_GA_best_parent_1, parent_parameters_best_1(1:n_parameters) ', &
-                 i_GA_best_parent_1, parent_parameters_best_1(1:n_parameters)
+    !write(GA_print_unit,'(/A/1x,I6, 12(1x,E15.7))') &
+    !      'sbrl: i_GA_best_parent_1, parent_parameters_best_1(1:n_parameters) ', &
+    !             i_GA_best_parent_1, parent_parameters_best_1(1:n_parameters)
 
     write(GA_print_unit,'(/A)') 'sbrl: i, parent_parameters_best_1(i) '
     do  i = 1, n_parameters

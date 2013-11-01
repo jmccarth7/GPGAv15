@@ -442,7 +442,7 @@ do  i_GA_generation=1,n_GA_Generations
     call MPI_BCAST( Child_Parameters,  child_number,    &
                     MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
-    call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
+    !!!!call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
 
     !if( L_ga_print )then
     !    write(GA_print_unit,'(/A,2(1x,I10)/)') &
@@ -470,7 +470,8 @@ do  i_GA_generation=1,n_GA_Generations
 
     call MPI_BCAST( Run_GA_lmdif,  n_GA_Individuals,    &
                         MPI_LOGICAL, 0, MPI_COMM_WORLD, ierr )
-    call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
+
+    !!!!!call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
 
 
     !if( L_ga_print )then
@@ -951,12 +952,12 @@ do  i_GA_generation=1,n_GA_Generations
 
     !-------------------------------------------------------------------
 
-    call MPI_BARRIER( MPI_COMM_WORLD, ierr )   ! necessary ?
+    !call MPI_BARRIER( MPI_COMM_WORLD, ierr )   ! necessary ?
 
     call MPI_BCAST( L_stop_run,  1,    &
                     MPI_LOGICAL, 0, MPI_COMM_WORLD, ierr )
 
-    call MPI_BARRIER( MPI_COMM_WORLD, ierr )   ! necessary ?
+    !!!!call MPI_BARRIER( MPI_COMM_WORLD, ierr )   ! necessary ?
 
     if( L_stop_run )then
 

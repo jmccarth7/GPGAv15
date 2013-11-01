@@ -43,16 +43,16 @@ integer(kind=4) :: i_safe_max
 
 i_GP_Individual = n_GP_Elitists + n_GP_Asexual_Reproductions
 
-if( myid == 0 )then
-    write(GP_print_unit,'(/A,1x,I6)' ) &
-      'gptssr: n_GP_Crossovers ', n_GP_Crossovers
-    write(GP_print_unit,'(A,2(1x,I6))' ) &
-      'gptssr: n_GP_Elitists, n_GP_Asexual_Reproductions ', &
-               n_GP_Elitists, n_GP_Asexual_Reproductions
-    write(GP_print_unit,'(A,1x,I6)' ) &
-      'gptssr: start i_GP_individual  =  ', &
-                   n_GP_Elitists + n_GP_Asexual_Reproductions +1
-endif ! myid == 0
+!if( myid == 0 )then
+!    write(GP_print_unit,'(/A,1x,I6)' ) &
+!      'gptssr: n_GP_Crossovers ', n_GP_Crossovers
+!    write(GP_print_unit,'(A,2(1x,I6))' ) &
+!      'gptssr: n_GP_Elitists, n_GP_Asexual_Reproductions ', &
+!               n_GP_Elitists, n_GP_Asexual_Reproductions
+!    write(GP_print_unit,'(A,1x,I6)' ) &
+!      'gptssr: start i_GP_individual  =  ', &
+!                   n_GP_Elitists + n_GP_Asexual_Reproductions +1
+!endif ! myid == 0
 
 
 
@@ -304,9 +304,9 @@ do
     call GP_Tree_Swap    !   perform the random tree swap
 
 
-    if( myid == 0 )then
-        write(6,'(A/)') 'gptssr: aft call GP_Tree_Swap '
-    endif ! myid == 0
+    !if( myid == 0 )then
+    !    write(6,'(A/)') 'gptssr: aft call GP_Tree_Swap '
+    !endif ! myid == 0
 
     !-----------------------------------------------------------------------------------
 
@@ -356,11 +356,6 @@ do
 
     !-----------------------------------------------------------------------------------
 
-    Run_GP_Calculate_Fitness(i_GP_Individual) = .true.
-
-    !!?? endif ! CROSS
-
-    !-----------------------------------------------------------------------------------
 
     !  if you found an error in the tree, reset i_GP_Crossover
     !  and try making a new tree and with a new random i_GP_Individual
@@ -380,6 +375,12 @@ do
         cycle cross_loop
 
     endif ! i_Error > 0
+
+    !-----------------------------------------------------------------------------------
+
+    Run_GP_Calculate_Fitness(i_GP_Individual) = .true.
+
+    !!?? endif ! CROSS
 
     !-----------------------------------------------------------------------------------
 
