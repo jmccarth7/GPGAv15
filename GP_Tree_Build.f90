@@ -40,7 +40,7 @@ GP_Child_Population_Node_Type=-9999 ! set all to null [-9999]
 do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
 
     !write(GP_print_unit,'(/A,1(1x,I6))') &
-    !             'gtb: i_GP_individual ', i_GP_individual 
+    !             'gtb: i_GP_individual ', i_GP_individual
 
     do  i_Tree=1,n_Trees                ! for each GPCODE tree
 
@@ -50,7 +50,7 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
         call random_number(cff) ! uniform random number generator
 
         !write(GP_print_unit,'(/A,2(1x,E15.7))') 'gtb: cff, GP_Tree_Probability ', &
-        !                                              cff, GP_Tree_Probability 
+        !                                              cff, GP_Tree_Probability
 
         if( cff .le. GP_Tree_Probability ) then  ! go ahead - put in an equation
 
@@ -58,8 +58,8 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
             GP_Child_Population_Node_Type(1,i_Tree,i_GP_Individual)=0
 
             i_Node=0
-            do  i_Level=1,n_Levels-1                    !original 
-                                                   
+            do  i_Level=1,n_Levels-1                    !original
+
                 n_Nodes_at_Level= pow2_table( i_level-1 ) + 1 ! int(2**(i_Level-1))
 
 
@@ -263,7 +263,7 @@ do  i_GP_Individual=1,n_GP_Individuals
         endif ! myid == 0
         call MPI_FINALIZE(ierr)
         stop  'GP Tree Build error'
-    endif !   i_Error .eq. 1 
+    endif !   i_Error .eq. 1
 
 enddo !  i_GP_Individual
 

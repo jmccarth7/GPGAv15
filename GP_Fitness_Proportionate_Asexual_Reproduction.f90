@@ -19,8 +19,8 @@ integer(kind=4) :: i_GP_individual
 integer(kind=4) :: j_GP_Individual
 integer(kind=4) :: i_GP_Asexual_Reproduction
 
-integer(kind=4) :: i_parm                         
-integer(kind=4) :: iii                            
+integer(kind=4) :: i_parm
+integer(kind=4) :: iii
 
 real(kind=8) :: sse_ind
 
@@ -128,17 +128,17 @@ do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
     !    write(GP_print_unit,'(A,2(1x,I6),1x,E15.7)' ) &
     !      'gpfpar: j_GP_individual, iii,GP_Adult_Population_Parameter_Solution(iii,j_GP_Individual)',&
     !               j_GP_individual, iii,GP_Adult_Population_Parameter_Solution(iii,j_GP_Individual)
-    !enddo 
+    !enddo
 
 
     !GP_Child_Population_Parameter_Solution(1:n_Maximum_Number_Parameters,i_GP_Individual) = &
     !   GP_Adult_Population_Parameter_Solution(1:n_Maximum_Number_Parameters,j_GP_Individual)
-   
+
     if( i_GP_individual /= j_GP_individual )then
         GP_Adult_Population_Parameter_Solution(1:n_Maximum_Number_Parameters,i_GP_Individual) = &
         GP_Adult_Population_Parameter_Solution(1:n_Maximum_Number_Parameters,j_GP_Individual)
     endif !  i_GP_individual /= j_GP_individual
- 
+
 
     ! give the child the adult's SSE value
     GP_Child_Individual_SSE(i_GP_Individual) = GP_Adult_Population_SSE(j_GP_Individual)
@@ -170,7 +170,7 @@ enddo ! i_GP_Asexual_Reproduction
 !            write(6,'(A,1x,I6,1x,I6, 10x, E15.7)') &
 !              'gpfpar: ', i_GP_Individual, i_parm, &
 !                    GP_Adult_Population_Parameter_Solution(i_parm, i_GP_individual )
-!        endif ! GP_Adult_Population_Parameter_Solution > 0.0d0 
+!        endif ! GP_Adult_Population_Parameter_Solution > 0.0d0
 !    enddo
 !enddo ! i_GP_individual
 
@@ -182,7 +182,7 @@ enddo ! i_GP_Asexual_Reproduction
 !            write(6,'(A,1x,I6,1x,I6, 10x, E15.7)') &
 !              'gpfpar: before:', i_GP_Individual, i_parm, &
 !                    GP_Child_Population_Parameter_Solution(i_parm, i_GP_individual )
-!        endif ! GP_Child_Population_Parameter_Solution > 0.0d0 
+!        endif ! GP_Child_Population_Parameter_Solution > 0.0d0
 !    enddo
 !enddo ! i_GP_individual
 

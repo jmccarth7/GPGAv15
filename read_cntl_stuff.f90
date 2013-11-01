@@ -133,7 +133,7 @@ L_GP_log = .FALSE.
 unit50_output_flag  = 0
 L_unit50_output = .FALSE.
 
-print_equations_flag = 0 
+print_equations_flag = 0
 L_print_equations = .FALSE.
 
 !---------------------------------------------------------------------
@@ -162,7 +162,7 @@ do
 !------------------------------------------------------------------------------
 
 
-!GA_Crossover_Probability = 0.3d0   
+!GA_Crossover_Probability = 0.3d0
 ! probability of sexual crossing of parameter strings in GA_lmdif
 
 
@@ -178,7 +178,7 @@ do
 !--------------------------------------------------------------------
 
 
-!GA_Mutation_Probability  = 0.1d0   
+!GA_Mutation_Probability  = 0.1d0
 ! probability of mutation in parameter string of GA_lmdif
 
     elseif( Aline(1:len('GA_Mutation_Probability')) == "GA_Mutation_Probability" .or.     &
@@ -208,7 +208,7 @@ do
 !--------------------------------------------------------------------
 
 
-!GA_save_elites_Probability  = 0.005d0   
+!GA_save_elites_Probability  = 0.005d0
 ! probability of saving an individual as an elite individual
 
     elseif( Aline(1:len('GA_save_elites_Probability')) == "GA_save_elites_Probability" .or.     &
@@ -295,7 +295,7 @@ do
 
 !--------------------------------------------------------------------
 
-!n_GA_Generations 
+!n_GA_Generations
 
     elseif( Aline(1:len('n_GA_Generations')) == "n_GA_Generations" .or.     &
             Aline(1:len('n_GA_Generations')) == "n_ga_generations" ) then
@@ -309,7 +309,7 @@ do
 !--------------------------------------------------------------------
 
 
-!n_GA_Individuals 
+!n_GA_Individuals
 
     elseif( Aline(1:len('n_GA_Individuals')) == "n_GA_Individuals" .or.     &
             Aline(1:len('n_GA_Individuals')) == "n_ga_individuals" ) then
@@ -409,7 +409,7 @@ do
 
 !--------------------------------------------------------------------
 
-! random_scale_small 
+! random_scale_small
 
 ! in random_real, random_scale_small is the smaller of the two scales
 ! used to scale the random number
@@ -425,7 +425,7 @@ do
 
 !--------------------------------------------------------------------
 
-! random_scale_large 
+! random_scale_large
 
 ! in random_real, random_scale_large is the larger of the two scales
 ! used to scale the random number
@@ -465,16 +465,16 @@ do
 !--------------------------------------------------------------------
 
 
-! ga_tournament_style     
+! ga_tournament_style
 
-! = 0  - swap unmodified segments of parents 
+! = 0  - swap unmodified segments of parents
 ! = 1  - swap segments of parents and randomly reset node at segment boundaries
-! = 2  - swap segments of parents and reset node at segment boundaries using JM 
+! = 2  - swap segments of parents and reset node at segment boundaries using JM
 !        formula involving the mean and std. dev
 
 
     elseif( Aline(1:len('ga_tournament_style')) == "ga_tournament_style" .or. &
-            Aline(1:len('ga_tournament_style')) == "GA_tournament_style" .or.     &      
+            Aline(1:len('ga_tournament_style')) == "GA_tournament_style" .or.     &
             Aline(1:len('ga_tournament_style')) == "GA_TOURNAMENT_STYLE"           ) then
 
         READ(Aline(len('ga_tournament_style')+1:), * )  ga_tournament_style
@@ -503,7 +503,7 @@ do
         READ(Aline(len('user_input_random_seed')+1:), * )  user_input_random_seed
 
 
-        user_input_random_seed = abs( user_input_random_seed  ) 
+        user_input_random_seed = abs( user_input_random_seed  )
 
         write(GP_print_unit,'(A,1x,I12)') 'rcntl: user_input_random_seed =', &
                                                   user_input_random_seed
@@ -511,7 +511,7 @@ do
 
 !--------------------------------------------------------------------
 
-!  GA_print   
+!  GA_print
 
 ! if GA_print_flag >  0 - write printout to GA_print_unit
 ! if GA_print_flag <= 0 - do not write printout to GA_print_unit
@@ -529,7 +529,7 @@ do
         if( GA_print_flag > 0 )then
             L_GA_print = .TRUE.
         else
-            L_GA_print = .FALSE. 
+            L_GA_print = .FALSE.
         endif ! GA_print_flag > 0
 
         write(GP_print_unit,'(A,1x,I12)') 'rcntl: GA_print_flag =', &
@@ -546,7 +546,7 @@ do
 ! if GA_output_parameters_flag >  0 - write printout to GA_output_parameters_unit
 ! if GA_output_parameters_flag <= 0 - do not write printout to GA_output_parameters_unit
 
-!  DEFAULT =   GA_output_parameters_flag == 0 
+!  DEFAULT =   GA_output_parameters_flag == 0
 !              - do not write printout to GA_output_parameters_unit
 
 
@@ -560,7 +560,7 @@ do
         if( GA_output_parameters_flag > 0 )then
             L_GA_output_parameters = .TRUE.
         else
-            L_GA_output_parameters = .FALSE. 
+            L_GA_output_parameters = .FALSE.
         endif ! GA_output_parameters_flag > 0
 
         write(GP_print_unit,'(A,1x,I12)') 'rcntl: GA_output_parameters_flag =', &
@@ -575,7 +575,7 @@ do
 ! if GP_output_parameters_flag >  0 - write printout to GP_output_parameters_unit
 ! if GP_output_parameters_flag <= 0 - do not write printout to GP_output_parameters_unit
 
-!  DEFAULT =   GP_output_parameters_flag == 0 
+!  DEFAULT =   GP_output_parameters_flag == 0
 !              - do not write printout to GA_print_unit
 
 
@@ -589,7 +589,7 @@ do
         if( GP_output_parameters_flag > 0 )then
             L_GP_output_parameters = .TRUE.
         else
-            L_GP_output_parameters = .FALSE. 
+            L_GP_output_parameters = .FALSE.
         endif ! GP_output_parameters_flag > 0
 
         write(GP_print_unit,'(A,1x,I12)') 'rcntl: GP_output_parameters_flag =', &
@@ -599,12 +599,12 @@ do
 
 !--------------------------------------------------------------------
 
-! fort333_output   
+! fort333_output
 
 ! if fort333_output_flag >  0 - write printout to fort333_output_unit
 ! if fort333_output_flag <= 0 - do not write printout to fort333_output_unit
 
-!  DEFAULT =   fort333_output_flag == 0 
+!  DEFAULT =   fort333_output_flag == 0
 !              - do not write printout to fort333_output_unit
 
 
@@ -617,7 +617,7 @@ do
         if( fort333_output_flag > 0 )then
             L_fort333_output = .TRUE.
         else
-            L_fort333_output = .FALSE. 
+            L_fort333_output = .FALSE.
         endif ! fort333_output_flag > 0
 
         write(GP_print_unit,'(A,1x,I12)') 'rcntl: fort333_output_flag =', &
@@ -628,12 +628,12 @@ do
 
 !--------------------------------------------------------------------
 
-! fort444_output   
+! fort444_output
 
 ! if fort444_output_flag >  0 - write printout to fort444_output_unit
 ! if fort444_output_flag <= 0 - do not write printout to fort444_output_unit
 
-!  DEFAULT =   fort444_output_flag == 0 
+!  DEFAULT =   fort444_output_flag == 0
 !              - do not write printout to fort444_output_unit
 
 
@@ -646,7 +646,7 @@ do
         if( fort444_output_flag > 0 )then
             L_fort444_output = .TRUE.
         else
-            L_fort444_output = .FALSE. 
+            L_fort444_output = .FALSE.
         endif ! fort444_output_flag > 0
 
         write(GP_print_unit,'(A,1x,I12)') 'rcntl: fort444_output_flag =', &
@@ -662,7 +662,7 @@ do
 !  if GA_log_flag >  0 - write printout to GA_log_unit
 !  if GA_log_flag <= 0 - do not write printout to GA_log_unit
 
-!  DEFAULT =   GA_log_flag == 0 
+!  DEFAULT =   GA_log_flag == 0
 !              - do not write printout to GA_log_unit
 
 
@@ -676,7 +676,7 @@ do
         if( GA_log_flag > 0 )then
             L_GA_log = .TRUE.
         else
-            L_GA_log = .FALSE. 
+            L_GA_log = .FALSE.
         endif ! GA_log_flag > 0
 
         write(GP_print_unit,'(A,1x,I12)') 'rcntl: GA_log_flag =', &
@@ -692,7 +692,7 @@ do
 !  if GP_log_flag >  0 - write printout to GP_log_unit
 !  if GP_log_flag <= 0 - do not write printout to GP_log_unit
 
-!  DEFAULT =   GP_log_flag == 0 
+!  DEFAULT =   GP_log_flag == 0
 !             - do not write printout to GP_log_unit
 
 
@@ -706,7 +706,7 @@ do
         if( GP_log_flag > 0 )then
             L_GP_log = .TRUE.
         else
-            L_GP_log = .FALSE. 
+            L_GP_log = .FALSE.
         endif ! GP_log_flag > 0
 
         write(GP_print_unit,'(A,1x,I12)') 'rcntl: GP_log_flag =', &
@@ -717,13 +717,13 @@ do
 !--------------------------------------------------------------------
 
 
-! unit50_output   
+! unit50_output
 
 
 ! if unit50_output_flag >  0 - write printout to unit50_output_unit
 ! if unit50_output_flag <= 0 - do not write printout to unit50_output_unit
 
-!  DEFAULT =   unit50_output_flag ==  0 
+!  DEFAULT =   unit50_output_flag ==  0
 !              - do not write printout to unit50_output_unit
 
 
@@ -736,7 +736,7 @@ do
         if( unit50_output_flag > 0 )then
             L_unit50_output = .TRUE.
         else
-            L_unit50_output = .FALSE. 
+            L_unit50_output = .FALSE.
         endif ! unit50_output_flag > 0
 
         write(GP_print_unit,'(A,1x,I12)') 'rcntl: unit50_output_flag =', &
@@ -748,13 +748,13 @@ do
 
 !--------------------------------------------------------------------
 
-! print equations 
+! print equations
 
-! if print_equations_flag >  0 - write equations together with tree 
+! if print_equations_flag >  0 - write equations together with tree
 !                                structures in subroutine print_trees
 ! if print_equations_flag <= 0 - do not write equations
 
-!  DEFAULT =   print_equations_flag ==  0 
+!  DEFAULT =   print_equations_flag ==  0
 !                - do not write quations
 
 
@@ -767,7 +767,7 @@ do
         if( print_equations_flag > 0 )then
             L_print_equations = .TRUE.
         else
-            L_print_equations = .FALSE. 
+            L_print_equations = .FALSE.
         endif ! print_equations_flag > 0
 
         write(GP_print_unit,'(A,1x,I12)') 'rcntl: print_equations_flag =', &
@@ -782,7 +782,7 @@ do
 
         write(GP_print_unit,'(/A)') 'rcntl: WARNING: UNRECOGNIZED OPTION '
 
-        write(GP_print_unit,'(A,1x,A)') 'rcntl: Aline =', trim( Aline )           
+        write(GP_print_unit,'(A,1x,A)') 'rcntl: Aline =', trim( Aline )
         write(GP_print_unit,'(A/)') 'rcntl: WARNING: UNRECOGNIZED OPTION '
 
     endif !   Aline(1:6) == ???

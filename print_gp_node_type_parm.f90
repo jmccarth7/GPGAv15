@@ -51,13 +51,13 @@ do  i_GP_individual=1,n_GP_individuals
           'pgntp:  i_node  i_tree  GP_Population_Node_Parameters(i_Node,i_Tree)'
     do  i_Tree=1,n_Trees
         do  i_Node=1,n_Nodes
-    
+
             if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_individual) == 0 )then
                 write(GP_print_unit,'(2(1x,I10),2x,E15.7)') &
                       i_node, i_tree, &
                       GP_Population_Node_Parameters(i_Node,i_Tree,i_GP_individual)
             endif ! GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_individual)
-            
+
         enddo ! i_node
     enddo ! i_tree
     write(GP_print_unit,'(/A)') ' '

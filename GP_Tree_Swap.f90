@@ -59,12 +59,12 @@ logical :: NODE_NOT_FOUND
 !write(6,'(/A,1x,I6)') 'gpts: at entry n_nodes = ', n_nodes
 !write(6,'(A)') 'gpts: kk, Parent_Tree_Swap_Node_Type(kk,1) '
 !do  kk = 1, n_nodes
-!    write(6,'(3(1x,I6))') kk, Parent_Tree_Swap_Node_Type(kk,1) 
-!enddo ! kk 
+!    write(6,'(3(1x,I6))') kk, Parent_Tree_Swap_Node_Type(kk,1)
+!enddo ! kk
 !write(6,'(A)') 'gpts: kk, Parent_Tree_Swap_Node_Type(kk,2) '
 !do  kk = 1, n_nodes
-!    write(6,'(3(1x,I6))') kk, Parent_Tree_Swap_Node_Type(kk,2) 
-!enddo ! kk 
+!    write(6,'(3(1x,I6))') kk, Parent_Tree_Swap_Node_Type(kk,2)
+!enddo ! kk
 
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -357,7 +357,7 @@ if( MALE_CROSS .and. FEMALE_CROSS) then
             i_levels = i_levels+1
             i_child_swap_node = i_child_swap_node*2
 
-                                      
+
             do  i_node = 1, pow2_table( i_levels ) + 1    ! 2**i_levels
                 i_Child_Node_Point = i_Child_Swap_Node -1 + i_Node
                 Child_Tree_Swap_Node_Type(i_Child_Node_Point,i_Child) = -9999
@@ -563,12 +563,12 @@ Parent_Tree_Swap_Node_Type = Child_Tree_Swap_Node_Type
 !write(6,'(/A,1x,I6)') 'gpts: at RETURN n_nodes = ', n_nodes
 !write(6,'(A)') 'gpts: kk, Parent_Tree_Swap_Node_Type(kk,1) '
 !do  kk = 1, n_nodes
-!    write(6,'(3(1x,I6))') kk, Parent_Tree_Swap_Node_Type(kk,1) 
-!enddo ! kk 
+!    write(6,'(3(1x,I6))') kk, Parent_Tree_Swap_Node_Type(kk,1)
+!enddo ! kk
 !write(6,'(A)') 'gpts: kk, Parent_Tree_Swap_Node_Type(kk,2) '
 !do  kk = 1, n_nodes
-!    write(6,'(3(1x,I6))') kk, Parent_Tree_Swap_Node_Type(kk,2) 
-!enddo ! kk 
+!    write(6,'(3(1x,I6))') kk, Parent_Tree_Swap_Node_Type(kk,2)
+!enddo ! kk
 
 
 return

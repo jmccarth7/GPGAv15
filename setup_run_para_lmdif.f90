@@ -388,8 +388,8 @@ if( individual_quality > 0 ) then
 
     do i_time_step=1,n_time_steps
 
-       if( isnan(fvec(i_time_step)) ) fvec(i_time_step) = 0.0d0                 
-       if( abs(fvec(i_time_step)) >  1.0d20 ) fvec(i_time_step) =  1.0d20       
+       if( isnan(fvec(i_time_step)) ) fvec(i_time_step) = 0.0d0
+       if( abs(fvec(i_time_step)) >  1.0d20 ) fvec(i_time_step) =  1.0d20
 
        !newif( isnan(fvec(i_time_step)) .or.  &
        !new    abs(fvec(i_time_step)) >  1.0d20 ) fvec(i_time_step) =  1.0d20

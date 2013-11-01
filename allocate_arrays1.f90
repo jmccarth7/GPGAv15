@@ -149,9 +149,9 @@ allocate( ppe(n_Maximum_Number_Parameters,n_GA_individuals )  )
 
 !allocate( buffer2( n_maximum_number_parameters + 2 ) )
 !allocate( buffer2_recv( n_maximum_number_parameters + 2 ) )
-                                                                                              
-                                                                                              
- 
+
+
+
 !>>>>>>>>>>>>>
 
 

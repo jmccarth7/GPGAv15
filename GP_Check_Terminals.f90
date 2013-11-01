@@ -45,7 +45,7 @@ do  i_Tree=1,n_Trees
 
         ! run through each function at the level
 
-        do  i_Node= pow2_table(i_level) + 1,  pow2_table(i_level+1) , 2  
+        do  i_Node= pow2_table(i_level) + 1,  pow2_table(i_level+1) , 2
 
 
             i_Function=i_Function+1                  ! sets the 'function' node's index
@@ -154,7 +154,7 @@ enddo ! i_tree
 if( myid == 0 )then
     if( i_Error > 0 )then
         call print_entire_tree( )
-    endif ! i_Error > 0 
+    endif ! i_Error > 0
 endif ! myid == 0
 
 

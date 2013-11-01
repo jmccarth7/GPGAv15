@@ -17,7 +17,7 @@ implicit none
 
 !----------------------------------------------------------------------------------------
 
-call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary? 
+call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
 
 ! broadcast the values read in by cpu 0 to others
 
@@ -71,7 +71,7 @@ call MPI_BCAST( L_GA_print, 1,    &
 
 !-----------------------------------------------------------------
 
-call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary? 
+call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
 
 return
 

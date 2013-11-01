@@ -18,7 +18,7 @@ use GA_Variables_module
 implicit none
 
 real(kind=4) :: cff
-real(kind=8) :: sse_ind 
+real(kind=8) :: sse_ind
 
 integer(kind=4) :: i_GP_Crossover
 integer(kind=4),dimension(2) :: k_GP_Individual_Male
@@ -36,7 +36,7 @@ integer(kind=4) :: i_node
 integer(kind=4) :: i_safe
 integer(kind=4) :: i_safe_max
 
-!integer(kind=4) :: kk                
+!integer(kind=4) :: kk
 !character(6) ::  flag
 
 !----------------------------------------------------------------------------------
@@ -231,7 +231,7 @@ do
     !       '(A,1x,I4, 1x, A, 1x,E12.5, 1x, A, 1x, I4, 1x, A, 1x, E12.5)' ) &
     !       'gptssr: i_GP_Indiv', i_GP_Individual, 'with SSE =', sse_ind, &
     !       ' replaced with k_GP_Indiv_Male(1)', k_GP_Individual_Male(1),  &
-    !       'with SSE =', GP_Adult_Population_SSE( k_GP_Individual_Male(1) ) 
+    !       'with SSE =', GP_Adult_Population_SSE( k_GP_Individual_Male(1) )
     !endif ! myid == 0
 
     !???! Do the genetic crossovers but only keep the solution
@@ -293,11 +293,11 @@ do
 
     !if( myid == 0 )then
     !    write(6,'(/A)') 'gptssr: bef call GP_Tree_Swap '
-    !    ! >> debug 
+    !    ! >> debug
     !    call print_trees( 1, i_GP_Individual, i_GP_Individual, &
     !                          GP_Child_Population_Node_Type,  &
     !                          'tree bef tree swap'  )
-    !    ! << debug 
+    !    ! << debug
     !endif ! myid == 0
 
 
@@ -319,7 +319,7 @@ do
     !    if( GP_Child_Population_Node_Type(kk,i_Male_Tree, i_GP_Individual) /=  &
     !                                             Parent_Tree_Swap_Node_Type(kk,1) )then
     !        flag = '<<<<<<'
-    !    endif 
+    !    endif
     !    write(6,'(3(1x,I6),1x,A)')  &
     !          kk, GP_Child_Population_Node_Type(kk,i_Male_Tree, i_GP_Individual),  &
     !                 Parent_Tree_Swap_Node_Type(kk,1) , flag
@@ -330,11 +330,11 @@ do
                   Parent_Tree_Swap_Node_Type(1:n_Nodes,1)
 
 
-    !! >> debug 
+    !! >> debug
     !call print_trees( 1, i_GP_Individual, i_GP_Individual, &
     !                  GP_Child_Population_Node_Type,  &
     !                  'tree AFTER tree swap'  )
-    !! << debug 
+    !! << debug
 
 
     !-----------------------------------------------------------------------------------
@@ -362,7 +362,7 @@ do
 
     !-----------------------------------------------------------------------------------
 
-    !  if you found an error in the tree, reset i_GP_Crossover 
+    !  if you found an error in the tree, reset i_GP_Crossover
     !  and try making a new tree and with a new random i_GP_Individual
 
     if( i_Error > 0 )then

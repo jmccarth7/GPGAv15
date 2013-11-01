@@ -37,7 +37,7 @@ do  i_CODE_equation=1,n_CODE_equations
                                   data_variance_inv(i_CODE_equation)
 enddo !  i_CODE_equation
 
-write(GP_print_unit,'(/A/)') 'ssec: using data_variance inv   ' 
+write(GP_print_unit,'(/A/)') 'ssec: using data_variance inv   '
 
 
 
@@ -52,7 +52,7 @@ do  i_time_step=1,n_time_steps
 
     do  i_CODE_equation=1,n_CODE_equations
 
-    
+
         !write(GP_print_unit,'(A,2(1x,I6), 3(1x,E15.7))') &
         !      'ssec: myid, i_eqn, RK_soln, data_array, var ', &
         !            myid, i_CODE_equation,                    &
@@ -71,7 +71,7 @@ do  i_time_step=1,n_time_steps
         !fvec(i_time_step) = fvec(i_time_step)  +                 &
         !     Data_Array(i_time_step,i_CODE_equation)**2  /       &
         !                        Data_Variance(i_CODE_equation)
-    
+
     enddo ! i_CODE_equation
 
 

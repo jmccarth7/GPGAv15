@@ -126,13 +126,13 @@ deallocate( GP_Adult_Population_SSE )
 !deallocate( GP_Child_Population_SSE )
 !>>>>>>>>>>>>>
 
-!deallocate( buffer )                                         
-!deallocate( buffer_recv )                                    
-                                                                                              
-!deallocate( buffer2 )                                        
-!deallocate( buffer2_recv )                                   
-                                                                                              
-    
+!deallocate( buffer )
+!deallocate( buffer_recv )
+
+!deallocate( buffer2 )
+!deallocate( buffer2_recv )
+
+
 
 return
 

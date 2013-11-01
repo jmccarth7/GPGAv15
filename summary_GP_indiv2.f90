@@ -59,7 +59,7 @@ logical :: Lprint
 
 ! set Lprint so printing is done only under the conditions in the if-test
 
-Lprint = .TRUE. 
+Lprint = .TRUE.
 
 !if( i_GP_generation == 1                                  .or. &
 !    mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
@@ -80,7 +80,7 @@ if( Lprint )then
              &n_trees    n_nodes  n_levels', &
               i_GP_generation, i_GP_indiv, &
               n_code_equations, n_trees, n_nodes, n_levels
-endif ! Lprint 
+endif ! Lprint
 
 write(GP_summary_output_unit, '(2x,6(1x,I6))') &
              i_GP_generation, i_GP_indiv, &
@@ -96,7 +96,7 @@ if( Lprint )then
     write(GP_print_unit,'(/A)')&
       'sgpi2: i_GP_gen  i_GP_indiv  i_code_eq  &
             &GP_Ind_Init_Cond(i_code_eq) '
-endif ! Lprint 
+endif ! Lprint
 
 
 do  i_code_eq = 1, n_CODE_Equations
@@ -105,7 +105,7 @@ do  i_code_eq = 1, n_CODE_Equations
         write(GP_print_unit,'(3(1x,I10), 7x, E24.16)')&
               i_GP_generation, i_GP_indiv, i_code_eq, &
               GP_individual_Initial_Conditions( i_code_eq )
-    endif ! Lprint 
+    endif ! Lprint
 
     write(GP_summary_output_unit, '(2x,2(1x,I6),1x,I3, 1x, E24.16,2x,A)')&
           i_GP_generation, i_GP_indiv, i_code_eq, &
@@ -122,12 +122,12 @@ write(GP_summary_output_unit, '(A,2(1x,I6))') '> ', i_GP_generation, i_GP_indiv
 
 
 !if( Lprint )then
-!    call print_trees( i_GP_generation, i_GP_indiv, i_GP_indiv, & 
-!                      GP_individual_Node_Type, '    ' ) 
+!    call print_trees( i_GP_generation, i_GP_indiv, i_GP_indiv, &
+!                      GP_individual_Node_Type, '    ' )
 !endif ! Lprint
 
 !call print_trees( i_GP_generation, i_GP_indiv, i_GP_indiv, &
-!                        GP_Individual_Node_Type, '    ' ) 
+!                        GP_Individual_Node_Type, '    ' )
 
 !---------------------------------------------------------------------------------
 
@@ -154,12 +154,12 @@ write(GP_summary_output_unit, '(A,2(1x,I6))') '> ', i_GP_generation, i_GP_indiv
 !                      i_GP_generation, i_GP_indiv,i_tree, i_node, &
 !                      GP_individual_node_parameters(i_node,i_tree)
 !
-!            endif  ! GP_Individual_Node_Type(i_Node,i_Tree) == 0   
+!            endif  ! GP_Individual_Node_Type(i_Node,i_Tree) == 0
 !
 !        enddo ! i_node
 !    enddo  ! i_tree
 !
-!endif ! Lprint 
+!endif ! Lprint
 !
 !!----------------------------------------------------------------------------------------------------
 !
@@ -169,7 +169,7 @@ write(GP_summary_output_unit, '(A,2(1x,I6))') '> ', i_GP_generation, i_GP_indiv
 !!if( Lprint )then
 !    write(GP_print_unit,'(/A)')  &
 !          'sgpi2: i_GP_gen  i_GP_indiv   i_tree     i_node    GP_Indiv_Node_Type'
-!!endif ! Lprint 
+!!endif ! Lprint
 !
 !
 !do  i_Node=1,n_Nodes
@@ -181,13 +181,13 @@ write(GP_summary_output_unit, '(A,2(1x,I6))') '> ', i_GP_generation, i_GP_indiv
 !                write(GP_print_unit,'(2(1x,I10),3(1x,I10))') &
 !                      i_GP_generation, i_GP_indiv,i_tree, i_node, &
 !                      GP_Individual_Node_Type(i_Node,i_Tree)
-!            !endif ! Lprint 
+!            !endif ! Lprint
 !
 !            write(GP_summary_output_unit, '(2x,2(1x,I6),3(1x,I3))') &
 !                  i_GP_generation, i_GP_indiv,i_tree, i_node, &
 !                  GP_Individual_Node_Type(i_Node,i_Tree)
 !
-!        endif ! GP_Individual_Node_Type(i_Node,i_Tree) .ne. -9999  
+!        endif ! GP_Individual_Node_Type(i_Node,i_Tree) .ne. -9999
 !
 !
 !    enddo ! i_tree
@@ -216,12 +216,12 @@ if( Lprint )then
                       GP_Individual_Node_Type(i_Node,i_Tree), &
                       GP_individual_node_parameters(i_node,i_tree)
 
-            endif  ! GP_Individual_Node_Type(i_Node,i_Tree) == 0   
+            endif  ! GP_Individual_Node_Type(i_Node,i_Tree) == 0
 
         enddo ! i_node
     enddo  ! i_tree
 
-endif ! Lprint 
+endif ! Lprint
 
 !----------------------------------------------------------------------------------------------------
 
@@ -231,7 +231,7 @@ endif ! Lprint
 !if( Lprint )then
 !    write(GP_print_unit,'(/A)')  &
 !          'sgpi2: i_GP_gen  i_GP_indiv   i_tree     i_node    GP_Indiv_Node_Type'
-!endif ! Lprint 
+!endif ! Lprint
 
 
 do  i_Node=1,n_Nodes
@@ -243,13 +243,13 @@ do  i_Node=1,n_Nodes
             !    write(GP_print_unit,'(2(1x,I10),3(1x,I10))') &
             !          i_GP_generation, i_GP_indiv,i_tree, i_node, &
             !          GP_Individual_Node_Type(i_Node,i_Tree)
-            !endif ! Lprint 
+            !endif ! Lprint
 
             write(GP_summary_output_unit, '(2x,2(1x,I6),3(1x,I3))') &
                   i_GP_generation, i_GP_indiv,i_tree, i_node, &
                   GP_Individual_Node_Type(i_Node,i_Tree)
 
-        endif ! GP_Individual_Node_Type(i_Node,i_Tree) .ne. -9999  
+        endif ! GP_Individual_Node_Type(i_Node,i_Tree) .ne. -9999
 
 
     enddo ! i_tree
@@ -269,7 +269,7 @@ do  i_tree=1,n_trees
     do  i_node=1,n_nodes
 
         if( GP_Individual_Node_Type(i_Node,i_Tree) == 0               ) then
-    
+
             write(GP_summary_output_unit,'(2x,2(1x,I6),2(1x,I3), 1x,E24.16)') &
                   i_GP_generation, i_GP_indiv,i_tree, i_node, &
                   GP_individual_node_parameters( i_node,i_tree )

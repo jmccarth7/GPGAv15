@@ -272,7 +272,7 @@ write(GP_summary_output_unit, '(A,2(1x,I6))') '> ', i_GP_generation, i_GP_indiv
 !---------------------------------------------------------------------------------
 
 if( Lprint )then
-    write(GP_print_unit,'(A)') 'sgpi: call print_trees'                  
+    write(GP_print_unit,'(A)') 'sgpi: call print_trees'
     call print_trees( i_GP_generation, i_GP_indiv, i_GP_indiv, &
                       GP_Adult_Population_Node_Type, ' ' )
 endif ! Lprint

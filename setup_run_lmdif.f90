@@ -73,7 +73,7 @@ real(kind=8) :: delta_wt
 !                    myid, myprint_unit, n_parameters
 !write(myprint_unit,'(/A,2(1x,I10))') &
 !      'setrlm: at entry i_GA_indiv, individual_quality(i_GA_indiv) ', &
-!                        i_GA_indiv, individual_quality(i_GA_indiv) 
+!                        i_GA_indiv, individual_quality(i_GA_indiv)
 
 do  i_parameter=1,n_parameters
 
@@ -183,7 +183,7 @@ call lmdif( fcn, n_time_steps, n_parameters, x_LMDIF, fvec, &
 
 !write(6,'(A,3(1x,I3),1x,I10/)') &
 !      'setrlm: aft call lmdif, myid, n_parameters, info, n_time_steps', &
-!                               myid, n_parameters, info, n_time_steps 
+!                               myid, n_parameters, info, n_time_steps
 
 if( Lprint_lmdif )then
 
@@ -191,22 +191,22 @@ if( Lprint_lmdif )then
 
         !write(myprint_unit,'(A,3(1x,I3),1x,I10/)') &
         !      'setrlm: aft call lmdif, myid, n_parameters, info, n_time_steps', &
-        !                               myid, n_parameters, info, n_time_steps 
-    
+        !                               myid, n_parameters, info, n_time_steps
+
         !!if( info >= 0 ) then
-        !!    
+        !!
         !!    write(myprint_unit,'(A,1x,I10/)') 'setrlm: info flag =  ', info
-        !!    
+        !!
         !!    write(myprint_unit,'(A/)') &
         !!    '######################################################################################'
         !!    write(myprint_unit,'(A)') 'INFO, error flag.  '
-        !!    
+        !!
         !!    write(myprint_unit,'(/A)') &
         !!    'If the user has terminated execution, INFO is set to the (negative) value of IFLAG.'
         !!    write(myprint_unit,'(A)') 'See the description  of FCN.'
-        !!    
+        !!
         !!    write(myprint_unit,'(/A/)') 'Otherwise, INFO is set as follows:'
-        !!    
+        !!
         !!    write(myprint_unit,'(A)')  '0, improper input parameters.'
         !!    write(myprint_unit,'(A)')  &
         !!    '1, both actual and predicted relative reductions &
@@ -226,7 +226,7 @@ if( Lprint_lmdif )then
         !!          &to the columns of the Jacobian to machine precision.'
         !!    write(myprint_unit,'(/A/)') &
         !!    '######################################################################################'
-        !!    
+        !!
         !!endif ! info > 0
     endif ! L_myprint
 

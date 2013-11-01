@@ -76,18 +76,18 @@ real(kind=8) ::  temp_SSE
 
 !L_GP_print = .FALSE.
 !if( i_GP_generation == 1 .or. &
-!    mod( i_GP_generation, GP_child_print_interval ) == 0 .or. & 
+!    mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
 !    i_GP_generation == n_GP_generations )then
 
-    L_GP_print = .TRUE. 
+    L_GP_print = .TRUE.
 
 !endif ! i_GP_generation...
 
 i_dummy = 0
 
 
-buffer2(1:n_maximum_number_parameters+2)      = 0.0D0 
-buffer2_recv(1:n_maximum_number_parameters+2) = 0.0D0 
+buffer2(1:n_maximum_number_parameters+2)      = 0.0D0
+buffer2_recv(1:n_maximum_number_parameters+2) = 0.0D0
 
 
 
@@ -190,7 +190,7 @@ endif ! myid == 0
 !                        write(GP_print_unit,'(8x,4(1x,I6))') &
 !                                i_GP_individual, i_tree, i_node, &
 !                                GP_Adult_population_Node_Type(i_Node,i_Tree,i_GP_individual )
-!                    endif ! GP_Adult_population_Node_Type(i_Node,i_Tree,i_GP_individual ) == 0       
+!                    endif ! GP_Adult_population_Node_Type(i_Node,i_Tree,i_GP_individual ) == 0
 !
 !                enddo ! i_node
 !            enddo  ! i_tree
@@ -268,7 +268,7 @@ endif ! myid == 0
 !              'i_GP_individual        GP_n_parms '
 !        do  i_GP_individual = 1, n_GP_individuals
 !            write(GP_print_unit,'(I10,10x,I10)') &
-!                 i_GP_individual,  GP_n_parms(i_GP_individual) 
+!                 i_GP_individual,  GP_n_parms(i_GP_individual)
 !        enddo !  i_GP_individual
 !    endif ! L_GP_print
 !endif ! myid == 0
@@ -464,7 +464,7 @@ if( myid == 0  )then
         !endif ! L_GP_print
 
 
-        buffer2_recv = 0.0d0  
+        buffer2_recv = 0.0d0
         call MPI_RECV( buffer2_recv, n_maximum_number_parameters+2, &
                        MPI_DOUBLE_PRECISION, &
                        MPI_ANY_SOURCE, MPI_ANY_TAG,  &
@@ -729,7 +729,7 @@ else  ! not myid == 0
         ! don't replace original child SSE if lmdif SSE indicates a bad result
 
         if( abs( temp_SSE ) < 1.0D12 )then
-            
+
             GP_child_individual_SSE(i_2_individual) = temp_SSE
 
         endif ! abs(temp_SSE)...

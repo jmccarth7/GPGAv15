@@ -421,7 +421,7 @@ do  i_GP_Generation=1,n_GP_Generations
     !if( i_GP_generation > 1 ) then
     !    call MPI_FINALIZE(ierr)
     !    stop 'gen1'
-    !endif 
+    !endif
 
 
     if( myid == 0 )then
@@ -659,9 +659,9 @@ do  i_GP_Generation=1,n_GP_Generations
             write(GP_print_unit,'(/A)')&
                   '0:aft  move Child_Node_Type and SSE to Adult'
 
-            write(GP_print_unit,'(/A)') '0: GP_Adult_Population_SSE '                 
+            write(GP_print_unit,'(/A)') '0: GP_Adult_Population_SSE '
             write(GP_print_unit,'(5(1x,E15.7))')  GP_Adult_Population_SSE
-            write(GP_print_unit,'(/A)') '0: GP_Adult_Population_Node_Type '                 
+            write(GP_print_unit,'(/A)') '0: GP_Adult_Population_Node_Type '
             write(GP_print_unit,'(15(1x,i5))')  GP_Adult_Population_Node_Type
 
             !---------------------------------------------------------------------------
@@ -1303,7 +1303,7 @@ do  i_GP_Generation=1,n_GP_Generations
     !if( i_GP_generation > 1 ) then
     !    call MPI_FINALIZE(ierr)
     !    stop 'gen2'
-    !endif 
+    !endif
     !-------------------------------------------------------------------------------------
 
 
@@ -1503,26 +1503,26 @@ if( myid == 0 )then
     if( L_unit50_output )then
         close( unit_gp_out )
     endif ! L_unit50_output
-    
+
     if( L_GP_log )then
         close( GP_log_unit )
     endif ! L_GP_log
-    
+
     if( L_GA_log )then
         close( GA_log_unit )
     endif ! L_GA_log
-    
+
     if( L_GA_output_parameters )then
         close( GA_output_unit )
     endif ! L_GA_output_parameters
-    
+
     if( L_GP_output_parameters )then
         close( GP_output_unit )
     endif ! L_GP_output_parameters
-    
-    
+
+
     close( GP_summary_output_unit )
-    
+
 
 endif ! myid == 0
 

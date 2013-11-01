@@ -92,7 +92,7 @@ do  i_tree=1,n_trees
     do  i_level=n_levels-1,1,-1   ! move up the tree structure from level "n_level-1" to level "1"
 
         ! the function number at the right end of the upper level
-        i_function= pow2_table(i_level-1) !  (2**(i_level-1))-1 
+        i_function= pow2_table(i_level-1) !  (2**(i_level-1))-1
 
 
         !write(6,'(A,1x,I6)')'RKBM: i_level    = ', i_level

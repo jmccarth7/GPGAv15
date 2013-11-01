@@ -1,4 +1,4 @@
-subroutine fill_string_arrays() 
+subroutine fill_string_arrays()
 
 
 
@@ -38,7 +38,7 @@ node_type_string = ' '
 !enddo ! i_tree
 !write(6,'(A)') ' '
 
-k = 0 
+k = 0
 
 do  i_tree = 1, n_trees
 
@@ -50,7 +50,7 @@ do  i_tree = 1, n_trees
 
         if( RK_Node_Type( i_node, i_tree ) == 0 )then
 
-            k = k + 1 
+            k = k + 1
 
             !write( parm_string, '(A,I0)') 'v', k
 
@@ -63,7 +63,7 @@ do  i_tree = 1, n_trees
 
             cycle
 
-        endif !  RK_Node_Type( i_node, i_tree ) == 0 
+        endif !  RK_Node_Type( i_node, i_tree ) == 0
 
 
 
@@ -73,7 +73,7 @@ do  i_tree = 1, n_trees
 
             write( parm_string, '(A,I0)') 'P', j
 
-            node_type_string( i_node, i_tree ) = trim( parm_string ) 
+            node_type_string( i_node, i_tree ) = trim( parm_string )
 
             !write(6,'(A,3(1x,I2),1x,A)')&
             !      'fill: i_tree, i_node, j, parm_string ', &
@@ -81,11 +81,11 @@ do  i_tree = 1, n_trees
 
             cycle
 
-        endif !  RK_Node_Type( i_node, i_tree ) <  0 
+        endif !  RK_Node_Type( i_node, i_tree ) <  0
 
 
         node_select:&
-        select case ( RK_Node_Type( i_node, i_tree ) ) 
+        select case ( RK_Node_Type( i_node, i_tree ) )
 
 
         case( 0 ) node_select
@@ -95,31 +95,31 @@ do  i_tree = 1, n_trees
 
         case( 1 ) node_select
 
-            node_type_string( i_node, i_tree ) = '+' 
+            node_type_string( i_node, i_tree ) = '+'
 
         case( 2 ) node_select
 
-            node_type_string( i_node, i_tree ) = '-' 
+            node_type_string( i_node, i_tree ) = '-'
 
         case( 3 ) node_select
 
-            node_type_string( i_node, i_tree ) = '*' 
+            node_type_string( i_node, i_tree ) = '*'
 
         case( 4 ) node_select
 
-            node_type_string( i_node, i_tree ) = '/' 
+            node_type_string( i_node, i_tree ) = '/'
 
         case( 5 ) node_select
 
-            node_type_string( i_node, i_tree ) = 'I' 
+            node_type_string( i_node, i_tree ) = 'I'
 
         case( 6 ) node_select
 
-            node_type_string( i_node, i_tree ) = 'M' 
+            node_type_string( i_node, i_tree ) = 'M'
 
         case( 7 ) node_select
 
-            node_type_string( i_node, i_tree ) = 'p' 
+            node_type_string( i_node, i_tree ) = 'p'
 
         end select  node_select
 

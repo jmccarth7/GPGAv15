@@ -94,7 +94,7 @@ do  i_GP_Mutation = 1,n_GP_Mutations
     ! randomly choose from the population pool
     ! randomly pick one of the n_GP_Individuals Adults to mutate
 
-    i_GP_Individual_Mutation = 1+int(cff*float(n_GP_Individuals)) 
+    i_GP_Individual_Mutation = 1+int(cff*float(n_GP_Individuals))
     i_GP_Individual_Mutation = min( i_GP_Individual_Mutation , n_GP_Individuals )
 
     ! choose sequentially from the best of the population

@@ -26,11 +26,11 @@ integer(kind=4) :: jj
 
 !write(6,'(/A/)')'ctns: fill tree_node_string'
 
-tree_node_string = '' 
+tree_node_string = ''
 
 do  jj = 1, n_nodes
 
-    !write(6,'(A,1x,I6)')'ctns: jj = ', jj                     
+    !write(6,'(A,1x,I6)')'ctns: jj = ', jj
 
     node_element_string = '   '
     write(node_element_string,'(I3)') jj
