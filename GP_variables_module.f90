@@ -54,8 +54,6 @@ integer(kind=4),allocatable,dimension(:,:) :: GP_Individual_Node_Type
 ! GP_Adult_Population_Parameter_Solution(n_Maximum_Number_Parameters,n_GP_Individuals)
 real (kind=8),allocatable,dimension(:,:)  :: GP_Adult_Population_Parameter_Solution
 
-!!! GP_Child_Population_Parameter_Solution(n_Maximum_Number_Parameters,n_GP_Individuals)
-!!real (kind=8),allocatable,dimension(:,:)  :: GP_Child_Population_Parameter_Solution
 
 !real(kind=8) :: GP_Population_Initial_Conditions(n_CODE_equations,n_GP_individuals)
 real(kind=8),allocatable,dimension(:,:)       :: GP_Population_Initial_Conditions

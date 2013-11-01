@@ -122,7 +122,6 @@ deallocate( Node_Probability )
 !>>>>>>>>>>>>>
 deallocate( GP_Adult_Population_Parameter_Solution )
 deallocate( GP_Adult_Population_SSE )
-!deallocate( GP_Child_Population_Parameter_Solution )
 !deallocate( GP_Child_Population_SSE )
 !>>>>>>>>>>>>>
 

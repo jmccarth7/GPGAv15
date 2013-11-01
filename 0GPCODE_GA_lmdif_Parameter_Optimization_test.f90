@@ -237,7 +237,6 @@ GP_Individual_Node_Type=-9999                    ! Matrix Operation
 GP_Population_Node_Parameters=0.0D0              ! Matrix Operation
 
 GP_Adult_Population_Parameter_Solution=0.0D0     ! Matrix Operation
-!GP_Child_Population_Parameter_Solution=0.0D0     ! Matrix Operation
 
 GP_Adult_Population_Node_Type=-9999              ! Matrix Operation
 GP_Child_Population_Node_Type=-9999              ! Matrix Operation
@@ -673,7 +672,8 @@ do  i_GP_Generation=1,n_GP_Generations
 
             GP_Adult_Population_Node_Type = GP_Child_Population_Node_Type
             GP_Adult_Population_SSE       = GP_Child_Individual_SSE
-            !!!GP_Adult_Population_parameter_solution = GP_Child_Population_parameter_solution ! v8 20131030
+            !!!GP_Adult_Population_parameter_solution = &
+            !!!!GP_Child_Population_parameter_solution ! v8 20131030
 
             write(GP_print_unit,'(/A)')&
                   '0:aft  move Child_Node_Type and SSE to Adult'
@@ -1325,12 +1325,6 @@ do  i_GP_Generation=1,n_GP_Generations
 
     !-------------------------------------------------------------------------------------
 
-
-    !GP_Child_Population_Parameter_Solution(1:n_Maximum_Number_Parameters,1:n_GP_Individuals)=&
-    !GP_Adult_Population_Parameter_Solution(1:n_Maximum_Number_Parameters, 1:n_GP_Individuals)
-
-
-    !-------------------------------------------------------------------------------------
 
     ! do fitness calculations for this GP generation
 
