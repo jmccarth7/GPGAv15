@@ -46,7 +46,7 @@ real(kind=8) :: fvec(n_time_steps)
 real(kind=8) :: ftol,xtol,gtol
 
 
-real(kind=8), parameter :: epsfcn = 1.0d-6  !-15   ! 1.0d-6    ! original
+real(kind=8), parameter :: epsfcn = 1.0d-9  ! -6  !-15   ! 1.0d-6    ! original
 real(kind=8), parameter :: factor=1.0D+0
 real(kind=8), parameter :: zero = 0.0d0
 
@@ -185,8 +185,8 @@ info = 0
 
 maxfev= 4000 ! 2000 ! 50 ! 10 ! 10000
 
-ftol=1.0D-15  ! 15   ! 10
-xtol=1.0D-15  ! 15   ! 10
+ftol=1.0D-10   ! 15  ! 15   ! 10
+xtol=1.0D-10   ! 15  ! 15   ! 10
 
 gtol=zero
 

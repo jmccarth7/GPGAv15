@@ -1,4 +1,9 @@
-subroutine print_debug1( label, input_array  ) 
+subroutine print_debug1( label, input_array ) 
+
+
+
+! print REAL arrays of the form:
+!   input_array( 1:n_Nodes,1:n_Trees, 1:n_GP_individuals )
 
 
 use GP_Parameters_module
@@ -22,6 +27,7 @@ integer(kind=4) :: i_GP_Individual
 !integer(kind=4) :: icff
 integer(kind=4) :: i_tree
 integer(kind=4) :: i_node
+
 
 !integer(kind=4) :: i_parm
 

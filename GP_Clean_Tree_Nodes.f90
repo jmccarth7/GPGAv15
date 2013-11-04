@@ -5,6 +5,11 @@ subroutine GP_Clean_Tree_Nodes
 ! these nodes with a parameter setting and re-sets the terminals to that node as -9999
 ! This helps to maintain simplicity within the tree structures.
 
+! The action of GP_Clean_Tree_Nodes should not change the equations generated
+! from the tree, since it just replaces "const op const"  with "const"
+
+! So the Run_GP_Calculate_Fitness array is not changed 
+
 
 use GP_Parameters_module
 use GA_Parameters_module

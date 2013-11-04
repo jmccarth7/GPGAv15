@@ -1,6 +1,13 @@
 subroutine print_debug2( label, input_array  ) 
 
 
+
+! print REAL arrays of the form:
+
+!  input_array(1:n_Maximum_Number_Parameters, 1:n_GP_Individuals) 
+
+
+
 use GP_Parameters_module
 use GA_Parameters_module
 use GP_Variables_module

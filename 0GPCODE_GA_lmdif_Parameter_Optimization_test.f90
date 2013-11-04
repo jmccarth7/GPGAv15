@@ -49,7 +49,7 @@ real(kind=8), allocatable, dimension(:) :: output_array
 !real(kind=8) :: t1
 !real(kind=8) :: t2
 
-!character(200) :: tree_descrip
+character(200) :: tree_descrip
 
 character(10),parameter :: program_version   = '201309.002'
 character(10),parameter :: modification_date = '20131101'
@@ -555,9 +555,9 @@ do  i_GP_Generation=1,n_GP_Generations
 
         if( myid == 0 )then
 
-            !tree_descrip =  ' GP_Adult trees before call selection routines '
-            !call print_trees( i_GP_generation, 1, n_GP_individuals, GP_Adult_Population_Node_Type, &
-            !                  trim( tree_descrip )  )
+            tree_descrip =  ' GP_Adult trees before call selection routines '
+            call print_trees( i_GP_generation, 1, n_GP_individuals, GP_Adult_Population_Node_Type, &
+                              trim( tree_descrip )  )
 
             !----------------------------------------------------------------------------------
 
@@ -587,8 +587,8 @@ do  i_GP_Generation=1,n_GP_Generations
                 call GP_Fitness_Proportionate_Asexual_Reproduction
 
 
-                !write(GP_print_unit,'(/A)') &
-                !      '0:aft  call GP_Fitness_Proportionate_Asexual_Reproduction '
+                write(GP_print_unit,'(/A)') &
+                      '0:aft  call GP_Fitness_Proportionate_Asexual_Reproduction '
 
                 !tree_descrip=' GP_Child trees after call to &
                 !              &GP_Fitness_Proportionate_Asexual_Reproduction'
@@ -623,8 +623,8 @@ do  i_GP_Generation=1,n_GP_Generations
                 call GP_Tournament_Style_Sexual_Reproduction
 
 
-                !write(GP_print_unit,'(/A)') &
-                !      '0: aft  call GP_Tournament_Style_Sexual_Reproduction '
+                write(GP_print_unit,'(/A)') &
+                      '0: aft  call GP_Tournament_Style_Sexual_Reproduction '
 
                 !tree_descrip = ' GP_Child trees after call to &
                 !                  &GP_Tournament_Style_Sexual_Reproduction'
@@ -656,7 +656,7 @@ do  i_GP_Generation=1,n_GP_Generations
                 call GP_Mutations
 
 
-                !write(GP_print_unit,'(/A)')'0:aft call GP_Mutations '
+                write(GP_print_unit,'(/A)')'0:aft call GP_Mutations '
 
                 !tree_descrip =  ' GP_Child trees after call to GP_Mutations'
                 !call print_trees( i_GP_generation, 1, n_GP_individuals, &
@@ -672,12 +672,15 @@ do  i_GP_Generation=1,n_GP_Generations
 
             GP_Adult_Population_Node_Type = GP_Child_Population_Node_Type
             GP_Adult_Population_SSE       = GP_Child_Individual_SSE
+
             !!!GP_Adult_Population_parameter_solution = &
             !!!!GP_Child_Population_parameter_solution ! v8 20131030
 
             write(GP_print_unit,'(/A)')&
                   '0:aft  move Child_Node_Type and SSE to Adult'
 
+            write(GP_print_unit,'(/A/(10(3x,L1)))')&
+                  '0: Run_GP_Calculate_Fitness ', Run_GP_Calculate_Fitness
             !---------------------------------------------------------------------------
 
             ! calculate the diversity index for each individual for generations > 1
@@ -729,16 +732,16 @@ do  i_GP_Generation=1,n_GP_Generations
 
     ! print trees before tree clean
 
-    !if( myid == 0 )then
-    !    if( i_GP_generation == 1                                  .or. &
-    !        mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
-    !        i_GP_generation == n_GP_generations                          )then
-    !        tree_descrip =  ' trees before call to GP_Clean_Tree_Nodes'
-    !        call print_trees( i_GP_generation, 1, n_GP_individuals, &
-    !                          GP_Adult_Population_Node_Type, &
-    !                          trim( tree_descrip )  )
-    !    endif ! i_GP_generation == 1
-    !endif !  myid == 0
+    if( myid == 0 )then
+        !if( i_GP_generation == 1                                  .or. &
+        !    mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
+        !    i_GP_generation == n_GP_generations                          )then
+            tree_descrip =  ' trees before call to GP_Clean_Tree_Nodes'
+            call print_trees( i_GP_generation, 1, n_GP_individuals, &
+                              GP_Adult_Population_Node_Type, &
+                              trim( tree_descrip )  )
+        !endif ! i_GP_generation == 1
+    endif !  myid == 0
 
 
     !-----------------------------------------------------------------------------------------
@@ -757,8 +760,8 @@ do  i_GP_Generation=1,n_GP_Generations
         call GP_Clean_Tree_Nodes
 
 
-        !write(GP_print_unit,'(/A,1x,I6/)') &
-        !         '0: aft call GP_Clean_Tree_Nodes   Generation =', i_GP_Generation
+        write(GP_print_unit,'(/A,1x,I6/)') &
+                 '0: aft call GP_Clean_Tree_Nodes   Generation =', i_GP_Generation
 
     endif ! myid == 0
 
@@ -791,17 +794,17 @@ do  i_GP_Generation=1,n_GP_Generations
 
     ! print trees after call to GP_Clean_Tree_Nodes
 
-    !if( myid == 0 )then
-    !    !if( i_GP_generation == 1                                  .or. &
-    !    !    mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
-    !    !    i_GP_generation == n_GP_generations                          )then
-    !        tree_descrip =  ' trees after call to GP_Clean_Tree_Nodes'
-    !        call print_trees( i_GP_generation, 1, n_GP_individuals, &
-    !                          GP_Adult_Population_Node_Type, &
-    !                          trim( tree_descrip )  )
-    !    !endif ! i_GP_generation == 1 .or. ...
+    if( myid == 0 )then
+        !if( i_GP_generation == 1                                  .or. &
+        !    mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
+        !    i_GP_generation == n_GP_generations                          )then
+            tree_descrip =  ' trees after call to GP_Clean_Tree_Nodes'
+            call print_trees( i_GP_generation, 1, n_GP_individuals, &
+                              GP_Adult_Population_Node_Type, &
+                              trim( tree_descrip )  )
+        !endif ! i_GP_generation == 1 .or. ...
 
-    !endif !  myid == 0
+    endif !  myid == 0
 
     !-----------------------------------------------------------------------------------------
     !>>>>>>>>>> jjm 20130417
@@ -1157,7 +1160,7 @@ do  i_GP_Generation=1,n_GP_Generations
             !  first, load  the initial conditions
 
             GP_Adult_Population_Parameter_Solution(1:n_CODE_equations, i_GP_Individual) = &
-                GP_Individual_Initial_Conditions(1:n_CODE_Equations)
+                  GP_Individual_Initial_Conditions(1:n_CODE_Equations)
 
 
             ! then the rest of the parameters
