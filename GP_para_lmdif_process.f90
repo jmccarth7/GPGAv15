@@ -296,24 +296,24 @@ if( myid == 0  )then
         !write(GP_print_unit,'(A)') &
         !      'i_GP_individual                  child_parameters '
 
+        write(GP_print_unit,'(/A)') &
+              'gplp:  indiv   parm_num   child_parameters'
+
         do  i_GP_individual = 1, n_GP_individuals
 
-            write(GP_print_unit,'(/A)') &
-              'gplp:  indiv   equation   GP_Population_Initial_Conditions'
-
             do  ii=1,n_CODE_equations
-                write(GP_print_unit,'(I10,1x,I10,3x, E20.10)') &
+                write(GP_print_unit,'(4x,I6,1x,I6,6x,E20.10)') &
                  i_GP_individual,  ii, &
                  GP_Population_Initial_Conditions(ii, i_GP_individual)
             enddo ! ii
 
             nparms_i = GP_n_parms( i_GP_individual )
 
-            if( nparms_i >= n_code_equations )then
-                write(GP_print_unit,'(A,2(1x,I10))') &
-                      'gplp: nparms_i, n_CODE_equations =', nparms_i, n_CODE_equations
-                write(GP_print_unit,'(/A)') &
-                  'gplp:  indiv   parameter  child_parameters '
+            if( nparms_i >  n_code_equations )then
+                !write(GP_print_unit,'(A,2(1x,I10))') &
+                !      'gplp: nparms_i, n_CODE_equations =', nparms_i, n_CODE_equations
+                !write(GP_print_unit,'(/A)') &
+                !  'gplp:  indiv   parameter  child_parameters '
                 do  nn= n_code_equations + 1, nparms_i
                     write(GP_print_unit,'(4x,I6,1x,I6,6x,E20.10)') &
                      i_GP_individual, nn, &
@@ -337,13 +337,14 @@ endif ! myid == 0
 !L_stop_run  = .TRUE.
 
 if( myid == 0  )then
+    write(GP_print_unit,'(/A)') & 
+          'gplp: myid   i  Run_GP_Calc_Fit  GP_Child_Individual_SSE'
     do  i = 1, n_GP_individuals 
-        write(GP_print_unit,'(A,2(1x,I6),4x,L1,3x,E20.10)') & 
-             'gplp: myid, i, Run_GP_Calculate_Fitness(i), GP_Child_Individual_SSE', &                               
-                    myid, i, Run_GP_Calculate_Fitness(i), GP_Child_Individual_SSE(i) 
+        write(GP_print_unit,'(2(1x,I6),7x,L1,7x,E20.10)') & 
+                 myid, i, Run_GP_Calculate_Fitness(i), GP_Child_Individual_SSE(i) 
     enddo
+    write(GP_print_unit,'(/A)') ' '
 endif ! myid == 0
-
 
 !------------------------------------------------------------------------
 
@@ -738,15 +739,15 @@ else  ! not myid == 0
         !endif ! L_GP_print
 
         !if( L_GP_print .and. i_2_individual == 3 )then
-            write(GP_print_unit,'(A,3(1x,I6),4x,L1)') &
-             'gplp:6 554 myid, n_parms, i_2_individual, Run_GP_Calculate_Fitness(i_2_Individual)', &
-                         myid, n_parms, i_2_individual, Run_GP_Calculate_Fitness(i_2_Individual)
+        !    write(GP_print_unit,'(A,3(1x,I6),4x,L1)') &
+        !     'gplp:6 554 myid, n_parms, i_2_individual, Run_GP_Calculate_Fitness(i_2_Individual)', &
+        !                 myid, n_parms, i_2_individual, Run_GP_Calculate_Fitness(i_2_Individual)
         !    write(GP_print_unit,'(A/(5(1x,E15.7)))') &
         !     'gplp:6 child_parameters(1:n_parms,i_2_individual)', &
         !             child_parameters(1:n_parms,i_2_individual)
-            write(GP_print_unit,'(A,2(1x,I6),1x,E15.7)') &
-             'gplp:6 myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)', &
-                     myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)
+        !    write(GP_print_unit,'(A,2(1x,I6),1x,E15.7)') &
+        !     'gplp:6 myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)', &
+        !             myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)
         !    write(GP_print_unit,'(A,3(1x,I6))') &
         !     'gplp:6 myid, i_2_individual, individual_quality(i_2_individual)', &
         !             myid, i_2_individual, individual_quality(i_2_individual)
@@ -754,17 +755,17 @@ else  ! not myid == 0
 
 
 
-        !if( Run_GP_Calculate_Fitness(i_2_Individual) )then
+        if( Run_GP_Calculate_Fitness(i_2_Individual) )then
 
-        if( Run_GP_Calculate_Fitness(i_2_Individual) .and.  &
-            n_parms  > n_code_equations              )then
+        !if( Run_GP_Calculate_Fitness(i_2_Individual) .and.  &
+        !    n_parms  > n_code_equations              )then
 
 
             temp_SSE = GP_child_individual_SSE(i_2_individual)
 
-            write(GP_print_unit,'(A,2(1x,I6),1x,E15.7)') &
-                  'gplp:4 call setup_para  myid, i_2_individual, temp_SSE', &
-                                           myid, i_2_individual, temp_SSE
+            !write(GP_print_unit,'(A,2(1x,I6),1x,E15.7)') &
+            !      'gplp:4 call setup_para  myid, i_2_individual, temp_SSE', &
+            !                               myid, i_2_individual, temp_SSE
             !write(GP_print_unit,'(A/(5(1x,E15.7)))') &
             ! 'gplp:6 child_parameters(1:n_parms,i_2_individual)', &
             !         child_parameters(1:n_parms,i_2_individual)
@@ -780,59 +781,59 @@ else  ! not myid == 0
 
 
 
-            write(GP_print_unit,'(A,2(1x,I6),1x,E15.7)') &
-                  'gplp:4 AFT call setup_para  myid, i_2_individual, temp_SSE', &
-                                               myid, i_2_individual, temp_SSE
+            !write(GP_print_unit,'(A,2(1x,I6),1x,E15.7)') &
+            !      'gplp:4 AFT call setup_para  myid, i_2_individual, temp_SSE', &
+            !                                   myid, i_2_individual, temp_SSE
 
             ! don't replace original child SSE if lmdif SSE indicates a bad result
 
-            if( info > 0 .and. abs( temp_SSE ) < 1.0D13 )then
+            !if( info > 0 .and. abs( temp_SSE ) < 1.0D13 )then
+            if( info > 0  )then
 
                 GP_child_individual_SSE(i_2_individual) = temp_SSE
 
             endif ! abs(temp_SSE)...
 
-        !endif ! Run_GP_Calculate_Fitness(i_2_Individual)
 
-        !--------------------------------------------------------------------------
-
-        !if( L_GP_print .and. i_2_individual == 3 )then
-        !    write(GP_print_unit,'(A,3(1x,I6))') &
-        !     'gplp:7 723 myid, n_parms, i_2_individual  AFTER LMDIF ', &
-        !                 myid, n_parms, i_2_individual
-        !    write(GP_print_unit,'(A/(5(1x,E15.7)))') &
-        !     'gplp:7 child_parameters(1:n_parms,i_2_individual)', &
-        !             child_parameters(1:n_parms,i_2_individual)
-            write(GP_print_unit,'(A,2(1x,I6),1x,E15.7)') &
-             'gplp:7 myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)', &
-                     myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)
-        !    write(GP_print_unit,'(A,3(1x,I6))') &
-        !     'gplp:7 myid, i_2_individual, individual_quality(i_2_individual)', &
-        !             myid, i_2_individual, individual_quality(i_2_individual)
-        !endif ! L_GP_print
-
-        !if( L_GP_print )then
-        !    write(GP_print_unit,'(A,3(1x,I6))') &
-        !      'gplp:3 AFTER call setup_run_para_lmdif  myid, i_2_individual', &
-        !                                               myid, i_2_individual
-        !endif ! L_GP_print
-
-        !-------------------------------------------------------------------------
-
-        n_parms = GP_n_parms( i_2_individual )
-
-        !write(GP_print_unit,'(A,2(1x,I6),3(1x,I6))') &
-        ! 'gplp:BEF SEND  myid, i_2_individual, n_parms, n_parms_dim, info', &
-        !                 myid, i_2_individual, n_parms, n_parms_dim, info
-        !write(GP_print_unit,'(A,2(1x,I6),1x,E15.7)') &
-        ! 'gplp:3 BEF SEND myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)', &
-        !                  myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)
-
-        buffer2(1:n_maximum_number_parameters) = &
-                 child_parameters(1:n_maximum_number_parameters,i_2_individual)
-        buffer2(n_maximum_number_parameters+1) = GP_Child_Individual_SSE(i_2_individual)
-        buffer2(n_maximum_number_parameters+2) = &
-            real( individual_quality(i_2_individual), kind=8 )
+            !--------------------------------------------------------------------------
+    
+            !if( L_GP_print .and. i_2_individual == 3 )then
+            !    write(GP_print_unit,'(A,3(1x,I6))') &
+            !     'gplp:7 723 myid, n_parms, i_2_individual  AFTER LMDIF ', &
+            !                 myid, n_parms, i_2_individual
+            !    write(GP_print_unit,'(A/(5(1x,E15.7)))') &
+            !     'gplp:7 child_parameters(1:n_parms,i_2_individual)', &
+            !             child_parameters(1:n_parms,i_2_individual)
+            !    write(GP_print_unit,'(A,2(1x,I6),1x,E15.7)') &
+            !     'gplp:7 myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)', &
+            !             myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)
+            !    write(GP_print_unit,'(A,3(1x,I6))') &
+            !     'gplp:7 myid, i_2_individual, individual_quality(i_2_individual)', &
+            !             myid, i_2_individual, individual_quality(i_2_individual)
+            !endif ! L_GP_print
+    
+            !if( L_GP_print )then
+            !    write(GP_print_unit,'(A,3(1x,I6))') &
+            !      'gplp:3 AFTER call setup_run_para_lmdif  myid, i_2_individual', &
+            !                                               myid, i_2_individual
+            !endif ! L_GP_print
+    
+            !-------------------------------------------------------------------------
+    
+            n_parms = GP_n_parms( i_2_individual )
+    
+            !write(GP_print_unit,'(A,2(1x,I6),3(1x,I6))') &
+            ! 'gplp:BEF SEND  myid, i_2_individual, n_parms, n_parms_dim, info', &
+            !                 myid, i_2_individual, n_parms, n_parms_dim, info
+            !write(GP_print_unit,'(A,2(1x,I6),1x,E15.7)') &
+            ! 'gplp:3 BEF SEND myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)', &
+            !                  myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)
+    
+            buffer2(1:n_maximum_number_parameters) = &
+                     child_parameters(1:n_maximum_number_parameters,i_2_individual)
+            buffer2(n_maximum_number_parameters+1) = GP_Child_Individual_SSE(i_2_individual)
+            buffer2(n_maximum_number_parameters+2) = &
+                real( individual_quality(i_2_individual), kind=8 )
 
         endif ! Run_GP_Calculate_Fitness(i_2_Individual)
 

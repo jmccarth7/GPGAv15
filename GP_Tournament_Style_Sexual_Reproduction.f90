@@ -73,9 +73,9 @@ do
     i_GP_Individual = i_GP_Individual+1
     sse_ind = GP_Adult_Population_SSE(i_GP_Individual )
 
-    write(6,'(A,3(1x,I6))') &
-          'gptssr: i_GP_Crossover, i_GP_individual, i_safe ', &
-                   i_GP_Crossover, i_GP_individual, i_safe
+    write(6,'(A,2(1x,I6))') &
+          'gptssr: i_GP_Crossover, i_GP_individual', &
+                   i_GP_Crossover, i_GP_individual
 
 
     !----------------------------------------------------------------------
@@ -216,11 +216,11 @@ do
     !   i_GP_Individual, &
     !   GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual)
 
-    !write(GP_print_unit, &
-    !   '(A,1x,I4, 1x, A, 1x,E12.5, 1x, A, 1x, I4, 1x, A, 1x, E12.5)' ) &
-    !   'gptssr: i_GP_Indiv', i_GP_Individual, 'with SSE =', sse_ind, &
-    !   ' replaced with k_GP_Indiv_Male(1)', k_GP_Individual_Male(1),  &
-    !   'with SSE =', GP_Adult_Population_SSE( k_GP_Individual_Male(1) )
+    write(GP_print_unit, &
+       '(A,1x,I4, 1x, A, 1x,E12.5, 1x, A, 1x, I4, 1x, A, 1x, E12.5)' ) &
+       'gptssr: i_GP_Indiv', i_GP_Individual, 'with SSE =', sse_ind, &
+       ' replaced with k_GP_Indiv_Male(1)', k_GP_Individual_Male(1),  &
+       'with SSE =', GP_Adult_Population_SSE( k_GP_Individual_Male(1) )
 
     !???! Do the genetic crossovers but only keep the solution
     !???! from one (the male) of the two (male and female) generated child tree

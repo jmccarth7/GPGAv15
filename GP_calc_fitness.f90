@@ -67,9 +67,9 @@ real (kind=8) ::  std_dev_fit
 output_array = 0.0d0
 
 
-write(GP_print_unit,'(/A,1x,I6/)') &
+write(GP_print_unit,'(/A,1x,I6)') &
       'gpcf: i_GP_generation ',  i_GP_generation
-write(GP_print_unit,'(/A/)') &
+write(GP_print_unit,'(A)') &
   'gpcf: i_GP_individual, GP_Child_Individual_SSE(i_GP_individual) '
 do  i_GP_individual = 1, n_GP_individuals
     write(GP_print_unit,'(I6,1x,E15.7)')  &
@@ -458,7 +458,7 @@ endif ! i_GP_generation == 1 .or. ...
 call calc_stats( n_GP_individuals, GP_Population_Ranked_Fitness,  &
                  mean_fit, rms_fit, std_dev_fit )
 
-write(GP_print_unit,'(/A,1x,I6,3(1x,E15.7)/)') &
+write(GP_print_unit,'(/A,1x,I6,3(1x,E15.7))') &
    'gpcf: GP_Gen, GP_Pop_Rank_Fit mean, rms, std_dev', &
           i_GP_Generation, mean_fit, rms_fit, std_dev_fit
 
@@ -521,11 +521,11 @@ endif ! L_unit50_output
 ! uses:
 !  GP_Child_Individual_SSE
 !  GP_population_node_parameters
+!  GP_Population_Initial_Conditions
 !  GP_Adult_Population_Parameter_Solution
 !  GP_Child_Population_Node_Type
 
 ! sets:
-!  GP_Child_Individual_SSE
 !  GP_Adult_Population_Parameter_Solution
 !  GP_Adult_Population_Node_Type
 !  GP_Child_Population_Node_Type
@@ -540,7 +540,7 @@ endif ! L_unit50_output
 
 if( i_GP_generation < n_GP_generations )then
 
-    write(GP_print_unit,'(/A,1x,I6/)') &
+    write(GP_print_unit,'(/A,1x,I6)') &
        'gpcf: call GP_ranking GP_Gen ',  i_GP_Generation
 
     call GP_ranking_sort()
