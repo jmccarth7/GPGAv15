@@ -39,6 +39,7 @@ integer(kind=4),intent(in)  :: i_GP_indiv
 
 integer(kind=4) :: i_Tree
 integer(kind=4) :: i_Node
+integer(kind=4) :: nparm_temp
 
 logical :: Lprint
 
@@ -70,6 +71,22 @@ Lprint = .TRUE.
 
 !--------------------------------------------------------------------------------
 
+!nparm_temp = n_code_equations
+!do  i_tree=1,n_trees
+!    do  i_node=1,n_nodes
+!
+!        if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv ) == 0  ) then
+!            nparm_temp = nparm_temp + 1
+!        endif  ! GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv) == 0
+!
+!    enddo ! i_node
+!enddo  ! i_tree
+
+!write(GP_print_unit,'(A,2(1x,I10))') &
+!       'sgpi: GP_Individual_N_GP_param(i_GP_indiv), nparm_temp = ', &
+!              GP_Individual_N_GP_param(i_GP_indiv), nparm_temp
+!--------------------------------------------------------------------------------
+
 
 ! write the summary file header for each individual
 ! which has n_GP_parameters >= n_code_equations
@@ -82,6 +99,7 @@ if( Lprint )then
              i_GP_generation, i_GP_indiv, &
              n_code_equations, n_trees, n_nodes, n_levels, &
              GP_Individual_N_GP_param(i_GP_indiv)
+             !nparm_temp
 endif ! Lprint
 
 write(GP_summary_output_unit, '(2x,6(1x,I6))') &
@@ -170,10 +188,12 @@ if( Lprint )then
     write(GP_print_unit,'(/A/)') &
        'sgpi: i_GP_gen i_GP_indiv     tree        node   GP_population_node_parameters'
 
+    !nparm_temp = n_code_equations
     do  i_tree=1,n_trees
         do  i_node=1,n_nodes
 
-            if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv ) == 0               ) then
+            if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv ) == 0  ) then
+                !nparm_temp = nparm_temp + 1
                 write(GP_print_unit,'(2(1x,I10), 2(1x,I10),2x, E24.16)') &
                       i_GP_generation, i_GP_indiv,i_tree, i_node, &
                       GP_population_node_parameters(i_node,i_tree,i_GP_indiv)
@@ -183,6 +203,9 @@ if( Lprint )then
         enddo ! i_node
     enddo  ! i_tree
 
+    !write(GP_print_unit,'(A,2(1x,I10))') &
+    !       'sgpi: GP_Individual_N_GP_param(i_GP_indiv), nparm_temp = ', &
+    !              GP_Individual_N_GP_param(i_GP_indiv), nparm_temp
 endif ! Lprint
 
 

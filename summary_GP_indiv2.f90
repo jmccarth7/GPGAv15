@@ -270,7 +270,7 @@ do  i_tree=1,n_trees
 
         if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv) == 0               ) then
 
-            write(GP_summary_output_unit,'(2x,2(1x,I6),2(1x,I3), 1x,E24.16)') &
+            write(GP_summary_output_unit,'(2x,2(1x,I6),2(1x,I3), 3x,E24.16)') &
                   i_GP_generation, i_GP_indiv,i_tree, i_node, &
                   GP_individual_node_parameters( i_node,i_tree )
 
