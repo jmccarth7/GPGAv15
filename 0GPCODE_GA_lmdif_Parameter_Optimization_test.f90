@@ -570,12 +570,16 @@ do  i_GP_Generation=1,n_GP_Generations
             !   GP_Integrated_Population_Ranked_Fitness
             !   GP_Adult_Population_Node_Type
             !   GP_Adult_Population_Parameter_Solution
-            !   GP_Child_Individual_SSE
+            !   GP_Adult_Population_SSE
+            !   GP_Population_Node_Parameters
+            !   GP_Population_Initial_Conditions
 
             !   sets:
             !   GP_Child_Population_Node_Type
             !   GP_Adult_Population_Parameter_Solution
             !   GP_Child_Individual_SSE
+            !   GP_Population_Node_Parameters
+            !   GP_Population_Initial_Conditions
 
             if( n_GP_Asexual_Reproductions .gt. 0 )then
 
@@ -586,6 +590,8 @@ do  i_GP_Generation=1,n_GP_Generations
 
                 call GP_Fitness_Proportionate_Asexual_Reproduction
 
+                 
+                !GP_Adult_Population_SSE = GP_Child_Individual_SSE  ! 20131104 jjm
 
                 write(GP_print_unit,'(/A)') &
                       '0:aft  call GP_Fitness_Proportionate_Asexual_Reproduction '
@@ -681,6 +687,23 @@ do  i_GP_Generation=1,n_GP_Generations
 
             write(GP_print_unit,'(/A/(10(3x,L1)))')&
                   '0: Run_GP_Calculate_Fitness ', Run_GP_Calculate_Fitness
+
+            call print_debug_integer_node_tree( &
+                     'aft mutation print GP_Adult_Population_Node_Type ', &
+                     GP_Adult_Population_Node_Type )
+
+            call print_debug_real_node_tree( &
+                     'aft mutation print GP_population_node_parameters ', &
+                     GP_population_node_parameters )
+
+            write(GP_print_unit,'(/A)') ' '
+            do  i_GP_individual = 1, n_GP_individuals
+                write(GP_print_unit,'(A,2(1x,I5), 1x, E15.7)')&
+                      '0:3 i_GP_gen,i_GP_indiv,GP_Child_Indiv_SSE', &  
+                           i_GP_generation, i_GP_individual, &       
+                           GP_Child_Individual_SSE(i_GP_Individual)
+                           !GP_Child_Population_SSE(i_GP_Individual)    
+            enddo ! i_GP_individual
             !---------------------------------------------------------------------------
 
             ! calculate the diversity index for each individual for generations > 1
@@ -1279,6 +1302,14 @@ do  i_GP_Generation=1,n_GP_Generations
             write(GP_print_unit, '(I6,10x,I6,20x, E15.7 )') &
                   i_GP_Individual,  GP_Individual_N_GP_param(i_GP_individual), &
                                     GP_Adult_Population_SSE(i_GP_Individual)
+        enddo
+
+        write(GP_print_unit, '(/A )') &
+              '0:i_GP_Individual,  GP_Individual_N_GP_param  GP_Child_Individual_SSE'
+        do  i_GP_individual = 1, n_GP_individuals
+            write(GP_print_unit, '(I6,10x,I6,20x, E15.7 )') &
+                  i_GP_Individual,  GP_Individual_N_GP_param(i_GP_individual), &
+                                    GP_Child_Individual_SSE(i_GP_Individual)
         enddo
 
 

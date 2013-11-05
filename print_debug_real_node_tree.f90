@@ -1,4 +1,4 @@
-subroutine print_debug1( label, input_array ) 
+subroutine print_debug_real_node_tree( label, input_array ) 
 
 
 
@@ -41,7 +41,7 @@ real(kind=8), dimension( 1:n_Nodes,1:n_Trees, 1:n_GP_individuals ) :: &
 !                         GP_Adult_Population_Parameter_Solution_temp
 !--------------------------------------------------------------------------------
 
-write(6,'(/A)') 'pd1: entry print_debug1'
+write(6,'(/A)') 'pd1: entry print_debug_real_node_tree'
 
 
 !! debug
@@ -84,4 +84,4 @@ write(6,'(A//)') 'pd1: at return   '
 
 return
 
-end subroutine print_debug1
+end subroutine print_debug_real_node_tree

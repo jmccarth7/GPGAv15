@@ -1,4 +1,4 @@
-subroutine print_debug3( label, input_array  ) 
+subroutine print_debug_integer_node_tree( label, input_array  ) 
 
 
 
@@ -74,4 +74,4 @@ write(6,'(A//)') 'pd3: at return   '
 
 return
 
-end subroutine print_debug3
+end subroutine print_debug_integer_node_tree

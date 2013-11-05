@@ -1,4 +1,4 @@
-subroutine print_debug2( label, input_array  ) 
+subroutine print_debug_real_nparm( label, input_array  ) 
 
 
 
@@ -86,4 +86,4 @@ write(6,'(A//)') 'pd2: at return   '
 
 return
 
-end subroutine print_debug2
+end subroutine print_debug_real_nparm

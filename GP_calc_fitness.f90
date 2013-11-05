@@ -67,14 +67,14 @@ real (kind=8) ::  std_dev_fit
 output_array = 0.0d0
 
 
-!write(GP_print_unit,'(/A,1x,I6/)') &
-!      'gpcf: i_GP_generation ',  i_GP_generation
-!write(GP_print_unit,'(/A/)') &
-!  'gpcf: i_GP_individual, GP_Child_Individual_SSE(i_GP_individual) '
-!do  i_GP_individual = 1, n_GP_individuals
-!    write(GP_print_unit,'(I6,1x,E15.7)')  &
-!          i_GP_individual, GP_Child_Individual_SSE(i_GP_individual)
-!enddo ! i_GP_individual
+write(GP_print_unit,'(/A,1x,I6/)') &
+      'gpcf: i_GP_generation ',  i_GP_generation
+write(GP_print_unit,'(/A/)') &
+  'gpcf: i_GP_individual, GP_Child_Individual_SSE(i_GP_individual) '
+do  i_GP_individual = 1, n_GP_individuals
+    write(GP_print_unit,'(I6,1x,E15.7)')  &
+          i_GP_individual, GP_Child_Individual_SSE(i_GP_individual)
+enddo ! i_GP_individual
 
 !-------------------------------------------------------------------------------
 
