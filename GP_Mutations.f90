@@ -100,25 +100,6 @@ do  i_GP_Mutation = 1,n_GP_Mutations
     GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees, i_GP_Individual) =  &
         GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees, i_GP_Individual_Mutation)
 
-    !GP_Individual_Node_Type(1:n_Nodes,1:n_Trees)  =  &
-    !  GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees, i_GP_Individual)
-
-    !----------------------------------------------------------------------------------
-
-    !write(GP_print_unit,'(/A,2(1x,I6)/)') &
-    !      'gpm:1 n_trees, n_nodes ', n_trees, n_nodes
-    !do  i_Tree=1,n_Trees
-    !    do  i_Node=1,n_Nodes
-    !        if( GP_Individual_Node_Type(i_Node,i_Tree) /= -9999 )then
-    !            write(GP_print_unit,'(A,3(1x,I6))') &
-    !                  'gpm: i_tree, i_node, GP_Individual_Node_Type(i_Node,i_Tree)', &
-    !                        i_tree, i_node, GP_Individual_Node_Type(i_Node,i_Tree)
-    !        endif ! GP_Individual_Node_Type(i_Node,i_Tree) /= -9999
-    !    enddo ! i_node
-    !enddo ! i_tree
-    !write(GP_print_unit,'(/A)') ' '
-
-
     !----------------------------------------------------------------------------------
 
     call GP_Check_Terminals( &

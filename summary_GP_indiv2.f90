@@ -204,7 +204,7 @@ if( Lprint )then
 
     write(GP_print_unit,'(/A)') &
        'sgpi2: i_GP_gen  i_GP_indiv   i_tree     i_node   &
-       & GP_Indiv_Node_Type GP_individual_node_parameters'
+       & GP_Adult_Pop_Node_Type GP_individual_node_parameters'
 
     do  i_tree=1,n_trees
         do  i_node=1,n_nodes

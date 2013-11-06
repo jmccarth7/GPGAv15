@@ -118,7 +118,7 @@ info = iflag
 if( info < 0 ) then
 
     individual_quality( i_GA_indiv ) = -1
-    individual_SSE(i_GA_indiv) =  1.0D+12
+    individual_SSE(i_GA_indiv) =  1.0D+13
 
     !if( L_ga_print )then
     !    write(GA_print_unit,'(A, 3(1x, I6),  1x,E15.7/)') &

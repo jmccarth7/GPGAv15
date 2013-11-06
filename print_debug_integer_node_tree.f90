@@ -17,16 +17,12 @@ use Runge_Kutta_Variables_module
 
 implicit none
 
-!real(kind=8) :: cff
 
 character(*) :: label
 
-!integer(kind=4),dimension(n_GP_Individuals)  :: Ranked_Fitness_Index
 
 integer(kind=4) :: i_GP_Individual
-!integer(kind=4) :: j_GP_Individual
 
-!integer(kind=4) :: icff
 integer(kind=4) :: i_tree
 integer(kind=4) :: i_node
 
@@ -36,11 +32,6 @@ integer(kind=4) :: i_node
 integer(kind=4), dimension( 1:n_Nodes,1:n_Trees, 1:n_GP_individuals ) :: &
                          input_array
 
-!real(kind=8), dimension( 1:n_CODE_equations, 1:n_GP_individuals ) :: &
-!                         GP_Population_Initial_Conditions_temp
-
-!real(kind=8), dimension(1:n_Maximum_Number_Parameters, 1:n_GP_Individuals) :: &
-!                         GP_Adult_Population_Parameter_Solution_temp
 !--------------------------------------------------------------------------------
 
 write(6,'(/A)') 'pd3: entry print_debug3'

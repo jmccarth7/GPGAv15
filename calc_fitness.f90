@@ -265,17 +265,17 @@ do  i_GA_individual=1,n_GA_individuals
         !dble_cff = dble_cff +  indiv_fitness( i_GA_individual )    ! new
         dble_cff = dble_cff +  individual_ranked_fitness(i_GA_individual)
 
-        integrated_SSE(i_GA_individual)=dble_cff   ! integrated_SSE never used
+        !!!!integrated_SSE(i_GA_individual)=dble_cff   ! integrated_SSE never used
 
         sum_individual_SSE = sum_individual_SSE +  individual_SSE(i_GA_individual)
 
         n_counted = n_counted + 1
 
-        !if( L_ga_print )then
-        !    write(GA_print_unit,'(A,1x,I6,1x,E20.10)') &
-        !          'gacf: i_GA_individual, integrated_SSE(i_GA_individual)  ', &
-        !                 i_GA_individual, integrated_SSE(i_GA_individual)
-        !endif ! L_ga_print
+        !!!if( L_ga_print )then
+        !!!    write(GA_print_unit,'(A,1x,I6,1x,E20.10)') &
+        !!!          'gacf: i_GA_individual, integrated_SSE(i_GA_individual)  ', &
+        !!!                 i_GA_individual, integrated_SSE(i_GA_individual)
+        !!!endif ! L_ga_print
 
 
         if( individual_SSE(i_GA_individual) < min_sse )then

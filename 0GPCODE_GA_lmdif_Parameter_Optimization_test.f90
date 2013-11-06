@@ -743,11 +743,10 @@ do  i_GP_Generation=1,n_GP_Generations
         ! broadcast:
         ! GP_Child_Population_Node_Type
         ! GP_Adult_Population_Node_Type
-        ! Parent_Tree_Swap_Node_Type
         ! GP_Child_Individual_SSE
         ! GP_Integrated_Population_Ranked_Fitness
         ! GP_Population_Ranked_Fitness
-        ! Run_GP_Calculate_Fitness array
+        ! Run_GP_Calculate_Fitness
 
         !if( myid == 0 )then
         !    write(GP_print_unit,'(/A)')&
@@ -892,7 +891,8 @@ do  i_GP_Generation=1,n_GP_Generations
             '0:----------------------------------------------------------------------'
             write(GP_print_unit,'(A,2(1x,I6),3x,L1)') &
                   '0: i_GP_Gen, i_GP_indiv, Run_GP_Calculate_Fitness', &
-                      i_GP_Generation, i_GP_individual, Run_GP_Calculate_Fitness(i_GP_Individual)
+                      i_GP_Generation, i_GP_individual, &
+                               Run_GP_Calculate_Fitness(i_GP_Individual)
             write(GP_print_unit,'(A/)')&
             '0:----------------------------------------------------------------------'
         endif !  myid == 0

@@ -262,7 +262,7 @@ if( myid == 0 )then
                     !      child_parameters(nn,i_GP_individual), &
                     !      GP_population_node_parameters(i_node,i_tree,i_GP_individual)
 
-                endif ! GP_Individual_Node_Type(i_Node,i_Tree) == 0
+                endif ! GP_Adult_population_Node_Type(i_Node,i_Tree, i_GP_individual ) == 0 
 
             enddo ! i_node
         enddo  ! i_tree
@@ -386,18 +386,6 @@ call MPI_BCAST( GP_n_parms,  n_GP_individuals,    &
 !        enddo ! i_GP_individual
 !    endif ! myid == 0
 !endif ! L_GP_print
-
-
-        !write(GP_print_unit,'(/A)') &
-        ! 'gplp: myid, i_GP_individual  GP_N_parms(i_GP_individual)  '
-
-        !do  i_GP_individual = 1, n_GP_individuals
-        !    write(GP_print_unit,'(I10,1x,I10,1x,I10)') &
-        !      myid, i_GP_individual, GP_N_parms(i_GP_individual)
-        !enddo ! i_GP_individual
-!    endif ! myid == 0
-!endif ! L_GP_print
-
 
 
 !------------------------------------------------------------------------
@@ -919,7 +907,7 @@ if( myid == 0 )then
                         GP_Adult_Population_Parameter_Solution( nn, i_GP_individual) = &
                                               child_parameters( nn, i_GP_individual )
 
-                    endif ! GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0
+                    endif ! GP_Adult_population_Node_Type(i_Node,i_Tree,i_GP_individual) == 0
 
                 enddo ! i_node
             enddo  ! i_tree
@@ -978,7 +966,7 @@ if( myid == 0 )then
     !                 i_GP_individual,  nn, &
     !                  child_parameters(nn, i_GP_Individual)
 
-    !            endif ! GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0
+    !            endif ! GP_Adult_population_Node_Type(i_Node,i_Tree,i_GP_individual ) == 0 
 
     !        enddo ! i_node
     !    enddo  ! i_tree

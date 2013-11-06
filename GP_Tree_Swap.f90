@@ -399,7 +399,7 @@ if( MALE_CROSS .and. FEMALE_CROSS) then
                     i_Child_Node_Point  = i_Child_Swap_Node  -1 + i_Node
                     i_Parent_Node_Point = i_Parent_Swap_Node -1 + i_Node
                     Child_Tree_Swap_Node_Type(i_Child_Node_Point,i_Child)  =  &
-                    Parent_Tree_Swap_Node_Type(i_Parent_Node_Point,i_Parent)
+                          Parent_Tree_Swap_Node_Type(i_Parent_Node_Point,i_Parent)
                 enddo ! i_node
 
             endif ! i_parent_level .le. n_levels
@@ -519,7 +519,7 @@ elseif( .not. MALE_CROSS .and. FEMALE_CROSS) then  ! the Male tree is empty
     ! swap the node from the start of the tree
 
     Child_Tree_Swap_Node_Type(i_Child_Swap_Node,i_Child)  =   &
-    Parent_Tree_Swap_Node_Type(i_Parent_Swap_Node,i_Parent_Two)
+           Parent_Tree_Swap_Node_Type(i_Parent_Swap_Node,i_Parent_Two)
 
     i_Levels = 0
 
@@ -540,7 +540,7 @@ elseif( .not. MALE_CROSS .and. FEMALE_CROSS) then  ! the Male tree is empty
                 i_Child_Node_Point   = i_Child_Swap_Node  -1 + i_Node
                 i_Parent_Node_Point  = i_Parent_Swap_Node -1 + i_Node
                 Child_Tree_Swap_Node_Type(i_Child_Node_Point,i_Child)  =   &
-                Parent_Tree_Swap_Node_Type(i_Parent_Node_Point,i_Parent)
+                    Parent_Tree_Swap_Node_Type(i_Parent_Node_Point,i_Parent)
 
             enddo ! i_Node
 

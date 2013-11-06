@@ -39,8 +39,8 @@ allocate( Data_Variance_inv( n_CODE_equations )  )
 allocate( Parent_Tree_Swap_Node_Type(n_Nodes,2) )
 allocate( Run_GP_Calculate_Fitness(n_GP_Individuals) )
 
-allocate( GA_Adult_Individual_SSE(n_GA_Individuals) )
-allocate( GA_Child_Individual_SSE(n_GA_Individuals) )
+!!!allocate( GA_Adult_Individual_SSE(n_GA_Individuals) )
+!!!allocate( GA_Child_Individual_SSE(n_GA_Individuals) )
 
 allocate( GP_Adult_Individual_SSE(n_GP_Individuals) )
 allocate( GP_Child_Individual_SSE(n_GP_Individuals) )
@@ -167,8 +167,8 @@ Data_Variance_inv  = 0.0d0
 Parent_Tree_Swap_Node_Type = 0
 Run_GP_Calculate_Fitness = .FALSE.
 
-GA_Adult_Individual_SSE = 0.0d0
-GA_Child_Individual_SSE = 0.0d0
+!!!GA_Adult_Individual_SSE = 0.0d0
+!!!GA_Child_Individual_SSE = 0.0d0
 
 individual_SSE  = 0.0d0
 

@@ -286,6 +286,7 @@ do
     !                      'tree bef tree swap'  )
     !! << debug
 
+    ! GP_Tree_Swap modifies Parent_Tree_Swap_Node_Type
 
     call GP_Tree_Swap    !   perform the random tree swap
 

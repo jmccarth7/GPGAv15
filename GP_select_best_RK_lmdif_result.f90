@@ -91,8 +91,8 @@ Parent_Parameters(1:n_parameters, i_GP_best_Parent) = output_array(1:n_parameter
 
 i_GP_Generation = n_GP_Generations
 
-GP_individual_node_type(1:n_nodes,1:n_trees)  = &
-            GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_best_parent )
+!!!GP_individual_node_type(1:n_nodes,1:n_trees)  = &
+!!!            GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_best_parent )
 
 
 if( L_GP_print )then
@@ -120,9 +120,6 @@ endif ! L_GP_print
 !        write(GP_print_unit,'(A,3(1x,I6))') &
 !        'gpsbrl:1 i_tree, i_node,  GP_Adult_Population_Node_Type(:,:,i_gp_best_parent) ', &
 !                  i_tree, i_node,  GP_Adult_Population_Node_Type(i_node,i_tree,i_gp_best_parent)
-!        write(GP_print_unit,'(A,3(1x,I6))') &
-!        'gpsbrl:1 i_tree, i_node,  GP_individual_node_type(i_node,i_tree)              ', &
-!                  i_tree, i_node,  GP_individual_node_type(i_node,i_tree)
 !    enddo ! i_node
 !enddo ! i_tree
 
@@ -370,12 +367,13 @@ if( GP_individual_ranked_fitness(i_GP_best_parent) <= &
     do  i_tree=1,n_trees
         do  i_node=1,n_nodes
 
-            if( GP_individual_node_type(i_node,i_tree) .eq. 0 ) then  ! there is a set parameter
+            if( GP_Adult_Population_Node_Type(i_node,i_tree,i_GP_best_parent ) == 0 ) then 
 
                 !if( L_GP_print )then
                 !    write(GP_print_unit,'(A,3(1x,I6))') &
-                !          'gpsbrl:1 i_tree, i_node,  GP_individual_node_type(i_node,i_tree) ', &
-                !                    i_tree, i_node,  GP_individual_node_type(i_node,i_tree)
+                !    'gpsbrl:1 i_tree, i_node, GP_Adult_Population_Node_Type', &
+                !              i_tree, i_node, &
+                !      GP_Adult_Population_Node_Type(i_node,i_tree,i_GP_best_parent )  
                 !endif ! L_GP_print
 
                 i_parameter=i_parameter+1
@@ -393,7 +391,7 @@ if( GP_individual_ranked_fitness(i_GP_best_parent) <= &
                 !                  i_tree, i_node, GP_individual_node_parameters(i_node,i_tree)
                 !endif ! L_GP_print
 
-            endif !   GP_individual_node_type(i_node,i_tree) .eq. 0
+            endif ! GP_Adult_Population_Node_Type(i_node,i_tree,i_GP_best_parent ) == 0
 
         enddo ! i_node
 
@@ -452,7 +450,6 @@ if( GP_individual_ranked_fitness(i_GP_best_parent) <= &
 
         ! uses:
         !  GP_individual_Initial_Conditions
-        !  GP_Individual_Node_Type
         !  GP_individual_node_parameters
 
         ! sets:
@@ -527,12 +524,14 @@ else  ! lmdif is best
         do  i_node=1,n_nodes
 
 
-            if( GP_individual_node_type(i_node,i_tree) .eq. 0 ) then  ! there is a set parameter
+            if( GP_Adult_Population_Node_Type(i_node,i_tree,i_GP_best_parent ) == 0 ) then
 
                 !if( L_GP_print )then
                 !    write(GP_print_unit,'(A,4(1x,I6))') &
-                !      'gpsbrl:2 myid, i_tree, i_node,  GP_individual_node_type(i_node,i_tree) ', &
-                !              myid, i_tree, i_node,  GP_individual_node_type(i_node,i_tree)
+                !      'gpsbrl:2 myid, i_tree, i_node, GP_Adult_Population_Node_Type', &
+                !              myid, i_tree, i_node, &
+                !       GP_Adult_Population_Node_Type(i_node,i_tree,i_GP_best_parent )
+                !         
                 !endif ! L_GP_print
 
                 i_parameter=i_parameter+1
@@ -551,7 +550,7 @@ else  ! lmdif is best
                 !                  i_tree, i_node, GP_individual_node_parameters(i_node,i_tree)
                 !endif ! L_GP_print
 
-            endif ! GP_individual_node_type(i_node,i_tree) .eq. 0
+            endif ! GP_Adult_Population_Node_Type(i_node,i_tree,i_GP_best_parent ) == 0 
 
         enddo ! i_node
 

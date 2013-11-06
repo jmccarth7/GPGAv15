@@ -77,11 +77,11 @@ do  i_GP_Individual=1,n_GP_Individuals
                                          ! i_node_right=(i_function*2)+1 would also work
 
                 !write(6,'(A,2(1x,I6))') &
-                ! 'gpctn: i_Function, GP_Adult_Population_Node_Type(i_Function, i_Tree,i_GP_Individual)',&
-                !         i_Function, GP_Adult_Population_Node_Type(i_Function, i_Tree,i_GP_Individual)
+                !'gpctn: i_Function, GP_Adult_Population_Node_Type(i_Function, i_Tree,i_GP_Individual)',&
+                !        i_Function, GP_Adult_Population_Node_Type(i_Function, i_Tree,i_GP_Individual)
                 !write(6,'(A,2(1x,I6))') &
-                ! 'gpctn: i_Node_Left, GP_Adult_Population_Node_Type(i_Node_Left, i_Tree,i_GP_Individual)',&
-                !         i_Node_Left, GP_Adult_Population_Node_Type(i_Node_Left, i_Tree,i_GP_Individual)
+                !'gpctn: i_Node_Left, GP_Adult_Population_Node_Type(i_Node_Left, i_Tree,i_GP_Individual)',&
+                !        i_Node_Left, GP_Adult_Population_Node_Type(i_Node_Left, i_Tree,i_GP_Individual)
                 !write(6,'(A,2(1x,I6))') &
                 !'gpctn: i_Node_Right, GP_Adult_Population_Node_Type(i_Node_Right, i_Tree,i_GP_Individual)',&
                 !        i_Node_Right, GP_Adult_Population_Node_Type(i_Node_Right, i_Tree,i_GP_Individual)

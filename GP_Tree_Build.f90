@@ -222,15 +222,6 @@ do  i_GP_Individual=1,n_GP_Individuals
 
 
     !------------------------------------------------------------------------
-    ! loading GP_Individual_Node_Type is done here only because the
-    ! subroutine GP_Check_Terminals uses GP_Individual_Node_Type
-
-    ! GP_Individual_Node_Type is over-written each time you go through the
-    ! loop on i_GP_Individual
-
-    ! in the main program, later, GP_Individual_Node_Type is loaded with
-    ! GP_Adult_Population_Node_Type in the loop in i_GP_Individual
-    !------------------------------------------------------------------------
 
     !write(GP_print_unit,'(/A,3(1x,I6))') &
     !      'gtb:2 i_GP_individual, n_trees, n_nodes ',  i_GP_individual, n_trees, n_nodes
