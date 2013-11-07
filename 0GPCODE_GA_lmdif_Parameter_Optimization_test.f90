@@ -155,7 +155,7 @@ if( user_input_random_seed > 0 )then
     clock = user_input_random_seed
 
     if( myid == 0 )then
-        write(6,'(A,1x,I12)') &
+        write(6,'(/A,1x,I12)') &
               '0: user input random seed       clock = ', clock
     endif !   myid == 0
 
@@ -166,7 +166,7 @@ else
     CALL SYSTEM_CLOCK(COUNT=clock)
 
     if( myid == 0 )then
-        write(6,'(A,1x,I12)')&
+        write(6,'(/A,1x,I12)')&
               '0: random seed input clock = ', clock
     endif !   myid == 0
 
@@ -677,13 +677,13 @@ do  i_GP_Generation=1,n_GP_Generations
 
                 write(GP_print_unit,'(/A)')'0:aft call GP_Mutations '
 
-                tree_descrip =  ' GP_Child trees after call to GP_Mutations'
-                call print_trees( i_GP_generation, 1, n_GP_individuals, &
-                                    GP_Child_Population_Node_Type, &
-                                    trim( tree_descrip )  )
 
             endif !  n_GP_Mutations .gt. 0
 
+            !tree_descrip =  ' GP_Child trees after call to GP_Mutations'
+            !call print_trees( i_GP_generation, 1, n_GP_individuals, &
+            !                    GP_Child_Population_Node_Type, &
+            !                    trim( tree_descrip )  )
 
             !---------------------------------------------------------------------------
 
@@ -692,8 +692,6 @@ do  i_GP_Generation=1,n_GP_Generations
             GP_Adult_Population_Node_Type = GP_Child_Population_Node_Type
             GP_Adult_Population_SSE       = GP_Child_Individual_SSE
 
-            !!!GP_Adult_Population_parameter_solution = &
-            !!!!GP_Child_Population_parameter_solution ! v8 20131030
 
             !write(GP_print_unit,'(/A)')&
             !      '0:aft  move Child_Node_Type and SSE to Adult'

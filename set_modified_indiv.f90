@@ -48,36 +48,37 @@ n_GP_Mutations = n_GP_Individuals - &
 
 if( myid == 0 )then
     write(GP_print_unit,'(A,1x,i6,1x,I6)') &
-      '0: n_GP_Mut, min(nint(GP_Mut_Prob*n_GP_indiv),n_GP_Mut) ', &
-          n_GP_Mutations, &
-          min(nint(GP_Mutation_Probability*n_GP_individuals),n_GP_Mutations)
+      !'smi: n_GP_Mut, min(nint(GP_Mut_Prob*n_GP_indiv),n_GP_Mut) ', &
+      'smi: n_GP_Mut, min(nint(GP_Mut_Prob*n_GP_indiv),n_GP_Mut) ', &
+            n_GP_Mutations, &
+            min(nint(GP_Mutation_Probability*n_GP_individuals),n_GP_Mutations)
 endif ! myid == 0
 
 
 if( myid == 0 )then
 
-    write(GP_print_unit,'(/A,1x,I6)')   '0: n_gp_individuals           ', &
-                                            n_gp_individuals
-    write(GP_print_unit,'(A,1x,I6/)')   '0: n_gp_generations           ', &
-                                            n_gp_generations
+    write(GP_print_unit,'(/A,1x,I6)')   'smi: n_gp_individuals           ', &
+                                              n_gp_individuals
+    write(GP_print_unit,'(A,1x,I6/)')   'smi: n_gp_generations           ', &
+                                              n_gp_generations
 
-    write(GP_print_unit,'(A,1x,F10.6)') '0: GP_Elitist_Probability     ', &
-                                            GP_Elitist_Probability
-    write(GP_print_unit,'(A,1x,F10.6)') '0: GP_Crossover_Probability   ', &
-                                            GP_Crossover_Probability
-    write(GP_print_unit,'(A,1x,F10.6)') '0: GP_Mutation_Probability    ', &
-                                            GP_Mutation_Probability
-    write(GP_print_unit,'(A,1x,F10.6)') '0: GP_Asexual_Reproduction_Probability ', &
-                                            GP_Asexual_Reproduction_Probability
+    write(GP_print_unit,'(A,1x,F10.6)') 'smi: GP_Elitist_Probability     ', &
+                                              GP_Elitist_Probability
+    write(GP_print_unit,'(A,1x,F10.6)') 'smi: GP_Crossover_Probability   ', &
+                                              GP_Crossover_Probability
+    write(GP_print_unit,'(A,1x,F10.6)') 'smi: GP_Mutation_Probability    ', &
+                                              GP_Mutation_Probability
+    write(GP_print_unit,'(A,1x,F10.6)') 'smi: GP_Asexual_Reproduction_Probability ', &
+                                              GP_Asexual_Reproduction_Probability
 
-    write(GP_print_unit,'(/A,1x,I6)')   '0: n_GP_Elitists              ', &
-                                            n_GP_Elitists
-    write(GP_print_unit,'(A,1x,I6)')    '0: n_GP_Crossovers            ', &
-                                            n_GP_Crossovers
-    write(GP_print_unit,'(A,1x,I6)')    '0: n_GP_Mutations             ', &
-                                            n_GP_Mutations
-    write(GP_print_unit,'(A,1x,I6/)')   '0: n_GP_Asexual_Reproductions ',  &
-                                            n_GP_Asexual_Reproductions
+    write(GP_print_unit,'(/A,1x,I6)')   'smi: n_GP_Elitists              ', &
+                                              n_GP_Elitists
+    write(GP_print_unit,'(A,1x,I6)')    'smi: n_GP_Crossovers            ', &
+                                              n_GP_Crossovers
+    write(GP_print_unit,'(A,1x,I6)')    'smi: n_GP_Mutations             ', &
+                                              n_GP_Mutations
+    write(GP_print_unit,'(A,1x,I6/)')   'smi: n_GP_Asexual_Reproductions ',  &
+                                              n_GP_Asexual_Reproductions
 
 endif ! myid == 0
 
@@ -90,11 +91,11 @@ if( n_GP_Elitists              + &
     n_GP_Mutations                 .gt. n_GP_Individuals) then
 
     write(GP_print_unit,'(/A/)') &
-          '0:Sum of n_GP_Elitists + n_Asexual_Reproduction + &
+          'smi: Sum of n_GP_Elitists + n_Asexual_Reproduction + &
           &n_GP_Crossovers + n_GP_Mutations is too high'
 
     call MPI_FINALIZE(ierr)
-    stop '0:sum too big'
+    stop 'smi: sum too big'
 
 elseif( n_GP_Elitists              + &
         n_GP_Asexual_Reproductions + &
@@ -102,11 +103,11 @@ elseif( n_GP_Elitists              + &
         n_GP_Mutations                 .lt. n_GP_Individuals) then
 
     write(GP_print_unit,'(/A/)') &
-          '0: Sum of n_GP_Elitists + n_Asexual_Reproduction + &
+          'smi: Sum of n_GP_Elitists + n_Asexual_Reproduction + &
           &n_GP_Crossovers + n_GP_Mutations is too low'
 
     call MPI_FINALIZE(ierr)
-    stop '0:sum too small'
+    stop 'smi: sum too small'
 
 endif !   n_GP_Elitists + ...
 

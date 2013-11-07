@@ -522,13 +522,9 @@ endif ! L_unit50_output
 !  GP_Child_Individual_SSE
 !  GP_population_node_parameters
 !  GP_Population_Initial_Conditions
-!  GP_Adult_Population_Parameter_Solution
-!  GP_Child_Population_Node_Type
 
 ! sets:
-!  GP_Adult_Population_Parameter_Solution
 !  GP_Adult_Population_Node_Type
-!  GP_Child_Population_Node_Type
 !  GP_Population_Initial_Conditions
 !  GP_Adult_Population_SSE
 !  GP_Adult_Individual_SSE

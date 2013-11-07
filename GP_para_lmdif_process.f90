@@ -319,7 +319,7 @@ if( myid == 0  )then
                      i_GP_individual, nn, &
                      child_parameters(nn,i_GP_individual)
                 enddo ! nn
-            endif ! nparms_i >= n_code_equations
+            endif ! nparms_i >  n_code_equations
 
         enddo !  i_GP_individual
     endif ! L_GP_print
@@ -1145,7 +1145,7 @@ if( myid == 0  )then
 
             nparms_i = GP_n_parms( i_GP_individual )
 
-            if( nparms_i >= n_code_equations )then
+            if( nparms_i >  n_code_equations )then
                 write(GP_print_unit,'(A,2(1x,I10))') &
                       'gplp:2 nparms_i, n_CODE_equations =', nparms_i, n_CODE_equations
                 write(GP_print_unit,'(/A)') &
@@ -1155,7 +1155,7 @@ if( myid == 0  )then
                      i_GP_individual, nn, &
                      child_parameters(nn,i_GP_individual)
                 enddo ! nn
-            endif ! nparms_i >= n_code_equations
+            endif ! nparms_i >  n_code_equations
 
         enddo !  i_GP_individual
 

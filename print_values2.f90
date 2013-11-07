@@ -47,6 +47,7 @@ write(GP_print_unit,'(A,1x,E15.7)')'pv2: dt (days)        ', dt
 write(GP_print_unit,'(A,1x,E15.7)')'pv2: dt (min)         ', dt * 1440.d0
 !write(GP_print_unit,*) individual_fitness
 !write(GP_print_unit,*) data_array
+
 write(GP_print_unit,'(A,1x,E15.7)') 'pv2: GA_Crossover_Probability  ', &
                                           GA_Crossover_Probability
 write(GP_print_unit,'(A,1x,E15.7)') 'pv2: GA_Mutation_Probability   ', &
