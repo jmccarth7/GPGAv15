@@ -508,10 +508,10 @@ do  i_GP_Generation=1,n_GP_Generations
 
         ! broadcast GP_Adult_Population_Node_Type
 
-        !if( myid == 0 )then
-        !    write(GP_print_unit,'(A,1x,I6)') &
-        !      '0: broadcast  GP_Adult_Population_Node_Type Generation = ',i_GP_Generation
-        !endif ! myid == 0
+        if( myid == 0 )then
+            write(GP_print_unit,'(A,1x,I6)') &
+              '0: broadcast  GP_Adult_Population_Node_Type Generation = ',i_GP_Generation
+        endif ! myid == 0
 
 
         call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
@@ -521,7 +521,18 @@ do  i_GP_Generation=1,n_GP_Generations
                         MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
 
         !!!call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
+        if( myid == 0 )then
+            write(GP_print_unit,'(A,1x,I6)') &
+              '0: aft broadcast  GP_Adult_Population_Node_Type  ierr = ',ierr                 
+        endif ! myid == 0
 
+
+
+        if( myid == 0 )then
+            call print_debug_integer_node_tree( &
+                 'aft bcast 528  GP_Adult_Population_Node_Type ', &
+                 GP_Adult_Population_Node_Type )
+        endif ! myid == 0
 
 
         !if( myid == 0 )then
@@ -703,9 +714,9 @@ do  i_GP_Generation=1,n_GP_Generations
             !         'aft mutation print GP_Adult_Population_Node_Type ', &
             !         GP_Adult_Population_Node_Type )
 
-           ! call print_debug_real_node_tree( &
-           !          'aft mutation print GP_population_node_parameters ', &
-           !          GP_population_node_parameters )
+            ! call print_debug_real_node_tree( &
+            !          'aft mutation print GP_population_node_parameters ', &
+            !          GP_population_node_parameters )
 
             write(GP_print_unit,'(/A)')&
                       '0:3 i_GP_gen,i_GP_indiv,GP_Child_Indiv_SSE'
@@ -809,11 +820,13 @@ do  i_GP_Generation=1,n_GP_Generations
 
     !call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
 
-    !if( myid == 0 )then
-    !    write(GP_print_unit,'(/A,1x,I6)') &
-    !      '0: aft broadcast  GP_Adult_Pop_Node_Type  Generation = ',&
-    !                                            i_GP_Generation
-    !endif ! myid == 0
+    if( myid == 0 )then
+        write(GP_print_unit,'(/A,1x,I6)') &
+          '0: aft broadcast  GP_Adult_Pop_Node_Type  ierr = ', ierr 
+        write(GP_print_unit,'(/A,1x,I6)') &
+          '0: aft broadcast  GP_Adult_Pop_Node_Type  Generation = ',&
+                                                i_GP_Generation
+    endif ! myid == 0
 
     !if( myid == 0 )then
     !    write(GP_print_unit,'(/A,1x,I6/)') &
@@ -912,13 +925,14 @@ do  i_GP_Generation=1,n_GP_Generations
                 endif ! GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0
 
                 !if( myid == 0 )then
-                !    if( GP_Individual_Node_Type(i_Node,i_Tree) > -9999 )then
+                !    if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) > -9999 )then
                 !        write(GP_print_unit,'(A,5(1x,I6))')&
                 !        '0: i_GP_indiv, i_tree, i_node, &
-                !          &GP_Indiv_Node_Type, n_GP_params',&
+                !          &GP_Adult_Population_Node_Type, n_GP_params',&
                 !           i_GP_individual, i_tree, i_node, &
-                !           GP_Individual_Node_Type(i_Node,i_Tree), n_GP_parameters
-                !    endif ! GP_Individual_Node_Type(i_Node,i_Tree) > -9999
+                !           GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Individual), &
+                !           n_GP_parameters
+                !    endif ! GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) > -9999
                 !endif !  myid == 0
 
             enddo ! i_node
@@ -941,12 +955,15 @@ do  i_GP_Generation=1,n_GP_Generations
 
         if( n_GP_parameters > n_maximum_number_parameters )then
 
-            write(GP_print_unit,'(/A,5(1x,I10)/)')&
-              '0:WARNING  myid, i_GP_generation, i_GP_Individual, &
-                  &n_GP_parameters, n_maximum_number_parameters', &
-                  myid, i_GP_generation, i_GP_Individual, &
-                   n_GP_parameters, n_maximum_number_parameters
-        endif
+            if( myid == 0 )then
+                write(GP_print_unit,'(/A,5(1x,I10)/)')&
+                  '0:WARNING  myid, i_GP_generation, i_GP_Individual, &
+                      &n_GP_parameters, n_maximum_number_parameters', &
+                      myid, i_GP_generation, i_GP_Individual, &
+                       n_GP_parameters, n_maximum_number_parameters
+            endif !  myid == 0
+
+        endif  ! n_GP_parameters > n_maximum_number_parameters
 
         !------------------------------------------------------------------------
 

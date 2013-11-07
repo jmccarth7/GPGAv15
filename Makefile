@@ -13,7 +13,7 @@ SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 allocate_arrays1.f90 \
 	GA_Tournament_Style_Sexual_Reproduction.f90 GA_variables_module.f90 \
 	Generate_Dot_Graph.f90 GP_calc_diversity_index.f90 \
 	GP_calc_fitness.f90 GP_Check_Terminals.f90 GP_Clean_Tree_Nodes.f90 \
-	GP_data_module.f90 GP_Elitists.f90 \
+	GP_data_module.f90  \
 	GP_Fitness_Proportionate_Asexual_Reproduction.f90 \
 	GP_model_parameters_module.f90 GP_Mutations.f90 \
 	GP_para_lmdif_process.f90 GP_parameters_module.f90 \
@@ -24,7 +24,7 @@ SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 allocate_arrays1.f90 \
 	init_values.f90 init_values_LV.f90 init_values_NPZ.f90 \
 	Initialize_GA_Child_Parameters.f90 lmdif.f90 lmpar.f90 \
 	load_pow2_level.f90 mpi_module.f90 parse_fbio_strings.f90 print4.f90 \
-	print_entire_tree.f90 print_gp_node_type_parm.f90 print_trees.f90 \
+	print_entire_tree.f90  print_trees.f90 \
 	print_values1.f90 print_values2.f90 qrfac.f90 qrsolv.f90 \
 	print_debug_real_node_tree.f90 print_debug_real_nparm.f90 \
 	print_debug_integer_node_tree.f90 \
@@ -49,7 +49,7 @@ OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o allocate_arrays1.o \
 	GA_Tournament_Style_Sexual_Reproduction.o GA_variables_module.o \
 	Generate_Dot_Graph.o GP_calc_diversity_index.o GP_calc_fitness.o \
 	GP_Check_Terminals.o GP_Clean_Tree_Nodes.o GP_data_module.o \
-	GP_Elitists.o GP_Fitness_Proportionate_Asexual_Reproduction.o \
+	GP_Fitness_Proportionate_Asexual_Reproduction.o \
 	GP_model_parameters_module.o GP_Mutations.o GP_para_lmdif_process.o \
 	GP_parameters_module.o GP_ranking_sort.o \
 	GP_select_best_RK_lmdif_result.o \
@@ -59,7 +59,7 @@ OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o allocate_arrays1.o \
 	init_values.o init_values_LV.o init_values_NPZ.o \
 	Initialize_GA_Child_Parameters.o lmdif.o lmpar.o load_pow2_level.o \
 	mpi_module.o parse_fbio_strings.o print4.o print_entire_tree.o \
-	print_gp_node_type_parm.o print_trees.o print_values1.o \
+	print_trees.o print_values1.o \
 	print_debug_real_node_tree.o print_debug_real_nparm.o \
 	print_debug_integer_node_tree.o \
 	print_values2.o qrfac.o qrsolv.o random_real.o read_cntl_stuff.o \
@@ -180,8 +180,6 @@ GP_Check_Terminals.o: GA_parameters_module.o GA_variables_module.o \
 GP_Clean_Tree_Nodes.o: GA_parameters_module.o GA_variables_module.o \
 	GP_parameters_module.o GP_variables_module.o
 GP_data_module.o: GP_parameters_module.o
-GP_Elitists.o: GA_parameters_module.o GA_variables_module.o \
-	GP_parameters_module.o GP_variables_module.o mpi_module.o
 GP_Fitness_Proportionate_Asexual_Reproduction.o: GA_parameters_module.o \
 	GA_variables_module.o GP_parameters_module.o GP_variables_module.o \
 	mpi_module.o
@@ -242,9 +240,6 @@ print4.o: GA_parameters_module.o GP_parameters_module.o
 print_entire_tree.o: GA_parameters_module.o GA_variables_module.o \
 	GP_model_parameters_module.o GP_parameters_module.o \
 	GP_variables_module.o mpi_module.o
-print_gp_node_type_parm.o: GA_parameters_module.o GA_variables_module.o \
-	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
-	Runge_Kutta_Variables_module.o mpi_module.o
 print_trees.o: GA_parameters_module.o GA_variables_module.o GP_data_module.o \
 	GP_parameters_module.o GP_variables_module.o \
 	Runge_Kutta_Variables_module.o
