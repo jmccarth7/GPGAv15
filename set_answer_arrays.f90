@@ -66,7 +66,7 @@ endif ! L_unit50_output
 ! set the Initial Conditions, Model Parameters and Node Type
 ! for the 'twin experiment case'
 
-GP_Population_Node_Type( 1:n_nodes, 1:n_trees, 1 ) = GP_Individual_Node_Type(1:n_nodes,1:n_trees)
+!!!!GP_Population_Node_Type( 1:n_nodes, 1:n_trees, 1 ) = GP_Individual_Node_Type(1:n_nodes,1:n_trees)
 
 
 ! initialize the biological data fields

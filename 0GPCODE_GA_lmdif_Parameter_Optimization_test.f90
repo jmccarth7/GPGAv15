@@ -228,7 +228,7 @@ allocate( output_array( n_maximum_number_parameters ) )
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 
-GP_Population_Node_Type=-9999
+!!!GP_Population_Node_Type=-9999
 
 ! blank/set the values [0. = zero-valued parameter; -9999 = blank node type]
 
@@ -236,7 +236,7 @@ GP_Individual_Node_Parameters=0.0D0              ! Matrix Operation
 GP_Individual_Node_Type=-9999                    ! Matrix Operation
 GP_Population_Node_Parameters=0.0D0              ! Matrix Operation
 
-GP_Adult_Population_Parameter_Solution=0.0D0     ! Matrix Operation
+!!!!GP_Adult_Population_Parameter_Solution=0.0D0     ! Matrix Operation
 
 GP_Adult_Population_Node_Type=-9999              ! Matrix Operation
 GP_Child_Population_Node_Type=-9999              ! Matrix Operation
@@ -276,7 +276,7 @@ call create_tree_node_string()
 
 ! GP_Node_Type_Answer
 ! GP_Node_Parameters_Answer
-! GP_Population_Node_Type
+!!!!! GP_Population_Node_Type
 ! Runge_Kutta_Solution
 ! Runge_Kutta_Node_Parameters
 ! Runge_Kutta_Node_Type
@@ -362,7 +362,14 @@ enddo ! i_tree
 ! calculate the generation interval for printing the list of children
 
 GA_child_print_interval = n_GA_generations /  number_GA_child_prints
+if( GA_child_print_interval == 0) then  
+    GA_child_print_interval = max( 1, n_GA_generations / 2 ) 
+endif
+
 GP_child_print_interval = n_GP_generations /  number_GP_child_prints
+if( GP_child_print_interval == 0) then  
+    GP_child_print_interval = max( 1, n_GP_generations / 2 ) 
+endif
 
 
 call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
@@ -582,14 +589,14 @@ do  i_GP_Generation=1,n_GP_Generations
             !   uses:
             !   GP_Integrated_Population_Ranked_Fitness
             !   GP_Adult_Population_Node_Type
-            !   GP_Adult_Population_Parameter_Solution
+            !   !!!!GP_Adult_Population_Parameter_Solution
             !   GP_Adult_Population_SSE
             !   GP_Population_Node_Parameters
             !   GP_Population_Initial_Conditions
 
             !   sets:
             !   GP_Child_Population_Node_Type
-            !   GP_Adult_Population_Parameter_Solution
+            !   !!!!GP_Adult_Population_Parameter_Solution
             !   GP_Child_Individual_SSE
             !   GP_Population_Node_Parameters
             !   GP_Population_Initial_Conditions
@@ -1201,37 +1208,37 @@ do  i_GP_Generation=1,n_GP_Generations
             !           GP_Population_Initial_Conditions(1:n_CODE_Equations, i_GP_Individual)
             !endif !  myid == 0
 
-            !------------------------------------------------------------------------------
-
-            ! load the array GP_Adult_Population_Parameter_Solution
-
-
-            !  first, load  the initial conditions
-
-            GP_Adult_Population_Parameter_Solution(1:n_CODE_equations, i_GP_Individual) = &
-                  GP_Individual_Initial_Conditions(1:n_CODE_Equations)
-
-
-            ! then the rest of the parameters
-
-            nn = n_code_equations
-
-            do  i_Tree=1,n_Trees
-                do  i_Node=1,n_Nodes
-
-                    if( GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0) then
-
-                        nn = nn + 1
-
-                        GP_Adult_Population_Parameter_Solution( nn, i_GP_Individual ) = &
-                                GP_Individual_Node_Parameters(i_Node,i_Tree)
-
-                    endif ! GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0
-
-                enddo ! i_node
-            enddo ! i_tree
-
-            !-------------------------------------------------------------------------------------
+!!!!!            !------------------------------------------------------------------------------
+!!!!!
+!!!!!            ! load the array GP_Adult_Population_Parameter_Solution
+!!!!!
+!!!!!
+!!!!!            !  first, load  the initial conditions
+!!!!!
+!!!!!            GP_Adult_Population_Parameter_Solution(1:n_CODE_equations, i_GP_Individual) = &
+!!!!!                  GP_Individual_Initial_Conditions(1:n_CODE_Equations)
+!!!!!
+!!!!!
+!!!!!            ! then the rest of the parameters
+!!!!!
+!!!!!            nn = n_code_equations
+!!!!!
+!!!!!            do  i_Tree=1,n_Trees
+!!!!!                do  i_Node=1,n_Nodes
+!!!!!
+!!!!!                    if( GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0) then
+!!!!!
+!!!!!                        nn = nn + 1
+!!!!!
+!!!!!                        GP_Adult_Population_Parameter_Solution( nn, i_GP_Individual ) = &
+!!!!!                                GP_Individual_Node_Parameters(i_Node,i_Tree)
+!!!!!
+!!!!!                    endif ! GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0
+!!!!!
+!!!!!                enddo ! i_node
+!!!!!            enddo ! i_tree
+!!!!!
+!!!!!            !-------------------------------------------------------------------------------------
 
             ! set the GA_lmdif-optimized CODE parameter set array
 
@@ -1377,7 +1384,7 @@ do  i_GP_Generation=1,n_GP_Generations
     !  GP_child_individual_SSE
     !  individual_quality
     !  GP_n_parms
-    !  GP_Adult_population_parameter_solution
+    !  !!!!GP_Adult_population_parameter_solution
 
     GP_para_flag = .TRUE.
 

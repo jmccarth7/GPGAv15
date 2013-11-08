@@ -891,8 +891,8 @@ if( myid == 0 )then
                 nn = nn + 1
                 GP_Population_Initial_Conditions(i_CODE_Equation, i_GP_Individual) = &
                                             child_parameters( nn, i_GP_individual)
-                GP_Adult_Population_Parameter_Solution(i_CODE_Equation, i_GP_Individual) = &
-                                      child_parameters(i_CODE_Equation, i_GP_Individual)
+                !!!!!GP_Adult_Population_Parameter_Solution(i_CODE_Equation, i_GP_Individual) = &
+                !!!!!                      child_parameters(i_CODE_Equation, i_GP_Individual)
             enddo  ! i_CODE_equation
 
             do  i_tree=1,n_trees
@@ -904,8 +904,8 @@ if( myid == 0 )then
 
                         GP_population_node_parameters(i_node,i_tree,i_GP_individual) = &
                                               child_parameters( nn, i_GP_individual )
-                        GP_Adult_Population_Parameter_Solution( nn, i_GP_individual) = &
-                                              child_parameters( nn, i_GP_individual )
+                        !!!!!GP_Adult_Population_Parameter_Solution( nn, i_GP_individual) = &
+                        !!!!!                      child_parameters( nn, i_GP_individual )
 
                     endif ! GP_Adult_population_Node_Type(i_Node,i_Tree,i_GP_individual) == 0
 
@@ -928,10 +928,10 @@ if( myid == 0 )then
     !         'gplp:a indiv, ieq, GP_pop_init_cond  ', &
     !         i_GP_individual,  i_CODE_equation, &
     !         GP_Population_Initial_Conditions(i_CODE_equation, i_GP_individual)
-    !        write(GP_print_unit,'(A,4x,I6,1x,I6,6x, E20.10)') &
-    !         'gplp:a indiv, ieq, GP_Adult_parm_soln', &
-    !         i_GP_individual,  i_CODE_equation, &
-    !         GP_Adult_Population_Parameter_Solution(i_CODE_equation, i_GP_individual)
+    !!!!!!        write(GP_print_unit,'(A,4x,I6,1x,I6,6x, E20.10)') &
+    !!!!!!         'gplp:a indiv, ieq, GP_Adult_parm_soln', &
+    !!!!!!         i_GP_individual,  i_CODE_equation, &
+    !!!!!!         GP_Adult_Population_Parameter_Solution(i_CODE_equation, i_GP_individual)
     !        write(GP_print_unit,'(A,4x,I6,1x,I6,6x, E20.10)') &
     !         'gplp:a indiv, ieq, child_parms       ', &
     !         i_GP_individual,  i_CODE_equation, &
@@ -947,8 +947,8 @@ if( myid == 0 )then
 
     !                GP_population_node_parameters(i_node,i_tree,i_GP_individual) = &
     !                                      child_parameters( nn, i_GP_individual )
-    !                GP_Adult_Population_Parameter_Solution( nn, i_GP_individual) = &
-    !                                      child_parameters( nn, i_GP_individual )
+    !!!!!!                GP_Adult_Population_Parameter_Solution( nn, i_GP_individual) = &
+    !!!!!!                                      child_parameters( nn, i_GP_individual )
 
 
     !                write(GP_print_unit,'(A,4(1x,I6),6x, E20.10)') &
@@ -956,10 +956,10 @@ if( myid == 0 )then
     !                 i_GP_individual,  i_node, i_tree, nn,  &
     !                 GP_population_node_parameters(i_node,i_tree,i_GP_individual)
 
-    !                write(GP_print_unit,'(A,4x,I6,1x,I6,6x, E20.10)') &
-    !                 'gplp:a indiv, ieq, GP_Adult_parm_soln', &
-    !                 i_GP_individual,  nn, &
-    !                 GP_Adult_Population_Parameter_Solution(nn, i_GP_individual)
+    !!!!!!                write(GP_print_unit,'(A,4x,I6,1x,I6,6x, E20.10)') &
+    !!!!!!                 'gplp:a indiv, ieq, GP_Adult_parm_soln', &
+    !!!!!!                 i_GP_individual,  nn, &
+    !!!!!!                 GP_Adult_Population_Parameter_Solution(nn, i_GP_individual)
 
     !                write(GP_print_unit,'(A,4x,I6,1x,I6,6x, E20.10)') &
     !                 'gplp:a indiv, ieq, child_parms       ', &
@@ -1084,28 +1084,28 @@ call MPI_BCAST( GP_Population_Initial_Conditions, message_len,    &
 !endif ! L_GP_print
 
 
-!------------------------------------------------------------------------
-
-! broadcast GP_Adult_Population_Parameter_Solution
-
-
-!if( L_GP_print )then
-!    write(GP_print_unit,'(/A,1x,I6)') &
-!     'gplp: broadcast GP_Adult_Population_Parameter_Solution  myid =', myid
-!endif ! L_GP_print
-
-message_len = n_maximum_number_parameters * n_GP_individuals
-
-call MPI_BCAST( GP_Adult_Population_Parameter_Solution, message_len,    &
-                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
-
-!if( L_GP_print )then
-!    write(GP_print_unit,'(/A,1x,I6)') &
-!     'gplp: aft broadcast GP_Adult_Population_Parameter_Solution ierr =', ierr
-!endif ! L_GP_print
-
-
-!------------------------------------------------------------------------
+!!!!!!------------------------------------------------------------------------
+!!!!!
+!!!!!! broadcast GP_Adult_Population_Parameter_Solution
+!!!!!
+!!!!!
+!!!!!!if( L_GP_print )then
+!!!!!!    write(GP_print_unit,'(/A,1x,I6)') &
+!!!!!!     'gplp: broadcast GP_Adult_Population_Parameter_Solution  myid =', myid
+!!!!!!endif ! L_GP_print
+!!!!!
+!!!!!message_len = n_maximum_number_parameters * n_GP_individuals
+!!!!!
+!!!!!call MPI_BCAST( GP_Adult_Population_Parameter_Solution, message_len,    &
+!!!!!                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+!!!!!
+!!!!!!if( L_GP_print )then
+!!!!!!    write(GP_print_unit,'(/A,1x,I6)') &
+!!!!!!     'gplp: aft broadcast GP_Adult_Population_Parameter_Solution ierr =', ierr
+!!!!!!endif ! L_GP_print
+!!!!!
+!!!!!
+!!!!!!------------------------------------------------------------------------
 
 
 !!!call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?

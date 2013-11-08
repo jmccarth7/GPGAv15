@@ -69,13 +69,12 @@ allocate( GP_Population_Ranked_Fitness(n_GP_Individuals) )
 
 allocate( GP_Population_Initial_Conditions(n_CODE_equations,n_GP_individuals) )
 
-allocate( GP_Population_Node_Type(n_nodes,n_trees,n_GP_individuals ) )
+!!!!!allocate( GP_Population_Node_Type(n_nodes,n_trees,n_GP_individuals ) )
 allocate( GP_Adult_Population_Node_Type( n_Nodes,n_Trees, n_GP_Individuals ) )
 allocate( GP_Child_Population_Node_Type( n_Nodes,n_Trees, n_GP_Individuals ) )
 
 allocate( GP_Population_Node_Parameters( n_nodes,n_trees, n_GP_Individuals ) )
 
-!allocate( GP_Individual_Parameter_Solution(n_maximum_number_parameters) )
 allocate( GP_Individual_Initial_Conditions(n_CODE_equations) )
 allocate( GP_Individual_Node_Type(n_nodes,n_trees) )
 allocate( GP_Individual_Node_Parameters(n_nodes,n_trees) )
@@ -135,7 +134,7 @@ allocate( tree_value_string( n_trees ) )
 allocate( Node_Probability( n_levels ) )
 
 !>>>>>>>>>>>>>
-allocate( GP_Adult_Population_Parameter_Solution( 1:n_Maximum_Number_Parameters, 1:n_GP_Individuals) )
+!!!!!allocate( GP_Adult_Population_Parameter_Solution( 1:n_Maximum_Number_Parameters, 1:n_GP_Individuals) )
 
 allocate( GP_Adult_Population_SSE( n_GP_Individuals  )  )
 !allocate( GP_Child_Population_SSE( n_GP_Individuals  )  )
@@ -191,10 +190,9 @@ GP_Integrated_Ranked_Fitness = 0.0d0
 GP_Population_Ranked_Fitness = 0.0d0
 
 GP_Population_Initial_Conditions = 0.0d0
-GP_Population_Node_Type = -9999
+!!!!!GP_Population_Node_Type = -9999
 GP_Population_Node_Parameters = 0.0d0
 
-!GP_Individual_Parameter_Solution = 0.0d0
 GP_Individual_Initial_Conditions = 0.0d0
 GP_Individual_Node_Type = -9999
 GP_Individual_Node_Parameters = 0.0d0
@@ -249,7 +247,7 @@ tree_value_string = ' '
 
 Node_Probability = 0.0d0
 !>>>>>>>>>>>>>
-GP_Adult_Population_Parameter_Solution = 0.0d0
+!!!!!GP_Adult_Population_Parameter_Solution = 0.0d0
 GP_Adult_Population_SSE = 0.0d0
 !GP_Child_Population_SSE = 0.0d0
 !>>>>>>>>>>>>>

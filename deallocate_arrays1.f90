@@ -66,7 +66,6 @@ deallocate( GA_Integrated_SSE )
 deallocate( GA_Individual_Ranked_Fitness )
 deallocate( GA_Integrated_Ranked_Fitness )
 
-!deallocate( GP_Individual_Parameter_Solution )
 
 
 deallocate( GP_Individual_N_GP_param )  ! jjm 20130409
@@ -80,7 +79,7 @@ deallocate( GP_Integrated_Population_Ranked_Fitness )
 
 deallocate( GP_diversity_index )
 
-deallocate( GP_Population_Node_Type )
+!!!!!deallocate( GP_Population_Node_Type )
 deallocate( GP_Individual_Node_Type )
 
 deallocate( Runge_Kutta_Node_Type )
@@ -120,7 +119,7 @@ deallocate( tree_value_string )
 deallocate( Node_Probability )
 
 !>>>>>>>>>>>>>
-deallocate( GP_Adult_Population_Parameter_Solution )
+!!!!!deallocate( GP_Adult_Population_Parameter_Solution )
 deallocate( GP_Adult_Population_SSE )
 !deallocate( GP_Child_Population_SSE )
 !>>>>>>>>>>>>>

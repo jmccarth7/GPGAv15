@@ -29,8 +29,8 @@ real(kind=8), dimension( 1:n_Nodes,1:n_Trees, 1:n_GP_individuals ) :: &
 real(kind=8), dimension( 1:n_CODE_equations, 1:n_GP_individuals ) :: &
                          GP_Population_Initial_Conditions_temp
 
-real(kind=8), dimension(1:n_Maximum_Number_Parameters, 1:n_GP_Individuals) :: &
-                         GP_Adult_Population_Parameter_Solution_temp
+!!!!!real(kind=8), dimension(1:n_Maximum_Number_Parameters, 1:n_GP_Individuals) :: &
+!!!!!                         GP_Adult_Population_Parameter_Solution_temp
 
 
 !--------------------------------------------------------------------------------
@@ -143,26 +143,26 @@ GP_Child_Population_Node_Type=GP_Adult_Population_Node_Type
 !-------------------------------------------------------------------------------------------------
 
 !!! debug
-!write(6,'(/A)') 'gprs: before applying  sort to GP_Adult_Population_Parameter_Solution '
-!call print_debug_real_nparm( 'from GP_ranking_sort before sort GP_Adult_Population_Parameter_Solution', &
-!                    GP_Adult_Population_Parameter_Solution ) 
+!!!!!!write(6,'(/A)') 'gprs: before applying  sort to GP_Adult_Population_Parameter_Solution '
+!!!!!!call print_debug_real_nparm( 'from GP_ranking_sort before sort GP_Adult_Population_Parameter_Solution', &
+!!!!!!                    GP_Adult_Population_Parameter_Solution ) 
 
-!-------------------------------------------------------------------------------------------------
-
-GP_Adult_Population_Parameter_Solution_temp(1:n_Maximum_Number_Parameters,  1:n_GP_Individuals) = &
-     GP_Adult_Population_Parameter_Solution(1:n_Maximum_Number_Parameters,  &
-                                                      Ranked_Fitness_Index(1:n_GP_Individuals) )
-
-GP_Adult_Population_Parameter_Solution = GP_Adult_Population_Parameter_Solution_temp
-
-!-------------------------------------------------------------------------------------------------
+!!!!!!-------------------------------------------------------------------------------------------------
+!!!!!
+!!!!!GP_Adult_Population_Parameter_Solution_temp(1:n_Maximum_Number_Parameters,  1:n_GP_Individuals) = &
+!!!!!     GP_Adult_Population_Parameter_Solution(1:n_Maximum_Number_Parameters,  &
+!!!!!                                                      Ranked_Fitness_Index(1:n_GP_Individuals) )
+!!!!!
+!!!!!GP_Adult_Population_Parameter_Solution = GP_Adult_Population_Parameter_Solution_temp
+!!!!!
+!!!!!!-------------------------------------------------------------------------------------------------
 
 ! debug
-!write(6,'(/A)') 'gprs: after  applying  sort to GP_Adult_Population_Parameter_Solution '
-
-!call print_debug_real_nparm( &
-!      'from GP_ranking_sort AFTER sort GP_Adult_Population_Parameter_Solution', &
-!      GP_Adult_Population_Parameter_Solution ) 
+!!!!!!write(6,'(/A)') 'gprs: after  applying  sort to GP_Adult_Population_Parameter_Solution '
+!!!!!
+!!!!!!call print_debug_real_nparm( &
+!!!!!!      'from GP_ranking_sort AFTER sort GP_Adult_Population_Parameter_Solution', &
+!!!!!!      GP_Adult_Population_Parameter_Solution ) 
 
 !-------------------------------------------------------------------------------------------------
 !-------------------------------------------------------------------------------------------------
