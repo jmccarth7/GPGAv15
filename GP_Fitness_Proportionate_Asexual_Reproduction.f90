@@ -36,12 +36,12 @@ real(kind=8) :: sse_ind
 
 i_GP_Individual = n_GP_Elitists
 
-!write(GP_print_unit,'(/A,1x,I6)' ) &
-!      'gpfpar: n_GP_Asexual_Reproductions ', n_GP_Asexual_Reproductions
-!write(GP_print_unit,'(A,1x,I6)' ) &
-!      'gpfpar: n_GP_Elitists         ', n_GP_Elitists
-!write(GP_print_unit,'(A,1x,I6)' ) &
-!      'gpfpar: start i_GP_individual ', n_GP_Elitists  + 1
+write(GP_print_unit,'(/A,1x,I6)' ) &
+      'gpfpar: n_GP_Asexual_Reproductions ', n_GP_Asexual_Reproductions
+write(GP_print_unit,'(A,1x,I6)' ) &
+      'gpfpar: n_GP_Elitists         ', n_GP_Elitists
+write(GP_print_unit,'(A,1x,I6)' ) &
+      'gpfpar: start i_GP_individual ', n_GP_Elitists  + 1
 
 
 do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
@@ -107,11 +107,6 @@ do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
        GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees,j_GP_Individual)
 
 
-    !!!!!if( i_GP_individual /= j_GP_individual )then
-    !!!!!    GP_Adult_Population_Parameter_Solution(1:n_Maximum_Number_Parameters,i_GP_Individual) = &
-    !!!!!    GP_Adult_Population_Parameter_Solution(1:n_Maximum_Number_Parameters,j_GP_Individual)
-    !!!!!endif !  i_GP_individual /= j_GP_individual
-
     GP_Population_Node_Parameters(1:n_Nodes,1:n_Trees, i_GP_Individual) = &             ! 20131030
             GP_Population_Node_Parameters(1:n_Nodes,1:n_Trees, j_GP_Individual)         ! 20131030
 
@@ -124,33 +119,18 @@ do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
 
 
 
-    !!!!!!do  iii = 1, n_maximum_number_parameters
-    !!!!!!    write(GP_print_unit,'(A,2(1x,I6),1x,E15.7)' ) &
-    !!!!!!      'gpfpar: j_GP_individual, iii,GP_Adult_Population_Parameter_Solution(iii,j_GP_Individual)',&
-    !!!!!!               j_GP_individual, iii,GP_Adult_Population_Parameter_Solution(iii,j_GP_Individual)
-    !!!!!!enddo
-
-    !write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
-    !   'gpfpar: j_GP_individual, GP_Adult_Population_SSE(j_GP_Individual)',&
-    !            j_GP_individual, GP_Adult_Population_SSE(j_GP_Individual)
-    !write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
-    !      'gpfpar: PREVIOUS i_GP_individual, GP_Child_Individual_SSE(i_GP_Individual)',&
-    !                        i_GP_individual, sse_ind
-    !write(GP_print_unit,'(A)' ) &
-    !      'gpfpar: j_GP_individual replaces i_GP_individual'
+    write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
+       'gpfpar: j_GP_individual, GP_Adult_Population_SSE(j_GP_Individual)',&
+                j_GP_individual, GP_Adult_Population_SSE(j_GP_Individual)
+    write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
+          'gpfpar: PREVIOUS i_GP_individual, GP_Child_Individual_SSE(i_GP_Individual)',&
+                            i_GP_individual, sse_ind
+    write(GP_print_unit,'(A)' ) &
+          'gpfpar: j_GP_individual replaces i_GP_individual'
 
 
 
 enddo ! i_GP_Asexual_Reproduction
-
-
-
-
-!!!!!! debug
-!!!!!!write(6,'(/A)') 'gpfpar: GP_Adult_Population_Parameter_Solution  at end of GP_Fit...'
-!!!!!!call print_debug_real_nparm( &
-!!!!!!       'GP_Adult_Population_Parameter_Solution  at end of GP_Fit...' , &
-!!!!!!        GP_Adult_Population_Parameter_Solution )
 
 
 return

@@ -100,6 +100,10 @@ do  i_GP_Mutation = 1,n_GP_Mutations
     GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees, i_GP_Individual) =  &
         GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees, i_GP_Individual_Mutation)
 
+    write(6,'(A,2(1x,I6))') &
+          'gpfmut: i_GP_Mutation, i_GP_individual ', &
+                   i_GP_Mutation, i_GP_individual
+
     !----------------------------------------------------------------------------------
 
     call GP_Check_Terminals( &
