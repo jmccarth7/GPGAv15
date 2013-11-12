@@ -91,9 +91,6 @@ Parent_Parameters(1:n_parameters, i_GP_best_Parent) = output_array(1:n_parameter
 
 i_GP_Generation = n_GP_Generations
 
-!!!GP_individual_node_type(1:n_nodes,1:n_trees)  = &
-!!!            GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_best_parent )
-
 
 if( L_GP_print )then
     write(GP_print_unit,'(//A)') 'gpsbrl: at entry  '

@@ -606,7 +606,8 @@ do  i_GP_Generation=1,n_GP_Generations
                 call GP_Fitness_Proportionate_Asexual_Reproduction
 
                  
-                !GP_Adult_Population_SSE = GP_Child_Individual_SSE  ! 20131104 jjm
+                ! don't replace adult with child until 
+                ! after all 3 modfication routines have been called
 
                 !!!GP_Adult_Population_Node_Type = GP_Child_Population_Node_Type   ! 20131105 jjm
                 !!!GP_Adult_Population_SSE       = GP_Child_Individual_SSE         ! 20131105 jjm

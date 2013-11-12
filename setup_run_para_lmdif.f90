@@ -246,13 +246,11 @@ iunit = 0
 !write(myprint_unit,'(A,3(1x,E15.7))') 'strplm:input factor', factor
 
 
-!!!if( i_GP_gen == 1 )then     ! debug only
 
-    call lmdif( fcn, n_time_steps, n_parms, x_LMDIF, fvec, &
-                ftol, xtol, gtol, maxfev, epsfcn, &
-                diag, mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf, &
-                iunit )
-!!!endif ! i_GP_gen == 1      ! debug only
+call lmdif( fcn, n_time_steps, n_parms, x_LMDIF, fvec, &
+            ftol, xtol, gtol, maxfev, epsfcn, &
+            diag, mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf, &
+            iunit )
 
 
 
