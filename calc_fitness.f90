@@ -117,22 +117,26 @@ enddo ! i_parameter
 !-----------------------------------------------------------------------------------
 
 if( L_ga_print )then
-    write(GA_print_unit,'(/A)') 'gacf: i_GA_individual, parent params'
+    if( i_GA_generation == 1                                 .or. &
+        mod(i_GA_generation, GA_child_print_interval ) == 0  .or. &
+        i_GA_generation == n_GA_generations       )then
 
-    do  i_GA_individual=1,n_GA_individuals
-        write(GA_print_unit,'(I6,(12(1x,E15.7)))') i_GA_individual, &
-                  parent_parameters( 1:n_parameters, i_GA_individual )
-    enddo !  i_GA_individual
+        write(GA_print_unit,'(/A)') 'gacf: i_GA_individual, parent params'
+    
+        do  i_GA_individual=1,n_GA_individuals
+            write(GA_print_unit,'(I6,(12(1x,E15.7)))') i_GA_individual, &
+                      parent_parameters( 1:n_parameters, i_GA_individual )
+        enddo !  i_GA_individual
+    
+        write(GA_print_unit,*) ' '
+        do  i_GA_individual=1,n_GA_individuals
+            write(GA_print_unit,'(A,1x,I6,1x,E20.10, 1x, I6)') &
+                'gacf: i_GA_individual, individual_SSE, individual_quality', &
+                       i_GA_individual, individual_SSE(i_GA_individual), &
+                                        individual_quality( i_GA_individual )
+        enddo !  i_GA_individual
 
-    !-----------------------------------------------------------------------------------
-
-    write(GA_print_unit,*) ' '
-    do  i_GA_individual=1,n_GA_individuals
-        write(GA_print_unit,'(A,1x,I6,1x,E24.16, 1x, I6)') &
-            'gacf: i_GA_individual, individual_SSE, individual_quality', &
-                   i_GA_individual, individual_SSE(i_GA_individual), &
-                                    individual_quality( i_GA_individual )
-    enddo !  i_GA_individual
+    endif ! i_GA_generation == 1 ...
 endif ! L_ga_print
 
 !-----------------------------------------------------------------------------------

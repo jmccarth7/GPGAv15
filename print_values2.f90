@@ -30,8 +30,8 @@ real(kind=8), dimension(n_parameters) :: answer
 
 !----------------------------------------------------------------------------------------
 
-write(GP_print_unit,'(/A,1x,I6)') 'Total Parameters for this run = ',n_parameters
-write(GP_print_unit,'(A,1x,I6)')  'pv2: n_GA_individuals ', n_GA_individuals
+write(GP_print_unit,'(/A,1x,I6/)') 'pv2: Total Parameters for this run = ',n_parameters
+write(GP_print_unit,'(A,1x,I6)')   'pv2: n_GA_individuals ', n_GA_individuals
 
 !write(GP_print_unit,'(A,1x,I6)') 'number of initial conditions   = ',n_initial_conditions
 write(GP_print_unit,'(A,1x,I6)')   'pv2: n_time_steps     ', n_time_steps
@@ -55,9 +55,9 @@ write(GP_print_unit,'(A,1x,E15.7)') 'pv2: GA_Mutation_Probability   ', &
 write(GP_print_unit,'(A,1x,E15.7)') 'pv2: GA_save_elites_Probability', &
                                           GA_save_elites_Probability
 
-write(GP_print_unit,'(A)')  'pv2: code calls parallel lmdif at end of each GP  generation'
-write(GP_print_unit,'(A)')  'pv2: 2-range random_real initialization of child parameters '
-write(GP_print_unit,'(A//)')'pv2: replacement of bad individuals used'
+write(GP_print_unit,'(/A)')  'pv2: code calls parallel lmdif at end of each GP  generation'
+write(GP_print_unit,'(A//)')  'pv2: 2-range random_real initialization of child parameters '
+!!write(GP_print_unit,'(A//)')'pv2: replacement of bad individuals used'
 
 
 ! calculate the generation interval for printing the list of children
@@ -74,7 +74,7 @@ write(GP_print_unit,'(A,1x,I6)')   'pv2: GA_child_print_interval ', &
 write(GP_print_unit,'(/A)') ' '
 do  i = 1, n_parameters
     write(GP_print_unit,'(A,1x,I6,2x,E24.16)') &
-          'pv2: i, answer(i) ', i, answer(i)
+          'pv2: i, answer(i)', i, answer(i)
 enddo ! i
 write(GP_print_unit,'(/A)') ' '
 

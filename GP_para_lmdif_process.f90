@@ -76,14 +76,14 @@ real(kind=8) ::  temp_SSE
 
 !----------------------------------------------------------------------
 
-!L_GP_print = .FALSE.
-!if( i_GP_generation == 1 .or. &
-!    mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
-!    i_GP_generation == n_GP_generations )then
+L_GP_print = .FALSE.
+if( i_GP_generation == 1 .or. &
+    mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
+    i_GP_generation == n_GP_generations )then
 
     L_GP_print = .TRUE.
 
-!endif ! i_GP_generation...
+endif ! i_GP_generation...
 
 i_dummy = 0
 
@@ -291,7 +291,7 @@ endif ! myid == 0
 if( myid == 0  )then
     if( L_GP_print )then
 
-        write(GP_print_unit,'(//A)') &
+        write(GP_print_unit,'(/A)') &
               'gplp:  initial child parameters  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>'
         !write(GP_print_unit,'(A)') &
         !      'i_GP_individual                  child_parameters '
@@ -1083,7 +1083,7 @@ if( myid == 0  )then
 
         write(GP_print_unit,'(//A)') &
          'gplp:  final child SSE   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>'
-        write(GP_print_unit,'(/A)') &
+        write(GP_print_unit,'(A)') &
               'gplp:  indiv   GP_Child_Individual_SSE '
         do  i_GP_individual = 1, n_GP_individuals
             write(GP_print_unit,'(4x,I6,5x, E20.10)') &
@@ -1110,8 +1110,8 @@ if( myid == 0  )then
             nparms_i = GP_n_parms( i_GP_individual )
 
             if( nparms_i >  n_code_equations )then
-                write(GP_print_unit,'(A,2(1x,I10))') &
-                      'gplp:2 nparms_i, n_CODE_equations =', nparms_i, n_CODE_equations
+                !write(GP_print_unit,'(A,2(1x,I10))') &
+                !      'gplp:2 nparms_i, n_CODE_equations =', nparms_i, n_CODE_equations
                 write(GP_print_unit,'(/A)') &
                   'gplp:  indiv   parameter  child_parameters '
                 do  nn= n_code_equations + 1, nparms_i

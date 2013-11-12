@@ -69,12 +69,12 @@ output_array = 0.0d0
 
 write(GP_print_unit,'(/A,1x,I6)') &
       'gpcf: i_GP_generation ',  i_GP_generation
-write(GP_print_unit,'(A)') &
-  'gpcf: i_GP_individual, GP_Child_Individual_SSE(i_GP_individual) '
-do  i_GP_individual = 1, n_GP_individuals
-    write(GP_print_unit,'(I6,1x,E15.7)')  &
-          i_GP_individual, GP_Child_Individual_SSE(i_GP_individual)
-enddo ! i_GP_individual
+!write(GP_print_unit,'(A)') &
+!  'gpcf: i_GP_indiv    GP_Child_Indiv_SSE'
+!do  i_GP_individual = 1, n_GP_individuals
+!    write(GP_print_unit,'(4x,I6,10x,E15.7)')  &
+!          i_GP_individual, GP_Child_Individual_SSE(i_GP_individual)
+!enddo ! i_GP_individual
 
 !-------------------------------------------------------------------------------
 
@@ -94,7 +94,8 @@ if( i_GP_generation == 1                                 .or. &
     !          i_GP_Individual, GP_Individual_N_GP_param(i_GP_Individual)
     !enddo
 
-    write(GP_print_unit, '(5(1x,I8," :", I3))') &
+    !write(GP_print_unit, '(5(1x,I8," :", I3))') &
+    write(GP_print_unit, '(10(1x,I6," :", I3))') &
            ( i_GP_Individual, GP_Individual_N_GP_param(i_GP_Individual), &
              i_GP_Individual=1,n_GP_Individuals )
 
@@ -407,7 +408,7 @@ if( i_GP_generation == 1                                 .or. &
             if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Best_Parent) &
                                                                 > -9999  )then
 
-                write(GP_print_unit,'(2x,3(1x,I6))') &
+                write(GP_print_unit,'(2x,1x,I6,2(1x,I10))') &
                   i_tree, i_node, &
                   GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Best_Parent)
 

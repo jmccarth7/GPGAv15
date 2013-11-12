@@ -84,14 +84,14 @@ enddo  ! i_GP_Individual
 
 !-------------------------------------------------------------------------------------------------
 
-write(6,'(/A)') 'gprs: after  sort '
-write(6,'(A)')  'gprs:i_GP_Individual, Ranked_Fitness_Index, &
-                            &GP_Child_Individual_SSE'
-do  i_GP_Individual=1,n_GP_Individuals
-    write(6,'(5x,I10,1x, I10, 16x, E15.7)') &
-          i_GP_Individual, Ranked_Fitness_Index(i_GP_Individual), &
-                           GP_Child_Individual_SSE(i_GP_Individual)
-enddo
+!write(6,'(/A)') 'gprs: after  sort '
+!write(6,'(A)')  'gprs:i_GP_Individual, Ranked_Fitness_Index, &
+!                            &GP_Child_Individual_SSE'
+!do  i_GP_Individual=1,n_GP_Individuals
+!    write(6,'(5x,I10,1x, I10, 16x, E15.7)') &
+!          i_GP_Individual, Ranked_Fitness_Index(i_GP_Individual), &
+!                           GP_Child_Individual_SSE(i_GP_Individual)
+!enddo
 
 !-------------------------------------------------------------------------------------------------
 !-------------------------------------------------------------------------------------------------

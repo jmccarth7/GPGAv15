@@ -85,9 +85,9 @@ if( myid == 0 )then
     if( L_ga_print )then
         write(GA_print_unit,'(//A)') 'sbrl: at entry  '
         write(GA_print_unit,'(A,1x,E15.7)') 'sbrl: dt ', dt
-        write(GA_print_unit,'(A,1x,I10)') &
+        write(GA_print_unit,'(A,1x,I6)') &
               'sbrl: n_parameters    =   ', n_parameters
-        write(GA_print_unit,'(A,1x,I10)') &
+        write(GA_print_unit,'(A,1x,I6)') &
               'sbrl: n_GP_parameters =   ', n_GP_parameters
     endif ! L_ga_print
 
@@ -111,13 +111,13 @@ parent_parameters_best_1(1:n_parameters) =  &
                         Parent_Parameters(1:n_parameters, i_GA_Best_Parent)
 
 if( L_ga_print )then
-    write(GA_print_unit,'(/A,1x,I10, 2(1x,E24.16))') &
-          'sbrl: i_GA_best_parent_1, individual_SSE_best_1, &
-                         &individual_ranked_fitness_best_1', &
+    write(GA_print_unit,'(/A,1x,I10, 2(1x,E20.10))') &
+          'sbrl: i_GA_best_parent_1, indiv_SSE_best_1, &
+                         &indiv_ranked_fitness_best_1', &
                  i_GA_best_parent_1, individual_SSE_best_1, &
                           individual_ranked_fitness_best_1
-    write(GA_print_unit,'(/A,1x,E24.16/)') &
-          'sbrl: individual_fitness_best_1 ', individual_fitness_best_1
+    write(GA_print_unit,'(/A,1x,E20.10/)') &
+          'sbrl: indiv_fitness_best_1 ', individual_fitness_best_1
 
     !write(GA_print_unit,'(/A/1x,I6, 12(1x,E15.7))') &
     !      'sbrl: i_GA_best_parent_1, parent_parameters_best_1(1:n_parameters) ', &
@@ -140,8 +140,8 @@ endif ! L_ga_print
 
 if( L_ga_print )then
 
-    write(GA_print_unit,'(/A)')  &
-          'sbrl: i_GA_ind, ind_SSE, ind_ranked_fitness  '  !----  aft lmdif '
+    !write(GA_print_unit,'(/A)')  &
+    !      'sbrl: i_GA_ind, ind_SSE, ind_ranked_fitness  '  !----  aft lmdif '
 
     write(GA_print_unit,'(/A,1x,I6)') &
           'sbrl: lmdif i_GA_best_parent ', i_GA_best_parent
@@ -155,7 +155,7 @@ if( L_ga_print )then
 
 
 
-    write(GA_print_unit,'(A,1x,I6,1x,E24.16)') &
+    write(GA_print_unit,'(/A,1x,I6,1x,E20.10)') &
           'sbrl: i_GA_best_parent, individual_SSE', &
                  i_GA_best_parent, individual_SSE(i_GA_best_parent)
 
@@ -169,14 +169,14 @@ Individual_Fitness = Individual_Ranked_Fitness(i_GA_Best_Parent)
 
 
 if( L_ga_print )then
-    write(GA_print_unit,'(/A,1x,I6, 2(1x,E24.16))') &
+    write(GA_print_unit,'(/A,1x,I6, 2(1x,E20.10))') &
           'sbrl: lmdif i_GA_best_parent, &
-          &individual_SSE, individual_ranked_fitness', &
+          &indiv_SSE, indiv_ranked_fitness', &
                        i_GA_best_parent, &
                        individual_SSE(i_GA_best_parent), &
                        individual_ranked_fitness(i_GA_best_parent)
 
-    write(GA_print_unit,'(/A,1x,E24.16/)') &
+    write(GA_print_unit,'(/A,1x,E20.10/)') &
           'sbrl: lmdif individual_fitness ', individual_fitness
 endif ! L_ga_print
 
