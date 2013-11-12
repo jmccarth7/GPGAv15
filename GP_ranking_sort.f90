@@ -264,9 +264,10 @@ write(6,'(/A, 1x, E15.7)') &
 GP_Population_Ranked_Fitness = 0.0D0
 do  i_GP_Individual=1,n_GP_Individuals
 
-    if( cff > 0.0D0 )then !.and. GP_Child_Individual_SSE(i_GP_Individual) < 1.0e12 )then
+    !if( cff > 0.0D0 )then !.and. GP_Child_Individual_SSE(i_GP_Individual) < 1.0e12 )then
+    if( cff > 0.0D0 .and. GP_Child_Individual_SSE(i_GP_Individual) < 1.0e13 )then
         GP_Population_Ranked_Fitness(i_GP_Individual) = &
-                ( cff - GP_Child_Individual_SSE(i_GP_Individual) ) / cff
+                abs( ( cff - GP_Child_Individual_SSE(i_GP_Individual) ) / cff  )
     else
         GP_Population_Ranked_Fitness(i_GP_Individual) = 0.0d0
     endif ! cff > 0.0d0
