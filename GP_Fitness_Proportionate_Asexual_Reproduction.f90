@@ -130,7 +130,7 @@ do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
     !write(GP_print_unit,'(A)' ) &
     !      'gpfpar: j_GP_individual replaces i_GP_individual'
 
-    write(GP_print_unit,'(A,1x,I6,1x,A, 1x, I6)' ) &
+    write(GP_print_unit,'(I6,1x,A, 1x, I6)' ) &
            j_GP_individual, ' ---> ', i_GP_Individual
 
 
