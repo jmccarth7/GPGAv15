@@ -359,13 +359,13 @@ enddo ! i_tree
 ! calculate the generation interval for printing the list of children
 
 GA_child_print_interval = n_GA_generations /  number_GA_child_prints
-if( GA_child_print_interval == 0) then  
-    GA_child_print_interval = max( 1, n_GA_generations / 2 ) 
+if( GA_child_print_interval == 0) then
+    GA_child_print_interval = max( 1, n_GA_generations / 2 )
 endif
 
 GP_child_print_interval = n_GP_generations /  number_GP_child_prints
-if( GP_child_print_interval == 0) then  
-    GP_child_print_interval = max( 1, n_GP_generations / 2 ) 
+if( GP_child_print_interval == 0) then
+    GP_child_print_interval = max( 1, n_GP_generations / 2 )
 endif
 
 
@@ -527,7 +527,7 @@ do  i_GP_Generation=1,n_GP_Generations
         !!!call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
         !if( myid == 0 )then
         !    write(GP_print_unit,'(A,1x,I6)') &
-        !      '0: aft broadcast  GP_Adult_Population_Node_Type  ierr = ',ierr                 
+        !      '0: aft broadcast  GP_Adult_Population_Node_Type  ierr = ',ierr
         !endif ! myid == 0
 
 
@@ -605,8 +605,8 @@ do  i_GP_Generation=1,n_GP_Generations
 
                 call GP_Fitness_Proportionate_Asexual_Reproduction
 
-                 
-                ! don't replace adult with child until 
+
+                ! don't replace adult with child until
                 ! after all 3 modfication routines have been called
 
                 !!!GP_Adult_Population_Node_Type = GP_Child_Population_Node_Type   ! 20131105 jjm
@@ -615,7 +615,7 @@ do  i_GP_Generation=1,n_GP_Generations
                 !write(GP_print_unit,'(/A)') &
                 !      '0:aft  call GP_Fitness_Proportionate_Asexual_Reproduction '
                 !write(GP_print_unit,'(A/)') &
-                !      '0: Adult NT, SSE NOT REPLACED with Child NT, SSE'                 
+                !      '0: Adult NT, SSE NOT REPLACED with Child NT, SSE'
 
                 !tree_descrip=' GP_Child trees after call to &
                 !              &GP_Fitness_Proportionate_Asexual_Reproduction'
@@ -747,7 +747,7 @@ do  i_GP_Generation=1,n_GP_Generations
                       '0:3 i_GP_gen,i_GP_indiv,GP_Child_Indiv_SSE'
             do  i_GP_individual = 1, n_GP_individuals
                 write(GP_print_unit,'(2(1x,I5), 1x, E15.7)')&
-                           i_GP_generation, i_GP_individual, &       
+                           i_GP_generation, i_GP_individual, &
                            GP_Child_Individual_SSE(i_GP_Individual)
             enddo ! i_GP_individual
             !---------------------------------------------------------------------------
@@ -846,7 +846,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
     if( myid == 0 )then
         write(GP_print_unit,'(/A,1x,I6)') &
-          '0: aft broadcast  GP_Adult_Pop_Node_Type  ierr = ', ierr 
+          '0: aft broadcast  GP_Adult_Pop_Node_Type  ierr = ', ierr
         write(GP_print_unit,'(/A,1x,I6)') &
           '0: aft broadcast  GP_Adult_Pop_Node_Type  Generation = ',&
                                                 i_GP_Generation
@@ -944,7 +944,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
             do  i_Node=1,n_Nodes
 
-                if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) .eq. 0) then 
+                if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) .eq. 0) then
                     n_GP_Parameters = n_GP_Parameters+1
                 endif ! GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0
 

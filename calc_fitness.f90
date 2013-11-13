@@ -122,12 +122,12 @@ if( L_ga_print )then
         i_GA_generation == n_GA_generations       )then
 
         write(GA_print_unit,'(/A)') 'gacf: i_GA_individual, parent params'
-    
+
         do  i_GA_individual=1,n_GA_individuals
             write(GA_print_unit,'(I6,(12(1x,E15.7)))') i_GA_individual, &
                       parent_parameters( 1:n_parameters, i_GA_individual )
         enddo !  i_GA_individual
-    
+
         write(GA_print_unit,*) ' '
         do  i_GA_individual=1,n_GA_individuals
             write(GA_print_unit,'(A,1x,I6,1x,E20.10, 1x, I6)') &

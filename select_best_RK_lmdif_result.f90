@@ -72,7 +72,7 @@ integer(kind=4) :: i_GP_individual
 !----------------------------------------------------------------------
 
 
-! lmdif is NOT called from this routine 
+! lmdif is NOT called from this routine
 
 ! GP_para_lmdif_process calls lmdif in parallel for all GP individuals later
 

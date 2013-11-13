@@ -8,7 +8,7 @@ subroutine GP_Clean_Tree_Nodes
 ! The action of GP_Clean_Tree_Nodes should not change the equations generated
 ! from the tree, since it just replaces "const op const"  with "const"
 
-! So the Run_GP_Calculate_Fitness array is not changed 
+! So the Run_GP_Calculate_Fitness array is not changed
 
 
 use GP_Parameters_module

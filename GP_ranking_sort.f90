@@ -113,7 +113,7 @@ GP_Adult_Individual_SSE=GP_Child_Individual_SSE
 !write(6,'(/A)') 'gprs: before applying  sort to GP_Child_Population_Node_Type '
 !call print_debug_integer_node_tree( &
 !      'from GP_ranking_sort before sort GP_Child_Population_Node_Type', &
-!      GP_Child_Population_Node_Type ) 
+!      GP_Child_Population_Node_Type )
 
 !-------------------------------------------------------------------------------------------------
 
@@ -130,12 +130,12 @@ GP_Child_Population_Node_Type=GP_Adult_Population_Node_Type
 !write(6,'(/A)') 'gprs: after applying  sort to GP_Child_Population_Node_Type '
 !call print_debug_integer_node_tree( &
 !      'from GP_ranking_sort after  sort GP_Child_Population_Node_Type', &
-!      GP_Child_Population_Node_Type ) 
+!      GP_Child_Population_Node_Type )
 !
 !write(6,'(/A)') 'gprs: after applying  sort to GP_Adult_Population_Node_Type '
 !call print_debug_integer_node_tree( &
 !      'from GP_ranking_sort after  sort GP_Adult_Population_Node_Type', &
-!      GP_Adult_Population_Node_Type ) 
+!      GP_Adult_Population_Node_Type )
 
 !-------------------------------------------------------------------------------------------------
 !-------------------------------------------------------------------------------------------------
@@ -148,7 +148,7 @@ GP_Child_Population_Node_Type=GP_Adult_Population_Node_Type
 !write(6,'(/A)') 'gprs: before applying  sort to GP_Population_Initial_Conditions       '
 !call print_debug_real_nparm( &
 !       'from GP_ranking_sort before sort GP_Population_Initial_Conditions ', &
-!       GP_Population_Initial_Conditions ) 
+!       GP_Population_Initial_Conditions )
 
 !-------------------------------------------------------------------------------------------------
 
@@ -171,7 +171,7 @@ GP_Population_Initial_Conditions = GP_Population_Initial_Conditions_temp
 
 !call print_debug_real_nparm( &
 !      'from GP_ranking_sort after sort GP_Population_Initial_Conditions ', &
-!      GP_Population_Initial_Conditions ) 
+!      GP_Population_Initial_Conditions )
 
 
 !-------------------------------------------------------------------------------------------------
@@ -182,7 +182,7 @@ GP_Population_Initial_Conditions = GP_Population_Initial_Conditions_temp
 
 !call print_debug_real_node_tree( &
 !      'from GP_ranking_sort before  sort GP_population_node_parameters', &
-!      GP_population_node_parameters) 
+!      GP_population_node_parameters)
 
 !-------------------------------------------------------------------------------------------------
 
@@ -204,7 +204,7 @@ GP_population_node_parameters = GP_population_node_parameters_temp
 
 !call print_debug_real_node_tree( &
 !  'from GP_ranking_sort after sort GP_population_node_parameters', &
-!  GP_population_node_parameters) 
+!  GP_population_node_parameters)
 
 
 !-------------------------------------------------------------------------------------------------

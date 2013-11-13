@@ -1,10 +1,10 @@
-subroutine print_debug_real_nparm( label, input_array  ) 
+subroutine print_debug_real_nparm( label, input_array  )
 
 
 
 ! print REAL arrays of the form:
 
-!  input_array(1:n_Maximum_Number_Parameters, 1:n_GP_Individuals) 
+!  input_array(1:n_Maximum_Number_Parameters, 1:n_GP_Individuals)
 
 
 
