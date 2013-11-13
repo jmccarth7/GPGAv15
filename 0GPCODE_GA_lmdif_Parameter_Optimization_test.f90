@@ -320,6 +320,9 @@ Data_Array=Runge_Kutta_Solution          ! Matrix Operation
 
 call comp_data_variance( )
 
+!call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
+!call MPI_FINALIZE(ierr)
+!stop ! debug only
 
 !--------------------------------------------------------------------------------
 
@@ -354,6 +357,9 @@ enddo ! i_tree
 
 
 
+!call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
+!call MPI_FINALIZE(ierr)
+!stop ! debug only
 !--------------------------------------------------------------------------------
 
 ! calculate the generation interval for printing the list of children
@@ -368,6 +374,9 @@ if( GP_child_print_interval == 0) then
     GP_child_print_interval = max( 1, n_GP_generations / 2 )
 endif
 
+!call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
+!call MPI_FINALIZE(ierr)
+!stop ! debug only
 
 call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
 
@@ -429,6 +438,9 @@ endif ! myid == 0
 
 call set_modified_indiv( )
 
+!call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
+!call MPI_FINALIZE(ierr)
+!stop ! debug only
 
 !---------------------------------------------------------------------------
 

@@ -66,6 +66,11 @@ call MPI_BCAST( n_node_functions, 1,    &
 call MPI_BCAST( user_input_random_seed, 1,    &
                 MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
 
+call MPI_BCAST( number_GA_child_prints, 1,    &
+                MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
+
+call MPI_BCAST( number_GP_child_prints, 1,    &
+                MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
 !-----------------------------------------------------------------
 
 call MPI_BCAST( L_GA_print, 1,    &

@@ -39,6 +39,8 @@ integer(kind=4) :: i_safe_max
 !integer(kind=4) :: kk
 !character(6) ::  flag
 
+character(1) ::  symbol
+
 !----------------------------------------------------------------------------------
 
 i_GP_Individual = n_GP_Elitists + n_GP_Asexual_Reproductions
@@ -216,11 +218,19 @@ do
     !   i_GP_Individual, &
     !   GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees,i_GP_Individual)
 
+
+    if( GP_Adult_Population_SSE( k_GP_Individual_Male(1) )  >   sse_ind )then
+        symbol = '-'
+    else
+        symbol = '+'
+    endif ! GP_Adult_Population_SSE( k_GP_Individual_Male(1) >= sse_ind
+
     write(GP_print_unit, &
-       '(A,1x,I4, 1x, A, 1x,E12.5, 1x, A, 1x, I4, 1x, A, 1x, E12.5)' ) &
+       '(A,1x,I4, 1x, A, 1x,E12.5, 1x, A, 1x, I4, 1x, A, 1x, E12.5,4x,A)' ) &
        'gptssr: i_GP_Indiv', i_GP_Individual, 'with SSE =', sse_ind, &
        ' replaced with k_GP_Indiv_Male(1)', k_GP_Individual_Male(1),  &
-       'with SSE =', GP_Adult_Population_SSE( k_GP_Individual_Male(1) )
+       'with SSE =', GP_Adult_Population_SSE( k_GP_Individual_Male(1) ), &
+       symbol
 
     !???! Do the genetic crossovers but only keep the solution
     !???! from one (the male) of the two (male and female) generated child tree
