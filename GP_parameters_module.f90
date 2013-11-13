@@ -140,8 +140,11 @@ integer(kind=4)  :: GP_child_print_interval
 
 ! this is the total number of child printouts for the entire run
 
-integer(kind=4),parameter :: number_GA_child_prints = 10 ! 20
-integer(kind=4),parameter :: number_GP_child_prints = 10 ! 20
+!integer(kind=4),parameter :: number_GA_child_prints = 10 ! 20
+!integer(kind=4),parameter :: number_GP_child_prints = 10 ! 20
+
+integer(kind=4) :: number_GA_child_prints ! = 10 ! 20
+integer(kind=4) :: number_GP_child_prints ! = 10 ! 20
 
 !-------------------------------------------------------------------
 

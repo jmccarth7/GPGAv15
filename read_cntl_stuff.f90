@@ -147,6 +147,8 @@ L_unit50_output = .FALSE.
 print_equations_flag = 0
 L_print_equations = .FALSE.
 
+number_GA_child_prints  = 10
+number_GP_child_prints  = 10 
 !---------------------------------------------------------------------
 
 rewind(cntl_unitnum)
@@ -788,6 +790,42 @@ do
 
 
 !--------------------------------------------------------------------
+
+
+! number_ga_child_prints  
+!    = number of times in GA process where special printout is printed
+
+
+    elseif( Aline(1:len('number_ga_child_prints')) == "number_ga_child_prints" .or.     &
+            Aline(1:len('number_ga_child_prints')) == "NUMBER_GA_CHILD_PRINTS" ) then
+
+        READ(Aline(len('number_ga_child_prints')+1:), * )  number_ga_child_prints
+
+        write(GP_print_unit,'(A,1x,I6)') &
+              'rcntl: number_ga_child_prints = ', number_ga_child_prints
+
+
+
+!--------------------------------------------------------------------
+
+
+
+! number_GP_child_prints  
+!    = number of times in GP process where special printout is printed
+
+
+    elseif( Aline(1:len('number_GP_child_prints')) == "number_gp_child_prints" .or.     &
+            Aline(1:len('number_GP_child_prints')) == "NUMBER_GP_CHILD_PRINTS" ) then
+
+        READ(Aline(len('number_GP_child_prints')+1:), * )  number_GP_child_prints
+
+        write(GP_print_unit,'(A,1x,I6)') &
+              'rcntl: number_GP_child_prints = ', number_GP_child_prints
+
+
+
+!--------------------------------------------------------------------
+
 
     else
 
