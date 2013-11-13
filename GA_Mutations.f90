@@ -25,7 +25,7 @@ integer(kind=4) :: n_mutated
 if( n_GA_Mutations < 1 ) return
 
 
-!if( L_ga_print )then 
+!if( L_ga_print )then
 !    write(GA_print_unit,'(//A,1x,I6/)') &
 !          'gam: n_GA_Mutations ', n_GA_Mutations
 !endif !  L_ga_print
@@ -53,7 +53,7 @@ do i_GA_Mutation=1,n_GA_Mutations
 
   !--------------------------------------------------------------------
 
-  !if( L_ga_print )then 
+  !if( L_ga_print )then
   !    write(GA_print_unit,'(A,1x,I6,1x,E15.7,1x,I6)') &
   !          'gam: i_GA_Mutation, dff, i_GA_Individual_mutation ', &
   !                i_GA_Mutation, dff, i_GA_Individual_mutation
@@ -62,7 +62,7 @@ do i_GA_Mutation=1,n_GA_Mutations
   !      &child_parameters(1:n_parameters, i_GA_Individual_mutation ) ', &
   !                        i_GA_Individual_mutation,  &
   !       child_parameters(1:n_parameters, i_GA_Individual_mutation)
-  !endif ! L_ga_print 
+  !endif ! L_ga_print
 
   !--------------------------------------------------------------------
 
@@ -74,11 +74,11 @@ do i_GA_Mutation=1,n_GA_Mutations
   i_Parameter_Mutation=1+int( dff*dble(n_parameters-1) )
   i_Parameter_Mutation = min( i_Parameter_Mutation , n_parameters )
 
-  !if( L_ga_print )then 
+  !if( L_ga_print )then
   !    write(GA_print_unit,'(A,1x,I6,1x,E15.7,1x,I6)') &
   !      'gam: i_GA_Mutation, dff, i_Parameter_Mutation     ', &
   !            i_GA_Mutation, dff, i_Parameter_Mutation
-  !endif ! L_ga_print 
+  !endif ! L_ga_print
 
   !--------------------------------------------------------------------
 
@@ -91,7 +91,7 @@ do i_GA_Mutation=1,n_GA_Mutations
 
   !----------------------------------------------------------------------------
 
-  !if( L_ga_print )then 
+  !if( L_ga_print )then
   !    write(GA_print_unit,'(A/I6,12(1x,E15.7))') &
   !      'gam: after ', &
   !      i_GA_Individual_mutation,  &
@@ -100,7 +100,7 @@ do i_GA_Mutation=1,n_GA_Mutations
   !      'gam: i_GA_Individual_Mutation, child_parameters(i_Parm_Mut, i_GA_Ind_Mut) ', &
   !            i_GA_Individual_Mutation, &
   !       child_parameters(i_Parameter_Mutation, i_GA_Individual_Mutation)
-  !endif ! L_ga_print 
+  !endif ! L_ga_print
 
   !--------------------------------------------------------------------
 
@@ -112,18 +112,18 @@ do i_GA_Mutation=1,n_GA_Mutations
   ! I don't think this is needed,
   ! since the individual_quality will be set to 1 later
 
-  individual_quality(i_GA_Individual_Mutation) = 1   
+  individual_quality(i_GA_Individual_Mutation) = 1
 
 
   n_mutated  = n_mutated  + 1
 
 enddo
 
-!if( L_ga_print )then 
+!if( L_ga_print )then
 !    write(GA_print_unit,'(A,1x,I6,1x,I10/)') &
 !      'gam: i_GA_generation, n_mutated ',  &
 !            i_GA_generation, n_mutated
-!endif ! L_ga_print 
+!endif ! L_ga_print
 
 return
 end subroutine GA_Mutations

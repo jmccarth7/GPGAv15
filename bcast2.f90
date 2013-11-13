@@ -25,8 +25,8 @@ implicit none
 
 integer :: message_len
 
-!real(kind=8) :: t1                                                                                                      
-!real(kind=8) :: t2 
+!real(kind=8) :: t1
+!real(kind=8) :: t2
 
 !----------------------------------------------------------------------------------------
 
@@ -37,18 +37,15 @@ integer :: message_len
 
 ! GP_Child_Population_Node_Type
 
-call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?                                                         
+call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
 
 
-!t1 = MPI_Wtime()
 
 
 
 message_len = n_GP_Individuals * n_Nodes * n_Trees
 call MPI_BCAST( GP_Child_Population_Node_Type, message_len,    &
                 MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
-
-!call mult_bcast( GP_Child_Population_Node_Type )
 
 !if( myid == 0 )then
 !    write(GP_print_unit,'(A,1x,I6)') &
@@ -60,26 +57,27 @@ call MPI_BCAST( GP_Child_Population_Node_Type, message_len,    &
 
 ! GP_Adult_Population_Node_Type
 
-call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?                                                         
+!call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
 
 message_len = n_GP_Individuals * n_Nodes * n_Trees
 call MPI_BCAST( GP_Adult_Population_Node_Type, message_len,    &
                 MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
 
 !---------------------------------------------------------------------
-
-call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?                                                         
-
-! Parent_Tree_Swap_Node_Type
-
-message_len = 2 * n_Nodes
-call MPI_BCAST( Parent_Tree_Swap_Node_Type, message_len,    &
-                MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
-
+!!
+!!! Parent_Tree_Swap_Node_Type
+!!
+!!!call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
+!!
+!!message_len = 2 * n_Nodes
+!!call MPI_BCAST( Parent_Tree_Swap_Node_Type, message_len,    &
+!!                MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
+!!
 !---------------------------------------------------------------------
 
 ! GP_Child_Individual_SSE
-call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?                                                         
+
+!call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
 
 call MPI_BCAST( GP_Child_Individual_SSE, n_GP_individuals,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
@@ -88,7 +86,8 @@ call MPI_BCAST( GP_Child_Individual_SSE, n_GP_individuals,    &
 
 ! GP_Adult_Individual_SSE
 
-call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?                                                         
+!call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
+
 call MPI_BCAST( GP_Adult_Individual_SSE, n_GP_individuals,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
@@ -98,16 +97,17 @@ call MPI_BCAST( GP_Adult_Individual_SSE, n_GP_individuals,    &
 
 ! GP_Integrated_Population_Ranked_Fitness
 
-call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?                                                         
+!call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
+
 call MPI_BCAST( GP_Integrated_Population_Ranked_Fitness, n_GP_individuals,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
 
 !---------------------------------------------------------------------
 
-
 ! GP_Population_Ranked_Fitness
-call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?                                                         
+
+!call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
 
 call MPI_BCAST( GP_Population_Ranked_Fitness, n_GP_individuals,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
@@ -116,14 +116,16 @@ call MPI_BCAST( GP_Population_Ranked_Fitness, n_GP_individuals,    &
 !---------------------------------------------------------------------
 
 ! Run_GP_Calculate_Fitness array
-call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?                                                         
+
+!call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
 
 call MPI_BCAST( Run_GP_Calculate_Fitness , n_GP_Individuals,    &
                 MPI_LOGICAL,  0, MPI_COMM_WORLD, ierr )
 
 
+!---------------------------------------------------------------------
 
-call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?                                                         
+call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
 
 
 return

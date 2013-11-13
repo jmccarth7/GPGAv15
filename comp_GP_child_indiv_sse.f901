@@ -91,7 +91,7 @@ enddo  ! i_node
 
 
 GP_Child_Individual_SSE(i_GP_Individual) = xcount
-GP_Child_Population_SSE(i_GP_Individual) = xcount
+!GP_Child_Population_SSE(i_GP_Individual) = xcount
 
 !---------------------------------------------------------------------------------
 
@@ -100,9 +100,9 @@ if( myid == 0 )then
     !'cgcsse:------------------------------------------------------------------------------'
 
     write(GP_print_unit,'(/A,2(1x,I6),1x,E15.7)') &
-          'cgcsse: i_GP_gen, i_GP_Indiv, GP_Child_Pop_SSE(i_GP_Indiv)  ', &
+          'cgcsse: i_GP_gen, i_GP_Indiv, GP_Child_Indiv_SSE(i_GP_Indiv)  ', &
                    i_GP_generation, i_GP_Individual, &
-                   GP_Child_Population_SSE(i_GP_Individual)
+                   GP_Child_Individual_SSE(i_GP_Individual)
 endif ! myid == 0
 
 !off GP_Child_Individual_SSE(i_GP_individual)=GA_Individual_Lowest_SSE  ! from the GA_lmdif routine output

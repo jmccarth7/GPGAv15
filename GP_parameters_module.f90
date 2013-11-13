@@ -9,34 +9,34 @@ implicit none
 
 ! if this value is non-zero, then the random number generator uses
 ! this instead of the system clock value
-! used for debugging the program so that multiple runs will have the same 
+! used for debugging the program so that multiple runs will have the same
 ! set of random numbers
 
-integer(kind=4) :: user_input_random_seed                                                          
+integer(kind=4) :: user_input_random_seed
 
 ! this value is the minimum number of parameters for a valid model
-integer(kind=4),parameter :: min_N_param = 2                                                                 
- 
+integer(kind=4),parameter :: min_N_param = 2
+
 integer(kind=4),parameter :: GP_print_unit = 6
 
 
 integer(kind=4),parameter :: GP_summary_output_unit = 40
 
 integer(kind=4),parameter :: unit_gp_out = 50
-integer(kind=4) ::  unit50_output_flag 
+!integer(kind=4) ::  unit50_output_flag
 logical ::   L_unit50_output
 
 integer(kind=4),parameter :: GP_log_unit = 80
-integer(kind=4) ::  GP_log_flag 
-logical ::   L_GP_log 
+!integer(kind=4) ::  GP_log_flag
+logical ::   L_GP_log
 
 
 integer(kind=4),parameter :: GP_output_unit = 30
-integer(kind=4) ::  GP_output_parameters_flag 
-logical ::          L_GP_output_parameters 
+!integer(kind=4) ::  GP_output_parameters_flag
+logical ::          L_GP_output_parameters
 
-integer(kind=4) ::  print_equations_flag
-logical ::   L_print_equations 
+!integer(kind=4) ::  print_equations_flag
+logical ::   L_print_equations
 
 integer(kind=4) :: n_GP_individuals
 
@@ -58,7 +58,7 @@ integer(kind=4) :: n_parameters
 !-------------------------------------------------------------------
 integer, parameter :: str_len = 500
 
-character(160) :: tree_node_string 
+character(160) :: tree_node_string
 character(3) :: node_element_string
 !-------------------------------------------------------------------
 
@@ -133,15 +133,15 @@ integer(kind=4) :: n_time_steps
 
 ! print if   mod( i_ga_generation, child_print_interval ) == 0
 
-integer(kind=4)           :: GA_child_print_interval
-integer(kind=4)           :: GP_child_print_interval
+integer(kind=4)  :: GA_child_print_interval
+integer(kind=4)  :: GP_child_print_interval
 
 
 
 ! this is the total number of child printouts for the entire run
 
-integer(kind=4),parameter :: number_GA_child_prints = 2 ! 20
-integer(kind=4),parameter :: number_GP_child_prints = 2 ! 20
+integer(kind=4),parameter :: number_GA_child_prints = 10 ! 20
+integer(kind=4),parameter :: number_GP_child_prints = 10 ! 20
 
 !-------------------------------------------------------------------
 
@@ -168,19 +168,19 @@ real(kind=8) ::  random_scale_fraction
 
 
 
-!--------------------------------------------------------------------                                                              
-                                                                                                                                   
-! table to store 2**level - 1  for use in RK integration                                                                           
-                                                                                                                                   
-integer, parameter :: max_level = 10                                                                                               
-integer, dimension(0:max_level) :: pow2_table                                                                                      
-                                                                                                                                   
-!--------------------------------------------------------------------                                                              
+!--------------------------------------------------------------------
+
+! table to store 2**level - 1  for use in RK integration
+
+integer, parameter :: max_level = 10
+integer, dimension(0:max_level) :: pow2_table
+
+!--------------------------------------------------------------------
 
 ! number of parameters for each GP individual
 
-integer, allocatable, dimension(:) :: GP_n_parms                                                                                                                                   
-logical :: GP_para_flag   
+integer, allocatable, dimension(:) :: GP_n_parms
+logical :: GP_para_flag
 
 
 end module GP_parameters_module

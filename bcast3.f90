@@ -28,8 +28,10 @@ integer :: buffer_length
 
 !-------------------------------------------------------------------------------
 
+! GP_Adult_Individual_SSE
 
-call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary? 
+
+call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
 
 !if( myid == 0 )then
 !    write(GP_print_unit,'(/A/(5(1x,E15.7)))') &
@@ -42,12 +44,16 @@ call MPI_BCAST( GP_Adult_Individual_SSE, n_GP_individuals,    &
 
 !------------------------------------------------------------------------------
 
+! GP_population_node_parameters
+
+
 !if( myid == 0 )then
 !    write(GP_print_unit,'(/A/(5(1x,E15.7)))') &
 !          '0: broadcast GP_population_node_parameters ',&
 !                        GP_population_node_parameters
 !endif ! myid == 0
-call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary? 
+
+!call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
 
 buffer_length = n_nodes * n_trees * n_GP_individuals
 
@@ -62,13 +68,17 @@ call MPI_BCAST( GP_population_node_parameters,  buffer_length,    &
 
 !------------------------------------------------------------------------------
 
+! GP_Population_Ranked_Fitness
+
 
 !if( myid == 0 )then
 !    write(GP_print_unit,'(/A/(5(1x,E15.7)))') &
 !          '0: broadcast GP_Population_Ranked_Fitness ',&
 !                        GP_Population_Ranked_Fitness
 !endif ! myid == 0
-call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary? 
+
+
+!call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
 
 call MPI_BCAST( GP_Population_Ranked_Fitness, n_GP_individuals,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
@@ -81,17 +91,23 @@ call MPI_BCAST( GP_Population_Ranked_Fitness, n_GP_individuals,    &
 
 !------------------------------------------------------------------------------
 
+! GP_Integrated_Population_Ranked_Fitness
+
+
 !if( myid == 0 )then
 !    write(GP_print_unit,'(/A/(5(1x,E15.7)))') &
 !          '0: broadcast GP_Integrated_Population_Ranked_Fitness ',&
 !                        GP_Integrated_Population_Ranked_Fitness
 !endif ! myid == 0
-call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary? 
+
+!call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
 
 call MPI_BCAST( GP_Integrated_Population_Ranked_Fitness, n_GP_individuals,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
-call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary? 
+!------------------------------------------------------------------------------
+
+call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
 
 
 return

@@ -25,16 +25,15 @@ character(str_len) ::  cff_string
 character(str_len) ::  out_string
 !character(str_len) ::  temp_string
 
-integer :: indx 
+integer :: indx
 integer :: ksafe
 integer :: i_code_equation
 integer :: j_code_equation
-integer :: i_tree              
+integer :: i_tree
 
 integer :: i_gen
-integer :: i_indiv 
+integer :: i_indiv
 
-!character(4), allocatable,  dimension( : , : )      ::  node_eval_type_string
 character(str_len),  dimension( n_trees )    ::  tree_string
 
 character(8000),  dimension( n_code_equations )    ::  fbio_string
@@ -61,8 +60,8 @@ fbio_string = ' '
 do  i_tree=1,n_trees
 
     call remove_string_blanks( tree_string( i_tree ), out_string )
-    tree_string( i_tree ) = trim( out_string ) 
-  
+    tree_string( i_tree ) = trim( out_string )
+
     write(GP_print_unit,'(A, 1x,I3,1x,A,2x,A)') &
           'cts: i_tree, tree_string  =', &
            i_tree, ':',  trim( tree_string(  i_tree ) )
@@ -74,7 +73,7 @@ write(GP_print_unit,'(A)') ' '
 !-----------------------------------------------------------------------------
 
 bioflo_string = ''
- 
+
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 !   Calculate the flow terms from the determined tree_value terms
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -84,13 +83,13 @@ i_tree=0
 do  i_code_equation=0,n_code_equations   ! source of material   ! orig
 
     do  j_code_equation=0,n_code_equations ! sink of material   ! orig
-  
+
         if( i_code_equation .ne. j_code_equation) then
-    
+
             i_tree=i_tree+1
-      
+
             ! 'dabs' forces flow of material in one direction
-      
+
             if( len(  trim( tree_string(i_tree) ) ) > 0 )then
 
                 bioflo_string(i_code_equation,j_code_equation) = &
@@ -98,34 +97,33 @@ do  i_code_equation=0,n_code_equations   ! source of material   ! orig
             else
 
                 bioflo_string(i_code_equation,j_code_equation) = &
-                                         trim( tree_string(i_tree) ) 
+                                         trim( tree_string(i_tree) )
 
-            endif !    len(  trim( tree_string(i_tree) ) ) > 0 
-      
+            endif !    len(  trim( tree_string(i_tree) ) ) > 0
+
+
             !write(GP_print_unit,'(A,3(1x,I3),":",2(2x, A,":" ))') &
             !'cts:1 i_tree, i_code_eq, j_code_eq, &
             !&tree_string, bioflo_str(i..,j..) ', &
             !        i_tree, i_code_equation, j_code_equation, &
             ! trim( tree_string(i_tree) ),  &
-            ! trim( bioflo_string(i_code_equation,j_code_equation) ) 
-
+            ! trim( bioflo_string(i_code_equation,j_code_equation) )
             !write(GP_print_unit,'(A,3(1x,I3),2x, A)') &
             !'cts:1 i_tree, i_code_equation, j_code_equation, tree_string ', &
             !       i_tree, i_code_equation, j_code_equation, &
             !       trim( tree_string(i_tree) )
-
             !write(GP_print_unit,'(A,3(1x,I3),2x, A)') &
             !'cts:1 i_tree, i_code_eq, j_code_eq, tree_string, bioflo_str(i..,j..) ', &
             !       i_tree, i_code_equation, j_code_equation, &
-            !       trim( bioflo_string(i_code_equation,j_code_equation) ) 
-    
+            !       trim( bioflo_string(i_code_equation,j_code_equation) )
+
         else
-    
+
             bioflo_string(i_code_equation,j_code_equation) = ''  ! never flow to/from same component
-    
+
         endif !   i_code_equation .ne. j_code_equation
 
-  
+
     enddo !  j_code_equation
 
 enddo !  i_code_equation
@@ -150,7 +148,7 @@ do  i_code_equation=0,n_code_equations   ! source of material
 
             !write(GP_print_unit,'(/A,1x,I3)')  'cts: i_code_equation = ', i_code_equation
             !write(GP_print_unit,'(A,1x,":",1x,A)')  'cts: fbio_string(i_code_eq) = ', &
-            !                      trim( fbio_string(i_code_equation) ) 
+            !                      trim( fbio_string(i_code_equation) )
             !write(GP_print_unit,'(A,2(1x,I3),1x,":",1x,A)')  'cts: i_code_eq, j_code_eq, &
             !                    &bioflo_string(i..,j..) ', &
             !                                     i_code_equation, j_code_equation, &
@@ -162,7 +160,7 @@ do  i_code_equation=0,n_code_equations   ! source of material
                 trim( fbio_string(i_code_equation) ) //  '-(' // &
                            trim( bioflo_string(i_code_equation,j_code_equation) ) // ')'
 
-            endif ! len( trim(  bioflo_string(i_code_equation,j_code_equation) ) ) > 0 
+            endif ! len( trim(  bioflo_string(i_code_equation,j_code_equation) ) ) > 0
 
         endif !   i_code_equation .gt. 0
 
@@ -171,11 +169,12 @@ do  i_code_equation=0,n_code_equations   ! source of material
             !write(GP_print_unit,'(/A,1x,I3)')  'cts: j_code_equation = ', j_code_equation
             !write(GP_print_unit,'(A,1x,":",1x,A)')  &
             !                   'cts: fbio_string(j_code_eq) = ', &
-            !                   trim( fbio_string(j_code_equation) ) 
+            !                   trim( fbio_string(j_code_equation) )
             !write(GP_print_unit,'(A,2(1x,I3),1x,":",1x,A)')  &
             !      'cts: i_code_eq, j_code_eq, bioflo_string(i..,j..) ', &
             !i_code_equation, j_code_equation, &
             !trim( bioflo_string(i_code_equation,j_code_equation) )
+
 
             if( len( trim(  bioflo_string(i_code_equation,j_code_equation) ) ) > 0 )then
 
@@ -188,12 +187,12 @@ do  i_code_equation=0,n_code_equations   ! source of material
                 else
 
                     fbio_string(j_code_equation) =  &
-                         trim( bioflo_string(i_code_equation,j_code_equation) ) 
+                         trim( bioflo_string(i_code_equation,j_code_equation) )
 
-                endif !   len( trim( fbio_string(j_code_equation) ) ) > 0 
+                endif !   len( trim( fbio_string(j_code_equation) ) ) > 0
 
 
-            endif ! len( trim(  bioflo_string(i_code_equation,j_code_equation) ) ) > 0 
+            endif ! len( trim(  bioflo_string(i_code_equation,j_code_equation) ) ) > 0
 
         endif !   j_code_equation .gt. 0
 
@@ -202,26 +201,27 @@ enddo !  i_code_equation
 
 
 !------------------------------------------------------------------------------------
+
 ! clean out the following artefacts from fbio_strings:
 
 !  +(0)
 !  -(0)
 
-do  i_code_equation = 1,n_code_equations   
+do  i_code_equation = 1,n_code_equations
 
-    !write(GP_print_unit,'(/A,1x,A)')  'cts: fbio_string(1) = ', trim( fbio_string(1) ) 
-    !call remove_string_blanks( trim( fbio_string(i_code_equation ) ), out_string ) 
+    !write(GP_print_unit,'(/A,1x,A)')  'cts: fbio_string(1) = ', trim( fbio_string(1) )
+    !call remove_string_blanks( trim( fbio_string(i_code_equation ) ), out_string )
     !fbio_string(i_code_equation) = trim( out_string )
 
     !----------------------------------------------------------------------------
     !write(GP_print_unit,'(/A,1x,I3)')  'cts:2 i_code_equation = ', i_code_equation
     !write(GP_print_unit,'(A,1x,A)')  'cts:2 fbio_string(i_code_eq) = ', &
-    !                      trim( fbio_string(i_code_equation) ) 
+    !                      trim( fbio_string(i_code_equation) )
 
-    ksafe = 0              
+    ksafe = 0
     plus_loop:&
-    do 
-        indx =  index( fbio_string(i_code_equation) , '+(0)' ) 
+    do
+        indx =  index( fbio_string(i_code_equation) , '+(0)' )
         if( indx == 0 ) exit plus_loop
 
         if( indx > 0 )then
@@ -240,12 +240,12 @@ do  i_code_equation = 1,n_code_equations
     !----------------------------------------------------------------------------
     !write(GP_print_unit,'(/A,1x,I3)')  'cts:2 i_code_equation = ', i_code_equation
     !write(GP_print_unit,'(A,1x,A)')  'cts:2 fbio_string(i_code_eq) = ', &
-    !                      trim( fbio_string(i_code_equation) ) 
+    !                      trim( fbio_string(i_code_equation) )
 
-    ksafe = 0              
+    ksafe = 0
     plus_loop2:&
-    do 
-        indx =  index( fbio_string(i_code_equation) , '+(0.0)' ) 
+    do
+        indx =  index( fbio_string(i_code_equation) , '+(0.0)' )
         if( indx == 0 ) exit plus_loop2
 
         if( indx > 0 )then
@@ -255,7 +255,7 @@ do  i_code_equation = 1,n_code_equations
             fbio_string(i_code_equation) = &
                  temp_string(1:indx-1) // trim( temp_string(indx+6:) )
 
-        endif !  index( fbio_string(i_code_equation) , '+(0)'
+        endif !  index( fbio_string(i_code_equation) , '+(0.0)'
 
         ksafe = ksafe + 1
         if( ksafe > 2000 ) exit plus_loop2
@@ -264,24 +264,24 @@ do  i_code_equation = 1,n_code_equations
     !----------------------------------------------------------------------------
     !write(GP_print_unit,'(/A,1x,I3)')  'cts:2 i_code_equation = ', i_code_equation
     !write(GP_print_unit,'(A,1x,A)')  'cts:2 fbio_string(i_code_eq) = ', &
-    !                      trim( fbio_string(i_code_equation) ) 
+    !                      trim( fbio_string(i_code_equation) )
 
-    ksafe = 0              
+    ksafe = 0
     minus_loop:&
     do
 
-        indx =  index( fbio_string(i_code_equation) , '-(0)' ) 
+        indx =  index( fbio_string(i_code_equation) , '-(0)' )
 
         if( indx == 0 ) exit minus_loop
 
         if( indx > 0 )then
 
             temp_string = &
-               trim( fbio_string(i_code_equation) ) 
+               trim( fbio_string(i_code_equation) )
             fbio_string(i_code_equation) = &
                temp_string(1:indx-1) // trim( temp_string(indx+4:) )
 
-        endif !  index( fbio_string(i_code_equation) , '+(0)'
+        endif !  index( fbio_string(i_code_equation) , '-(0)'
 
         ksafe = ksafe + 1
         if( ksafe > 2000 ) exit minus_loop
@@ -291,12 +291,12 @@ do  i_code_equation = 1,n_code_equations
     !----------------------------------------------------------------------------
     !write(GP_print_unit,'(/A,1x,I3)')  'cts:2 i_code_equation = ', i_code_equation
     !write(GP_print_unit,'(A,1x,A)')  'cts:2 fbio_string(i_code_eq) = ', &
-    !                      trim( fbio_string(i_code_equation) ) 
+    !                      trim( fbio_string(i_code_equation) )
 
-    ksafe = 0              
+    ksafe = 0
     minus_loop2:&
-    do 
-        indx =  index( fbio_string(i_code_equation) , '-(0.0)' ) 
+    do
+        indx =  index( fbio_string(i_code_equation) , '-(0.0)' )
         if( indx == 0 ) exit minus_loop2
 
         if( indx > 0 )then
@@ -306,7 +306,7 @@ do  i_code_equation = 1,n_code_equations
             fbio_string(i_code_equation) = &
                temp_string(1:indx-1) // trim( temp_string(indx+6:) )
 
-        endif !  index( fbio_string(i_code_equation) , '+(0)'
+        endif !  index( fbio_string(i_code_equation) , '-(0.0)'
 
         ksafe = ksafe + 1
         if( ksafe > 2000 ) exit minus_loop2
@@ -317,8 +317,8 @@ do  i_code_equation = 1,n_code_equations
 
     !write(GP_print_unit,'(/A,1x,I3)')  'cts:2 i_code_equation = ', i_code_equation
     !write(GP_print_unit,'(A,1x,A)')  'cts:2 fbio_string(i_code_eq) = ', &
-    !                      trim( fbio_string(i_code_equation) ) 
- 
+    !                      trim( fbio_string(i_code_equation) )
+
 enddo !  i_code_equation
 
 !----------------------------------------------------------------------------------------------
@@ -326,20 +326,20 @@ enddo !  i_code_equation
 ! remove blanks from fbio_strings
 
 
-do  i_code_equation = 1,n_code_equations   
+do  i_code_equation = 1,n_code_equations
 
-    !write(GP_print_unit,'(/A,1x,A)')  'cts:3 fbio_string(1) = ', trim( fbio_string(1) ) 
-    !write(GP_print_unit,'(A)')  'cts:3 call remove_string_blanks'                        
+    !write(GP_print_unit,'(/A,1x,A)')  'cts:3 fbio_string(1) = ', trim( fbio_string(1) )
+    !write(GP_print_unit,'(A)')  'cts:3 call remove_string_blanks'
 
     out_string2 = ' '
     call remove_string_blanks( &
-               trim( fbio_string(i_code_equation ) ), out_string2 ) 
+               trim( fbio_string(i_code_equation ) ), out_string2 )
     fbio_string(i_code_equation) = trim( out_string2 )
 
     !write(GP_print_unit,'(/A,1x,I3)')  'cts:3 i_code_equation = ', i_code_equation
     !write(GP_print_unit,'(A,1x,A)')  'cts:3 fbio_string(i_code_eq) = ', &
-    !                     trim( fbio_string(i_code_equation) ) 
- 
+    !                     trim( fbio_string(i_code_equation) )
+
 enddo !  i_code_equation
 
 !----------------------------------------------------------------------------------------------
@@ -348,20 +348,20 @@ enddo !  i_code_equation
 ! remove double parentheses from fbio_strings
 
 
-do  i_code_equation = 1,n_code_equations   
+do  i_code_equation = 1,n_code_equations
 
-    !write(GP_print_unit,'(/A,1x,A)')  'cts:3 fbio_string(1) = ', trim( fbio_string(1) ) 
-    !write(GP_print_unit,'(A)')  'cts:3 call remove_double_parens '                        
+    !write(GP_print_unit,'(/A,1x,A)')  'cts:3 fbio_string(1) = ', trim( fbio_string(1) )
+    !write(GP_print_unit,'(A)')  'cts:3 call remove_double_parens '
 
     out_string2 = ' '
     call remove_double_parens( &
-               trim( fbio_string(i_code_equation ) ), out_string2 ) 
+               trim( fbio_string(i_code_equation ) ), out_string2 )
     fbio_string(i_code_equation) = trim( out_string2 )
 
     !write(GP_print_unit,'(/A,1x,I3)')  'cts:3 i_code_equation = ', i_code_equation
     !write(GP_print_unit,'(A,1x,A)')  'cts:3 fbio_string(i_code_eq) = ', &
-    !                     trim( fbio_string(i_code_equation) ) 
- 
+    !                     trim( fbio_string(i_code_equation) )
+
 enddo !  i_code_equation
 
 
@@ -371,20 +371,20 @@ enddo !  i_code_equation
 ! change abs(0.0) to 0.0   in fbio_strings
 
 
-do  i_code_equation = 1,n_code_equations   
+do  i_code_equation = 1,n_code_equations
 
-    !write(GP_print_unit,'(/A,1x,A)')  'cts:3 fbio_string(1) = ', trim( fbio_string(1) ) 
-    !write(GP_print_unit,'(A)')  'cts:3 call remove_abs_zero'                        
+    !write(GP_print_unit,'(/A,1x,A)')  'cts:3 fbio_string(1) = ', trim( fbio_string(1) )
+    !write(GP_print_unit,'(A)')  'cts:3 call remove_abs_zero'
 
     out_string2 = ' '
     call remove_abs_zero( &
-               trim( fbio_string(i_code_equation ) ), out_string2 ) 
+               trim( fbio_string(i_code_equation ) ), out_string2 )
     fbio_string(i_code_equation) = trim( out_string2 )
 
     !write(GP_print_unit,'(/A,1x,I3)')  'cts:3 i_code_equation = ', i_code_equation
     !write(GP_print_unit,'(A,1x,A)')  'cts:3 fbio_string(i_code_eq) = ', &
-    !                     trim( fbio_string(i_code_equation) ) 
- 
+    !                     trim( fbio_string(i_code_equation) )
+
 enddo !  i_code_equation
 
 !----------------------------------------------------------------------------------------------
@@ -398,17 +398,17 @@ write(GP_print_unit,'(A)')  '============================== '
 write(6,'(A,2(1x,I10))') 'cts: i_gen, i_indiv', i_gen, i_indiv
 
 
-do  i_code_equation = 1,n_code_equations   
+do  i_code_equation = 1,n_code_equations
 
-    !write(GP_print_unit,'(/A,1x,A)')  'cts: fbio_string(1) = ', trim( fbio_string(1) ) 
-    !call remove_string_blanks( trim( fbio_string(i_code_equation ) ), out_string ) 
+    !write(GP_print_unit,'(/A,1x,A)')  'cts: fbio_string(1) = ', trim( fbio_string(1) )
+    !call remove_string_blanks( trim( fbio_string(i_code_equation ) ), out_string )
     !fbio_string(i_code_equation) = trim( out_string )
 
     write(GP_print_unit,'(/A,1x,I3)')  'cts: i_code_equation =', i_code_equation
     write(GP_print_unit,'(A,1x,A)')  'cts: fbio_string =', &
-                         trim( fbio_string(i_code_equation) ) 
+                         trim( fbio_string(i_code_equation) )
 
- 
+
 enddo !  i_code_equation
 
 
@@ -419,7 +419,7 @@ write(GP_print_unit,'(A)') ' '
 
 !write(GP_print_unit,'(/A/)')  'cts: call  parse_fbio_strings( fbio_string )'
 
-!call parse_fbio_strings( fbio_string, 4000 ) 
+!call parse_fbio_strings( fbio_string, 4000 )
 
 
 return

@@ -58,7 +58,7 @@ if(  icall  == 0  )then
     n_nodes = pow2_table( n_levels )  !  int(2**n_levels)-1
     !n_nodes = int(2**n_levels)-1
     !write(6,'(A,2(1x,I6))') 'initlv: int(2**n_levels)-1 , pow2_table( n_levels )   ', &
-    !                                 int(2**n_levels)-1 , pow2_table( n_levels )   
+    !                                 int(2**n_levels)-1 , pow2_table( n_levels )
 
     n_maximum_number_parameters = n_CODE_equations +  n_nodes
 

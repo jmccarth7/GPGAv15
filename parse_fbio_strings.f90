@@ -7,22 +7,16 @@ use Runge_Kutta_Variables_module
 
 implicit none
 
-!real(kind=8) :: cff
 
 
 character(4),parameter  ::  op_string = '+-/*'
 
-!character(str_len) ::  left_node_value_string
-!character(str_len) ::  right_node_value_string
-!character(str_len) ::  cff_string
-!character(str_len) ::  out_string
-!character(str_len) ::  temp_string
 
 integer, intent(in)  :: len_fbio_string
-integer :: j    
-integer :: j1    
-integer :: j2    
-integer :: indx 
+integer :: j
+integer :: j1
+integer :: j2
+integer :: indx
 integer :: ksafe
 integer :: len_work
 integer :: n_left_paren
@@ -31,7 +25,6 @@ integer :: i_code_equation
 
 integer,parameter :: ksafe_max = 50
 
-!character(str_len),  dimension( n_trees )    ::  tree_string
 
 character(len_fbio_string), dimension( n_code_equations ) ::  fbio_string
 character(len_fbio_string)                                ::  work_string
@@ -43,7 +36,7 @@ j2 = 0
 
 ! Syntax rules
 
-! 1) valid expressions   P/P  P*P  P-P   P+P  P/u  u/P  P+u u+P  P-u u-P  P*u u*P 
+! 1) valid expressions   P/P  P*P  P-P   P+P  P/u  u/P  P+u u+P  P-u u-P  P*u u*P
 
 ! 2) invalid expressions PP* PP+ Pu uP, etc.
 
@@ -51,9 +44,9 @@ work_string = ' '
 
 do  i_code_equation = 1, n_code_equations
 
- 
+
     work_string = ' '
-    work_string = trim( fbio_string( i_code_equation )  ) 
+    work_string = trim( fbio_string( i_code_equation )  )
 
     write(6,'(//A,1x,I6,1x,A/   A)') &
           'pfs:1 i_code_equation, fbio_string( i_code_equation )',&
@@ -70,8 +63,8 @@ do  i_code_equation = 1, n_code_equations
 
     !  count number of left and right parentheses
 
-    call count_parens( trim(work_string), 'L', n_left_paren  ) 
-    call count_parens( trim(work_string), 'R', n_right_paren ) 
+    call count_parens( trim(work_string), 'L', n_left_paren  )
+    call count_parens( trim(work_string), 'R', n_right_paren )
 
     write(6,'(A,2(1x,I10))') 'pfs: n_left_paren, n_right_paren',&
                                    n_left_paren, n_right_paren
@@ -85,16 +78,16 @@ do  i_code_equation = 1, n_code_equations
 
     !---------------------------------------------------------------------------
 
-    ! remove leading '+' or '-' 
+    ! remove leading '+' or '-'
 
-    len_work = len( trim( work_string ) )   
+    len_work = len( trim( work_string ) )
 
     !write(6,'(A,1x,I10)') 'pfs: len_work ', len_work
 
-    if(  work_string(1:1) == '+'  .or. &    
+    if(  work_string(1:1) == '+'  .or. &
          work_string(1:1) == '-'         )then
 
-         work_string(1:len_work-1)  = work_string(2:len_work) 
+         work_string(1:len_work-1)  = work_string(2:len_work)
          work_string(len_work:len_work)  = ' '
 
     endif ! work_string(1:1) == '+'...
@@ -105,13 +98,13 @@ do  i_code_equation = 1, n_code_equations
     !---------------------------------------------------------------------------
 
 
-    !  first convert +1.0 -1.0 1.0  +0.0  -0.0  0.0 to symbol 'u' 
+    !  first convert +1.0 -1.0 1.0  +0.0  -0.0  0.0 to symbol 'u'
 
-    len_work = len( trim( work_string ) )   
+    len_work = len( trim( work_string ) )
 
     !write(6,'(A,1x,I10)') 'pfs: len_work ', len_work
 
-    call reduce_constant( work_string ) 
+    call reduce_constant( work_string )
 
     !write(6,'(A,1x,I6,1x,A,1x,A)') 'pfs:1.3 i_code_equation, work_string ',&
     !                                 i_code_equation,':   ',  trim(work_string)
@@ -120,28 +113,28 @@ do  i_code_equation = 1, n_code_equations
 
     !---------------------------------------------------------------------------
 
-    !  first convert + * , etc. to a general operator, o 
+    !  first convert + * , etc. to a general operator, o
 
-    len_work = len( trim( work_string ) )   
+    len_work = len( trim( work_string ) )
 
     !write(6,'(A,1x,I10)') 'pfs: len_work ', len_work
 
     do  j = 1, len_work
 
-    
+
         if( index( op_string, work_string(j:j) ) > 0 )then
 
             if( j > 1 .and. j < len_work .and. &
                 ( work_string(j-1:j-1) /= ' ' .or. &
                   work_string(j+1:j+1) /= ' ' )     )then
 
-                work_string(j:j) = 'o' 
+                work_string(j:j) = 'o'
 
             endif ! j > 1 .and. j < len_work .and. ...
 
         endif ! index( op_string
 
-    enddo ! j 
+    enddo ! j
 
 
     !write(6,'(A,1x,I6,1x,A,1x,A)') 'pfs:2 i_code_equation, work_string ',&
@@ -152,11 +145,11 @@ do  i_code_equation = 1, n_code_equations
 
     !  make PoP Pou uou uoP become E
 
-    len_work = len( trim( work_string ) )   
+    len_work = len( trim( work_string ) )
 
     do  j = 1, len_work
 
-    
+
         if( work_string(j:j) == 'o' )then
 
             if( j > 1 )then
@@ -170,18 +163,18 @@ do  i_code_equation = 1, n_code_equations
             if(  work_string(j1:j1) == 'P' .or. &
                  work_string(j1:j1) == 'u'        )then
 
-                 if( work_string(j2:j2) == 'P' .or. & 
+                 if( work_string(j2:j2) == 'P' .or. &
                      work_string(j2:j2) == 'u'        )then
 
-                     work_string = work_string(1:j1-1)// 'E' // work_string(j2+1:len_work) 
-                     
+                     work_string = work_string(1:j1-1)// 'E' // work_string(j2+1:len_work)
+
                  endif ! work_string(j2:j2) == 'P' .or. ...
 
             endif !  work_string(j1:j1) == 'P' .or. ...
 
         endif ! work_string(j:j) == 'o'
 
-    enddo ! j 
+    enddo ! j
 
 
     !write(6,'(A,1x,I6,1x,A,1x,A)') 'pfs:3 i_code_equation, work_string ',&
@@ -192,16 +185,16 @@ do  i_code_equation = 1, n_code_equations
     ksafe = 0
 
     E_loop:&
-    do 
+    do
 
-        indx = index( work_string, 'o' ) 
+        indx = index( work_string, 'o' )
 
         if( indx <= 0 )exit E_loop
 
 
         ! make PoE  uoE  EoP  Eou   go to E
 
-        call reduce_expression( work_string ) 
+        call reduce_expression( work_string )
 
 
         !write(6,'(A,1x,I6,1x,A,1x,A)') 'pfs:4 i_code_equation, work_string ',&
@@ -212,7 +205,7 @@ do  i_code_equation = 1, n_code_equations
 
         !  make (E)  go to  E
 
-        call rm_exp_paren( work_string ) 
+        call rm_exp_paren( work_string )
 
 
         !write(6,'(A,1x,I6,1x,A,1x,A)') 'pfs:5 i_code_equation, work_string ',&
@@ -232,7 +225,7 @@ do  i_code_equation = 1, n_code_equations
 
 
 
-enddo ! i_code_equation 
+enddo ! i_code_equation
 
 
 return

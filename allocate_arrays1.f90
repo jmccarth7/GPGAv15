@@ -39,8 +39,6 @@ allocate( Data_Variance_inv( n_CODE_equations )  )
 allocate( Parent_Tree_Swap_Node_Type(n_Nodes,2) )
 allocate( Run_GP_Calculate_Fitness(n_GP_Individuals) )
 
-allocate( GA_Adult_Individual_SSE(n_GA_Individuals) )
-allocate( GA_Child_Individual_SSE(n_GA_Individuals) )
 
 allocate( GP_Adult_Individual_SSE(n_GP_Individuals) )
 allocate( GP_Child_Individual_SSE(n_GP_Individuals) )
@@ -67,16 +65,13 @@ allocate( GP_Integrated_Ranked_Fitness(n_GP_Individuals) )
 
 allocate( GP_Population_Ranked_Fitness(n_GP_Individuals) )
 
-!allocate( GP_Population_Parameter_Solution(n_GP_individuals,n_maximum_number_parameters) )
 allocate( GP_Population_Initial_Conditions(n_CODE_equations,n_GP_individuals) )
 
-allocate( GP_Population_Node_Type(n_nodes,n_trees,n_GP_individuals ) )
 allocate( GP_Adult_Population_Node_Type( n_Nodes,n_Trees, n_GP_Individuals ) )
 allocate( GP_Child_Population_Node_Type( n_Nodes,n_Trees, n_GP_Individuals ) )
 
 allocate( GP_Population_Node_Parameters( n_nodes,n_trees, n_GP_Individuals ) )
 
-!allocate( GP_Individual_Parameter_Solution(n_maximum_number_parameters) )
 allocate( GP_Individual_Initial_Conditions(n_CODE_equations) )
 allocate( GP_Individual_Node_Type(n_nodes,n_trees) )
 allocate( GP_Individual_Node_Parameters(n_nodes,n_trees) )
@@ -136,11 +131,9 @@ allocate( tree_value_string( n_trees ) )
 allocate( Node_Probability( n_levels ) )
 
 !>>>>>>>>>>>>>
-allocate( GP_Adult_Population_Parameter_Solution( 1:n_Maximum_Number_Parameters, 1:n_GP_Individuals) )
-allocate( GP_Child_Population_Parameter_Solution( 1:n_Maximum_Number_Parameters, 1:n_GP_Individuals ) )
 
 allocate( GP_Adult_Population_SSE( n_GP_Individuals  )  )
-allocate( GP_Child_Population_SSE( n_GP_Individuals  )  )
+!allocate( GP_Child_Population_SSE( n_GP_Individuals  )  )
 
 allocate( ppe(n_Maximum_Number_Parameters,n_GA_individuals )  )
 
@@ -150,9 +143,9 @@ allocate( ppe(n_Maximum_Number_Parameters,n_GA_individuals )  )
 
 !allocate( buffer2( n_maximum_number_parameters + 2 ) )
 !allocate( buffer2_recv( n_maximum_number_parameters + 2 ) )
-                                                                                              
-                                                                                              
- 
+
+
+
 !>>>>>>>>>>>>>
 
 
@@ -169,8 +162,6 @@ Data_Variance_inv  = 0.0d0
 Parent_Tree_Swap_Node_Type = 0
 Run_GP_Calculate_Fitness = .FALSE.
 
-GA_Adult_Individual_SSE = 0.0d0
-GA_Child_Individual_SSE = 0.0d0
 
 individual_SSE  = 0.0d0
 
@@ -192,12 +183,9 @@ GP_Individual_Ranked_Fitness = 0.0d0
 GP_Integrated_Ranked_Fitness = 0.0d0
 GP_Population_Ranked_Fitness = 0.0d0
 
-!GP_Population_Parameter_Solution = 0.0d0
 GP_Population_Initial_Conditions = 0.0d0
-GP_Population_Node_Type = -9999
 GP_Population_Node_Parameters = 0.0d0
 
-!GP_Individual_Parameter_Solution = 0.0d0
 GP_Individual_Initial_Conditions = 0.0d0
 GP_Individual_Node_Type = -9999
 GP_Individual_Node_Parameters = 0.0d0
@@ -252,10 +240,8 @@ tree_value_string = ' '
 
 Node_Probability = 0.0d0
 !>>>>>>>>>>>>>
-GP_Adult_Population_Parameter_Solution = 0.0d0
 GP_Adult_Population_SSE = 0.0d0
-GP_Child_Population_Parameter_Solution = 0.0d0
-GP_Child_Population_SSE = 0.0d0
+!GP_Child_Population_SSE = 0.0d0
 !>>>>>>>>>>>>>
 
 !buffer       = 0.0d0

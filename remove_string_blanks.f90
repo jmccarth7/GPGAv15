@@ -10,7 +10,6 @@ character(str_len) :: work_string
 
 integer :: len_in_string
 integer :: i
-!integer :: j
 
 !-------------------------------------------------------------------------
 
@@ -19,7 +18,7 @@ len_in_string = len( in_string )
 work_string = ''
 temp_string = trim( adjustl( in_string ) )
 
-!write(6,'(/A,1x,A)') 'temp_string = ', trim(temp_string) 
+!write(6,'(/A,1x,A)') 'temp_string = ', trim(temp_string)
 
 i = 1
 
@@ -28,7 +27,7 @@ i = 1
 
 do
 
-    !write(6,'(/A,2(1x,I5))') '--> i       ', i 
+    !write(6,'(/A,2(1x,I5))') '--> i       ', i
     !write(6,'(A,A )') 'temp_string ', trim( temp_string )
     !write(6,'(A )')   '            123456789.123456789.'
     !write(6,'(A,A/)') 'work_string ', trim( work_string )
@@ -39,9 +38,9 @@ do
 
     if( temp_string(i:i) /= ' ' )then
 
-        work_string = trim(work_string) // temp_string(i:i) 
+        work_string = trim(work_string) // temp_string(i:i)
 
-    endif !   temp_string(i:i) /= ' ' 
+    endif !   temp_string(i:i) /= ' '
 
 
     i = i + 1

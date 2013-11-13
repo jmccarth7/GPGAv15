@@ -45,27 +45,23 @@ i_GP_Individual_Mutation = 0
 
 i_GP_Individual = n_GP_Elitists + n_GP_Asexual_Reproductions + n_GP_Crossovers
 
-!if( myid == 0 )then
-!    write(GP_print_unit,'(/A,1x,I6)' ) &
-!      'gpmut: n_GP_Mutations ', n_GP_Mutations
-!    write(GP_print_unit,'(A,3(1x,I6))' ) &
-!      'gpmut: n_GP_Elitists, n_GP_Asexual_Reproductions, n_GP_Crossovers ', &
-!              n_GP_Elitists, n_GP_Asexual_Reproductions, n_GP_Crossovers
-!    write(GP_print_unit,'(A,1x,I6)' ) &
-!      'gpmut: start i_GP_individual  =  ', &
-!             n_GP_Elitists + n_GP_Asexual_Reproductions + n_GP_Crossovers +1
-!endif ! myid == 0
+write(GP_print_unit,'(/A,1x,I6)' ) &
+  'gpmut: n_GP_Mutations ', n_GP_Mutations
+write(GP_print_unit,'(A,3(1x,I6))' ) &
+  'gpmut: n_GP_Elitists, n_GP_Asexual_Reproductions, n_GP_Crossovers ', &
+          n_GP_Elitists, n_GP_Asexual_Reproductions, n_GP_Crossovers
+write(GP_print_unit,'(A,1x,I6)' ) &
+  'gpmut: start i_GP_individual  =  ', &
+         n_GP_Elitists + n_GP_Asexual_Reproductions + n_GP_Crossovers +1
 
 do  i_GP_Mutation = 1,n_GP_Mutations
 
 
     i_GP_Individual = i_GP_Individual+1
 
-    !if( myid == 0 )then
-    !    write(6,'(A,2(1x,I6))') &
-    !          'gpfmut: i_GP_Mutation, i_GP_individual ', &
-    !                   i_GP_Mutation, i_GP_individual
-    !endif ! myid == 0
+    !write(6,'(A,2(1x,I6))') &
+    !      'gpmut: i_GP_Mutation, i_GP_individual ', &
+    !               i_GP_Mutation, i_GP_individual
 
     !--------------------------------------------------------------------------
 
@@ -78,11 +74,9 @@ do  i_GP_Mutation = 1,n_GP_Mutations
     !    enddo ! i_tree
     !enddo ! i_node
 
-    !if( myid == 0 )then
-    !    write(6,'(A,2(1x,I6))') &
-    !          'gpfmut: i_GP_Mutation, i_GP_individual ', &
-    !                   i_GP_Mutation, i_GP_individual
-    !endif ! myid == 0
+    !write(6,'(A,2(1x,I6))') &
+    !      'gpmut: i_GP_Mutation, i_GP_individual ', &
+    !               i_GP_Mutation, i_GP_individual
 
     !--------------------------------------------------------------------------
 
@@ -94,7 +88,7 @@ do  i_GP_Mutation = 1,n_GP_Mutations
     ! randomly choose from the population pool
     ! randomly pick one of the n_GP_Individuals Adults to mutate
 
-    i_GP_Individual_Mutation = 1+int(cff*float(n_GP_Individuals)) 
+    i_GP_Individual_Mutation = 1+int(cff*float(n_GP_Individuals))
     i_GP_Individual_Mutation = min( i_GP_Individual_Mutation , n_GP_Individuals )
 
     ! choose sequentially from the best of the population
@@ -106,24 +100,9 @@ do  i_GP_Mutation = 1,n_GP_Mutations
     GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees, i_GP_Individual) =  &
         GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees, i_GP_Individual_Mutation)
 
-    !GP_Individual_Node_Type(1:n_Nodes,1:n_Trees)  =  &
-    !  GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees, i_GP_Individual)
-
-    !----------------------------------------------------------------------------------
-
-    !write(GP_print_unit,'(/A,2(1x,I6)/)') &
-    !      'gpm:1 n_trees, n_nodes ', n_trees, n_nodes
-    !do  i_Tree=1,n_Trees
-    !    do  i_Node=1,n_Nodes
-    !        if( GP_Individual_Node_Type(i_Node,i_Tree) /= -9999 )then
-    !            write(GP_print_unit,'(A,3(1x,I6))') &
-    !                  'gpm: i_tree, i_node, GP_Individual_Node_Type(i_Node,i_Tree)', &
-    !                        i_tree, i_node, GP_Individual_Node_Type(i_Node,i_Tree)
-    !        endif ! GP_Individual_Node_Type(i_Node,i_Tree) /= -9999
-    !    enddo ! i_node
-    !enddo ! i_tree
-    !write(GP_print_unit,'(/A)') ' '
-
+    write(6,'(A,2(1x,I6))') &
+          'gpmut: i_GP_Mutation, i_GP_individual ', &
+                   i_GP_Mutation, i_GP_individual
 
     !----------------------------------------------------------------------------------
 
@@ -241,11 +220,9 @@ do  i_GP_Mutation = 1,n_GP_Mutations
          GP_Child_Population_Node_Type(1, 1, i_GP_Individual) , i_Error)
 
     if( i_Error .eq. 1) then
-        if( myid == 0 )then
-            write(6,'(A)') 'gpm: Post-GP_Check_Error in GP_Mutation'
-            write(6,'(A,2(1x,I6)/)') 'gpm: i_GP_Individual, i_GP_Mutation, i_Error  ', &
-                                           i_GP_Individual, i_GP_Mutation, i_Error
-        endif ! myid == 0
+        write(6,'(A)') 'gpm: Post-GP_Check_Error in GP_Mutation'
+        write(6,'(A,2(1x,I6)/)') 'gpm: i_GP_Individual, i_GP_Mutation, i_Error  ', &
+                                       i_GP_Individual, i_GP_Mutation, i_Error
 
         call MPI_FINALIZE(ierr)
         stop 'GP_Mut check error'

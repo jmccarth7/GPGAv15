@@ -105,38 +105,38 @@ endif ! myid == 0
 
 
 ! jjm 20130417 >>>>>>>>>>>>>>>
-if( myid == 0) then
-
-    if( L_ga_print )then
-
-        !write(GA_print_unit,'(/A)') &
-        !              'GP_GA_opt: i_tree, i_node, GP_Indiv_Node_Param'
-        !do  i_tree=1,n_trees
-        !    do  i_node=1,n_nodes
-        !        !if( abs( GP_Individual_Node_Parameters(i_node,i_tree) ) > 1.0e-20 )then
-        !            !write(GA_print_unit,'(A,2(1x,I6),1x,E15.7)') &
-        !            !  'GP_GA_opt: i_tree, i_node, GP_Indiv_Node_Param', &
-        !            write(GA_print_unit,'(8x,2(1x,I6),1x,E15.7)') &
-        !                          i_tree, i_node, GP_Individual_Node_Parameters(i_node,i_tree)
-        !        !endif ! abs( GP_Indiv_Node_Param(i_node,i_tree) ) > 1.0e-20
-        !    enddo ! i_node
-        !enddo  ! i_tree
-
-        write(GA_print_unit,'(/A)') &
-                     'GP_GA_opt: i_tree, i_node, GP_Indiv_Node_Type'
-        do  i_tree=1,n_trees
-            do  i_node=1,n_nodes
-                if( GP_Individual_Node_Type(i_node,i_tree) > -9999 )then
-                    write(GA_print_unit,'(8x,3(1x,I6))') &
-                         i_tree, i_node, GP_Individual_Node_Type(i_node,i_tree)
-                endif ! GP_Indiv_Node_Type(i_node,i_tree) > -9999
-            enddo ! i_node
-        enddo  ! i_tree
-
-        write(GA_print_unit,'(A)')' '
-    endif ! L_ga_print
-
-endif ! myid == 0
+!if( myid == 0) then
+!
+!    if( L_ga_print )then
+!
+!        write(GA_print_unit,'(/A)') &
+!                      'GP_GA_opt: i_tree, i_node, GP_Indiv_Node_Param'
+!        do  i_tree=1,n_trees
+!            do  i_node=1,n_nodes
+!                !if( abs( GP_Individual_Node_Parameters(i_node,i_tree) ) > 1.0e-20 )then
+!                    !write(GA_print_unit,'(A,2(1x,I6),1x,E15.7)') &
+!                    !  'GP_GA_opt: i_tree, i_node, GP_Indiv_Node_Param', &
+!                    write(GA_print_unit,'(8x,2(1x,I6),1x,E15.7)') &
+!                                  i_tree, i_node, GP_Individual_Node_Parameters(i_node,i_tree)
+!                !endif ! abs( GP_Indiv_Node_Param(i_node,i_tree) ) > 1.0e-20
+!            enddo ! i_node
+!        enddo  ! i_tree
+!
+!        write(GA_print_unit,'(/A)') &
+!                     'GP_GA_opt: i_tree, i_node, GP_Indiv_Node_Type'
+!        do  i_tree=1,n_trees
+!            do  i_node=1,n_nodes
+!                if( GP_Individual_Node_Type(i_node,i_tree) > -9999 )then
+!                    write(GA_print_unit,'(8x,3(1x,I6))') &
+!                         i_tree, i_node, GP_Individual_Node_Type(i_node,i_tree)
+!                endif ! GP_Indiv_Node_Type(i_node,i_tree) > -9999
+!            enddo ! i_node
+!        enddo  ! i_tree
+!
+!        write(GA_print_unit,'(A)')' '
+!    endif ! L_ga_print
+!
+!endif ! myid == 0
 ! jjm 20130417 <<<<<<<<<<<<<<<
 
 
@@ -226,7 +226,7 @@ do  i_GA_generation=1,n_GA_Generations
                 'GP_GA_opt:1 child parameters at start of generation: ', &
                                                     i_GA_generation
                 do  i_GA_individual = 1, n_GA_Individuals
-                    write(GA_print_unit,'(I6,1x,10(1x,E15.7)/(10(1x,E15.7)))') &
+                    write(GA_print_unit,'(I6,10(1x,E14.7)/(10(1x,E14.7)))') &
                           i_GA_individual, &
                           ( child_parameters(jj,i_GA_individual), jj = 1,n_parameters )
                 enddo ! i_GA_individual
@@ -366,7 +366,7 @@ do  i_GA_generation=1,n_GA_Generations
             if( n_GA_rand_replaces > 0) then
 
                 if( L_ga_print )then
-                    write(GA_print_unit,'(/A,1x,I6)')&
+                    write(GA_print_unit,'(A,1x,I6)')&
                       'GP_GA_opt: call GA_rand_replace  n_GA_rand_replaces',  &
                                                         n_GA_rand_replaces
                 endif ! L_ga_print
@@ -442,7 +442,7 @@ do  i_GA_generation=1,n_GA_Generations
     call MPI_BCAST( Child_Parameters,  child_number,    &
                     MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
-    call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
+    !!!!call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
 
     !if( L_ga_print )then
     !    write(GA_print_unit,'(/A,2(1x,I10)/)') &
@@ -470,7 +470,8 @@ do  i_GA_generation=1,n_GA_Generations
 
     call MPI_BCAST( Run_GA_lmdif,  n_GA_Individuals,    &
                         MPI_LOGICAL, 0, MPI_COMM_WORLD, ierr )
-    call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
+
+    !!!!!call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
 
 
     !if( L_ga_print )then
@@ -488,11 +489,11 @@ do  i_GA_generation=1,n_GA_Generations
 
     if( myid == 0 )then
         if( L_ga_print )then
-            write(GA_print_unit,'(/A,1x,I6,1x,A,1x,I8/)') &
-              'GP_GA_opt: begin RK fcn integration i_GA_generation =', &
-                                                   i_GA_generation,    &
-                                           '       n_GA_individuals =', &
-                                                   n_GA_individuals
+            write(GA_print_unit,'(/A,1x,I4,1x,A,1x,I6/)') &
+              'GP_GA_opt: begin RK fcn integration   i_GA_generation =', &
+                                                     i_GA_generation,    &
+                                             '       n_GA_individuals =', &
+                                                     n_GA_individuals
         endif ! L_ga_print
     endif !  myid == 0
 
@@ -951,12 +952,12 @@ do  i_GA_generation=1,n_GA_Generations
 
     !-------------------------------------------------------------------
 
-    call MPI_BARRIER( MPI_COMM_WORLD, ierr )   ! necessary ?
+    !call MPI_BARRIER( MPI_COMM_WORLD, ierr )   ! necessary ?
 
     call MPI_BCAST( L_stop_run,  1,    &
                     MPI_LOGICAL, 0, MPI_COMM_WORLD, ierr )
 
-    call MPI_BARRIER( MPI_COMM_WORLD, ierr )   ! necessary ?
+    !!!!call MPI_BARRIER( MPI_COMM_WORLD, ierr )   ! necessary ?
 
     if( L_stop_run )then
 
@@ -1009,7 +1010,7 @@ call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
 if( myid == 0  )then
 
     if( L_ga_print )then
-        write(GA_print_unit,'(/A)') &
+        write(GA_print_unit,'(//A)') &
           'GP_GA_opt: call select_best_RK_lmdif_result '
     endif ! L_ga_print
 
@@ -1024,7 +1025,7 @@ if( myid == 0  )then
                 L_stop_run  )
 
     if( L_ga_print )then
-        write(GA_print_unit,'(A/)') &
+        write(GA_print_unit,'(/A/)') &
           'GP_GA_opt: aft call select_best_RK_lmdif_result '
     endif ! L_ga_print
 

@@ -5,6 +5,11 @@ subroutine GP_Clean_Tree_Nodes
 ! these nodes with a parameter setting and re-sets the terminals to that node as -9999
 ! This helps to maintain simplicity within the tree structures.
 
+! The action of GP_Clean_Tree_Nodes should not change the equations generated
+! from the tree, since it just replaces "const op const"  with "const"
+
+! So the Run_GP_Calculate_Fitness array is not changed 
+
 
 use GP_Parameters_module
 use GA_Parameters_module
@@ -25,7 +30,7 @@ integer(kind=4) :: i_Node_Right
 
 do  i_GP_Individual=1,n_GP_Individuals
 
-    !write(6,'(/A,1x,I6)') 'gpctn: i_GP_Individual ', i_GP_Individual 
+    !write(6,'(/A,1x,I6)') 'gpctn: i_GP_Individual ', i_GP_Individual
 
     do  i_Tree=1,n_Trees
 
@@ -43,7 +48,7 @@ do  i_GP_Individual=1,n_GP_Individuals
             ! calculated the function number at the right end of the upper level
 
             i_Function = pow2_table( i_level - 1 )    ! 2**(i_Level-1) - 1
-        
+
 
             !write(6,'(A,1x,I6)') 'gpctn: i_function ', i_function
 
@@ -55,13 +60,13 @@ do  i_GP_Individual=1,n_GP_Individuals
 
 
 
-            do  i_Node = pow2_table( i_level ) + 1 , pow2_table( i_level+1 ), 2 
+            do  i_Node = pow2_table( i_level ) + 1 , pow2_table( i_level+1 ), 2
             !do  i_Node = 2**i_Level, 2*(2**i_Level)-1, 2
 
 
                 i_Function=i_Function+1  ! sets the 'function' node's index
 
-                !write(6,'(A,1x,I6)') 'gpctn: i_node     ', i_node     
+                !write(6,'(A,1x,I6)') 'gpctn: i_node     ', i_node
                 !write(6,'(A,1x,I6)') 'gpctn: i_function ', i_function
 
 
@@ -72,11 +77,11 @@ do  i_GP_Individual=1,n_GP_Individuals
                                          ! i_node_right=(i_function*2)+1 would also work
 
                 !write(6,'(A,2(1x,I6))') &
-                ! 'gpctn: i_Function, GP_Adult_Population_Node_Type(i_Function, i_Tree,i_GP_Individual)',&
-                !         i_Function, GP_Adult_Population_Node_Type(i_Function, i_Tree,i_GP_Individual)
+                !'gpctn: i_Function, GP_Adult_Population_Node_Type(i_Function, i_Tree,i_GP_Individual)',&
+                !        i_Function, GP_Adult_Population_Node_Type(i_Function, i_Tree,i_GP_Individual)
                 !write(6,'(A,2(1x,I6))') &
-                ! 'gpctn: i_Node_Left, GP_Adult_Population_Node_Type(i_Node_Left, i_Tree,i_GP_Individual)',&
-                !         i_Node_Left, GP_Adult_Population_Node_Type(i_Node_Left, i_Tree,i_GP_Individual)
+                !'gpctn: i_Node_Left, GP_Adult_Population_Node_Type(i_Node_Left, i_Tree,i_GP_Individual)',&
+                !        i_Node_Left, GP_Adult_Population_Node_Type(i_Node_Left, i_Tree,i_GP_Individual)
                 !write(6,'(A,2(1x,I6))') &
                 !'gpctn: i_Node_Right, GP_Adult_Population_Node_Type(i_Node_Right, i_Tree,i_GP_Individual)',&
                 !        i_Node_Right, GP_Adult_Population_Node_Type(i_Node_Right, i_Tree,i_GP_Individual)
@@ -86,7 +91,7 @@ do  i_GP_Individual=1,n_GP_Individuals
                     GP_Adult_Population_Node_Type(i_Node_Left, i_Tree,i_GP_Individual) .eq. 0 .and. &
                     GP_Adult_Population_Node_Type(i_Node_Right,i_Tree,i_GP_Individual) .eq. 0 ) then
 
-                    !write(6,'(/A,2(1x,I6))') 'gpctn: i_GP_Individual, i_tree ', i_GP_Individual, i_tree 
+                    !write(6,'(/A,2(1x,I6))') 'gpctn: i_GP_Individual, i_tree ', i_GP_Individual, i_tree
                     !write(6,'(A,2(1x,I6))') &
                     ! 'gpctn: reset i_Function, GP_Adult_Population_Node_Type(i_Function, )    ',&
                     !       i_Function, GP_Adult_Population_Node_Type(i_Function, i_Tree,i_GP_Individual)

@@ -1,20 +1,20 @@
-subroutine calc_stats( n_array, array, mean, rms, std_dev ) 
+subroutine calc_stats( n_array, array, mean, rms, std_dev )
 
 implicit none
 
 integer, intent(in)   :: n_array
-real(kind=8),intent(in), dimension( n_array ) :: array 
+real(kind=8),intent(in), dimension( n_array ) :: array
 
-real(kind=8) :: mean  
-real(kind=8) :: rms   
+real(kind=8) :: mean
+real(kind=8) :: rms
 real(kind=8) :: std_dev
-real(kind=8) :: sum1      
-real(kind=8) :: sum2   
+real(kind=8) :: sum1
+real(kind=8) :: sum2
 
-integer :: i 
-integer :: icount 
+integer :: i
+integer :: icount
 
-real(kind=8) :: xcount 
+real(kind=8) :: xcount
 
 !-------------------------------------------------------------------
 
@@ -49,7 +49,7 @@ rms  = sum2 / xcount
 
 std_dev =  sqrt( abs( rms   - mean**2 ) )
 
-rms  = sqrt( rms ) 
+rms  = sqrt( rms )
 
 !write(6,'(A,3(1x,E15.7))') 'cs: xcount, sum1, sum2', &
 !                                xcount, sum1, sum2

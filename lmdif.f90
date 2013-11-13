@@ -271,7 +271,7 @@ subroutine lmdif ( fcn, m, n, x, fvec, ftol, xtol, gtol, maxfev, epsfcn, &
 
   nfev = nfev + n
 
-  !if( iunit > 0 ) write(6,'(A,1x,I10)') 'lmdif: aft call fdjac2  nfev = ', nfev 
+  !if( iunit > 0 ) write(6,'(A,1x,I10)') 'lmdif: aft call fdjac2  nfev = ', nfev
 
   if ( iflag < 0 ) then
     go to 300
@@ -404,7 +404,7 @@ subroutine lmdif ( fcn, m, n, x, fvec, ftol, xtol, gtol, maxfev, epsfcn, &
 
         nfev = nfev + 1
 
-        !if( iunit > 0 ) write(6,'(A,1x,I10)') 'lmdif:2 aft call fcn     nfev = ', nfev 
+        !if( iunit > 0 ) write(6,'(A,1x,I10)') 'lmdif:2 aft call fcn     nfev = ', nfev
 
         if ( iflag < 0 ) then
           go to 300
@@ -527,7 +527,7 @@ subroutine lmdif ( fcn, m, n, x, fvec, ftol, xtol, gtol, maxfev, epsfcn, &
 
 300 continue
 
-!if( iunit > 0 ) write(6,'(A,2(1x,I10))') 'lmdif:4 aft 300 iflag', iflag            
+!if( iunit > 0 ) write(6,'(A,2(1x,I10))') 'lmdif:4 aft 300 iflag', iflag
 !
 !  Termination, either normal or user imposed.
 !

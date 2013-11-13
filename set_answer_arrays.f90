@@ -23,8 +23,8 @@ implicit none
 
 
 integer(kind=4) :: i_GP_individual
-integer(kind=4) :: i_tree                
-integer(kind=4) :: i_node                
+integer(kind=4) :: i_tree
+integer(kind=4) :: i_node
 
 
 !------------------------------------------------------------------------------
@@ -46,18 +46,18 @@ GP_Node_Parameters_Answer = GP_Individual_Node_Parameters ! Matrix Operation
 
 if( L_unit50_output )then
 
-    ! calculate array for writing on unit50.txt ( unit_gp_out ) 
-    
+    ! calculate array for writing on unit50.txt ( unit_gp_out )
+
     do i_GP_Individual=1,n_GP_individuals
       GP_Node_Type_for_Plotting(1:n_Nodes,1:n_Trees,i_GP_Individual) = &
                             GP_Node_Type_Answer(1:n_Nodes,1:n_Trees)
     enddo
-    
+
     if( myid == 0 )then
         write(unit_gp_out) GP_Node_Type_for_Plotting
     endif ! myid == 0
-    
-endif ! L_unit50_output 
+
+endif ! L_unit50_output
 
 !--------------------------------------------------------------------------
 
@@ -66,7 +66,6 @@ endif ! L_unit50_output
 ! set the Initial Conditions, Model Parameters and Node Type
 ! for the 'twin experiment case'
 
-GP_Population_Node_Type( 1:n_nodes, 1:n_trees, 1 ) = GP_Individual_Node_Type(1:n_nodes,1:n_trees)
 
 
 ! initialize the biological data fields
@@ -79,28 +78,29 @@ Runge_Kutta_Node_Type=GP_Individual_Node_Type                ! Matrix Operation
 
 if( myid == 0 )then
     write(6,'(A)') ' '
-    write(6,'(A,2(1x,I6)/)') 'saa: n_trees, n_nodes ', n_trees, n_nodes
+    write(6,'(A,2(1x,I6))') 'saa: n_trees, n_nodes ', n_trees, n_nodes
 
+    write(6,'(/A)') &
+          'saa: i_tree  i_node  Runge_Kutta_Node_Parameters( i_node, i_tree ) '
     do  i_tree = 1, n_trees
         do  i_node = 1, n_nodes
 
             if( Runge_Kutta_Node_Type( i_node, i_tree ) == 0     )then
-                write(6,'(A,2(1x,I6),1x,E15.7)') &
-                  'saa: i_tree, i_node, Runge_Kutta_Node_Parameters( i_node, i_tree ) ', &
-                        i_tree, i_node, Runge_Kutta_Node_Parameters( i_node, i_tree )
+                write(6,'(2(1x,I8),6x,E15.7)') &
+                      i_tree, i_node, Runge_Kutta_Node_Parameters( i_node, i_tree )
             endif ! Runge_Kutta_Node_Type( i_node, i_tree ) == 0
 
         enddo ! i_node
     enddo ! i_tree
 
-    write(6,'(A)') ' '
+    write(6,'(//A)') &
+          'saa: i_tree  i_node  Runge_Kutta_Node_Type( i_node, i_tree ) '
 
     do  i_tree = 1, n_trees
         do  i_node = 1, n_nodes
 
             if( Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999 )then
-                write(6,'(A,3(1x,I6))') &
-                  'saa: i_tree, i_node, Runge_Kutta_Node_Type( i_node, i_tree ) ', &
+                write(6,'(3(1x,I8))') &
                         i_tree, i_node, Runge_Kutta_Node_Type( i_node, i_tree )
             endif ! Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999
 

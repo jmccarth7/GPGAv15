@@ -21,11 +21,11 @@ real(kind=8),allocatable, dimension(:,:) :: ppe  ! debug
 
 ! must be kept for re-evaluations of next generations
 !real(kind=8) :: GA_Adult_Individual_SSE(n_GA_Individuals)
-real(kind=8), allocatable, dimension(:) :: GA_Adult_Individual_SSE
+!!real(kind=8), allocatable, dimension(:) :: GA_Adult_Individual_SSE
 
 ! must be kept for re-evaluations of next generations
 !real(kind=8) :: GA_Child_Individual_SSE(n_GA_Individuals)
-real(kind=8), allocatable, dimension(:) :: GA_Child_Individual_SSE
+!!real(kind=8), allocatable, dimension(:) :: GA_Child_Individual_SSE
 
 ! needed to support sexual and "tournament-style" reproduction
 !real(kind=8) :: GA_Integrated_SSE(n_GA_Individuals)

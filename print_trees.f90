@@ -37,7 +37,7 @@ integer(kind=4) :: i_GP_individual
 !integer(kind=4) :: j_GP_individual
 integer(kind=4) :: i_Tree
 integer(kind=4) :: i_node
-integer(kind=4) :: i_gen 
+integer(kind=4) :: i_gen
 !integer(kind=4) :: jj
 
 !----------------------------------------------------------------------------------------
@@ -50,7 +50,7 @@ write(GP_print_unit,'(/A)')  &
 if( len( trim(tree_descrip) ) > 0 )write(GP_print_unit,'(A)')  tree_descrip
 
 !write(GP_print_unit,'(A,2(1x,I6))' ) &
-!     'pt: n_indiv_start, n_indiv_stop ', n_indiv_start, n_indiv_stop        
+!     'pt: n_indiv_start, n_indiv_stop ', n_indiv_start, n_indiv_stop
 
 do  i_GP_individual = n_indiv_start, n_indiv_stop
 
@@ -67,14 +67,14 @@ do  i_GP_individual = n_indiv_start, n_indiv_stop
     endif !  n_indiv_stop - n_indiv_start > 1
 
     write(GP_print_unit,'(A)') 'pt: i_tree                    nodes '
-    write(GP_print_unit,'(10x,A)') trim( tree_node_string ) 
+    write(GP_print_unit,'(10x,A)') trim( tree_node_string )
 
 
     do  i_Tree=1,n_Trees
 
         !write(GP_print_unit,'(I6,4x,20(1x,I2))' ) &
         !     i_tree, Tree_Type( 1:n_nodes, i_tree,i_GP_individual)
-        
+
 
         tree_type_string = '  '
         do  i_node = 1, n_nodes
@@ -111,8 +111,12 @@ do  i_GP_individual = n_indiv_start, n_indiv_stop
     ! print equations corresponding to the tree
 
     if( L_print_equations )then
-        call create_equations( i_gen, i_GP_individual, tree_type ) 
-    endif ! L_print_equations 
+
+        write(GP_print_unit,'(A)' ) &
+                 'pt: call create_equations '
+
+        call create_equations( i_gen, i_GP_individual, tree_type )
+    endif ! L_print_equations
 
     !---------------------------------------------------------------
 

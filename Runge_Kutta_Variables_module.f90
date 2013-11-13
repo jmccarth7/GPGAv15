@@ -44,12 +44,6 @@ real(kind=8),allocatable, dimension( : ) :: fbio
 !--------------------------------------------------------------------
 
 
-!real(kind=8) :: left_node_value,right_node_value
-!real(kind=8) :: cff
-
-!integer (kind=4) :: icff
-!integer (kind=4) :: iter
-
 real(kind=8),dimension(4) :: Runge_Kutta_Time_Step
 
 data Runge_Kutta_Time_Step /0.0D+0,0.5D+0,0.5D+0,1.0D+0/  ! fraction of R-K time step
