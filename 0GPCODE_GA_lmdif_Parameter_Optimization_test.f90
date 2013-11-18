@@ -1432,6 +1432,9 @@ do  i_GP_Generation=1,n_GP_Generations
         write(GP_print_unit,'(A,1x,I6)') &
           '0: aft call GP_calc_fitness i_GP_generation =', &
                                        i_GP_Generation
+        write(GP_print_unit,'(A,1x,I6)') &
+          '0: aft call GP_calc_fitness i_GP_best_parent =', &
+                                       i_GP_best_parent
         write(GP_print_unit,'(A/)')&
           '0:#################################################################'
 

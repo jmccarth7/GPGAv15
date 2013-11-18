@@ -139,42 +139,43 @@ write(GP_summary_output_unit, '(A,2(1x,I6))') '> ', i_GP_generation, i_GP_indiv
 
 
 !!--------------------------------------------------------------------------------
-!
-!
-!! print the node types if node /= -9999
-!
-!
+
+
+! print the node types if node /= -9999
+
+
 !!if( Lprint )then
-!!    write(GP_print_unit,'(A)')  &
-!!          'sgpi: i_GP_gen  i_GP_indiv   i_tree     i_node    GP_Indiv_Node_Type'
+    write(GP_print_unit,'(A)')  &
+          'sgpi: i_GP_gen  i_GP_indiv   i_tree     i_node    GP_Indiv_Node_Type'
 !!endif ! Lprint
-!
-!
-!do  i_Node=1,n_Nodes
-!    do  i_Tree=1,n_Trees
-!
-!        if( GP_Individual_Node_Type(i_Node,i_Tree) .ne. -9999         ) then
-!
-!            !if( Lprint )then
-!            !    write(GP_print_unit,'(2(1x,I10),3(1x,I10))') &
-!            !          i_GP_generation, i_GP_indiv,i_tree, i_node, &
-!            !          GP_Individual_Node_Type(i_Node,i_Tree)
-!            !endif ! Lprint
-!
-!            write(GP_summary_output_unit, '(2x,2(1x,I6),3(1x,I3))') &
-!                  i_GP_generation, i_GP_indiv,i_tree, i_node, &
-!                  GP_Individual_Node_Type(i_Node,i_Tree)
-!
-!        endif !   GP_Node_Type_Answer(i_Node,i_Tree) .ne. -9999 ...
-!
-!
-!    enddo ! i_tree
-!enddo  ! i_node
-!
-!
-!write(GP_summary_output_unit, '(A,2(1x,I6))') '> ', i_GP_generation, i_GP_indiv
-!
-!
+
+!  write node types to summary file
+
+do  i_Node=1,n_Nodes
+    do  i_Tree=1,n_Trees
+
+        if( GP_Individual_Node_Type(i_Node,i_Tree) .ne. -9999         ) then
+
+            !if( Lprint )then
+                write(GP_print_unit,'(2(1x,I10),3(1x,I10))') &
+                      i_GP_generation, i_GP_indiv,i_tree, i_node, &
+                      GP_Individual_Node_Type(i_Node,i_Tree)
+            !endif ! Lprint
+
+            write(GP_summary_output_unit, '(2x,2(1x,I6),3(1x,I3))') &
+                  i_GP_generation, i_GP_indiv,i_tree, i_node, &
+                  GP_Individual_Node_Type(i_Node,i_Tree)
+
+        endif !   GP_Node_Type_Answer(i_Node,i_Tree) .ne. -9999 ...
+
+
+    enddo ! i_tree
+enddo  ! i_node
+
+
+write(GP_summary_output_unit, '(A,2(1x,I6))') '> ', i_GP_generation, i_GP_indiv
+
+
 !!---------------------------------------------------------------------------------
 !
 !
@@ -258,7 +259,7 @@ endif ! Lprint
 !enddo  ! i_node
 
 
-write(GP_summary_output_unit, '(A,2(1x,I6))') '> ', i_GP_generation, i_GP_indiv
+!write(GP_summary_output_unit, '(A,2(1x,I6))') '> ', i_GP_generation, i_GP_indiv
 
 
 !---------------------------------------------------------------------------------

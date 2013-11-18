@@ -247,7 +247,7 @@ GP_population_node_parameters = GP_population_node_parameters_temp
 
 cff=0.0d0
 do  i_GP_Individual=1,n_GP_Individuals
-    if( GP_Child_Individual_SSE(i_GP_Individual) < 1.0e12 )then
+    if( GP_Child_Individual_SSE(i_GP_Individual) < 1.0e13 )then
         cff=cff+GP_Child_Individual_SSE(i_GP_Individual)
     endif
 enddo

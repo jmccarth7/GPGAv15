@@ -55,6 +55,9 @@ logical :: Lprint
 !---------------------------------------------------
 
 
+write(GP_print_unit,'(A,2(1x,I6))') 'sgpi2: at entry  i_GP_generation, i_GP_indiv ', &
+                                                      i_GP_generation, i_GP_indiv 
+
 !--------------------------------------------------------------------------------
 
 ! set Lprint so printing is done only under the conditions in the if-test
@@ -204,7 +207,7 @@ if( Lprint )then
 
     write(GP_print_unit,'(/A)') &
        'sgpi2: i_GP_gen  i_GP_indiv   i_tree     i_node   &
-       & GP_Adult_Pop_Node_Type GP_individual_node_parameters'
+       & GP_Adult_Pop_Node_Type  GP_individual_node_parameters'
 
     do  i_tree=1,n_trees
         do  i_node=1,n_nodes
@@ -229,8 +232,8 @@ endif ! Lprint
 
 
 !if( Lprint )then
-!    write(GP_print_unit,'(/A)')  &
-!          'sgpi2: i_GP_gen  i_GP_indiv   i_tree     i_node    GP_Indiv_Node_Type'
+    write(GP_print_unit,'(/A)')  &
+          'sgpi2: i_GP_gen  i_GP_indiv   i_tree     i_node    GP_Indiv_Node_Type'
 !endif ! Lprint
 
 
@@ -240,9 +243,9 @@ do  i_Node=1,n_Nodes
         if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv) .ne. -9999         ) then
 
             !if( Lprint )then
-            !    write(GP_print_unit,'(2(1x,I10),3(1x,I10))') &
-            !          i_GP_generation, i_GP_indiv,i_tree, i_node, &
-            !          GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv)
+                write(GP_print_unit,'(2(1x,I10),3(1x,I10))') &
+                      i_GP_generation, i_GP_indiv,i_tree, i_node, &
+                      GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv)
             !endif ! Lprint
 
             write(GP_summary_output_unit, '(2x,2(1x,I6),3(1x,I3))') &
