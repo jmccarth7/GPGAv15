@@ -65,6 +65,7 @@ real(kind=8), external :: indiv_fitness
 integer(kind=4) :: i_Tree
 integer(kind=4) :: i_Node
 
+integer(kind=4) :: ii
 integer(kind=4) :: jj
 integer(kind=4) :: i_parameter
 
@@ -422,24 +423,23 @@ if( GP_individual_ranked_fitness(i_GP_best_parent) <= &
         ! write information to a GP log file giving:
         ! generation, individual, SSE, individual_fitness
 
-        do  i_GP_best_parent=1,n_GP_individuals
+        do  ii=1,n_GP_individuals
 
             write(GP_log_unit) &
                   i_GP_generation, &
-                  i_GP_best_parent, &
-                  GP_child_individual_SSE(i_GP_best_parent), &
-                  GP_individual_ranked_fitness(i_GP_best_parent)
+                  ii, &
+                  GP_child_individual_SSE(ii), &
+                  GP_individual_ranked_fitness(ii)
 
-
-        enddo ! i_GP_best_parent
+        enddo ! ii
 
     endif ! L_GP_log
 
-    !if( myid == 0 )then
+    !-----------------------------------------------------------------------------------
 
 
-    ! this prints a summary of the initial conditions,
-    ! parameters,  and node types for this individual,
+    ! this prints a summary of the initial conditions, parameters, 
+    ! and node types for this individual,
     ! after being optimized in GPCODE*opt
     ! and writes the tree to the summary file
 
@@ -463,7 +463,7 @@ if( GP_individual_ranked_fitness(i_GP_best_parent) <= &
         'gpsbrl:1 aft i_GP_generation, i_GP_best_parent ', i_GP_generation, i_GP_best_parent
     write(GP_print_unit, '(/A//)')  ' '
 
-    !endif !  myid == 0
+    !-----------------------------------------------------------------------------------
 
 
 !--------------------------------------------------------------------------------------
@@ -598,7 +598,7 @@ else  ! lmdif is best
 
     endif ! L_GP_log
 
-    !if( myid == 0 )then
+    !-------------------------------------------------------------------------------------
 
 
     ! this prints a summary of the initial conditions,
@@ -606,17 +606,24 @@ else  ! lmdif is best
     ! after being optimized in GPCODE*opt
     ! and writes the tree to the summary file
 
-    !write(GP_print_unit, '(//A)') &
-    !    'gpsbrl:2 call summary_GP_indiv2'
+    write(GP_print_unit, '(//A)') &
+        'gpsbrl:2 call summary_GP_indiv2'
+    write(GP_print_unit, '(A,2(1x,I6))') &                                      
+        'gpsbrl:1 i_GP_generation, i_GP_best_parent ', &
+                  i_GP_generation, i_GP_best_parent                                                                        
+
     write(GP_print_unit, '(//A)')  ' '
 
     call summary_GP_indiv2( i_GP_generation, i_GP_best_parent )
 
-    !write(GP_print_unit, '(//A)') &
-    !    'gpsbrl:2 after call summary_GP_indiv2'
+    write(GP_print_unit, '(//A)') &
+        'gpsbrl:2 after call summary_GP_indiv2'
+    write(GP_print_unit, '(A,2(1x,I6))') &
+          'gpsbrl:2 aft i_GP_generation, i_GP_best_parent ', &
+                        i_GP_generation, i_GP_best_parent                                                                    
+
     write(GP_print_unit, '(//A)')  ' '
 
-    !endif !  myid == 0
 
     !----------------------------------------------------------------------------------
 
