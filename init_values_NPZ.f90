@@ -26,9 +26,10 @@ subroutine init_values_NPZ( icall  )
 
 use mpi
 use mpi_module
+use GP_model_parameters_module
 use GP_parameters_module
 use GP_variables_module
-use Runge_Kutta_Variables_module
+use GP_variables_module
 
 implicit none
 
@@ -68,8 +69,8 @@ if(  icall  == 0  )then
 
     n_trees=((n_CODE_equations+1)**2)-(n_CODE_equations+1)
 
-    n_nodes =  pow2_table( n_levels ) !  int(2**n_levels)-1
-    !n_nodes = int(2**n_levels)-1
+    n_nodes =  pow2_table( n_levels ) !  n_nodes = int(2**n_levels)-1
+
     !write(6,'(A,2(1x,I6))') 'initNPZ: int(2**n_levels)-1 , pow2_table( n_levels )   ', &
     !                                  int(2**n_levels)-1 , pow2_table( n_levels )
 
@@ -181,7 +182,8 @@ GP_Individual_Node_Type(9,5)=-1              ! [NO3]
 GP_Individual_Node_Type(1,8)=3               ! '*'
 GP_Individual_Node_Type(2,8)=-2              ! Phytoplankton
 GP_Individual_Node_Type(3,8)=0               ! Phytoplankton Mortality Rate; [d-1]
-GP_Individual_Node_Parameters(1,8)=0.1D+0    ! Phytoplankton Mortality Rate; [d-1]
+!orig GP_Individual_Node_Parameters(1,8)=0.1D+0    ! Phytoplankton Mortality Rate; [d-1]
+GP_Individual_Node_Parameters(3,8)=0.1D+0    ! Phytoplankton Mortality Rate; [d-1]
 
 GP_Individual_Node_Type(1,9)=3               ! '*'
 GP_Individual_Node_Type(2,9)=-3              ! Zooplankton

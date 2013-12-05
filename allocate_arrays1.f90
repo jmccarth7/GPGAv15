@@ -11,12 +11,13 @@ subroutine allocate_arrays1( )
 use mpi
 use mpi_module
 
+use GP_model_parameters_module
 use GP_Parameters_module
 use GA_Parameters_module
 use GP_Variables_module
 use GA_Variables_module
 use GP_Data_module
-use Runge_Kutta_Variables_module
+use GP_variables_module
 
 
 implicit none
@@ -112,13 +113,27 @@ allocate( RK_Node_Type(n_nodes,n_trees) )
 allocate( RK_Initial_Conditions(n_CODE_equations) )
 
 allocate( bioflo(0:n_CODE_equations,0:n_CODE_equations) )
+allocate( bioflo_map( 1:n_CODE_equations,1:n_Tracked_Resources ) )
 allocate( bioflo_string(0:n_CODE_equations,0:n_CODE_equations) )
-allocate( b_tmp(n_CODE_equations) )
+!allocate( b_tmp(n_CODE_equations) )
+allocate( b_tmp(n_variables)      )
+
+allocate( Numerical_CODE_Initial_Conditions( 1:n_CODE_equations ) ) 
+
+allocate( Numerical_CODE_Forcing_Functions( n_CODE_forcing ) )
+
+allocate( Numerical_CODE_Solution( 0:n_time_steps, n_CODE_equations ) )
+allocate( GP_Trees( n_Trees, n_Tracked_Resources) ) 
 
 ! Runge-Kutta specific work arrays
-allocate( kval(4,n_CODE_equations) )
-allocate( btmp(n_CODE_equations) )
-allocate( fbio(n_CODE_equations) )
+!allocate( kval(4,n_CODE_equations) )
+!allocate( btmp(n_CODE_equations) )
+!allocate( fbio(n_CODE_equations) )
+
+allocate( kval(4, n_variables) )
+allocate( btmp(n_variables) )
+allocate( fbio(n_variables) )
+
 
 
 allocate( node_type_string( n_nodes, n_trees ) )
@@ -223,7 +238,13 @@ RK_Node_Type = -9999
 RK_Initial_Conditions = 0.0d0
 
 bioflo = 0.0d0
+bioflo_map = 0.0d0
 b_tmp = 0.0d0
+Numerical_CODE_Initial_Conditions = 0.0d0
+Numerical_CODE_Forcing_Functions = 0.0d0
+Numerical_CODE_Solution = 0.0d0
+
+! GP_Trees = ?
 
 ! Runge-Kutta specific work arrays
 kval = 0.0d0

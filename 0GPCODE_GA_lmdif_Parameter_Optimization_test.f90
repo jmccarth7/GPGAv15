@@ -16,7 +16,10 @@ use GA_Parameters_module
 use GP_Variables_module
 use GA_Variables_module
 use GP_Data_module
-use Runge_Kutta_Variables_module
+use GP_variables_module
+
+use TreeNodeFactory
+use class_Tree_Node
 
 
 implicit none
@@ -51,14 +54,16 @@ real(kind=8), allocatable, dimension(:) :: output_array
 
 character(200) :: tree_descrip
 
-character(10),parameter :: program_version   = '201309.002'
-character(10),parameter :: modification_date = '20131101'
-character(50),parameter :: branch  =  'old_elite_parallel_lmdif'
-
+character(10),parameter :: program_version   = '201310.001'
+character(10),parameter :: modification_date = '20131203'
+character(50),parameter :: branch  =  'Pointer_Version_old_elite_parallel_lmdif'
+type(Tree_Node_Pointer) :: t1, t2, t3, t4
+type(Tree_Node_Pointer), dimension(:), allocatable :: T1_Nodes, T2_Nodes
+real(kind=8) :: r
+integer(kind=4) :: index, swap_node_1, swap_node_2
+ 
 
 !---------------------------------------------------------------------------------------
-
-GP_para_flag = .FALSE.
 
 
 !---------------------------------------
@@ -79,9 +84,20 @@ call MPI_COMM_SIZE(MPI_COMM_WORLD, numprocs, ierr)
 
 
 
+!------------------------------------------------------------------
+write(6,'(/A)') '0: call Global_Setup '
+
+call Global_Setup()
+
+write(6,'(A)') '0: aft call Global_Setup '
+
+GP_para_flag = .FALSE.
+
 Lprint_lmdif = .TRUE.
 
 !------------------------------------------------------------------
+
+
 
 if( myid == 0 )then
 
@@ -143,6 +159,7 @@ call bcast1()
 
 !------------------------------------------------------------------
 
+
 CALL RANDOM_SEED(size = n_seed)
 
 if( .not. allocated( seed ) )then
@@ -180,7 +197,7 @@ CALL RANDOM_SEED(PUT = seed)
 
 ! wait until everybody has the values
 
-call MPI_BARRIER( MPI_COMM_WORLD, ierr )
+call MPI_BARRIER( MPI_COMM_WORLD, ierr )   ! necessary ??
 
 !------------------------------------------------------------------
 
@@ -887,6 +904,14 @@ do  i_GP_Generation=1,n_GP_Generations
     !    !endif ! i_GP_generation == 1 .or. ...
     !
     !endif !  myid == 0
+
+    write(6,'(/A/)') '0: call Initialize_Model(.true.)'
+
+    call Initialize_Model(.true.)   ! In Setup.f90 file
+
+    !call Initialize_Model(.false.) ! In Setup.f90 file
+
+    write(6,'(/A/)') '0: aft call Initialize_Model(.true.)'
 
     !-----------------------------------------------------------------------------------------
     !>>>>>>>>>> jjm 20130417

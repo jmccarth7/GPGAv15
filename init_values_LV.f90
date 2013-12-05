@@ -29,9 +29,10 @@ subroutine init_values_LV( icall  )
 
 use mpi
 use mpi_module
+use GP_model_parameters_module
 use GP_parameters_module
 use GP_variables_module
-use Runge_Kutta_Variables_module
+use GP_variables_module
 
 implicit none
 
@@ -55,8 +56,8 @@ if(  icall  == 0  )then
 
     n_trees=((n_CODE_equations+1)**2)-(n_CODE_equations+1)
 
-    n_nodes = pow2_table( n_levels )  !  int(2**n_levels)-1
-    !n_nodes = int(2**n_levels)-1
+    n_nodes = pow2_table( n_levels )  ! n_nodes = int(2**n_levels)-1
+
     !write(6,'(A,2(1x,I6))') 'initlv: int(2**n_levels)-1 , pow2_table( n_levels )   ', &
     !                                 int(2**n_levels)-1 , pow2_table( n_levels )
 
@@ -72,9 +73,6 @@ if(  icall  == 0  )then
         write(GP_print_unit,'(A,1x,I6/)')'ivLV: n_maximum_number_parameters  ', &
                                                 n_maximum_number_parameters
     endif ! myid == 0
-
-
-
 
     return
 

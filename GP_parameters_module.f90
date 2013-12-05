@@ -155,6 +155,19 @@ logical :: L_bad_result
 
 
 
+integer (kind=4) :: ier_file,idummy,iwkid,iwktype  ! NCAR Graphics
+
+! orig !character (len=*), parameter :: output_dir = 'Output/'//Model_Name
+character (len=*), parameter :: output_dir = '.' 
+
+character (len=*), parameter :: input_dir = 'Input'
+
+
+!real (kind=4), dimension(0:n_Time_Steps) :: x_Time_Steps = 0.D+0 !The temporal unit depends on the delta time in days
+real (kind=4), dimension(:),allocatable :: x_Time_Steps 
+
+
+
 ! real (kind=8), parameter :: dt = 1.0D+0 /(24.0D+0*60.0D+0)   ! [d^-1; 1 minute time step]
 !!real (kind=8), parameter :: dt = 10.0D+0/(24.0D+0*60.0D+0)   ! [d^-1; 10 minute time step]
 

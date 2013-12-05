@@ -11,7 +11,7 @@ use GA_Parameters_module
 use GP_Variables_module
 use GA_Variables_module
 use GP_Data_module
-use Runge_Kutta_Variables_module
+use GP_variables_module
 
 implicit none
 

@@ -1,0 +1,548 @@
+! Tree Serialization routines
+! Written by Dave Coulter
+
+module class_Serialization_Visitor
+
+use class_Tree_Node
+use GP_variables_module
+
+
+    type, public, extends(Tree_Node_Visitor) :: Serialization_Visitor
+
+        integer (kind=4) :: node_id, file_handle
+        contains
+
+        procedure :: Visit_Tree_Node => Serialize_Visit_Tree_Node
+        procedure :: Visit_Tree_Math_Node => Serialize_Visit_Math_Node
+        procedure :: Visit_Tree_Parameter_Node => Serialize_Visit_Parameter_Node
+        procedure :: Visit_Tree_Variable_Node => Serialize_Visit_Variable_Node
+    end type Serialization_Visitor
+
+
+!------------------------------------------
+    contains
+!------------------------------------------
+
+
+    subroutine Serialize_Visit_Tree_Node(this, node)
+        class(Serialization_Visitor), intent(inout) :: this
+        class(Tree_Node), intent(in) :: node
+
+        write (6,*) 'Error: generic type Tree_Node encountered in tree traversal.'
+        stop 1 ! Stop program
+    end subroutine Serialize_Visit_Tree_Node
+
+
+    subroutine Serialize_Visit_Math_Node(this, node)
+        class(Serialization_Visitor), intent(inout) :: this
+        class(Tree_Node), intent(in) :: node
+        integer (kind=4) :: myid
+
+        myid = this%node_id
+        write(this%file_handle, *) node%node_type, myid, node%operation, 0, 0, &
+                                                       'math: type, id, operation, 0, 0'
+
+        ! Invoke on children
+        this%node_id = myid*2
+        call node%left%accept(this)
+
+        this%node_id = myid*2 + 1
+        call node%right%accept(this)
+    end subroutine Serialize_Visit_Math_Node
+
+
+    subroutine Serialize_Visit_Parameter_Node(this, node)
+        class(Serialization_Visitor), intent(inout) :: this
+        class(Tree_Node), intent(in) :: node
+
+        write(this%file_handle, *) node%node_type, this%node_id, 0, 0, node%param, &
+                                                       'parm: type, id, 0, 0, param'
+    end subroutine Serialize_Visit_Parameter_Node
+
+    subroutine Serialize_Visit_Variable_Node(this, node)
+        class(Serialization_Visitor), intent(inout) :: this
+        class(Tree_Node), intent(in) :: node
+
+        write(this%file_handle, *) node%node_type, this%node_id, 0, node%Variable_Index, 0, &
+                                                              'var: type, id, 0, var_index, 0'
+
+    end subroutine Serialize_Visit_Variable_Node
+
+end module class_Serialization_Visitor
+
+
+
+!==============================================================================================
+!==============================================================================================
+
+
+subroutine Serialize_Trees (Trees, num_Tracked_resources, Tree_count, io_dir )
+    use class_Tree_Node
+    use class_Serialization_Visitor
+    use Tree_Helper
+    implicit none
+
+    ! Input
+    character (len=*), intent(in) :: io_dir
+    integer (kind=4), intent(in) :: Tree_count, num_Tracked_resources
+    type(Tree_Node_Pointer), dimension(Tree_count, num_Tracked_resources), intent(in) :: Trees
+
+    ! Local variables
+    integer (kind=4) :: i, j, file_handle
+    type(Serialization_Visitor) :: serializer
+    character (len=80) :: file_name
+
+    !-------------------------------------------------------------------------------------------
+
+    file_handle = 10
+    serializer = Serialization_Visitor(1, file_handle)
+
+    do i = 1,Tree_count
+        do j = 1,num_Tracked_resources
+
+            if(  associated(Trees(i, j)%n) ) then
+
+                write(file_name, '(A,I0.0,A,I0.0)') io_dir//'/Trees/', i, '-', j
+                open(file_handle, FILE=trim(file_name)//'.tree')
+                write(file_handle, *) Trees(i, j)%n%node_count
+
+                ! Re-initialize serializer after every iteration
+                serializer%node_id = 1
+
+                ! Serialize trees
+                call Trees(i, j)%n%accept(serializer)
+
+                close(file_handle)
+            endif
+        enddo
+    enddo
+end subroutine
+
+!=========================================================================================
+
+subroutine Deserialize_Trees( Trees, num_Tracked_resources, Tree_count, io_dir )
+
+    use GP_variables_module
+    use class_Tree_Node
+    use Tree_Helper
+    use TreeNodeFactory
+
+    implicit none
+
+    ! Input
+    character (len=*), intent(in) :: io_dir
+    integer (kind=4):: Tree_count, num_Tracked_resources
+
+    ! Input/Output
+    type(Tree_Node_Pointer), dimension(Tree_count, num_Tracked_resources), intent(inout) :: Trees
+
+    ! Local variables
+
+    integer (kind=4):: node_count, file_handle, left, right, node_type
+    integer (kind=4):: node_id, node_operation, variable_index
+    integer (kind=4):: i, j, k, l
+
+    real(kind=8) :: parameter_value
+    type(Tree_Node_Pointer), dimension(:), allocatable :: Nodes
+    integer(kind=4), dimension(:), allocatable :: Node_IDs
+    character (len=80) :: file_name
+    logical :: file_exists
+    type(Tree_Node), pointer :: parent, root
+
+    !-------------------------------------------------------------------------------------------
+
+    file_handle = 10
+
+    do i = 1,Tree_count
+        do j = 1,num_Tracked_resources
+
+            Trees(i, j)%n => null()
+            write(file_name, '((A,I0.0,A,I0.0,A))') io_dir//'/Trees/', i, '-', j, '.tree'
+            INQUIRE(FILE=trim(file_name), EXIST=file_exists)
+
+            if( file_exists) then
+                open(file_handle, FILE=trim(file_name))
+                read (file_handle, *) node_count
+
+                ! Dimension arrays that will hold nodes and node ids
+                allocate(Nodes(node_count), Node_IDs(node_count))
+
+                do k = 1, node_count
+                    read(file_handle, *) node_type, node_id, node_operation, &
+                                         variable_index, parameter_value
+
+                    Nodes(k)%n => GetNodeFromRead(node_type, node_operation, &
+                                         variable_index, parameter_value)
+                    Node_IDs(k) = node_id
+                enddo
+                close(file_handle)
+
+                ! First node is always the root
+                root => Nodes(1)%n
+
+                ! At this point, we have a collection of nodes, but there are:
+
+                !   1) No associations between Math nodes and their children
+                !   2) No associations between Variable nodes, and
+                !      the array positions where their value will be calculated
+
+                ! Make the above two associations
+
+                do k = 1, node_count
+
+                    if( Nodes(k)%n%Node_Type .eq. MathNodeType) then
+
+                        ! Grab the parent & calculate children indexes
+                        parent => Nodes(k)%n
+                        left = Node_IDs(k)*2
+                        right = Node_IDs(k)*2+1
+
+                        ! Grab the children and associate
+                        do l = 1,node_count
+                            if( Node_IDs(l) .eq. left ) then
+                                parent%left => Nodes(l)%n
+                                Nodes(l)%n%parent => parent
+                                exit
+                            end if
+                        enddo
+                        do l = 1, node_count
+                            if( Node_IDs(l) .eq. right ) then
+                                parent%right => Nodes(l)%n
+                                Nodes(l)%n%parent => parent
+                                exit
+                            endif
+                        enddo
+
+                    else if( Nodes(k)%n%Node_Type .eq. VariableNodeType) then
+
+                        ! If the index is in the -5000 range, 
+                        ! this is a forcing function variable. 
+                        ! Associate it with the correct array
+
+                        if( Nodes(k)%n%variable_index < -5000) then
+                            Nodes(k)%n%variable => &
+                               Numerical_CODE_Forcing_Functions(abs(5000 + Nodes(k)%n%variable_index))
+                        else
+                            Nodes(k)%n%variable => btmp(abs(Nodes(k)%n%variable_index))
+                        endif
+
+                    endif
+
+                enddo
+
+                ! Finally, compute the node count for each node and 
+                ! assign the root node to the position in the Tree matrix
+
+                root%node_count = GetNodeCount(root)
+                Trees(i, j)%n => root
+
+                ! Clean up
+                deallocate(Nodes,Node_IDs)
+            endif
+        enddo
+    enddo
+end subroutine Deserialize_Trees
+
+
+
+!==============================================================================================
+
+
+
+subroutine Deserialize_Trees2( Trees, num_Tracked_resources, Tree_count )
+
+use GP_variables_module
+use class_Tree_Node
+use Tree_Helper
+use TreeNodeFactory
+
+implicit none
+
+! Input
+integer (kind=4):: Tree_count, num_Tracked_resources
+
+! Input/Output
+type(Tree_Node_Pointer), &
+     dimension(Tree_count, num_Tracked_resources), intent(inout) :: Trees
+
+! Local variables
+
+integer (kind=4):: node_count, left, right, node_type
+integer (kind=4):: node_id, node_operation, variable_index
+integer (kind=4):: i, j, k, l
+integer (kind=4):: inode
+integer (kind=4):: inodec
+integer (kind=4):: counter
+integer (kind=4):: n_inode 
+
+real(kind=8) :: parameter_value
+
+type(Tree_Node_Pointer), dimension(:), allocatable :: Nodes
+integer(kind=4), dimension(:), allocatable :: Node_IDs
+
+character (len=80) :: file_name
+logical :: file_exists
+type(Tree_Node), pointer :: parent, root
+
+
+!------------------------------------------------------------------------------------
+
+                                                                                                                                          
+! MathNodeType      = 1
+! VariableNodeType  = 2
+! ParameterNodeType = 3
+                                                                                                                                          
+
+
+write(6,'(//A,2(1x,I6))') 'DsT2: at entry n_nodes, tree_count ', n_nodes, tree_count
+write(6,'(A,2(1x,I6))')  'DsT2: num_Tracked_resources   ', num_Tracked_resources
+
+
+do i = 1, 11   ! Tree_count
+
+    write(6,'(//A,1x,I6,1x,A/)') 'DsT2: Tree  i = ', i, &
+       '#########################################################################' 
+
+
+    do j = 1,num_Tracked_resources
+
+        Trees(i, j)%n => null()
+
+
+        counter = 0
+        do  inodec = 1, n_nodes
+
+            if( GP_Individual_Node_Type( inodec, i ) > -9999 )then
+                counter =  counter + 1
+            endif ! GP_Individual_Node_Type...
+
+        enddo ! inodec
+
+        node_count = counter
+
+        write(6,'(//A,3(1x,I6))') 'DsT2: i, node_count, counter ', i, node_count, counter
+
+        if( node_count <= 0 )  exit  ! j loop 
+
+        ! Dimension arrays that will hold nodes and node ids
+
+        write(6,'(A,2(1x,I6))') 'DsT2: allocate Nodes, Node_IDS for tree = ', i
+
+        allocate(Nodes(node_count), Node_IDs(node_count))
+
+        counter = 0
+        N_inode = n_nodes
+        !if( i == 11 ) n_inode = 2
+        do  inode = 1,  n_inode !  n_nodes
+
+            node_type        = 0
+            node_id          = inode 
+            node_operation   = 0
+            variable_index   = 0
+            parameter_value  = 0.0D0
+
+
+            if( GP_Individual_Node_Type( inode, i ) > -9999 )then
+
+                write(6,'(//A,3(1x,I6))') &
+                      'DsT2: tree, inode, GP_Individual_Node_Type( inode, i ) ', &
+                                i, inode, GP_Individual_Node_Type( inode, i ) 
+
+                counter =  counter + 1
+
+                !!node_type =  GP_Individual_Node_Type( inode, i )
+                !node_id   =  counter
+
+
+                if( GP_Individual_Node_Type( inode, i ) == 0 )then
+                    parameter_value =  GP_Individual_Node_parameters( inode, i )
+                    node_type = ParameterNodeType
+
+                    !write(6,'(A,2(1x,I6),1x,E15.7)') &
+                    !      'DsT2: i, inode, GP_Individual_Node_parameters( inode, i )', &
+                    !             i, inode, GP_Individual_Node_parameters( inode, i )
+                    !write(6,'(A,2(1x,I6),1x,E15.7)') 'DsT2: i, inode,  parameter_value', &
+                    !                                        i, inode,  parameter_value
+
+                endif
+                if( GP_Individual_Node_Type( inode, i ) <  0 )then
+                    variable_index =  GP_Individual_Node_type( inode, i )
+                    node_type = VariableNodeType
+                endif
+                if( GP_Individual_Node_Type( inode, i ) >  0 )then
+                    node_operation =  GP_Individual_Node_type( inode, i )
+                    node_type = MathNodeType
+                endif
+
+
+
+                !write(6,'(/A,4(1x,I6))') 'DsT2: i, inode, node_id, node_type', &
+                !                                i, inode, node_id, node_type
+                !write(6,'(A,3(1x,I6))') 'DsT2: i, inode, GP_Individual_Node_Type( inode, i )', &
+                !                               i, inode, GP_Individual_Node_Type( inode, i )
+
+                !write(6,'(A,2(1x,I6),1x,E15.7)') 'DsT2: i, inode, parameter_value', &
+                !                                        i, inode, parameter_value  
+
+                !write(6,'(A,3(1x,I6))') 'DsT2: i, inode, variable_index ', &
+                !                               i, inode, variable_index   
+                !write(6,'(A,3(1x,I6))') 'DsT2: i, inode, node_operation ', &
+                !                               i, inode, node_operation
+
+
+                Nodes(counter)%n => GetNodeFromRead( node_type, node_operation, &
+                                                    variable_index, parameter_value)
+                Node_IDs(counter) = node_id
+
+
+                write(6,'(A,4(1x,I6))') 'DsT2: i, inode, counter, Nodes(counter)%n%variable_index', &
+                                               i, inode, counter, Nodes(counter)%n%variable_index
+                write(6,'(A,4(1x,I6))') 'DsT2: i, inode, counter, Nodes(counter)%n%operation     ', &
+                                               i, inode, counter, Nodes(counter)%n%operation
+                write(6,'(A,3(1x,I6),1x,E15.7)') &
+                                        'DsT2: i, inode, counter, Nodes(counter)%n%param         ', &
+                                               i, inode, counter, Nodes(counter)%n%param
+                write(6,'(A,4(1x,I6))') 'DsT2: i, inode, counter, Node_IDs(counter)              ', &
+                                               i, inode, counter, Node_IDs(counter)
+
+            endif ! GP_Individual_Node_Type...
+
+        enddo ! inode
+
+
+
+        ! First node is always the root
+        root => Nodes(1)%n
+
+        write(6,'(//A,2(1x,I8))') 'DsT2: tree i, root%node_type', i, root%node_type
+        write(6,'(A,2(1x,I8))')   'DsT2: tree i, node_count    ', i, node_count    
+
+
+
+        ! At this point, we have a collection of nodes, but there are:
+
+        !   1) No associations between Math nodes and their children
+        !   2) No associations between Variable nodes, and
+        !      the array positions where their value will be calculated
+
+        ! Make the above two associations
+
+        do  k = 1, node_count
+
+            !write(6,'(A,3(1x,I6))') 'DeT2: i, k, Nodes(k)%n%Node_Type ', &
+            !                               i, k, Nodes(k)%n%Node_Type
+
+            if( Nodes(k)%n%Node_Type .eq. MathNodeType ) then
+
+                ! Grab the parent & calculate children indexes
+
+                parent => Nodes(k)%n
+                left = Node_IDs(k)*2
+                right = Node_IDs(k)*2+1
+
+                !write(6,'(/A,3(1x,I6))') 'DeT2: i, k, MathNodeType ', &
+                !                                i, k, MathNodeType
+                !write(6,'(A,3(1x,I6))') 'DeT2: i, k, parent node type ', &
+                !                               i, k, parent%node_type
+                !write(6,'(A,4(1x,I6))') 'DeT2: i, k, left, right      ', &
+                !                               i, k, left, right     
+
+
+                ! Grab the children and associate
+
+                do  l = 1,node_count
+                    if( Node_IDs(l) .eq. left ) then
+
+                        !write(6,'(/A,3(1x,I6))') 'DeT2:left i, l, Node_IDs(l)', &
+                        !                                    i, l, Node_IDs(l)
+
+                        parent%left => Nodes(l)%n
+                        Nodes(l)%n%parent => parent
+                        exit
+                    end if
+                enddo
+
+                do  l = 1, node_count
+                    if( Node_IDs(l) .eq. right ) then
+
+                        !write(6,'(/A,3(1x,I6))') 'DeT2:right i, l, Node_IDs(l)  ', &
+                        !                                     i, l, Node_IDs(l)
+
+                        parent%right => Nodes(l)%n
+                        Nodes(l)%n%parent => parent
+                        exit
+                    endif
+
+                enddo
+
+
+            elseif( Nodes(k)%n%Node_Type .eq. VariableNodeType) then
+
+                ! If the index is in the -5000 range, 
+                ! this is a forcing function variable. 
+                ! Associate it with the correct array
+
+                !write(6,'(/A,3(1x,I6))') &
+                !      'DeT2: i, k, VariableNodeType ', i, k, VariableNodeType
+                !write(6,'(A,3(1x,I6))')  'DeT2: i, k, Nodes(k)%n%variable_index ', &
+                !                                i, k, Nodes(k)%n%variable_index 
+
+
+                if( Nodes(k)%n%variable_index < -5000) then
+
+                    Nodes(k)%n%variable => &
+                     Numerical_CODE_Forcing_Functions(  abs( 5000 + Nodes(k)%n%variable_index )  )
+
+                    !write(6,'(A,1x,E15.7)') &
+                    !   'DeT2: Numerical_CODE_Forcing_Functions(abs(5000 + Nodes(k)%n%variable_index)) ',&
+                    !          Numerical_CODE_Forcing_Functions(abs(5000 + Nodes(k)%n%variable_index)) 
+
+                else
+
+                    Nodes(k)%n%variable => btmp(  abs( Nodes(k)%n%variable_index )  )
+
+                    !write(6,'(A,3(1x,I6))') &
+                    !    'DeT2: i, k, Nodes(k)%n%variable_index', &
+                    !           i, k, Nodes(k)%n%variable_index
+
+                    !write(6,'(A,2(1x,I6),1x,E15.7)') &
+                    !    'DeT2: i, k, btmp(  abs( Nodes(k)%n%variable_index )  ) ', &
+                    !           i, k, btmp(  abs( Nodes(k)%n%variable_index )  ) 
+
+
+                endif
+
+            elseif( Nodes(k)%n%Node_Type .eq. ParameterNodeType) then
+
+                !write(6,'(/A,3(1x,I6))') &
+                !      'DeT2: i, k, ParameterNodeType    ', i, k, ParameterNodeType
+                !write(6,'(A,3(1x,I6))') &
+                !      'DeT2: i, k, Nodes(k)%n%Node_Type ', i, k, Nodes(k)%n%Node_Type
+
+            endif
+
+        enddo ! k
+
+
+        ! Finally, compute the node count for each node and
+        ! assign the root node to the position in the Tree matrix
+
+        root%node_count = GetNodeCount(root)
+
+        Trees(i, j)%n => root
+
+        write(6,'(A,2(1x,I6))') 'DsT2: i, root%node_count ', i, root%node_count                  
+
+
+
+        ! Clean up
+        deallocate(Nodes,Node_IDs)
+
+    enddo ! j
+
+    !write(6,'(A,1x,I6)') 'DsT2: aft J loop i =  ', i 
+
+enddo ! i 
+
+
+end subroutine Deserialize_Trees2

@@ -10,13 +10,14 @@ subroutine deallocate_arrays1( )
 
 use mpi
 use mpi_module
+use GP_model_parameters_module
 
 use GP_Parameters_module
 use GA_Parameters_module
 use GP_Variables_module
 use GA_Variables_module
 use GP_Data_module
-use Runge_Kutta_Variables_module
+use GP_variables_module
 
 
 implicit none
@@ -98,8 +99,17 @@ deallocate( Tree_Value )
 deallocate( Node_Eval_Type )
 
 deallocate( bioflo )
+deallocate( bioflo_map )
 deallocate( bioflo_string  )
 deallocate( b_tmp )
+
+deallocate( Numerical_CODE_Initial_Conditions )                                              
+deallocate( Numerical_CODE_Forcing_Functions  )
+deallocate( Numerical_CODE_Solution  ) 
+
+
+deallocate( GP_Trees )
+
 
 deallocate( kval )
 deallocate( btmp )

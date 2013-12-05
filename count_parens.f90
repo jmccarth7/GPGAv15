@@ -3,7 +3,7 @@ subroutine  count_parens( test_string, paren_type, n_parens )
 
 use GP_Parameters_module
 use GP_Variables_module
-use Runge_Kutta_Variables_module
+use GP_variables_module
 
 implicit none
 

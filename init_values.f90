@@ -3,9 +3,10 @@ subroutine init_values( icall  )
 
 use mpi
 use mpi_module
+use GP_model_parameters_module
 use GP_parameters_module
 use GP_variables_module
-use Runge_Kutta_Variables_module
+use GP_variables_module
 
 implicit none
 
