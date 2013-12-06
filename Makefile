@@ -182,7 +182,7 @@ GA_Tournament_Style_Sexual_Reproduction.o: GA_parameters_module.o \
 	GA_variables_module.o GP_data_module.o GP_parameters_module.o \
 	GP_variables_module.o
 GA_variables_module.o: GA_parameters_module.o
-Generate_Dot_Graph.o: Generate_Dot_Graph.o class_tree_node.o
+Generate_Dot_Graph.o:  class_tree_node.o
 GP_calc_diversity_index.o: GA_parameters_module.o GA_variables_module.o \
 	GP_parameters_module.o GP_variables_module.o
 GP_calc_fitness.o: GA_parameters_module.o GA_variables_module.o \
@@ -272,8 +272,8 @@ rm_exp_paren.o: GP_parameters_module.o GP_variables_module.o
 Runge_Kutta_Box_Model_new.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_model_parameters_module.o GP_parameters_module.o \
 	GP_variables_module.o Tree_Helper_module.o \
-	class_serialization_visitor.o class_tree_node.o mpi_module.o \
-	tree_node_factory_module.o
+	class_serialization_visitor.o class_tree_node.o tree_node_factory_module.o \
+	mpi_module.o
 select_best_RK_lmdif_result.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
 	clock_module.o mpi_module.o
@@ -281,7 +281,8 @@ serialize_trees.o: Tree_Helper_module.o class_serialization_visitor.o \
 	class_tree_node.o
 set_answer_arrays.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_model_parameters_module.o GP_parameters_module.o \
-	GP_variables_module.o mpi_module.o
+	GP_variables_module.o class_tree_node.o tree_node_factory_module.o \
+	mpi_module.o
 set_modified_indiv.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
 	mpi_module.o

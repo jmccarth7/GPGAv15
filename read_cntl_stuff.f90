@@ -118,6 +118,7 @@ ga_tournament_style = 0
 n_time_steps = 2500
 
 dt = 10.0d0 / 1440.0d0  ! 10 minutes
+Delta_Time_in_Days  = dt
 
 model = 'LV'
 
@@ -150,7 +151,7 @@ print_equations_flag = 0
 L_print_equations = .FALSE.
 
 number_GA_child_prints  = 10
-number_GP_child_prints  = 10 
+number_GP_child_prints  = 10
 !---------------------------------------------------------------------
 
 rewind(cntl_unitnum)
@@ -361,6 +362,13 @@ do
         write(GP_print_unit,'(A,1x,F10.4)') 'rcntl: dt (minutes) = ', dt_min
 
         dt = dt_min / 1440.0d0
+
+
+        Delta_Time_in_Days  = dt
+
+        write(6,'(/A,2(1x,E15.7))') 'rcntl: dt, Delta_Time_in_Days ',  &
+                                            dt, Delta_Time_in_Days
+
 
         write(GP_print_unit,'(A,1x,F10.4)') 'rcntl: dt (days)    = ', dt
 
@@ -794,7 +802,7 @@ do
 !--------------------------------------------------------------------
 
 
-! number_ga_child_prints  
+! number_ga_child_prints
 !    = number of times in GA process where special printout is printed
 
 
@@ -812,7 +820,7 @@ do
 
 
 
-! number_GP_child_prints  
+! number_GP_child_prints
 !    = number of times in GP process where special printout is printed
 
 

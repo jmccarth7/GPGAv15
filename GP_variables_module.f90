@@ -6,52 +6,53 @@ use class_Tree_Node
 
 implicit none
 
-                                                                                                                                          
-                                                                                                                                          
+
+
 !-----------------------------------------------------------------------------------------
 
-                                                                                                                                          
-!real(kind=8) :: Node_Values(n_nodes,n_trees)                                                                                             
-real(kind=8),allocatable, dimension( : , : ) :: Node_Values                                                                               
-                                                                                                                                          
-!real(kind=8) :: Tree_Evaluation(n_nodes,n_trees)                                                                                         
-real(kind=8),allocatable, dimension( : , : ) :: Tree_Evaluation                                                                           
-                                                                                                                                          
-                                                                                                                                          
-!real(kind=8) :: Tree_Value(n_trees)                                                                                                      
-real(kind=8),allocatable, dimension( : ) :: Tree_Value!integer(kind=4) :: Node_Eval_Type(n_nodes,n_trees)                                                                                       
 
-integer(kind=4),allocatable, dimension( : , : ) :: Node_Eval_Type                                                                         
-!                                                                                                                                         
-!real(kind=8) :: bioflo(0:n_CODE_equations,0:n_CODE_equations)                                                                            
-real(kind=8),allocatable, dimension( : , : ) :: bioflo                                                                                    
-                                                                                                                                          
-character(str_len),allocatable, dimension( : , : ) :: bioflo_string                                                                       
-                                                                                                                                          
-!real(kind=8) :: b_tmp(n_CODE_equations)                                                                                                  
-real(kind=8),allocatable, dimension( : ) :: b_tmp                                                                                         
-                                                                                                                                          
-                                                                                                                                          
-!--------------------------------------------------------------------                                                                     
-                                                                                                                                          
-! Runge-Kutta specific work arrays                                                                                                        
-                                                                                                                                          
-!real(kind=8) :: kval(4,n_CODE_equations)                                                                                                 
-real(kind=8),allocatable, dimension( : , : ) :: kval                                                                                      
-                                                                                                                                          
-!real(kind=8) :: btmp(n_CODE_equations)                                                                                                   
-real(kind=8),allocatable, target, dimension( : ) :: btmp                                                                                          
-                                                                                                                                          
-!real(kind=8) :: fbio(n_CODE_equations)                                                                                                   
-real(kind=8),allocatable, dimension( : ) :: fbio                                                                                          
-                                                                                                                                          
-                                                                                                                                          
-!--------------------------------------------------------------------                                                                     
-                                                                                                                                          
-                                                                                                                                          
-real(kind=8),dimension(4) :: Runge_Kutta_Time_Step                                                                                        
-                                                                                                                                          
-data Runge_Kutta_Time_Step /0.0D+0,0.5D+0,0.5D+0,1.0D+0/  ! fraction of R-K time step                             
+!real(kind=8) :: Node_Values(n_nodes,n_trees)
+real(kind=8),allocatable, dimension( : , : ) :: Node_Values
+
+!real(kind=8) :: Tree_Evaluation(n_nodes,n_trees)
+real(kind=8),allocatable, dimension( : , : ) :: Tree_Evaluation
+
+
+!real(kind=8) :: Tree_Value(n_trees)
+real(kind=8),allocatable, dimension( : ) :: Tree_Value
+
+!integer(kind=4) :: Node_Eval_Type(n_nodes,n_trees)
+integer(kind=4),allocatable, dimension( : , : ) :: Node_Eval_Type
+!
+!real(kind=8) :: bioflo(0:n_CODE_equations,0:n_CODE_equations)
+real(kind=8),allocatable, dimension( : , : ) :: bioflo
+
+character(str_len),allocatable, dimension( : , : ) :: bioflo_string
+
+!real(kind=8) :: b_tmp(n_CODE_equations)
+real(kind=8),allocatable, dimension( : ) :: b_tmp
+
+
+!--------------------------------------------------------------------
+
+! Runge-Kutta specific work arrays
+
+!real(kind=8) :: kval(4,n_CODE_equations)
+real(kind=8),allocatable, dimension( : , : ) :: kval
+
+!real(kind=8) :: btmp(n_CODE_equations)
+real(kind=8),allocatable, target, dimension( : ) :: btmp
+
+!real(kind=8) :: fbio(n_CODE_equations)
+real(kind=8),allocatable, dimension( : ) :: fbio
+
+
+!--------------------------------------------------------------------
+
+
+!real(kind=8),dimension(4) :: Runge_Kutta_Time_Step
+
+!data Runge_Kutta_Time_Step /0.0D+0,0.5D+0,0.5D+0,1.0D+0/  ! fraction of R-K time step
 
 !------------------------------------------------------------------------------------------
 
@@ -65,7 +66,7 @@ integer(kind=4) :: n_GP_Crossovers
 integer(kind=4) :: n_GP_Mutations
 
 
-                                                                                                                                          
+
 
 
 ! GP_Node_Parameters_Answer(n_Nodes,n_Trees)
@@ -175,9 +176,9 @@ real(kind=8),dimension(:,:), allocatable  :: Numerical_CODE_Solution
 real(kind=8),dimension(:),allocatable, target :: Numerical_CODE_Forcing_Functions
 
 ! In case of multiple tracked resources (e.g. a stack of bio-flow matrices)
-! resources might be shared or dependent between resources. bioflo_map allows 
+! resources might be shared or dependent between resources. bioflo_map allows
 ! separate resource trees to all use the same resource pool. See implementation
-! in Box_Model/Models/Moore/Setup. If there is only 1 tracked resource, then 
+! in Box_Model/Models/Moore/Setup. If there is only 1 tracked resource, then
 ! bioflo_map just takes on the indices of the tracked variables - See implementation
 ! in Box_Model/Models/Fasham/Setup.
 

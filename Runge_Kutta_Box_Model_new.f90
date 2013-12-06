@@ -35,6 +35,16 @@ implicit none
 !real(kind=8) :: bioflo(0:n_CODE_Equations,0:n_CODE_Equations) !Forcing function are not part of the bio-flow
 
 !!real(kind=8) :: Runge_Kutta_Time_Step(4) = (/ 0.0D+0, 0.5D+0, 0.5D+0, 1.0D+0 /)
+                                                                                                                                          
+!--------------------------------------------------------------------                                                                     
+                                                                                                                                          
+                                                                                                                                          
+real(kind=8),dimension(4) :: Runge_Kutta_Time_Step                                                                                        
+                                                                                                                                          
+data Runge_Kutta_Time_Step /0.0D+0,0.5D+0,0.5D+0,1.0D+0/  ! fraction of R-K time step                                                     
+                                                                                                                                          
+!------------------------------------------------------------------------------------------                                               
+  
 
 !Forcing functions are used in computations, so are included here for book keeping purposes
 !real(kind=8) :: b_tmp(n_Variables),fbio(n_Variables)
@@ -62,6 +72,18 @@ if( myid == 0 )then
     write(6,'(A,1x,I6/)') 'rkbm: n_Variables ', n_Variables
 endif ! myid == 0 
 
+if( delta_time_in_days <= 0.0d0 )then
+
+    if( myid == 0 )then
+        write(6,'(/A/)') 'rkbm: BAD VALUE for delta_time_in_days'    
+        write(6,'(A,1x,E20.10/)') 'rkbm: delta_time_in_days', delta_time_in_days
+    endif ! myid == 0 
+
+    call MPI_FINALIZE(ierr)
+    stop 'bad delta_time'
+    
+
+endif ! delta_time....
 !write(6,'(A,10(1x,E15.7)/ )') &
 !      'rkbm: before loop  btmp(:)', btmp(:)                                 
 
@@ -223,26 +245,28 @@ do  i_Time_Step = 1, n_Time_Steps
         
         do  i_Variable=1,n_Variables
 
-            kval(iter,i_Variable)=Delta_Time_in_Days*fbio(i_Variable)
+            kval(iter,i_Variable) = Delta_Time_in_Days * fbio(i_Variable)
 
             if( iter .eq. 1) then
 
-                btmp(i_Variable)=b_tmp(i_Variable)+(kval(iter,i_Variable)/2.0D+0)
+                btmp(i_Variable) = b_tmp(i_Variable) + (kval(iter,i_Variable)/2.0D+0)
 
             elseif( iter .eq. 2) then
 
-                btmp(i_Variable)=b_tmp(i_Variable)+(kval(iter,i_Variable)/2.0D+0)
+                btmp(i_Variable) = b_tmp(i_Variable) + (kval(iter,i_Variable)/2.0D+0)
 
             elseif( iter .eq. 3) then
 
-                btmp(i_Variable)=b_tmp(i_Variable)+kval(iter,i_Variable)
+                btmp(i_Variable) = b_tmp(i_Variable) + kval(iter,i_Variable)
 
             elseif( iter .eq. 4) then
 
-                cff=(kval(1,i_Variable)/6.0D+0)+(kval(2,i_Variable)/3.0D+0)+ & 
-                    (kval(3,i_Variable)/3.0D+0)+(kval(4,i_Variable)/6.0D+0)
+                cff = (kval(1,i_Variable)/6.0D+0) + &
+                      (kval(2,i_Variable)/3.0D+0) + & 
+                      (kval(3,i_Variable)/3.0D+0) + &
+                      (kval(4,i_Variable)/6.0D+0)
 
-                b_tmp(i_Variable)=b_tmp(i_Variable)+cff
+                b_tmp(i_Variable) = b_tmp(i_Variable)+cff
 
             endif
 

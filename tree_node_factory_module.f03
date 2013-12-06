@@ -56,8 +56,8 @@ module Tree_Node_Factory_module
 
         allocate(node)
 
-        write(6,'(A)') 'GMN: entry GetMathNode '
-        write(6,'(A,1x,I6)') 'GMN: OperationIndex ', OperationIndex
+        !write(6,'(A)') 'GMN: entry GetMathNode '
+        !write(6,'(A,1x,I6)') 'GMN: OperationIndex ', OperationIndex
 
         ! Constructor: Node Type, Node Count, Parent, 
         !              LeftChild, RightChild, 
@@ -76,7 +76,7 @@ module Tree_Node_Factory_module
         Left%parent => node
         Right%parent => node
 
-        write(6,'(A)') 'GMN: leave GetMathNode '
+        !write(6,'(A)') 'GMN: leave GetMathNode '
 
     end function
     
@@ -92,9 +92,9 @@ module Tree_Node_Factory_module
 
         !--------------------------------------------------------------------------
 
-        write(6,'(A)') 'GVN: entry GetVariableNode'
-        write(6,'(A,1x,E15.7)') 'GVN: VariableValue  ', VariableValue 
-        write(6,'(A,1x,I6   )') 'GVN: Variable_Index ', Variable_Index
+        !write(6,'(A)') 'GVN: entry GetVariableNode'
+        !write(6,'(A,1x,E15.7)') 'GVN: VariableValue  ', VariableValue 
+        !write(6,'(A,1x,I6   )') 'GVN: Variable_Index ', Variable_Index
 
         allocate(node)
 
@@ -110,7 +110,7 @@ module Tree_Node_Factory_module
                           Tree_Node_Get_Pointers,  &
                           Tree_Node_Swap)
 
-        write(6,'(A)') 'GVN: leave GetVariableNode'
+        !write(6,'(A)') 'GVN: leave GetVariableNode'
 
     end function
 
@@ -127,9 +127,9 @@ module Tree_Node_Factory_module
 
         allocate(node)
 
-        write(6,'(A)') 'GPN:  enter GetParameterNode '
+        !write(6,'(A)') 'GPN:  enter GetParameterNode '
 
-        write(6,'(A,1x,E15.7)') 'GPN:  ParameterValue ', ParameterValue
+        !write(6,'(A,1x,E15.7)') 'GPN:  ParameterValue ', ParameterValue
 
         ! Constructor: Node Type, Node Count, Parent, 
         !              LeftChild, RightChild, Operation, 
@@ -144,7 +144,7 @@ module Tree_Node_Factory_module
                           Tree_Node_Get_Pointers, &
                           Tree_Node_Swap)
 
-        write(6,'(A)') 'GPN:  leave GetParameterNode '
+        !write(6,'(A)') 'GPN:  leave GetParameterNode '
 
     end function
     
