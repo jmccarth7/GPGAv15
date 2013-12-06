@@ -4,7 +4,7 @@ subroutine Build_Trees( treeSlice )
 use mpi 
 use mpi_module
 
-use class_Tree_Node_module
+use class_Tree_Node
 
 use Tree_Node_Factory_module 
 use GP_variables_module

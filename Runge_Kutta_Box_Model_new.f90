@@ -12,7 +12,8 @@ subroutine Runge_Kutta_Box_Model( )
 use mpi
 use mpi_module
 
-use class_tree_node_module
+use class_Tree_Node
+use class_Serialization_Visitor
 use Tree_Helper_module
 use Tree_Node_Factory_module
 

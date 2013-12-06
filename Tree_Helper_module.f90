@@ -1,6 +1,6 @@
 module Tree_Helper_module
 
-use class_Tree_Node_module
+use class_Tree_Node
     
 
 contains

@@ -1,4 +1,4 @@
-module class_Tree_Node_module
+module class_Tree_Node
 
     use Math_Node_Functions
 
@@ -246,4 +246,4 @@ contains
     end subroutine Tree_Node_Swap
 
 
-end module class_Tree_Node_module
+end module class_Tree_Node

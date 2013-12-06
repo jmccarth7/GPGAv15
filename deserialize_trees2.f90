@@ -5,8 +5,8 @@ use mpi_module
 
 use GP_variables_module
 
-use class_Serialization_Visitor_module
-use class_Tree_Node_module
+use class_Serialization_Visitor
+use class_Tree_Node
 use Tree_Helper_module
 
 use Tree_Node_Factory_module

@@ -1,7 +1,7 @@
 subroutine Serialize_Trees (Trees, num_Tracked_resources, Tree_count, io_dir )
 
-    use class_Tree_Node_module
-    use class_Serialization_Visitor_module
+    use class_Tree_Node
+    use class_Serialization_Visitor
     use Tree_Helper_module
 
     implicit none

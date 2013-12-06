@@ -1,11 +1,10 @@
-PROG =	GPCODE_tree
+PROG =	GPCODE_Tree
 
 SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 allocate_arrays1.f90 \
 	bcast1.f90 bcast2.f90 bcast3.f90 build_trees.f90 calc_fitness.f90 \
-	calc_stats.f90 check_for_elite.f90 \
-	class_serialization_visitor_module.f90 clock_module.f90 \
-	combine_tree_strings.f90 comp_data_variance.f90 count_parens.f90 \
-	create_equations.f90 create_tree_node_string.f90 \
+	calc_stats.f90 check_for_elite.f90 class_serialization_visitor.f90 \
+	clock_module.f90 combine_tree_strings.f90 comp_data_variance.f90 \
+	count_parens.f90 create_equations.f90 create_tree_node_string.f90 \
 	deallocate_arrays1.f90 deserialize_trees.f90 deserialize_trees2.f90 \
 	enorm.f90 Fasham_Forcing.f90 fasham_variables_module.f90 fcn.f90 \
 	fdjac2.f90 fill_string_arrays.f90 \
@@ -36,13 +35,13 @@ SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 allocate_arrays1.f90 \
 	set_answer_arrays.f90 set_modified_indiv.f90 setup_run_fcn.f90 \
 	setup_run_lmdif.f90 setup_run_para_lmdif.f90 sort.f90 sse0_calc.f90 \
 	summary_GP_indiv.f90 summary_GP_indiv2.f90 swap_module.f90 \
-	Tree_Helper_module.f90 class_tree_node_module.f03 Global_Setup.f03 \
+	Tree_Helper_module.f90 class_tree_node.f03 Global_Setup.f03 \
 	Interfaces.f03 Math_Node_Functions.f03 tree_module.f03 \
 	tree_node_factory_module.f03
 
 OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o allocate_arrays1.o \
 	bcast1.o bcast2.o bcast3.o build_trees.o calc_fitness.o calc_stats.o \
-	check_for_elite.o class_serialization_visitor_module.o clock_module.o \
+	check_for_elite.o class_serialization_visitor.o clock_module.o \
 	combine_tree_strings.o comp_data_variance.o count_parens.o \
 	create_equations.o create_tree_node_string.o deallocate_arrays1.o \
 	deserialize_trees.o deserialize_trees2.o enorm.o Fasham_Forcing.o \
@@ -73,14 +72,14 @@ OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o allocate_arrays1.o \
 	serialize_trees.o set_answer_arrays.o set_modified_indiv.o \
 	setup_run_fcn.o setup_run_lmdif.o setup_run_para_lmdif.o sort.o \
 	sse0_calc.o summary_GP_indiv.o summary_GP_indiv2.o swap_module.o \
-	Tree_Helper_module.o class_tree_node_module.o Global_Setup.o \
-	Interfaces.o Math_Node_Functions.o tree_module.o \
-	tree_node_factory_module.o
+	Tree_Helper_module.o class_tree_node.o Global_Setup.o Interfaces.o \
+	Math_Node_Functions.o tree_module.o tree_node_factory_module.o
 
 LIBS =	
 
 CC = cc
 CFLAGS = -O
+
 #FC = gfortran
 #FFLAGS = -g
 #F90 = gfortran
@@ -102,7 +101,6 @@ LDFLAGS = -L/opt/openmpi-1.6/lib \
 LIBS= -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib \
       -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/usr/lib \
       -L/Developer/SDKs/MacOSX10.6.sdk/usr/lib
-
 
 
 all: $(PROG)
@@ -129,7 +127,7 @@ clean:
 
 0GPCODE_GA_lmdif_Parameter_Optimization_test.o: GA_parameters_module.o \
 	GA_variables_module.o GP_data_module.o GP_model_parameters_module.o \
-	GP_parameters_module.o GP_variables_module.o class_tree_node_module.o \
+	GP_parameters_module.o GP_variables_module.o class_tree_node.o \
 	mpi_module.o tree_node_factory_module.o
 allocate_arrays1.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_model_parameters_module.o GP_parameters_module.o \
@@ -140,14 +138,13 @@ bcast2.o: GA_parameters_module.o GA_variables_module.o GP_data_module.o \
 	GP_parameters_module.o GP_variables_module.o mpi_module.o
 bcast3.o: GA_parameters_module.o GA_variables_module.o GP_data_module.o \
 	GP_parameters_module.o GP_variables_module.o mpi_module.o
-build_trees.o: GP_variables_module.o Interfaces.o class_tree_node_module.o \
-	fasham_variables_module.o mpi_module.o tree_node_factory_module.o
+build_trees.o:  class_tree_node.o  tree_node_factory_module.o GP_variables_module.o Interfaces.o \
+	fasham_variables_module.o  mpi_module.o 
 calc_fitness.o: GA_parameters_module.o GA_variables_module.o \
 	GP_parameters_module.o GP_variables_module.o mpi_module.o
 check_for_elite.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o
-class_serialization_visitor_module.o: GP_variables_module.o \
-	class_tree_node_module.o
+class_serialization_visitor.o: GP_variables_module.o class_tree_node.o
 combine_tree_strings.o: GP_model_parameters_module.o GP_parameters_module.o \
 	GP_variables_module.o
 comp_data_variance.o: GA_parameters_module.o GA_variables_module.o \
@@ -162,10 +159,10 @@ deallocate_arrays1.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_model_parameters_module.o GP_parameters_module.o \
 	GP_variables_module.o mpi_module.o
 deserialize_trees.o: GP_variables_module.o Tree_Helper_module.o \
-	class_tree_node_module.o tree_node_factory_module.o
+	class_tree_node.o tree_node_factory_module.o
 deserialize_trees2.o: GP_variables_module.o Tree_Helper_module.o \
-	class_serialization_visitor_module.o class_tree_node_module.o \
-	mpi_module.o tree_node_factory_module.o
+	class_serialization_visitor.o class_tree_node.o mpi_module.o \
+	tree_node_factory_module.o
 Fasham_Forcing.o: GP_variables_module.o fasham_variables_module.o
 fcn.o: GA_parameters_module.o GP_data_module.o GP_parameters_module.o \
 	GP_variables_module.o mpi_module.o
@@ -185,7 +182,7 @@ GA_Tournament_Style_Sexual_Reproduction.o: GA_parameters_module.o \
 	GA_variables_module.o GP_data_module.o GP_parameters_module.o \
 	GP_variables_module.o
 GA_variables_module.o: GA_parameters_module.o
-Generate_Dot_Graph.o: Generate_Dot_Graph.o class_tree_node_module.o
+Generate_Dot_Graph.o: Generate_Dot_Graph.o class_tree_node.o
 GP_calc_diversity_index.o: GA_parameters_module.o GA_variables_module.o \
 	GP_parameters_module.o GP_variables_module.o
 GP_calc_fitness.o: GA_parameters_module.o GA_variables_module.o \
@@ -222,7 +219,7 @@ GP_Tree_Build_single.o: GA_parameters_module.o GA_variables_module.o \
 GP_Tree_Swap.o: GA_parameters_module.o GA_variables_module.o \
 	GP_parameters_module.o GP_variables_module.o mpi_module.o
 GP_variables_module.o: GP_model_parameters_module.o GP_parameters_module.o \
-	class_tree_node_module.o
+	class_tree_node.o
 GPCODE_GA_lmdif_Parameter_Optimization.o: GA_parameters_module.o \
 	GA_variables_module.o GP_data_module.o GP_parameters_module.o \
 	GP_variables_module.o clock_module.o mpi_module.o
@@ -274,13 +271,14 @@ RKBM.o: GP_parameters_module.o GP_variables_module.o
 rm_exp_paren.o: GP_parameters_module.o GP_variables_module.o
 Runge_Kutta_Box_Model_new.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_model_parameters_module.o GP_parameters_module.o \
-	GP_variables_module.o Tree_Helper_module.o class_tree_node_module.o \
-	mpi_module.o tree_node_factory_module.o
+	GP_variables_module.o Tree_Helper_module.o \
+	class_serialization_visitor.o class_tree_node.o mpi_module.o \
+	tree_node_factory_module.o
 select_best_RK_lmdif_result.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
 	clock_module.o mpi_module.o
-serialize_trees.o: Tree_Helper_module.o class_serialization_visitor_module.o \
-	class_tree_node_module.o
+serialize_trees.o: Tree_Helper_module.o class_serialization_visitor.o \
+	class_tree_node.o
 set_answer_arrays.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_model_parameters_module.o GP_parameters_module.o \
 	GP_variables_module.o mpi_module.o
@@ -305,9 +303,9 @@ summary_GP_indiv.o: GA_parameters_module.o GA_variables_module.o \
 summary_GP_indiv2.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
 	mpi_module.o
-Tree_Helper_module.o: class_tree_node_module.o
-class_tree_node_module.o: Math_Node_Functions.o
+Tree_Helper_module.o: class_tree_node.o
+class_tree_node.o: Math_Node_Functions.o
 Global_Setup.o: Math_Node_Functions.o tree_node_factory_module.o
-Interfaces.o: class_tree_node_module.o
-tree_module.o: class_tree_node_module.o
-tree_node_factory_module.o: class_tree_node_module.o
+Interfaces.o: class_tree_node.o
+tree_module.o: class_tree_node.o
+tree_node_factory_module.o: class_tree_node.o

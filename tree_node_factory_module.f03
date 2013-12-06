@@ -7,7 +7,7 @@
 
 module Tree_Node_Factory_module
 
-    use class_Tree_Node_module
+    use class_Tree_Node
     
     integer(kind=4), parameter :: Add = 1
     integer(kind=4), parameter :: Subtract = 2

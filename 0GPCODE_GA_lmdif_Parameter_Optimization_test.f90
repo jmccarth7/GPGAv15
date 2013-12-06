@@ -19,7 +19,7 @@ use GA_Variables_module
 use GP_Data_module
 
 use Tree_Node_Factory_module
-use class_Tree_Node_module
+use class_Tree_Node
 
 
 implicit none

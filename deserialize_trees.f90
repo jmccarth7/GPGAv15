@@ -1,7 +1,7 @@
 subroutine Deserialize_Trees( Trees, num_Tracked_resources, Tree_count, io_dir )
 
     use GP_variables_module
-    use class_Tree_Node_module
+    use class_Tree_Node
     use Tree_Helper_module
     use Tree_Node_Factory_module
 

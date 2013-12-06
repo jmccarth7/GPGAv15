@@ -1,6 +1,6 @@
 module tree_module
 
-use class_Tree_Node_module
+use class_Tree_Node
 
 implicit none
 public :: insert, print_tree

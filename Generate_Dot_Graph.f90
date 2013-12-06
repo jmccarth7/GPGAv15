@@ -5,7 +5,7 @@
 
 module class_Dot_Graph_Visitor
 
-    use class_Tree_Node_module
+    use class_Tree_Node
     
     type, public, extends(Tree_Node_Visitor) :: Dot_Graph_Visitor
         integer (kind=4) :: funit, node_id
@@ -69,7 +69,7 @@ end module class_Dot_Graph_Visitor
 
 
 subroutine Generate_Dot_Graph ( Trees, Tree_count, output_dir )
-    use class_Tree_Node_module
+    use class_Tree_Node
     use class_Dot_Graph_Visitor
     implicit none
     
