@@ -1,6 +1,6 @@
-module Tree_Helper
+module Tree_Helper_module
 
-use class_Tree_Node
+use class_Tree_Node_module
     
 
 contains
@@ -83,4 +83,4 @@ end function
 
 !===========================================================================
     
-end module
+end module  Tree_Helper_module

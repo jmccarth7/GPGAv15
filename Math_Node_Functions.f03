@@ -55,7 +55,7 @@ module Math_Node_Functions
 
         f_Multiply = a * b
 
-        !write(6,'(A,3(1x,E15.7))') 'f_Mul:  a, b, a*b ', a, b, a*b
+        write(6,'(A,3(1x,E15.7))') 'f_Mul:  a, b, a*b ', a, b, a*b
     end function
     
     ! math_funcs(4)
@@ -210,4 +210,4 @@ module Math_Node_Functions
             f_IfLte=0.D+0
         endif
     end function
-end module
+end module Math_Node_Functions

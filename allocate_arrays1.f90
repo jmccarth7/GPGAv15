@@ -13,11 +13,11 @@ use mpi_module
 
 use GP_model_parameters_module
 use GP_Parameters_module
+use GP_variables_module
 use GA_Parameters_module
-use GP_Variables_module
 use GA_Variables_module
 use GP_Data_module
-use GP_variables_module
+
 
 
 implicit none
@@ -115,6 +115,7 @@ allocate( RK_Initial_Conditions(n_CODE_equations) )
 allocate( bioflo(0:n_CODE_equations,0:n_CODE_equations) )
 allocate( bioflo_map( 1:n_CODE_equations,1:n_Tracked_Resources ) )
 allocate( bioflo_string(0:n_CODE_equations,0:n_CODE_equations) )
+
 !allocate( b_tmp(n_CODE_equations) )
 allocate( b_tmp(n_variables)      )
 

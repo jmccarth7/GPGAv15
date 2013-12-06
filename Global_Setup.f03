@@ -3,7 +3,7 @@ subroutine Global_Setup()
 ! This binds the math_funcs to the pointers
 
     use Math_Node_Functions
-    use TreeNodeFactory
+    use Tree_Node_Factory_module
 
 !------------------------------------------------------------------------------
 

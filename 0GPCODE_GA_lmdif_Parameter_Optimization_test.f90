@@ -11,15 +11,15 @@ program GPCODE_GA_lmdif_parameter_optimization_test
 use mpi
 use mpi_module
 
+use GP_model_parameters_module
 use GP_Parameters_module
+use GP_variables_module
 use GA_Parameters_module
-use GP_Variables_module
 use GA_Variables_module
 use GP_Data_module
-use GP_variables_module
 
-use TreeNodeFactory
-use class_Tree_Node
+use Tree_Node_Factory_module
+use class_Tree_Node_module
 
 
 implicit none
@@ -85,14 +85,20 @@ call MPI_COMM_SIZE(MPI_COMM_WORLD, numprocs, ierr)
 
 
 !------------------------------------------------------------------
-write(6,'(/A)') '0: call Global_Setup '
+
+if( myid == 0 )then
+    write(6,'(/A)') '0: call Global_Setup '
+endif ! myid == 0 
 
 call Global_Setup()
 
-write(6,'(A)') '0: aft call Global_Setup '
+if( myid == 0 )then
+    write(6,'(A)') '0: aft call Global_Setup '
+endif ! myid == 0 
+
+!------------------------------------------------------------------
 
 GP_para_flag = .FALSE.
-
 Lprint_lmdif = .TRUE.
 
 !------------------------------------------------------------------
@@ -219,9 +225,14 @@ call load_pow2_level(  )
 
 call init_values( 0 )
 
+n_Variables = n_CODE_equations
+
 !------------------------------------------------------------------
 
 if( myid == 0 )then
+
+    write(6,'(A,1x,I6)')  '0: n_code_equations ', n_code_equations
+    write(6,'(A,1x,I6)')  '0: n_variables      ', n_variables     
 
     call print_values1()
 
@@ -285,7 +296,7 @@ call create_tree_node_string()
 ! set the desired 'twin experiment' population node type
 ! and parameter using the info from the set up file
 
-! run the Runge-Kutta model only once with proc 0
+! in set_answer_arrays, run the Runge-Kutta model only once with proc 0
 
 ! sets:
 
@@ -298,7 +309,13 @@ call create_tree_node_string()
 ! GP_Node_Type_for_Plotting (if L_unit50_output true)
 
 
+
 call set_answer_arrays( )
+
+
+
+call MPI_FINALIZE(ierr)
+stop ! debug only
 
 
 !------------------------------------------------------------------------
@@ -907,9 +924,10 @@ do  i_GP_Generation=1,n_GP_Generations
 
     write(6,'(/A/)') '0: call Initialize_Model(.true.)'
 
-    call Initialize_Model(.true.)   ! In Setup.f90 file
+    ! sets buildtrees = .true. in initialize_model 
+    call Initialize_Model( .true. )   ! call build_trees  
 
-    !call Initialize_Model(.false.) ! In Setup.f90 file
+    !call Initialize_Model(.false.)   ! call Deserialize_Trees 
 
     write(6,'(/A/)') '0: aft call Initialize_Model(.true.)'
 

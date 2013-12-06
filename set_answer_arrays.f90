@@ -1,4 +1,4 @@
-subroutine set_answer_arrays( )
+subroutine set_answer_arrays( buildTrees )
 
 ! program written by: Dr. John R. Moisan [NASA/GSFC] 31 January, 2013
 
@@ -11,12 +11,12 @@ subroutine set_answer_arrays( )
 use mpi
 use mpi_module
 
+use GP_model_parameters_module
 use GP_Parameters_module
 use GA_Parameters_module
-use GP_Variables_module
+use GP_variables_module
 use GA_Variables_module
 use GP_Data_module
-use GP_variables_module
 
 
 implicit none
@@ -25,12 +25,42 @@ implicit none
 integer(kind=4) :: i_GP_individual
 integer(kind=4) :: i_tree
 integer(kind=4) :: i_node
+integer(kind=4) :: ii       
+
+logical :: buildTrees                                                                                                         
 
 
 !------------------------------------------------------------------------------
 
 
+call Initialize_Model( .true. )
 
+
+!------------------------------------------------------------------------------
+                                                                                                                                  
+if( myid == 0 )then
+    ! Generate PDF representation of trees                                                                                        
+    
+    write(6,'(/A/)') 'saa: call Generate_Dot_Graph'                                                                                 
+    
+    call Generate_Dot_Graph( GP_Trees(:,1), n_Trees, output_dir )                                                                 
+    
+    write(6,'(/A/)') 'saa: aft call Generate_Dot_Graph'                                                                             
+    
+    
+                                                                                                                                      
+    ! Write trees to disk                                                                                                         
+    
+    write(6,'(/A/)') 'saa: call Serialize_Trees   '                                                                                 
+    
+    call Serialize_Trees( GP_Trees(:,:), n_Trees, n_Tracked_Resources, output_dir )                                               
+    
+    write(6,'(/A/)') 'saa: aft call Serialize_Trees   '                                                                             
+                                                                                                                                  
+endif ! myid == 0
+
+
+!------------------------------------------------------------------------------
 
 !off include 'Lotka_Volterra_Example_Set_Up.f901'  ! replaced with routine init_values
 !off include 'Franks_etal_NPZ_Mar_Bio_Example_Set_Up.f901'
@@ -70,13 +100,27 @@ endif ! L_unit50_output
 
 ! initialize the biological data fields
 
-Runge_Kutta_Solution(0,1:n_CODE_equations)=Runge_Kutta_Initial_Conditions ! Array Assignment
+Runge_Kutta_Solution(0,1:n_CODE_equations)    = Runge_Kutta_Initial_Conditions ! Array Assignment
+
+Numerical_CODE_Solution(0,1:n_CODE_equations) = Runge_Kutta_Initial_Conditions ! Array Assignment
+Numerical_CODE_Initial_Conditions             = Runge_Kutta_Initial_Conditions ! Array Assignment
 
 Runge_Kutta_Node_Parameters = GP_Individual_Node_Parameters  ! Matrix Operation
-Runge_Kutta_Node_Type=GP_Individual_Node_Type                ! Matrix Operation
+Runge_Kutta_Node_Type       = GP_Individual_Node_Type        ! Matrix Operation
 
 
 if( myid == 0 )then
+    write(6,'(A)') ' '
+
+    do  ii = 1, n_CODE_equations
+
+        write(6,'(A,1x,I6,1x,E15.7)') 'saa: ii, Numerical_CODE_Solution(0,ii) ', &
+                                            ii, Numerical_CODE_Solution(0,ii) 
+        write(6,'(A,1x,I6,1x,E15.7)') 'saa: ii, Numerical_CODE_Initial_Conditions(ii) ', &
+                                            ii, Numerical_CODE_Initial_Conditions(ii) 
+    enddo ! ii
+
+ 
     write(6,'(A)') ' '
     write(6,'(A,2(1x,I6))') 'saa: n_trees, n_nodes ', n_trees, n_nodes
 
@@ -119,7 +163,9 @@ endif ! myid == 0
 ! run the Runge-Kutta model only once with proc 0
 
 if( myid == 0 )then
+
     call Runge_Kutta_Box_Model
+
 endif ! myid == 0
 
 

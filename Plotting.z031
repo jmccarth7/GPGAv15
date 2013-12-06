@@ -1,0 +1,57 @@
+
+subroutine colset(rgb)
+    implicit none
+    
+    real (kind=4) :: rgb(3,1280)
+    integer (kind=4) :: i
+
+    rgb = 0.
+    ! (0,0,0) to (0,0,1) -- black to blue
+    do i = 1,256
+        rgb(3,i) = (i-1)/255.
+    enddo
+    ! (0,0,1) to (0,1,1) -- blue to cyan
+    do i = 1,256
+        rgb(2,i+256) = (i-1)/255.
+        rgb(3,i+256) = 1.
+    enddo
+    ! (0,1,1) to (0,1,0) -- cyan to green
+    do i = 1,256
+        rgb(2,i+512) = 1.
+        rgb(3,i+512) = (256-i)/255.
+    enddo
+    ! (0,1,0) to (1,1,0) -- green to yellow
+    do i = 1,256
+        rgb(1,i+768) = (i-1)/255.
+        rgb(2,i+768) = 1.
+    enddo
+    ! (1,1,0) to (1,0,0) -- yellow to red
+    do i = 1,256
+        rgb(1,i+1024) = 1.
+        rgb(2,i+1024) = (256-i)/255.
+    enddo
+    ! (1,0,0) to (1,1,1) -- red to white
+!    do i = 1,256
+!        rgb(1,i+1280) = 1.
+!        rgb(2,i+1280) = (i-1)/255.
+!        rgb(3,i+1280) = (i-1)/255.
+!    enddo
+
+end subroutine colset
+
+subroutine setcol(RGB,IWKID)
+
+    implicit none
+    
+    integer (kind=4) :: iwkid, ndx, N
+
+    real (kind=4) :: RGB(3,1280)
+
+    !  Define color indices 3-84 to contain the desired colors.
+
+    do N=1,82
+        NDX = N*1280/82
+        CALL GSCR(IWKID,N+2,RGB(1,NDX),RGB(2,NDX),RGB(3,NDX))
+    enddo
+
+end subroutine setcol

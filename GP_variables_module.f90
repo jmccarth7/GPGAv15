@@ -2,7 +2,7 @@ module GP_variables_module
 
 use GP_Parameters_module
 use GP_model_parameters_module, only: n_CODE_Forcing
-use class_Tree_Node
+use class_Tree_Node_module
 
 implicit none
 
@@ -19,10 +19,8 @@ real(kind=8),allocatable, dimension( : , : ) :: Tree_Evaluation
                                                                                                                                           
                                                                                                                                           
 !real(kind=8) :: Tree_Value(n_trees)                                                                                                      
-real(kind=8),allocatable, dimension( : ) :: Tree_Value                                                                                    
-                                                                                                                                          
-                                                                                                                                          
-!integer(kind=4) :: Node_Eval_Type(n_nodes,n_trees)                                                                                       
+real(kind=8),allocatable, dimension( : ) :: Tree_Value!integer(kind=4) :: Node_Eval_Type(n_nodes,n_trees)                                                                                       
+
 integer(kind=4),allocatable, dimension( : , : ) :: Node_Eval_Type                                                                         
 !                                                                                                                                         
 !real(kind=8) :: bioflo(0:n_CODE_equations,0:n_CODE_equations)                                                                            

@@ -1,4 +1,4 @@
-module class_Tree_Node
+module class_Tree_Node_module
 
     use Math_Node_Functions
 
@@ -7,7 +7,6 @@ module class_Tree_Node
     type, public :: Tree_Node
         integer(kind=4) :: node_type
         integer(kind=4) :: node_count
-        !orig !type (Tree_Node), pointer :: parent, left, right
         type(Tree_Node), pointer :: parent => null()
         type(Tree_Node), pointer :: left   => null()
         type(Tree_Node), pointer :: right  => null()
@@ -73,7 +72,7 @@ contains
         class(Tree_Node), intent(in) :: this
         real (kind=8) :: v
         v = math_funcs( this%operation )%f( this%left%val(), this%right%val() )
-        !write(6,'(A,1x,E15.7)') 'tMnv: v = ', v
+        write(6,'(A,1x,E15.7)') 'tMnv: v = ', v
     end function Tree_Math_Node_Val
 
     
@@ -81,7 +80,7 @@ contains
         class(Tree_Node), intent(in) :: this
         real (kind=8) :: v
         v = this%param
-        !write(6,'(A,1x,E15.7)') 'tPnv: v = ', v
+        write(6,'(A,1x,E15.7)') 'tPnv: v = ', v
     end function Tree_Parameter_Node_Val
 
     
@@ -90,7 +89,7 @@ contains
         real (kind=8) :: v
         v = this%variable
 
-        !write(6,'(A,1x,E15.7)') 'tVnv: v = ', v
+        write(6,'(A,1x,E15.7)') 'tVnv: v = ', v
 
     end function Tree_Variable_Node_Val
 
@@ -247,4 +246,4 @@ contains
     end subroutine Tree_Node_Swap
 
 
-end module class_Tree_Node
+end module class_Tree_Node_module

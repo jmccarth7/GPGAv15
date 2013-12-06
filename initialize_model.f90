@@ -1,6 +1,11 @@
 subroutine Initialize_Model(buildTrees)
 
-use Fasham_Variables
+                                                                                                                                          
+use mpi
+use mpi_module
+
+use fasham_variables_module
+use GP_model_parameters_module
 use GP_variables_module
     
 implicit none
@@ -11,46 +16,60 @@ integer :: i
     
 !----------------------------------------------------------------------------------------------------
 
+if( myid == 0 )then
+    write(6,'(/A/)') 'inmod: entry  Initialize_Model '
+endif ! myid == 0 
 
 
-!    ! Set Variables
+! Set Variables
 
 
-!    ! initialize the biological data fields
+! initialize the biological data fields
 
 
-     nitro   = 0.0D0 
-     phyto   = 0.0D0 ! 30.D0 ! Phytoplankton     [mmol N m-3]
-     zoo     = 0.0D0 ! 2.0D0 ! Zooplankton       [mmol N m-3]
+nitro   = 0.0D0 
+phyto   = 0.0D0 ! 30.D0 ! Phytoplankton     [mmol N m-3]
+zoo     = 0.0D0 ! 2.0D0 ! Zooplankton       [mmol N m-3]
 
 !----------------------------------------------------------------------------------------------------
 
-    ! Enumerations that represent model variables. 
-    ! These are used by the binary tree parsing algorithm 
-    ! to select the index of the species or forcing function variable's value
+! Enumerations that represent model variables. 
+! These are used by the binary tree parsing algorithm 
+! to select the index of the species or forcing function variable's value
 
-    !SPECIES_Nitro    = -1
-    !SPECIES_Phyto    = -2
-    !SPECIES_Zoo      = -3
-    
-    !write(6,'(A,1x,I5)') 'inmod: SPECIES_Phyto ', SPECIES_Phyto
-    !write(6,'(A,1x,I5)') 'inmod: SPECIES_Zoo   ', SPECIES_Zoo
+!SPECIES_Nitro    = -1
+!SPECIES_Phyto    = -2
+!SPECIES_Zoo      = -3
+
+!write(6,'(A,1x,I5)') 'inmod: SPECIES_Phyto ', SPECIES_Phyto
+!write(6,'(A,1x,I5)') 'inmod: SPECIES_Zoo   ', SPECIES_Zoo
+
+if( myid == 0 )then
+    write(6,'(A,1x,I5)') 'inmod: n_CODE_equations ', n_CODE_equations 
+endif ! myid == 0 
 
 
-    ! See comment in GP_Variables
+! See comment in GP_Variables
 
-    do  i = 1, n_CODE_equations
+do  i = 1, n_CODE_equations
 
-        bioflo_map(i,1) = -i
+    bioflo_map(i,1) = -i
 
-    enddo ! i 
+enddo ! i 
 
+if( myid == 0 )then
     write(6,'(A,10(1x,I5))') 'inmod: bioflo_map(:,1) ', bioflo_map(:,1)
+endif ! myid == 0 
 
-    ! Since indexes are all negative, take the absolute value
-    bioflo_map = abs(bioflo_map)
-    
+
+! Since indexes are all negative, take the absolute value
+
+bioflo_map = abs(bioflo_map)
+
+
+if( myid == 0 )then
     write(6,'(A,10(1x,I5))') 'inmod:2 abs bioflo_map(:,1) ', bioflo_map(:,1)
+endif ! myid == 0 
 
 
 !----------------------------------------------------------------------------------------------------
@@ -59,30 +78,44 @@ integer :: i
 !    FORCING_MLD_CHANGE_NON_MOTILE = -5002
 !    FORCING_MLD_CHANGE_MOTILE = -5003
 !    FORCING_LIGHT_LIMITED_GROWTH_RATE = -5004
-    
-    !Numerical_CODE_Initial_Conditions = (/aNO3, aNH4, DON, DET, bact, phyto, zoo/)
 
-    !Numerical_CODE_Initial_Conditions = (/phyto, zoo/)
+!Numerical_CODE_Initial_Conditions = (/aNO3, aNH4, DON, DET, bact, phyto, zoo/)
 
-
-    !write(6,'(A,2(1x,E15.7))') 'inmod: Numerical_CODE_Initial_Conditions ', &
-    !                                   Numerical_CODE_Initial_Conditions
+!Numerical_CODE_Initial_Conditions = (/phyto, zoo/)
 
 
-    Numerical_CODE_Forcing_Functions = 0.0D+0 
+if( myid == 0 )then
+    write(6,'(A,2(1x,E15.7))') 'inmod: Numerical_CODE_Initial_Conditions ', &
+                                       Numerical_CODE_Initial_Conditions
+endif ! myid == 0 
 
-    !write(6,'(A,2(1x,E15.7))') 'inmod: Numerical_CODE_Forcing_Functions ', &
-    !                                   Numerical_CODE_Forcing_Functions
+
+Numerical_CODE_Forcing_Functions = 0.0D+0 
+
+!write(6,'(A,2(1x,E15.7))') 'inmod: Numerical_CODE_Forcing_Functions ', &
+!                                   Numerical_CODE_Forcing_Functions
 
 
-    
-    if( buildTrees ) then
+
+if( buildTrees ) then
+
+    if( myid == 0 )then
         write(6,'(//A)') 'inmod: call Build_Trees  '
-        call Build_Trees( GP_Trees(:,1) )
+    endif ! myid == 0 
+
+
+    call Build_Trees( GP_Trees(:,1) )
+
+
+    if( myid == 0 )then
         write(6,'(A//)') 'inmod: aft call Build_Trees  '
-    else
-        call Deserialize_Trees ( GP_Trees(:,:), n_Trees, n_Tracked_Resources, output_dir )
-    endif
+    endif ! myid == 0 
+
+else
+
+    call Deserialize_Trees( GP_Trees(:,:), n_Trees, n_Tracked_Resources, output_dir )
+
+endif ! buildTrees
 
 
 

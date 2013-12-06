@@ -1,9 +1,11 @@
 module tree_module
 
-use class_Tree_Node
+use class_Tree_Node_module
 
 implicit none
 public :: insert, print_tree
+
+
 
 !type, public :: node
 !    integer :: value

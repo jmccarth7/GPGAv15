@@ -11,7 +11,7 @@ use class_Tree_Node
 
 use TreeNodeFactory 
 use GP_variables_module
-use Fasham_Variables
+use fasham_variables_module
 use Fasham_Tree_Interfaces
 
 !use tree_module

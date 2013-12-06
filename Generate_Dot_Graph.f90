@@ -4,7 +4,8 @@
 ! and use the dot executable to create PDF files.
 
 module class_Dot_Graph_Visitor
-    use class_Tree_Node
+
+    use class_Tree_Node_module
     
     type, public, extends(Tree_Node_Visitor) :: Dot_Graph_Visitor
         integer (kind=4) :: funit, node_id
@@ -63,8 +64,12 @@ contains
     end subroutine Dot_Visit_Variable_Node
 end module class_Dot_Graph_Visitor
 
+
+!---------------------------------------------------------------------------------------------------
+
+
 subroutine Generate_Dot_Graph ( Trees, Tree_count, output_dir )
-    use class_Tree_Node
+    use class_Tree_Node_module
     use class_Dot_Graph_Visitor
     implicit none
     
@@ -93,6 +98,8 @@ subroutine Generate_Dot_Graph ( Trees, Tree_count, output_dir )
         endif
     enddo    
 end subroutine Generate_Dot_Graph
+
+
 
 subroutine Dot_Graph_Function ( File, Function_Index)
     implicit none
@@ -136,6 +143,8 @@ subroutine Dot_Graph_Function ( File, Function_Index)
     end select
     
 end subroutine Dot_Graph_Function
+
+
 
 subroutine Dot_Graph_Hierarchy ( File, Node_Index )
     implicit none

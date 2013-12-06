@@ -9,13 +9,19 @@ subroutine Runge_Kutta_Box_Model( )
 !use GA_Parameters
 !use GP_Variables
 
+use mpi
+use mpi_module
+
+use class_tree_node_module
+use Tree_Helper_module
+use Tree_Node_Factory_module
+
 use GP_model_parameters_module                                                                              
 use GP_Parameters_module                                                                                    
-use GA_Parameters_module                                                                                    
 use GP_variables_module                                                                                     
+use GA_Parameters_module                                                                                    
 use GA_Variables_module                                                                                     
 use GP_Data_module                                                                                          
-use GP_variables_module
 
 !use Model_Parameters
 
@@ -50,8 +56,10 @@ integer(kind=4) :: i_CODE_Equation, j_CODE_Equation, i_Variable
 
 !--------------------------------------------------------------------------------------
 
-
-write(6,'(/A/)') 'rkbm: entry Runge_Kutta_Box_Model '
+if( myid == 0 )then
+    write(6,'(/A/)') 'rkbm: entry Runge_Kutta_Box_Model '
+    write(6,'(A,1x,I6/)') 'rkbm: n_Variables ', n_Variables
+endif ! myid == 0 
 
 !write(6,'(A,10(1x,E15.7)/ )') &
 !      'rkbm: before loop  btmp(:)', btmp(:)                                 
@@ -60,38 +68,47 @@ write(6,'(/A/)') 'rkbm: entry Runge_Kutta_Box_Model '
 ! start the time stepping loop
 do  i_Time_Step = 1, n_Time_Steps
     
-    if( mod(i_Time_Step, 100) .eq. 0 ) then
-        !write (6,'(A,I5,A,I5,A)') 'Time step'//char(9), i_Time_Step, &
-        !            char(9)//'of'//char(9), n_Time_Steps, char(13)
-        write (6,'(A,I5,A,I5)') 'Time step'//char(9), i_Time_Step, &
-                    char(9)//'of'//char(9), n_Time_Steps
-    endif
+    if( myid == 0 )then
+        if( mod(i_Time_Step, 100) .eq. 0 ) then
+            !write (6,'(A,I5,A,I5,A)') 'Time step'//char(9), i_Time_Step, &
+            !            char(9)//'of'//char(9), n_Time_Steps, char(13)
+            write (6,'(A,I5,A,I5)') 'Time step'//char(9), i_Time_Step, &
+                        char(9)//'of'//char(9), n_Time_Steps
+        endif
+    endif ! myid == 0 
     
-    b_tmp(:) = Numerical_CODE_Solution(i_Time_Step-1,:)  ! Array Assignment
 
-    !write(6,'(A,1x,I6,10(1x,E15.7) )') &
-    !      'rkbm: i_time_step, Num_CODE_Sol(i_Time_Step-1,:) ', &
-    !               i_time_step, Numerical_CODE_Solution(i_Time_Step-1,:) 
-    !write(6,'(A,1x,I6,10(1x,E15.7) )') &
-    !      'rkbm: i_time_step, b_tmp(:)                      ', &
-    !               i_time_step, b_tmp(:)                                 
+    b_tmp(:) = Numerical_CODE_Solution(i_Time_Step-1,:)  ! Array Assignment
 
     btmp = b_tmp
 
-    !write(6,'(A,1x,I6,10(1x,E15.7) )') &
-    !      'rkbm: i_time_step, btmp(:)                       ', &
-    !               i_time_step, btmp(:)                                 
+
+    if( myid == 0 )then
+        write(6,'(A,1x,I6,10(1x,E15.7) )') &
+              'rkbm: i_time_step, Num_CODE_Sol(i_Time_Step-1,:) ', &
+                     i_time_step, Numerical_CODE_Solution(i_Time_Step-1,:) 
+        write(6,'(A,1x,I6,10(1x,E15.7) )') &
+              'rkbm: i_time_step, b_tmp(:)                      ', &
+                     i_time_step, b_tmp(:)                                 
+        write(6,'(A,1x,I6,10(1x,E15.7) )') &
+              'rkbm: i_time_step, btmp(:)                       ', &
+                     i_time_step, btmp(:)                                 
+    endif ! myid == 0 
+
 
     ! carry out a Runge-Kutta time step
     do  iter=1,4
         
-        write(6,'(/A,2(1x,I6)/)') 'rkbm: i_time_step, iter ', &
-                                         i_time_step, iter 
+        if( myid == 0 )then
+            write(6,'(/A,2(1x,I6)/)') 'rkbm: i_time_step, iter ', &
+                                             i_time_step, iter 
+        endif ! myid == 0 
 
         ! Call forcing functions for the box model
         !call DoForcing(btmp, Runge_Kutta_Time_Step(iter), i_Time_Step)
         
         fbio = 0.0D+0
+
         do  i_Track = 1,n_Tracked_Resources
 
             !!!! Call Model_Diagnostics()
@@ -100,19 +117,26 @@ do  i_Time_Step = 1, n_Time_Steps
             !   Evaluate the trees 
             !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-            Tree_Value=0.0D+0                                 ! Matrix Assignment
+            Tree_Value = 0.0D+0                            ! Matrix Assignment
 
             do  i_Tree=1,n_Trees
 
-                write(6,'(A,1x,I6,5x,L1)') &
-                      'rkbm: i_tree, associated(GP_Trees(i_Tree,i_Track)%n)  ', &
-                             i_tree, associated(GP_Trees(i_Tree,i_Track)%n)  
+                if( myid == 0 )then
+                    write(6,'(A,1x,I6,5x,L1)') &
+                          'rkbm: i_tree, associated(GP_Trees(i_Tree,i_Track)%n)  ', &
+                                 i_tree, associated(GP_Trees(i_Tree,i_Track)%n)  
+                endif ! myid == 0 
 
-                if( associated(GP_Trees(i_Tree,i_Track)%n) ) then
-                    Tree_Value(i_Tree) = GP_Trees(i_Tree,i_Track)%n%val()
-                    write(6,'(A,22x,I6,1x,E15.7 )') &
-                          'rkbm: i_tree, Tree_Value(i_tree) ', &
-                                 i_tree, Tree_Value(i_tree)                      
+                if( associated( GP_Trees(i_Tree,i_Track)%n) ) then
+
+                    Tree_Value(i_Tree) = GP_Trees( i_Tree, i_Track )%n%val()
+
+                    if( myid == 0 )then
+                        write(6,'(A,22x,I6,1x,E15.7 )') &
+                              'rkbm: i_tree, Tree_Value(i_tree) ', &
+                                     i_tree, Tree_Value(i_tree)                      
+                    endif ! myid == 0 
+
                 endif ! associated(GP_Trees...
 
             enddo ! i_Trees
@@ -122,7 +146,9 @@ do  i_Time_Step = 1, n_Time_Steps
             !   Calculate the flow terms from the determined tree_value terms
             !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-            !write(6,'(/A/)') 'rkbm: Calculate the flow terms from the determined tree_value terms'
+            if( myid == 0 )then
+                write(6,'(/A/)') 'rkbm: Calculate the flow terms from the determined tree_value terms'
+            endif ! myid == 0 
 
             i_Tree=0
             do  i_CODE_Equation=0,n_CODE_Equations   ! source of material
@@ -133,11 +159,14 @@ do  i_Time_Step = 1, n_Time_Steps
                         i_Tree=i_Tree+1
 
                         ! 'abs' forces flow of material in one direction
+
                         bioflo(i_CODE_Equation,j_CODE_Equation)=abs(Tree_Value(i_Tree))  
                         
-                        !write(*,*) 'Tree: ', i_Tree, ' - ', Tree_Value(i_Tree)
-                        !write(,'(A,1x,I6,2x,E20.10)') 'rkbm: i_Tree, Tree_Value(i_Tree)', &
-                        !                                       i_Tree, Tree_Value(i_Tree)
+            
+                        if( myid == 0 )then
+                            write(6,'(A,1x,I6,2x,E20.10)') 'rkbm: i_Tree, Tree_Value(i_Tree)', &
+                                                                  i_Tree, Tree_Value(i_Tree)
+                        endif ! myid == 0 
 
                     else
 
@@ -211,6 +240,7 @@ do  i_Time_Step = 1, n_Time_Steps
 
                 cff=(kval(1,i_Variable)/6.0D+0)+(kval(2,i_Variable)/3.0D+0)+ & 
                     (kval(3,i_Variable)/3.0D+0)+(kval(4,i_Variable)/6.0D+0)
+
                 b_tmp(i_Variable)=b_tmp(i_Variable)+cff
 
             endif
@@ -219,21 +249,26 @@ do  i_Time_Step = 1, n_Time_Steps
         
     enddo ! End iter loop
      
+
     Numerical_CODE_Solution(i_Time_Step,1:n_Variables)=max(b_tmp(1:n_Variables),0.0D+0)  
 
 
-    write(6,'(A,1x,I6,1x,6(1x,E15.7))') 'rkbm: i_time_step, solution ', &
-                   i_Time_Step, Numerical_CODE_Solution(i_Time_Step,1:n_Variables)
+    if( myid == 0 )then
+        write(6,'(//A,1x,I6,1x,6(1x,E15.7)//)') 'rkbm: i_time_step, solution ', &
+                       i_Time_Step, Numerical_CODE_Solution(i_Time_Step,1:n_Variables)
+    endif ! myid == 0 
 
                                                                                                                                    
-    !write(rk_output_unit,'(I10,1x,8(1x,E18.8E3))') & 
-    !    i_time_step, Numerical_CODE_Solution(i_time_step,1:n_CODE_equations)
+!    write(rk_output_unit,'(I10,1x,8(1x,E18.8E3))') & 
+!        i_time_step, Numerical_CODE_Solution(i_time_step,1:n_CODE_equations)
                                                                                                                                    
 
     
 enddo ! End Time step loop
 
-write(6,'(A)') 'rkbm: leave Runge_Kutta_Box_Model '
+if( myid == 0 )then
+    write(6,'(A)') 'rkbm: leave Runge_Kutta_Box_Model '
+endif ! myid == 0 
 
 
 return

@@ -6,7 +6,7 @@
 !
 subroutine JQforce(species, day, aMLD, aJ)
     
-    use Fasham_Variables
+use fasham_variables_module
     use GP_variables_module
 
     implicit none
@@ -93,7 +93,7 @@ subroutine mldforce(day, h, aMLD)
     ! subroutine to determine the aMLD and h(t) terms
     !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-    use Fasham_Variables
+use fasham_variables_module
     use GP_variables_module
 
     implicit none

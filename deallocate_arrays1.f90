@@ -10,14 +10,14 @@ subroutine deallocate_arrays1( )
 
 use mpi
 use mpi_module
-use GP_model_parameters_module
 
+
+use GP_model_parameters_module
 use GP_Parameters_module
+use GP_variables_module
 use GA_Parameters_module
-use GP_Variables_module
 use GA_Variables_module
 use GP_Data_module
-use GP_variables_module
 
 
 implicit none
