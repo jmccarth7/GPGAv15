@@ -5,7 +5,7 @@ use mpi
 use mpi_module
 
 use fasham_variables_module
-use GP_model_parameters_module
+!!!!!!!!!!use GP_model_parameters_module
 use GP_parameters_module
 use GP_variables_module
     
@@ -129,7 +129,7 @@ end subroutine Initialize_Model
 !
 !use Fasham_Variables
 !!use Model_Parameters
-!use GP_model_parameters_module
+!!!!!!!!!!!use GP_model_parameters_module
 !!use GP_Variables
 !use GP_variables_module
 !    

@@ -11,7 +11,7 @@ subroutine set_answer_arrays( buildTrees )
 use mpi
 use mpi_module
 
-use GP_model_parameters_module
+!!!!!!!!!!!use GP_model_parameters_module
 use GP_Parameters_module
 use GA_Parameters_module
 use GP_variables_module

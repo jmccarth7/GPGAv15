@@ -4,7 +4,7 @@ subroutine read_cntl_stuff( )
 use mpi
 use mpi_module
 
-use GP_model_parameters_module
+!!!!!!!!!!!!use GP_model_parameters_module
 
 use GP_Parameters_module
 use GP_variables_module

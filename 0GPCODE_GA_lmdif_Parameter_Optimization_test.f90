@@ -11,7 +11,7 @@ program GPCODE_GA_lmdif_parameter_optimization_test
 use mpi
 use mpi_module
 
-use GP_model_parameters_module
+!!!use GP_model_parameters_module
 use GP_Parameters_module
 use GP_variables_module
 use GA_Parameters_module
@@ -1052,6 +1052,10 @@ do  i_GP_Generation=1,n_GP_Generations
                       &n_GP_parameters, n_maximum_number_parameters', &
                       myid, i_GP_generation, i_GP_Individual, &
                        n_GP_parameters, n_maximum_number_parameters
+
+                call MPI_FINALIZE(ierr)
+                stop 'too many parms'
+
             endif !  myid == 0
 
         endif  ! n_GP_parameters > n_maximum_number_parameters
@@ -1539,18 +1543,18 @@ if( myid == 0 )then
     write(GP_print_unit,'(/A/)') '0: after i_GP_generation loop  '
 
     !---------------------------------------------------------------------------
-    !tree_loop:&
-    !do  i_tree=1,n_trees
-    !    node_loop:&
-    !    do  i_node=1,n_nodes
-    !        if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Best_Parent) == 0 )then
-    !            write(GP_print_unit,'(2x,2(1x,I6), 1x, E20.10, 4x, E20.10)') &
-    !                  i_tree, i_node,  &
-    !                  GP_population_node_parameters(i_node,i_tree,i_GP_Best_Parent)
-    !        endif ! GP_Adult_Pop_Node_Type(i_Node,i_Tree,i_GP_Best_Parent) == 0
-    !        write(GP_print_unit,'(3(1x,I6))') i_tree, i_node, nop
-    !    enddo node_loop ! i_node
-    !enddo tree_loop ! i_tree
+    tree_loop:&
+    do  i_tree=1,n_trees
+        node_loop:&
+        do  i_node=1,n_nodes
+            if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Best_Parent) == 0 )then
+                write(GP_print_unit,'(2x,2(1x,I6), 1x, E20.10, 4x, E20.10)') &
+                      i_tree, i_node,  &
+                      GP_population_node_parameters(i_node,i_tree,i_GP_Best_Parent)
+            endif ! GP_Adult_Pop_Node_Type(i_Node,i_Tree,i_GP_Best_Parent) == 0
+            write(GP_print_unit,'(3(1x,I6))') i_tree, i_node, nop
+        enddo node_loop ! i_node
+    enddo tree_loop ! i_tree
     !---------------------------------------------------------------------------
 
     write(GP_print_unit,'(A,1x,I6,1x,E15.7/)') &

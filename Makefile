@@ -15,7 +15,7 @@ SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 allocate_arrays1.f90 \
 	Generate_Dot_Graph.f90 GP_calc_diversity_index.f90 \
 	GP_calc_fitness.f90 GP_Check_Terminals.f90 GP_Clean_Tree_Nodes.f90 \
 	GP_data_module.f90 GP_Fitness_Proportionate_Asexual_Reproduction.f90 \
-	GP_model_parameters_module.f90 GP_Mutations.f90 \
+	GP_Mutations.f90 \
 	GP_para_lmdif_process.f90 GP_parameters_module.f90 \
 	GP_ranking_sort.f90 GP_select_best_RK_lmdif_result.f90 \
 	GP_Tournament_Style_Sexual_Reproduction.f90 GP_Tree_Build.f90 \
@@ -53,7 +53,7 @@ OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o allocate_arrays1.o \
 	Generate_Dot_Graph.o GP_calc_diversity_index.o GP_calc_fitness.o \
 	GP_Check_Terminals.o GP_Clean_Tree_Nodes.o GP_data_module.o \
 	GP_Fitness_Proportionate_Asexual_Reproduction.o \
-	GP_model_parameters_module.o GP_Mutations.o GP_para_lmdif_process.o \
+	GP_Mutations.o GP_para_lmdif_process.o \
 	GP_parameters_module.o GP_ranking_sort.o \
 	GP_select_best_RK_lmdif_result.o \
 	GP_Tournament_Style_Sexual_Reproduction.o GP_Tree_Build.o \
@@ -126,11 +126,11 @@ clean:
 	$(F90) $(F90FLAGS) -c $<
 
 0GPCODE_GA_lmdif_Parameter_Optimization_test.o: GA_parameters_module.o \
-	GA_variables_module.o GP_data_module.o GP_model_parameters_module.o \
+	GA_variables_module.o GP_data_module.o  \
 	GP_parameters_module.o GP_variables_module.o class_tree_node.o \
 	mpi_module.o tree_node_factory_module.o
 allocate_arrays1.o: GA_parameters_module.o GA_variables_module.o \
-	GP_data_module.o GP_model_parameters_module.o GP_parameters_module.o \
+	GP_data_module.o  GP_parameters_module.o \
 	GP_variables_module.o mpi_module.o
 bcast1.o: GA_parameters_module.o GA_variables_module.o GP_data_module.o \
 	GP_parameters_module.o GP_variables_module.o mpi_module.o
@@ -145,7 +145,7 @@ calc_fitness.o: GA_parameters_module.o GA_variables_module.o \
 check_for_elite.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o
 class_serialization_visitor.o: GP_variables_module.o class_tree_node.o
-combine_tree_strings.o: GP_model_parameters_module.o GP_parameters_module.o \
+combine_tree_strings.o:  GP_parameters_module.o \
 	GP_variables_module.o
 comp_data_variance.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
@@ -156,7 +156,7 @@ create_equations.o: GA_parameters_module.o GA_variables_module.o \
 create_tree_node_string.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o
 deallocate_arrays1.o: GA_parameters_module.o GA_variables_module.o \
-	GP_data_module.o GP_model_parameters_module.o GP_parameters_module.o \
+	GP_data_module.o  GP_parameters_module.o \
 	GP_variables_module.o mpi_module.o
 deserialize_trees.o: GP_variables_module.o Tree_Helper_module.o \
 	class_tree_node.o tree_node_factory_module.o
@@ -188,7 +188,7 @@ GP_calc_diversity_index.o: GA_parameters_module.o GA_variables_module.o \
 GP_calc_fitness.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o
 GP_Check_Terminals.o: GA_parameters_module.o GA_variables_module.o \
-	GP_model_parameters_module.o GP_parameters_module.o \
+	GP_parameters_module.o \
 	GP_variables_module.o mpi_module.o
 GP_Clean_Tree_Nodes.o: GA_parameters_module.o GA_variables_module.o \
 	GP_parameters_module.o GP_variables_module.o
@@ -201,7 +201,6 @@ GP_Mutations.o: GA_parameters_module.o GA_variables_module.o \
 GP_para_lmdif_process.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
 	clock_module.o mpi_module.o
-GP_parameters_module.o: GP_model_parameters_module.o
 GP_ranking_sort.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o
 GP_select_best_RK_lmdif_result.o: GA_parameters_module.o \
@@ -211,30 +210,30 @@ GP_Tournament_Style_Sexual_Reproduction.o: GA_parameters_module.o \
 	GA_variables_module.o GP_parameters_module.o GP_variables_module.o \
 	mpi_module.o
 GP_Tree_Build.o: GA_parameters_module.o GA_variables_module.o \
-	GP_model_parameters_module.o GP_parameters_module.o \
+	GP_parameters_module.o \
 	GP_variables_module.o mpi_module.o
 GP_Tree_Build_single.o: GA_parameters_module.o GA_variables_module.o \
-	GP_model_parameters_module.o GP_parameters_module.o \
+	GP_parameters_module.o \
 	GP_variables_module.o mpi_module.o
 GP_Tree_Swap.o: GA_parameters_module.o GA_variables_module.o \
 	GP_parameters_module.o GP_variables_module.o mpi_module.o
-GP_variables_module.o: GP_model_parameters_module.o GP_parameters_module.o \
+GP_variables_module.o: GP_parameters_module.o \
 	class_tree_node.o
 GPCODE_GA_lmdif_Parameter_Optimization.o: GA_parameters_module.o \
 	GA_variables_module.o GP_data_module.o GP_parameters_module.o \
 	GP_variables_module.o clock_module.o mpi_module.o
 indiv_fitness.o: GA_parameters_module.o GA_variables_module.o \
 	GP_parameters_module.o GP_variables_module.o
-init_values.o: GP_model_parameters_module.o GP_parameters_module.o \
+init_values.o: GP_parameters_module.o \
 	GP_variables_module.o mpi_module.o
-init_values_LV.o: GP_model_parameters_module.o GP_parameters_module.o \
+init_values_LV.o: GP_parameters_module.o \
 	GP_variables_module.o mpi_module.o
-init_values_NPZ.o: GP_model_parameters_module.o GP_parameters_module.o \
+init_values_NPZ.o: GP_parameters_module.o \
 	GP_variables_module.o mpi_module.o
 Initialize_GA_Child_Parameters.o: GA_parameters_module.o \
 	GA_variables_module.o GP_data_module.o GP_parameters_module.o \
 	GP_variables_module.o mpi_module.o
-initialize_model.o: GP_model_parameters_module.o GP_parameters_module.o GP_variables_module.o \
+initialize_model.o: GP_parameters_module.o GP_variables_module.o \
 	fasham_variables_module.o mpi_module.o
 load_pow2_level.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o
@@ -248,7 +247,7 @@ print_debug_real_node_tree.o: GA_parameters_module.o GA_variables_module.o \
 print_debug_real_nparm.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o
 print_entire_tree.o: GA_parameters_module.o GA_variables_module.o \
-	GP_model_parameters_module.o GP_parameters_module.o \
+	GP_parameters_module.o \
 	GP_variables_module.o mpi_module.o
 print_trees.o: GA_parameters_module.o GA_variables_module.o GP_data_module.o \
 	GP_parameters_module.o GP_variables_module.o
@@ -260,7 +259,7 @@ print_values2.o: GA_parameters_module.o GA_variables_module.o \
 	mpi_module.o
 random_real.o: GP_parameters_module.o
 read_cntl_stuff.o: GA_parameters_module.o GA_variables_module.o \
-	GP_data_module.o GP_model_parameters_module.o GP_parameters_module.o \
+	GP_data_module.o GP_parameters_module.o \
 	GP_variables_module.o mpi_module.o
 reduce_constant.o: GP_parameters_module.o GP_variables_module.o
 reduce_expression.o: GP_parameters_module.o GP_variables_module.o
@@ -270,7 +269,7 @@ remove_string_blanks.o: GP_parameters_module.o
 RKBM.o: GP_parameters_module.o GP_variables_module.o
 rm_exp_paren.o: GP_parameters_module.o GP_variables_module.o
 Runge_Kutta_Box_Model_new.o: GA_parameters_module.o GA_variables_module.o \
-	GP_data_module.o GP_model_parameters_module.o GP_parameters_module.o \
+	GP_data_module.o GP_parameters_module.o \
 	GP_variables_module.o Tree_Helper_module.o \
 	class_serialization_visitor.o class_tree_node.o tree_node_factory_module.o \
 	mpi_module.o
@@ -280,7 +279,7 @@ select_best_RK_lmdif_result.o: GA_parameters_module.o GA_variables_module.o \
 serialize_trees.o: Tree_Helper_module.o class_serialization_visitor.o \
 	class_tree_node.o
 set_answer_arrays.o: GA_parameters_module.o GA_variables_module.o \
-	GP_data_module.o GP_model_parameters_module.o GP_parameters_module.o \
+	GP_data_module.o  GP_parameters_module.o \
 	GP_variables_module.o class_tree_node.o tree_node_factory_module.o \
 	mpi_module.o
 set_modified_indiv.o: GA_parameters_module.o GA_variables_module.o \

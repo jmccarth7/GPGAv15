@@ -6,7 +6,7 @@ subroutine print_entire_tree( )
 use mpi
 use mpi_module
 use GP_Parameters_module
-use GP_model_parameters_module
+!!!!!!!!!!!!!1use GP_model_parameters_module
 use GA_Parameters_module
 use GP_Variables_module
 use GA_Variables_module

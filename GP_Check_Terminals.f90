@@ -12,7 +12,7 @@ subroutine GP_Check_Terminals( temp_Node_Type, i_Error)
 use mpi
 use mpi_module
 use GP_Parameters_module
-use GP_model_parameters_module
+!!!!!!use GP_model_parameters_module
 use GA_Parameters_module
 use GP_Variables_module
 use GA_Variables_module

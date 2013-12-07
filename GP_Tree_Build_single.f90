@@ -4,7 +4,7 @@ subroutine GP_Tree_Build_single( i_GP_individual )
 use mpi
 use mpi_module
 use GP_Parameters_module
-use GP_model_parameters_module
+!!!!!!!!!!use GP_model_parameters_module
 use GA_Parameters_module
 use GP_Variables_module
 use GA_Variables_module
