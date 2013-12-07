@@ -27,6 +27,7 @@ integer(kind=4) :: iflag
 
 integer(kind=4) :: i_Tree
 integer(kind=4) :: i_Node
+integer(kind=4) :: ii      
 
 integer(kind=4) :: i_CODE_equation
 integer(kind=4) :: i_time_step
@@ -214,6 +215,118 @@ enddo  ! i_tree
 
 !---------------------------------------------------------------------------------
 
+! set up the GP_Trees for the Runge_Kutta integration
+
+
+! Initialize_Model calls build_trees which makes the GP_Trees
+
+write(6,'(/A/)') 'fcn: call Initialize_Model(.true.)'
+
+! sets buildtrees = .true. in initialize_model
+
+call Initialize_Model( .true. )   ! call build_trees
+
+!call Initialize_Model(.false.)   ! call Deserialize_Trees
+
+write(6,'(/A/)') 'fcn: aft call Initialize_Model(.true.)'
+
+
+!!!!!------------------------------------------------------------------------------
+!!!!
+!!!!! Generate PDF representation of trees
+!!!!
+!!!!
+!!!!if( myid == 0 )then
+!!!!    write(6,'(/A/)') 'fcn: call Generate_Dot_Graph'
+!!!!
+!!!!    call Generate_Dot_Graph( GP_Trees(:,1), n_Trees, output_dir )
+!!!!
+!!!!    write(6,'(/A/)') 'fcn: aft call Generate_Dot_Graph'
+!!!!endif ! myid == 0
+!!!!
+!!!!
+!!!!! Write trees to disk
+!!!!
+!!!!if( myid == 0 )then
+!!!!    write(6,'(/A/)') 'fcn: call Serialize_Trees   '
+!!!!
+!!!!    call Serialize_Trees( GP_Trees(:,:), n_Trees, n_Tracked_Resources, output_dir )
+!!!!
+!!!!    write(6,'(/A/)') 'fcn: aft call Serialize_Trees   '
+!!!!endif ! myid == 0
+!!!!
+!!!!!------------------------------------------------------------------------------
+
+
+
+! initialize the biological data fields
+
+
+! Runge_Kutta_Solution set above from the x array
+! Runge_Kutta_Solution(0,1:n_CODE_equations)    = Runge_Kutta_Initial_Conditions    ! Array Assignment
+
+
+!Numerical_CODE_Solution(0,1:n_CODE_equations) = Runge_Kutta_Initial_Conditions ! Array Assignment
+!Numerical_CODE_Initial_Conditions             = Runge_Kutta_Initial_Conditions ! Array Assignment
+
+Numerical_CODE_Solution(0,1:n_CODE_equations) = Runge_Kutta_Solution(0,1:n_CODE_equations)
+Numerical_CODE_Initial_Conditions             = Runge_Kutta_Solution(0,1:n_CODE_equations)
+
+
+! set above
+!Runge_Kutta_Node_Parameters = GP_Individual_Node_Parameters  ! Matrix Operation
+!Runge_Kutta_Node_Type       = GP_Individual_Node_Type        ! Matrix Operation
+
+
+if( myid == 0 )then
+    write(6,'(A)') ' '
+
+    do  ii = 1, n_CODE_equations
+
+        write(6,'(A,1x,I6,1x,E15.7)') 'fcn: ii, Numerical_CODE_Solution(0,ii) ', &
+                                            ii, Numerical_CODE_Solution(0,ii)
+        write(6,'(A,1x,I6,1x,E15.7)') 'fcn: ii, Numerical_CODE_Initial_Conditions(ii) ', &
+                                            ii, Numerical_CODE_Initial_Conditions(ii)
+    enddo ! ii
+
+
+    write(6,'(A)') ' '
+    write(6,'(A,2(1x,I6))') 'fcn: n_trees, n_nodes ', n_trees, n_nodes
+
+    write(6,'(/A)') &
+          'fcn: i_tree  i_node  Runge_Kutta_Node_Parameters( i_node, i_tree ) '
+    do  i_tree = 1, n_trees
+        do  i_node = 1, n_nodes
+
+            if( Runge_Kutta_Node_Type( i_node, i_tree ) == 0     )then
+                write(6,'(2(1x,I8),6x,E15.7)') &
+                      i_tree, i_node, Runge_Kutta_Node_Parameters( i_node, i_tree )
+            endif ! Runge_Kutta_Node_Type( i_node, i_tree ) == 0
+
+        enddo ! i_node
+    enddo ! i_tree
+
+    write(6,'(//A)') &
+          'fcn: i_tree  i_node  Runge_Kutta_Node_Type( i_node, i_tree ) '
+
+    do  i_tree = 1, n_trees
+        do  i_node = 1, n_nodes
+
+            if( Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999 )then
+                write(6,'(3(1x,I8))') &
+                        i_tree, i_node, Runge_Kutta_Node_Type( i_node, i_tree )
+            endif ! Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999
+
+        enddo ! i_node
+    enddo ! i_tree
+
+    write(6,'(A)') ' '
+
+endif ! myid == 0
+
+
+
+!---------------------------------------------------------------------------------
 
 !  Runge_Kutta_Box_Model runs the RK process using the parameters
 !  set above
@@ -234,6 +347,9 @@ L_bad_result = .FALSE.
 
 
 call Runge_Kutta_Box_Model
+
+Runge_Kutta_Solution = Numerical_CODE_Solution
+
 
 
 if( L_bad_result ) then
@@ -322,12 +438,12 @@ do i_time_step=1,n_time_steps
 
 enddo ! i_time_step
 
-!if( L_GP_print .and. GP_para_flag .and. myid == 3  )then
-!    write(GP_print_unit,'(A,1x,I6,2x,E24.16)') 'fcn: myid, sse_local = ',myid, sse_local
-!endif ! L_GP_print
-!if( L_ga_print .and. myid == 1 )then
-!    write(GA_print_unit,'(A,1x,I6,2x,E24.16)') 'fcn: myid, sse_local = ',myid, sse_local
-!endif ! L_ga_print
+if( L_GP_print .and. GP_para_flag .and. myid == 2  )then
+    write(GP_print_unit,'(A,1x,I6,2x,E24.16)') 'fcn: myid, sse_local = ',myid, sse_local
+endif ! L_GP_print
+if( L_ga_print .and. myid == 1 )then
+    write(GA_print_unit,'(A,1x,I6,2x,E24.16)') 'fcn: myid, sse_local = ',myid, sse_local
+endif ! L_ga_print
 
 
 return

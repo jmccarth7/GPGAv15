@@ -314,8 +314,8 @@ call set_answer_arrays( )
 
 
 
-call MPI_FINALIZE(ierr)
-stop ! debug only
+!call MPI_FINALIZE(ierr)
+!stop ! debug only
 
 
 !------------------------------------------------------------------------
@@ -336,6 +336,11 @@ call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
 
 message_len = ( n_time_steps + 1 ) * n_CODE_equations
 call MPI_BCAST( Runge_Kutta_Solution, message_len,    &
+                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+
+
+message_len = ( n_time_steps + 1 ) * n_CODE_equations
+call MPI_BCAST( Numerical_CODE_Solution, message_len,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
 !!!call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
@@ -653,7 +658,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
 
                 ! don't replace adult with child until
-                ! after all 3 modfication routines have been called
+                ! after all 3 modification routines have been called
 
                 !!!GP_Adult_Population_Node_Type = GP_Child_Population_Node_Type   ! 20131105 jjm
                 !!!GP_Adult_Population_SSE       = GP_Child_Individual_SSE         ! 20131105 jjm
@@ -792,7 +797,7 @@ do  i_GP_Generation=1,n_GP_Generations
             write(GP_print_unit,'(/A)')&
                       '0:3 i_GP_gen,i_GP_indiv,GP_Child_Indiv_SSE'
             do  i_GP_individual = 1, n_GP_individuals
-                write(GP_print_unit,'(2(1x,I5), 1x, E15.7)')&
+                write(GP_print_unit,'(2(1x,I5), 1x, E15.7)') &
                            i_GP_generation, i_GP_individual, &
                            GP_Child_Individual_SSE(i_GP_Individual)
             enddo ! i_GP_individual
@@ -922,14 +927,21 @@ do  i_GP_Generation=1,n_GP_Generations
     !
     !endif !  myid == 0
 
-    write(6,'(/A/)') '0: call Initialize_Model(.true.)'
+    !-----------------------------------------------------------------------------------------
 
-    ! sets buildtrees = .true. in initialize_model 
-    call Initialize_Model( .true. )   ! call build_trees  
+    !!!! Initialize_Model calls build_trees which makes the GP_Trees 
 
-    !call Initialize_Model(.false.)   ! call Deserialize_Trees 
+    !!!write(6,'(/A/)') '0: call Initialize_Model(.true.)'
 
-    write(6,'(/A/)') '0: aft call Initialize_Model(.true.)'
+    !!!! sets buildtrees = .true. in initialize_model 
+
+    !!!call Initialize_Model( .true. )   ! call build_trees  
+
+    !!!!call Initialize_Model(.false.)   ! call Deserialize_Trees 
+
+    !!!write(6,'(/A/)') '0: aft call Initialize_Model(.true.)'
+
+
 
     !-----------------------------------------------------------------------------------------
     !>>>>>>>>>> jjm 20130417

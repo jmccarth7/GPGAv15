@@ -175,7 +175,11 @@ endif ! myid == 0
 
 if( myid == 0 )then
 
+    ! Runge_Kutta_Box_Model now put the time series in Numerical_CODE_Solution
     call Runge_Kutta_Box_Model
+
+    Runge_Kutta_Solution = Numerical_CODE_Solution
+
 
 endif ! myid == 0
 
