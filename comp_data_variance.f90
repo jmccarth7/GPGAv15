@@ -50,9 +50,9 @@ if( myid == 0 )then
     write(GP_print_unit,'(A)') ' '
 endif
 
-write(GP_print_unit,'(A,3(1x,I6))') &
-         'cdv: myid, n_CODE_equations, n_time_steps ', &
-               myid, n_CODE_equations, n_time_steps 
+!write(GP_print_unit,'(A,3(1x,I6))') &
+!         'cdv: myid, n_CODE_equations, n_time_steps ', &
+!               myid, n_CODE_equations, n_time_steps 
 
 do i_CODE_equation=1,n_CODE_equations
 
@@ -66,23 +66,23 @@ do i_CODE_equation=1,n_CODE_equations
         ssum2 = ssum2 +  Data_Array(i_time_step,i_CODE_equation)**2
     enddo !   i_time_step
 
-    write(GP_print_unit,'(A,2(1x,I6),2(1x,E15.7) )') &
-          'cdv: myid, i_CODE_equation, ssum, ssum2', &
-                myid, i_CODE_equation, ssum, ssum2
+    !write(GP_print_unit,'(A,2(1x,I6),2(1x,E15.7) )') &
+    !      'cdv: myid, i_CODE_equation, ssum, ssum2', &
+    !            myid, i_CODE_equation, ssum, ssum2
 
     totobs    = dble(n_time_steps+1)
     totobs_m1 = dble(n_time_steps)
 
-    write(GP_print_unit,'(A,1x,I6, 2(1x,E15.7) )') &
-          'cdv: myid, totobs, totobs_m1', &
-                myid, totobs, totobs_m1           
+    !write(GP_print_unit,'(A,1x,I6, 2(1x,E15.7) )') &
+    !      'cdv: myid, totobs, totobs_m1', &
+    !            myid, totobs, totobs_m1           
 
     dff=( (totobs*ssum2)-(ssum**2) ) / totobs / totobs_m1
 
     !write(GP_print_unit,'(/A,2x,E24.16)') 'cdv: original dff ', dff
 
-    write(GP_print_unit,'(A,1x, I6, 2(1x,E15.7) )') &
-         'cdv: myid, dff', myid, dff                        
+    !write(GP_print_unit,'(A,1x, I6, 2(1x,E15.7) )') &
+    !     'cdv: myid, dff', myid, dff                        
 
     !!-------------------------------------------------------------------------------
     !nn = n_time_steps + 1

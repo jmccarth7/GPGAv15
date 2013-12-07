@@ -129,6 +129,7 @@ write(GP_summary_output_unit, '(A,2(1x,I6))') '> ', i_GP_generation, i_GP_best_p
 
 if( Lprint )then
 
+    write(GP_print_unit,'(/A)')  'sgpi2: n_trees, n_ndoes ', n_trees, n_nodes 
     write(GP_print_unit,'(/A)') &
        'sgpi2: i_GP_gen  i_GP_best_parent   i_tree     i_node   &
        & GP_Adult_Pop_Node_Type  GP_individual_node_parameters'
@@ -138,7 +139,7 @@ if( Lprint )then
 
             if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_best_parent) == 0  ) then
 
-                write(GP_print_unit,'(2(1x,I10), 3(1x,I10),11x, E24.16)') &
+                write(GP_print_unit,'(2(1x,I10),5x, 3(1x,I10),20x, E24.16)') &
                       i_GP_generation, i_GP_best_parent,i_tree, i_node, &
                       GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_best_parent), &
                       GP_individual_node_parameters(i_node,i_tree)
@@ -156,6 +157,7 @@ endif ! Lprint
 
 
 !if( Lprint )then
+    write(GP_print_unit,'(/A)')  'sgpi2: n_trees, n_ndoes ', n_trees, n_nodes 
     write(GP_print_unit,'(/A)')  &
           'sgpi2: i_GP_gen  i_GP_best_parent   i_tree     i_node    GP_Indiv_Node_Type'
 !endif ! Lprint

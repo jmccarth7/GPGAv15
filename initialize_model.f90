@@ -6,6 +6,7 @@ use mpi_module
 
 use fasham_variables_module
 use GP_model_parameters_module
+use GP_parameters_module
 use GP_variables_module
     
 implicit none
@@ -140,9 +141,12 @@ end subroutine Initialize_Model
 !
 !!------------------------------------------------------------------------------------
 !    
-!date=(i_Time_Step+time_step_fraction)*Delta_Time_in_Days/(365.D+0)  ! number of years
-!thour=mod(((i_Time_Step+time_step_fraction)*Delta_Time_in_Days*24),24.D+0) ! time of day in hours
-!dayn=(i_Time_Step+time_step_fraction)*Delta_Time_in_Days ! day number
+!!!!date=(i_Time_Step+time_step_fraction)*Delta_Time_in_Days/(365.D+0)  ! number of years
+!!!!thour=mod(((i_Time_Step+time_step_fraction)*Delta_Time_in_Days*24),24.D+0) ! time of day in hours
+!!!!dayn=(i_Time_Step+time_step_fraction)*Delta_Time_in_Days ! day number
+!date=(i_Time_Step+time_step_fraction)* dt /(365.D+0)  ! number of years
+!thour=mod(((i_Time_Step+time_step_fraction)* dt *24),24.D+0) ! time of day in hours
+!dayn=(i_Time_Step+time_step_fraction)* dt ! day number
 !day=mod(dayn,365.D+0) ! year day [0.D+0 to 365.D+0]
 !    
 !call mldforce(day, h, aMLD)

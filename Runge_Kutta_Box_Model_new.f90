@@ -67,23 +67,30 @@ integer(kind=4) :: i_CODE_Equation, j_CODE_Equation, i_Variable
 
 !--------------------------------------------------------------------------------------
 
-if( myid == 0 )then
+if( myid == 1 )then
     write(6,'(/A/)') 'rkbm: entry Runge_Kutta_Box_Model '
     write(6,'(A,1x,I6/)') 'rkbm: n_Variables ', n_Variables
-endif ! myid == 0 
+endif ! myid == 1 
 
-if( delta_time_in_days <= 0.0d0 )then
+!if( delta_time_in_days <= 0.0d0 )then
+!    if( myid == 1 )then
+!        write(6,'(/A/)') 'rkbm: BAD VALUE for delta_time_in_days'    
+!        write(6,'(A,1x,E20.10/)') 'rkbm: delta_time_in_days', delta_time_in_days
+!    endif ! myid == 1 
+!    call MPI_FINALIZE(ierr)
+!    stop 'bad delta_time'
+!endif ! delta_time....
 
-    if( myid == 0 )then
-        write(6,'(/A/)') 'rkbm: BAD VALUE for delta_time_in_days'    
-        write(6,'(A,1x,E20.10/)') 'rkbm: delta_time_in_days', delta_time_in_days
-    endif ! myid == 0 
-
+if( dt <= 0.0d0 )then
+    if( myid == 1 )then
+        write(6,'(/A/)') 'rkbm: BAD VALUE for dt'    
+        write(6,'(A,1x,E20.10/)') 'rkbm: dt', dt
+    endif ! myid == 1 
     call MPI_FINALIZE(ierr)
     stop 'bad delta_time'
-    
+endif ! dt <= 0.0D0    
 
-endif ! delta_time....
+
 !write(6,'(A,10(1x,E15.7)/ )') &
 !      'rkbm: before loop  btmp(:)', btmp(:)                                 
 
@@ -91,14 +98,14 @@ endif ! delta_time....
 ! start the time stepping loop
 do  i_Time_Step = 1, n_Time_Steps
     
-    if( myid == 0 )then
+    if( myid == 1 )then
         if( mod(i_Time_Step, 100) .eq. 0 ) then
             !write (6,'(A,I5,A,I5,A)') 'Time step'//char(9), i_Time_Step, &
             !            char(9)//'of'//char(9), n_Time_Steps, char(13)
             write (6,'(A,I5,A,I5)') 'Time step'//char(9), i_Time_Step, &
                         char(9)//'of'//char(9), n_Time_Steps
         endif
-    endif ! myid == 0 
+    endif ! myid == 1 
     
 
     b_tmp(:) = Numerical_CODE_Solution(i_Time_Step-1,:)  ! Array Assignment
@@ -106,26 +113,26 @@ do  i_Time_Step = 1, n_Time_Steps
     btmp = b_tmp
 
 
-    if( myid == 0 )then
-        write(6,'(A,1x,I6,10(1x,E15.7) )') &
-              'rkbm: i_time_step, Num_CODE_Sol(i_Time_Step-1,:) ', &
-                     i_time_step, Numerical_CODE_Solution(i_Time_Step-1,:) 
-        write(6,'(A,1x,I6,10(1x,E15.7) )') &
-              'rkbm: i_time_step, b_tmp(:)                      ', &
-                     i_time_step, b_tmp(:)                                 
-        write(6,'(A,1x,I6,10(1x,E15.7) )') &
-              'rkbm: i_time_step, btmp(:)                       ', &
-                     i_time_step, btmp(:)                                 
-    endif ! myid == 0 
+    !if( myid == 1 )then
+    !    write(6,'(A,1x,I6,10(1x,E15.7) )') &
+    !          'rkbm: i_time_step, Num_CODE_Sol(i_Time_Step-1,:) ', &
+    !                 i_time_step, Numerical_CODE_Solution(i_Time_Step-1,:) 
+    !    write(6,'(A,1x,I6,10(1x,E15.7) )') &
+    !          'rkbm: i_time_step, b_tmp(:)                      ', &
+    !                 i_time_step, b_tmp(:)                                 
+    !    write(6,'(A,1x,I6,10(1x,E15.7) )') &
+    !          'rkbm: i_time_step, btmp(:)                       ', &
+    !                 i_time_step, btmp(:)                                 
+    !endif ! myid == 1 
 
 
     ! carry out a Runge-Kutta time step
     do  iter=1,4
         
-        if( myid == 0 )then
-            write(6,'(/A,2(1x,I6)/)') 'rkbm: i_time_step, iter ', &
-                                             i_time_step, iter 
-        endif ! myid == 0 
+        !if( myid == 1 )then
+        !    write(6,'(/A,2(1x,I6)/)') 'rkbm: i_time_step, iter ', &
+        !                                     i_time_step, iter 
+        !endif ! myid == 1 
 
         ! Call forcing functions for the box model
         !call DoForcing(btmp, Runge_Kutta_Time_Step(iter), i_Time_Step)
@@ -144,21 +151,21 @@ do  i_Time_Step = 1, n_Time_Steps
 
             do  i_Tree=1,n_Trees
 
-                if( myid == 0 )then
-                    write(6,'(A,1x,I6,5x,L1)') &
-                          'rkbm: i_tree, associated(GP_Trees(i_Tree,i_Track)%n)  ', &
-                                 i_tree, associated(GP_Trees(i_Tree,i_Track)%n)  
-                endif ! myid == 0 
+                !if( myid == 1 )then
+                !    write(6,'(A,1x,I6,5x,L1)') &
+                !          'rkbm: i_tree, associated(GP_Trees(i_Tree,i_Track)%n)  ', &
+                !                 i_tree, associated(GP_Trees(i_Tree,i_Track)%n)  
+                !endif ! myid == 1 
 
                 if( associated( GP_Trees(i_Tree,i_Track)%n) ) then
 
                     Tree_Value(i_Tree) = GP_Trees( i_Tree, i_Track )%n%val()
 
-                    if( myid == 0 )then
-                        write(6,'(A,22x,I6,1x,E15.7 )') &
-                              'rkbm: i_tree, Tree_Value(i_tree) ', &
-                                     i_tree, Tree_Value(i_tree)                      
-                    endif ! myid == 0 
+                    !if( myid == 1 )then
+                    !    write(6,'(A,22x,I6,1x,E15.7 )') &
+                    !          'rkbm: i_tree, Tree_Value(i_tree) ', &
+                    !                 i_tree, Tree_Value(i_tree)                      
+                    !endif ! myid == 1 
 
                 endif ! associated(GP_Trees...
 
@@ -169,9 +176,9 @@ do  i_Time_Step = 1, n_Time_Steps
             !   Calculate the flow terms from the determined tree_value terms
             !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-            if( myid == 0 )then
-                write(6,'(/A/)') 'rkbm: Calculate the flow terms from the determined tree_value terms'
-            endif ! myid == 0 
+            !if( myid == 1 )then
+            !    write(6,'(/A/)') 'rkbm: Calculate the flow terms from the determined tree_value terms'
+            !endif ! myid == 1 
 
             i_Tree=0
             do  i_CODE_Equation=0,n_CODE_Equations   ! source of material
@@ -186,10 +193,10 @@ do  i_Time_Step = 1, n_Time_Steps
                         bioflo(i_CODE_Equation,j_CODE_Equation)=abs(Tree_Value(i_Tree))  
                         
             
-                        if( myid == 0 )then
-                            write(6,'(A,1x,I6,2x,E20.10)') 'rkbm: i_Tree, Tree_Value(i_Tree)', &
-                                                                  i_Tree, Tree_Value(i_Tree)
-                        endif ! myid == 0 
+                        !if( myid == 1 )then
+                        !    write(6,'(A,1x,I6,2x,E20.10)') 'rkbm: i_Tree, Tree_Value(i_Tree)', &
+                        !                                          i_Tree, Tree_Value(i_Tree)
+                        !endif ! myid == 1 
 
                     else
 
@@ -245,7 +252,8 @@ do  i_Time_Step = 1, n_Time_Steps
         
         do  i_Variable=1,n_Variables
 
-            kval(iter,i_Variable) = Delta_Time_in_Days * fbio(i_Variable)
+            !kval(iter,i_Variable) = Delta_Time_in_Days * fbio(i_Variable)
+            kval(iter,i_Variable) = dt * fbio(i_Variable)
 
             if( iter .eq. 1) then
 
@@ -278,22 +286,19 @@ do  i_Time_Step = 1, n_Time_Steps
     Numerical_CODE_Solution(i_Time_Step,1:n_Variables)=max(b_tmp(1:n_Variables),0.0D+0)  
 
 
-    if( myid == 0 )then
-        write(6,'(//A,1x,I6,1x,6(1x,E15.7)//)') 'rkbm: i_time_step, solution ', &
-                       i_Time_Step, Numerical_CODE_Solution(i_Time_Step,1:n_Variables)
-    endif ! myid == 0 
+    !if( myid == 1 )then
+    !    write(6,'(//A,1x,I6,1x,6(1x,E15.7)//)') 'rkbm: i_time_step, solution ', &
+    !                   i_Time_Step, Numerical_CODE_Solution(i_Time_Step,1:n_Variables)
+    !endif ! myid == 1 
 
-                                                                                                                                   
-!    write(rk_output_unit,'(I10,1x,8(1x,E18.8E3))') & 
-!        i_time_step, Numerical_CODE_Solution(i_time_step,1:n_CODE_equations)
                                                                                                                                    
 
     
 enddo ! End Time step loop
 
-if( myid == 0 )then
-    write(6,'(A)') 'rkbm: leave Runge_Kutta_Box_Model '
-endif ! myid == 0 
+!if( myid == 1 )then
+!    write(6,'(A)') 'rkbm: leave Runge_Kutta_Box_Model '
+!endif ! myid == 1 
 
 
 return
