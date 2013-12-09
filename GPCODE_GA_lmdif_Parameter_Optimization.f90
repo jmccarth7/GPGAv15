@@ -773,11 +773,11 @@ do  i_GA_generation=1,n_GA_Generations
 
             if( Run_GA_lmdif(i_2_individual)) then
 
-                !if( L_ga_print )then
-                !    write(GA_print_unit,'(A,2(1x,I6))') &
-                !      'GP_GA_opt:3 call setup_run_fcn  myid, i_2_individual', &
-                !                                       myid, i_2_individual
-                !endif ! L_ga_print
+                if( L_ga_print )then
+                    write(GA_print_unit,'(A,2(1x,I6))') &
+                      'GP_GA_opt:3 call setup_run_fcn  myid, i_2_individual', &
+                                                       myid, i_2_individual
+                endif ! L_ga_print
 
                 ! do the Runge-Kutta integration for individual i_2_individual
 
@@ -794,11 +794,11 @@ do  i_GA_generation=1,n_GA_Generations
 
 
 
-                !if( L_ga_print )then
-                !    write(GA_print_unit,'(A,3(1x,I6))') &
-                !      'GP_GA_opt:3 AFTER call setup_run_fcn myid, i_2_individual', &
-                !                                            myid, i_2_individual
-                !endif ! L_ga_print
+                if( L_ga_print )then
+                    write(GA_print_unit,'(A,3(1x,I6))') &
+                      'GP_GA_opt:3 AFTER call setup_run_fcn myid, i_2_individual', &
+                                                            myid, i_2_individual
+                endif ! L_ga_print
 
                 !-------------------------------------------------------------------------
 
@@ -888,14 +888,14 @@ do  i_GA_generation=1,n_GA_Generations
 
     if( myid == 0  )then
 
-        !if( L_ga_print )then
+        if( L_ga_print )then
         !    !write(GA_print_unit,'(A)')  'GP_GA_opt: individual_SSE  '
         !    !write(GA_print_unit,'(5(1x,E12.5))')  individual_SSE(1:n_GA_individuals)
-        !
-        !    write(GA_print_unit,'(/A,1x,I6)') &
-        !          'GP_GA_opt: call calc_fitness i_GA_generation ', &
-        !                                        i_GA_generation
-        !endif ! L_ga_print
+        
+            write(GA_print_unit,'(/A,1x,I6)') &
+                  'GP_GA_opt: call calc_fitness i_GA_generation ', &
+                                                i_GA_generation
+        endif ! L_ga_print
 
 
         ! uses:
@@ -915,11 +915,11 @@ do  i_GA_generation=1,n_GA_Generations
                            i_GP_Generation, i_GP_individual )
 
 
-        !if( L_ga_print )then
-        !    write(GA_print_unit,'(/A,1x,I6/)') &
-        !          'GP_GA_opt: aft call calc_fitness i_GA_generation ', &
-        !                                            i_GA_generation
-        !endif ! L_ga_print
+        if( L_ga_print )then
+            write(GA_print_unit,'(/A,1x,I6/)') &
+                  'GP_GA_opt: aft call calc_fitness i_GA_generation ', &
+                                                    i_GA_generation
+        endif ! L_ga_print
 
         !---------------------------------------------------------------------
 
@@ -977,10 +977,10 @@ do  i_GA_generation=1,n_GA_Generations
 enddo  ! i_generation
 
 
-!if( L_ga_print )then
-!    write(GA_print_unit,'(//A,1x,I6/)') &
-!      'GP_GA_opt:  finished the loop on i_GA_generation  myid =  ', myid
-!endif ! L_ga_print
+if( L_ga_print )then
+    write(GA_print_unit,'(//A,1x,I6/)') &
+      'GP_GA_opt:  finished the loop on i_GA_generation  myid =  ', myid
+endif ! L_ga_print
 
 !----------------------------------------------------------------------
 
@@ -1025,7 +1025,7 @@ if( myid == 0  )then
                 L_stop_run  )
 
     if( L_ga_print )then
-        write(GA_print_unit,'(/A/)') &
+        write(GA_print_unit,'(/A//)') &
           'GP_GA_opt: aft call select_best_RK_lmdif_result '
     endif ! L_ga_print
 
@@ -1120,8 +1120,8 @@ call MPI_BCAST( GP_Individual_Initial_Conditions, message_len,    &
 !------------------------------------------------------------------------
 
 
-
 call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
+
 
 !------------------------------------------------------------------------
 

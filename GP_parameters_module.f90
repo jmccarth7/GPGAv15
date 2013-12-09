@@ -68,19 +68,15 @@ integer(kind=4),parameter :: GP_print_unit = 6
 integer(kind=4),parameter :: GP_summary_output_unit = 40
 
 integer(kind=4),parameter :: unit_gp_out = 50
-!integer(kind=4) ::  unit50_output_flag
 logical ::   L_unit50_output
 
 integer(kind=4),parameter :: GP_log_unit = 80
-!integer(kind=4) ::  GP_log_flag
 logical ::   L_GP_log
 
 
 integer(kind=4),parameter :: GP_output_unit = 30
-!integer(kind=4) ::  GP_output_parameters_flag
 logical ::          L_GP_output_parameters
 
-!integer(kind=4) ::  print_equations_flag
 logical ::   L_print_equations
 
 integer(kind=4) :: n_GP_individuals
@@ -126,6 +122,7 @@ real(kind=8) :: GP_Tree_Probability !=0.5 ! Estimated from previous work by Joel
 
 ! Node_Probability = !(/0.8d0,0.6d0,0.4d0,0.d0/)  ! NOTE: Last value MUST BE 0.0!!!]
 real(kind=8), allocatable, dimension(:) :: Node_Probability
+
 !---------------------------------------------------------------------------------------
 
 ! Note: The next 4 parameters must add up to 1.0

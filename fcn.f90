@@ -220,15 +220,18 @@ enddo  ! i_tree
 
 ! Initialize_Model calls build_trees which makes the GP_Trees
 
-write(6,'(/A/)') 'fcn: call Initialize_Model(.true.)'
-
+if( L_ga_print )then
+    write(GA_print_unit,'(/A/)') 'fcn: call Initialize_Model(.true.)'
+endif ! L_ga_print 
 ! sets buildtrees = .true. in initialize_model
 
 call Initialize_Model( .true. )   ! call build_trees
 
 !call Initialize_Model(.false.)   ! call Deserialize_Trees
 
-write(6,'(/A/)') 'fcn: aft call Initialize_Model(.true.)'
+if( L_ga_print )then
+    write(GA_print_unit,'(/A/)') 'fcn: aft call Initialize_Model(.true.)'
+endif ! L_ga_print 
 
 
 !!!!!------------------------------------------------------------------------------
@@ -285,6 +288,8 @@ if( myid == 1 )then
         write(6,'(A,1x,I6,1x,E15.7)') 'fcn: ii, Numerical_CODE_Initial_Conditions(ii)', &
                                             ii, Numerical_CODE_Initial_Conditions(ii)
     enddo ! ii
+
+    write(6,'(A)') ' '
 
     do  ii = 1, n_CODE_equations
         write(6,'(A,1x,I6,1x,E15.7)') 'fcn: ii, Numerical_CODE_Solution(0,ii)        ', &

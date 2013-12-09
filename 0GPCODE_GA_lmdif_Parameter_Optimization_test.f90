@@ -82,6 +82,9 @@ call MPI_COMM_RANK(MPI_COMM_WORLD, myid, ierr)
 call MPI_COMM_SIZE(MPI_COMM_WORLD, numprocs, ierr)
 
 
+if( myid == 0 )then
+    write(6,'(/A,1x,I2/)') '0: numprocs = ', numprocs 
+endif ! myid == 0 
 
 
 !------------------------------------------------------------------
@@ -930,18 +933,11 @@ do  i_GP_Generation=1,n_GP_Generations
     !-----------------------------------------------------------------------------------------
 
     !!!! Initialize_Model calls build_trees which makes the GP_Trees 
-
     !!!write(6,'(/A/)') '0: call Initialize_Model(.true.)'
-
     !!!! sets buildtrees = .true. in initialize_model 
-
     !!!call Initialize_Model( .true. )   ! call build_trees  
-
     !!!!call Initialize_Model(.false.)   ! call Deserialize_Trees 
-
     !!!write(6,'(/A/)') '0: aft call Initialize_Model(.true.)'
-
-
 
     !-----------------------------------------------------------------------------------------
     !>>>>>>>>>> jjm 20130417

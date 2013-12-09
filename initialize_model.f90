@@ -7,6 +7,7 @@ use mpi_module
 use fasham_variables_module
 !!!!!!!!!!use GP_model_parameters_module
 use GP_parameters_module
+use GA_parameters_module
 use GP_variables_module
     
 implicit none
@@ -20,6 +21,10 @@ integer :: i
 if( myid == 0 )then
     write(6,'(/A/)') 'inmod: entry  Initialize_Model '
 endif ! myid == 0 
+
+if( L_ga_print  .and.  myid == 1 )then
+    write(GA_print_unit,'(/A/)') 'inmod: entry  Initialize_Model '
+endif ! myid == 1 
 
 
 ! Set Variables
@@ -45,9 +50,14 @@ zoo     = 0.0D0 ! 2.0D0 ! Zooplankton       [mmol N m-3]
 !write(6,'(A,1x,I5)') 'inmod: SPECIES_Phyto ', SPECIES_Phyto
 !write(6,'(A,1x,I5)') 'inmod: SPECIES_Zoo   ', SPECIES_Zoo
 
+
 if( myid == 0 )then
     write(6,'(A,1x,I5)') 'inmod: n_CODE_equations ', n_CODE_equations 
 endif ! myid == 0 
+
+if( L_ga_print  .and. myid == 1 )then
+    write(GA_print_unit,'(A,1x,I5)') 'inmod: n_CODE_equations ', n_CODE_equations 
+endif ! L_ga_print  .and. myid == 1 
 
 
 ! See comment in GP_Variables
@@ -62,15 +72,24 @@ if( myid == 0 )then
     write(6,'(A,10(1x,I5))') 'inmod: bioflo_map(:,1) ', bioflo_map(:,1)
 endif ! myid == 0 
 
+if( L_ga_print  .and. myid == 1 )then
+    write(GA_print_unit,'(A,10(1x,I5))') 'inmod: bioflo_map(:,1) ', bioflo_map(:,1)
+endif ! L_ga_print  .and. myid == 1 
+
 
 ! Since indexes are all negative, take the absolute value
 
 bioflo_map = abs(bioflo_map)
 
 
+
 if( myid == 0 )then
     write(6,'(A,10(1x,I5))') 'inmod:2 abs bioflo_map(:,1) ', bioflo_map(:,1)
 endif ! myid == 0 
+
+if( L_ga_print  .and. myid == 1 )then
+    write(GA_print_unit,'(A,10(1x,I5))') 'inmod:2 abs bioflo_map(:,1) ', bioflo_map(:,1)
+endif ! L_ga_print  .and. myid == 1 
 
 
 !----------------------------------------------------------------------------------------------------
@@ -91,6 +110,12 @@ if( myid == 0 )then
 endif ! myid == 0 
 
 
+if( L_ga_print  .and. myid == 1 )then
+    write(GA_print_unit,'(A,2(1x,E15.7))') 'inmod: Numerical_CODE_Initial_Conditions ', &
+                                       Numerical_CODE_Initial_Conditions
+endif ! L_ga_print  .and. myid == 1 
+
+
 Numerical_CODE_Forcing_Functions = 0.0D+0 
 
 !write(6,'(A,2(1x,E15.7))') 'inmod: Numerical_CODE_Forcing_Functions ', &
@@ -104,6 +129,10 @@ if( buildTrees ) then
         write(6,'(//A)') 'inmod: call Build_Trees  '
     endif ! myid == 0 
 
+    if( L_ga_print  .and. myid == 1 )then
+        write(GA_print_unit,'(//A)') 'inmod: call Build_Trees  '
+    endif ! L_ga_print  .and. myid == 1 
+
 
     call Build_Trees( GP_Trees(:,1) )
 
@@ -111,6 +140,10 @@ if( buildTrees ) then
     if( myid == 0 )then
         write(6,'(A//)') 'inmod: aft call Build_Trees  '
     endif ! myid == 0 
+
+    if( L_ga_print  .and. myid == 1 )then
+        write(GA_print_unit,'(A//)') 'inmod: aft call Build_Trees  '
+    endif ! L_ga_print  .and. myid == 1 
 
 else
 
