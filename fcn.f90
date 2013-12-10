@@ -55,12 +55,19 @@ do i_CODE_equation=1,n_CODE_equations
 
   Runge_Kutta_Solution(0,i_CODE_equation)=dabs(x(i_CODE_equation))
 
-  !if( GP_para_flag .and. myid == 3 )then
-  !    write(GP_print_unit,'(A,1x,I6, 2(1x,E15.7))') &
-  !     'fcn: i_CODE_equation, Runge_Kutta_Solution(0,), X', &
-  !           i_CODE_equation, Runge_Kutta_Solution(0,i_CODE_equation),&
-  !                                                 x(i_CODE_equation)
-  !endif ! myid == 3
+  if( GP_para_flag )then
+      write(GP_print_unit,'(A,1x,I6, 2(1x,E15.7))') &
+       'fcn: i_CODE_equation, Runge_Kutta_Solution(0,), X', &
+             i_CODE_equation, Runge_Kutta_Solution(0,i_CODE_equation),&
+                                                   x(i_CODE_equation)
+  endif ! GP_para_flag
+
+  if( L_GA_print )then
+      write(GA_print_unit,'(A,1x,I6, 2(1x,E15.7))') &
+       'fcn: i_CODE_equation, Runge_Kutta_Solution(0,), X', &
+             i_CODE_equation, Runge_Kutta_Solution(0,i_CODE_equation),&
+                                                   x(i_CODE_equation)
+  endif ! L_GA_print  
 
   if( isnan( Runge_Kutta_Solution(0,i_CODE_equation) ) .or. &
         abs( Runge_Kutta_Solution(0,i_CODE_equation) )  > 1.0D20  )then
@@ -94,27 +101,40 @@ do i_tree=1,n_trees
     Runge_Kutta_Node_Type(i_node,i_tree) = &
             GP_Individual_Node_Type(i_node,i_tree) ! jjm 20130417
 
-    !if( GP_para_flag .and. myid == 1 )then
-    !    if( GP_Individual_Node_Type(i_node,i_tree) > -9999 )then
-    !        write(GP_print_unit,'(A,4(1x,I6))') &
-    !           'fcn: myid, i_tree, i_node, GP_Individual_Node_Type', &
-    !                 myid, i_tree, i_node, GP_Individual_Node_Type(i_node,i_tree)
-    !    endif ! GP_Individual_Node_Type(i_node,i_tree) > -9999
-    !endif !  myid == 1
+    if( GP_para_flag .and. myid == 1 )then
+        if( GP_Individual_Node_Type(i_node,i_tree) > -9999 )then
+            write(GP_print_unit,'(A,4(1x,I6))') &
+               'fcn: myid, i_tree, i_node, GP_Individual_Node_Type', &
+                     myid, i_tree, i_node, GP_Individual_Node_Type(i_node,i_tree)
+        endif ! GP_Individual_Node_Type(i_node,i_tree) > -9999
+    endif !  myid == 1
+     if( L_GA_print )then
+         if( GP_Individual_Node_Type(i_node,i_tree) > -9999 )then
+             write(GA_print_unit,'(A,4(1x,I6))') &
+                'fcn: myid, i_tree, i_node, GP_Individual_Node_Type', &
+                      myid, i_tree, i_node, GP_Individual_Node_Type(i_node,i_tree)
+         endif ! GP_Individual_Node_Type(i_node,i_tree) > -9999
+     endif ! L_GA_print  
 
     if( GP_Individual_Node_Type(i_node,i_tree) .eq. 0) then  ! set the node_parameter
 
       i_parameter=i_parameter+1
       Runge_Kutta_Node_Parameters(i_node,i_tree)=dabs(x(i_parameter))
 
-      !if( L_GP_print )then
-      !    if( GP_para_flag .and. myid == 3 )then
-      !        write(GP_print_unit,'(A,5(1x,I4),1x,E15.7)') &
-      !        'fcn: myid, i_tree, i_node, i_parameter, nn,  Runge_Kutta_Node_Params', &
-      !              myid, i_tree, i_node, i_parameter, nn,  &
-      !                                Runge_Kutta_Node_Parameters(i_node,i_tree)
-      !    endif !  myid == 3
-      !endif ! L_GP_print
+      if( L_GP_print )then
+          if( GP_para_flag )then
+              write(GP_print_unit,'(A,5(1x,I4),1x,E15.7)') &
+              'fcn: myid, i_tree, i_node, i_parameter, nn,  Runge_Kutta_Node_Params', &
+                    myid, i_tree, i_node, i_parameter, nn,  &
+                                      Runge_Kutta_Node_Parameters(i_node,i_tree)
+          endif !  GP_para_flag
+      endif ! L_GP_print
+      if( L_GA_print )then
+          write(GA_print_unit,'(A,5(1x,I4),1x,E15.7)') &
+          'fcn: myid, i_tree, i_node, i_parameter, nn,  Runge_Kutta_Node_Params', &
+                myid, i_tree, i_node, i_parameter, nn,  &
+                                  Runge_Kutta_Node_Parameters(i_node,i_tree)
+      endif ! L_GA_print  
 
       if( isnan( Runge_Kutta_Node_Parameters(i_node,i_tree) )  .or. &
             abs( Runge_Kutta_Node_Parameters(i_node,i_tree) ) > 1.0D20 ) then
@@ -301,34 +321,34 @@ if( myid == 1 )then
 
     write(6,'(A,2(1x,I6))') 'fcn: n_trees, n_nodes ', n_trees, n_nodes
 
-    !write(6,'(/A)') &
-    !      'fcn: i_tree  i_node  Runge_Kutta_Node_Parameters( i_node, i_tree ) '
-    !do  i_tree = 1, n_trees
-    !    do  i_node = 1, n_nodes
+    write(6,'(/A)') &
+          'fcn: i_tree  i_node  Runge_Kutta_Node_Parameters( i_node, i_tree ) '
+    do  i_tree = 1, n_trees
+        do  i_node = 1, n_nodes
 
-    !        if( Runge_Kutta_Node_Type( i_node, i_tree ) == 0     )then
-    !            write(6,'(2(1x,I8),6x,E15.7)') &
-    !                  i_tree, i_node, Runge_Kutta_Node_Parameters( i_node, i_tree )
-    !        endif ! Runge_Kutta_Node_Type( i_node, i_tree ) == 0
+            if( Runge_Kutta_Node_Type( i_node, i_tree ) == 0     )then
+                write(6,'(2(1x,I8),6x,E15.7)') &
+                      i_tree, i_node, Runge_Kutta_Node_Parameters( i_node, i_tree )
+            endif ! Runge_Kutta_Node_Type( i_node, i_tree ) == 0
 
-    !    enddo ! i_node
-    !enddo ! i_tree
+        enddo ! i_node
+    enddo ! i_tree
 
-    !write(6,'(//A)') &
-    !      'fcn: i_tree  i_node  Runge_Kutta_Node_Type( i_node, i_tree ) '
+    write(6,'(//A)') &
+          'fcn: i_tree  i_node  Runge_Kutta_Node_Type( i_node, i_tree ) '
 
-    !do  i_tree = 1, n_trees
-    !    do  i_node = 1, n_nodes
+    do  i_tree = 1, n_trees
+        do  i_node = 1, n_nodes
 
-    !        if( Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999 )then
-    !            write(6,'(3(1x,I8))') &
-    !                    i_tree, i_node, Runge_Kutta_Node_Type( i_node, i_tree )
-    !        endif ! Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999
+            if( Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999 )then
+                write(6,'(3(1x,I8))') &
+                        i_tree, i_node, Runge_Kutta_Node_Type( i_node, i_tree )
+            endif ! Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999
 
-    !    enddo ! i_node
-    !enddo ! i_tree
+        enddo ! i_node
+    enddo ! i_tree
 
-    !write(6,'(A)') ' '
+    write(6,'(A)') ' '
 
 endif ! myid == 1
 

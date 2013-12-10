@@ -80,13 +80,13 @@ n_GA_rand_replaces  = nint(GA_rand_replace_Probability  * n_GA_individuals)
 
 
 write(GP_print_unit,'(A,1x,I6)') &
-      'pv1: n_GA_Crossovers  ', n_GA_Crossovers
+      'pv1: n_GA_Crossovers                ', n_GA_Crossovers
 write(GP_print_unit,'(A,1x,I6)') &
-      'pv1: n_GA_Mutations   ', n_GA_Mutations
+      'pv1: n_GA_Mutations                 ', n_GA_Mutations
 write(GP_print_unit,'(A,1x,I6)') &
-      'pv1: n_GA_save_elites ', n_GA_save_elites
+      'pv1: n_GA_save_elites               ', n_GA_save_elites
 write(GP_print_unit,'(A,1x,I6)') &
-      'pv1: n_GA_rand_replaces   ', n_GA_rand_replaces
+      'pv1: n_GA_rand_replaces             ', n_GA_rand_replaces
 write(GP_print_unit,'(A,1x,E12.5)') &
       'pv1: GA_rand_replace_Probability ', GA_rand_replace_Probability
 

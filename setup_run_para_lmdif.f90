@@ -69,8 +69,8 @@ integer(kind=4) :: individual_quality
 integer(kind=4) :: i_time_step
 integer(kind=4) :: i_parameter
 
-!integer(kind=4) :: i_tree
-!integer(kind=4) :: i_node
+integer(kind=4) :: i_tree
+integer(kind=4) :: i_node
 
 real(kind=8) :: child_parameters( n_maximum_number_parameters )
 
@@ -122,8 +122,15 @@ endif ! n_parms <= 0
 ! GP_Individual_Node_Type is used in fcn
 ! and passed to RK subroutine as RK_node_type
 
-GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) = &
-               GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees,i_G_indiv)
+!GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) = &        ! 20131209
+!               GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees,i_G_indiv)
+
+do  i_tree=1,n_trees    ! 20131209
+    do  i_node=1,n_nodes
+        GP_Individual_Node_Type(i_node,i_tree) = &
+                       GP_Adult_Population_Node_Type(i_node,i_tree,i_G_indiv)
+    enddo ! i_node
+enddo  ! i_tree
 
 !-------------------------------------------------------------------------------
 
@@ -249,8 +256,9 @@ iunit = 0
 
 call lmdif( fcn, n_time_steps, n_parms, x_LMDIF, fvec, &
             ftol, xtol, gtol, maxfev, epsfcn, &
-            diag, mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf, &
-            iunit )
+            diag, mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf )    ! 20131209
+            !diag, mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf, &  ! 20131209
+            !iunit )                                                             ! 20131209
 
 
 

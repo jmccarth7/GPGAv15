@@ -32,6 +32,7 @@ integer ::  nsafe
 integer ::  i_dummy
 integer ::  i_individual
 integer ::  i_2_individual
+integer ::  i_code_equation 
 
 integer,parameter ::  itag  = 1
 integer,parameter ::  itag2 = 2
@@ -773,11 +774,11 @@ do  i_GA_generation=1,n_GA_Generations
 
             if( Run_GA_lmdif(i_2_individual)) then
 
-                if( L_ga_print )then
-                    write(GA_print_unit,'(A,2(1x,I6))') &
-                      'GP_GA_opt:3 call setup_run_fcn  myid, i_2_individual', &
-                                                       myid, i_2_individual
-                endif ! L_ga_print
+                !if( L_ga_print )then
+                !    write(GA_print_unit,'(A,2(1x,I6))') &
+                !      'GP_GA_opt:3 call setup_run_fcn  myid, i_2_individual', &
+                !                                       myid, i_2_individual
+                !endif ! L_ga_print
 
                 ! do the Runge-Kutta integration for individual i_2_individual
 
@@ -794,11 +795,11 @@ do  i_GA_generation=1,n_GA_Generations
 
 
 
-                if( L_ga_print )then
-                    write(GA_print_unit,'(A,3(1x,I6))') &
-                      'GP_GA_opt:3 AFTER call setup_run_fcn myid, i_2_individual', &
-                                                            myid, i_2_individual
-                endif ! L_ga_print
+                !if( L_ga_print )then
+                !    write(GA_print_unit,'(A,3(1x,I6))') &
+                !      'GP_GA_opt:3 AFTER call setup_run_fcn myid, i_2_individual', &
+                !                                            myid, i_2_individual
+                !endif ! L_ga_print
 
                 !-------------------------------------------------------------------------
 
@@ -895,6 +896,9 @@ do  i_GA_generation=1,n_GA_Generations
             write(GA_print_unit,'(/A,1x,I6)') &
                   'GP_GA_opt: call calc_fitness i_GA_generation ', &
                                                 i_GA_generation
+            write(GA_print_unit,'(/A,6(1x,E15.7))') &
+                  'GP_GA_opt: GP_Individual_Initial_Conditions ', &
+                              GP_Individual_Initial_Conditions(1:n_code_equations)
         endif ! L_ga_print
 
 
@@ -1128,6 +1132,14 @@ call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
 
 if( myid == 0  )then
     if( L_ga_print )then
+        write(GA_print_unit,'(//A/)') 'GP_GA_opt:  final initial_conditions '
+        write(GA_print_unit,'(A)') &
+              'i_CODE_equation                  GP_Individual_Initial_Conditions '
+        do  i_code_equation = 1, n_code_equations 
+            write(GA_print_unit,'(I6,1x,E15.7 )') &
+              i_code_equation, GP_Individual_Initial_Conditions(i_code_equation)
+        enddo !  i_code_equation
+
         write(GA_print_unit,'(//A/)') 'GP_GA_opt:  final parent parameters  '
         write(GA_print_unit,'(A)') &
               'i_GA_individual                  parent_parameters '

@@ -67,13 +67,14 @@ integer(kind=4) :: i_CODE_Equation, j_CODE_Equation, i_Variable
 
 !--------------------------------------------------------------------------------------
 
+
 if( myid == 0 )then
-    write(6,'(/A/)') 'rkbm: entry Runge_Kutta_Box_Model '
+    write(6,'(/A,1x,I6/)') 'rkbm: entry Runge_Kutta_Box_Model myid = ', myid
     write(6,'(A,1x,I6/)') 'rkbm: n_Variables ', n_Variables
 endif ! myid == 0 
 
-if( L_ga_print .and. myid == 1 )then
-    write(GA_print_unit,'(/A/)') 'rkbm: entry Runge_Kutta_Box_Model '
+if( L_ga_print )then ! .and. myid == 1 )then
+    write(GA_print_unit,'(/A,1x,I6/)') 'rkbm: entry Runge_Kutta_Box_Model myid = ', myid
     write(GA_print_unit,'(A,1x,I6/)') 'rkbm: n_Variables ', n_Variables
 endif ! L_ga_print .and. myid == 1 
 
@@ -101,7 +102,7 @@ if( myid == 0 )then
       'rkbm: before loop  btmp(:)', btmp(:)                                 
 endif ! myid == 0 
 
-if( L_ga_print .and. myid == 1 )then
+if( L_ga_print )then ! .and. myid == 1 )then
     write(GA_print_unit,'(A,10(1x,E15.7)/ )') &
       'rkbm: before loop  btmp(:)', btmp(:)                                 
 endif ! L_ga_print .and. myid == 1 
@@ -299,12 +300,12 @@ do  i_Time_Step = 1, n_Time_Steps
 
 
     if( myid == 0 )then
-        write(6,'(//A,1x,I6,1x,6(1x,E15.7)//)') 'rkbm: i_time_step, solution ', &
+        write(6,'(A,1x,I6,1x,6(1x,E15.7))') 'rkbm: i_time_step, solution ', &
                        i_Time_Step, Numerical_CODE_Solution(i_Time_Step,1:n_Variables)
     endif ! myid == 0 
 
-    if( L_ga_print .and. myid == 1 )then
-        write(GA_print_unit,'(//A,1x,I6,1x,6(1x,E15.7)//)') &
+    if( L_ga_print )then ! .and. myid == 1 )then
+        write(GA_print_unit,'(A,1x,I6,1x,6(1x,E15.7))') &
               'rkbm: i_time_step, solution ', &
                      i_Time_Step, Numerical_CODE_Solution(i_Time_Step,1:n_Variables)
     endif ! L_ga_print .and. myid == 1 
@@ -318,7 +319,7 @@ if( myid == 0 )then
     write(6,'(A)') 'rkbm: leave Runge_Kutta_Box_Model '
 endif ! myid == 0 
 
-if( L_ga_print .and. myid == 1 )then
+if( L_ga_print )then ! .and. myid == 1 )then
     write(GA_print_unit,'(A)') 'rkbm: leave Runge_Kutta_Box_Model '
 endif ! L_ga_print .and. myid == 1
 

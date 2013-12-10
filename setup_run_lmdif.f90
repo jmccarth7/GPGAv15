@@ -171,7 +171,8 @@ L_bad_result = .false.
 
 call lmdif( fcn, n_time_steps, n_parameters, x_LMDIF, fvec, &
             ftol, xtol, gtol, maxfev, epsfcn, &
-            diag, mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf, 0 )
+            diag, mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf )     ! 20131209
+            !diag, mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf, 0 ) ! 20131209
 
 
 
