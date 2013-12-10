@@ -125,7 +125,7 @@ call MPI_BCAST( Run_GP_Calculate_Fitness , n_GP_Individuals,    &
 
 !---------------------------------------------------------------------
 
-call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
+!call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ? 20131209
 
 
 return

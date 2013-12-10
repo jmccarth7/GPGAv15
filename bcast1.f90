@@ -92,7 +92,7 @@ call MPI_BCAST( L_GP_output_parameters, 1,    &
 
 !-----------------------------------------------------------------
 
-call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
+!call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary? 20131209
 
 return
 

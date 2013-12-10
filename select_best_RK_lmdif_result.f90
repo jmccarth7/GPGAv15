@@ -107,8 +107,12 @@ individual_ranked_fitness_best_1 = individual_ranked_fitness(i_GA_best_parent)
 Individual_Fitness        = Individual_Ranked_Fitness(i_GA_Best_Parent)
 Individual_Fitness_best_1 = Individual_Fitness
 
-parent_parameters_best_1(1:n_parameters) =  &
-                        Parent_Parameters(1:n_parameters, i_GA_Best_Parent)
+!parent_parameters_best_1(1:n_parameters) =  &                   ! 20131209
+!                        Parent_Parameters(1:n_parameters, i_GA_Best_Parent)
+do  jj = 1, n_parameters
+    parent_parameters_best_1(jj) =  &
+                        Parent_Parameters(jj, i_GA_Best_Parent)
+enddo ! jj 
 
 if( L_ga_print )then
     write(GA_print_unit,'(/A,1x,I10, 2(1x,E20.10))') &
@@ -219,8 +223,12 @@ if( individual_ranked_fitness(i_GA_best_parent) <= &
     Individual_SSE_best_parent = individual_SSE_best_1
 
 
-    child_parameters(1:n_parameters,i_GA_Best_Parent) =  &
-                        parent_parameters_best_1(1:n_parameters)
+    !child_parameters(1:n_parameters,i_GA_Best_Parent) =  &                   ! 20131209
+    !                    parent_parameters_best_1(1:n_parameters)
+    do  jj = 1, n_parameters
+        child_parameters(jj,i_GA_Best_Parent) =  &
+                            parent_parameters_best_1(jj)
+    enddo ! jj
 
 
     ! choose the parameters of the best parent from the RK fcn integration
@@ -237,9 +245,12 @@ if( individual_ranked_fitness(i_GA_best_parent) <= &
 
 
 
-    GP_Individual_Initial_Conditions(1:n_CODE_Equations) = &
-            parent_parameters_best_1(1:n_CODE_Equations)
+    !GP_Individual_Initial_Conditions(1:n_CODE_Equations) = &   ! 20131209
+    !        parent_parameters_best_1(1:n_CODE_Equations)
 
+    do  jj = 1, n_code_equations
+        GP_Individual_Initial_Conditions(jj) = parent_parameters_best_1(jj)
+    enddo ! jj
 
 
     if( L_ga_print )then
@@ -333,9 +344,13 @@ else  ! lmdif is best
     Individual_SSE_best_parent = individual_SSE(i_GA_best_parent)
 
 
-    child_parameters(1:n_parameters,i_GA_Best_Parent) =  &
-                        Parent_Parameters(1:n_parameters, i_GA_Best_Parent)
+    !child_parameters(1:n_parameters,i_GA_Best_Parent) =  &                 ! 20131209
+    !                    Parent_Parameters(1:n_parameters, i_GA_Best_Parent)
 
+    do  jj = 1, n_parameters
+        child_parameters(jj,i_GA_Best_Parent) =  &
+                            Parent_Parameters(jj, i_GA_Best_Parent)
+    enddo ! jj
 
     ! choose the parameters from the lmdif output for the best parent
 
@@ -347,9 +362,13 @@ else  ! lmdif is best
     endif ! L_ga_print
 
 
-    GP_Individual_Initial_Conditions(1:n_CODE_Equations) = &
-                    Parent_Parameters( 1:n_CODE_Equations, i_GA_Best_Parent )
+    !GP_Individual_Initial_Conditions(1:n_CODE_Equations) = &                  ! 20131209
+    !                Parent_Parameters( 1:n_CODE_Equations, i_GA_Best_Parent )
 
+    do  jj = 1, n_CODE_Equations
+        GP_Individual_Initial_Conditions(jj) = &
+                        Parent_Parameters( jj, i_GA_Best_Parent )
+    enddo ! jj
 
     if( L_ga_print )then
         write(GA_print_unit,'(/A/ 6(1x,E24.16))') &

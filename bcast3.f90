@@ -31,7 +31,7 @@ integer :: buffer_length
 ! GP_Adult_Individual_SSE
 
 
-call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
+!call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?   20131209
 
 !if( myid == 0 )then
 !    write(GP_print_unit,'(/A/(5(1x,E15.7)))') &
@@ -107,7 +107,7 @@ call MPI_BCAST( GP_Integrated_Population_Ranked_Fitness, n_GP_individuals,    &
 
 !------------------------------------------------------------------------------
 
-call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
+!call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?  20131209
 
 
 return

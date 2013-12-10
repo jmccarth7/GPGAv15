@@ -81,9 +81,13 @@ integer(kind=4) :: jj
 i_dummy = 0
 
 
-buffer(1:n_maximum_number_parameters+2)      = 0.0D0
-buffer_recv(1:n_maximum_number_parameters+2) = 0.0D0
+!buffer(1:n_maximum_number_parameters+2)      = 0.0D0
+!buffer_recv(1:n_maximum_number_parameters+2) = 0.0D0
 
+do  jj = 1, n_maximum_number_parameters+2
+    buffer(jj)      = 0.0D0
+    buffer_recv(jj) = 0.0D0
+enddo ! jj
 
 
 n_parameters = n_GP_parameters
@@ -222,16 +226,16 @@ do  i_GA_generation=1,n_GA_Generations
 
             ! print child parameters at start of the generation
 
-            if( L_ga_print )then
-                write(GA_print_unit,'(/A,1x,I6)') &
-                'GP_GA_opt:1 child parameters at start of generation: ', &
-                                                    i_GA_generation
-                do  i_GA_individual = 1, n_GA_Individuals
-                    write(GA_print_unit,'(I6,10(1x,E14.7)/(10(1x,E14.7)))') &
-                          i_GA_individual, &
-                          ( child_parameters(jj,i_GA_individual), jj = 1,n_parameters )
-                enddo ! i_GA_individual
-            endif ! L_ga_print
+            !if( L_ga_print )then
+            !    write(GA_print_unit,'(/A,1x,I6)') &
+            !    'GP_GA_opt:1 child parameters at start of generation: ', &
+            !                                        i_GA_generation
+            !    do  i_GA_individual = 1, n_GA_Individuals
+            !        write(GA_print_unit,'(I6,10(1x,E14.7)/(10(1x,E14.7)))') &
+            !              i_GA_individual, &
+            !              ( child_parameters(jj,i_GA_individual), jj = 1,n_parameters )
+            !    enddo ! i_GA_individual
+            !endif ! L_ga_print
 
 
 
@@ -438,7 +442,7 @@ do  i_GA_generation=1,n_GA_Generations
     !                myid, n_GA_Individuals, n_maximum_number_parameters, child_number
     !endif ! L_ga_print
 
-    call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
+    !call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?   ! 20131209
 
     call MPI_BCAST( Child_Parameters,  child_number,    &
                     MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
@@ -594,8 +598,11 @@ do  i_GA_generation=1,n_GA_Generations
 
             if( Run_GA_lmdif(i_individual) ) then
 
-                child_parameters(1:n_maximum_number_parameters,i_individual) =  &
-                                     buffer_recv(1:n_maximum_number_parameters)
+                !child_parameters(1:n_maximum_number_parameters,i_individual) =  &  ! 20131209
+                !                     buffer_recv(1:n_maximum_number_parameters)
+                do  jj = 1, n_maximum_number_parameters
+                    child_parameters(jj,i_individual) =  buffer_recv(jj)
+                enddo ! jj
 
                 individual_SSE(i_individual)     =       buffer_recv( n_maximum_number_parameters+1)
                 individual_quality(i_individual) = nint( buffer_recv( n_maximum_number_parameters+2))
@@ -803,8 +810,13 @@ do  i_GA_generation=1,n_GA_Generations
 
                 !-------------------------------------------------------------------------
 
-                buffer(1:n_maximum_number_parameters) = &
-                      child_parameters(1:n_maximum_number_parameters,i_2_individual)
+                !buffer(1:n_maximum_number_parameters) = &            ! 20131209
+                !      child_parameters(1:n_maximum_number_parameters,i_2_individual)
+
+                do  jj = 1, n_maximum_number_parameters
+                    buffer(jj) =  child_parameters(jj, i_2_individual)
+                enddo ! jj
+
                 buffer(n_maximum_number_parameters+1) = &
                       individual_SSE(i_2_individual)
                 buffer(n_maximum_number_parameters+2) = &
@@ -889,17 +901,17 @@ do  i_GA_generation=1,n_GA_Generations
 
     if( myid == 0  )then
 
-        if( L_ga_print )then
+        !if( L_ga_print )then
         !    !write(GA_print_unit,'(A)')  'GP_GA_opt: individual_SSE  '
         !    !write(GA_print_unit,'(5(1x,E12.5))')  individual_SSE(1:n_GA_individuals)
-        
-            write(GA_print_unit,'(/A,1x,I6)') &
-                  'GP_GA_opt: call calc_fitness i_GA_generation ', &
-                                                i_GA_generation
-            write(GA_print_unit,'(/A,6(1x,E15.7))') &
-                  'GP_GA_opt: GP_Individual_Initial_Conditions ', &
-                              GP_Individual_Initial_Conditions(1:n_code_equations)
-        endif ! L_ga_print
+        !
+        !    write(GA_print_unit,'(/A,1x,I6)') &
+        !          'GP_GA_opt: call calc_fitness i_GA_generation ', &
+        !                                        i_GA_generation
+        !    write(GA_print_unit,'(/A,6(1x,E15.7))') &                 
+        !          'GP_GA_opt: GP_Individual_Initial_Conditions ', & 
+        !                      GP_Individual_Initial_Conditions(1:n_code_equations)           
+        !endif ! L_ga_print
 
 
         ! uses:
@@ -919,11 +931,11 @@ do  i_GA_generation=1,n_GA_Generations
                            i_GP_Generation, i_GP_individual )
 
 
-        if( L_ga_print )then
-            write(GA_print_unit,'(/A,1x,I6/)') &
-                  'GP_GA_opt: aft call calc_fitness i_GA_generation ', &
-                                                    i_GA_generation
-        endif ! L_ga_print
+        !if( L_ga_print )then
+        !    write(GA_print_unit,'(/A,1x,I6/)') &
+        !          'GP_GA_opt: aft call calc_fitness i_GA_generation ', &
+        !                                            i_GA_generation
+        !endif ! L_ga_print
 
         !---------------------------------------------------------------------
 
@@ -981,10 +993,10 @@ do  i_GA_generation=1,n_GA_Generations
 enddo  ! i_generation
 
 
-if( L_ga_print )then
-    write(GA_print_unit,'(//A,1x,I6/)') &
-      'GP_GA_opt:  finished the loop on i_GA_generation  myid =  ', myid
-endif ! L_ga_print
+!if( L_ga_print )then
+!    write(GA_print_unit,'(//A,1x,I6/)') &
+!      'GP_GA_opt:  finished the loop on i_GA_generation  myid =  ', myid
+!endif ! L_ga_print
 
 !----------------------------------------------------------------------
 
@@ -1037,7 +1049,7 @@ if( myid == 0  )then
 endif ! myid == 0
 
 
-call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
+!call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?  20131209
 
 !------------------------------------------------------------------------
 
@@ -1124,8 +1136,8 @@ call MPI_BCAST( GP_Individual_Initial_Conditions, message_len,    &
 !------------------------------------------------------------------------
 
 
-call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
 
+!call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?  ! 20131209
 
 !------------------------------------------------------------------------
 

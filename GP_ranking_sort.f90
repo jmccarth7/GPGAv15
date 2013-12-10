@@ -22,6 +22,7 @@ integer(kind=4) :: i_tree
 integer(kind=4) :: i_node
 
 integer(kind=4) :: i_parm
+integer(kind=4) :: jj             
 
 real(kind=8), dimension( 1:n_Nodes,1:n_Trees, 1:n_GP_individuals ) :: &
                          GP_population_node_parameters_temp
@@ -96,9 +97,13 @@ enddo  ! i_GP_Individual
 !-------------------------------------------------------------------------------------------------
 !-------------------------------------------------------------------------------------------------
 
+!GP_Adult_Population_SSE = GP_Child_Individual_SSE   ! 20131209
+!GP_Adult_Individual_SSE = GP_Child_Individual_SSE
 
-GP_Adult_Population_SSE=GP_Child_Individual_SSE
-GP_Adult_Individual_SSE=GP_Child_Individual_SSE
+do  jj = 1, n_GP_Individuals   ! 20131209
+    GP_Adult_Population_SSE(jj) = GP_Child_Individual_SSE(jj)
+    GP_Adult_Individual_SSE(jj) = GP_Child_Individual_SSE(jj)
+enddo 
 
 !GP_Child_Individual_SSE=GP_Child_Population_SSE
 
@@ -117,13 +122,33 @@ GP_Adult_Individual_SSE=GP_Child_Individual_SSE
 
 !-------------------------------------------------------------------------------------------------
 
-GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees,  1:n_GP_Individuals) = &
-GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees,  Ranked_Fitness_Index(1:n_GP_Individuals) )
+!GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees,  1:n_GP_Individuals) = &          ! 20131209
+!GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees,  Ranked_Fitness_Index(1:n_GP_Individuals) )
 
 ! Copy this back across to the Child Population values
 ! to allow the Elite codes to propagate along in the next generations
 
-GP_Child_Population_Node_Type=GP_Adult_Population_Node_Type
+!GP_Child_Population_Node_Type=GP_Adult_Population_Node_Type
+
+do  i_GP_individual = 1, n_GP_individuals          ! 20131209
+    do  i_tree = 1, n_trees
+        do  i_node = 1, n_nodes
+            GP_Adult_Population_Node_Type(i_Node,i_Tree,  i_GP_Individual) = &
+               GP_Child_Population_Node_Type(i_Node,i_Tree, Ranked_Fitness_Index(i_GP_Individual) )
+        enddo ! i_node
+    enddo ! i_tree
+
+enddo ! i_GP_individual
+
+
+do  i_GP_individual = 1, n_GP_individuals          ! 20131209
+    do  i_tree = 1, n_trees
+        do  i_node = 1, n_nodes
+            GP_Child_Population_Node_Type(i_Node,i_Tree,  i_GP_Individual) =  &
+                     GP_Adult_Population_Node_Type(i_Node,i_Tree,  i_GP_Individual)
+        enddo ! i_node
+    enddo ! i_tree
+enddo ! i_GP_individual
 
 !-------------------------------------------------------------------------------------------------
 
@@ -153,16 +178,30 @@ GP_Child_Population_Node_Type=GP_Adult_Population_Node_Type
 !-------------------------------------------------------------------------------------------------
 
 ! sort the GP_population_initial_conditions
+! 20131209
+!GP_Population_Initial_Conditions_temp(1:n_code_equations, 1:n_GP_individuals ) = &
+!             GP_Population_Initial_Conditions(1:n_code_equations,  Ranked_Fitness_Index(1:n_GP_individuals) )
 
-do  i_GP_individual = 1, n_GP_individuals
+do  i_GP_individual = 1, n_GP_individuals    ! 20131209
 
-    GP_Population_Initial_Conditions_temp(1:n_CODE_Equations, i_GP_individual ) = &
-         GP_Population_Initial_Conditions(1:n_CODE_Equations, &
-                                                  Ranked_Fitness_Index(i_GP_individual) )
+    do  jj = 1, n_CODE_Equations
+        GP_Population_Initial_Conditions_temp(jj , i_GP_individual ) = &
+             GP_Population_Initial_Conditions(jj,  Ranked_Fitness_Index(i_GP_individual) )
+    enddo ! jj 
 
 enddo ! i_GP_individual
 
-GP_Population_Initial_Conditions = GP_Population_Initial_Conditions_temp
+!GP_Population_Initial_Conditions = GP_Population_Initial_Conditions_temp ! 20131209
+
+
+do  i_GP_individual = 1, n_GP_individuals    ! 20131209
+
+    do  jj = 1, n_CODE_Equations
+        GP_Population_Initial_Conditions(jj , i_GP_individual ) = &
+          GP_Population_Initial_Conditions_temp(jj , i_GP_individual )
+    enddo ! jj 
+
+enddo ! i_GP_individual
 
 !-------------------------------------------------------------------------------------------------
 
@@ -188,14 +227,34 @@ GP_Population_Initial_Conditions = GP_Population_Initial_Conditions_temp
 
 ! sort the GP_population_node_parameters
 
-do  i_GP_individual = 1, n_GP_individuals
+!do  i_GP_individual = 1, n_GP_individuals  ! 20131209
+!    GP_population_node_parameters_temp(1:n_Nodes,1:n_Trees, i_GP_individual ) = &
+!         GP_population_node_parameters(1:n_Nodes,1:n_Trees, Ranked_Fitness_Index(i_GP_individual) )
+!enddo ! i_GP_individual
 
-    GP_population_node_parameters_temp(1:n_Nodes,1:n_Trees, i_GP_individual ) = &
-         GP_population_node_parameters(1:n_Nodes,1:n_Trees, Ranked_Fitness_Index(i_GP_individual) )
+!GP_population_node_parameters = GP_population_node_parameters_temp  ! 20131209
+
+
+do  i_GP_individual = 1, n_GP_individuals          ! 20131209
+    do  i_tree = 1, n_trees
+        do  i_node = 1, n_nodes
+            GP_population_node_parameters_temp(i_Node,i_Tree, i_GP_individual ) = &
+                 GP_population_node_parameters(i_Node,i_Tree, Ranked_Fitness_Index(i_GP_individual) )
+        enddo ! i_node
+    enddo ! i_tree
 
 enddo ! i_GP_individual
 
-GP_population_node_parameters = GP_population_node_parameters_temp
+
+do  i_GP_individual = 1, n_GP_individuals          ! 20131209
+    do  i_tree = 1, n_trees
+        do  i_node = 1, n_nodes
+            GP_population_node_parameters(i_Node,i_Tree,  i_GP_Individual) = &
+                    GP_population_node_parameters_temp(i_Node,i_Tree,  i_GP_Individual)
+        enddo ! i_node
+    enddo ! i_tree
+enddo ! i_GP_individual
+
 
 !-------------------------------------------------------------------------------------------------
 

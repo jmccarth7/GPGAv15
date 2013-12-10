@@ -1,5 +1,5 @@
 subroutine lmdif ( fcn, m, n, x, fvec, ftol, xtol, gtol, maxfev, epsfcn, &
-  diag, mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf, iunit )
+  diag, mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf ) !, iunit ) ! 20131209
 
 !*****************************************************************************80
 !
@@ -149,7 +149,7 @@ subroutine lmdif ( fcn, m, n, x, fvec, ftol, xtol, gtol, maxfev, epsfcn, &
 !
   implicit none
 
-  integer(kind=4),intent(in) ::  iunit   ! jjm
+  !integer(kind=4),intent(in) ::  iunit   ! jjm
 
   integer ( kind = 4 ) ldfjac
   integer ( kind = 4 ) m
