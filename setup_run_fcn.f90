@@ -62,17 +62,17 @@ do  i_parameter=1,n_parameters
 
     X_LMDIF(i_parameter) = child_parameters(i_parameter,i_GA_indiv)
 
-    !if( myid == 1 )then
-    !    if( L_ga_print )then
-    !        write(GA_print_unit,'(A,3(1x,I6),1x,E20.10)') &
-    !              'setrf:1 myid, i_GA_indiv,i_parameter, child_parameters ', &
-    !                       myid, i_GA_indiv,i_parameter, &
-    !                       child_parameters(i_parameter,i_GA_indiv)
-    !        write(GA_print_unit,'(A,3(1x,I6),1x,E20.10)') &
-    !              'setrf:1 myid, i_GA_indiv, i_parameter,  X_LMDIF', &
-    !                       myid, i_GA_indiv, i_parameter,  X_LMDIF(i_parameter)
-    !    endif ! L_ga_print
-    !endif ! myid == 1
+    if( myid == 1 )then
+        if( L_ga_print )then
+            write(GA_print_unit,'(A,3(1x,I6),1x,E20.10)') &
+                  'setrf:1 myid, i_GA_indiv,i_parameter, child_parameters ', &
+                           myid, i_GA_indiv,i_parameter, &
+                           child_parameters(i_parameter,i_GA_indiv)
+            write(GA_print_unit,'(A,3(1x,I6),1x,E20.10)') &
+                  'setrf:1 myid, i_GA_indiv, i_parameter,  X_LMDIF', &
+                           myid, i_GA_indiv, i_parameter,  X_LMDIF(i_parameter)
+        endif ! L_ga_print
+    endif ! myid == 1
 
 enddo ! i_parameter
 

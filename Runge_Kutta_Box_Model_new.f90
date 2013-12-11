@@ -75,7 +75,7 @@ endif ! myid == 0
 
 if( L_ga_print )then ! .and. myid == 1 )then
     write(GA_print_unit,'(/A,1x,I6/)') 'rkbm: entry Runge_Kutta_Box_Model myid = ', myid
-    write(GA_print_unit,'(A,1x,I6/)') 'rkbm: n_Variables ', n_Variables
+    write(GA_print_unit,'(A,1x,I6/)')  'rkbm: n_Variables ', n_Variables
 endif ! L_ga_print .and. myid == 1 
 
 !if( delta_time_in_days <= 0.0d0 )then
@@ -99,10 +99,16 @@ endif ! dt <= 0.0D0
 
 if( myid == 0 )then
     write(6,'(A,10(1x,E15.7)/ )') &
+      'rkbm: before loop Numerical_CODE_Solution(0,:)', &
+                         Numerical_CODE_Solution(0,:)
+    write(6,'(A,10(1x,E15.7)/ )') &
       'rkbm: before loop  btmp(:)', btmp(:)                                 
 endif ! myid == 0 
 
 if( L_ga_print )then ! .and. myid == 1 )then
+    write(6,'(A,10(1x,E15.7)/ )') &
+      'rkbm: before loop Numerical_CODE_Solution(0,:)', &
+                         Numerical_CODE_Solution(0,:)
     write(GA_print_unit,'(A,10(1x,E15.7)/ )') &
       'rkbm: before loop  btmp(:)', btmp(:)                                 
 endif ! L_ga_print .and. myid == 1 

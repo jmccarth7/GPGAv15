@@ -81,7 +81,7 @@ integer(kind=4) :: jj
 i_dummy = 0
 
 
-!buffer(1:n_maximum_number_parameters+2)      = 0.0D0
+!buffer(1:n_maximum_number_parameters+2)      = 0.0D0   ! 20131209
 !buffer_recv(1:n_maximum_number_parameters+2) = 0.0D0
 
 do  jj = 1, n_maximum_number_parameters+2
@@ -901,17 +901,17 @@ do  i_GA_generation=1,n_GA_Generations
 
     if( myid == 0  )then
 
-        !if( L_ga_print )then
-        !    !write(GA_print_unit,'(A)')  'GP_GA_opt: individual_SSE  '
-        !    !write(GA_print_unit,'(5(1x,E12.5))')  individual_SSE(1:n_GA_individuals)
-        !
-        !    write(GA_print_unit,'(/A,1x,I6)') &
-        !          'GP_GA_opt: call calc_fitness i_GA_generation ', &
-        !                                        i_GA_generation
-        !    write(GA_print_unit,'(/A,6(1x,E15.7))') &                 
-        !          'GP_GA_opt: GP_Individual_Initial_Conditions ', & 
-        !                      GP_Individual_Initial_Conditions(1:n_code_equations)           
-        !endif ! L_ga_print
+        if( L_ga_print )then
+            !write(GA_print_unit,'(A)')  'GP_GA_opt: individual_SSE  '
+            !write(GA_print_unit,'(5(1x,E12.5))')  individual_SSE(1:n_GA_individuals)
+        
+            write(GA_print_unit,'(/A,1x,I6)') &
+                  'GP_GA_opt: call calc_fitness i_GA_generation ', &
+                                                i_GA_generation
+            write(GA_print_unit,'(/A,6(1x,E15.7))') &                 
+                  'GP_GA_opt: GP_Individual_Initial_Conditions ', & 
+                              GP_Individual_Initial_Conditions(1:n_code_equations)           
+        endif ! L_ga_print
 
 
         ! uses:

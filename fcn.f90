@@ -62,12 +62,12 @@ do i_CODE_equation=1,n_CODE_equations
   !                                                 x(i_CODE_equation)
   !endif ! GP_para_flag
 
-  !if( L_GA_print )then
-  !    write(GA_print_unit,'(A,1x,I6, 2(1x,E15.7))') &
-  !     'fcn: i_CODE_equation, Runge_Kutta_Solution(0,), X', &
-  !           i_CODE_equation, Runge_Kutta_Solution(0,i_CODE_equation),&
-  !                                                 x(i_CODE_equation)
-  !endif ! L_GA_print  
+  if( L_GA_print )then
+      write(GA_print_unit,'(A,1x,I6, 2(1x,E15.7))') &
+       'fcn: i_CODE_equation, Runge_Kutta_Solution(0,), X', &
+             i_CODE_equation, Runge_Kutta_Solution(0,i_CODE_equation),&
+                                                   x(i_CODE_equation)
+  endif ! L_GA_print  
 
   if( isnan( Runge_Kutta_Solution(0,i_CODE_equation) ) .or. &
         abs( Runge_Kutta_Solution(0,i_CODE_equation) )  > 1.0D20  )then
@@ -313,53 +313,53 @@ Numerical_CODE_Initial_Conditions             = Runge_Kutta_Solution(0,1:n_CODE_
 
 
 if( myid == 1 )then
-    write(6,'(A)') ' '
+    write(GA_print_unit,'(A)') ' '
 
     do  ii = 1, n_CODE_equations
-        write(6,'(A,1x,I6,1x,E15.7)') 'fcn: ii, Numerical_CODE_Initial_Conditions(ii)', &
-                                            ii, Numerical_CODE_Initial_Conditions(ii)
+        write(GA_print_unit,'(A,1x,I6,1x,E15.7)') 'fcn: ii, Numerical_CODE_Initial_Conditions(ii)', &
+                                                        ii, Numerical_CODE_Initial_Conditions(ii)
     enddo ! ii
 
-    write(6,'(A)') ' '
+    write(GA_print_unit,'(A)') ' '
 
     do  ii = 1, n_CODE_equations
-        write(6,'(A,1x,I6,1x,E15.7)') 'fcn: ii, Numerical_CODE_Solution(0,ii)        ', &
-                                            ii, Numerical_CODE_Solution(0,ii)
+        write(GA_print_unit,'(A,1x,I6,1x,E15.7)') 'fcn: ii, Numerical_CODE_Solution(0,ii)        ', &
+                                                        ii, Numerical_CODE_Solution(0,ii)
     enddo ! ii
 
 
-    write(6,'(A)') ' '
+    write(GA_print_unit,'(A)') ' '
 
-    write(6,'(A,2(1x,I6))') 'fcn: n_trees, n_nodes ', n_trees, n_nodes
+    write(GA_print_unit,'(A,2(1x,I6))') 'fcn: n_trees, n_nodes ', n_trees, n_nodes
 
-    write(6,'(/A)') &
+    write(GA_print_unit,'(/A)') &
           'fcn: i_tree  i_node  Runge_Kutta_Node_Parameters( i_node, i_tree ) '
     do  i_tree = 1, n_trees
         do  i_node = 1, n_nodes
 
             if( Runge_Kutta_Node_Type( i_node, i_tree ) == 0     )then
-                write(6,'(2(1x,I8),6x,E15.7)') &
+                write(GA_print_unit,'(2(1x,I8),6x,E15.7)') &
                       i_tree, i_node, Runge_Kutta_Node_Parameters( i_node, i_tree )
             endif ! Runge_Kutta_Node_Type( i_node, i_tree ) == 0
 
         enddo ! i_node
     enddo ! i_tree
 
-    write(6,'(//A)') &
+    write(GA_print_unit,'(//A)') &
           'fcn: i_tree  i_node  Runge_Kutta_Node_Type( i_node, i_tree ) '
 
     do  i_tree = 1, n_trees
         do  i_node = 1, n_nodes
 
             if( Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999 )then
-                write(6,'(3(1x,I8))') &
+                write(GA_print_unit,'(3(1x,I8))') &
                         i_tree, i_node, Runge_Kutta_Node_Type( i_node, i_tree )
             endif ! Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999
 
         enddo ! i_node
     enddo ! i_tree
 
-    write(6,'(A)') ' '
+    write(GA_print_unit,'(A)') ' '
 
 endif ! myid == 1
 
@@ -410,7 +410,7 @@ endif
 
 ! if the result of the RK process was good, compute the fvec (and maybe sse_local)
 
-!!sse_local=0.0D0  ! 20131209
+sse_local=0.0D0  ! 20131209
 do i_time_step=1,n_time_steps
 
   fvec(i_time_step)=0.0D0
@@ -462,7 +462,7 @@ do i_time_step=1,n_time_steps
   enddo ! i_CODE_equation
 
 
-  !! sse_local = sse_local + fvec(i_time_step)  ! 20131209
+  sse_local = sse_local + fvec(i_time_step)  ! 20131209
 
   !if( L_GP_print .and. GP_para_flag .and. myid == 1 .and. i_time_step == n_time_steps )then
   !   write(GP_print_unit,'(A,1x,I6, 1x,I6, 1x, E15.7)')&
@@ -481,7 +481,7 @@ enddo ! i_time_step
 !    write(GP_print_unit,'(A,1x,I6,2x,E24.16)') 'fcn: myid, sse_local = ',myid, sse_local
 !endif ! L_GP_print
 !if( L_ga_print .and. myid == 1 )then
-!    write(GA_print_unit,'(A,1x,I6,2x,E24.16)') 'fcn: myid, sse_local = ',myid, sse_local
+    write(GA_print_unit,'(A,1x,I6,2x,E24.16)') 'fcn: myid, sse_local = ',myid, sse_local
 !endif ! L_ga_print
 
 
