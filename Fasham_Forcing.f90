@@ -7,7 +7,7 @@
 subroutine JQforce(species, day, aMLD, aJ)
     
 use fasham_variables_module
-    use GP_variables_module
+use GP_variables_module
 
     implicit none
     
@@ -94,7 +94,7 @@ subroutine mldforce(day, h, aMLD)
     !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 use fasham_variables_module
-    use GP_variables_module
+use GP_variables_module
 
     implicit none
     

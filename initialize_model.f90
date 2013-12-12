@@ -35,9 +35,9 @@ endif ! myid == 1
 ! initialize the biological data fields
 
 
-nitro   = 0.0D0 
-phyto   = 0.0D0 ! 30.D0 ! Phytoplankton     [mmol N m-3]
-zoo     = 0.0D0 ! 2.0D0 ! Zooplankton       [mmol N m-3]
+!nitro   = 0.0D0 
+!phyto   = 0.0D0 ! 30.D0 ! Phytoplankton     [mmol N m-3]
+!zoo     = 0.0D0 ! 2.0D0 ! Zooplankton       [mmol N m-3]
 
 !----------------------------------------------------------------------------------------------------
 
@@ -125,6 +125,7 @@ Numerical_CODE_Forcing_Functions = 0.0D+0
 
 btmp(1:n_code_equations) = 0.0D0
 
+!-----------------------------------------------------------------------------------
 
 if( buildTrees ) then
 
@@ -154,6 +155,7 @@ else
 
 endif ! buildTrees
 
+!-----------------------------------------------------------------------------------
 
 
 end subroutine Initialize_Model
@@ -161,55 +163,57 @@ end subroutine Initialize_Model
 
 
 
-!subroutine DoForcing(b_tmp_local, time_step_fraction, i_Time_Step)
-!
+subroutine DoForcing(b_tmp_local, time_step_fraction, i_Time_Step)
+
 !use Fasham_Variables
-!!use Model_Parameters
-!!!!!!!!!!!use GP_model_parameters_module
-!!use GP_Variables
-!use GP_variables_module
-!    
-!implicit none
-!    
-!real (kind=8) :: b_tmp_local(n_CODE_Equations)
-!real (kind=8) :: time_step_fraction, day, h, hplus, aMLD, aJ
-!integer (kind=4) :: i_Time_Step
-!
-!!------------------------------------------------------------------------------------
-!    
-!!!!date=(i_Time_Step+time_step_fraction)*Delta_Time_in_Days/(365.D+0)  ! number of years
-!!!!thour=mod(((i_Time_Step+time_step_fraction)*Delta_Time_in_Days*24),24.D+0) ! time of day in hours
-!!!!dayn=(i_Time_Step+time_step_fraction)*Delta_Time_in_Days ! day number
-!date=(i_Time_Step+time_step_fraction)* dt /(365.D+0)  ! number of years
-!thour=mod(((i_Time_Step+time_step_fraction)* dt *24),24.D+0) ! time of day in hours
-!dayn=(i_Time_Step+time_step_fraction)* dt ! day number
-!day=mod(dayn,365.D+0) ! year day [0.D+0 to 365.D+0]
-!    
-!call mldforce(day, h, aMLD)
-!
-!call JQforce(b_tmp_local, day, aMLD, aJ)
-!    
-!if( h .ge. 0.D+0) then
-!    hplus=h
-!else
-!    hplus=0.D+0
-!endif
-!    
-!Numerical_CODE_Forcing_Functions(abs(5000 + FORCING_MLD_CHANGE_MOTILE)) = h
-!Numerical_CODE_Forcing_Functions(abs(5000 + FORCING_MLD_CHANGE_NON_MOTILE)) = hplus
-!Numerical_CODE_Forcing_Functions(abs(5000 + FORCING_MIXED_LAYER_DEPTH)) = aMLD
-!Numerical_CODE_Forcing_Functions(abs(5000 + FORCING_LIGHT_LIMITED_GROWTH_RATE)) = aJ
-!    
-!end subroutine
-!
-!
-!
-!subroutine SecondaryForcing()
-!    ! Do nothing - no secondary forcing
-!end subroutine
-!
-!
-!
-!subroutine Model_Diagnostics()
-!    !   TODO: Create this routine if need be
-!end subroutine
+use fasham_variables_module
+!use Model_Parameters
+!!!!!!!!!!use GP_model_parameters_module
+!use GP_Variables
+use GP_variables_module
+    
+implicit none
+    
+real (kind=8) :: b_tmp_local(n_CODE_Equations)
+real (kind=8) :: time_step_fraction, day, h, hplus, aMLD, aJ
+integer (kind=4) :: i_Time_Step
+
+!------------------------------------------------------------------------------------
+    
+!!!date=(i_Time_Step+time_step_fraction)*Delta_Time_in_Days/(365.D+0)  ! number of years
+!!!thour=mod(((i_Time_Step+time_step_fraction)*Delta_Time_in_Days*24),24.D+0) ! time of day in hours
+!!!dayn=(i_Time_Step+time_step_fraction)*Delta_Time_in_Days ! day number
+
+date=(i_Time_Step+time_step_fraction)* dt /(365.D+0)  ! number of years
+thour=mod(((i_Time_Step+time_step_fraction)* dt *24),24.D+0) ! time of day in hours
+dayn=(i_Time_Step+time_step_fraction)* dt ! day number
+day=mod(dayn,365.D+0) ! year day [0.D+0 to 365.D+0]
+    
+call mldforce(day, h, aMLD)
+
+call JQforce(b_tmp_local, day, aMLD, aJ)
+    
+if( h .ge. 0.D+0) then
+    hplus=h
+else
+    hplus=0.D+0
+endif
+    
+Numerical_CODE_Forcing_Functions(abs(5000 + FORCING_MLD_CHANGE_MOTILE)) = h
+Numerical_CODE_Forcing_Functions(abs(5000 + FORCING_MLD_CHANGE_NON_MOTILE)) = hplus
+Numerical_CODE_Forcing_Functions(abs(5000 + FORCING_MIXED_LAYER_DEPTH)) = aMLD
+Numerical_CODE_Forcing_Functions(abs(5000 + FORCING_LIGHT_LIMITED_GROWTH_RATE)) = aJ
+    
+end subroutine
+
+
+
+subroutine SecondaryForcing()
+    ! Do nothing - no secondary forcing
+end subroutine
+
+
+
+subroutine Model_Diagnostics()
+    !   TODO: Create this routine if need be
+end subroutine

@@ -313,9 +313,11 @@ call create_tree_node_string()
 
 ! GP_Node_Type_for_Plotting (if L_unit50_output true)
 
+if( myid == 0 )then
 
-call set_answer_arrays( )
+    call set_answer_arrays( )
 
+endif ! myid == 0
 
 
 !call MPI_FINALIZE(ierr)
@@ -570,12 +572,13 @@ do  i_GP_Generation=1,n_GP_Generations
             !write(GP_print_unit,'(A,1x,E15.7)') &
             !  '0: time spent in GP_Tree_Build  = ', t2 - t1
 
-            !debug_only! set all GP tree models to the "truth" model
-            !debug_only do  i_GP_individual = 1, n_GP_Individuals
-            !debug_only     GP_Adult_Population_Node_Type(:,:,i_GP_individual) = &
-            !debug_only                       GP_Node_Type_Answer(:,:) ! debug_only
-            !debug_only enddo
-
+            !! debug only >>>>>>>>>>>>>>>>
+            !! set all GP tree models to the "truth" model
+            !do  i_GP_individual = 1, n_GP_Individuals
+            !    GP_Adult_Population_Node_Type(:,:,i_GP_individual) = &
+            !    GP_Node_Type_Answer(:,:) ! debug only
+            !enddo
+            !! debug only <<<<<<<<<<<<<<<<<
 
         endif ! myid == 0
 

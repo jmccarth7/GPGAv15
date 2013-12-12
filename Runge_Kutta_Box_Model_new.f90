@@ -34,10 +34,10 @@ implicit none
 
 !real(kind=8) :: bioflo(0:n_CODE_Equations,0:n_CODE_Equations) !Forcing function are not part of the bio-flow
 
+
+!--------------------------------------------------------------------------------------------
+
 !!real(kind=8) :: Runge_Kutta_Time_Step(4) = (/ 0.0D+0, 0.5D+0, 0.5D+0, 1.0D+0 /)
-
-!--------------------------------------------------------------------
-
 
 real(kind=8),dimension(4) :: Runge_Kutta_Time_Step
 
@@ -184,8 +184,8 @@ do  i_Time_Step = 1, n_Time_Steps
 
     b_tmp(:) = Numerical_CODE_Solution(i_Time_Step-1,:)  ! Array Assignment
 
-    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! no no no  btmp = b_tmp  ! jjm 20131211
-    btmp = b_tmp  ! jjm 20131211  debug only
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! no no no  btmp = b_tmp  ! jjm 20131211 ??:
+    btmp = b_tmp  
 
 
     !if( myid == 0 )then
@@ -206,13 +206,14 @@ do  i_Time_Step = 1, n_Time_Steps
 
         !if( myid == 0 )then
             write(6,'(//A,2(1x,I6)/)') 'rkbm: i_time_step, iter ', &
-                                             i_time_step, iter
+                                              i_time_step, iter
             write(GA_print_unit,'(//A,2(1x,I6)/)') 'rkbm: i_time_step, iter ', &
-                                                         i_time_step, iter
+                                                          i_time_step, iter
         !endif ! myid == 0
 
         ! Call forcing functions for the box model
-        !call DoForcing(btmp, Runge_Kutta_Time_Step(iter), i_Time_Step)
+
+        call DoForcing(btmp, Runge_Kutta_Time_Step(iter), i_Time_Step)
 
         fbio = 0.0D+0
 
@@ -312,19 +313,55 @@ do  i_Time_Step = 1, n_Time_Steps
             write(GA_print_unit,'(/A)') ' '
             write(6,'(/A)') ' '
 
+            write(6,'(A,3(1x,I6))') &
+                  'RuKbm: bioflo_map(1:n_code_equations, 1) ', &
+                          bioflo_map(1:n_code_equations, 1)
+            write(60,'(A,3(1x,I6))') &
+                  'RuKbm: bioflo_map(1:n_code_equations, 1) ', &
+                          bioflo_map(1:n_code_equations, 1)
 
             ! bring in the component flow sources and sinks
+
             do  i_CODE_Equation=0,n_CODE_Equations   ! source of material
 
                 do  j_CODE_Equation=0,n_CODE_Equations ! sink of material
 
                     if( i_CODE_Equation .gt. 0 ) then
 
+                        write(6,'(A,3(1x,I6))') &
+                              'RuKbm: i_code_equation, bioflo_map(i_code_equation, 1) ', &
+                                      i_code_equation, bioflo_map(i_code_equation, 1) 
+                        write(60,'(A,3(1x,I6))') &
+                              'RuKbm: i_code_equation, bioflo_map(i_code_equation, 1) ', &
+                                      i_code_equation, bioflo_map(i_code_equation, 1) 
+
                         if( bioflo_map(i_CODE_Equation,i_Track) .gt. 0 ) then
+
+                            write(6,'(A,1x,I6,1x,E20.10)') &
+                                  'RuKbm: bef i_code_equation, fbio(bioflo_map(i_code_equation, 1)) ', &
+                                              i_code_equation, fbio(bioflo_map(i_code_equation, 1)) 
+                            write(60,'(A,1x,I6,1x,E20.10)') &
+                                  'RuKbm: bef i_code_equation, fbio(bioflo_map(i_code_equation, 1)) ', &
+                                              i_code_equation, fbio(bioflo_map(i_code_equation, 1)) 
 
                             fbio(bioflo_map(i_CODE_Equation,i_Track)) = &
                                 fbio(bioflo_map(i_CODE_Equation,i_Track)) -  &
                                          bioflo(i_CODE_Equation,j_CODE_Equation)
+
+                            write(6,'(A,1x,I6,1x,E20.10)') &
+                                  'RuKbm: aft i_code_equation, fbio(bioflo_map(i_eq,1)),  ', &
+                                              i_code_equation, fbio(bioflo_map(i_code_equation, 1)) 
+                            write(60,'(A,1x,I6,1x,E20.10)') &
+                                  'RuKbm: aft i_code_equation, fbio(bioflo_map(i_eq, 1)) ', &
+                                              i_code_equation, fbio(bioflo_map(i_code_equation, 1)) 
+                            write(6,'(A,2(1x,I6),1x,E20.10)') &
+                                  'RuKbm: i_eq, j_eq, bioflo(i_eq,j_eq) ', &
+                                          i_code_equation, j_code_equation, &
+                                         bioflo(i_CODE_Equation,j_CODE_Equation) 
+                            write(60,'(A,2(1x,I6),1x,E20.10)') &
+                                  'RuKbm: i_eq, j_eq, bioflo(i_eq,j_eq) ', &
+                                          i_code_equation, j_code_equation, &
+                                         bioflo(i_CODE_Equation,j_CODE_Equation) 
 
                         endif ! bioflo_map(i_CODE_Equation,i_Track) .gt. 0
 
@@ -332,11 +369,40 @@ do  i_Time_Step = 1, n_Time_Steps
 
                     if( j_CODE_Equation .gt. 0 ) then
 
+                        write(6,'(A,3(1x,I6))') &
+                              'RuKbm: j_code_equation, bioflo_map(j_code_equation, 1) ', &
+                                      j_code_equation, bioflo_map(j_code_equation, 1) 
+                        write(60,'(A,3(1x,I6))') &
+                              'RuKbm: j_code_equation, bioflo_map(j_code_equation, 1) ', &
+                                      j_code_equation, bioflo_map(j_code_equation, 1) 
+
                         if( bioflo_map(j_CODE_Equation,i_Track) .gt. 0 ) then
+
+                            write(6,'(A,1x,I6,1x,E20.10)') &
+                                  'RuKbm: bef j_code_equation, fbio(bioflo_map(j_code_equation, 1)) ', &
+                                              j_code_equation, fbio(bioflo_map(j_code_equation, 1)) 
+                            write(60,'(A,1x,I6,1x,E20.10)') &
+                                  'RuKbm: bef j_code_equation, fbio(bioflo_map(j_code_equation, 1)) ', &
+                                              j_code_equation, fbio(bioflo_map(j_code_equation, 1)) 
 
                             fbio(bioflo_map(j_CODE_Equation,i_Track)) = &
                                  fbio(bioflo_map(j_CODE_Equation,i_Track)) + &
                                           bioflo(i_CODE_Equation,j_CODE_Equation)
+
+                            write(6,'(A,1x,I6,1x,E20.10)') &
+                                  'RuKbm: aft j_code_equation, fbio(bioflo_map(j_eq,1)),  ', &
+                                              j_code_equation, fbio(bioflo_map(j_code_equation, 1)) 
+                            write(60,'(A,1x,I6,1x,E20.10)') &
+                                  'RuKbm: aft j_code_equation, fbio(bioflo_map(j_eq, 1)) ', &
+                                              j_code_equation, fbio(bioflo_map(j_code_equation, 1)) 
+                            write(6,'(A,2(1x,I6),1x,E20.10)') &
+                                  'RuKbm: i_eq, j_eq, bioflo(i_eq,j_eq) ', &
+                                          i_code_equation, j_code_equation, &
+                                         bioflo(i_CODE_Equation,j_CODE_Equation) 
+                            write(60,'(A,2(1x,I6),1x,E20.10)') &
+                                  'RuKbm: i_eq, j_eq, bioflo(i_eq,j_eq) ', &
+                                          i_code_equation, j_code_equation, &
+                                         bioflo(i_CODE_Equation,j_CODE_Equation) 
 
                         endif ! bioflo_map(j_CODE_Equation,i_Track) .gt. 0
 

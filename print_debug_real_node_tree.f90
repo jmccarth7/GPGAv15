@@ -1,4 +1,4 @@
-subroutine print_debug_real_node_tree( label, input_array )
+subroutine print_debug_real_node_tree( iunit, label, input_array )
 
 
 
@@ -18,6 +18,7 @@ implicit none
 
 character(*) :: label
 
+integer(kind=4),intent(in) :: iunit
 
 integer(kind=4) :: i_GP_Individual
 
@@ -30,19 +31,19 @@ real(kind=8), dimension( 1:n_Nodes,1:n_Trees, 1:n_GP_individuals ) :: &
 
 !--------------------------------------------------------------------------------
 
-write(6,'(/A)') 'pd1: entry print_debug_real_node_tree'
+write(iunit,'(/A)') 'pd1: entry print_debug_real_node_tree'
 
 
 !! debug
-write(6,'(/A,1x,A)') 'pd1: print ', label
-write(6,'(A)') &
+write(iunit,'(/A,1x,A)') 'pd1: print ', label
+write(iunit,'(A)') &
    'pd1: i_GP_Individual, i_tree, i_node input_array(i_Node,i_Tree, i_GP_individual )'
 do  i_GP_individual = 1, n_GP_individuals
     do  i_tree = 1, n_trees
         do  i_node = 1, n_nodes
 
             if( input_array(i_Node,i_Tree, i_GP_individual ) > 0.0d0 )then
-                    write(6,'(3x,3(1x,I10), 1x, E15.7)') &
+                    write(iunit,'(3x,3(1x,I10), 1x, E15.7)') &
                       i_GP_Individual, i_tree, i_node, &
                              input_array(i_Node,i_Tree, i_GP_individual )
             endif ! input_array(i_Node,i_Tree, i_GP_individual ) > 0.0d0
@@ -52,12 +53,12 @@ do  i_GP_individual = 1, n_GP_individuals
 enddo ! i_GP_individual
 
 
-write(6,'(/A)') ' '
+write(iunit,'(/A)') ' '
 
 
 !-------------------------------------------------------------------------------------------------
 
-write(6,'(A//)') 'pd1: at return   '
+write(iunit,'(A//)') 'pd1: at return   '
 
 return
 

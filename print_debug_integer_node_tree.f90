@@ -1,4 +1,4 @@
-subroutine print_debug_integer_node_tree( label, input_array  )
+subroutine print_debug_integer_node_tree( iunit, label, input_array  )
 
 
 
@@ -21,6 +21,8 @@ implicit none
 character(*) :: label
 
 
+integer(kind=4),intent(in) :: iunit
+
 integer(kind=4) :: i_GP_Individual
 
 integer(kind=4) :: i_tree
@@ -34,12 +36,12 @@ integer(kind=4), dimension( 1:n_Nodes,1:n_Trees, 1:n_GP_individuals ) :: &
 
 !--------------------------------------------------------------------------------
 
-write(6,'(/A)') 'pd3: entry print_debug3'
+write(iunit,'(/A)') 'pd3: entry print_debug3'
 
 
 !! debug
-write(6,'(/A,1x,A)') 'pd3: print ', label
-write(6,'(A)') &
+write(iunit,'(/A,1x,A)') 'pd3: print ', label
+write(iunit,'(A)') &
    'pd3: i_GP_Individual, i_tree, i_node input_array(i_Node,i_Tree, i_GP_individual )'
 do  i_GP_individual = 1, n_GP_individuals
     do  i_tree = 1, n_trees
@@ -47,7 +49,7 @@ do  i_GP_individual = 1, n_GP_individuals
 
             if( input_array(i_Node,i_Tree, i_GP_individual ) > -9999 )then
 
-                write(6,'(3x,4(1x,I10))') &
+                write(iunit,'(3x,4(1x,I10))') &
                   i_GP_Individual, i_tree, i_node, &
                          input_array(i_Node,i_Tree, i_GP_individual )
             endif ! input_array(i_Node,i_Tree, i_GP_individual ) > 0.0d0
@@ -57,11 +59,11 @@ do  i_GP_individual = 1, n_GP_individuals
 enddo ! i_GP_individual
 
 
-write(6,'(/A)') ' '
+write(iunit,'(/A)') ' '
 
 !-------------------------------------------------------------------------------------------------
 
-write(6,'(A//)') 'pd3: at return   '
+write(iunit,'(A//)') 'pd3: at return   '
 
 return
 
