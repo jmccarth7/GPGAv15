@@ -55,6 +55,7 @@ real(kind=8) :: cff
 integer(kind=4) :: iter
 integer(kind=4) :: i_Time_Step, i_Track, i_Tree
 integer(kind=4) :: i_CODE_Equation, j_CODE_Equation, i_Variable
+integer(kind=4) :: i_node
 
 
 !real(kind=8) :: left_node_value,right_node_value
@@ -70,7 +71,7 @@ integer(kind=4) :: i_CODE_Equation, j_CODE_Equation, i_Variable
 
 if( myid == 0 )then
     write(6,'(/A,1x,I6/)') 'rkbm: entry Runge_Kutta_Box_Model myid = ', myid
-    write(6,'(A,1x,I6/)') 'rkbm: n_Variables ', n_Variables
+    write(6,'(A,1x,I6/)')  'rkbm: n_Variables ', n_Variables
 endif ! myid == 0
 
 if( L_ga_print )then ! .and. myid == 1 )then
@@ -113,6 +114,59 @@ if( L_ga_print )then ! .and. myid == 1 )then
       'rkbm: before loop  btmp(:)', btmp(:)
 endif ! L_ga_print .and. myid == 1
 
+
+
+
+! debug >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+!Node_Eval_Type  = Runge_Kutta_Node_Type             ! Matrix Assignment
+!Tree_Evaluation = Runge_Kutta_Node_Parameters       ! Matrix Assignment
+
+
+do  i_tree = 1, n_trees
+    do  i_node = 1, n_nodes
+        if( GP_individual_node_type(i_node, i_tree) > -9999 )then
+            write(GA_print_unit,'(A,3(1x,I4))')&
+                  'RuKbm: i_tree, i_node, GP_indiv_node_type', &
+                          i_tree, i_node, GP_individual_node_type(i_node, i_tree)
+        endif !  GP_individual_node_type(i_node, i_tree) > -9999
+    enddo ! i_node
+enddo ! i_tree
+
+do  i_tree = 1, n_trees
+    do  i_node = 1, n_nodes
+        if( GP_individual_node_parameters(i_node, i_tree) > 0.0d0 )then
+            write(GA_print_unit,'(A,2(1x,I4),1x,E15.7)')&
+                  'RuKbm: i_tree, i_node, GP_indiv_node_parms', &
+                          i_tree, i_node, GP_individual_node_parameters(i_node, i_tree)
+        endif !  GP_individual_node_parameters(i_node, i_tree) > 0.0d0
+    enddo ! i_node
+enddo ! i_tree
+
+do  i_tree = 1, n_trees
+    do  i_node = 1, n_nodes
+        if( GP_individual_node_type(i_node, i_tree) > -9999 )then
+            write(6,'(A,3(1x,I4))')&
+                  'RuKbm: i_tree, i_node, GP_indiv_node_type', &
+                          i_tree, i_node, GP_individual_node_type(i_node, i_tree)
+        endif !  GP_individual_node_type(i_node, i_tree) > -9999
+    enddo ! i_node
+enddo ! i_tree
+
+
+do  i_tree = 1, n_trees
+    do  i_node = 1, n_nodes
+        if( GP_individual_node_parameters(i_node, i_tree) > 0.0d0 )then
+            write(6,'(A,2(1x,I4),1x,E15.7)')&
+                  'RuKbm: i_tree, i_node, GP_indiv_node_parms', &
+                          i_tree, i_node, GP_individual_node_parameters(i_node, i_tree)
+        endif !  GP_individual_node_parameters(i_node, i_tree) > 0.0d0
+    enddo ! i_node
+enddo ! i_tree
+
+! debug <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
 !debug only btmp = 0.0d0  ! jjm 20131211
 
 ! start the time stepping loop
@@ -151,9 +205,9 @@ do  i_Time_Step = 1, n_Time_Steps
     do  iter=1,4
 
         !if( myid == 0 )then
-            write(6,'(/A,2(1x,I6)/)') 'rkbm: i_time_step, iter ', &
+            write(6,'(//A,2(1x,I6)/)') 'rkbm: i_time_step, iter ', &
                                              i_time_step, iter
-            write(GA_print_unit,'(/A,2(1x,I6)/)') 'rkbm: i_time_step, iter ', &
+            write(GA_print_unit,'(//A,2(1x,I6)/)') 'rkbm: i_time_step, iter ', &
                                                          i_time_step, iter
         !endif ! myid == 0
 
@@ -209,6 +263,11 @@ do  i_Time_Step = 1, n_Time_Steps
             !    write(6,'(/A/)') 'rkbm: Calculate the flow terms from the determined tree_value terms'
             !endif ! myid == 0
 
+            write(GA_print_unit,'(/A)') ' '
+            write(6,'(/A)') ' '
+
+
+
             i_Tree=0
             do  i_CODE_Equation=0,n_CODE_Equations   ! source of material
                 do  j_CODE_Equation=0,n_CODE_Equations ! sink of material
@@ -227,6 +286,19 @@ do  i_Time_Step = 1, n_Time_Steps
                         !                                          i_Tree, Tree_Value(i_Tree)
                         !endif ! myid == 0
 
+                        !if( L_ga_print )then
+                            write(GA_print_unit,'(A,3(1x,I6),2(2x, E15.7))') &
+                            'RuKbm:1 i_tree, i_eq, j_eq, tree_value, bioflo(i_eq,j_eq) ', &
+                                     i_tree, i_code_equation, j_code_equation, &
+                             tree_value(i_tree), bioflo(i_CODE_equation,j_CODE_equation)
+                        !endif ! L_ga_print
+
+                        write(6,'(A,3(1x,I6),2(2x, E15.7))') &
+                            'RuKbm:1 i_tree, i_eq, j_eq, tree_value, bioflo(i_eq,j_eq) ', &
+                                     i_tree, i_code_equation, j_code_equation, &
+                             tree_value(i_tree), bioflo(i_CODE_equation,j_CODE_equation)
+
+
                     else
 
                         ! never flow to/from same component
@@ -236,6 +308,9 @@ do  i_Time_Step = 1, n_Time_Steps
 
                 enddo ! j_CODE_Equation
             enddo ! i_CODE_Equation
+
+            write(GA_print_unit,'(/A)') ' '
+            write(6,'(/A)') ' '
 
 
             ! bring in the component flow sources and sinks
@@ -271,6 +346,23 @@ do  i_Time_Step = 1, n_Time_Steps
             enddo ! i_CODE_Equation
 
         enddo ! End Tracked Resources loop
+
+
+        write(GA_print_unit,'(/A)') ' '
+        write(6,'(/A)') ' '
+
+        do  i_CODE_equation=1,n_CODE_equations   ! source of material
+            write(6,'(A,1x,I6,1x,E15.7)') &
+                  'RuKbm: i_eq, fbio(i_eq) ', &
+                          i_code_equation, fbio(i_CODE_equation)
+            write(GA_print_unit,'(A,1x,I6,1x,E15.7)') &
+                  'RuKbm: i_eq, fbio(i_eq) ', &
+                          i_code_equation, fbio(i_CODE_equation)
+        enddo ! i_CODE_equation
+
+
+        write(GA_print_unit,'(/A)') ' '
+        write(6,'(/A)') ' '
 
 
         ! Capture any export terms, or boundary conditions after bio flow is calculated
@@ -316,10 +408,10 @@ do  i_Time_Step = 1, n_Time_Steps
                                                   iter, b_tmp(1:n_code_equations)
 
         write(GA_print_unit,'(/A,1x,I6,3(1x,E15.7)/)') 'rkbm: iter, btmp(1:n_code_equations)' , &
-                                                  iter, btmp(1:n_code_equations)
+                                                              iter, btmp(1:n_code_equations)
 
         write(GA_print_unit,'(/A,1x,I6,3(1x,E15.7)/)') 'rkbm: iter, b_tmp(1:n_code_equations)' , &
-                                                  iter, b_tmp(1:n_code_equations)
+                                                              iter, b_tmp(1:n_code_equations)
     enddo ! End iter loop
 
     !---------------------------------------------------------------------------
@@ -354,13 +446,20 @@ do  i_Time_Step = 1, n_Time_Steps
     Numerical_CODE_Solution(i_Time_Step,1:n_Variables)=max(b_tmp(1:n_Variables),0.0D+0)
 
 
+    write(6,'(//A,2(1x,I6),12(1x,E15.7))') &
+          'rkbm: myid, i_time_step, b_tmp ', &
+                 myid, i_time_step, b_tmp(1:n_CODE_equations)
+    write(GA_print_unit,'(//A,2(1x,I6),12(1x,E15.7))') &
+          'rkbm: myid, i_time_step, b_tmp ', &
+                 myid, i_time_step, b_tmp(1:n_CODE_equations)
+
     if( myid == 0 )then
-        write(6,'(A,1x,I6,1x,6(1x,E15.7))') 'rkbm: i_time_step, solution ', &
+        write(6,'(/A,1x,I6,1x,6(1x,E15.7)/)') 'rkbm: i_time_step, solution ', &
                        i_Time_Step, Numerical_CODE_Solution(i_Time_Step,1:n_Variables)
     endif ! myid == 0
 
     if( L_ga_print )then ! .and. myid == 1 )then
-        write(GA_print_unit,'(A,1x,I6,1x,6(1x,E15.7))') &
+        write(GA_print_unit,'(/A,1x,I6,1x,6(1x,E15.7)/)') &
               'rkbm: i_time_step, solution ', &
                      i_Time_Step, Numerical_CODE_Solution(i_Time_Step,1:n_Variables)
     endif ! L_ga_print .and. myid == 1

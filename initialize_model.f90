@@ -123,6 +123,7 @@ Numerical_CODE_Forcing_Functions = 0.0D+0
 !write(6,'(A,2(1x,E15.7))') 'inmod: Numerical_CODE_Forcing_Functions ', &
 !                                   Numerical_CODE_Forcing_Functions
 
+btmp(1:n_code_equations) = 0.0D0
 
 
 if( buildTrees ) then
