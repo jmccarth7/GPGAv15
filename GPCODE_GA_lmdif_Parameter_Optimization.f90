@@ -77,6 +77,10 @@ integer(kind=4) :: jj
 
 !----------------------------------------------------------------------
 
+                                                                                                                                  
+write(6,'(A,1x,I5,4x,L1)') 'GP_GA_opt: myid, L_GA_print   ', myid, L_GA_print      
+write(6,'(A,1x,I5,1x,I5)') 'GP_GA_opt: myid, GA_print_unit', myid, GA_print_unit 
+
 
 i_dummy = 0
 
@@ -226,16 +230,16 @@ do  i_GA_generation=1,n_GA_Generations
 
             ! print child parameters at start of the generation
 
-            !if( L_ga_print )then
-            !    write(GA_print_unit,'(/A,1x,I6)') &
-            !    'GP_GA_opt:1 child parameters at start of generation: ', &
-            !                                        i_GA_generation
-            !    do  i_GA_individual = 1, n_GA_Individuals
-            !        write(GA_print_unit,'(I6,10(1x,E14.7)/(10(1x,E14.7)))') &
-            !              i_GA_individual, &
-            !              ( child_parameters(jj,i_GA_individual), jj = 1,n_parameters )
-            !    enddo ! i_GA_individual
-            !endif ! L_ga_print
+            if( L_ga_print )then
+                write(GA_print_unit,'(/A,1x,I6)') &
+                'GP_GA_opt:1 child parameters at start of generation: ', &
+                                                    i_GA_generation
+                do  i_GA_individual = 1, n_GA_Individuals
+                    write(GA_print_unit,'(I6,10(1x,E14.7)/(10(1x,E14.7)))') &
+                          i_GA_individual, &
+                          ( child_parameters(jj,i_GA_individual), jj = 1,n_parameters )
+                enddo ! i_GA_individual
+            endif ! L_ga_print
 
 
 
@@ -781,11 +785,14 @@ do  i_GA_generation=1,n_GA_Generations
 
             if( Run_GA_lmdif(i_2_individual)) then
 
-                !if( L_ga_print )then
-                !    write(GA_print_unit,'(A,2(1x,I6))') &
-                !      'GP_GA_opt:3 call setup_run_fcn  myid, i_2_individual', &
-                !                                       myid, i_2_individual
-                !endif ! L_ga_print
+                if( L_ga_print )then
+                    write(GA_print_unit,'(A,2(1x,I6))') &
+                      'GP_GA_opt:3 call setup_run_fcn  myid, i_2_individual', &
+                                                       myid, i_2_individual
+                endif ! L_ga_print
+                write(6,'(A,2(1x,I6))') &
+                      'GP_GA_opt:3 call setup_run_fcn  myid, i_2_individual', &
+                                                       myid, i_2_individual
 
                 ! do the Runge-Kutta integration for individual i_2_individual
 

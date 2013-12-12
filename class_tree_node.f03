@@ -72,7 +72,12 @@ contains
         class(Tree_Node), intent(in) :: this
         real (kind=8) :: v
         v = math_funcs( this%operation )%f( this%left%val(), this%right%val() )
-        !write(6,'(A,1x,E15.7)') 'tMnv: v = ', v
+        write(6,'(A,1x,I6)') 'tMnv: this%operation  = ', this%operation
+        write(6,'(A,1x,I6)') 'tMnv: this%node_count = ', this%node_count
+        write(6,'(A,1x,E15.7)') 'tMnv: v = ', v
+        write(60,'(A,1x,I6)') 'tMnv: this%operation  = ', this%operation
+        write(60,'(A,1x,I6)') 'tMnv: this%node_count = ', this%node_count
+        write(60,'(A,1x,E15.7)') 'tMnv: v = ', v
     end function Tree_Math_Node_Val
 
     
@@ -80,16 +85,21 @@ contains
         class(Tree_Node), intent(in) :: this
         real (kind=8) :: v
         v = this%param
-        !write(6,'(A,1x,E15.7)') 'tPnv: v = ', v
+        write(6,'(A,1x,E15.7)') 'tPnv: v = ', v
+        write(60,'(A,1x,E15.7)') 'tPnv: v = ', v
     end function Tree_Parameter_Node_Val
 
     
     function Tree_Variable_Node_Val(this) result(v)
         class(Tree_Node), intent(in) :: this
         real (kind=8) :: v
+
         v = this%variable
 
-        !write(6,'(A,1x,E15.7)') 'tVnv: v = ', v
+        write(6,'(A,1x,I6)') 'tVnv: this%node_count = ', this%node_count
+        write(6,'(A,1x,E15.7)') 'tVnv: v = ', v
+        write(60,'(A,1x,I6)') 'tVnv: this%node_count = ', this%node_count
+        write(60,'(A,1x,E15.7)') 'tVnv: v = ', v
 
     end function Tree_Variable_Node_Val
 

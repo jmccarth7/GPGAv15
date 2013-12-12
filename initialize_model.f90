@@ -5,7 +5,9 @@ use mpi
 use mpi_module
 
 use fasham_variables_module
+
 !!!!!!!!!!use GP_model_parameters_module
+
 use GP_parameters_module
 use GA_parameters_module
 use GP_variables_module
@@ -112,7 +114,7 @@ endif ! myid == 0
 
 if( L_ga_print  .and. myid == 1 )then
     write(GA_print_unit,'(A,2(1x,E15.7))') 'inmod: Numerical_CODE_Initial_Conditions ', &
-                                       Numerical_CODE_Initial_Conditions
+                                                   Numerical_CODE_Initial_Conditions
 endif ! L_ga_print  .and. myid == 1 
 
 

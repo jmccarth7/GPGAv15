@@ -24,14 +24,14 @@ integer :: inode
 
 !  create trees from the GP_Individual_Node_Type which was read in
 
-if( myid == 0 )then
+if( myid == 1 )then
     write(6,'(/A/)') 'Trees: create trees from GP_Individual_Node_Type  '
 
     write(6,'(/A/)')      'Trees: call Deserialize_Trees2 '
     write(6,'(A,1x,I6)')  'Trees: n_Tracked_resources ', n_Tracked_resources
     write(6,'(A,1x,I6/)') 'Trees: n_trees ', n_trees
 
-endif ! myid == 0 
+endif ! myid == 1 
 
 ! Deserialize_Trees2 should create trees from 
 ! the GP_Individual_Node_Type and GP_Individual_Node_parameter arrays
@@ -39,15 +39,15 @@ endif ! myid == 0
 call Deserialize_Trees2( treeSlice, n_Tracked_resources, n_trees    ) 
 
 
-if( myid == 0 )then
+if( myid == 1 )then
     write(6,'(/A/)') 'Trees: aft call Deserialize_Trees2 '
-endif ! myid == 0 
+endif ! myid == 1 
 
 
 
 ! debug >>>>
 
-if( myid == 0 )then
+if( myid == 1 )then
 
     write(6,'(A,2(1x,I6))') 'Trees: before tree loop '
     do  i = 1, n_Trees
@@ -60,7 +60,7 @@ if( myid == 0 )then
     enddo  ! i 
     write(6,'(A,2(1x,I6))') 'Trees: after tree loop '
 
-endif ! myid == 0 
+endif ! myid == 1 
 
 ! debug <<<<<
 
