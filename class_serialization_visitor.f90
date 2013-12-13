@@ -23,6 +23,7 @@ use GP_variables_module
     contains
 !------------------------------------------
 
+    !-----------------------------------------------------------------------
 
     subroutine Serialize_Visit_Tree_Node(this, node)
         class(Serialization_Visitor), intent(inout) :: this
@@ -32,6 +33,7 @@ use GP_variables_module
         stop 1 ! Stop program
     end subroutine Serialize_Visit_Tree_Node
 
+    !-----------------------------------------------------------------------
 
     subroutine Serialize_Visit_Math_Node(this, node)
         class(Serialization_Visitor), intent(inout) :: this
@@ -50,6 +52,7 @@ use GP_variables_module
         call node%right%accept(this)
     end subroutine Serialize_Visit_Math_Node
 
+    !-----------------------------------------------------------------------
 
     subroutine Serialize_Visit_Parameter_Node(this, node)
         class(Serialization_Visitor), intent(inout) :: this
@@ -59,13 +62,18 @@ use GP_variables_module
                                                        'parm: type, id, 0, 0, param'
     end subroutine Serialize_Visit_Parameter_Node
 
+    !-----------------------------------------------------------------------
+
     subroutine Serialize_Visit_Variable_Node(this, node)
         class(Serialization_Visitor), intent(inout) :: this
         class(Tree_Node), intent(in) :: node
 
-        write(this%file_handle, *) node%node_type, this%node_id, 0, node%Variable_Index, 0, &
-                                                              'var: type, id, 0, var_index, 0'
+        write(this%file_handle, *) &
+              node%node_type, this%node_id, 0, node%Variable_Index, 0, &
+              'var: type, id, 0, var_index, 0'
 
     end subroutine Serialize_Visit_Variable_Node
+
+    !-----------------------------------------------------------------------
 
 end module class_Serialization_Visitor

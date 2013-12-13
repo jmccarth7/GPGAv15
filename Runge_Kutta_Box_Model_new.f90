@@ -57,6 +57,7 @@ integer(kind=4) :: i_Time_Step, i_Track, i_Tree
 integer(kind=4) :: i_CODE_Equation, j_CODE_Equation, i_Variable
 integer(kind=4) :: i_node
 
+integer(kind=4) :: tree_node_count
 
 !real(kind=8) :: left_node_value,right_node_value
 !real(kind=8) :: cff
@@ -68,6 +69,7 @@ integer(kind=4) :: i_node
 
 !--------------------------------------------------------------------------------------
 
+tree_node_count = 0
 
 if( myid == 0 )then
     write(6,'(/A,1x,I6/)') 'rkbm: entry Runge_Kutta_Box_Model myid = ', myid
@@ -240,21 +242,45 @@ do  i_Time_Step = 1, n_Time_Steps
 
                 if( associated( GP_Trees(i_Tree,i_Track)%n) ) then
 
+
                     Tree_Value(i_Tree) = GP_Trees( i_Tree, i_Track )%n%val()
 
+                    write(6,'(/A,22x,I6,1x,E15.7 )') &
+                              'rkbm: i_tree, Tree_Value(i_tree) ', &
+                                     i_tree, Tree_Value(i_tree)
+                    write(GA_print_unit,'(/A,22x,I6,1x,E15.7)') &
+                              'rkbm: i_tree, Tree_Value(i_tree) ', &
+                                     i_tree, Tree_Value(i_tree)
+
+                    tree_node_count = GetNodeCount( GP_Trees( i_Tree, i_Track )%n )
+
+                    if( tree_node_count <= 1 )   Tree_Value(i_Tree) = 0.0d0   ! jjm 20131213
+
+                    write(6,'(A,22x,I6,1x,E15.7 )') &
+                              'rkbm: i_tree, Tree_Value(i_tree) ', &
+                                     i_tree, Tree_Value(i_tree)
+                    write(GA_print_unit,'(A,22x,I6,1x,E15.7)') &
+                              'rkbm: i_tree, Tree_Value(i_tree) ', &
+                                     i_tree, Tree_Value(i_tree)
+
+                    !!!!!!if( i_tree == 3 ) Tree_Value(i_Tree) = 0.0d0   ! debug only !!!
+
                     !if( myid == 0 )then
-                        write(6,'(A,22x,I6,1x,E15.7// )') &
-                              'rkbm: i_tree, Tree_Value(i_tree) ', &
-                                     i_tree, Tree_Value(i_tree)
-                        write(GA_print_unit,'(A,22x,I6,1x,E15.7// )') &
-                              'rkbm: i_tree, Tree_Value(i_tree) ', &
-                                     i_tree, Tree_Value(i_tree)
+                        write(6,'(A,22x,I6,1x,I6//)') &
+                              'rkbm: i_tree, tree_node_count    ', &
+                                     i_tree, tree_node_count   
+                        write(GA_print_unit,'(A,22x,I6,1x,I6//)') &
+                              'rkbm: i_tree, tree_node_count    ', &
+                                     i_tree, tree_node_count   
                     !endif ! myid == 0
+
+                    
 
                 endif ! associated(GP_Trees...
 
             enddo ! i_Trees
 
+            !stop ! debug only
 
             !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
             !   Calculate the flow terms from the determined tree_value terms

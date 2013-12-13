@@ -18,6 +18,10 @@ module class_Dot_Graph_Visitor
     
 contains
 
+
+    !-------------------------------------------------------------------------------------
+
+
     subroutine Dot_Visit_Tree_Node(this, node)
         class(Dot_Graph_Visitor), intent(inout) :: this
         class(Tree_Node), intent(in) :: node
@@ -26,6 +30,10 @@ contains
         stop 1 ! Stop program
     end subroutine Dot_Visit_Tree_Node
     
+
+    !-------------------------------------------------------------------------------------
+
+
     subroutine Dot_Visit_Math_Node(this, node)
         class(Dot_Graph_Visitor), intent(inout) :: this
         class(Tree_Node), intent(in) :: node
@@ -42,6 +50,10 @@ contains
         call node%right%accept(this)
     end subroutine Dot_Visit_Math_Node
     
+
+    !-------------------------------------------------------------------------------------
+
+
     subroutine Dot_Visit_Parameter_Node(this, node)
         class(Dot_Graph_Visitor), intent(inout) :: this
         class(Tree_Node), intent(in) :: node
@@ -53,6 +65,9 @@ contains
     end subroutine Dot_Visit_Parameter_Node
     
 
+    !-------------------------------------------------------------------------------------
+
+
     subroutine Dot_Visit_Variable_Node(this, node)
         class(Dot_Graph_Visitor), intent(inout) :: this
         class(Tree_Node), intent(in) :: node
@@ -62,6 +77,8 @@ contains
         write(this%funit,'(A)') '"];'
         call Dot_Graph_Hierarchy(this%funit, this%node_id)
     end subroutine Dot_Visit_Variable_Node
+
+
 end module class_Dot_Graph_Visitor
 
 
@@ -83,7 +100,7 @@ subroutine Generate_Dot_Graph ( Trees, Tree_count, output_dir )
     integer (kind=4) :: i, gFile
     character (len=80) :: Graph_File
     
-    gFile = 80;
+    gFile = 85;
     do i = 1,Tree_count
         if ( associated(Trees(i)%n) ) then
             write(Graph_File, '(A,I0.0)') output_dir//'/Trees/', i
