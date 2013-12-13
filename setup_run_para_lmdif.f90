@@ -89,9 +89,6 @@ external :: fcn
 !endif ! i_G_indiv == 3
 
 
-
-
-
 if( n_parms <= 0 ) then
 
     individual_quality = -1
@@ -99,17 +96,14 @@ if( n_parms <= 0 ) then
 
     !if( L_myprint  )then
     !    write(myprint_unit,'(A, 2(1x, I6))') &
-    !      'strplm:0 myid, n_parms <=0  myid,  n_parms = ', &
-    !                                   myid,  n_parms
+    !    'strplm:0 myid, n_parms <=0  myid,  n_parms =', myid,  n_parms
     !endif ! L_myprint
 
     !if( L_myprint .and. i_G_indiv == 3 )then
     !if( L_myprint  )then
     !    write(myprint_unit,'(A, 3(1x, I6),  1x,E12.5)') &
-    !      'strplm:0 myid, i_G_indiv, indiv_qual, &
-    !                              &my_indiv_SSE',&
-    !                myid, i_G_indiv, individual_quality, &
-    !                                       my_indiv_SSE
+    !    'strplm:0 myid, i_G_indiv, indiv_qual, my_indiv_SSE',&
+    !              myid, i_G_indiv, individual_quality, my_indiv_SSE
     !endif ! L_myprint
 
     return   ! 20131016 jjm
@@ -122,10 +116,7 @@ endif ! n_parms <= 0
 ! GP_Individual_Node_Type is used in fcn
 ! and passed to RK subroutine as RK_node_type
 
-!GP_Individual_Node_Type(1:n_Nodes,1:n_Trees) = &        ! 20131209
-!               GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees,i_G_indiv)
-
-do  i_tree=1,n_trees    ! 20131209
+do  i_tree=1,n_trees    
     do  i_node=1,n_nodes
         GP_Individual_Node_Type(i_node,i_tree) = &
                        GP_Adult_Population_Node_Type(i_node,i_tree,i_G_indiv)
@@ -155,22 +146,22 @@ do  i_parameter=1,n_parms
 
     ! debug_only--------------------------------------------------------------------
     !if( i_parameter == 1 ) X_LMDIF(i_parameter) = &                      !debug_only
-    !                           X_LMDIF(i_parameter) * ( 1.0d0 + 1.0d-6 ) !debug_only
+    !                       X_LMDIF(i_parameter) * ( 1.0d0 + 1.0d-6 )     !debug_only
     ! debug_only--------------------------------------------------------------------
 
     !if( L_myprint  .and. i_G_indiv == 1)then
     !if( L_myprint )then
     !    write(myprint_unit,'(A,3(1x,I6),1x,E24.16)') &
-    !      'strplm:1 myid, i_G_indiv,i_parameter, child_parameters', &
-    !                myid, i_G_indiv,i_parameter, &
-    !                child_parameters(i_parameter)
+    !    'strplm:1 myid, i_G_indiv,i_parameter, child_parameters', &
+    !              myid, i_G_indiv,i_parameter, &
+    !              child_parameters(i_parameter)
     !      write(myprint_unit,'(A,3(1x,I6),2(1x,E24.16))') &
-    !        'strplm:1 myid, i_G_indiv,i_parameter, child_parameters, X_LMDIF', &
-    !                  myid, i_G_indiv,i_parameter, &
-    !                  child_parameters(i_parameter),  X_LMDIF(i_parameter)
+    !      'strplm:1 myid, i_G_indiv,i_parameter, child_parameters, X_LMDIF', &
+    !                myid, i_G_indiv,i_parameter, &
+    !                child_parameters(i_parameter),  X_LMDIF(i_parameter)
     !    !write(myprint_unit,'(A,2(1x,I6),1x,E20.10)') &
-    !    !  'strplm:1 myid, i_parameter,  X_LMDIF', &
-    !    !            myid, i_parameter,  X_LMDIF(i_parameter)
+    !    !'strplm:1 myid, i_parameter,  X_LMDIF', &
+    !    !          myid, i_parameter,  X_LMDIF(i_parameter)
     !endif ! L_myprint
 
 enddo ! i_parameter
@@ -200,10 +191,13 @@ gtol=zero
 mode=1
 info=1  ! 0 ! 1
 
+
 ! nprint < 0  means no printout
 nprint= 1  ! set back to zero after diag
 
+
 ldfjac = n_time_steps
+
 
 !if( L_myprint )then
 !    write(myprint_unit,'(A,1x,I10)') &
@@ -230,7 +224,7 @@ ldfjac = n_time_steps
 !    endif ! L_myprint
 !endif ! Lprint_lmdif
 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 
 
 L_bad_result = .false.
@@ -337,10 +331,8 @@ if( info <= 0 ) then
     !if( L_myprint  .and. i_G_indiv == 3 )then
     !if( L_myprint )then
     !    write(myprint_unit,'(A, 3(1x, I6),  1x,E12.5)') &
-    !      'strplm:3 myid, i_G_indiv, indiv_qual, &
-    !                              &my_indiv_SSE',&
-    !                myid, i_G_indiv, individual_quality, &
-    !                                       my_indiv_SSE
+    !    'strplm:3 myid, i_G_indiv, indiv_qual, my_indiv_SSE',&
+    !              myid, i_G_indiv, individual_quality, my_indiv_SSE
     !endif ! L_myprint
 
     return
@@ -367,9 +359,8 @@ do  i_parameter=1,n_parms
 
     !if( L_myprint  )then
     !    write(myprint_unit,'(A,3(1x,I6),1x,E24.16)') &
-    !      'strplm:4 myid, i_G_indiv,i_parameter, child_parameters', &
-    !                myid, i_G_indiv,i_parameter, &
-    !                child_parameters(i_parameter)
+    !    'strplm:4 myid, i_G_indiv,i_parameter, child_parameters', &
+    !              myid, i_G_indiv,i_parameter, child_parameters(i_parameter)
     !endif ! L_myprint
 
 enddo ! i_parameter
@@ -385,7 +376,9 @@ enddo ! i_parameter
 
 
 !  calculate the individual SSE values by summing fvec over all time steps
+
 !  fvec(i) = ( fcn(i) - truth(i) )**2
+
 !  so SSE is calculated by summing fvec, not fvec**2
 
 
@@ -424,10 +417,8 @@ endif !  individual_quality > 0
 
 !if( L_myprint .and. i_G_indiv == 3 )then
 !    write(myprint_unit,'(A,3(1x,I6), 1x, E15.7)') &
-!      'strplm: myid, i_G_indiv, indiv_qual, my_indiv_SSE', &
-!               myid, i_G_indiv, &
-!               individual_quality, &
-!               my_indiv_SSE
+!    'strplm: myid, i_G_indiv, indiv_qual, my_indiv_SSE', &
+!             myid, i_G_indiv, individual_quality, my_indiv_SSE
 !endif ! L_myprint
 
 

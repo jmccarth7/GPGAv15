@@ -2,19 +2,18 @@ module GP_parameters_module
 
 ! set the GP related parameters
 
-!!!!!use GP_model_parameters_module
-
 implicit none
 
 
 !--------------------------------------------------------------------------------------
 
-!!!!!! module GP_model_parameters_module
-
+! below from  module GP_model_parameters_module
 
 
 integer :: n_levels
+
 integer :: n_functions
+
 integer(kind=4) :: n_CODE_equations
 
 
@@ -23,11 +22,14 @@ integer(kind=4) :: n_CODE_equations
 
 integer(kind=4) :: n_Node_Functions   ! =7
 
+
 ! n_trees=((n_CODE_equations+1)**2)-(n_CODE_equations+1)
 integer(kind=4) :: n_trees
 
+
 ! n_nodes = int(2**n_levels)-1
 integer(kind=4) :: n_nodes 
+
 
 ! n_maximum_number_parameters = n_CODE_equations +  n_nodes
 integer(kind=4) :: n_maximum_number_parameters
@@ -35,7 +37,9 @@ integer(kind=4) :: n_maximum_number_parameters
 
 integer(kind=4) :: n_Variables ! = 7
 
+
 integer(kind=4), parameter :: n_CODE_Forcing = 4
+
 
 integer(kind=4), parameter :: n_Tracked_Resources = 1 ! number of different resources being tracked
 
@@ -43,13 +47,14 @@ integer(kind=4), parameter :: n_Tracked_Resources = 1 ! number of different reso
 !real(kind=8), parameter :: Delta_Time_in_Days = 1.0D+0/(24.0D+0*2.0D+0) ! 1/2 hour
 !integer(kind=4), parameter :: n_Time_Steps=5*365*24*2          ! 5 years in half-hour increments
 
+
 real(kind=8) :: Delta_Time_in_Days 
 
-character (len=*), parameter :: Model_Name = 'Fasham'
+
+character(len=*), parameter :: Model_Name = 'Fasham'
 
 
 !--------------------------------------------------------------------------------------
-
 
 
 ! if this value is non-zero, then the random number generator uses
@@ -59,11 +64,13 @@ character (len=*), parameter :: Model_Name = 'Fasham'
 
 integer(kind=4) :: user_input_random_seed
 
+
+
 ! this value is the minimum number of parameters for a valid model
 integer(kind=4),parameter :: min_N_param = 2
 
-integer(kind=4),parameter :: GP_print_unit = 6
 
+integer(kind=4),parameter :: GP_print_unit = 6
 
 integer(kind=4),parameter :: GP_summary_output_unit = 40
 
@@ -83,11 +90,9 @@ integer(kind=4) :: n_GP_individuals
 
 integer(kind=4) :: n_GP_Generations
 
-
 integer(kind=4) :: n_GP_parameters
 
 character(30) :: model
-
 
 
 integer(kind=4) :: n_parameters
@@ -182,9 +187,6 @@ integer(kind=4)  :: GP_child_print_interval
 
 ! this is the total number of child printouts for the entire run
 
-!integer(kind=4),parameter :: number_GA_child_prints = 10 ! 20
-!integer(kind=4),parameter :: number_GP_child_prints = 10 ! 20
-
 integer(kind=4) :: number_GA_child_prints ! = 10 ! 20
 integer(kind=4) :: number_GP_child_prints ! = 10 ! 20
 
@@ -205,7 +207,9 @@ character (len=*), parameter :: output_dir = '.'
 character (len=*), parameter :: input_dir = 'Input'
 
 
-!real (kind=4), dimension(0:n_Time_Steps) :: x_Time_Steps = 0.D+0 !The temporal unit depends on the delta time in days
+!The temporal unit depends on the delta time in days
+
+!real (kind=4), dimension(0:n_Time_Steps) :: x_Time_Steps = 0.D+0 
 real (kind=4), dimension(:),allocatable :: x_Time_Steps 
 
 

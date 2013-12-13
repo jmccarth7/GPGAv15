@@ -49,7 +49,6 @@ real(kind=8),allocatable, dimension( : ) :: fbio
 
 !--------------------------------------------------------------------
 
-
 !real(kind=8),dimension(4) :: Runge_Kutta_Time_Step
 
 !data Runge_Kutta_Time_Step /0.0D+0,0.5D+0,0.5D+0,1.0D+0/  ! fraction of R-K time step
@@ -85,10 +84,6 @@ real(kind=8),allocatable,dimension(:,:,:)     :: GP_Population_Node_Parameters
 real(kind=8),allocatable,dimension(:,:)       :: GP_Individual_Node_Parameters
 
 
-
-! GP_Solution(0:n_Time_Steps,n_CODE_Equations)
-!real(kind=8),allocatable,dimension(:,:) :: GP_Solution
-
 ! GP_diversity_index(n_GP_Individuals)
 integer(kind=4),allocatable,dimension(:) :: GP_diversity_index
 
@@ -118,6 +113,7 @@ real(kind=8),allocatable,dimension(:)         :: GP_Population_Fitness
 
 ! GP_Individual_N_GP_param
 integer(kind=4),allocatable,dimension(:) :: GP_Individual_N_GP_param
+
 !------------------------------------------------------------------------------
 
 ! Runge_Kutta_Node_Type(n_Nodes,n_Trees)
@@ -128,11 +124,11 @@ integer(kind=4),allocatable,dimension(:,:) :: RK_Node_Type
 real(kind=8),allocatable,dimension(:,:)    :: Runge_Kutta_Node_Parameters
 real(kind=8),allocatable,dimension(:,:)    :: RK_Node_Parameters
 
-!real (kind=8) :: Runge_Kutta_Initial_Conditions(n_CODE_equations)
-real (kind=8),allocatable,dimension(:)     :: Runge_Kutta_Initial_Conditions
-real (kind=8),allocatable,dimension(:)     :: RK_Initial_Conditions
+!real(kind=8) :: Runge_Kutta_Initial_Conditions(n_CODE_equations)
+real(kind=8),allocatable,dimension(:)     :: Runge_Kutta_Initial_Conditions
+real(kind=8),allocatable,dimension(:)     :: RK_Initial_Conditions
 
-!real (kind=8) :: Runge_Kutta_Solution(0:n_time_steps,n_CODE_equations)
+!real(kind=8) :: Runge_Kutta_Solution(0:n_time_steps,n_CODE_equations)
 !
 real(kind=8),allocatable, dimension(:,:)   :: Runge_Kutta_Solution
 real(kind=8),allocatable, dimension(:,:)   :: RK_Solution
@@ -154,7 +150,6 @@ real(kind=8),allocatable, dimension(:) :: GP_Adult_Individual_SSE
 real(kind=8),allocatable, dimension(:) :: GP_Child_Individual_SSE
 
 real(kind=8),allocatable, dimension(:) :: GP_Adult_Population_SSE  ! ???
-!real(kind=8),allocatable, dimension(:) :: GP_Child_Population_SSE  ! ???
 
 real(kind=8),allocatable, dimension(:) :: GP_Individual_Ranked_Fitness
 real(kind=8),allocatable, dimension(:) :: GP_Integrated_Ranked_Fitness
@@ -163,17 +158,23 @@ real(kind=8),allocatable, dimension(:) :: GP_Population_Ranked_Fitness          
 real(kind=8),allocatable, dimension(:) :: GP_Integrated_Population_Ranked_Fitness    ! ???
 
 
-!real(kind=4) :: GP_Solution(0:n_Time_Steps,n_Variables) !GP_Solution contains columns for forcing functions
+!GP_Solution contains columns for forcing functions
+
+!real(kind=4) :: GP_Solution(0:n_Time_Steps,n_Variables) 
 real(kind=4), dimension(:,:),allocatable :: GP_Solution
+
 
 !Numerical_CODE_Initial_Conditions contains columns for forcing functions
 real(kind=8),dimension(:), allocatable :: Numerical_CODE_Initial_Conditions
+
 
 !Numerical_CODE_Solution contains columns for forcing functions
 real(kind=8),dimension(:,:), allocatable  :: Numerical_CODE_Solution
 
 
+
 real(kind=8),dimension(:),allocatable, target :: Numerical_CODE_Forcing_Functions
+
 
 ! In case of multiple tracked resources (e.g. a stack of bio-flow matrices)
 ! resources might be shared or dependent between resources. bioflo_map allows
@@ -198,11 +199,13 @@ type(Tree_Node_Pointer), dimension(:,:),allocatable :: GP_Trees
 !logical, dimension(n_GP_Individuals) :: Run_GP_Calculate_Fitness
 logical, allocatable, dimension(:) :: Run_GP_Calculate_Fitness
 
+
 ! random number routine variables
 
 integer values(1:8), i_seed
 integer, dimension(:), allocatable :: seed
 real(kind=8) :: rrnd
 integer clock,n_seed
+
 
 end module GP_variables_module

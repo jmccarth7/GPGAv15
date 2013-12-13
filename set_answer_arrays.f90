@@ -11,7 +11,7 @@ subroutine set_answer_arrays( buildTrees )
 use mpi
 use mpi_module
 
-!!!!!!!!!!!use GP_model_parameters_module
+
 use GP_Parameters_module
 use GA_Parameters_module
 use GP_variables_module
@@ -116,56 +116,56 @@ Runge_Kutta_Node_Parameters = GP_Individual_Node_Parameters  ! Matrix Operation
 Runge_Kutta_Node_Type       = GP_Individual_Node_Type        ! Matrix Operation
 
 
-if( myid == 0 )then
-
-    write(6,'(A)') ' '
-
-    do  ii = 1, n_CODE_equations
-        write(6,'(A,1x,I6,1x,E15.7)') 'saa: ii, Numerical_CODE_Initial_Conditions(ii) ', &
-                                            ii, Numerical_CODE_Initial_Conditions(ii)
-    enddo ! ii
-
-    write(6,'(A)') ' '
-
-    do  ii = 1, n_CODE_equations
-        write(6,'(A,1x,I6,1x,E15.7)') 'saa: ii, Numerical_CODE_Solution(0,ii) ', &
-                                            ii, Numerical_CODE_Solution(0,ii)
-    enddo ! ii
-
-
-    write(6,'(A)') ' '
-    write(6,'(A,2(1x,I6))') 'saa: n_trees, n_nodes ', n_trees, n_nodes
-
-    write(6,'(/A)') &
-          'saa: i_tree  i_node  Runge_Kutta_Node_Parameters( i_node, i_tree ) '
-    do  i_tree = 1, n_trees
-        do  i_node = 1, n_nodes
-
-            if( Runge_Kutta_Node_Type( i_node, i_tree ) == 0     )then
-                write(6,'(2(1x,I8),6x,E15.7)') &
-                      i_tree, i_node, Runge_Kutta_Node_Parameters( i_node, i_tree )
-            endif ! Runge_Kutta_Node_Type( i_node, i_tree ) == 0
-
-        enddo ! i_node
-    enddo ! i_tree
-
-    write(6,'(//A)') &
-          'saa: i_tree  i_node  Runge_Kutta_Node_Type( i_node, i_tree ) '
-
-    do  i_tree = 1, n_trees
-        do  i_node = 1, n_nodes
-
-            if( Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999 )then
-                write(6,'(3(1x,I8))') &
-                        i_tree, i_node, Runge_Kutta_Node_Type( i_node, i_tree )
-            endif ! Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999
-
-        enddo ! i_node
-    enddo ! i_tree
-
-    write(6,'(A)') ' '
-
-endif ! myid == 0
+!if( myid == 0 )then
+!
+!    write(6,'(A)') ' '
+!
+!    do  ii = 1, n_CODE_equations
+!        write(6,'(A,1x,I6,1x,E15.7)') 'saa: ii, Numerical_CODE_Initial_Conditions(ii) ', &
+!                                            ii, Numerical_CODE_Initial_Conditions(ii)
+!    enddo ! ii
+!
+!    write(6,'(A)') ' '
+!
+!    do  ii = 1, n_CODE_equations
+!        write(6,'(A,1x,I6,1x,E15.7)') 'saa: ii, Numerical_CODE_Solution(0,ii) ', &
+!                                            ii, Numerical_CODE_Solution(0,ii)
+!    enddo ! ii
+!
+!
+!    write(6,'(A)') ' '
+!    write(6,'(A,2(1x,I6))') 'saa: n_trees, n_nodes ', n_trees, n_nodes
+!
+!    write(6,'(/A)') &
+!          'saa: i_tree  i_node  Runge_Kutta_Node_Parameters( i_node, i_tree ) '
+!    do  i_tree = 1, n_trees
+!        do  i_node = 1, n_nodes
+!
+!            if( Runge_Kutta_Node_Type( i_node, i_tree ) == 0     )then
+!                write(6,'(2(1x,I8),6x,E15.7)') &
+!                      i_tree, i_node, Runge_Kutta_Node_Parameters( i_node, i_tree )
+!            endif ! Runge_Kutta_Node_Type( i_node, i_tree ) == 0
+!
+!        enddo ! i_node
+!    enddo ! i_tree
+!
+!    write(6,'(//A)') &
+!          'saa: i_tree  i_node  Runge_Kutta_Node_Type( i_node, i_tree ) '
+!
+!    do  i_tree = 1, n_trees
+!        do  i_node = 1, n_nodes
+!
+!            if( Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999 )then
+!                write(6,'(3(1x,I8))') &
+!                        i_tree, i_node, Runge_Kutta_Node_Type( i_node, i_tree )
+!            endif ! Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999
+!
+!        enddo ! i_node
+!    enddo ! i_tree
+!
+!    write(6,'(A)') ' '
+!
+!endif ! myid == 0
 
 
 
@@ -177,6 +177,7 @@ endif ! myid == 0
 if( myid == 0 )then
 
     ! Runge_Kutta_Box_Model now put the time series in Numerical_CODE_Solution
+
     call Runge_Kutta_Box_Model
 
     Runge_Kutta_Solution = Numerical_CODE_Solution

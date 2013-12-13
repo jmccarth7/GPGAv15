@@ -69,8 +69,8 @@ real(kind=8) :: delta_wt
 !--------------------------------------------------------------------------------------------
 
 !write(myprint_unit,'(//A,3(1x,I6),1x,E20.10)') &
-!          'setrlm:1 myid, myprint_unit, n_parameters', &
-!                    myid, myprint_unit, n_parameters
+!      'setrlm:1 myid, myprint_unit, n_parameters', &
+!                myid, myprint_unit, n_parameters
 !write(myprint_unit,'(/A,2(1x,I10))') &
 !      'setrlm: at entry i_GA_indiv, individual_quality(i_GA_indiv) ', &
 !                        i_GA_indiv, individual_quality(i_GA_indiv)
@@ -116,10 +116,13 @@ gtol=zero
 mode=1
 info=1  ! 0 ! 1
 
+
 ! nprint < 0  means no printout
 nprint= 1  ! set back to zero after diag
 
+
 ldfjac=n_time_steps
+
 
 !if( L_myprint )then
 !    write(myprint_unit,'(A,1x,I10)') 'setrlm: i_GA_indiv', i_GA_indiv
@@ -145,7 +148,7 @@ ldfjac=n_time_steps
 !    endif ! L_myprint
 !endif ! Lprint_lmdif
 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 
 
 L_bad_result = .false.
@@ -159,9 +162,7 @@ L_bad_result = .false.
 !                                                  n_time_steps, n_parameters
 !write(myprint_unit,'(A,4(1x,E15.7))')'setrlm:input ftol, xtol, gtol, epsfcn',&
 !                                                   ftol, xtol, gtol, epsfcn
-
 !write(myprint_unit,'(A,2(1x,I10))') 'setrlm:input  maxfev ', maxfev
-
 !write(myprint_unit,'(A,2(1x,I10))') 'setrlm:input  mode, nprint ', &
 !                                                   mode, nprint
 !write(myprint_unit,'(A,3(1x,E15.7))') 'setrlm:input    factor  ', factor
@@ -233,6 +234,7 @@ if( Lprint_lmdif )then
 
     Lprint_lmdif = .FALSE.
 endif ! Lprint_lmdif
+
 !----------------------------------------------------------------------------------------
 
 
@@ -288,7 +290,9 @@ enddo ! i_parameter
 
 
 !  calculate the individual SSE values by summing fvec over all time steps
+
 !  fvec(i) = ( fcn(i) - truth(i) )**2
+
 !  so SSE is calculated by summing fvec, not fvec**2
 
 
@@ -309,8 +313,8 @@ if( individual_quality( i_GA_indiv ) > 0 ) then
        if( isnan(fvec(i_time_step)) ) fvec(i_time_step) = 0.0d0
        if( abs(fvec(i_time_step)) >  1.0d20 ) fvec(i_time_step) =  1.0d20
 
-!new       if( isnan(fvec(i_time_step)) .or.  &
-!new           abs(fvec(i_time_step)) >  1.0d20 ) fvec(i_time_step) =  1.0d20
+!new   if( isnan(fvec(i_time_step)) .or.  &
+!new         abs(fvec(i_time_step)) >  1.0d20 ) fvec(i_time_step) =  1.0d20
 
        !write(10, *) 'setrlm: i_time_step, fvec(i_time_step) ', &
        !                      i_time_step, fvec(i_time_step)
@@ -323,10 +327,9 @@ endif !  individual_quality( i_GA_indiv ) > 0
 
 !if( L_myprint )then
 !    write(myprint_unit,'(A,3(1x,I6), 1x, E15.7)') &
-!      'setrlm: myid, i_GA_indiv, individual_quality, my_indiv_SSE', &
-!               myid, i_GA_indiv, &
-!               individual_quality( i_GA_indiv ), &
-!               my_indiv_SSE(i_GA_indiv)
+!    'setrlm: myid, i_GA_indiv, individual_quality, my_indiv_SSE', &
+!             myid, i_GA_indiv, individual_quality( i_GA_indiv ), &
+!                                      my_indiv_SSE(i_GA_indiv)
 !endif ! L_myprint
 
 

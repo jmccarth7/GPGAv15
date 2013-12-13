@@ -41,8 +41,9 @@ use GP_variables_module
         integer (kind=4) :: myid
 
         myid = this%node_id
-        write(this%file_handle, *) node%node_type, myid, node%operation, 0, 0, &
-                                                       'math: type, id, operation, 0, 0'
+        write(this%file_handle, *) &
+              node%node_type, myid, node%operation, 0, 0, &
+                        'math: type, id, operation, 0, 0'
 
         ! Invoke on children
         this%node_id = myid*2
@@ -58,8 +59,9 @@ use GP_variables_module
         class(Serialization_Visitor), intent(inout) :: this
         class(Tree_Node), intent(in) :: node
 
-        write(this%file_handle, *) node%node_type, this%node_id, 0, 0, node%param, &
-                                                       'parm: type, id, 0, 0, param'
+        write(this%file_handle, *) &
+              node%node_type, this%node_id, 0, 0, node%param, &
+                               'parm: type, id, 0, 0, param'
     end subroutine Serialize_Visit_Parameter_Node
 
     !-----------------------------------------------------------------------

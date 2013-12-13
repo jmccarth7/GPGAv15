@@ -97,15 +97,11 @@ enddo  ! i_GP_Individual
 !-------------------------------------------------------------------------------------------------
 !-------------------------------------------------------------------------------------------------
 
-!GP_Adult_Population_SSE = GP_Child_Individual_SSE   ! 20131209
-!GP_Adult_Individual_SSE = GP_Child_Individual_SSE
 
 do  jj = 1, n_GP_Individuals   ! 20131209
     GP_Adult_Population_SSE(jj) = GP_Child_Individual_SSE(jj)
     GP_Adult_Individual_SSE(jj) = GP_Child_Individual_SSE(jj)
 enddo 
-
-!GP_Child_Individual_SSE=GP_Child_Population_SSE
 
 
 !-------------------------------------------------------------------------------------------------
@@ -122,13 +118,9 @@ enddo
 
 !-------------------------------------------------------------------------------------------------
 
-!GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees,  1:n_GP_Individuals) = &          ! 20131209
-!GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees,  Ranked_Fitness_Index(1:n_GP_Individuals) )
-
 ! Copy this back across to the Child Population values
 ! to allow the Elite codes to propagate along in the next generations
 
-!GP_Child_Population_Node_Type=GP_Adult_Population_Node_Type
 
 do  i_GP_individual = 1, n_GP_individuals          ! 20131209
     do  i_tree = 1, n_trees
@@ -153,12 +145,12 @@ enddo ! i_GP_individual
 !-------------------------------------------------------------------------------------------------
 
 !write(6,'(/A)') 'gprs: after applying  sort to GP_Child_Population_Node_Type '
-!call print_debug_integer_node_tree( &
+!call print_debug_integer_node_tree( 6, &
 !      'from GP_ranking_sort after  sort GP_Child_Population_Node_Type', &
 !      GP_Child_Population_Node_Type )
 !
 !write(6,'(/A)') 'gprs: after applying  sort to GP_Adult_Population_Node_Type '
-!call print_debug_integer_node_tree( &
+!call print_debug_integer_node_tree( 6, &
 !      'from GP_ranking_sort after  sort GP_Adult_Population_Node_Type', &
 !      GP_Adult_Population_Node_Type )
 
@@ -171,18 +163,16 @@ enddo ! i_GP_individual
 
 ! debug
 !write(6,'(/A)') 'gprs: before applying  sort to GP_Population_Initial_Conditions       '
-!call print_debug_real_nparm( &
+!call print_debug_real_nparm( 6, &
 !       'from GP_ranking_sort before sort GP_Population_Initial_Conditions ', &
 !       GP_Population_Initial_Conditions )
 
 !-------------------------------------------------------------------------------------------------
 
 ! sort the GP_population_initial_conditions
-! 20131209
-!GP_Population_Initial_Conditions_temp(1:n_code_equations, 1:n_GP_individuals ) = &
-!             GP_Population_Initial_Conditions(1:n_code_equations,  Ranked_Fitness_Index(1:n_GP_individuals) )
 
-do  i_GP_individual = 1, n_GP_individuals    ! 20131209
+
+do  i_GP_individual = 1, n_GP_individuals  
 
     do  jj = 1, n_CODE_Equations
         GP_Population_Initial_Conditions_temp(jj , i_GP_individual ) = &
@@ -191,10 +181,8 @@ do  i_GP_individual = 1, n_GP_individuals    ! 20131209
 
 enddo ! i_GP_individual
 
-!GP_Population_Initial_Conditions = GP_Population_Initial_Conditions_temp ! 20131209
 
-
-do  i_GP_individual = 1, n_GP_individuals    ! 20131209
+do  i_GP_individual = 1, n_GP_individuals   
 
     do  jj = 1, n_CODE_Equations
         GP_Population_Initial_Conditions(jj , i_GP_individual ) = &
@@ -208,18 +196,18 @@ enddo ! i_GP_individual
 
 !write(6,'(/A)') 'gprs: after applying  sort to GP_Population_Initial_Conditions       '
 
-!call print_debug_real_nparm( &
+!call print_debug_real_nparm( 6, &
 !      'from GP_ranking_sort after sort GP_Population_Initial_Conditions ', &
 !      GP_Population_Initial_Conditions )
 
 
 !-------------------------------------------------------------------------------------------------
-!------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------------------------
 
 ! debug
 !write(6,'(/A)') 'gprs: before applying  sort to GP_population_node_parameters '
 
-!call print_debug_real_node_tree( &
+!call print_debug_real_node_tree( 6, &
 !      'from GP_ranking_sort before  sort GP_population_node_parameters', &
 !      GP_population_node_parameters)
 
@@ -227,15 +215,8 @@ enddo ! i_GP_individual
 
 ! sort the GP_population_node_parameters
 
-!do  i_GP_individual = 1, n_GP_individuals  ! 20131209
-!    GP_population_node_parameters_temp(1:n_Nodes,1:n_Trees, i_GP_individual ) = &
-!         GP_population_node_parameters(1:n_Nodes,1:n_Trees, Ranked_Fitness_Index(i_GP_individual) )
-!enddo ! i_GP_individual
 
-!GP_population_node_parameters = GP_population_node_parameters_temp  ! 20131209
-
-
-do  i_GP_individual = 1, n_GP_individuals          ! 20131209
+do  i_GP_individual = 1, n_GP_individuals    
     do  i_tree = 1, n_trees
         do  i_node = 1, n_nodes
             GP_population_node_parameters_temp(i_Node,i_Tree, i_GP_individual ) = &
@@ -246,7 +227,7 @@ do  i_GP_individual = 1, n_GP_individuals          ! 20131209
 enddo ! i_GP_individual
 
 
-do  i_GP_individual = 1, n_GP_individuals          ! 20131209
+do  i_GP_individual = 1, n_GP_individuals   
     do  i_tree = 1, n_trees
         do  i_node = 1, n_nodes
             GP_population_node_parameters(i_Node,i_Tree,  i_GP_Individual) = &
@@ -261,7 +242,7 @@ enddo ! i_GP_individual
 ! debug
 !write(6,'(/A)') 'gprs: after applying  sort to GP_population_node_parameters '
 
-!call print_debug_real_node_tree( &
+!call print_debug_real_node_tree( 6, &
 !  'from GP_ranking_sort after sort GP_population_node_parameters', &
 !  GP_population_node_parameters)
 
@@ -302,9 +283,10 @@ enddo ! i_GP_individual
 !!
 !------------------------------------------------------------------------------------
 
-! Calculate the Adult Population's Total SSE
+! Calculate the sum of the Adult Population's SSE
 
 cff=0.0d0
+
 do  i_GP_Individual=1,n_GP_Individuals
     if( GP_Child_Individual_SSE(i_GP_Individual) < 1.0e13 )then
         cff=cff+GP_Child_Individual_SSE(i_GP_Individual)
@@ -314,6 +296,8 @@ enddo
 write(6,'(/A, 1x, E15.7)') &
       'gprs: after: sum GP_Child_Individual_SSE ', cff
 
+!------------------------------------------------------------------------------------
+
 ! Calculate a simple 'normalized' ranking of the SSE as an estimate of fitness
 
 ! [Fitness = (Total-SSE)/Total
@@ -321,9 +305,9 @@ write(6,'(/A, 1x, E15.7)') &
 
 
 GP_Population_Ranked_Fitness = 0.0D0
+
 do  i_GP_Individual=1,n_GP_Individuals
 
-    !if( cff > 0.0D0 )then !.and. GP_Child_Individual_SSE(i_GP_Individual) < 1.0e12 )then
     if( cff > 0.0D0 .and. GP_Child_Individual_SSE(i_GP_Individual) < 1.0e13 )then
         GP_Population_Ranked_Fitness(i_GP_Individual) = &
                 abs( ( cff - GP_Child_Individual_SSE(i_GP_Individual) ) / cff  )
@@ -348,7 +332,10 @@ do  i_GP_Individual=1,n_GP_Individuals
     GP_Integrated_Population_Ranked_Fitness(i_GP_Individual) = cff
 enddo ! i_GP_Individual
 
-! Normalize to the integrated ranking values so that the ranking integration ranges from [0. to 1.]
+!------------------------------------------------------------------------------------
+
+! Normalize to the integrated ranking values so that 
+! the ranking integration ranges from [0. to 1.]
 
 write(6,'(/A, 1x, E15.7)') &
       'gprs: GP_Integrated_Population_Ranked_Fitness(n_GP_Individuals) ', &
