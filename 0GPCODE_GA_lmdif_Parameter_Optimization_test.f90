@@ -578,7 +578,7 @@ do  i_GP_Generation=1,n_GP_Generations
         !      '0: aft broadcast  GP_Adult_Population_Node_Type  ierr = ',ierr
         !endif ! myid == 0
         !if( myid == 0 )then
-        !    call print_debug_integer_node_tree( &
+        !    call print_debug_integer_node_tree( GP_print_unit, &
         !         'aft bcast 528  GP_Adult_Population_Node_Type ', &
         !         GP_Adult_Population_Node_Type )
         !endif ! myid == 0
@@ -672,7 +672,7 @@ do  i_GP_Generation=1,n_GP_Generations
                 !                    trim( tree_descrip )  )
 
 
-                !call print_debug_real_node_tree( &
+                !call print_debug_real_node_tree( GP_print_unit, &
                 !         'aft GP_Fit  print GP_population_node_parameters ', &
                 !         GP_population_node_parameters )
 
@@ -718,7 +718,7 @@ do  i_GP_Generation=1,n_GP_Generations
                 !                    GP_Adult_Population_Node_Type, &
                 !                    trim( tree_descrip )  )
 
-                !call print_debug_real_node_tree( &
+                !call print_debug_real_node_tree( GP_print_unit, &
                 !         'aft GP_Tour print GP_population_node_parameters ', &
                 !         GP_population_node_parameters )
 
@@ -775,11 +775,11 @@ do  i_GP_Generation=1,n_GP_Generations
             !write(GP_print_unit,'(/A/(10(3x,L1)))')&
             !      '0: Run_GP_Calculate_Fitness ', Run_GP_Calculate_Fitness
 
-            !call print_debug_integer_node_tree( &
+            !call print_debug_integer_node_tree( GP_print_unit, &
             !         'aft mutation print GP_Adult_Population_Node_Type ', &
             !         GP_Adult_Population_Node_Type )
 
-            ! call print_debug_real_node_tree( &
+            ! call print_debug_real_node_tree( GP_print_unit, &
             !          'aft mutation print GP_population_node_parameters ', &
             !          GP_population_node_parameters )
 
@@ -1443,7 +1443,7 @@ do  i_GP_Generation=1,n_GP_Generations
         ! print the node parameters (if there are any)
         !write(GP_print_unit,'(/A/)') &
         !   '0:  i_GP_indiv tree  node  GP_population_node_params'
-        !call print_debug_real_node_tree( &
+        !call print_debug_real_node_tree( GP_print_unit, &
         !              'GP_population_node_parameters before GP_calc_fitness', &
         !               GP_population_node_parameters )
         !<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  debug
@@ -1480,7 +1480,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
         !write(GP_print_unit,'(/A/)') &
         !   '0:  i_GP_indiv tree  node  GP_population_node_params'
-        !call print_debug_real_node_tree( &
+        !call print_debug_real_node_tree( GP_print_unit, &
         !              'GP_population_node_parameters AFTER GP_calc_fitness', &
         !               GP_population_node_parameters )
         !<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  debug

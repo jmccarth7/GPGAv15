@@ -56,31 +56,6 @@ module Fasham_Tree_Interfaces
         end function Zooplankton_Sink_To_NH4
 
 
-
-        !function make_tree_1() result(n1)
-        !    use class_Tree_Node
-        !    type(Tree_Node), pointer :: n1
-        !end function make_tree_1
-
-
-
-
-        !function make_tree_4() result(n1)
-        !    use class_Tree_Node
-        !    type(Tree_Node), pointer :: n1
-        !end function make_tree_4
-
-
-
-
-        !function make_tree_5() result(n1)
-        !    use class_Tree_Node
-        !    type(Tree_Node), pointer :: n1
-        !end function make_tree_5
-
-
-
-
         function Zooplankton_Excretion_To_DON() result(n1)
             use class_Tree_Node
             type(Tree_Node), pointer :: n1

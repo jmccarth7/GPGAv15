@@ -77,7 +77,9 @@ do i_CODE_equation=1,n_CODE_equations
     !      'cdv: myid, totobs, totobs_m1', &
     !            myid, totobs, totobs_m1           
 
+
     dff=( (totobs*ssum2)-(ssum**2) ) / totobs / totobs_m1
+
 
     !write(GP_print_unit,'(/A,2x,E24.16)') 'cdv: original dff ', dff
 
@@ -177,6 +179,7 @@ do i_CODE_equation=1,n_CODE_equations
              'cdv: i_CODE_eq, Data_Variance, Data_Variance_inv ', &
                    i_CODE_equation, Data_Variance(i_CODE_equation), &
                                   Data_Variance_inv(i_CODE_equation)
+
     endif ! myid == 0
 
 enddo !  i_CODE_equation

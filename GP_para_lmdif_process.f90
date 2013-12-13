@@ -123,11 +123,13 @@ enddo ! jj
 !        write(GP_print_unit,'(A)')' '
 !        write(GP_print_unit,'(A)') &
 !                      'gplp: i_GP_indiv, i_tree, i_node, GP_pop_Node_Param'
-!        call  print_debug_real_node_tree( 'entry GP_para...  GP_pop_Node_Param', &
+!        call  print_debug_real_node_tree( GP_print_unit, &
+!                                          'entry GP_para...  GP_pop_Node_Param', &
 !                                           GP_population_Node_Parameters  )
 !        write(GP_print_unit,'(/A)') &
 !                     'gplp: i_GP_indiv, i_tree, i_node, GP_pop_Node_Type'
-!        call  print_debug_integer_node_tree( 'entry GP_para...  GP_pop_Node_Type', &
+!        call  print_debug_integer_node_tree( GP_print_unit &
+!                                         'entry GP_para...  GP_pop_Node_Type', &
 !                                              GP_Adult_population_Node_Type )
 !        write(GP_print_unit,'(A)')' '
 !    endif ! L_GP_print

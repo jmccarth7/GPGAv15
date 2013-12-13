@@ -112,7 +112,7 @@ enddo
 
 !! debug
 !write(6,'(/A)') 'gprs: before applying  sort to GP_Child_Population_Node_Type '
-!call print_debug_integer_node_tree( &
+!call print_debug_integer_node_tree( 6,&
 !      'from GP_ranking_sort before sort GP_Child_Population_Node_Type', &
 !      GP_Child_Population_Node_Type )
 
