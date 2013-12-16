@@ -74,6 +74,7 @@ module Math_Node_Functions
     
     ! math_funcs(5)
     ! Ivlev Grazing Function: (1 - e^-abs(a*b))
+
     real(kind=8) function f_IvlevGrazingFunction(a, b)
         implicit none
         real(kind=8), intent(in) :: a,b
@@ -84,7 +85,8 @@ module Math_Node_Functions
     end function
     
     ! math_funcs(6)
-    ! Michaelis-Menton Term (modified for Forward-Backward): (1 / (abs(a) + abs(b)))
+    !orig  Michaelis-Menton Term (modified for Forward-Backward): (1 / (abs(a) + abs(b)))
+    ! Michaelis-Menton Term (modified for Forward-Backward): (abs(b) / (abs(a) + abs(b)))
     real(kind=8) function f_MichealisMenton(a, b)
         implicit none
         real(kind=8), intent(in) :: a,b

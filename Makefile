@@ -36,7 +36,7 @@ SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 allocate_arrays1.f90 \
 	setup_run_lmdif.f90 setup_run_para_lmdif.f90 sort.f90 sse0_calc.f90 \
 	summary_GP_indiv.f90 summary_GP_indiv2.f90 swap_module.f90 \
 	Tree_Helper_module.f90 class_tree_node.f03 Global_Setup.f03 \
-	Interfaces.f03 Math_Node_Functions.f03 tree_module.f03 \
+	Interfaces.f03 Math_Node_Functions.f03  \
 	tree_node_factory_module.f03
 
 OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o allocate_arrays1.o \
@@ -73,7 +73,7 @@ OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o allocate_arrays1.o \
 	setup_run_fcn.o setup_run_lmdif.o setup_run_para_lmdif.o sort.o \
 	sse0_calc.o summary_GP_indiv.o summary_GP_indiv2.o swap_module.o \
 	Tree_Helper_module.o class_tree_node.o Global_Setup.o Interfaces.o \
-	Math_Node_Functions.o tree_module.o tree_node_factory_module.o
+	Math_Node_Functions.o  tree_node_factory_module.o
 
 LIBS =	
 
@@ -90,11 +90,13 @@ CFLAGS = -O
 
 # note: mpif90 is based on gfortran
 FC = /opt/openmpi-1.6.5/bin/mpif90
-FFLAGS =  -O3  -ffree-form  #-fbacktrace  -fcheck=bounds  # -Wall  # -fdefault-integer-8  # -FR = -free
+#FFLAGS =  -O3  -ffree-form  #-fbacktrace  -fcheck=bounds  # -Wall  # -fdefault-integer-8  # -FR = -free
+FFLAGS =  -g -fbacktrace -ffree-form #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
 
 # note: mpif90 is based on gfortran
 F90 = /opt/openmpi-1.6.5/bin/mpif90
-F90FLAGS =  -O3 -ffree-form #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
+#F90FLAGS =  -O3 -ffree-form #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
+F90FLAGS =  -g -fbacktrace -ffree-form #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
 
 LDFLAGS = -L/opt/openmpi-1.6/lib \
           -I/Developer/SDKs/MacOSX10.6.sdk/usr/include
@@ -307,5 +309,4 @@ Tree_Helper_module.o: class_tree_node.o
 class_tree_node.o: Math_Node_Functions.o
 Global_Setup.o: Math_Node_Functions.o tree_node_factory_module.o
 Interfaces.o: class_tree_node.o
-tree_module.o: class_tree_node.o
 tree_node_factory_module.o: class_tree_node.o

@@ -317,6 +317,8 @@ enddo  ! i_tree
 !if( L_ga_print )then
 !    write(GA_print_unit,'(/A/)') 'fcn: call Initialize_Model(.true.)'
 !endif ! L_ga_print 
+
+
 ! sets buildtrees = .true. in initialize_model
 
 call Initialize_Model( .true. )   ! call build_trees
@@ -333,24 +335,24 @@ call Initialize_Model( .true. )   ! call build_trees
 ! Generate PDF representation of trees
 
 
-if( myid == 0 )then
-    !write(6,'(/A/)') 'fcn: call Generate_Dot_Graph'
+!if( myid == 0 )then
+    write(6,'(/A/)') 'fcn: call Generate_Dot_Graph'
 
     call Generate_Dot_Graph( GP_Trees(:,1), n_Trees, output_dir )
 
     !write(6,'(/A/)') 'fcn: aft call Generate_Dot_Graph'
-endif ! myid == 0
+!endif ! myid == 0
 
 
 ! Write trees to disk
 
-if( myid == 0 )then
-    !write(6,'(/A/)') 'fcn: call Serialize_Trees   '
+!if( myid == 0 )then
+    write(6,'(/A/)') 'fcn: call Serialize_Trees   '
 
     call Serialize_Trees( GP_Trees(:,:), n_Trees, n_Tracked_Resources, output_dir )
 
     !write(6,'(/A/)') 'fcn: aft call Serialize_Trees   '
-endif ! myid == 0
+!endif ! myid == 0
 
 !------------------------------------------------------------------------------
 

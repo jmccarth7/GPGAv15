@@ -1420,7 +1420,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
     GP_para_flag = .TRUE.
 
-    call GP_para_lmdif_process( i_GP_generation )
+    !debug only call GP_para_lmdif_process( i_GP_generation )
 
     GP_para_flag = .FALSE.
 
@@ -1560,7 +1560,7 @@ if( myid == 0 )then
     !  GP_Individual_Node_Parameters
 
 
-    call GP_select_best_RK_lmdif_result( i_GP_best_parent, output_array , nop )
+    !debug only !call GP_select_best_RK_lmdif_result( i_GP_best_parent, output_array , nop )
 
 
     !---------------------------------------------------------------------------

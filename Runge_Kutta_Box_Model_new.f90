@@ -53,15 +53,16 @@ integer(kind=4) :: tree_node_count
 
 tree_node_count = 0
 
-!if( myid == 0 )then
-!    write(6,'(/A,1x,I6/)') 'rkbm: entry Runge_Kutta_Box_Model myid = ', myid
-!    write(6,'(A,1x,I6/)')  'rkbm: n_Variables ', n_Variables
-!endif ! myid == 0
+if( myid == 0 )then
+    write(6,'(/A,1x,I6/)') 'rkbm: entry Runge_Kutta_Box_Model myid = ', myid
+    write(6,'(A,1x,I6/)')  'rkbm: n_Variables ', n_Variables
+endif ! myid == 0
 
-!if( L_ga_print )then ! .and. myid == 1 )then
-!    write(GA_print_unit,'(/A,1x,I6/)') 'rkbm: entry Runge_Kutta_Box_Model myid = ', myid
-!    write(GA_print_unit,'(A,1x,I6/)')  'rkbm: n_Variables ', n_Variables
-!endif ! L_ga_print .and. myid == 1
+if( L_ga_print )then ! .and. myid == 1 )then
+    write(GA_print_unit,'(/A,1x,I6/)') 'rkbm: entry Runge_Kutta_Box_Model myid = ', myid
+    write(GA_print_unit,'(A,1x,I6/)')  'rkbm: n_Variables ', n_Variables
+    !!!write(GA_print_unit,'(A,1x,I6/)')  'rkbm: tree_value modified'               
+endif ! L_ga_print .and. myid == 1
 
 
 if( dt <= 0.0d0 )then
@@ -210,25 +211,26 @@ do  i_Time_Step = 1, n_Time_Steps
                     !write(6,'(/A,22x,I6,1x,E15.7 )') &
                     !          'rkbm: i_tree, Tree_Value(i_tree) ', &
                     !                 i_tree, Tree_Value(i_tree)
-                    !write(GA_print_unit,'(/A,22x,I6,1x,E15.7)') &
-                    !          'rkbm: i_tree, Tree_Value(i_tree) ', &
-                    !                 i_tree, Tree_Value(i_tree)
+                    write(GA_print_unit,'(/A,22x,I6,1x,E15.7)') &
+                              'rkbm: i_tree, Tree_Value(i_tree) ', &
+                                     i_tree, Tree_Value(i_tree)
 
+                    !----------------------------------------------------------------------------------------
                     tree_node_count = GetNodeCount( GP_Trees( i_Tree, i_Track )%n )
-
-                    if( tree_node_count <= 1 )   Tree_Value(i_Tree) = 0.0d0   ! jjm 20131213
+                    !debug only !if( tree_node_count <= 1 )   Tree_Value(i_Tree) = 0.0d0   ! jjm 20131213
+                    !----------------------------------------------------------------------------------------
 
                     !write(6,'(A,22x,I6,1x,E15.7 )') &
                     !'rkbm: i_tree,Tree_Value(i_tree)',i_tree,Tree_Value(i_tree)
-                    !write(GA_print_unit,'(A,22x,I6,1x,E15.7)') &
-                    !'rkbm: i_tree,Tree_Value(i_tree)',i_tree,Tree_Value(i_tree)
+                    write(GA_print_unit,'(A,22x,I6,1x,E15.7)') &
+                    'rkbm: i_tree,Tree_Value(i_tree)',i_tree,Tree_Value(i_tree)
 
 
                     !if( myid == 0 )then
                     !write(6,'(A,22x,I6,1x,I6//)') &
                     !'rkbm: i_tree,tree_node_count   ',i_tree,tree_node_count
-                    !write(GA_print_unit,'(A,22x,I6,1x,I6//)') &
-                    !'rkbm: i_tree,tree_node_count   ',i_tree,tree_node_count
+                    write(GA_print_unit,'(A,22x,I6,1x,I6//)') &
+                    'rkbm: i_tree,tree_node_count   ',i_tree,tree_node_count
                     !endif ! myid == 0
 
                     
@@ -497,21 +499,22 @@ do  i_Time_Step = 1, n_Time_Steps
     !      'rkbm: myid, i_time_step, b_tmp ', &
     !             myid, i_time_step, b_tmp(1:n_CODE_equations)
 
-    !if( myid == 0 )then
-    !    write(6,'(/A,1x,I6,1x,6(1x,E15.7)/)') 'rkbm: i_time_step, solution ', &
-    !                   i_Time_Step, Numerical_CODE_Solution(i_Time_Step,1:n_Variables)
-    !endif ! myid == 0
+    if( myid == 0 )then
+        write(6,'(A,1x,I6,1x,6(1x,E15.7))') 'rkbm: i_time_step, solution ', &
+                       i_Time_Step, Numerical_CODE_Solution(i_Time_Step,1:n_Variables)
+    endif ! myid == 0
 
-    !if( L_ga_print )then ! .and. myid == 1 )then
-    !    write(GA_print_unit,'(/A,1x,I6,1x,6(1x,E15.7)/)') &
-    !          'rkbm: i_time_step, solution ', &
-    !                 i_Time_Step, Numerical_CODE_Solution(i_Time_Step,1:n_Variables)
-    !endif ! L_ga_print .and. myid == 1
+    if( L_ga_print )then ! .and. myid == 1 )then
+        write(GA_print_unit,'(A,1x,I6,1x,6(1x,E15.7))') &
+              'rkbm: i_time_step, solution ', &
+                     i_Time_Step, Numerical_CODE_Solution(i_Time_Step,1:n_Variables)
+    endif ! L_ga_print .and. myid == 1
 
 
 
 
 enddo ! End Time step loop
+
 
 !if( myid == 0 )then
 !    write(6,'(A)') 'rkbm: leave Runge_Kutta_Box_Model '

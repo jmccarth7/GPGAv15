@@ -77,9 +77,9 @@ contains
         !write(6,'(A,1x,I6)') 'tMnv: this%operation  = ', this%operation
         !write(6,'(A,1x,I6)') 'tMnv: this%node_count = ', this%node_count
         !write(6,'(A,1x,E15.7)') 'tMnv: v = ', v
-        !write(60,'(A,1x,I6)') 'tMnv: this%operation  = ', this%operation
-        !write(60,'(A,1x,I6)') 'tMnv: this%node_count = ', this%node_count
-        !write(60,'(A,1x,E15.7)') 'tMnv: v = ', v
+        write(60,'(A,1x,I6)') 'tMnv: this%operation  = ', this%operation
+        write(60,'(A,1x,I6)') 'tMnv: this%node_count = ', this%node_count
+        write(60,'(A,1x,E15.7)') 'tMnv: v = ', v
 
     end function Tree_Math_Node_Val
 
@@ -92,8 +92,8 @@ contains
 
         !write(6,'(A,1x,E15.7)')  'tPnv: this%param = ', this%param
         !write(6,'(A,1x,E15.7)')  'tPnv: parm = ', v
-        !write(60,'(A,1x,E15.7)') 'tPnv: this%param = ', this%param
-        !write(60,'(A,1x,E15.7)') 'tPnv: parm = ', v
+        write(60,'(A,1x,E15.7)') 'tPnv: this%param = ', this%param
+        write(60,'(A,1x,E15.7)') 'tPnv: parm = ', v
 
     end function Tree_Parameter_Node_Val
 
@@ -107,9 +107,9 @@ contains
         !write(6,'(A,1x,E15.7)') 'tVnv: this%variable   = ', this%variable
         !write(6,'(A,1x,I6)')    'tVnv: this%node_count = ', this%node_count
         !write(6,'(A,1x,E15.7)') 'tVnv: variable = ', v
-        !write(60,'(A,1x,E15.7)')'tVnv: this%variable   = ', this%variable
-        !write(60,'(A,1x,I6)')   'tVnv: this%node_count = ', this%node_count
-        !write(60,'(A,1x,E15.7)')'tVnv: variable = ', v
+        write(60,'(A,1x,E15.7)')'tVnv: this%variable   = ', this%variable
+        write(60,'(A,1x,I6)')   'tVnv: this%node_count = ', this%node_count
+        write(60,'(A,1x,E15.7)')'tVnv: variable = ', v
 
     end function Tree_Variable_Node_Val
 
