@@ -93,6 +93,7 @@ enddo ! jj
 n_parameters = n_GP_parameters
 
 
+
 if( myid == 0 )then
     if( L_ga_print )then
         write(GA_print_unit,'(//A)') 'GP_GA_opt: at entry  '
@@ -413,6 +414,7 @@ do  i_GA_generation=1,n_GA_Generations
         endif ! i_GA_generation .eq. 1
 
 
+
     endif ! myid == 0
 
 
@@ -533,6 +535,7 @@ do  i_GA_generation=1,n_GA_Generations
 
 
         ! at this point i_GA_individual = numsent
+
 
         !if( L_ga_print )then
         !    write(GA_print_unit,'(A,4(1x,I6))') &

@@ -55,11 +55,7 @@ external :: fcn
 !write(6,'(A,1x,I5,1x,I5)') 'setrf: myid, GA_print_unit', myid, GA_print_unit  
 
 
-!write(6,'(/A,2(1x,I6)/)') &
-!      'setrf:nolga myid, i_GA_indiv ', myid, i_GA_indiv
 !if( L_ga_print )then
-!    write(6,'(/A,2(1x,I6)/)') &
-!          'setrf:lga  myid, i_GA_indiv ', myid, i_GA_indiv
 !    write(GA_print_unit,'(/A,2(1x,I6)/)') &
 !          'setrf: myid, i_GA_indiv ', myid, i_GA_indiv
 !endif ! L_ga_print

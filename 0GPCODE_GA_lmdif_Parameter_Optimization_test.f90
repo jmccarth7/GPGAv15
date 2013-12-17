@@ -54,7 +54,7 @@ real(kind=8), allocatable, dimension(:) :: output_array
 character(200) :: tree_descrip
 
 character(10),parameter :: program_version   = '201310.001'
-character(10),parameter :: modification_date = '20131213'
+character(10),parameter :: modification_date = '20131217'
 character(50),parameter :: branch  =  'Pointer_Version_old_elite_parallel_lmdif'
 type(Tree_Node_Pointer) :: t1, t2, t3, t4
 type(Tree_Node_Pointer), dimension(:), allocatable :: T1_Nodes, T2_Nodes
@@ -306,11 +306,8 @@ call create_tree_node_string()
 
 ! GP_Node_Type_for_Plotting (if L_unit50_output true)
 
-if( myid == 0 )then
 
-    call set_answer_arrays( )
-
-endif ! myid == 0
+call set_answer_arrays( )
 
 
 !------------------------------------------------------------------------
@@ -318,14 +315,14 @@ endif ! myid == 0
 ! then broadcast the R-K result: Runge_Kutta_Solution
 
 
-!if( myid == 0 )then    ! 20131209
-!    write(GP_print_unit,'(/A/)') &
-!          '0: time_step   Runge_Kutta_Solution(time_step,1:n_CODE_equations)'
-!    do  i = 0, n_time_steps
-!        write(GP_print_unit,'(I6,2x,10(1x,E14.7))') &
-!              i, (Runge_Kutta_Solution(i,jj), jj = 1,n_CODE_equations )
-!    enddo ! i
-!endif ! myid == 0
+if( myid == 0 )then    ! 20131209
+    write(GP_print_unit,'(/A/)') &
+          '0: time_step   Runge_Kutta_Solution(time_step,1:n_CODE_equations)'
+    do  i = 0, n_time_steps
+        write(GP_print_unit,'(I6,2x,10(1x,E14.7))') &
+              i, (Runge_Kutta_Solution(i,jj), jj = 1,n_CODE_equations )
+    enddo ! i
+endif ! myid == 0
 
 
 message_len = ( n_time_steps + 1 ) * n_CODE_equations
@@ -577,6 +574,9 @@ do  i_GP_Generation=1,n_GP_Generations
         !    write(GP_print_unit,'(A,1x,I6)') &
         !      '0: aft broadcast  GP_Adult_Population_Node_Type  ierr = ',ierr
         !endif ! myid == 0
+
+
+
         !if( myid == 0 )then
         !    call print_debug_integer_node_tree( GP_print_unit, &
         !         'aft bcast 528  GP_Adult_Population_Node_Type ', &
@@ -982,7 +982,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
                 if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) .eq. 0) then
                     n_GP_Parameters = n_GP_Parameters+1
-                endif ! GP_Individual_Node_Type(i_Node,i_Tree) .eq. 0
+                endif ! GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Individual)
 
                 !if( myid == 0 )then
                 !    if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) > -9999 )then
@@ -1034,7 +1034,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
         GP_Individual_N_GP_param(i_GP_individual) = n_GP_parameters
 
-        !------------------------------------------------------------------------
+        !------------------------------------------------------------------------------
 
 
         ! run GPCODE_... to evaluate this individual  if Run_GP_Calculate_Fitness is true
@@ -1045,7 +1045,11 @@ do  i_GP_Generation=1,n_GP_Generations
 
             !-----------------------------------------------------------------------------------
 
-            ! GP_indiv_node_parms get set randomly in the GA-lmdif search algorithm (in GPCODE*)
+           ! these get set randomly in the GA-lmdif search algorithm ( in GPCODE* )
+
+            !GP_Individual_Node_Parameters(1:n_Nodes,1:n_Trees) = 0.0d0               ! 20131209
+
+            !-----------------------------------------------------------------------------------
 
             do  i_Tree=1,n_Trees
                 do  i_Node=1,n_Nodes
@@ -1120,12 +1124,14 @@ do  i_GP_Generation=1,n_GP_Generations
 
 
                 if( myid == 0 )then
+
                     write(GP_print_unit,'(/A/A/A,2(1x,I5), 1x, E15.7)')&
                           '0: rejected for n_GP_parameters <=  n_code_equations',&
                           'or for n_GP_parameters > n_maximum_number_parameters',&
                            'i_GP_gen,i_GP_indiv,GP_Child_Pop_SSE(i_GP_Indiv)  ', &
                                i_GP_generation, i_GP_individual, &
                                GP_Child_Individual_SSE(i_GP_Individual)
+
                 endif !  myid == 0
 
                 !------------------------------------------------------------------------
@@ -1256,6 +1262,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
             !-----------------------------------------------------------------------------------
 
+
             !if( myid == 0 )then
             !    write(GP_print_unit,'(A,2(1x,I5), 5(1x, E15.7))')&
             !          '0:3 i_GP_gen,i_GP_indiv,&
@@ -1263,6 +1270,7 @@ do  i_GP_Generation=1,n_GP_Generations
             !               i_GP_generation, i_GP_individual, &
             !           GP_Population_Initial_Conditions(1:n_CODE_Equations, i_GP_Individual)
             !endif !  myid == 0
+
 
             !------------------------------------------------------------------------------
 
@@ -1420,7 +1428,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
     GP_para_flag = .TRUE.
 
-    !debug only call GP_para_lmdif_process( i_GP_generation )
+    call GP_para_lmdif_process( i_GP_generation )
 
     GP_para_flag = .FALSE.
 
@@ -1453,9 +1461,9 @@ do  i_GP_Generation=1,n_GP_Generations
 
         ! do fitness calculations for this GP generation
 
+
         call GP_calc_fitness( i_GP_generation, output_array, &
                               i_GP_best_parent, nop )
-
 
         !----------------------------------------------------------------------------------
 
@@ -1560,7 +1568,7 @@ if( myid == 0 )then
     !  GP_Individual_Node_Parameters
 
 
-    !debug only !call GP_select_best_RK_lmdif_result( i_GP_best_parent, output_array , nop )
+    call GP_select_best_RK_lmdif_result( i_GP_best_parent, output_array , nop )
 
 
     !---------------------------------------------------------------------------
