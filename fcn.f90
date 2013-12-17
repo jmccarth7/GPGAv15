@@ -336,9 +336,9 @@ call Initialize_Model( .true. )   ! call build_trees
 
 
 !if( myid == 0 )then
-    write(6,'(/A/)') 'fcn: call Generate_Dot_Graph'
+!    write(6,'(/A/)') 'fcn: call Generate_Dot_Graph'
 
-    call Generate_Dot_Graph( GP_Trees(:,1), n_Trees, output_dir )
+!    call Generate_Dot_Graph( GP_Trees(:,1), n_Trees, output_dir )
 
     !write(6,'(/A/)') 'fcn: aft call Generate_Dot_Graph'
 !endif ! myid == 0
@@ -347,9 +347,9 @@ call Initialize_Model( .true. )   ! call build_trees
 ! Write trees to disk
 
 !if( myid == 0 )then
-    write(6,'(/A/)') 'fcn: call Serialize_Trees   '
+!    write(6,'(/A/)') 'fcn: call Serialize_Trees   '
 
-    call Serialize_Trees( GP_Trees(:,:), n_Trees, n_Tracked_Resources, output_dir )
+!    call Serialize_Trees( GP_Trees(:,:), n_Trees, n_Tracked_Resources, output_dir )
 
     !write(6,'(/A/)') 'fcn: aft call Serialize_Trees   '
 !endif ! myid == 0
@@ -475,6 +475,7 @@ if( L_bad_result ) then
     !          'fcn: aft call Runge_Kutta_Box_Model  myid, L_bad_result = ', &
     !                                                myid, L_bad_result
     !endif ! L_ga_print
+
     iflag = -1
     return
 
@@ -484,7 +485,6 @@ endif ! L_bad_result
 Runge_Kutta_Solution = Numerical_CODE_Solution
 
 
-!stop ! debug only
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 

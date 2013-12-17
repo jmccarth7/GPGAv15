@@ -767,11 +767,11 @@ do  i_GA_generation=1,n_GA_Generations
 
             if( Run_GA_lmdif(i_2_individual)) then
 
-                if( L_ga_print )then
-                    write(GA_print_unit,'(A,2(1x,I6))') &
-                      'GP_GA_opt:3 call setup_run_fcn  myid, i_2_individual', &
-                                                       myid, i_2_individual
-                endif ! L_ga_print
+                !if( L_ga_print )then
+                !    write(GA_print_unit,'(A,2(1x,I6))') &
+                !      'GP_GA_opt:3 call setup_run_fcn  myid, i_2_individual', &
+                !                                       myid, i_2_individual
+                !endif ! L_ga_print
 
 
 
@@ -1117,25 +1117,25 @@ call MPI_BCAST( GP_Individual_Initial_Conditions, message_len,    &
 !------------------------------------------------------------------------
 
 
-if( myid == 0  )then
-    if( L_ga_print )then
-        write(GA_print_unit,'(//A/)') 'GP_GA_opt:  final initial_conditions '
-        write(GA_print_unit,'(A)') &
-              'i_CODE_equation                  GP_Individual_Initial_Conditions '
-        do  i_code_equation = 1, n_code_equations 
-            write(GA_print_unit,'(I6,1x,E15.7 )') &
-              i_code_equation, GP_Individual_Initial_Conditions(i_code_equation)
-        enddo !  i_code_equation
-
-        write(GA_print_unit,'(//A/)') 'GP_GA_opt:  final parent parameters  '
-        write(GA_print_unit,'(A)') &
-              'i_GA_individual                  parent_parameters '
-        do  i_GA_individual = 1, n_GA_individuals
-            write(GA_print_unit,'(I6,12(1x,E15.7 ))') &
-              i_GA_individual, parent_parameters(1:n_parameters,i_GA_individual)
-        enddo !  i_GA_individual
-    endif ! L_ga_print
-endif ! myid == 0
+!if( myid == 0  )then
+!    if( L_ga_print )then
+!        write(GA_print_unit,'(//A/)') 'GP_GA_opt:  final initial_conditions '
+!        write(GA_print_unit,'(A)') &
+!              'i_CODE_equation                  GP_Individual_Initial_Conditions '
+!        do  i_code_equation = 1, n_code_equations 
+!            write(GA_print_unit,'(I6,1x,E15.7 )') &
+!              i_code_equation, GP_Individual_Initial_Conditions(i_code_equation)
+!        enddo !  i_code_equation
+!
+!        write(GA_print_unit,'(//A/)') 'GP_GA_opt:  final parent parameters  '
+!        write(GA_print_unit,'(A)') &
+!              'i_GA_individual                  parent_parameters '
+!        do  i_GA_individual = 1, n_GA_individuals
+!            write(GA_print_unit,'(I6,12(1x,E15.7 ))') &
+!              i_GA_individual, parent_parameters(1:n_parameters,i_GA_individual)
+!        enddo !  i_GA_individual
+!    endif ! L_ga_print
+!endif ! myid == 0
 
 
 return

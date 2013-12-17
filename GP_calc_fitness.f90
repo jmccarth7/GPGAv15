@@ -169,7 +169,7 @@ if( i_GP_generation == 1                                 .or. &
     i_GP_generation == n_GP_generations                          ) then
 
     write(GP_print_unit,'(/A)') &
-          'gpcf: i_GP_indiv  GP_Child_Indiv_SSE  GP_Pop_Ranked_Fitness   '
+          'gpcf: i_GP_indiv     GP_Child_Indiv_SSE       GP_Pop_Ranked_Fitness'
 
     do  i_GP_Individual=1,n_GP_Individuals
         !write(GP_print_unit,'(5x,I6,2x, 2(5x,E15.7))') &
@@ -440,11 +440,11 @@ if( i_GP_generation == 1                                 .or. &
     i_GP_generation == n_GP_generations                          ) then
 
     write(GP_print_unit,'(/A)') &
-          'gpcf: i_GP_Indiv   GP_Adult_Indiv_SSE    GP_Pop_Ranked_Fitness'
+          'gpcf: i_GP_Indiv   GP_Adult_Indiv_SSE       GP_Pop_Ranked_Fitness'
 
     do  i_GP_Individual=1,n_GP_individuals
 
-        write(GP_print_unit,'(6x,I6,2(7x,E15.7))') &
+        write(GP_print_unit,'(6x,I6,2(1x,E24.16))') &
               i_GP_Individual, &
               GP_Adult_Individual_SSE(i_GP_Individual), &
               GP_Population_Ranked_Fitness(i_GP_Individual)

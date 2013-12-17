@@ -1365,7 +1365,7 @@ do  i_GP_Generation=1,n_GP_Generations
              '0:i_GP_Indiv  GP_Indiv_N_param     GP_Adult_Pop_SSE        GP_Child_Indiv_SSE'
 
         do  i_GP_individual = 1, n_GP_individuals
-            write(GP_print_unit, '(I6,6x,I6,6x,2(9x, E15.7) )') &
+            write(GP_print_unit, '(I6,6x,I6,6x,2(1x, E24.16) )') &
                   i_GP_Individual,  GP_Individual_N_GP_param(i_GP_individual), &
                                     GP_Adult_Population_SSE(i_GP_Individual), &
                                     GP_Child_Individual_SSE(i_GP_Individual)
