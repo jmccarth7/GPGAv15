@@ -18,7 +18,7 @@ use GP_variables_module
     integer (kind=4) :: iz,i
     
     ! Copy phytoplankton to 
-    phyto = species(abs(SPECIES_PHYTOPLANKTON))
+    phyto = species(max(1,abs(SPECIES_PHYTOPLANKTON)))
     
     data daym /0.D+0,16.D+0,46.D+0,75.D+0,105.D+0,136.D+0,166.D+0,&
                197.D+0,228.D+0,258.D+0,289.D+0, 319.D+0, 350.D+0, 365.D+0/

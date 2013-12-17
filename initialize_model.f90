@@ -96,10 +96,10 @@ bioflo_map = abs(bioflo_map)
 
 !----------------------------------------------------------------------------------------------------
 
-!    FORCING_MIXED_LAYER_DEPTH  = -5001
-!    FORCING_MLD_CHANGE_NON_MOTILE = -5002
-!    FORCING_MLD_CHANGE_MOTILE = -5003
-!    FORCING_LIGHT_LIMITED_GROWTH_RATE = -5004
+    FORCING_MIXED_LAYER_DEPTH  = -5001
+    FORCING_MLD_CHANGE_NON_MOTILE = -5002
+    FORCING_MLD_CHANGE_MOTILE = -5003
+    FORCING_LIGHT_LIMITED_GROWTH_RATE = -5004
 
 !Numerical_CODE_Initial_Conditions = (/aNO3, aNH4, DON, DET, bact, phyto, zoo/)
 
@@ -120,7 +120,7 @@ bioflo_map = abs(bioflo_map)
 
 Numerical_CODE_Forcing_Functions = 0.0D+0 
 
-!write(6,'(A,2(1x,E15.7))') 'inmod: Numerical_CODE_Forcing_Functions ', &
+!write(6,'(A,4(1x,E15.7))') 'inmod: Numerical_CODE_Forcing_Functions ', &
 !                                   Numerical_CODE_Forcing_Functions
 
 btmp(1:n_code_equations) = 0.0D0
