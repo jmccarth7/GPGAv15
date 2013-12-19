@@ -88,30 +88,29 @@ CFLAGS = -O
 #LIBS= -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/usr/lib  -L/Developer/SDKs/MacOSX10.6.sdk/usr/lib
 
 
-## note: mpif90 is based on gfortran
-#FC = /opt/openmpi-1.6.5/bin/mpif90
-##FFLAGS =  -g -fbacktrace -ffree-form #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
-#FFLAGS =  -O3  -ffree-form #-g -fbacktrace  -fcheck=bounds  # -Wall  # -fdefault-integer-8  # -FR = -free
-#
-## note: mpif90 is based on gfortran
-#F90 = /opt/openmpi-1.6.5/bin/mpif90
-##F90FLAGS =  -g -fbacktrace -ffree-form #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
-#F90FLAGS =  -O3 -ffree-form #-g -fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
-#
-#LDFLAGS = -L/opt/openmpi-1.6/lib \
-#          -I/Developer/SDKs/MacOSX10.6.sdk/usr/include
-#LIBS= -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib \
-#      -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/usr/lib \
-#      -L/Developer/SDKs/MacOSX10.6.sdk/usr/lib
+# note: mpif90 is based on gfortran
+FC = /opt/openmpi-1.6.5/bin/mpif90
+#FFLAGS =  -g -fbacktrace -ffree-form #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
+FFLAGS =  -O3  -ffree-form #-g -fbacktrace  -fcheck=bounds  # -Wall  # -fdefault-integer-8  # -FR = -free
 
+# note: mpif90 is based on gfortran
+F90 = /opt/openmpi-1.6.5/bin/mpif90
+#F90FLAGS =  -g -fbacktrace -ffree-form #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
+F90FLAGS =  -O3 -ffree-form #-g -fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
+
+LDFLAGS = -L/opt/openmpi-1.6/lib \
+          -I/Developer/SDKs/MacOSX10.6.sdk/usr/include
+LIBS= -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib \
+      -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/usr/lib \
+      -L/Developer/SDKs/MacOSX10.6.sdk/usr/lib
+
+###########################################################################################
+#FC = mpiifort
+#FFLAGS = -O3  -free   -traceback #-warn all #-C -ftrapuv  # -warn all   # -ftrace=full    # -fzero -Wall
+#F90 = mpiifort
+#F90FLAGS = -O3  -free -traceback #-warn all #-C -ftrapuv  # -warn all   #  -ftrace=full    # -fzero -Wall
+#LDFLAGS =
 ##########################################################################################
-FC = mpiifort
-FFLAGS = -O3  -free   -traceback #-warn all #-C -ftrapuv  # -warn all   # -ftrace=full    # -fzero -Wall
-F90 = mpiifort
-F90FLAGS = -O3  -free -traceback #-warn all #-C -ftrapuv  # -warn all   #  -ftrace=full    # -fzero -Wall
-LDFLAGS =
-
-#########################################################################################
 
 
 all: $(PROG)
