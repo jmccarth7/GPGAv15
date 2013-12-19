@@ -157,10 +157,12 @@ contains
     !---------------------------------------------------------------------
 
     subroutine Tree_Node_Get_Pointers(this, pointers, pointer_count, index)
-        class(Tree_Node), intent(inout) :: this
+        !orig class(Tree_Node), intent(inout) :: this
+        class(Tree_Node), intent(inout),target :: this   ! jjm
         integer (kind=4), intent(in) :: pointer_count
         class(Tree_Node_Pointer), dimension(pointer_count) :: pointers
         integer (kind=4), intent(inout) :: index
+        type(Tree_Node), pointer       :: a   ! jjm
         
         select type (a => this)
             type is (Tree_Node)
@@ -171,10 +173,12 @@ contains
 
     
     subroutine Tree_Math_Node_Get_Pointers(this, pointers, pointer_count, index)
-        class(Tree_Node), intent(inout) :: this
+        !orig class(Tree_Node), intent(inout) :: this
+        class(Tree_Node), intent(inout),target :: this  ! jjm
         integer (kind=4), intent(in) :: pointer_count
         class(Tree_Node_Pointer), dimension(pointer_count) :: pointers
         integer (kind=4), intent(inout) :: index
+        type(Tree_Node), pointer       :: a   !jjm
         
         select type (a => this)
             type is (Tree_Node)
@@ -228,9 +232,14 @@ contains
     !---------------------------------------------------------------------
 
     subroutine Tree_Node_Swap(this, node)
-        class(Tree_Node), intent(inout) :: this, node
+        !orig class(Tree_Node), intent(inout) :: this, node
+        class(Tree_Node), intent(inout),target :: this, node   ! jjm
         type(Tree_Node), pointer :: tmp
         integer (kind=4) :: ct_diff
+
+        type(Tree_Node), pointer       :: a   !jjm
+        type(Tree_Node), pointer       :: b   !jjm
+
         select type(a => this)
             type is (Tree_Node)
                 select type(b => node)
