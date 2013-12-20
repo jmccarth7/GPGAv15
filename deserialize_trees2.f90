@@ -453,6 +453,11 @@ do i = 1, Tree_count
         ! Clean up
         deallocate( Nodes, Node_IDs )
 
+        if( myid <= 1 )then
+            write(6,'(A,4x,L1)') 'DsT2: associated( root ) ', &
+                                        associated( root )
+        endif ! myid <= 1 
+
     enddo ! j
 
     !write(60,'(A,1x,I6)') 'DsT2: aft J loop i =  ', i 

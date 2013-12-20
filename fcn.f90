@@ -149,15 +149,15 @@ do i_tree=1,n_trees
     !if( GP_para_flag .and. myid == 1 )then
     !    if( GP_Individual_Node_Type(i_node,i_tree) > -9999 )then
     !        write(GP_print_unit,'(A,4(1x,I6))') &
-    !           'fcn: myid, i_tree, i_node, GP_Individual_Node_Type', &
-    !                 myid, i_tree, i_node, GP_Individual_Node_Type(i_node,i_tree)
+    !        'fcn: myid, i_tree, i_node, GP_Individual_Node_Type', &
+    !              myid, i_tree, i_node, GP_Individual_Node_Type(i_node,i_tree)
     !    endif ! GP_Individual_Node_Type(i_node,i_tree) > -9999
     !endif !  myid == 1
     ! if( L_GA_print )then
     !     if( GP_Individual_Node_Type(i_node,i_tree) > -9999 )then
     !         write(GA_print_unit,'(A,4(1x,I6))') &
-    !            'fcn: myid, i_tree, i_node, GP_Individual_Node_Type', &
-    !                  myid, i_tree, i_node, GP_Individual_Node_Type(i_node,i_tree)
+    !         'fcn: myid, i_tree, i_node, GP_Individual_Node_Type', &
+    !               myid, i_tree, i_node, GP_Individual_Node_Type(i_node,i_tree)
     !     endif ! GP_Individual_Node_Type(i_node,i_tree) > -9999
     ! endif ! L_GA_print
 
@@ -314,9 +314,9 @@ enddo  ! i_tree
 
 ! Initialize_Model calls build_trees which makes the GP_Trees
 
-!if( L_ga_print )then
-!    write(GA_print_unit,'(/A/)') 'fcn: call Initialize_Model(.true.)'
-!endif ! L_ga_print 
+if( L_ga_print )then
+    write(GA_print_unit,'(/A/)') 'fcn: call Initialize_Model(.true.)'
+endif ! L_ga_print 
 
 
 ! sets buildtrees = .true. in initialize_model
@@ -325,9 +325,11 @@ call Initialize_Model( .true. )   ! call build_trees
 
 !call Initialize_Model(.false.)   ! call Deserialize_Trees
 
-!if( L_ga_print )then
-!    write(GA_print_unit,'(/A/)') 'fcn: aft call Initialize_Model(.true.)'
-!endif ! L_ga_print 
+if( L_ga_print )then
+    write(GA_print_unit,'(/A/)') 'fcn: aft call Initialize_Model(.true.)'
+    write(GA_print_unit,'(A,1x,I6/)') &
+          'fcn: size( GP_Trees ) ', size( GP_Trees ) 
+endif ! L_ga_print 
 
 
 !------------------------------------------------------------------------------

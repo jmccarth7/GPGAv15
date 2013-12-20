@@ -60,7 +60,7 @@ type(Tree_Node_Pointer) :: t1, t2, t3, t4
 type(Tree_Node_Pointer), dimension(:), allocatable :: T1_Nodes, T2_Nodes
 real(kind=8) :: r
 integer(kind=4) :: index, swap_node_1, swap_node_2
- 
+
 
 !---------------------------------------------------------------------------------------
 
@@ -84,25 +84,25 @@ call MPI_COMM_SIZE(MPI_COMM_WORLD, numprocs, ierr)
 
 
 if( myid == 0 )then
-    write(6,'(/A,1x,I2/)') '0: numprocs = ', numprocs 
-endif ! myid == 0 
+    write(6,'(/A,1x,I2/)') '0: numprocs = ', numprocs
+endif ! myid == 0
 
 
 !------------------------------------------------------------------
 
 if( myid == 0 )then
     write(6,'(/A)') '0: call Global_Setup '
-endif ! myid == 0 
+endif ! myid == 0
 
 call Global_Setup()
 
 if( myid == 0 )then
     write(6,'(A)') '0: aft call Global_Setup '
-endif ! myid == 0 
+endif ! myid == 0
 
 !------------------------------------------------------------------
 
-GP_para_flag = .FALSE.  ! .True. 
+GP_para_flag = .FALSE.  ! .True.
 Lprint_lmdif = .TRUE.
 
 !------------------------------------------------------------------
@@ -230,7 +230,7 @@ n_Variables = n_CODE_equations
 if( myid == 0 )then
 
     write(6,'(A,1x,I6)')  '0: n_code_equations ', n_code_equations
-    write(6,'(A,1x,I6)')  '0: n_variables      ', n_variables     
+    write(6,'(A,1x,I6)')  '0: n_variables      ', n_variables
 
     call print_values1()
 
@@ -434,7 +434,7 @@ if( myid == 0 )then
 
     !-----------------------------------------------------------------------------
 
-    ! this call calculates sse0,  the sse value obtained when the 
+    ! this call calculates sse0,  the sse value obtained when the
     ! RK solution = 0 for all time steps
 
     ! note:  sse0 is only used by cpu 0 which does all fitness calculations
@@ -1254,11 +1254,11 @@ do  i_GP_Generation=1,n_GP_Generations
             ! set the GA_lmdif-optimized initial condition array
 
             do  i_code_equation = 1, n_code_equations  ! 20131209
-                
-                GP_Population_Initial_Conditions(i_CODE_Equation, i_GP_Individual) = &
-                    GP_Individual_Initial_Conditions(i_CODE_Equation) 
 
-            enddo ! i_code_equation 
+                GP_Population_Initial_Conditions(i_CODE_Equation, i_GP_Individual) = &
+                    GP_Individual_Initial_Conditions(i_CODE_Equation)
+
+            enddo ! i_code_equation
 
             !-----------------------------------------------------------------------------------
 
@@ -1280,7 +1280,7 @@ do  i_GP_Generation=1,n_GP_Generations
                 do  i_Node=1,n_Nodes
 
                     GP_Population_Node_Parameters(i_node, i_tree, i_GP_Individual) = &
-                           GP_Individual_Node_Parameters(i_node, i_tree) 
+                           GP_Individual_Node_Parameters(i_node, i_tree)
 
                     GP_Adult_Population_Node_Type(i_node, i_tree, i_GP_Individual) = &
                                      GP_Individual_Node_Type(i_node, i_tree)
@@ -1630,6 +1630,16 @@ if( myid == 0 )then
 endif ! myid == 0
 
 
+!------------------------------------------------------------------
+if( myid == 0 )then
+
+    write(GP_print_unit,'(//A)')  '0: NORMAL TERMINATION'
+    write(GP_print_unit, '(3(A,1x,A,1x)//)') &
+        '0: GPGACODE program version', trim(program_version), &
+        '  branch:', trim( branch ) , &
+        '  Last modified on:', trim( modification_date )
+
+endif ! myid == 0
 !------------------------------------------------------------------
 
 call MPI_FINALIZE(ierr)
