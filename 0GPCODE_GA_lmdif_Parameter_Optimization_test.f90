@@ -306,9 +306,11 @@ call create_tree_node_string()
 
 ! GP_Node_Type_for_Plotting (if L_unit50_output true)
 
+if( myid == 1 )then
 
-call set_answer_arrays( )
+    call set_answer_arrays( )
 
+endif ! myid == 1
 
 !------------------------------------------------------------------------
 
@@ -1428,7 +1430,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
     GP_para_flag = .TRUE.
 
-    call GP_para_lmdif_process( i_GP_generation )
+    !!!!  debug only call GP_para_lmdif_process( i_GP_generation )
 
     GP_para_flag = .FALSE.
 

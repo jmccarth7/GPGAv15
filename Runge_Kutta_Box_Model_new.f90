@@ -1,4 +1,4 @@
-subroutine Runge_Kutta_Box_Model( )
+subroutine Runge_Kutta_Box_Model( i_GA_indiv )
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ! carry out a prescribed Runge-Kutta numerical integration
@@ -25,14 +25,12 @@ use GP_Data_module
 implicit none
 
 
-!--------------------------------------------------------------------------------------------
+
 
 
 real(kind=8),dimension(4) :: Runge_Kutta_Time_Step
 
 data Runge_Kutta_Time_Step /0.0D+0,0.5D+0,0.5D+0,1.0D+0/  ! fraction of R-K time step
-
-!------------------------------------------------------------------------------------------
 
 
 !Forcing functions are used in computations, so are included here for book keeping purposes
@@ -47,6 +45,7 @@ integer(kind=4) :: i_CODE_Equation, j_CODE_Equation, i_Variable
 integer(kind=4) :: i_node
 
 integer(kind=4) :: tree_node_count
+integer(kind=4),intent(in) :: i_GA_indiv         
 
 
 !--------------------------------------------------------------------------------------
@@ -144,13 +143,13 @@ do  i_Time_Step = 1, n_Time_Steps
             do  i_Tree=1,n_Trees
 
                 !write(GA_print_unit,'(//A,1x,I6,5x,L1)') &
-                !      'rkbm: i_tree, associated(GP_Trees(i_Tree,i_Track)%n)  ', &
-                !             i_tree, associated(GP_Trees(i_Tree,i_Track)%n)
+                !      'rkbm: i_tree, associated(GP_Trees(i_Tree,i_GA_indiv, i_Track)%n)  ', &
+                !             i_tree, associated(GP_Trees(i_Tree,i_GA_indiv, i_Track)%n)
 
-                if( associated( GP_Trees(i_Tree,i_Track)%n) ) then
+                if( associated( GP_Trees(i_Tree,i_GA_indiv, i_Track)%n) ) then
 
 
-                    Tree_Value(i_Tree) = GP_Trees( i_Tree, i_Track )%n%val()
+                    Tree_Value(i_Tree) = GP_Trees( i_Tree, i_GA_indiv, i_Track )%n%val()
 
                     !write(GA_print_unit,'(/A,22x,I6,1x,E15.7)') &
                     !          'rkbm: i_tree, Tree_Value(i_tree)', &

@@ -1,4 +1,4 @@
-subroutine Initialize_Model(buildTrees)
+subroutine Initialize_Model(buildTrees, i_GA_indiv )
 
                                                                                                                                           
 use mpi
@@ -17,8 +17,9 @@ implicit none
 logical :: buildTrees
 
 integer :: i
+integer,intent(in) :: i_GA_indiv
     
-!----------------------------------------------------------------------------------------------------
+!---------------------------------------------------------------------------------------------------
 
 !if( myid == 0 )then
 !    write(6,'(/A/)') 'inmod: entry  Initialize_Model '
@@ -39,7 +40,7 @@ integer :: i
 !phyto   = 0.0D0 ! 30.D0 ! Phytoplankton     [mmol N m-3]
 !zoo     = 0.0D0 ! 2.0D0 ! Zooplankton       [mmol N m-3]
 
-!----------------------------------------------------------------------------------------------------
+!---------------------------------------------------------------------------------------------------
 
 ! Enumerations that represent model variables. 
 ! These are used by the binary tree parsing algorithm 
@@ -94,12 +95,12 @@ bioflo_map = abs(bioflo_map)
 !endif ! L_ga_print  .and. myid == 1 
 
 
-!----------------------------------------------------------------------------------------------------
+!---------------------------------------------------------------------------------------------------
 
-    FORCING_MIXED_LAYER_DEPTH  = -5001
-    FORCING_MLD_CHANGE_NON_MOTILE = -5002
-    FORCING_MLD_CHANGE_MOTILE = -5003
-    FORCING_LIGHT_LIMITED_GROWTH_RATE = -5004
+FORCING_MIXED_LAYER_DEPTH  = -5001
+FORCING_MLD_CHANGE_NON_MOTILE = -5002
+FORCING_MLD_CHANGE_MOTILE = -5003
+FORCING_LIGHT_LIMITED_GROWTH_RATE = -5004
 
 !Numerical_CODE_Initial_Conditions = (/aNO3, aNH4, DON, DET, bact, phyto, zoo/)
 
@@ -138,7 +139,7 @@ if( buildTrees ) then
     !endif ! L_ga_print  .and. myid == 1 
 
 
-    call Build_Trees( GP_Trees(:,1) )
+    call Build_Trees( GP_Trees(:,i_GA_indiv, 1), i_GA_indiv )
 
 
     !if( myid == 0 )then
@@ -151,7 +152,7 @@ if( buildTrees ) then
 
 else
 
-    call Deserialize_Trees( GP_Trees(:,:), n_Trees, n_Tracked_Resources, output_dir )
+    !call Deserialize_Trees( GP_Trees(:,:,:), n_Trees, n_Tracked_Resources, output_dir )
 
 endif ! buildTrees
 

@@ -41,7 +41,9 @@ Numerical_CODE_Solution(0,1:n_CODE_equations) = Runge_Kutta_Initial_Conditions !
 Numerical_CODE_Initial_Conditions             = Runge_Kutta_Initial_Conditions ! Array Assignment
 
 
-call Initialize_Model( .true. )
+allocate( GP_Trees(n_trees,1,1)  ) 
+
+call Initialize_Model( .true., 1 )
 
 
 !------------------------------------------------------------------------------
@@ -178,10 +180,11 @@ if( myid == 0 )then
 
     ! Runge_Kutta_Box_Model now put the time series in Numerical_CODE_Solution
 
-    call Runge_Kutta_Box_Model
+    call Runge_Kutta_Box_Model( 1 )
 
     Runge_Kutta_Solution = Numerical_CODE_Solution
 
+    deallocate( GP_Trees )
 
 endif ! myid == 0
 

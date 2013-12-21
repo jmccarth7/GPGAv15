@@ -50,9 +50,9 @@ external :: fcn
 
 
 !--------------------------------------------------------------------------------------------
-                                                                                                                                  
-!write(6,'(A,1x,I5,4x,L1)') 'setrf: myid, L_GA_print   ', myid, L_GA_print       
-!write(6,'(A,1x,I5,1x,I5)') 'setrf: myid, GA_print_unit', myid, GA_print_unit  
+
+!write(6,'(A,1x,I5,4x,L1)') 'setrf: myid, L_GA_print   ', myid, L_GA_print
+!write(6,'(A,1x,I5,1x,I5)') 'setrf: myid, GA_print_unit', myid, GA_print_unit
 
 
 !if( L_ga_print )then
@@ -79,6 +79,33 @@ do  i_parameter=1,n_parameters
     !endif ! myid == 1
 
 enddo ! i_parameter
+
+
+!----------------------------------------------------------------------------------------
+
+
+! set up the GP_Trees for the Runge_Kutta integration
+
+
+! Initialize_Model calls build_trees which makes the GP_Trees
+
+if( L_ga_print )then
+    write(GA_print_unit,'(/A/)') 'setrf: call Initialize_Model(.true.)'
+endif ! L_ga_print
+
+
+! sets buildtrees = .true. in initialize_model
+
+call Initialize_Model( .true., i_GA_indiv )   ! call build_trees
+
+!call Initialize_Model(.false., i_GA_indiv)   ! call Deserialize_Trees
+
+if( L_ga_print )then
+    write(GA_print_unit,'(/A/)') 'setrf: aft call Initialize_Model(.true.)'
+    write(GA_print_unit,'(A,1x,I6/)') &
+          'setrf: size( GP_Trees ) ', size( GP_Trees )
+endif ! L_ga_print
+
 
 
 !----------------------------------------------------------------------------------------
