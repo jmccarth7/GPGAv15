@@ -74,7 +74,7 @@ real(kind=8), parameter :: PI = 3.141592653589793D0
 integer(kind=4) :: n_GA_Generations
 integer(kind=4) :: i_GA_Generation
 integer(kind=4) :: n_GA_Individuals
-integer(kind=4) :: i_GA_individual
+!!!!integer(kind=4) :: i_GA_individual
 integer(kind=4) :: j_GA_individual
 
 real(kind=8) ::  min_sse
