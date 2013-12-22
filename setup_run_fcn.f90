@@ -126,7 +126,7 @@ iflag = 1
 
 
 
-call fcn( n_time_steps, n_parameters, x_LMDIF, fvec, iflag )
+call fcn( n_time_steps, n_parameters, x_LMDIF, fvec, iflag, i_GA_indiv )
 
 
 

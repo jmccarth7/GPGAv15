@@ -149,12 +149,17 @@ do  i_Time_Step = 1, n_Time_Steps
                 if( associated( GP_Trees(i_Tree,i_GA_indiv, i_Track)%n) ) then
 
 
+                    write(GA_print_unit,'(/A,2x,I6)') &
+                              'rkbm: bef size( GP_Trees ) ', size( GP_Trees ) 
+                                     i_tree, Tree_Value(i_tree)
                     Tree_Value(i_Tree) = GP_Trees( i_Tree, i_GA_indiv, i_Track )%n%val()
 
                     !write(GA_print_unit,'(/A,22x,I6,1x,E15.7)') &
                     !          'rkbm: i_tree, Tree_Value(i_tree)', &
                     !                 i_tree, Tree_Value(i_tree)
 
+                    write(GA_print_unit,'(/A,2x,I6)') &
+                              'rkbm: aft size( GP_Trees ) ', size( GP_Trees ) 
                     !----------------------------------------------------------------------------------------
                     !tree_node_count = GetNodeCount( GP_Trees( i_Tree, i_Track )%n )
                     !debug only !if( tree_node_count <= 1 )   Tree_Value(i_Tree) = 0.0d0   ! jjm 20131213

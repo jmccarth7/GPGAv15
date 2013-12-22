@@ -36,6 +36,9 @@ integer(kind=4),intent(in) :: i_GA_indiv
 
 logical,parameter :: L_GP_print = .TRUE.
 
+real(kind=8) :: t1                                                                                                 
+real(kind=8) :: t2 
+
 !---------------------------------------------------------------------
 
 
@@ -147,6 +150,8 @@ do i_tree=1,n_trees
     Runge_Kutta_Node_Type(i_node,i_tree) = &
             GP_Individual_Node_Type(i_node,i_tree) ! jjm 20130417
 
+            !GP_Adult_Population_Node_Type(i_node,i_tree,i_GA_indiv) ! jjm 20131222
+
     !if( GP_para_flag .and. myid == 1 )then
     !    if( GP_Individual_Node_Type(i_node,i_tree) > -9999 )then
     !        write(GP_print_unit,'(A,4(1x,I6))') &
@@ -162,6 +167,7 @@ do i_tree=1,n_trees
     !     endif ! GP_Individual_Node_Type(i_node,i_tree) > -9999
     ! endif ! L_GA_print
 
+    !if( GP_Individual_Node_Type(i_node,i_tree) .eq. 0) then  ! set the node_parameter
     if( GP_Individual_Node_Type(i_node,i_tree) .eq. 0) then  ! set the node_parameter
 
       i_parameter=i_parameter+1
@@ -464,9 +470,14 @@ L_bad_result = .FALSE.
 !                                            myid
 !endif ! L_ga_print
 
+t1 = MPI_Wtime()
 
 call Runge_Kutta_Box_Model( i_GA_indiv )
 
+t2 = MPI_Wtime()
+
+write(GA_print_unit,'(A,1x,E15.7)') &                                                                  
+              'fcn: time spent in RK Box Model   = ', t2 - t1
 
 if( L_bad_result ) then
 

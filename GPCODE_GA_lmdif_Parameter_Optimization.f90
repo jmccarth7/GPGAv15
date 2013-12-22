@@ -432,7 +432,7 @@ do  i_GA_generation=1,n_GA_Generations
             do  i_tree=1,n_trees
                 do  i_node=1,n_nodes
         
-                    if( GP_adult_population_node_type(i_node,i_tree, i_ga_ind) .eq. 0 ) then 
+                    if( GP_individual_node_type(i_node,i_tree) .eq. 0 ) then 
         
                         !if( L_ga_print )then
                         !    write(GA_print_unit,'(A,3(1x,I6))') &
@@ -456,7 +456,7 @@ do  i_GA_generation=1,n_GA_Generations
                             !             i_tree,i_node,GP_individual_node_parameters(i_node,i_tree)
                         endif ! L_ga_print
         
-                    endif !   GP_adult_population_node_type(i_node,i_tree, i_ga_ind) .eq. 0
+                    endif ! GP_individual_node_type(i_node,i_tree) .eq. 0 )
         
                 enddo ! i_node
         
@@ -566,12 +566,18 @@ do  i_GA_generation=1,n_GA_Generations
     !endif ! L_ga_print
 
 
-    if( allocated( GP_Trees ) )then
+    if( allocated(  GP_Trees ) )then
         deallocate( GP_Trees ) 
     endif ! allocated( GP_Trees ) 
 
     allocate( GP_Trees( n_trees, n_GA_individuals, 1 )  )
 
+    if( myid == 0 )then
+        if( L_ga_print )then
+            write(GA_print_unit,'(/A,1x,I8/)') &
+              'GP_GA_opt: size( GP_Trees ) ', size( GP_Trees )            
+        endif ! L_ga_print
+    endif !  myid == 0
     !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     !   begin RK fcn integration segment
     !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
