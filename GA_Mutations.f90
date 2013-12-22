@@ -19,7 +19,6 @@ integer(kind=4) :: i_GA_Individual_Mutation, i_Parameter_Mutation
 integer(kind=4) :: individual_quality(n_GA_individuals)
 
 integer(kind=4) :: n_mutated
-integer(kind=4) :: i_GA_individual
 
 !---------------------------------------------------------------------
 

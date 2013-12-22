@@ -1,4 +1,4 @@
-!     
+!
 ! File:   Interfaces.f03
 ! Author: Dave
 !

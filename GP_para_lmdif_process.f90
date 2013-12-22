@@ -727,8 +727,8 @@ else  ! not myid == 0
             ! 'gplp:3 BEF SEND myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)', &
             !                  myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)
 
-            
-            do  jj = 1, n_maximum_number_parameters   
+
+            do  jj = 1, n_maximum_number_parameters
                 buffer2(jj) =  child_parameters(jj,i_2_individual)
             enddo ! jj
 

@@ -20,7 +20,6 @@ real(kind=8) :: dff
 
 integer(kind=4) :: n_replaced
 integer(kind=4) :: i_parameter
-integer(kind=4) :: i_GA_individual
 
 
 !----------------------------------------------------------------------------

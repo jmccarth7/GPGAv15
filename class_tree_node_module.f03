@@ -47,7 +47,7 @@ contains
     subroutine Tree_Node_Delete(this)
         class(Tree_Node), intent(inout) :: this
     end subroutine Tree_Node_Delete
-    
+
 
     subroutine Tree_Math_Node_Delete(this)
         class(Tree_Node), intent(inout) :: this
@@ -75,7 +75,7 @@ contains
         write(6,'(A,1x,E15.7)') 'tMnv: v = ', v
     end function Tree_Math_Node_Val
 
-    
+
     function Tree_Parameter_Node_Val(this) result(v)
         class(Tree_Node), intent(in) :: this
         real (kind=8) :: v
@@ -83,7 +83,7 @@ contains
         write(6,'(A,1x,E15.7)') 'tPnv: v = ', v
     end function Tree_Parameter_Node_Val
 
-    
+
     function Tree_Variable_Node_Val(this) result(v)
         class(Tree_Node), intent(in) :: this
         real (kind=8) :: v
@@ -103,14 +103,14 @@ contains
         class(Tree_Node_Visitor), intent(inout) :: visitor
         call visitor%Visit_Tree_Node(this)
     end subroutine Tree_Node_Accept_Visitor
-    
+
 
     subroutine Tree_Math_Node_Accept_Visitor(this, visitor)
         class(Tree_Node), intent(in) :: this
         class(Tree_Node_Visitor), intent(inout) :: visitor
         call visitor%Visit_Tree_Math_Node(this)
     end subroutine Tree_Math_Node_Accept_Visitor
-    
+
 
     subroutine Tree_Parameter_Node_Accept_Visitor(this, visitor)
         class(Tree_Node), intent(in) :: this
@@ -118,20 +118,20 @@ contains
         call visitor%Visit_Tree_Parameter_Node(this)
     end subroutine Tree_Parameter_Node_Accept_Visitor
 
-    
+
     subroutine Tree_Variable_Node_Accept_Visitor(this, visitor)
         class(Tree_Node), intent(in) :: this
         class(Tree_Node_Visitor), intent(inout) :: visitor
         call visitor%Visit_Tree_Variable_Node(this)
     end subroutine Tree_Variable_Node_Accept_Visitor
 
-    
+
     subroutine Visit_Tree_Node(this, node)
         class(Tree_Node_Visitor), intent(inout) :: this
         class(Tree_Node), intent(in) :: node
     end subroutine Visit_Tree_Node
 
-    
+
     !---------------------------------------------------------------------
     ! Pointer Collection
     !---------------------------------------------------------------------
@@ -141,7 +141,7 @@ contains
         integer (kind=4), intent(in) :: pointer_count
         class(Tree_Node_Pointer), dimension(pointer_count) :: pointers
         integer (kind=4), intent(inout) :: index
-        
+
         select type (a => this)
             type is (Tree_Node)
             pointers(index)%n => a
@@ -149,13 +149,13 @@ contains
         index = index + 1
     end subroutine Tree_Node_Get_Pointers
 
-    
+
     subroutine Tree_Math_Node_Get_Pointers(this, pointers, pointer_count, index)
         class(Tree_Node), intent(inout) :: this
         integer (kind=4), intent(in) :: pointer_count
         class(Tree_Node_Pointer), dimension(pointer_count) :: pointers
         integer (kind=4), intent(inout) :: index
-        
+
         select type (a => this)
             type is (Tree_Node)
             pointers(index)%n => a
@@ -164,7 +164,7 @@ contains
         call this%left%GetNodePointers(pointers, pointer_count, index)
         call this%right%GetNodePointers(pointers, pointer_count, index)
     end subroutine Tree_Math_Node_Get_Pointers
-    
+
 
 
     !---------------------------------------------------------------------
@@ -174,33 +174,33 @@ contains
     subroutine Tree_Node_Randomize(this)
         class(Tree_Node), intent(inout) :: this
     end subroutine Tree_Node_Randomize
-    
+
     subroutine Tree_Math_Node_Randomize(this)
         class(Tree_Node), intent(inout) :: this
         real (kind=8) :: rrnd
-        
+
         call random_number(rrnd)
         this%operation = int(rrnd*16)+1
     end subroutine Tree_Math_Node_Randomize
-    
+
     subroutine Tree_Parameter_Node_Randomize(this)
         class(Tree_Node), intent(inout) :: this
         real (kind=8) :: rrnd
-        
+
         call random_number(rrnd)
         this%param = rrnd*100.D+0
     end subroutine Tree_Parameter_Node_Randomize
-    
+
     subroutine Tree_Variable_Node_Randomize(this)
         class(Tree_Node), intent(inout) :: this
         real (kind=8) :: rrnd
-        
+
         call random_number(rrnd)
         rrnd = rrnd*100.D+0
         allocate(this%variable)
         this%variable = rrnd
     end subroutine Tree_Variable_Node_Randomize
-    
+
 
 
     !---------------------------------------------------------------------
@@ -225,11 +225,11 @@ contains
                         else
                             b%parent%right => a
                         endif
-                        
+
                         tmp => b%parent
                         b%parent => a%parent
                         a%parent => tmp
-                        
+
                         ct_diff = a%node_count - b%node_count
                         tmp => a%parent
                         do while (associated(tmp))

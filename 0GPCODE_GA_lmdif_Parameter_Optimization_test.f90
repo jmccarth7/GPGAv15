@@ -306,11 +306,9 @@ call create_tree_node_string()
 
 ! GP_Node_Type_for_Plotting (if L_unit50_output true)
 
-if( myid == 1 )then
 
-    call set_answer_arrays( )
+call set_answer_arrays( )
 
-endif ! myid == 1
 
 !------------------------------------------------------------------------
 
@@ -1430,7 +1428,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
     GP_para_flag = .TRUE.
 
-    !!!!  debug only call GP_para_lmdif_process( i_GP_generation )
+    call GP_para_lmdif_process( i_GP_generation )
 
     GP_para_flag = .FALSE.
 
@@ -1633,15 +1631,6 @@ endif ! myid == 0
 
 
 !------------------------------------------------------------------
-if( myid == 0 )then
-
-    write(GP_print_unit,'(//A)')  '0: NORMAL TERMINATION'
-    write(GP_print_unit, '(3(A,1x,A,1x)//)') &
-        '0: GPGACODE program version', trim(program_version), &
-        '  branch:', trim( branch ) , &
-        '  Last modified on:', trim( modification_date )
-
-endif ! myid == 0
 
 call MPI_FINALIZE(ierr)
 

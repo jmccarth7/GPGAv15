@@ -83,33 +83,6 @@ enddo ! i_parameter
 
 !----------------------------------------------------------------------------------------
 
-
-! set up the GP_Trees for the Runge_Kutta integration
-
-
-! Initialize_Model calls build_trees which makes the GP_Trees
-
-if( L_ga_print )then
-    write(GA_print_unit,'(/A/)') 'setrf: call Initialize_Model(.true.)'
-endif ! L_ga_print
-
-
-! sets buildtrees = .true. in initialize_model
-
-call Initialize_Model( .true., i_GA_indiv )   ! call build_trees
-
-!call Initialize_Model(.false., i_GA_indiv)   ! call Deserialize_Trees
-
-if( L_ga_print )then
-    write(GA_print_unit,'(/A/)') 'setrf: aft call Initialize_Model(.true.)'
-    write(GA_print_unit,'(A,1x,I6/)') &
-          'setrf: size( GP_Trees ) ', size( GP_Trees )
-endif ! L_ga_print
-
-
-
-!----------------------------------------------------------------------------------------
-
 ! call fcn
 
 

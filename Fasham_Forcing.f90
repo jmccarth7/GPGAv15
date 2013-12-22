@@ -1,25 +1,25 @@
-!     
+!
 ! File:   Fasham_Forcing.f90
 ! Author: Dave
 !
 ! Created on June 26, 2013, 1:37 PM
 !
 subroutine JQforce(species, day, aMLD, aJ)
-    
+
 use fasham_variables_module
 use GP_variables_module
 
     implicit none
-    
+
     real (kind=8), intent(in) :: species(n_CODE_Equations), day, aMLD
     real (kind=8), intent(out) :: aJ
     real (kind=8) :: daym(14),coktas(14),pi
     real (kind=8), parameter :: solar=1353.D+0 ! the solar max is from Brock, 1981
     integer (kind=4) :: iz,i
-    
-    ! Copy phytoplankton to 
+
+    ! Copy phytoplankton to
     phyto = species(max(1,abs(SPECIES_PHYTOPLANKTON)))
-    
+
     data daym /0.D+0,16.D+0,46.D+0,75.D+0,105.D+0,136.D+0,166.D+0,&
                197.D+0,228.D+0,258.D+0,289.D+0, 319.D+0, 350.D+0, 365.D+0/
 
@@ -84,9 +84,9 @@ use GP_variables_module
         endif
       enddo
       aJ=aJ*delz/aMLD
-      
+
     endif
-    
+
 end subroutine JQforce
 
 subroutine mldforce(day, h, aMLD)
@@ -97,13 +97,13 @@ use fasham_variables_module
 use GP_variables_module
 
     implicit none
-    
+
     real (kind=8), intent(in) :: day
     real (kind=8), intent(out) :: h, aMLD
     integer (kind=4), parameter :: n=14
     real (kind=8) :: daym(14),cmld(14)
     integer (kind=4) nloop,iloop,i
-    
+
 
     !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 

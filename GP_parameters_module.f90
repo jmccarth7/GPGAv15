@@ -28,7 +28,7 @@ integer(kind=4) :: n_trees
 
 
 ! n_nodes = int(2**n_levels)-1
-integer(kind=4) :: n_nodes 
+integer(kind=4) :: n_nodes
 
 
 ! n_maximum_number_parameters = n_CODE_equations +  n_nodes
@@ -48,7 +48,7 @@ integer(kind=4), parameter :: n_Tracked_Resources = 1 ! number of different reso
 !integer(kind=4), parameter :: n_Time_Steps=5*365*24*2          ! 5 years in half-hour increments
 
 
-real(kind=8) :: Delta_Time_in_Days 
+real(kind=8) :: Delta_Time_in_Days
 
 
 character(len=*), parameter :: Model_Name = 'Fasham'
@@ -202,15 +202,15 @@ logical :: L_bad_result
 integer (kind=4) :: ier_file,idummy,iwkid,iwktype  ! NCAR Graphics
 
 ! orig !character (len=*), parameter :: output_dir = 'Output/'//Model_Name
-character (len=*), parameter :: output_dir = '.' 
+character (len=*), parameter :: output_dir = '.'
 
 character (len=*), parameter :: input_dir = 'Input'
 
 
 !The temporal unit depends on the delta time in days
 
-!real (kind=4), dimension(0:n_Time_Steps) :: x_Time_Steps = 0.D+0 
-real (kind=4), dimension(:),allocatable :: x_Time_Steps 
+!real (kind=4), dimension(0:n_Time_Steps) :: x_Time_Steps = 0.D+0
+real (kind=4), dimension(:),allocatable :: x_Time_Steps
 
 
 

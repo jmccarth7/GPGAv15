@@ -1,4 +1,4 @@
-subroutine fcn(mm,nn,x,fvec,iflag, i_GA_indiv)
+subroutine fcn(mm,nn,x,fvec,iflag)
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 
@@ -32,14 +32,13 @@ integer(kind=4) :: ii
 integer(kind=4) :: i_CODE_equation
 integer(kind=4) :: i_time_step
 integer(kind=4) :: i_parameter
-integer(kind=4),intent(in) :: i_GA_indiv 
 
 logical,parameter :: L_GP_print = .TRUE.
 
 !---------------------------------------------------------------------
 
 
-!write(6,'(A,1x,I5,4x,L1)') 'fcn: myid, L_GA_print   ', myid, L_GA_print 
+!write(6,'(A,1x,I5,4x,L1)') 'fcn: myid, L_GA_print   ', myid, L_GA_print
 !write(6,'(A,1x,I5,1x,I5)') 'fcn: myid, GA_print_unit', myid, GA_print_unit
 
 !if( GP_para_flag .and. myid == 3 )then
@@ -150,15 +149,15 @@ do i_tree=1,n_trees
     !if( GP_para_flag .and. myid == 1 )then
     !    if( GP_Individual_Node_Type(i_node,i_tree) > -9999 )then
     !        write(GP_print_unit,'(A,4(1x,I6))') &
-    !        'fcn: myid, i_tree, i_node, GP_Individual_Node_Type', &
-    !              myid, i_tree, i_node, GP_Individual_Node_Type(i_node,i_tree)
+    !           'fcn: myid, i_tree, i_node, GP_Individual_Node_Type', &
+    !                 myid, i_tree, i_node, GP_Individual_Node_Type(i_node,i_tree)
     !    endif ! GP_Individual_Node_Type(i_node,i_tree) > -9999
     !endif !  myid == 1
     ! if( L_GA_print )then
     !     if( GP_Individual_Node_Type(i_node,i_tree) > -9999 )then
     !         write(GA_print_unit,'(A,4(1x,I6))') &
-    !         'fcn: myid, i_tree, i_node, GP_Individual_Node_Type', &
-    !               myid, i_tree, i_node, GP_Individual_Node_Type(i_node,i_tree)
+    !            'fcn: myid, i_tree, i_node, GP_Individual_Node_Type', &
+    !                  myid, i_tree, i_node, GP_Individual_Node_Type(i_node,i_tree)
     !     endif ! GP_Individual_Node_Type(i_node,i_tree) > -9999
     ! endif ! L_GA_print
 
@@ -308,32 +307,30 @@ enddo  ! i_tree
 !endif ! L_ga_print
 ! jjm 20130417 <<<<<<<<<<<<<<<
 
-!!!!---------------------------------------------------------------------------------
-!!!
-!!!! set up the GP_Trees for the Runge_Kutta integration
-!!!
-!!!
-!!!! Initialize_Model calls build_trees which makes the GP_Trees
-!!!
-!!!if( L_ga_print )then
-!!!    write(GA_print_unit,'(/A/)') 'fcn: call Initialize_Model(.true.)'
-!!!endif ! L_ga_print 
-!!!
-!!!
-!!!! sets buildtrees = .true. in initialize_model
-!!!
-!!!call Initialize_Model( .true. )   ! call build_trees
-!!!
-!!!!call Initialize_Model(.false.)   ! call Deserialize_Trees
-!!!
-!!!if( L_ga_print )then
-!!!    write(GA_print_unit,'(/A/)') 'fcn: aft call Initialize_Model(.true.)'
-!!!    write(GA_print_unit,'(A,1x,I6/)') &
-!!!          'fcn: size( GP_Trees ) ', size( GP_Trees ) 
-!!!endif ! L_ga_print 
-!!!
-!!!
-!!!!------------------------------------------------------------------------------
+!---------------------------------------------------------------------------------
+
+! set up the GP_Trees for the Runge_Kutta integration
+
+
+! Initialize_Model calls build_trees which makes the GP_Trees
+
+!if( L_ga_print )then
+!    write(GA_print_unit,'(/A/)') 'fcn: call Initialize_Model(.true.)'
+!endif ! L_ga_print
+
+
+! sets buildtrees = .true. in initialize_model
+
+call Initialize_Model( .true. )   ! call build_trees
+
+!call Initialize_Model(.false.)   ! call Deserialize_Trees
+
+!if( L_ga_print )then
+!    write(GA_print_unit,'(/A/)') 'fcn: aft call Initialize_Model(.true.)'
+!endif ! L_ga_print
+
+
+!------------------------------------------------------------------------------
 
 ! Generate PDF representation of trees
 
@@ -381,17 +378,15 @@ Numerical_CODE_Initial_Conditions             = Numerical_CODE_Solution(0,1:n_CO
 !    write(GA_print_unit,'(A)') ' '
 !
 !    do  ii = 1, n_CODE_equations
-!        write(GA_print_unit,'(A,1x,I6,1x,E15.7)') &
-!              'fcn: ii, Numerical_CODE_Initial_Conditions(ii)', &
-!                    ii, Numerical_CODE_Initial_Conditions(ii)
+!        write(GA_print_unit,'(A,1x,I6,1x,E15.7)') 'fcn: ii, Numerical_CODE_Initial_Conditions(ii)', &
+!                                                        ii, Numerical_CODE_Initial_Conditions(ii)
 !    enddo ! ii
 !
 !    write(GA_print_unit,'(A)') ' '
 !
 !    do  ii = 1, n_CODE_equations
-!        write(GA_print_unit,'(A,1x,I6,1x,E15.7)') &
-!              'fcn: ii, Numerical_CODE_Solution(0,ii)        ', &
-!                    ii, Numerical_CODE_Solution(0,ii)
+!        write(GA_print_unit,'(A,1x,I6,1x,E15.7)') 'fcn: ii, Numerical_CODE_Solution(0,ii)        ', &
+!                                                        ii, Numerical_CODE_Solution(0,ii)
 !    enddo ! ii
 !
 !
@@ -465,7 +460,7 @@ L_bad_result = .FALSE.
 !endif ! L_ga_print
 
 
-call Runge_Kutta_Box_Model( i_GA_indiv )
+call Runge_Kutta_Box_Model
 
 
 if( L_bad_result ) then

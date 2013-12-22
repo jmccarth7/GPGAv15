@@ -93,8 +93,8 @@ subroutine Deserialize_Trees( Trees, num_Tracked_resources, Tree_count, io_dir )
 
                     else if( Nodes(k)%n%Node_Type .eq. VariableNodeType) then
 
-                        ! If the index is in the -5000 range, 
-                        ! this is a forcing function variable. 
+                        ! If the index is in the -5000 range,
+                        ! this is a forcing function variable.
                         ! Associate it with the correct array
 
                         if( Nodes(k)%n%variable_index < -5000) then
@@ -108,7 +108,7 @@ subroutine Deserialize_Trees( Trees, num_Tracked_resources, Tree_count, io_dir )
 
                 enddo
 
-                ! Finally, compute the node count for each node and 
+                ! Finally, compute the node count for each node and
                 ! assign the root node to the position in the Tree matrix
 
                 root%node_count = GetNodeCount(root)

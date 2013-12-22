@@ -103,12 +103,12 @@ deallocate( bioflo_map )
 deallocate( bioflo_string  )
 deallocate( b_tmp )
 
-deallocate( Numerical_CODE_Initial_Conditions )                                              
+deallocate( Numerical_CODE_Initial_Conditions )
 deallocate( Numerical_CODE_Forcing_Functions  )
-deallocate( Numerical_CODE_Solution  ) 
+deallocate( Numerical_CODE_Solution  )
 
 
-!!!deallocate( GP_Trees )
+deallocate( GP_Trees )
 
 
 deallocate( kval )

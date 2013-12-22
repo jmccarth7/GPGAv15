@@ -116,7 +116,7 @@ endif ! n_parms <= 0
 ! GP_Individual_Node_Type is used in fcn
 ! and passed to RK subroutine as RK_node_type
 
-do  i_tree=1,n_trees    
+do  i_tree=1,n_trees
     do  i_node=1,n_nodes
         GP_Individual_Node_Type(i_node,i_tree) = &
                        GP_Adult_Population_Node_Type(i_node,i_tree,i_G_indiv)

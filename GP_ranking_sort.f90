@@ -22,7 +22,7 @@ integer(kind=4) :: i_tree
 integer(kind=4) :: i_node
 
 integer(kind=4) :: i_parm
-integer(kind=4) :: jj             
+integer(kind=4) :: jj
 
 real(kind=8), dimension( 1:n_Nodes,1:n_Trees, 1:n_GP_individuals ) :: &
                          GP_population_node_parameters_temp
@@ -101,7 +101,7 @@ enddo  ! i_GP_Individual
 do  jj = 1, n_GP_Individuals   ! 20131209
     GP_Adult_Population_SSE(jj) = GP_Child_Individual_SSE(jj)
     GP_Adult_Individual_SSE(jj) = GP_Child_Individual_SSE(jj)
-enddo 
+enddo
 
 
 !-------------------------------------------------------------------------------------------------
@@ -172,22 +172,22 @@ enddo ! i_GP_individual
 ! sort the GP_population_initial_conditions
 
 
-do  i_GP_individual = 1, n_GP_individuals  
+do  i_GP_individual = 1, n_GP_individuals
 
     do  jj = 1, n_CODE_Equations
         GP_Population_Initial_Conditions_temp(jj , i_GP_individual ) = &
              GP_Population_Initial_Conditions(jj,  Ranked_Fitness_Index(i_GP_individual) )
-    enddo ! jj 
+    enddo ! jj
 
 enddo ! i_GP_individual
 
 
-do  i_GP_individual = 1, n_GP_individuals   
+do  i_GP_individual = 1, n_GP_individuals
 
     do  jj = 1, n_CODE_Equations
         GP_Population_Initial_Conditions(jj , i_GP_individual ) = &
           GP_Population_Initial_Conditions_temp(jj , i_GP_individual )
-    enddo ! jj 
+    enddo ! jj
 
 enddo ! i_GP_individual
 
@@ -216,7 +216,7 @@ enddo ! i_GP_individual
 ! sort the GP_population_node_parameters
 
 
-do  i_GP_individual = 1, n_GP_individuals    
+do  i_GP_individual = 1, n_GP_individuals
     do  i_tree = 1, n_trees
         do  i_node = 1, n_nodes
             GP_population_node_parameters_temp(i_Node,i_Tree, i_GP_individual ) = &
@@ -227,7 +227,7 @@ do  i_GP_individual = 1, n_GP_individuals
 enddo ! i_GP_individual
 
 
-do  i_GP_individual = 1, n_GP_individuals   
+do  i_GP_individual = 1, n_GP_individuals
     do  i_tree = 1, n_trees
         do  i_node = 1, n_nodes
             GP_population_node_parameters(i_Node,i_Tree,  i_GP_Individual) = &
@@ -334,7 +334,7 @@ enddo ! i_GP_Individual
 
 !------------------------------------------------------------------------------------
 
-! Normalize to the integrated ranking values so that 
+! Normalize to the integrated ranking values so that
 ! the ranking integration ranges from [0. to 1.]
 
 write(6,'(/A, 1x, E15.7)') &

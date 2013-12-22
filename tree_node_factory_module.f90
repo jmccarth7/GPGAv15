@@ -1,4 +1,4 @@
-!     
+!
 ! File:   Tree_Node_Factory.f03
 ! Author: Dave
 !
@@ -8,7 +8,7 @@
 module Tree_Node_Factory_module
 
     use class_Tree_Node
-    
+
     integer(kind=4), parameter :: Add = 1
     integer(kind=4), parameter :: Subtract = 2
     integer(kind=4), parameter :: Multiply = 3
@@ -25,11 +25,11 @@ module Tree_Node_Factory_module
     integer(kind=4), parameter :: IfGte = 14
     integer(kind=4), parameter :: IfLt = 15
     integer(kind=4), parameter :: IfLte = 16
-    
+
     integer(kind=4), parameter :: MathNodeType = 1
     integer(kind=4), parameter :: VariableNodeType = 2
     integer(kind=4), parameter :: ParameterNodeType = 3
-    
+
     contains
 
     !--------------------------------------------------------------------------------
@@ -51,7 +51,7 @@ module Tree_Node_Factory_module
             stop 1 ! Stop program
 
         endif
-        
+
         nullify(node)
 
         allocate(node)
@@ -59,8 +59,8 @@ module Tree_Node_Factory_module
         !write(6,'(A)') 'GMN: entry GetMathNode '
         !write(6,'(A,1x,I6)') 'GMN: OperationIndex ', OperationIndex
 
-        ! Constructor: Node Type, Node Count, Parent, 
-        !              LeftChild, RightChild, 
+        ! Constructor: Node Type, Node Count, Parent,
+        !              LeftChild, RightChild,
         !              Operation, Variable_Index, VariableValue, ParameterValue
 
         node = Tree_Node( MathNodeType, 1 + Left%node_count + Right%node_count, NULL(), &
@@ -79,7 +79,7 @@ module Tree_Node_Factory_module
         !write(6,'(A)') 'GMN: leave GetMathNode '
 
     end function
-    
+
 
     !--------------------------------------------------------------------------------
 
@@ -93,12 +93,12 @@ module Tree_Node_Factory_module
         !--------------------------------------------------------------------------
 
         !write(6,'(A)') 'GVN: entry GetVariableNode'
-        !write(6,'(A,1x,E15.7)') 'GVN: VariableValue  ', VariableValue 
+        !write(6,'(A,1x,E15.7)') 'GVN: VariableValue  ', VariableValue
         !write(6,'(A,1x,I6   )') 'GVN: Variable_Index ', Variable_Index
 
         allocate(node)
 
-        ! Constructor: Node Type, Node Count, Parent, LeftChild, RightChild, 
+        ! Constructor: Node Type, Node Count, Parent, LeftChild, RightChild,
         !              Operation, Variable_Index, VariableValue, ParameterValue
 
         node = Tree_Node( VariableNodeType, 1, Null(), Null(), Null(), 0, &
@@ -131,8 +131,8 @@ module Tree_Node_Factory_module
 
         !write(6,'(A,1x,E15.7)') 'GPN:  ParameterValue ', ParameterValue
 
-        ! Constructor: Node Type, Node Count, Parent, 
-        !              LeftChild, RightChild, Operation, 
+        ! Constructor: Node Type, Node Count, Parent,
+        !              LeftChild, RightChild, Operation,
         !              Variable_Index, VariableValue, ParameterValue
 
         node = Tree_Node( ParameterNodeType, 1, Null(), &
@@ -147,7 +147,7 @@ module Tree_Node_Factory_module
         !write(6,'(A)') 'GPN:  leave GetParameterNode '
 
     end function
-    
+
 
     !--------------------------------------------------------------------------------
 
@@ -157,16 +157,16 @@ module Tree_Node_Factory_module
         type(Tree_Node), pointer :: node
         integer(kind=4) :: node_type, node_operation, variable_index
         real(kind=8) :: parameter_value
-    
+
         allocate(node)
 
         select case( node_type )
 
-            case( MathNodeType )    
+            case( MathNodeType )
 
                ! Left and Right are NULL, Count is 1
 
-               node = Tree_Node( MathNodeType, 1, NULL(), NULL(), NULL(), & 
+               node = Tree_Node( MathNodeType, 1, NULL(), NULL(), NULL(), &
                                  node_operation, 0, Null(), 0.D+0, &
                                  Tree_Math_Node_Val, &
                                  Tree_Math_Node_Delete, &
@@ -220,7 +220,7 @@ module Tree_Node_Factory_module
         implicit none
         type(Tree_Node), pointer :: node
         real(kind = 8) :: rrnd
-        
+
         call random_number(rrnd)
 
 !        rrnd = rrnd * 3

@@ -52,7 +52,7 @@ endif
 
 !write(GP_print_unit,'(A,3(1x,I6))') &
 !         'cdv: myid, n_CODE_equations, n_time_steps ', &
-!               myid, n_CODE_equations, n_time_steps 
+!               myid, n_CODE_equations, n_time_steps
 
 do i_CODE_equation=1,n_CODE_equations
 
@@ -75,7 +75,7 @@ do i_CODE_equation=1,n_CODE_equations
 
     !write(GP_print_unit,'(A,1x,I6, 2(1x,E15.7) )') &
     !      'cdv: myid, totobs, totobs_m1', &
-    !            myid, totobs, totobs_m1           
+    !            myid, totobs, totobs_m1
 
 
     dff=( (totobs*ssum2)-(ssum**2) ) / totobs / totobs_m1
@@ -84,7 +84,7 @@ do i_CODE_equation=1,n_CODE_equations
     !write(GP_print_unit,'(/A,2x,E24.16)') 'cdv: original dff ', dff
 
     !write(GP_print_unit,'(A,1x, I6, 2(1x,E15.7) )') &
-    !     'cdv: myid, dff', myid, dff                        
+    !     'cdv: myid, dff', myid, dff
 
     !!-------------------------------------------------------------------------------
     !nn = n_time_steps + 1
@@ -125,13 +125,13 @@ do i_CODE_equation=1,n_CODE_equations
     !
     !!-------------------------------------------------------------------------------
 
-    if( dff .gt. 0.0D+0) then  
+    if( dff .gt. 0.0D+0) then
 
         ! set variance to observed variance for normalize by the s.d.
 
         Data_Variance(i_CODE_equation)=dff
 
-    else 
+    else
 
         ! set variance to 1.0 for normalization to be 'unaltered'
 

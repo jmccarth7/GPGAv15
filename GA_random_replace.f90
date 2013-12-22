@@ -19,7 +19,6 @@ integer (kind=4) :: i_GA_Individual_replace, i_Parameter_replace
 integer(kind=4) :: individual_quality(n_GA_individuals)
 
 integer (kind=4) :: n_replaced
-integer(kind=4) :: i_GA_individual
 
 !---------------------------------------------------------------------
 

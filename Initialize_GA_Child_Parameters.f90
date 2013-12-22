@@ -19,7 +19,6 @@ real(kind=8) :: dff
 
 integer(kind=4) :: i_parameter
 integer(kind=4) :: jj
-integer(kind=4) :: i_GA_individual
 
 !----------------------------------------------------------------------------
 
@@ -43,7 +42,7 @@ do  i_GA_Individual=1,n_GA_Individuals
 
 
 
-        
+
         !if( L_ga_print )then
         !    write(6,'(A,2(1x, I6),1x,E24.16 )') &
         !         'Init: ', i_GA_individual, i_Parameter, &

@@ -69,7 +69,6 @@ logical :: L_stop_run
 
 integer(kind=4) :: jj
 integer(kind=4) :: i_parameter
-integer(kind=4) :: i_GA_individual
 
 
 real(kind=8),dimension(17),parameter :: answerLV = &

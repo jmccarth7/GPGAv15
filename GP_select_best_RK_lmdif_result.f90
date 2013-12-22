@@ -120,7 +120,7 @@ endif ! L_GP_print
 !            write(GP_print_unit,'(A,3(1x,I6))') &
 !            'gpsbrl:1 i_tree, i_node,  GP_Adult_Population_Node_Type(:,:,i_gp_best_parent) ', &
 !                      i_tree, i_node,  GP_Adult_Population_Node_Type(i_node,i_tree,i_gp_best_parent)
-!        endif ! GP_Adult_Population_Node_Type(i_node,i_tree,i_gp_best_parent) > -9999 
+!        endif ! GP_Adult_Population_Node_Type(i_node,i_tree,i_gp_best_parent) > -9999
 !    enddo ! i_node
 !enddo ! i_tree
 
@@ -620,9 +620,9 @@ else  ! lmdif is best
         ! and writes the tree to the summary file
 
         !write(GP_print_unit,'(//A)') 'gpsbrl:2 call summary_GP_indiv2'
-        !write(GP_print_unit,'(A,2(1x,I6))') &                                      
+        !write(GP_print_unit,'(A,2(1x,I6))') &
         !    'gpsbrl:1 i_GP_generation, i_GP_best_parent ', &
-        !              i_GP_generation, i_GP_best_parent                                                                        
+        !              i_GP_generation, i_GP_best_parent
         write(GP_print_unit, '(//A)')  ' '
 
         call summary_GP_indiv2( i_GP_generation, i_GP_best_parent )
@@ -631,7 +631,7 @@ else  ! lmdif is best
         !write(GP_print_unit,'(//A)') 'gpsbrl:2 after call summary_GP_indiv2'
         !write(GP_print_unit,'(A,2(1x,I6))') &
         !      'gpsbrl:2 aft i_GP_generation, i_GP_best_parent ', &
-        !                    i_GP_generation, i_GP_best_parent                                                                    
+        !                    i_GP_generation, i_GP_best_parent
         write(GP_print_unit, '(//A)')  ' '
 
     endif !  myid == 0

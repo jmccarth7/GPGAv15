@@ -77,7 +77,6 @@ allocate( GP_Individual_Initial_Conditions(n_CODE_equations) )
 allocate( GP_Individual_Node_Type(n_nodes,n_trees) )
 allocate( GP_Individual_Node_Parameters(n_nodes,n_trees) )
 
-allocate( child_node_parameters( n_nodes, n_trees, n_GP_Individuals ) )
 
 allocate( GP_Individual_N_GP_param(n_GP_Individuals) )  ! jjm 20130409
 
@@ -120,12 +119,12 @@ allocate( bioflo_string(0:n_CODE_equations,0:n_CODE_equations) )
 !allocate( b_tmp(n_CODE_equations) )
 allocate( b_tmp(n_variables)      )
 
-allocate( Numerical_CODE_Initial_Conditions( 1:n_CODE_equations ) ) 
+allocate( Numerical_CODE_Initial_Conditions( 1:n_CODE_equations ) )
 
 allocate( Numerical_CODE_Forcing_Functions( n_CODE_forcing ) )
 
 allocate( Numerical_CODE_Solution( 0:n_time_steps, n_CODE_equations ) )
-!!allocate( GP_Trees( n_Trees, n_Tracked_Resources) ) 
+allocate( GP_Trees( n_Trees, n_Tracked_Resources) )
 
 ! Runge-Kutta specific work arrays
 !allocate( kval(4,n_CODE_equations) )
