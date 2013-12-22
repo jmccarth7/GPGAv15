@@ -1642,16 +1642,6 @@ if( myid == 0 )then
         '  Last modified on:', trim( modification_date )
 
 endif ! myid == 0
-!------------------------------------------------------------------
-
-write(GP_print_unit,'(//A)')  '0: NORMAL TERMINATION'                                                
-    
-write(GP_print_unit, '(3(A,1x,A,1x)//)') &
-    '0: GPGACODE program version', trim(program_version), &
-    '  branch:', trim( branch ) , &
-    '  Last modified on:', trim( modification_date )
-   
-!------------------------------------------------------------------
 
 call MPI_FINALIZE(ierr)
 
