@@ -1,4 +1,4 @@
-subroutine fcn(mm,nn,x,fvec,iflag, i_GA_indiv)
+subroutine fcn(mm,nn,x,fvec,iflag ) !, i_GA_indiv)
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 
@@ -32,7 +32,7 @@ integer(kind=4) :: ii
 integer(kind=4) :: i_CODE_equation
 integer(kind=4) :: i_time_step
 integer(kind=4) :: i_parameter
-integer(kind=4),intent(in) :: i_GA_indiv 
+!!integer(kind=4),intent(in) :: i_GA_indiv 
 
 logical,parameter :: L_GP_print = .TRUE.
 
@@ -470,14 +470,19 @@ L_bad_result = .FALSE.
 !                                            myid
 !endif ! L_ga_print
 
-t1 = MPI_Wtime()
+!----------------------------------------------------------------------
 
-call Runge_Kutta_Box_Model( i_GA_indiv )
+!t1 = MPI_Wtime()
 
-t2 = MPI_Wtime()
+call Runge_Kutta_Box_Model( ) ! i_GA_indiv )
 
-write(GA_print_unit,'(A,1x,E15.7)') &                                                                  
-              'fcn: time spent in RK Box Model   = ', t2 - t1
+!t2 = MPI_Wtime()
+
+!write(GA_print_unit,'(A,1x,E15.7)') &                                                                  
+!              'fcn: time spent in RK Box Model   = ', t2 - t1
+
+!----------------------------------------------------------------------
+
 
 if( L_bad_result ) then
 

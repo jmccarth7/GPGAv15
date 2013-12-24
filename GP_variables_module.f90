@@ -193,9 +193,11 @@ integer(kind=4), dimension(:,:), allocatable :: bioflo_map
 
 ! must be kept for re-evaluations of next generations <<<
 
+!!!type(Tree_Node_Pointer), dimension(n_Trees,n_ga_individuals, n_Tracked_Resources) :: GP_Trees
+!!type(Tree_Node_Pointer), dimension(:,:,:),allocatable :: GP_Trees
 
-!type(Tree_Node_Pointer), dimension(n_Trees,n_ga_individuals, n_Tracked_Resources) :: GP_Trees
-type(Tree_Node_Pointer), dimension(:,:,:),allocatable :: GP_Trees
+!type(Tree_Node_Pointer), dimension(n_Trees, n_Tracked_Resources) :: GP_Trees
+type(Tree_Node_Pointer), dimension(:,:),allocatable :: GP_Trees
 
 
 !---------------------------------------------------------------------------

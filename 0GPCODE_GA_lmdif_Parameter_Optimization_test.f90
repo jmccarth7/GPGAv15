@@ -240,6 +240,7 @@ endif ! myid == 0
 
 ! allocate variable dimension arrays
 
+
 call allocate_arrays1( )
 
 allocate( answer( n_maximum_number_parameters ) )
@@ -306,12 +307,15 @@ call create_tree_node_string()
 
 ! GP_Node_Type_for_Plotting (if L_unit50_output true)
 
-if( myid == 1 )then
+
+if( myid == 0 )then
 
     call set_answer_arrays( )
 
-endif ! myid == 1
+endif ! myid == 0
 
+!call MPI_FINALIZE(ierr)  ! debug only 
+!stop ! debug only 
 !------------------------------------------------------------------------
 
 ! then broadcast the R-K result: Runge_Kutta_Solution
@@ -364,6 +368,8 @@ call MPI_BCAST( Data_Variance, message_len,    &
 call MPI_BCAST( Data_Variance_inv, message_len,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
+!call MPI_FINALIZE(ierr)  ! debug only 
+!stop ! debug only 
 
 !--------------------------------------------------------------------------------
 
@@ -1136,7 +1142,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
                 endif !  myid == 0
 
-                !------------------------------------------------------------------------
+                !---------------------------------------------------------------
 
                 cycle gp_ind_loop
 
@@ -1375,7 +1381,7 @@ do  i_GP_Generation=1,n_GP_Generations
              '0:i_GP_Indiv  GP_Indiv_N_param     GP_Adult_Pop_SSE        GP_Child_Indiv_SSE'
 
         do  i_GP_individual = 1, n_GP_individuals
-            write(GP_print_unit, '(I6,6x,I6,6x,2(1x, E24.16) )') &
+            write(GP_print_unit, '(5x,I6,6x,I6,6x,2(1x, E24.16) )') &
                   i_GP_Individual,  GP_Individual_N_GP_param(i_GP_individual), &
                                     GP_Adult_Population_SSE(i_GP_Individual), &
                                     GP_Child_Individual_SSE(i_GP_Individual)
@@ -1430,7 +1436,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
     GP_para_flag = .TRUE.
 
-    !!!!  debug only call GP_para_lmdif_process( i_GP_generation )
+    call GP_para_lmdif_process( i_GP_generation )
 
     GP_para_flag = .FALSE.
 

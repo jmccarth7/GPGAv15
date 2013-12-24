@@ -151,6 +151,22 @@ do  i_GP_individual = 1, n_GP_individuals
     enddo ! jj
 enddo ! i_GP_individual
 
+
+!-----------------------------------------------------------------------------
+
+if( allocated(  GP_Trees ) )then
+    deallocate( GP_Trees )
+endif ! allocated( GP_Trees )
+
+allocate( GP_Trees( n_trees,  1 )  )
+
+!-----------------------------------------------------------------------------
+
+if( allocated(  child_node_parameters ) )then
+    deallocate( child_node_parameters )
+endif ! allocated( child_node_parameters )
+allocate( child_node_parameters( n_nodes, n_trees, n_GP_Individuals ) )
+
 !-----------------------------------------------------------------------------
 
 nn = 0
@@ -185,6 +201,9 @@ if( myid == 0 )then
 
                     nn = nn + 1
                     child_parameters( nn, i_GP_individual) =  &
+                         GP_population_node_parameters(i_node,i_tree,i_GP_individual)
+
+                    child_node_parameters( i_node,i_tree, i_GP_individual) =  &
                          GP_population_node_parameters(i_node,i_tree,i_GP_individual)
 
                     !write(GP_print_unit,'(I10,1x,I10,1x,I10,2(6x,E15.7))') &
@@ -334,6 +353,43 @@ child_number =  n_GP_individuals * n_maximum_number_parameters
 
 call MPI_BCAST( Child_Parameters,  child_number,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+
+
+!------------------------------------------------------------------------
+
+!  broadcast child_node_parameters
+
+!if( L_GP_print )then
+!    write(GP_print_unit,'(/A,2(1x,I6))') &
+!    'gplp:  broadcast child_node_parameters myid, i_GP_generation ', &
+!                                            myid, i_GP_generation
+!endif ! L_GP_print
+
+child_number =  n_GP_Individuals * n_trees * n_nodes
+
+!if( L_GP_print )then
+!    write(GP_print_unit,'(A,5(1x,I6)/)') &
+!    'gplp: myid, n_GP_Individuals, n_trees, n_nodes, child_number =', &
+!           myid, n_GP_Individuals, n_trees, n_nodes, child_number
+!endif ! L_GP_print
+
+
+call MPI_BCAST( child_node_parameters,  child_number,    &
+                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+
+
+!if( L_GP_print )then
+!    write(GP_print_unit,'(/A,2(1x,I10)/)') &
+!     'gplp: child_node_parameters  broadcast myid, ierr = ', myid, ierr
+!    write(GP_print_unit,'(/A,2(1x,I10)/)') &
+!     'gplp: myid, n_GP_Individuals = ', myid, n_GP_Individuals
+!    do  i_ga_ind = 1, n_GP_Individuals
+!        write(GP_print_unit,'(I3,1x,I3,1x,12(1x,E15.7))') &
+!              myid, i_ga_ind, &
+!              child_node_parameters(1:n_nodes, 1:n_trees, i_ga_ind)
+!    enddo ! i_ga_ind
+!endif ! L_GP_print
+
 
 
 !------------------------------------------------------------------------
@@ -668,13 +724,13 @@ else  ! not myid == 0
             !         child_parameters(1:n_parms,i_2_individual)
 
             call setup_run_para_lmdif( i_2_individual, &
-                                   child_parameters(1,i_2_individual), &
-                                   individual_quality(i_2_individual), &
-                                   n_GP_individuals, &
-                                   temp_SSE,  &
-                                   n_parms, n_parms_dim, &
-                                   info, i_GP_generation, &
-                                   L_GP_print, GP_print_unit )
+                                       child_parameters(1,i_2_individual), &
+                                       individual_quality(i_2_individual), &
+                                       n_GP_individuals, &
+                                       temp_SSE,  &
+                                       n_parms, n_parms_dim, &
+                                       info, i_GP_generation, &
+                                       L_GP_print, GP_print_unit )
 
 
 
@@ -727,8 +783,8 @@ else  ! not myid == 0
             ! 'gplp:3 BEF SEND myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)', &
             !                  myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)
 
-            
-            do  jj = 1, n_maximum_number_parameters   
+
+            do  jj = 1, n_maximum_number_parameters
                 buffer2(jj) =  child_parameters(jj,i_2_individual)
             enddo ! jj
 
@@ -988,6 +1044,17 @@ call MPI_BCAST( GP_Population_Initial_Conditions, message_len,    &
 !
 !endif ! myid == 0
 
+!-------------------------------------------------------
+
+if( allocated(  GP_Trees ) )then
+    deallocate( GP_Trees )
+endif ! allocated( GP_Trees )
+
+if( allocated(  child_node_parameters ) )then
+    deallocate( child_node_parameters )
+endif ! allocated( child_node_parameters )
+
+!-------------------------------------------------------
 
 return
 

@@ -1,4 +1,4 @@
-subroutine Deserialize_Trees2( Trees, i_GA_indiv, num_Tracked_resources, Tree_count )
+subroutine Deserialize_Trees2( Trees, i_G_indiv, num_Tracked_resources, Tree_count )
 
 use mpi
 use mpi_module
@@ -41,7 +41,7 @@ type(Tree_Node), pointer :: parent, root
 
 logical,save :: first  = .TRUE.       
 integer(kind=4):: temp_myid
-integer(kind=4), intent(in) :: i_GA_indiv 
+integer(kind=4), intent(in) :: i_G_indiv 
 
 !------------------------------------------------------------------------------------
 
@@ -66,13 +66,13 @@ endif
 !     write(6,'(A,2(1x,I6))')   'DsT2: num_Tracked_resources   ', num_Tracked_resources
 !    
 !    call print_debug_integer_node_tree( 6,  'GP_Individual_Node_Type in Deser_tree2 ', &
-!                                          GP_Individual_Node_Type )
+!                                             GP_Individual_Node_Type )
 !    call print_debug_integer_node_tree( 60,  &
 !                                       'GP_Individual_Node_Type in Deser_tree2 ', &
 !                                        GP_Individual_Node_Type )
 !    
 !    call print_debug_real_node_tree( 6, 'GP_Individual_Node_parameters in Deser_tree2 ', &
-!                                      GP_Individual_Node_parameters  )
+!                                         GP_Individual_Node_parameters  )
 !    call print_debug_real_node_tree( 60, &
 !                                    'GP_Individual_Node_parameters in Deser_tree2 ', &
 !                                     GP_Individual_Node_parameters  )
@@ -98,7 +98,8 @@ do i = 1, Tree_count
         counter = 0
         do  inodec = 1, n_nodes
 
-            if( GP_adult_population_node_type( inodec, i, i_ga_indiv) > -9999 )then
+            !if( GP_adult_population_node_type( inodec, i, i_G_indiv) > -9999 )then
+            if( GP_individual_node_type( inodec, i) > -9999 )then
                 counter =  counter + 1
             endif ! GP_Individual_Node_Type...
 
@@ -140,8 +141,9 @@ do i = 1, Tree_count
 
 
  
-            if( GP_adult_population_node_type( inode , i, i_ga_indiv) > -9999 )then
-            !!if( GP_Individual_Node_Type( inode, i ) > -9999 )then
+            !!if( GP_adult_population_node_type( inode , i, i_G_indiv) > -9999 )then
+
+            if( GP_Individual_Node_Type( inode, i ) > -9999 )then
 
                 !if( myid == temp_myid )then 
                 !    write(60,'(//A,3(1x,I6))') &
@@ -163,12 +165,12 @@ do i = 1, Tree_count
                 !                               i, inode, GP_Individual_Node_Type( inode, i )
 
 
+                !!if( GP_adult_population_node_type( inode , i, i_G_indiv) == 0 )then
 
-                !if( GP_Individual_Node_Type( inode, i ) == 0 )then
-                if( GP_adult_population_node_type( inode , i, i_ga_indiv) == 0 )then
+                if( GP_Individual_Node_Type( inode, i ) == 0 )then
 
                     !parameter_value =  GP_Individual_Node_parameters( inode, i )
-                    parameter_value =  child_Node_parameters( inode, i, i_GA_indiv )
+                    parameter_value =  child_Node_parameters( inode, i, i_G_indiv )
                     node_type = ParameterNodeType
 
                     !write(60,'(A,2(1x,I6),1x,E15.7)') &
@@ -186,8 +188,8 @@ do i = 1, Tree_count
                 endif
 
 
-                !if( GP_Individual_Node_Type( inode, i ) <  0 )then
-                if( GP_adult_population_node_type( inode, i, i_ga_indiv) <  0 )then
+                !!if( GP_adult_population_node_type( inode, i, i_G_indiv) <  0 )then
+                if( GP_Individual_Node_Type( inode, i ) <  0 )then
 
                     variable_index =  GP_Individual_Node_type( inode, i )
                     node_type = VariableNodeType
@@ -204,8 +206,9 @@ do i = 1, Tree_count
 
                 endif
 
-                !if( GP_Individual_Node_Type( inode, i ) >  0 )then
-                if( GP_adult_population_node_type( inode, i, i_ga_indiv) >  0 )then
+
+                !!if( GP_adult_population_node_type( inode, i, i_G_indiv) >  0 )then
+                if( GP_Individual_Node_Type( inode, i ) >  0 )then
 
                     node_operation =  GP_Individual_Node_type( inode, i )
                     node_type = MathNodeType
@@ -460,10 +463,10 @@ do i = 1, Tree_count
         ! Clean up
         deallocate( Nodes, Node_IDs )
 
-        if( myid <= 1 )then
-            write(6,'(A,4x,L1)') 'DsT2: associated( root ) ', &
-                                        associated( root )
-        endif ! myid <= 1 
+        !if( myid <= 1 )then
+        !    write(6,'(A,4x,L1)') 'DsT2: associated( root ) ', &
+        !                                associated( root )
+        !endif ! myid <= 1 
 
     enddo ! j
 

@@ -40,11 +40,17 @@ logical :: buildTrees
 Numerical_CODE_Solution(0,1:n_CODE_equations) = Runge_Kutta_Initial_Conditions ! Array Assignment
 Numerical_CODE_Initial_Conditions             = Runge_Kutta_Initial_Conditions ! Array Assignment
 
+allocate( child_node_parameters(n_nodes, n_trees, 1)  ) 
 
-allocate( GP_Trees(n_trees,1,1)  ) 
+child_node_parameters(:,:,1) = GP_Individual_Node_Parameters  ! Matrix Operation
+
+allocate( GP_Trees(n_trees,1)  ) 
+
+write(6,'(/A/)') 'saa: call Initialize_Model  '
 
 call Initialize_Model( .true., 1 )
 
+write(6,'(/A/)') 'saa: aft call Initialize_Model  '
 
 !------------------------------------------------------------------------------
 
@@ -180,11 +186,12 @@ if( myid == 0 )then
 
     ! Runge_Kutta_Box_Model now put the time series in Numerical_CODE_Solution
 
-    call Runge_Kutta_Box_Model( 1 )
+    call Runge_Kutta_Box_Model( )  ! 1 )
 
     Runge_Kutta_Solution = Numerical_CODE_Solution
 
     deallocate( GP_Trees )
+    deallocate( child_node_parameters )
 
 endif ! myid == 0
 

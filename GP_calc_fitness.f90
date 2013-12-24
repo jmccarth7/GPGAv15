@@ -444,7 +444,7 @@ if( i_GP_generation == 1                                 .or. &
 
     do  i_GP_Individual=1,n_GP_individuals
 
-        write(GP_print_unit,'(6x,I6,2(1x,E24.16))') &
+        write(GP_print_unit,'(6x,I6,4x,2(1x,E24.16))') &
               i_GP_Individual, &
               GP_Adult_Individual_SSE(i_GP_Individual), &
               GP_Population_Ranked_Fitness(i_GP_Individual)

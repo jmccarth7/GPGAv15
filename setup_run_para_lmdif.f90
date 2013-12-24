@@ -1,4 +1,5 @@
-subroutine setup_run_para_lmdif( i_G_indiv,  child_parameters, &
+subroutine setup_run_para_lmdif( i_G_indiv,  &
+                                 child_parameters, &
                                  individual_quality, &
                                  n_indiv, my_indiv_SSE, &
                                  n_parms, n_parms_dim, &
@@ -116,7 +117,7 @@ endif ! n_parms <= 0
 ! GP_Individual_Node_Type is used in fcn
 ! and passed to RK subroutine as RK_node_type
 
-do  i_tree=1,n_trees    
+do  i_tree=1,n_trees
     do  i_node=1,n_nodes
         GP_Individual_Node_Type(i_node,i_tree) = &
                        GP_Adult_Population_Node_Type(i_node,i_tree,i_G_indiv)
@@ -203,6 +204,34 @@ ldfjac = n_time_steps
 !    write(myprint_unit,'(A,1x,I10)') &
 !         'strplm: i_G_indiv', i_G_indiv
 !endif ! L_myprint
+
+!----------------------------------------------------------------------------------------
+
+
+! set up the GP_Trees for the Runge_Kutta integration
+
+
+! Initialize_Model calls build_trees which makes the GP_Trees
+
+!if( L_myprint )then
+!    write(myprint_unit,'(/A)') 'strplm: call Initialize_Model(.true.)'
+!endif ! L_myprint
+
+
+! initialize_model sets buildtrees = .true. and  calls  build_trees
+
+call Initialize_Model( .true., i_G_indiv, L_myprint, myprint_unit )  
+
+
+!if( L_myprint )then
+!    write(myprint_unit,'(/A)') 'strplm: aft call Initialize_Model(.true.)'
+!    write(myprint_unit,'(A,1x,I6/)') &
+!          'strplm: size( GP_Trees ) ', size( GP_Trees )
+!endif ! L_myprint
+
+
+
+
 
 !----------------------------------------------------------------------------------------
 
