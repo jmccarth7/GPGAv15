@@ -141,7 +141,7 @@ enddo ! i_gp_individual
 ! calculate a normalized ranking of the errors
 ! (higher individual SSE == lower value/ranking)
 
-! calculate fitness as 1/individual sse
+! calculate fitness as 1/(individual sse)
 
 GP_Population_Ranked_Fitness = 0.0d0
 

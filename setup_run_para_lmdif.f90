@@ -80,14 +80,14 @@ external :: fcn
 
 !--------------------------------------------------------------------------------------------
 
-!if( i_G_indiv == 3 )then
-!    write(myprint_unit,'(A,5(1x,I6))') &
-!     'strplm:1 at entry myid, myprint_unit, i_G_indiv, n_parms, n_parms_dim', &
-!                        myid, myprint_unit, i_G_indiv, n_parms, n_parms_dim
-!    write(myprint_unit,'(A,3(1x,I6))') &
-!     'strplm:1 at entry myid, n_indiv, individual_quality', &
-!                        myid, n_indiv, individual_quality
-!endif ! i_G_indiv == 3
+if( i_G_indiv > 0  )then
+    write(myprint_unit,'(A,5(1x,I6))') &
+     'strplm:1 at entry myid, myprint_unit, i_G_indiv, n_parms, n_parms_dim', &
+                        myid, myprint_unit, i_G_indiv, n_parms, n_parms_dim
+    write(myprint_unit,'(A,3(1x,I6))') &
+     'strplm:1 at entry myid, n_indiv, individual_quality', &
+                        myid, n_indiv, individual_quality
+endif ! i_G_indiv > 0 
 
 
 if( n_parms <= 0 ) then
@@ -126,18 +126,18 @@ enddo  ! i_tree
 
 !-------------------------------------------------------------------------------
 
-!if( L_myprint .and. i_G_indiv == 3 )then
-!    do  i_tree=1,n_trees
-!        do  i_node=1,n_nodes
-!            if( GP_individual_Node_Type(i_Node,i_Tree) > -9999 )then
-!                write(GP_print_unit,'(8x,4(1x,I6))') &
-!                      i_tree, i_node, &
-!                      GP_individual_Node_Type(i_Node,i_Tree)
-!            endif !   GP_individual_Node_Type(i_Node,i_Tree) > -9999
-!        enddo ! i_node
-!    enddo  ! i_tree
-!    write(GP_print_unit,'(A)')' '
-!endif ! L_myprint
+if( L_myprint .and. myid      > 0  )then
+    do  i_tree=1,n_trees
+        do  i_node=1,n_nodes
+            if( GP_individual_Node_Type(i_Node,i_Tree) > -9999 )then
+                write(GP_print_unit,'(8x,4(1x,I6))') &
+                      i_tree, i_node, &
+                      GP_individual_Node_Type(i_Node,i_Tree)
+            endif !   GP_individual_Node_Type(i_Node,i_Tree) > -9999
+        enddo ! i_node
+    enddo  ! i_tree
+    write(GP_print_unit,'(A)')' '
+endif ! L_myprint
 
 !-------------------------------------------------------------------------------
 
@@ -151,19 +151,19 @@ do  i_parameter=1,n_parms
     ! debug_only--------------------------------------------------------------------
 
     !if( L_myprint  .and. i_G_indiv == 1)then
-    !if( L_myprint )then
-    !    write(myprint_unit,'(A,3(1x,I6),1x,E24.16)') &
-    !    'strplm:1 myid, i_G_indiv,i_parameter, child_parameters', &
-    !              myid, i_G_indiv,i_parameter, &
-    !              child_parameters(i_parameter)
-    !      write(myprint_unit,'(A,3(1x,I6),2(1x,E24.16))') &
-    !      'strplm:1 myid, i_G_indiv,i_parameter, child_parameters, X_LMDIF', &
-    !                myid, i_G_indiv,i_parameter, &
-    !                child_parameters(i_parameter),  X_LMDIF(i_parameter)
-    !    !write(myprint_unit,'(A,2(1x,I6),1x,E20.10)') &
-    !    !'strplm:1 myid, i_parameter,  X_LMDIF', &
-    !    !          myid, i_parameter,  X_LMDIF(i_parameter)
-    !endif ! L_myprint
+    if( L_myprint )then
+        write(myprint_unit,'(A,3(1x,I6),1x,E24.16)') &
+        'strplm:1 myid, i_G_indiv,i_parameter, child_parameters', &
+                  myid, i_G_indiv,i_parameter, &
+                  child_parameters(i_parameter)
+          write(myprint_unit,'(A,3(1x,I6),2(1x,E24.16))') &
+          'strplm:1 myid, i_G_indiv,i_parameter, child_parameters, X_LMDIF', &
+                    myid, i_G_indiv,i_parameter, &
+                    child_parameters(i_parameter),  X_LMDIF(i_parameter)
+        !write(myprint_unit,'(A,2(1x,I6),1x,E20.10)') &
+        !'strplm:1 myid, i_parameter,  X_LMDIF', &
+        !          myid, i_parameter,  X_LMDIF(i_parameter)
+    endif ! L_myprint
 
 enddo ! i_parameter
 
@@ -213,9 +213,9 @@ ldfjac = n_time_steps
 
 ! Initialize_Model calls build_trees which makes the GP_Trees
 
-!if( L_myprint )then
-!    write(myprint_unit,'(/A)') 'strplm: call Initialize_Model(.true.)'
-!endif ! L_myprint
+if( L_myprint )then
+    write(myprint_unit,'(/A)') 'strplm: call Initialize_Model(.true.)'
+endif ! L_myprint
 
 
 ! initialize_model sets buildtrees = .true. and  calls  build_trees
@@ -223,11 +223,11 @@ ldfjac = n_time_steps
 call Initialize_Model( .true., i_G_indiv, L_myprint, myprint_unit )  
 
 
-!if( L_myprint )then
-!    write(myprint_unit,'(/A)') 'strplm: aft call Initialize_Model(.true.)'
-!    write(myprint_unit,'(A,1x,I6/)') &
-!          'strplm: size( GP_Trees ) ', size( GP_Trees )
-!endif ! L_myprint
+if( L_myprint )then
+    write(myprint_unit,'(/A)') 'strplm: aft call Initialize_Model(.true.)'
+    write(myprint_unit,'(A,1x,I6/)') &
+          'strplm: size( GP_Trees ) ', size( GP_Trees )
+endif ! L_myprint
 
 
 
@@ -291,11 +291,11 @@ call lmdif( fcn, n_time_steps, n_parms, x_LMDIF, fvec, &
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-!if( i_G_indiv == 3 )then
-!    write(6,'(A,3(1x,I3),1x,I10/)') &
-!          'strplm: aft call lmdif, myid, n_parms, info, n_time_steps', &
-!                                   myid, n_parms, info, n_time_steps
-!endif ! myid == 1
+if( i_G_indiv > 0  )then
+    write(6,'(A,3(1x,I3),1x,I10/)') &
+          'strplm: aft call lmdif, myid, n_parms, info, n_time_steps', &
+                                   myid, n_parms, info, n_time_steps
+endif ! myid > 0 
 
 if( Lprint_lmdif )then
 
@@ -386,11 +386,11 @@ do  i_parameter=1,n_parms
     child_parameters(i_parameter) = &
                            dabs( x_LMDIF(i_parameter) )
 
-    !if( L_myprint  )then
-    !    write(myprint_unit,'(A,3(1x,I6),1x,E24.16)') &
-    !    'strplm:4 myid, i_G_indiv,i_parameter, child_parameters', &
-    !              myid, i_G_indiv,i_parameter, child_parameters(i_parameter)
-    !endif ! L_myprint
+    if( L_myprint  )then
+        write(myprint_unit,'(A,3(1x,I6),1x,E24.16)') &
+        'strplm:4 myid, i_G_indiv,i_parameter, child_parameters', &
+                  myid, i_G_indiv,i_parameter, child_parameters(i_parameter)
+    endif ! L_myprint
 
 enddo ! i_parameter
 
