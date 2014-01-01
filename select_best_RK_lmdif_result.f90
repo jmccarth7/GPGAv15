@@ -174,7 +174,7 @@ if( L_ga_print )then
                        individual_SSE(i_GA_best_parent), &
                        individual_ranked_fitness(i_GA_best_parent)
 
-    write(GA_print_unit,'(/A,1x,E20.10/)') &
+    write(GA_print_unit,'(A,1x,E20.10/)') &
           'sbrl: lmdif individual_fitness ', individual_fitness
 endif ! L_ga_print
 
@@ -209,8 +209,10 @@ if( individual_ranked_fitness(i_GA_best_parent) <= &
 
 
     if( L_ga_print )then
-        write(GA_print_unit,'(/A/)')&
-              'sbrl:  the fitness of the RK process output is better '
+        write(GA_print_unit,'(/A/A/A/)')&
+              '=====================================================', &
+              'sbrl:  the fitness of the RK process output is better', &
+              '====================================================='
     endif ! L_ga_print
 
     individual_fitness         = individual_ranked_fitness_best_1
@@ -324,6 +326,10 @@ else  ! lmdif is best
     if( L_ga_print )then
         write(GA_print_unit,'(/A/)')&
               'sbrl:  the fitness of the lmdif output is better '
+        write(GA_print_unit,'(/A/A/A/)')&
+              '================================================', &
+              'sbrl:  the fitness of the lmdif output is better' , &
+              '================================================'
     endif ! L_ga_print
 
 
@@ -384,7 +390,7 @@ else  ! lmdif is best
 
     if( L_ga_print )then
         write(GA_print_unit,'(/a/)')&
-              'sbrl: set the GA-optimized CODE parameter array'
+              'sbrl: load the GP_Individual_Node_Parameters array'
     endif ! L_ga_print
 
     i_parameter = n_CODE_equations ! start at this number because of the

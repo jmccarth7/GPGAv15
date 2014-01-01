@@ -72,11 +72,11 @@ do i_CODE_equation=1,n_CODE_equations
   !                                                 x(i_CODE_equation)
   !endif ! GP_para_flag
 
-  !if( L_GA_print )then
-  !    write(6,'(A,1x,I6, 2(1x,E15.7))') &
-  !     'fcn: i_CODE_equation, Runge_Kutta_Solution(0,), X', &
-  !           i_CODE_equation, Runge_Kutta_Solution(0,i_CODE_equation),&
-  !                                                 x(i_CODE_equation)
+  if( L_GA_print )then
+      write(6,'(A,1x,I6, 2(1x,E15.7))') &
+       'fcn: i_CODE_equation, Runge_Kutta_Solution(0,), X', &
+             i_CODE_equation, Runge_Kutta_Solution(0,i_CODE_equation),&
+                                                   x(i_CODE_equation)
   !    write(GA_print_unit,'(A,1x,I6, 2(1x,E15.7))') &
   !     'fcn: i_CODE_equation, Runge_Kutta_Solution(0,), X', &
   !           i_CODE_equation, Runge_Kutta_Solution(0,i_CODE_equation),&
@@ -89,7 +89,7 @@ do i_CODE_equation=1,n_CODE_equations
   !     'fcn: i_CODE_equation, Numerical_CODE_Solution(0,), X', &
   !           i_CODE_equation, Numerical_CODE_Solution(0,i_CODE_equation),&
   !                                                    x(i_CODE_equation)
-  !endif ! L_GA_print
+  endif ! L_GA_print
 
   if( isnan( Runge_Kutta_Solution(0,i_CODE_equation) ) .or. &
         abs( Runge_Kutta_Solution(0,i_CODE_equation) )  > 1.0D20  )then
@@ -136,7 +136,7 @@ do  i_tree=1,n_trees                        ! 20131209
     do  i_node=1,n_nodes
         Runge_Kutta_Node_Parameters(i_node,i_tree) = 0.0D0
         Runge_Kutta_Node_Type(i_node,i_tree)       = -9999    ! jjm 20130417
-  enddo ! i_node
+    enddo ! i_node
 enddo  ! i_tree
 
 !-----------------------------------------------------------------
@@ -144,109 +144,109 @@ enddo  ! i_tree
 
 i_parameter = n_CODE_equations
 
-do i_tree=1,n_trees
-  do i_node=1,n_nodes
+do  i_tree=1,n_trees
+    do  i_node=1,n_nodes
 
-    Runge_Kutta_Node_Type(i_node,i_tree) = &
-            GP_Individual_Node_Type(i_node,i_tree) ! jjm 20130417
-
-            !GP_Adult_Population_Node_Type(i_node,i_tree,i_GA_indiv) ! jjm 20131222
-
-    !if( GP_para_flag .and. myid == 1 )then
-    !    if( GP_Individual_Node_Type(i_node,i_tree) > -9999 )then
-    !        write(GP_print_unit,'(A,4(1x,I6))') &
-    !        'fcn: myid, i_tree, i_node, GP_Individual_Node_Type', &
-    !              myid, i_tree, i_node, GP_Individual_Node_Type(i_node,i_tree)
-    !    endif ! GP_Individual_Node_Type(i_node,i_tree) > -9999
-    !endif !  myid == 1
-    ! if( L_GA_print )then
-    !     if( GP_Individual_Node_Type(i_node,i_tree) > -9999 )then
-    !         write(GA_print_unit,'(A,4(1x,I6))') &
-    !         'fcn: myid, i_tree, i_node, GP_Individual_Node_Type', &
-    !               myid, i_tree, i_node, GP_Individual_Node_Type(i_node,i_tree)
-    !     endif ! GP_Individual_Node_Type(i_node,i_tree) > -9999
-    ! endif ! L_GA_print
-
-    !if( GP_Individual_Node_Type(i_node,i_tree) .eq. 0) then  ! set the node_parameter
-    if( GP_Individual_Node_Type(i_node,i_tree) .eq. 0) then  ! set the node_parameter
-
-      i_parameter=i_parameter+1
-      Runge_Kutta_Node_Parameters(i_node,i_tree)   = dabs(x(i_parameter))
-      GP_Individual_Node_Parameters(i_node,i_tree) = dabs(x(i_parameter))
-
-      !if( L_GP_print )then
-      !    if( GP_para_flag )then
-      !        write(GP_print_unit,'(A,5(1x,I4),1x,E15.7)') &
-      !        'fcn: myid, i_tree, i_node, i_parameter, nn,  Runge_Kutta_Node_Params', &
-      !              myid, i_tree, i_node, i_parameter, nn,  &
-      !                                Runge_Kutta_Node_Parameters(i_node,i_tree)
-      !    endif !  GP_para_flag
-      !endif ! L_GP_print
-      !if( L_GA_print )then
-      !    write(GA_print_unit,'(A,5(1x,I4),1x,E15.7)') &
-      !    'fcn: myid, i_tree, i_node, i_parameter, nn,  Runge_Kutta_Node_Params', &
-      !          myid, i_tree, i_node, i_parameter, nn,  &
-      !                            Runge_Kutta_Node_Parameters(i_node,i_tree)
-      !    write(GA_print_unit,'(A,5(1x,I4),1x,E15.7)') &
-      !    'fcn: myid, i_tree, i_node, i_parameter, nn,  GP_Indiv_Node_Params', &
-      !          myid, i_tree, i_node, i_parameter, nn,  &
-      !                            GP_Individual_Node_Parameters(i_node,i_tree)
-      !endif ! L_GA_print
-
-      if( isnan( Runge_Kutta_Node_Parameters(i_node,i_tree) )  .or. &
-            abs( Runge_Kutta_Node_Parameters(i_node,i_tree) ) > 1.0D20 ) then
-
-          !if( L_ga_print )then
-          !    write(GA_print_unit,'(A,3(1x,I6))') &
-          !     'fcn: bad  Runge_Kutta_Node_Parameters for myid, i_tree, i_node ', &
-          !                                                myid, i_tree, i_node
-          !endif ! L_ga_print
-
+        Runge_Kutta_Node_Type(i_node,i_tree) = &
+                GP_Individual_Node_Type(i_node,i_tree) ! jjm 20130417
+    
+                !GP_Adult_Population_Node_Type(i_node,i_tree,i_GA_indiv) ! jjm 20131222
+    
+        !if( GP_para_flag .and. myid == 1 )then
+        !    if( GP_Individual_Node_Type(i_node,i_tree) > -9999 )then
+        !        write(GP_print_unit,'(A,4(1x,I6))') &
+        !        'fcn: myid, i_tree, i_node, GP_Individual_Node_Type', &
+        !              myid, i_tree, i_node, GP_Individual_Node_Type(i_node,i_tree)
+        !    endif ! GP_Individual_Node_Type(i_node,i_tree) > -9999
+        !endif !  myid == 1
+        ! if( L_GA_print )then
+        !     if( GP_Individual_Node_Type(i_node,i_tree) > -9999 )then
+        !         write(GA_print_unit,'(A,4(1x,I6))') &
+        !         'fcn: myid, i_tree, i_node, GP_Individual_Node_Type', &
+        !               myid, i_tree, i_node, GP_Individual_Node_Type(i_node,i_tree)
+        !     endif ! GP_Individual_Node_Type(i_node,i_tree) > -9999
+        ! endif ! L_GA_print
+    
+        !if( GP_Individual_Node_Type(i_node,i_tree) .eq. 0) then  ! set the node_parameter
+        if( GP_Individual_Node_Type(i_node,i_tree) .eq. 0) then  ! set the node_parameter
+    
+          i_parameter=i_parameter+1
+          Runge_Kutta_Node_Parameters(i_node,i_tree)   = dabs(x(i_parameter))
+          GP_Individual_Node_Parameters(i_node,i_tree) = dabs(x(i_parameter))
+    
           !if( L_GP_print )then
-          !    write(GP_print_unit,'(A,3(1x,I6))') &
-          !     'fcn: bad  Runge_Kutta_Node_Parameters for myid, i_tree, i_node ', &
-          !                                                myid, i_tree, i_node
+          !    if( GP_para_flag )then
+          !        write(GP_print_unit,'(A,5(1x,I4),1x,E15.7)') &
+          !        'fcn: myid, i_tree, i_node, i_parameter, nn,  Runge_Kutta_Node_Params', &
+          !              myid, i_tree, i_node, i_parameter, nn,  &
+          !                                Runge_Kutta_Node_Parameters(i_node,i_tree)
+          !    endif !  GP_para_flag
           !endif ! L_GP_print
-
-          L_bad_result = .TRUE.
-          iflag = -1
-          return
-
-      endif  ! isnan
-      if( isnan( GP_Individual_Node_Parameters(i_node,i_tree) )  .or. &
-            abs( GP_Individual_Node_Parameters(i_node,i_tree) ) > 1.0D20 ) then
-
+          !if( L_GA_print )then
+          !    write(GA_print_unit,'(A,5(1x,I4),1x,E15.7)') &
+          !    'fcn: myid, i_tree, i_node, i_parameter, nn,  Runge_Kutta_Node_Params', &
+          !          myid, i_tree, i_node, i_parameter, nn,  &
+          !                            Runge_Kutta_Node_Parameters(i_node,i_tree)
+          !    write(GA_print_unit,'(A,5(1x,I4),1x,E15.7)') &
+          !    'fcn: myid, i_tree, i_node, i_parameter, nn,  GP_Indiv_Node_Params', &
+          !          myid, i_tree, i_node, i_parameter, nn,  &
+          !                            GP_Individual_Node_Parameters(i_node,i_tree)
+          !endif ! L_GA_print
+    
+          if( isnan( Runge_Kutta_Node_Parameters(i_node,i_tree) )  .or. &
+                abs( Runge_Kutta_Node_Parameters(i_node,i_tree) ) > 1.0D20 ) then
+    
+              !if( L_ga_print )then
+              !    write(GA_print_unit,'(A,3(1x,I6))') &
+              !     'fcn: bad  Runge_Kutta_Node_Parameters for myid, i_tree, i_node ', &
+              !                                                myid, i_tree, i_node
+              !endif ! L_ga_print
+    
+              !if( L_GP_print )then
+              !    write(GP_print_unit,'(A,3(1x,I6))') &
+              !     'fcn: bad  Runge_Kutta_Node_Parameters for myid, i_tree, i_node ', &
+              !                                                myid, i_tree, i_node
+              !endif ! L_GP_print
+    
+              L_bad_result = .TRUE.
+              iflag = -1
+              return
+    
+          endif  ! isnan
+          if( isnan( GP_Individual_Node_Parameters(i_node,i_tree) )  .or. &
+                abs( GP_Individual_Node_Parameters(i_node,i_tree) ) > 1.0D20 ) then
+    
+              !if( L_ga_print )then
+              !    write(GA_print_unit,'(A,3(1x,I6))') &
+              !     'fcn: bad  GP_Individual_Node_Parameters for myid, i_tree, i_node ', &
+              !                                                myid, i_tree, i_node
+              !endif ! L_ga_print
+    
+              !if( L_GP_print )then
+              !    write(GP_print_unit,'(A,3(1x,I6))') &
+              !     'fcn: bad  GP_Individual_Node_Parameters for myid, i_tree, i_node ', &
+              !                                                myid, i_tree, i_node
+              !endif ! L_GP_print
+    
+              L_bad_result = .TRUE.
+              iflag = -1
+              return
+    
+          endif  ! isnan
+    
+    
           !if( L_ga_print )then
-          !    write(GA_print_unit,'(A,3(1x,I6))') &
-          !     'fcn: bad  GP_Individual_Node_Parameters for myid, i_tree, i_node ', &
-          !                                                myid, i_tree, i_node
+          !    write(GA_print_unit,'(A,4(1x,I4),1x,E15.7)') &
+          !     'fcn: myid, i_tree, i_node, i_parameter, Runge_Kutta_Node_Params', &
+          !           myid, i_tree, i_node, i_parameter, Runge_Kutta_Node_Parameters(i_node,i_tree)
+          !    write(GA_print_unit,'(A,4(1x,I4),1x,E15.7)') &
+          !     'fcn: myid, i_tree, i_node, i_parameter, GP_Indiv_Node_Params', &
+          !           myid, i_tree, i_node, i_parameter, GP_Individual_Node_Parameters(i_node,i_tree)
           !endif ! L_ga_print
+    
+        endif !  GP_individual_node_type(i_node,i_tree) .eq. 0
 
-          !if( L_GP_print )then
-          !    write(GP_print_unit,'(A,3(1x,I6))') &
-          !     'fcn: bad  GP_Individual_Node_Parameters for myid, i_tree, i_node ', &
-          !                                                myid, i_tree, i_node
-          !endif ! L_GP_print
-
-          L_bad_result = .TRUE.
-          iflag = -1
-          return
-
-      endif  ! isnan
-
-
-      !if( L_ga_print )then
-      !    write(GA_print_unit,'(A,4(1x,I4),1x,E15.7)') &
-      !     'fcn: myid, i_tree, i_node, i_parameter, Runge_Kutta_Node_Params', &
-      !           myid, i_tree, i_node, i_parameter, Runge_Kutta_Node_Parameters(i_node,i_tree)
-      !    write(GA_print_unit,'(A,4(1x,I4),1x,E15.7)') &
-      !     'fcn: myid, i_tree, i_node, i_parameter, GP_Indiv_Node_Params', &
-      !           myid, i_tree, i_node, i_parameter, GP_Individual_Node_Parameters(i_node,i_tree)
-      !endif ! L_ga_print
-
-    endif !  GP_individual_node_type(i_node,i_tree) .eq. 0
-
-  enddo ! i_node
+    enddo ! i_node
 enddo  ! i_tree
 
 !if( L_GP_print )then
@@ -578,12 +578,12 @@ do i_time_step=1,n_time_steps
 
 enddo ! i_time_step
 
-!if( L_GP_print .and. GP_para_flag .and. myid == 3  )then
-!    write(GP_print_unit,'(A,1x,I6,2x,E24.16)') 'fcn: myid, sse_local = ',myid, sse_local
-!endif ! L_GP_print
-!if( L_ga_print .and. myid == 1 )then
-!    write(GA_print_unit,'(A,1x,I6,2x,E24.16)') 'fcn: myid, sse_local = ',myid, sse_local
-!endif ! L_ga_print
+if( L_GP_print .and. GP_para_flag .and. myid == 3  )then
+    write(GP_print_unit,'(A,1x,I6,2x,E24.16)') 'fcn: myid, sse_local = ',myid, sse_local
+endif ! L_GP_print
+if( L_ga_print .and. myid == 1 )then
+    write(GA_print_unit,'(A,1x,I6,2x,E24.16)') 'fcn: myid, sse_local = ',myid, sse_local
+endif ! L_ga_print
 
 
 return

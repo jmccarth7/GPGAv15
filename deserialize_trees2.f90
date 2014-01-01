@@ -159,10 +159,18 @@ do i = 1, Tree_count
                 !!node_type =  GP_Individual_Node_Type( inode, i )
                 !node_id   =  counter
 
-                !write(60,'(A,3(1x,I6))') 'DsT2: i, inode, GP_Individual_Node_Type( inode, i )', &
-                !                                i, inode, GP_Individual_Node_Type( inode, i )
-                !write(6,'(A,3(1x,I6))') 'DsT2: i, inode, GP_Individual_Node_Type( inode, i )', &
-                !                               i, inode, GP_Individual_Node_Type( inode, i )
+                write(60,'(A,3(1x,I6))') &
+                       'DsT2: i, inode, GP_Individual_Node_Type( inode, i )                ', &
+                              i, inode, GP_Individual_Node_Type( inode, i )
+                write(6,'(A,3(1x,I6))') &
+                       'DsT2: i, inode, GP_Individual_Node_Type( inode, i )                ', &
+                              i, inode, GP_Individual_Node_Type( inode, i )
+                write(60,'(A,3(1x,I6))') &
+                       'DsT2: i, inode, GP_adult_population_node_type( inode, i,i_G_indiv )', &
+                              i, inode, GP_adult_population_node_type( inode, i,i_G_indiv )
+                write(6,'(A,3(1x,I6))') &
+                       'DsT2: i, inode, GP_adult_population_node_type( inode, i,i_G_indiv )', &
+                              i, inode, GP_adult_population_node_type( inode, i,i_G_indiv )
 
 
                 !!if( GP_adult_population_node_type( inode , i, i_G_indiv) == 0 )then
@@ -173,17 +181,27 @@ do i = 1, Tree_count
                     parameter_value =  child_Node_parameters( inode, i, i_G_indiv )
                     node_type = ParameterNodeType
 
-                    !write(60,'(A,2(1x,I6),1x,E15.7)') &
-                    !      'DsT2: i, inode, GP_Individual_Node_parameters( inode, i )', &
-                    !             i, inode, GP_Individual_Node_parameters( inode, i )
-                    !write(60,'(A,2(1x,I6),1x,E15.7)') 'DsT2: i, inode,  parameter_value', &
-                    !                                         i, inode,  parameter_value
+                    write(60,'(A,2(1x,I6),1x,E15.7)') &
+                          'DsT2: i, inode, child_Node_parameters( inode, i, i_G_indiv )', &
+                                 i, inode, child_Node_parameters( inode, i, i_G_indiv )
 
-                    !write(6,'(A,2(1x,I6),1x,E15.7)') &
-                    !      'DsT2: i, inode, GP_Individual_Node_parameters( inode, i )', &
-                    !             i, inode, GP_Individual_Node_parameters( inode, i )
-                    !write(6,'(A,2(1x,I6),1x,E15.7)') 'DsT2: i, inode,  parameter_value', &
-                    !                                        i, inode,  parameter_value
+                    write(6,'(A,2(1x,I6),1x,E15.7)') &
+                          'DsT2: i, inode, child_Node_parameters( inode, i, i_G_indiv )', &
+                                 i, inode, child_Node_parameters( inode, i, i_G_indiv )
+
+                    write(60,'(A,2(1x,I6),1x,E15.7)') &
+                          'DsT2: i, inode, GP_Individual_Node_parameters( inode, i )   ', &
+                                 i, inode, GP_Individual_Node_parameters( inode, i )
+                    write(60,'(A,2(1x,I6),1x,E15.7)') &
+                          'DsT2: i, inode,  parameter_value                            ', &
+                                 i, inode,  parameter_value
+
+                    write(6,'(A,2(1x,I6),1x,E15.7)') &
+                          'DsT2: i, inode, GP_Individual_Node_parameters( inode, i )   ', &
+                                 i, inode, GP_Individual_Node_parameters( inode, i )
+                    write(6,'(A,2(1x,I6),1x,E15.7)') &
+                          'DsT2: i, inode,  parameter_value                            ', &
+                                 i, inode,  parameter_value
 
                 endif
 

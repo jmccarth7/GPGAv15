@@ -103,7 +103,7 @@ n_parameters = n_GP_parameters
     if( L_ga_print )then
         write(GA_print_unit,'(//A)') 'GP_GA_opt: at entry  '
         write(GA_print_unit,'(A,1x,E15.7)') 'GP_GA_opt: dt ', dt
-        write(GA_print_unit,'(/A,1x,I10/)') &
+        write(GA_print_unit,'(/A,1x,I10)') &
               'GP_GA_opt: numprocs        =   ', numprocs
         write(GA_print_unit,'(A,1x,I10)') &
               'GP_GA_opt: n_parameters    =   ', n_parameters
@@ -197,13 +197,13 @@ endif ! myid == 0
 
 !-----------------------------------------------------------------------------
 
-if( L_ga_print )then
-    write(GA_print_unit,'(/A,1x,I3)')&
-              'GP_GA_opt: myid, allocate child_node_parameters ', myid
-    write(GA_print_unit,'(/A,1x,I3,4x,L1)')&
-              'GP_GA_opt: myid, allocated(child_node_parameters)', &
-                          myid, allocated(child_node_parameters) 
-endif ! L_ga_print
+!if( L_ga_print )then
+!    write(GA_print_unit,'(/A,1x,I3)')&
+!              'GP_GA_opt: myid, allocate child_node_parameters ', myid
+!    write(GA_print_unit,'(/A,1x,I3,4x,L1)')&
+!              'GP_GA_opt: myid, allocated(child_node_parameters)', &
+!                          myid, allocated(child_node_parameters) 
+!endif ! L_ga_print
 
 
 
@@ -213,10 +213,10 @@ endif ! allocated( child_node_parameters )
 
 allocate( child_node_parameters( n_nodes, n_trees, n_GA_Individuals ) )
 
-if( L_ga_print )then
-    write(GA_print_unit,'(/A)')&
-              'GP_GA_opt: after allocate child_node_parameters '                   
-endif ! L_ga_print
+!if( L_ga_print )then
+!    write(GA_print_unit,'(/A)')&
+!              'GP_GA_opt: after allocate child_node_parameters '                   
+!endif ! L_ga_print
 
 
 !-----------------------------------------------------------------------------
@@ -609,7 +609,7 @@ do  i_GA_generation = 1,n_GA_Generations
     allocate( GP_Trees( n_trees,  1 )  )
 
     if( L_ga_print )then
-        write(GA_print_unit,'(/A)') 'GP_GA_opt: AFT allocate GP_Trees'                   
+        write(GA_print_unit,'(A)') 'GP_GA_opt: AFT allocate GP_Trees'                   
     endif ! L_ga_print
 
 
@@ -617,7 +617,7 @@ do  i_GA_generation = 1,n_GA_Generations
 
     if( myid == 0 )then
         if( L_ga_print )then
-            write(GA_print_unit,'(/A,1x,I8/)') &
+            write(GA_print_unit,'(A,1x,I8/)') &
               'GP_GA_opt: size( GP_Trees ) ', size( GP_Trees )
         endif ! L_ga_print
     endif !  myid == 0
@@ -1175,8 +1175,9 @@ call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
 if( myid == 0  )then
 
     if( L_ga_print )then
-        write(GA_print_unit,'(//A)') &
-          'GP_GA_opt: call select_best_RK_lmdif_result '
+        write(GA_print_unit,'(//A/A)') &
+          'GP_GA_opt: finished all generations', &
+          'GP_GA_opt: call select_best_RK_lmdif_result'
     endif ! L_ga_print
 
     ! uses:
