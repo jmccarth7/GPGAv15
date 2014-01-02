@@ -80,14 +80,14 @@ external :: fcn
 
 !--------------------------------------------------------------------------------------------
 
-if( i_G_indiv > 0  )then
+if( i_G_indiv > 0 )then
     write(myprint_unit,'(A,5(1x,I6))') &
      'strplm:1 at entry myid, myprint_unit, i_G_indiv, n_parms, n_parms_dim', &
                         myid, myprint_unit, i_G_indiv, n_parms, n_parms_dim
     write(myprint_unit,'(A,3(1x,I6))') &
      'strplm:1 at entry myid, n_indiv, individual_quality', &
                         myid, n_indiv, individual_quality
-endif ! i_G_indiv > 0 
+endif ! i_G_indiv > 0
 
 
 if( n_parms <= 0 ) then
@@ -126,7 +126,7 @@ enddo  ! i_tree
 
 !-------------------------------------------------------------------------------
 
-if( L_myprint .and. myid      > 0  )then
+if( L_myprint .and. myid      > 0 )then
     do  i_tree=1,n_trees
         do  i_node=1,n_nodes
             if( GP_individual_Node_Type(i_Node,i_Tree) > -9999 )then
@@ -156,10 +156,10 @@ do  i_parameter=1,n_parms
         'strplm:1 myid, i_G_indiv,i_parameter, child_parameters', &
                   myid, i_G_indiv,i_parameter, &
                   child_parameters(i_parameter)
-          write(myprint_unit,'(A,3(1x,I6),2(1x,E24.16))') &
-          'strplm:1 myid, i_G_indiv,i_parameter, child_parameters, X_LMDIF', &
-                    myid, i_G_indiv,i_parameter, &
-                    child_parameters(i_parameter),  X_LMDIF(i_parameter)
+        !write(myprint_unit,'(A,3(1x,I6),2(1x,E24.16))') &
+        !'strplm:1 myid, i_G_indiv,i_parameter, child_parameters, X_LMDIF', &
+        !          myid, i_G_indiv,i_parameter, &
+        !          child_parameters(i_parameter),  X_LMDIF(i_parameter)
         !write(myprint_unit,'(A,2(1x,I6),1x,E20.10)') &
         !'strplm:1 myid, i_parameter,  X_LMDIF', &
         !          myid, i_parameter,  X_LMDIF(i_parameter)
@@ -277,9 +277,9 @@ iunit = 0
 
 
 
-call lmdif( fcn, n_time_steps, n_parms, x_LMDIF, fvec, &
-            ftol, xtol, gtol, maxfev, epsfcn, &
-            diag, mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf )    ! 20131209
+!debug only call lmdif( fcn, n_time_steps, n_parms, x_LMDIF, fvec, &
+!debug only             ftol, xtol, gtol, maxfev, epsfcn, &
+!debug only             diag, mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf )! 20131209
             !diag, mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf, &  ! 20131209
             !iunit )                                                             ! 20131209
 
@@ -291,7 +291,8 @@ call lmdif( fcn, n_time_steps, n_parms, x_LMDIF, fvec, &
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-if( i_G_indiv > 0  )then
+!if( i_G_indiv > 0 )then
+if( myid      > 0 )then
     write(6,'(A,3(1x,I3),1x,I10/)') &
           'strplm: aft call lmdif, myid, n_parms, info, n_time_steps', &
                                    myid, n_parms, info, n_time_steps
@@ -388,8 +389,9 @@ do  i_parameter=1,n_parms
 
     if( L_myprint  )then
         write(myprint_unit,'(A,3(1x,I6),1x,E24.16)') &
-        'strplm:4 myid, i_G_indiv,i_parameter, child_parameters', &
-                  myid, i_G_indiv,i_parameter, child_parameters(i_parameter)
+          'strplm:4 myid, i_G_indiv,i_parameter, child_parameters', &
+                    myid, i_G_indiv,i_parameter, &
+                    child_parameters(i_parameter)
     endif ! L_myprint
 
 enddo ! i_parameter

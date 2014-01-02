@@ -1,4 +1,4 @@
-subroutine fcn(mm,nn,x,fvec,iflag ) !, i_GA_indiv)
+subroutine fcn(mm,nn,x,fvec,iflag) !, i_GA_indiv)
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 
@@ -42,9 +42,6 @@ real(kind=8) :: t2
 !---------------------------------------------------------------------
 
 
-!write(6,'(A,1x,I5,4x,L1)') 'fcn: myid, L_GA_print   ', myid, L_GA_print 
-!write(6,'(A,1x,I5,1x,I5)') 'fcn: myid, GA_print_unit', myid, GA_print_unit
-
 !if( GP_para_flag .and. myid == 3 )then
 !    write(GP_print_unit,'(A,2(1x,I6))') &
 !           'fcn: n_CODE_equations, nn', &
@@ -61,8 +58,7 @@ Runge_Kutta_Solution = 0.0D0
 
 do i_CODE_equation=1,n_CODE_equations
 
-  Runge_Kutta_Solution(0,i_CODE_equation)=dabs(x(i_CODE_equation))
-
+  Runge_Kutta_Solution(0,i_CODE_equation)    = dabs(x(i_CODE_equation))
   Numerical_CODE_Solution(0,i_CODE_equation) = dabs( x(i_CODE_equation) )
 
   !if( GP_para_flag )then
@@ -73,7 +69,7 @@ do i_CODE_equation=1,n_CODE_equations
   !endif ! GP_para_flag
 
   if( L_GA_print )then
-      write(6,'(A,1x,I6, 2(1x,E15.7))') &
+      write(GA_print_unit,'(A,1x,I6, 4(1x,E15.7))') &
        'fcn: i_CODE_equation, Runge_Kutta_Solution(0,), X', &
              i_CODE_equation, Runge_Kutta_Solution(0,i_CODE_equation),&
                                                    x(i_CODE_equation)
@@ -159,13 +155,13 @@ do  i_tree=1,n_trees
         !              myid, i_tree, i_node, GP_Individual_Node_Type(i_node,i_tree)
         !    endif ! GP_Individual_Node_Type(i_node,i_tree) > -9999
         !endif !  myid == 1
-        ! if( L_GA_print )then
-        !     if( GP_Individual_Node_Type(i_node,i_tree) > -9999 )then
-        !         write(GA_print_unit,'(A,4(1x,I6))') &
-        !         'fcn: myid, i_tree, i_node, GP_Individual_Node_Type', &
-        !               myid, i_tree, i_node, GP_Individual_Node_Type(i_node,i_tree)
-        !     endif ! GP_Individual_Node_Type(i_node,i_tree) > -9999
-        ! endif ! L_GA_print
+         if( L_GA_print )then
+             if( GP_Individual_Node_Type(i_node,i_tree) > -9999 )then
+                 write(GA_print_unit,'(A,4(1x,I6))') &
+                 'fcn: myid, i_tree, i_node, GP_Individual_Node_Type', &
+                       myid, i_tree, i_node, GP_Individual_Node_Type(i_node,i_tree)
+             endif ! GP_Individual_Node_Type(i_node,i_tree) > -9999
+         endif ! L_GA_print
     
         !if( GP_Individual_Node_Type(i_node,i_tree) .eq. 0) then  ! set the node_parameter
         if( GP_Individual_Node_Type(i_node,i_tree) .eq. 0) then  ! set the node_parameter
@@ -182,16 +178,16 @@ do  i_tree=1,n_trees
           !                                Runge_Kutta_Node_Parameters(i_node,i_tree)
           !    endif !  GP_para_flag
           !endif ! L_GP_print
-          !if( L_GA_print )then
-          !    write(GA_print_unit,'(A,5(1x,I4),1x,E15.7)') &
-          !    'fcn: myid, i_tree, i_node, i_parameter, nn,  Runge_Kutta_Node_Params', &
-          !          myid, i_tree, i_node, i_parameter, nn,  &
-          !                            Runge_Kutta_Node_Parameters(i_node,i_tree)
-          !    write(GA_print_unit,'(A,5(1x,I4),1x,E15.7)') &
-          !    'fcn: myid, i_tree, i_node, i_parameter, nn,  GP_Indiv_Node_Params', &
-          !          myid, i_tree, i_node, i_parameter, nn,  &
-          !                            GP_Individual_Node_Parameters(i_node,i_tree)
-          !endif ! L_GA_print
+          if( L_GA_print )then
+              write(GA_print_unit,'(A,5(1x,I4),1x,E15.7)') &
+              'fcn: myid, i_tree, i_node, i_parameter, nn,  Runge_Kutta_Node_Params', &
+                    myid, i_tree, i_node, i_parameter, nn,  &
+                                      Runge_Kutta_Node_Parameters(i_node,i_tree)
+              write(GA_print_unit,'(A,5(1x,I4),1x,E15.7)') &
+              'fcn: myid, i_tree, i_node, i_parameter, nn,  GP_Indiv_Node_Params', &
+                    myid, i_tree, i_node, i_parameter, nn,  &
+                                      GP_Individual_Node_Parameters(i_node,i_tree)
+          endif ! L_GA_print
     
           if( isnan( Runge_Kutta_Node_Parameters(i_node,i_tree) )  .or. &
                 abs( Runge_Kutta_Node_Parameters(i_node,i_tree) ) > 1.0D20 ) then
@@ -240,8 +236,9 @@ do  i_tree=1,n_trees
           !     'fcn: myid, i_tree, i_node, i_parameter, Runge_Kutta_Node_Params', &
           !           myid, i_tree, i_node, i_parameter, Runge_Kutta_Node_Parameters(i_node,i_tree)
           !    write(GA_print_unit,'(A,4(1x,I4),1x,E15.7)') &
-          !     'fcn: myid, i_tree, i_node, i_parameter, GP_Indiv_Node_Params', &
-          !           myid, i_tree, i_node, i_parameter, GP_Individual_Node_Parameters(i_node,i_tree)
+          !    'fcn: myid, i_tree, i_node, i_parameter, GP_Indiv_Node_Params', &
+          !          myid, i_tree, i_node, i_parameter, &
+          !                            GP_Individual_Node_Parameters(i_node,i_tree)
           !endif ! L_ga_print
     
         endif !  GP_individual_node_type(i_node,i_tree) .eq. 0
@@ -264,6 +261,7 @@ enddo  ! i_tree
 !---------------------------------------------------------------------------------
 
 ! jjm 20130417 >>>>>>>>>>>>>>>
+
 !if( L_GP_print )then
 !    do i_tree=1,n_trees
 !      do i_node=1,n_nodes
@@ -288,6 +286,7 @@ enddo  ! i_tree
 !      enddo ! i_node
 !    enddo  ! i_tree
 !endif ! L_GP_print
+
 !if( L_ga_print )then
 !    do i_tree=1,n_trees
 !      do i_node=1,n_nodes
@@ -312,6 +311,7 @@ enddo  ! i_tree
 !      enddo ! i_node
 !    enddo  ! i_tree
 !endif ! L_ga_print
+
 ! jjm 20130417 <<<<<<<<<<<<<<<
 
 !!!!---------------------------------------------------------------------------------
@@ -371,7 +371,7 @@ enddo  ! i_tree
 
 
 ! Runge_Kutta_Solution set above from the x array
-! Runge_Kutta_Solution(0,1:n_CODE_equations)    = Runge_Kutta_Initial_Conditions    ! Array Assignment
+! Runge_Kutta_Solution(0,1:n_CODE_equations) = Runge_Kutta_Initial_Conditions ! Array Assignment
 
 
 Numerical_CODE_Solution(0,1:n_CODE_equations) = Runge_Kutta_Solution(0,1:n_CODE_equations)
@@ -464,11 +464,11 @@ L_bad_result = .FALSE.
 !          'fcn: call Runge_Kutta_Box_Model  myid', &
 !                                            myid
 !endif ! L_GP_print
-!if( L_ga_print )then
-!    write(GA_print_unit,'(A,1x,I6)') &
-!          'fcn: call Runge_Kutta_Box_Model  myid', &
-!                                            myid
-!endif ! L_ga_print
+if( L_ga_print )then
+    write(GA_print_unit,'(A,1x,I6)') &
+          'fcn: call Runge_Kutta_Box_Model  myid', &
+                                            myid
+endif ! L_ga_print
 
 !----------------------------------------------------------------------
 
@@ -578,9 +578,9 @@ do i_time_step=1,n_time_steps
 
 enddo ! i_time_step
 
-if( L_GP_print .and. GP_para_flag .and. myid == 3  )then
-    write(GP_print_unit,'(A,1x,I6,2x,E24.16)') 'fcn: myid, sse_local = ',myid, sse_local
-endif ! L_GP_print
+!if( L_GP_print .and. GP_para_flag .and. myid == 3  )then
+!    write(GP_print_unit,'(A,1x,I6,2x,E24.16)') 'fcn: myid, sse_local = ',myid, sse_local
+!endif ! L_GP_print
 if( L_ga_print .and. myid == 1 )then
     write(GA_print_unit,'(A,1x,I6,2x,E24.16)') 'fcn: myid, sse_local = ',myid, sse_local
 endif ! L_ga_print

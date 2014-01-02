@@ -51,14 +51,11 @@ external :: fcn
 
 !--------------------------------------------------------------------------------------------
 
-!write(6,'(A,1x,I5,4x,L1)') 'setrf: myid, L_GA_print   ', myid, L_GA_print
-!write(6,'(A,1x,I5,1x,I5)') 'setrf: myid, GA_print_unit', myid, GA_print_unit
 
-
-!if( L_ga_print )then
-!    write(GA_print_unit,'(/A,2(1x,I6)/)') &
-!          'setrf: myid, i_GA_indiv ', myid, i_GA_indiv
-!endif ! L_ga_print
+if( L_ga_print )then
+    write(GA_print_unit,'(/A,2(1x,I6)/)') &
+          'setrf: myid, i_GA_indiv ', myid, i_GA_indiv
+endif ! L_ga_print
 
 x_LMDIF(1:n_maximum_number_parameters) = 0.0D0
 
@@ -66,17 +63,17 @@ do  i_parameter=1,n_parameters
 
     X_LMDIF(i_parameter) = child_parameters(i_parameter,i_GA_indiv)
 
-    !if( myid == 1 )then
-    !    if( L_ga_print )then
-    !        !write(GA_print_unit,'(A,3(1x,I6),1x,E20.10)') &
-    !        !      'setrf:1 myid, i_GA_indiv,i_parameter, child_parameters ', &
-    !        !               myid, i_GA_indiv,i_parameter, &
-    !        !               child_parameters(i_parameter,i_GA_indiv)
-    !        write(GA_print_unit,'(A,3(1x,I6),1x,E20.10)') &
-    !              'setrf:1 myid, i_GA_indiv, i_parameter,  X_LMDIF', &
-    !                       myid, i_GA_indiv, i_parameter,  X_LMDIF(i_parameter)
-    !    endif ! L_ga_print
-    !endif ! myid == 1
+    if( myid == 1 )then
+        if( L_ga_print )then
+            !write(GA_print_unit,'(A,3(1x,I6),1x,E20.10)') &
+            !      'setrf:1 myid, i_GA_indiv,i_parameter, child_parameters ', &
+            !               myid, i_GA_indiv,i_parameter, &
+            !               child_parameters(i_parameter,i_GA_indiv)
+            write(GA_print_unit,'(A,3(1x,I6),1x,E20.10)') &
+                  'setrf:1 myid, i_GA_indiv, i_parameter,  X_LMDIF', &
+                           myid, i_GA_indiv, i_parameter,  X_LMDIF(i_parameter)
+        endif ! L_ga_print
+    endif ! myid == 1
 
 enddo ! i_parameter
 
@@ -89,9 +86,9 @@ enddo ! i_parameter
 
 ! Initialize_Model calls build_trees which makes the GP_Trees
 
-!if( L_ga_print )then
-!    write(GA_print_unit,'(/A)') 'setrf: call Initialize_Model(.true.)'
-!endif ! L_ga_print
+if( L_ga_print )then
+    write(GA_print_unit,'(/A)') 'setrf: call Initialize_Model(.true.)'
+endif ! L_ga_print
 
 
 ! initialize_model  sets buildtrees = .true. 
@@ -99,11 +96,11 @@ enddo ! i_parameter
 call Initialize_Model( .true., i_GA_indiv, L_GA_print, GA_print_unit )   ! call build_trees
 
 
-!if( L_ga_print )then
-!    write(GA_print_unit,'(/A/)') 'setrf: aft call Initialize_Model(.true.)'
-!    write(GA_print_unit,'(A,1x,I6/)') &
-!          'setrf: size( GP_Trees ) ', size( GP_Trees )
-!endif ! L_ga_print
+if( L_ga_print )then
+    write(GA_print_unit,'(/A/)') 'setrf: aft call Initialize_Model(.true.)'
+    write(GA_print_unit,'(A,1x,I6/)') &
+          'setrf: size( GP_Trees ) ', size( GP_Trees )
+endif ! L_ga_print
 
 
 
@@ -112,33 +109,33 @@ call Initialize_Model( .true., i_GA_indiv, L_GA_print, GA_print_unit )   ! call 
 ! call fcn
 
 
-!if( myid == 1 )then
-!    if( L_ga_print )then
-!        write(GA_print_unit,'(/A,4(1x,I10))') &
-!              'setrf: call fcn, myid, i_GA_indiv, n_time_steps, n_parameters', &
-!                                myid, i_GA_indiv, n_time_steps, n_parameters
-!    endif ! L_ga_print
-!endif ! myid == 1
+if( myid == 1 )then
+    if( L_ga_print )then
+        write(GA_print_unit,'(/A,4(1x,I10))') &
+              'setrf: call fcn, myid, i_GA_indiv, n_time_steps, n_parameters', &
+                                myid, i_GA_indiv, n_time_steps, n_parameters
+    endif ! L_ga_print
+endif ! myid == 1
 
 
 iflag = 1
 
 
 
-call fcn( n_time_steps, n_parameters, x_LMDIF, fvec, iflag  ) !!, i_GA_indiv )
+call fcn( n_time_steps, n_parameters, x_LMDIF, fvec, iflag ) !!, i_GA_indiv )
 
 
 
 info = iflag
 
 
-!if( myid == 1 )then
-!    if( L_ga_print )then
-!        write(GA_print_unit,'(A,5(1x,I10)/)') &
-!         'setrf: aft call fcn myid, i_GA_indiv, n_time_steps, n_parameters, info ', &
-!                              myid, i_GA_indiv, n_time_steps, n_parameters, info
-!    endif ! L_ga_print
-!endif ! myid == 1
+if( myid == 1 )then
+    if( L_ga_print )then
+        write(GA_print_unit,'(A,5(1x,I10)/)') &
+         'setrf: aft call fcn myid, i_GA_indiv, n_time_steps, n_parameters, info ', &
+                              myid, i_GA_indiv, n_time_steps, n_parameters, info
+    endif ! L_ga_print
+endif ! myid == 1
 
 
 !----------------------------------------------------------------------------------------
@@ -180,11 +177,11 @@ do  i_parameter=1,n_parameters
     child_parameters(i_parameter,i_GA_indiv) = &
                             dabs( x_LMDIF(i_parameter) )
 
-    !if( L_ga_print )then
-    !    write(GA_print_unit,'(A,3(1x,I6),1x,E20.10)') &
-    !          'setrf:3 aft RK myid, i_GA_indiv, i_parameter,  X_LMDIF', &
-    !                          myid, i_GA_indiv, i_parameter,  X_LMDIF(i_parameter)
-    !endif ! L_ga_print
+    if( L_ga_print )then
+        write(GA_print_unit,'(A,3(1x,I6),1x,E20.10)') &
+              'setrf:3 aft RK myid, i_GA_indiv, i_parameter,  X_LMDIF', &
+                              myid, i_GA_indiv, i_parameter,  X_LMDIF(i_parameter)
+    endif ! L_ga_print
 
 enddo ! i_parameter
 
@@ -200,9 +197,9 @@ enddo ! i_parameter
 !  fvec(i) = ( fcn(i) - truth(i) )**2
 !  so SSE is calculated by summing fvec, not fvec**2
 
-!if( L_ga_print )then
-!    write(GA_print_unit,'(/A/)')'setrf: calculate the individual SSE values '
-!endif ! L_ga_print
+if( L_ga_print )then
+    write(GA_print_unit,'(/A/)')'setrf: calculate the individual SSE values '
+endif ! L_ga_print
 
 
 individual_SSE(i_GA_indiv)=0.0D+0
@@ -224,11 +221,11 @@ if( individual_quality( i_GA_indiv ) > 0 ) then
 !new   if( isnan(fvec(i_time_step))  .or.   &
 !new         abs(fvec(i_time_step)) >  1.0d20   ) fvec(i_time_step) =  1.0d20
 
-       !if( L_ga_print )then
-       !    write(GA_print_unit,'(A,1x,I6,1x,E24.16)' ) &
-       !          'setrf: i_time_step, fvec(i_time_step) ', &
-       !                  i_time_step, fvec(i_time_step)
-       !endif ! L_ga_print
+       if( L_ga_print )then
+           write(GA_print_unit,'(A,1x,I6,1x,E24.16)' ) &
+                 'setrf: i_time_step, fvec(i_time_step) ', &
+                         i_time_step, fvec(i_time_step)
+       endif ! L_ga_print
 
        individual_SSE(i_GA_indiv) = individual_SSE(i_GA_indiv) + &
                                     fvec(i_time_step)
@@ -237,13 +234,13 @@ if( individual_quality( i_GA_indiv ) > 0 ) then
 
 endif !  individual_quality( i_GA_indiv ) > 0
 
-!if( L_ga_print )then
-!    write(GA_print_unit,'(A,3(1x,I6), 1x, E24.16)') &
-!          'setrf: myid, i_GA_indiv, individual_quality, individual_SSE', &
-!                  myid, i_GA_indiv, &
-!                  individual_quality( i_GA_indiv ), &
-!                  individual_SSE(i_GA_indiv)
-!endif ! L_ga_print
+if( L_ga_print )then
+    write(GA_print_unit,'(A,3(1x,I6), 1x, E24.16)') &
+          'setrf: myid, i_GA_indiv, individual_quality, individual_SSE', &
+                  myid, i_GA_indiv, &
+                  individual_quality( i_GA_indiv ), &
+                  individual_SSE(i_GA_indiv)
+endif ! L_ga_print
 
 
 

@@ -794,7 +794,7 @@ do  i_GP_Generation=1,n_GP_Generations
             write(GP_print_unit,'(/A)')&
                       '0:3 i_GP_gen,i_GP_indiv,GP_Child_Indiv_SSE'
             do  i_GP_individual = 1, n_GP_individuals
-                write(GP_print_unit,'(2(1x,I5), 1x, E15.7)') &
+                write(GP_print_unit,'(2(1x,I5), 1x, E24.16)') &
                            i_GP_generation, i_GP_individual, &
                            GP_Child_Individual_SSE(i_GP_Individual)
             enddo ! i_GP_individual
@@ -1249,7 +1249,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
 
             if( myid == 0 )then
-                write(GP_print_unit,'(A,2(1x,I5), 2(1x, E15.7))')&
+                write(GP_print_unit,'(A,2(1x,I5), 2(1x, E24.16))')&
                       '0:3 i_GP_gen,i_GP_indiv,GP_Child_Indiv_SSE,GP_pop_fit', &
                            i_GP_generation, i_GP_individual, &
                            GP_Child_Individual_SSE(i_GP_Individual), &
@@ -1272,7 +1272,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
 
             !if( myid == 0 )then
-            !    write(GP_print_unit,'(A,2(1x,I5), 5(1x, E15.7))')&
+            !    write(GP_print_unit,'(A,2(1x,I5), 5(1x, E24.16))')&
             !          '0:3 i_GP_gen,i_GP_indiv,&
             !          &GP_Pop_Init_Cond(i_GP_Indiv,1:n_CODE_Eq)', &
             !               i_GP_generation, i_GP_individual, &
@@ -1549,7 +1549,7 @@ if( myid == 0 )then
     !enddo tree_loop ! i_tree
     !---------------------------------------------------------------------------
 
-    write(GP_print_unit,'(A,1x,I6,1x,E15.7/)') &
+    write(GP_print_unit,'(A,1x,I6,1x,E24.16/)') &
           '0: i_GP_best_parent, GP_child_individual_sse( i_GP_best_parent ) ', &
               i_GP_best_parent, GP_child_individual_sse( i_GP_best_parent )
 

@@ -262,11 +262,15 @@ endif ! L_GP_print
 before_SSE = GP_child_individual_SSE( i_GP_best_Parent )
 
 
-call setup_run_lmdif( i_GP_best_Parent, parent_parameters, individual_quality, &
-                      n_GP_individuals, GP_child_individual_SSE,  &
-                      L_GP_print, GP_print_unit )
+!debug only call setup_run_lmdif( i_GP_best_Parent, parent_parameters, individual_quality, &
+!debug only                       n_GP_individuals, GP_child_individual_SSE,  &
+!debug only                       L_GP_print, GP_print_unit )
 
 
+write(GP_print_unit,'(A,1x,I6,2(1x,E24.16))') &                                       
+      'gpsbrl:1 i_GP_best_Parent, GP_child_individual_SSE( i_GP_best_Parent ), before_SSE  ', &
+                i_GP_best_Parent, GP_child_individual_SSE( i_GP_best_Parent ), before_SSE
+                
 ! if lmdif ends in error, keep the SSE of the child before lmdif
 
 if( abs( GP_child_individual_SSE( i_GP_best_Parent ) ) > 1.0D13 )then
@@ -487,7 +491,7 @@ if( GP_individual_ranked_fitness(i_GP_best_parent) <= &
                   GP_individual_ranked_fitness(i_GP_Best_Parent), &
                   nop, output_array(1:nop)
 
-    write(GP_print_unit, '(/A,1x,I6,1x,I6,1x,E15.7)') &
+    write(GP_print_unit, '(/A,1x,I6,1x,I6,1x,E24.16)') &
          'gpsbrl: i_GP_gen,i_GP_best_parent,GP_indiv_SSE', &
                   i_GP_Generation, i_GP_best_parent, &
                   GP_individual_SSE_best_parent
