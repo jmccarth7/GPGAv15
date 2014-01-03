@@ -96,7 +96,7 @@ i_GP_Generation = n_GP_Generations
 
 if( L_GP_print )then
     write(GP_print_unit,'(//A)') 'gpsbrl: at entry  '
-    write(GP_print_unit,'(A,1x,E15.7)') 'gpsbrl: dt ', dt
+    write(GP_print_unit,'(A,1x,E24.16)') 'gpsbrl: dt ', dt
     write(GP_print_unit,'(A,1x,I10)') &
           'gpsbrl: n_parameters    =   ', n_parameters
     !write(GP_print_unit,'(A,1x,I10)') &
@@ -107,7 +107,7 @@ if( L_GP_print )then
     write(GP_print_unit,'(A,1x,I10)') &
                   'gpsbrl: i_GP_best_parent ', i_GP_best_parent
     !do  i = 1, nop
-    !    write(GP_print_unit,'(A,1x,I3, 1x,E15.7)') &
+    !    write(GP_print_unit,'(A,1x,I3, 1x,E24.16)') &
     !          'gpsbrl: i, output_array(i)', &
     !                   i, output_array(i)
     !enddo
@@ -476,7 +476,7 @@ if( GP_individual_ranked_fitness(i_GP_best_parent) <= &
 
     if( L_GP_output_parameters )then
 
-        write( GP_output_unit, '(I6,1x,I6,1x,E15.7,1x,I6, 12(1x,E15.7))') &
+        write( GP_output_unit, '(I6,1x,I6,1x,E24.16,1x,I6, 12(1x,E24.16))') &
                i_GP_Generation, i_GP_best_parent, &
                GP_individual_ranked_fitness(i_GP_Best_Parent), &
                nop, output_array(1:nop)
@@ -485,7 +485,7 @@ if( GP_individual_ranked_fitness(i_GP_best_parent) <= &
 
     !-----------------------------------------------------------------------------------
 
-    write(GP_print_unit, '(/A,1x,I6,1x,I6,1x,E15.7,1x,I6, 12(1x,E15.7))') &
+    write(GP_print_unit, '(/A,1x,I6,1x,I6,1x,E24.16,1x,I6, 12(1x,E24.16))') &
          'gpsbrl: i_GP_gen,i_GP_best_parent,GP_indiv_ranked_fit, nop, output_array', &
                   i_GP_Generation, i_GP_best_parent, &
                   GP_individual_ranked_fitness(i_GP_Best_Parent), &
@@ -578,7 +578,7 @@ else  ! lmdif is best
     ! choose the parameters from the lmdif output for the best parent
 
     if( L_GP_print )then
-        write(GP_print_unit,'(/A,1x,I6, 12(1x,E15.7))') &
+        write(GP_print_unit,'(/A,1x,I6, 12(1x,E24.16))') &
               'gpsbrl: i_GP_best_parent, Parent_Parameters ', &
                        i_GP_best_parent, &
                        (Parent_Parameters(jj, i_GP_best_Parent),jj= 1,n_parameters)
@@ -649,7 +649,7 @@ else  ! lmdif is best
 
     if( L_GP_output_parameters )then
 
-        write( GP_output_unit, '(I6,1x,I6,1x,E15.7,1x,I6, 12(1x,E15.7))') &
+        write( GP_output_unit, '(I6,1x,I6,1x,E24.16,1x,I6, 12(1x,E24.16))') &
                i_GP_Generation, i_GP_best_parent, &
                GP_individual_ranked_fitness(i_GP_Best_Parent), &
                nop, output_array(1:nop)
@@ -657,12 +657,12 @@ else  ! lmdif is best
 
     !----------------------------------------------------------------------------------
 
-    write(GP_print_unit, '(//A,1x,I6,1x,I6,1x,E15.7,1x,I6, 12(1x,E15.7))') &
+    write(GP_print_unit, '(//A,1x,I6,1x,I6,1x,E24.16,1x,I6, 12(1x,E24.16))') &
          'gpsbrl: i_GP_gen,i_GP_best_parent,GP_indiv_ranked_fit, nop, output_array', &
                 i_GP_Generation, i_GP_best_parent, &
                GP_individual_ranked_fitness(i_GP_Best_Parent), &
                nop, output_array(1:nop)
-    write(GP_print_unit, '(/A,1x,I6,1x,I6,1x,E15.7)') &
+    write(GP_print_unit, '(/A,1x,I6,1x,I6,1x,E24.16)') &
          'gpsbrl: i_GP_gen,i_GP_best_parent,GP_indiv_SSE', &
                 i_GP_Generation, i_GP_best_parent, &
                 GP_individual_SSE_best_parent

@@ -50,7 +50,7 @@ enddo
 !      'gprs:i_GP_Individual, Ranked_Fitness_Index(i_GP_Individual), &
 !                            &GP_Child_Individual_SSE(i_GP_Individual)'
 !do  i_GP_Individual=1,n_GP_Individuals
-!    write(6,'(I6,1x, I6, 1x, E15.7)') &
+!    write(6,'(I6,1x, I6, 1x, E24.16)') &
 !          i_GP_Individual, Ranked_Fitness_Index(i_GP_Individual), &
 !                           GP_Child_Individual_SSE(i_GP_Individual)
 !enddo
@@ -89,7 +89,7 @@ enddo  ! i_GP_Individual
 !write(6,'(A)')  'gprs:i_GP_Individual, Ranked_Fitness_Index, &
 !                            &GP_Child_Individual_SSE'
 !do  i_GP_Individual=1,n_GP_Individuals
-!    write(6,'(5x,I10,1x, I10, 16x, E15.7)') &
+!    write(6,'(5x,I10,1x, I10, 16x, E24.16)') &
 !          i_GP_Individual, Ranked_Fitness_Index(i_GP_Individual), &
 !                           GP_Child_Individual_SSE(i_GP_Individual)
 !enddo
@@ -259,7 +259,7 @@ enddo ! i_GP_individual
 !!    cff=cff+GP_Child_Individual_SSE(i_GP_Individual)
 !!enddo
 !!
-!!write(6,'(/A, 1x, E15.7)') &
+!!write(6,'(/A, 1x, E24.16)') &
 !!      'gprs: after: sum GP_Child_Individual_SSE ', cff
 !!
 !!! Calculate a simple 'normalized' ranking of the SSE as an estimate of fitness
@@ -293,7 +293,7 @@ do  i_GP_Individual=1,n_GP_Individuals
     endif
 enddo
 
-write(6,'(/A, 1x, E15.7)') &
+write(6,'(/A, 1x, E24.16)') &
       'gprs: after: sum GP_Child_Individual_SSE ', cff
 
 !------------------------------------------------------------------------------------
@@ -337,7 +337,7 @@ enddo ! i_GP_Individual
 ! Normalize to the integrated ranking values so that 
 ! the ranking integration ranges from [0. to 1.]
 
-write(6,'(/A, 1x, E15.7)') &
+write(6,'(/A, 1x, E24.16)') &
       'gprs: GP_Integrated_Population_Ranked_Fitness(n_GP_Individuals) ', &
              GP_Integrated_Population_Ranked_Fitness(n_GP_Individuals)
 
@@ -361,7 +361,7 @@ write(6,'(A)')                    &
     'gprs:i_GP_Individual GP_Integ_Pop_Ranked_Fitness GP_Pop_Ranked_Fitness GP_Child_Indiv_SSE'
 
 do  i_GP_Individual=1,n_GP_Individuals
-    write(6,'(I10, 20x,3(3x, E15.7))') &
+    write(6,'(I10, 20x,3(3x, E24.16))') &
           i_GP_Individual, GP_Integrated_Population_Ranked_Fitness(i_GP_Individual), &
                            GP_Population_Ranked_Fitness(i_GP_Individual), &
                            GP_Child_Individual_SSE(i_GP_Individual)

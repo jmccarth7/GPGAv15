@@ -69,10 +69,10 @@ if( dt <= 0.0d0 )then
 endif ! dt <= 0.0D0
 
 !if( L_ga_print )then ! .and. myid == 1 )then
-!    write(GA_print_unit,'(A,10(1x,E15.7)/ )') &
+!    write(GA_print_unit,'(A,10(1x,E24.16)/ )') &
 !      'rkbm: before loop Numerical_CODE_Solution(0,:)', &
 !                         Numerical_CODE_Solution(0,:)
-!    write(GA_print_unit,'(A,10(1x,E15.7)/ )') &
+!    write(GA_print_unit,'(A,10(1x,E24.16)/ )') &
 !      'rkbm: before loop  btmp(:)', btmp(:)
 !endif ! L_ga_print .and. myid == 1
 
@@ -95,7 +95,7 @@ endif ! dt <= 0.0D0
 !do  i_tree = 1, n_trees
 !    do  i_node = 1, n_nodes
 !        if( GP_individual_node_parameters(i_node, i_tree) > 0.0d0 )then
-!            write(GA_print_unit,'(A,2(1x,I4),1x,E15.7)')&
+!            write(GA_print_unit,'(A,2(1x,I4),1x,E24.16)')&
 !                  'rkbm: i_tree, i_node, GP_indiv_node_parms', &
 !                          i_tree, i_node, GP_individual_node_parameters(i_node, i_tree)
 !        endif !  GP_individual_node_parameters(i_node, i_tree) > 0.0d0
@@ -155,16 +155,18 @@ do  i_Time_Step = 1, n_Time_Steps
 
                     Tree_Value(i_Tree) = GP_Trees( i_Tree,  i_Track )%n%val()
 
-                    !write(GA_print_unit,'(A,22x,I6,1x,E15.7)') &
-                    !          'rkbm: i_tree, Tree_Value(i_tree)', &
-                    !                 i_tree, Tree_Value(i_tree)
-
-                    !if( myid == 0 )then
-                    !    write(6,'(A,22x,I6,1x,E15.7)') &
-                    !          'rkbm: i_tree, Tree_Value(i_tree)', &
-                    !                 i_tree, Tree_Value(i_tree)
-                    !endif ! myid == 0
-
+!    if( i_time_step < 251 ) then
+!                    write(GA_print_unit,'(A,22x,I6,1x,I6,1x,E24.16)') &
+!                              'rkbm: iter, i_tree, Tree_Value(i_tree)', &
+!                                     iter, i_tree, Tree_Value(i_tree)
+!
+!                    !if( myid == 0 )then
+!                        write(6,'(A,22x,I6,1x,I6,1x,E24.16)') &
+!                              'rkbm: iter, i_tree, Tree_Value(i_tree)', &
+!                                     iter, i_tree, Tree_Value(i_tree)
+!                    !endif ! myid == 0
+!
+!    endif ! i_time_step < 251 
                     !write(GA_print_unit,'(/A,2x,I6)') &
                     !          'rkbm: aft size( GP_Trees ) ', size( GP_Trees ) 
 
@@ -173,7 +175,7 @@ do  i_Time_Step = 1, n_Time_Steps
                     !debug only !if( tree_node_count <= 1 )   Tree_Value(i_Tree) = 0.0d0   ! jjm 20131213
                     !----------------------------------------------------------------------------------------
 
-                    !write(GA_print_unit,'(A,22x,I6,1x,E15.7)') &
+                    !write(GA_print_unit,'(A,22x,I6,1x,E24.16)') &
                     !'rkbm: i_tree,Tree_Value(i_tree) ',i_tree,Tree_Value(i_tree)
 
 
@@ -215,7 +217,7 @@ do  i_Time_Step = 1, n_Time_Steps
 
 
                         !if( L_ga_print )then
-                        !    write(GA_print_unit,'(A,3(1x,I6),2(2x, E15.7))') &
+                        !    write(GA_print_unit,'(A,3(1x,I6),2(2x, E24.16))') &
                         !    'rkbm:1 i_tree, i_eq, j_eq, tree_value, bioflo(i_eq,j_eq) ', &
                         !             i_tree, i_code_equation, j_code_equation, &
                         !     tree_value(i_tree), bioflo(i_CODE_equation,j_CODE_equation)
@@ -306,18 +308,20 @@ do  i_Time_Step = 1, n_Time_Steps
         enddo ! End Tracked Resources loop
 
 
-        !write(6,'(A)') ' '
-        !do  i_CODE_equation=1,n_CODE_equations   ! source of material
-        !    write(6,'(A,1x,I6,1x,E15.7)') &
-        !          'rkbm: i_eq, fbio(i_eq) ', &
-        !                 i_code_equation, fbio(i_CODE_equation)
-        !enddo ! i_CODE_equation
-        !write(6,'(A)') ' '
-
+!    if( i_time_step < 251 ) then
+!        write(6,'(A)') ' '
+!        do  i_CODE_equation=1,n_CODE_equations   ! source of material
+!            write(6,'(A,1x,I6,1x,E24.16)') &
+!                  'rkbm: i_eq, fbio(i_eq) ', &
+!                         i_code_equation, fbio(i_CODE_equation)
+!        enddo ! i_CODE_equation
+!        write(6,'(A)') ' '
+!
+!    endif ! i_time_step < 251 
 
         !write(GA_print_unit,'(/A)') ' '
         !do  i_CODE_equation=1,n_CODE_equations   ! source of material
-        !    write(GA_print_unit,'(A,1x,I6,1x,E15.7)') &
+        !    write(GA_print_unit,'(A,1x,I6,1x,E24.16)') &
         !          'rkbm: i_eq, fbio(i_eq) ', &
         !                  i_code_equation, fbio(i_CODE_equation)
         !enddo ! i_CODE_equation
@@ -335,6 +339,21 @@ do  i_Time_Step = 1, n_Time_Steps
             !kval(iter,i_Variable) = Delta_Time_in_Days * fbio(i_Variable)
             kval(iter,i_Variable) = dt * fbio(i_Variable)
 
+                                                                                                          
+!    if( i_time_step < 251 ) then                                                                           
+!            write(6,'(A,1x,I1,1x,I1,1x,i1,2(1x,E24.16))') &                                               
+!                      'rkbm:myid, iter, i_eq, kval(iter,i_eq, fbio(i_eq)', &                             
+!                            myid, iter, i_variable, &                                               
+!                              kval(iter,i_variable), &                                              
+!                               fbio(i_variable)                                                     
+!                                                                                                          
+!            write(GA_print_unit,'(A,1x,I1,1x,I6,1x,i1,3(1x,E24.16))') &                                   
+!                      'rkbm:myid, iter, i_eq, kval(iter,i_eq, fbio(i_eq)', &                             
+!                            myid, iter, i_variable, &                                               
+!                              kval(iter,i_variable), &                                              
+!                               fbio(i_variable)                                                     
+!    endif ! i_time_step < 251                                                                              
+                                                      
             if( iter .eq. 1) then
 
                 btmp(i_Variable) = b_tmp(i_Variable) + (kval(iter,i_Variable)/2.0D+0)
@@ -354,22 +373,54 @@ do  i_Time_Step = 1, n_Time_Steps
                       (kval(3,i_Variable)/3.0D+0) + &
                       (kval(4,i_Variable)/6.0D+0)
 
+                                                                                                          
+!    if( i_time_step < 251 ) then                                                                           
+!                write(6,'(A,1x,I1,1x,I6,1x,i1,1x,I1,5(1x,E24.16))') &                                     
+!                        'rkbm:', myid, i_time_step, iter, i_variable, &                             
+!                                 kval(1:4,i_variable),cff                                            
+!                                                                                                          
+!                write(6,'(/A,4(1x,I6))') &                                                                
+!                        'rkbm: myid, i_time_step, iter, i_variable  ', &                            
+!                               myid, i_time_step, iter, i_variable                                  
+!                write(6,'(A,2(1x,I6),5(1x,E24.16))') &                                                    
+!                        'rkbm: myid, i_variable, kval(1:4,i_variable),cff  ', &                
+!                               myid, i_variable, kval(1:4,i_variable),cff                      
+!    endif ! i_time_step < 251                                                                              
+  
                 b_tmp(i_Variable) = b_tmp(i_Variable)+cff
 
             endif
 
         enddo ! End Kval loop
 
-        !write(GA_print_unit,'(/A,1x,I6,3(1x,E15.7)/)') 'rkbm: iter, btmp(1:n_eqs)' , &
+        !write(GA_print_unit,'(/A,1x,I6,3(1x,E24.16)/)') 'rkbm: iter, btmp(1:n_eqs)' , &
         !                                                      iter, btmp(1:n_code_equations)
 
-        !write(GA_print_unit,'(/A,1x,I6,3(1x,E15.7)/)') 'rkbm: iter, b_tmp(1:n_eqs)' , &
+        !write(GA_print_unit,'(/A,1x,I6,3(1x,E24.16)/)') 'rkbm: iter, b_tmp(1:n_eqs)' , &
         !                                                      iter, b_tmp(1:n_code_equations)
-        !write(6,'(A,1x,I6,3(1x,E15.7))') 'rkbm: iter, btmp(1:n_eqs) ' , &
+        !write(6,'(A,1x,I6,3(1x,E24.16))') 'rkbm: iter, btmp(1:n_eqs) ' , &
         !                                        iter, btmp(1:n_code_equations)
 
-        !write(6,'(A,1x,I6,3(1x,E15.7))') 'rkbm: iter, b_tmp(1:n_eqs)' , &
+        !write(6,'(A,1x,I6,3(1x,E24.16))') 'rkbm: iter, b_tmp(1:n_eqs)' , &
         !                                        iter, b_tmp(1:n_code_equations)
+                                                                                                          
+!    if( i_time_step < 251 ) then                                                                           
+!        write(6,'(A, 1x,i1,3(1x,E24.16) )') &                                                             
+!             'rkbm: iter, btmp( 1:n_CODE_equations )', &                                                 
+!                    iter, btmp( 1:n_CODE_equations )                                                     
+!                                                                                                          
+!        write(6,'(A, 1x,i1,3(1x,E24.16) )') &                                                             
+!             'rkbm: iter, b_tmp( 1:n_CODE_equations )', &                                                
+!                    iter, b_tmp( 1:n_CODE_equations )                                                    
+!                                                                                                          
+!        write(GA_print_unit,'(A, 1x,i1,3(1x,E24.16) )') &                                                 
+!             'rkbm: iter, btmp( 1:n_CODE_equations )', &                                                 
+!                    iter, btmp( 1:n_CODE_equations )                                                     
+!                                                                                                          
+!        write(GA_print_unit,'(A, 1x,i1,3(1x,E24.16) )') &                                                 
+!             'rkbm: iter, b_tmp( 1:n_CODE_equations )', &                                                
+!                    iter, b_tmp( 1:n_CODE_equations )                                                    
+!    endif ! i_time_step < 251                        
 
     enddo ! End iter loop
 
@@ -382,13 +433,13 @@ do  i_Time_Step = 1, n_Time_Steps
         L_bad_result = .TRUE.
 
         !if( L_GP_print )then
-        !    write(6,'(A,2(1x,I6),12(1x,E15.7))') &
+        !    write(6,'(A,2(1x,I6),12(1x,E24.16))') &
         !          'rkbm: bad result myid, i_time_step, b_tmp ', &
         !                            myid, i_time_step, b_tmp(1:n_CODE_equations)
         !endif ! L_GP_print
 
         !if( L_GA_print )then
-        !    write(GA_print_unit,'(A,2(1x,I6),12(1x,E15.7))') &
+        !    write(GA_print_unit,'(A,2(1x,I6),12(1x,E24.16))') &
         !          'rkbm: bad result myid, i_time_step, b_tmp ', &
         !                            myid, i_time_step, b_tmp(1:n_CODE_equations)
         !endif ! L_GA_print
@@ -402,21 +453,37 @@ do  i_Time_Step = 1, n_Time_Steps
     Numerical_CODE_Solution(i_Time_Step,1:n_Variables)=max(b_tmp(1:n_Variables),0.0D+0)
 
 
-    !write(GA_print_unit,'(//A,2(1x,I6),12(1x,E15.7))') &
+    !write(GA_print_unit,'(//A,2(1x,I6),12(1x,E24.16))') &
     !      'rkbm: myid, i_time_step, b_tmp ', &
     !             myid, i_time_step, b_tmp(1:n_CODE_equations)
 
     !if( myid == 0 )then
-    !    write(6,'(/A,1x,I6,1x,6(1x,E15.7)/)') 'rkbm: i_time_step, solution ', &
+    !    write(6,'(/A,1x,I6,1x,6(1x,E24.16)/)') 'rkbm: i_time_step, solution ', &
     !                   i_Time_Step, Numerical_CODE_Solution(i_Time_Step,1:n_Variables)
     !endif ! myid == 0
 
     !if( L_ga_print )then ! .and. myid == 1 )then
-    !    write(GA_print_unit,'(A,1x,I6,1x,6(1x,E15.7)/)') &
+    !    write(GA_print_unit,'(A,1x,I6,1x,6(1x,E24.16)/)') &
     !          'rkbm: i_time_step, solution ', &
     !                 i_Time_Step, Numerical_CODE_Solution(i_Time_Step,1:n_Variables)
     !endif ! L_ga_print .and. myid == 1
 
+    !if( i_time_step < 251 ) then                                                                           
+    if( i_time_step == 250 .or. i_time_step == 1 ) then 
+        !if( myid == 0 )then                                                                              
+            write(6,'(A,2(1x,I6),12(1x,E24.16))') &                                                       
+            'rkbm: myid, i_time_step, RK_Soln ', &                                                       
+                   myid, i_time_step, Numerical_CODE_Solution(i_time_step,1:n_CODE_equations)               
+        !endif ! myid == 0                                                                                
+                                                                                                          
+        if( L_GA_print )then                                                                              
+            write(GA_print_unit,'(A,2(1x,I6),12(1x,E24.16))') &                                           
+            'rkbm: myid, i_time_step, RK_Soln ', &                                                       
+                   myid, i_time_step, Numerical_CODE_Solution(i_time_step,1:n_CODE_equations)               
+        endif ! L_ga_print                                                                                
+    endif !  i_time_step == 250 .or. i_time_step == 1 
+    !endif ! i_time_step < 251                                                                              
+                                              
 
 
 

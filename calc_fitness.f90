@@ -125,7 +125,7 @@ if( L_ga_print )then
         write(GA_print_unit,'(/A)') 'gacf: i_GA_individual, parent params'
 
         do  i_GA_individual=1,n_GA_individuals
-            write(GA_print_unit,'(I6,(12(1x,E15.7)))') i_GA_individual, &
+            write(GA_print_unit,'(I6,(12(1x,E24.16)))') i_GA_individual, &
                       parent_parameters( 1:n_parameters, i_GA_individual )
         enddo !  i_GA_individual
 
@@ -308,13 +308,13 @@ endif ! n_counted > 0
 
 
 !if( L_ga_print )then
-!    write(GA_print_unit,'(/A,1x,I6,1x,E15.7)')&
+!    write(GA_print_unit,'(/A,1x,I6,1x,E24.16)')&
 !          'gacf: generation, sum_individual_fit  =', &
 !            i_GA_generation, sum_individual_fit
-!    write(GA_print_unit,'(A,1x,I6,1x,E15.7)')&
+!    write(GA_print_unit,'(A,1x,I6,1x,E24.16)')&
 !          'gacf: generation, mean_individual_fit =', &
 !            i_GA_generation, mean_individual_fit
-!    write(GA_print_unit,'(A,1x,I6,1x,E15.7, 1x, I6)')&
+!    write(GA_print_unit,'(A,1x,I6,1x,E24.16, 1x, I6)')&
 !          'gacf: generation, min_sse, index      =', &
 !            i_GA_generation, min_sse, index_min_sse
 !    write(GA_print_unit,'(A,2(1x,I6)/)')&
@@ -330,10 +330,10 @@ endif ! n_counted > 0
 
 
 if( L_ga_print )then
-    !write(GA_print_unit,'(/A,1x,I6,1x,E15.7 )')&
+    !write(GA_print_unit,'(/A,1x,I6,1x,E24.16 )')&
     !      'gacf: generation, sum_individual_SSE  =', &
     !        i_GA_generation, sum_individual_SSE
-    write(GA_print_unit,'(A,1x,I6,1x,E15.7 )')&
+    write(GA_print_unit,'(A,1x,I6,1x,E24.16 )')&
           'gacf: generation, mean_individual_SSE =', &
             i_GA_generation, mean_individual_SSE
 endif ! L_ga_print
@@ -378,7 +378,7 @@ endif
 !var_fitness   = sqrt( var_fitness  / xn )
 
 if( L_ga_print )then
-    write(GA_print_unit,'(/A,3(1x,I6),2(1x,E15.7))')       &
+    write(GA_print_unit,'(/A,3(1x,I6),2(1x,E24.16))')       &
       'gacf: i_GA_generation, n_GA_individuals, icount, mean_fitness, sigma_fitness',&
              i_GA_generation, n_GA_individuals, icount, mean_fitness, sigma_fitness
 endif ! L_ga_print
@@ -510,13 +510,13 @@ enddo ! i_GA_individual
 !------------------------------------------------------------------------------
 
 if( L_ga_print )then
-    write(GA_print_unit,'(/A,2(1x,I6),2(1x,E15.7))') &
+    write(GA_print_unit,'(/A,2(1x,I6),2(1x,E24.16))') &
           'gacf: Generation, i_GA_Best_Parent, indiv_ranked_fitness, indiv_SSE', &
                  i_GA_Generation, i_GA_Best_Parent, &
                  individual_ranked_fitness(i_GA_Best_Parent), &
                             individual_SSE(i_GA_Best_Parent)
 
-    write(GA_print_unit,'(A,1x,I6,12(1x,E15.7)/(12(1x,E15.7)))') &
+    write(GA_print_unit,'(A,1x,I6,12(1x,E24.16)/(12(1x,E24.16)))') &
           'gacf: i_GA_Best_Parent, parent_parameters ', &
                  i_GA_Best_Parent, &
                  (parent_parameters( jj, i_GA_Best_Parent ),jj=1,n_parameters)
@@ -541,7 +541,7 @@ if( L_GA_log )then
     ! generation, individual, SSE, individual_fitness
 
     !do  i_GA_Individual=1,n_GA_individuals
-    !    write(GA_log_unit,'(2(1x,I6),2(1x,E15.7))') &
+    !    write(GA_log_unit,'(2(1x,I6),2(1x,E24.16))') &
     !          i_GA_generation, &
     !          i_GA_Individual, &
     !          individual_SSE(i_GA_individual), &

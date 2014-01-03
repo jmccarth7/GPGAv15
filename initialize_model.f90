@@ -29,9 +29,9 @@ integer, intent(in)  ::  myprint_unit
 !    write(6,'(/A/)') 'inmod: entry  Initialize_Model '
 !endif ! myid == 0 
 
-!if( L_myprint  .and.  myid == 1 )then
-!    write(myprint_unit,'(/A/)') 'inmod: entry  Initialize_Model '
-!endif ! myid == 1 
+if( L_myprint  .and.  myid == 1 )then
+    write(myprint_unit,'(/A/)') 'inmod: entry  Initialize_Model '
+endif ! myid == 1 
 
 
 ! Set Variables
@@ -92,9 +92,9 @@ bioflo_map = abs(bioflo_map)
 
 !---------------------------------------------------------------------------------------------------
 
-FORCING_MIXED_LAYER_DEPTH  = -5001
-FORCING_MLD_CHANGE_NON_MOTILE = -5002
-FORCING_MLD_CHANGE_MOTILE = -5003
+FORCING_MIXED_LAYER_DEPTH         = -5001
+FORCING_MLD_CHANGE_NON_MOTILE     = -5002
+FORCING_MLD_CHANGE_MOTILE         = -5003
 FORCING_LIGHT_LIMITED_GROWTH_RATE = -5004
 
 !Numerical_CODE_Initial_Conditions = (/aNO3, aNH4, DON, DET, bact, phyto, zoo/)
@@ -103,15 +103,15 @@ FORCING_LIGHT_LIMITED_GROWTH_RATE = -5004
 
 
 !if( L_myprint  .and. myid == 1 )then
-!    write(myprint_unit,'(A,2(1x,E15.7))') 'inmod: Numerical_CODE_Initial_Conditions ', &
+!    write(myprint_unit,'(A,2(1x,E24.16))') 'inmod: Numerical_CODE_Initial_Conditions ', &
 !                                                   Numerical_CODE_Initial_Conditions
 !endif ! L_myprint  .and. myid == 1 
 
 
 Numerical_CODE_Forcing_Functions = 0.0D+0 
 
-!write(6,'(A,4(1x,E15.7))') 'inmod: Numerical_CODE_Forcing_Functions ', &
-!                                   Numerical_CODE_Forcing_Functions
+!write(6,'(A,4(1x,E24.16))') 'inmod: Numerical_CODE_Forcing_Functions ', &
+!                                    Numerical_CODE_Forcing_Functions
 
 btmp(1:n_code_equations) = 0.0D0
 
@@ -123,9 +123,9 @@ if( buildTrees ) then
     !    write(6,'(//A)') 'inmod: call Build_Trees  '
     !endif ! myid == 0 
 
-    !if( L_myprint  .and. myid == 1 )then
-    !    write(myprint_unit,'(//A)') 'inmod: call Build_Trees  '
-    !endif ! L_myprint  .and. myid == 1 
+    if( L_myprint  .and. myid == 1 )then
+        write(myprint_unit,'(//A)') 'inmod: call Build_Trees  '
+    endif ! L_myprint  .and. myid == 1 
 
 
     call Build_Trees( GP_Trees(:, 1), i_G_indiv )
@@ -135,9 +135,9 @@ if( buildTrees ) then
     !    write(6,'(A//)') 'inmod: aft call Build_Trees  '
     !endif ! myid == 0 
 
-    !if( L_myprint  .and. myid == 1 )then
-    !    write(myprint_unit,'(A//)') 'inmod: aft call Build_Trees  '
-    !endif ! L_myprint  .and. myid == 1 
+    if( L_myprint  .and. myid == 1 )then
+        write(myprint_unit,'(A//)') 'inmod: aft call Build_Trees  '
+    endif ! L_myprint  .and. myid == 1 
 
 else
 
@@ -149,6 +149,9 @@ endif ! buildTrees
 
 
 end subroutine Initialize_Model
+
+
+
 
 
 

@@ -23,23 +23,23 @@ integer,intent(in) :: i_G_indiv
 
 !  create trees from the GP_Individual_Node_Type which was read in
 
-!if( myid == 1 )then
-!    write(6,'(/A/)') 'Trees: create trees from GP_Individual_Node_Type  '
-!    write(6,'(/A/)')      'Trees: call Deserialize_Trees2 '
-!    write(6,'(A,1x,I6)')  'Trees: n_Tracked_resources ', n_Tracked_resources
-!    write(6,'(A,1x,I6/)') 'Trees: n_trees ', n_trees
-!endif ! myid == 1
+if( myid == 1 )then
+    write(6,'(/A/)') 'Trees: create trees from GP_Individual_Node_Type  '
+    write(6,'(/A/)')      'Trees: call Deserialize_Trees2 '
+    write(6,'(A,1x,I6)')  'Trees: n_Tracked_resources ', n_Tracked_resources
+    write(6,'(A,1x,I6/)') 'Trees: n_trees ', n_trees
+endif ! myid == 1
 
 
 ! Deserialize_Trees2 should create trees from
 ! the GP_Individual_Node_Type and GP_Individual_Node_parameter arrays
 
-call Deserialize_Trees2( treeSlice, i_G_indiv, n_Tracked_resources, n_trees    )
+call Deserialize_Trees2( treeSlice, i_G_indiv, n_Tracked_resources, n_trees )
 
 
-!if( myid == 1 )then
-!    write(6,'(/A/)') 'Trees: aft call Deserialize_Trees2 '
-!endif ! myid == 1
+if( myid == 1 )then
+    write(6,'(/A/)') 'Trees: aft call Deserialize_Trees2 '
+endif ! myid == 1
 
 
 

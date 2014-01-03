@@ -160,7 +160,7 @@ do  i_parameter=1,n_parms
         !'strplm:1 myid, i_G_indiv,i_parameter, child_parameters, X_LMDIF', &
         !          myid, i_G_indiv,i_parameter, &
         !          child_parameters(i_parameter),  X_LMDIF(i_parameter)
-        !write(myprint_unit,'(A,2(1x,I6),1x,E20.10)') &
+        !write(myprint_unit,'(A,2(1x,I6),1x,E24.16)') &
         !'strplm:1 myid, i_parameter,  X_LMDIF', &
         !          myid, i_parameter,  X_LMDIF(i_parameter)
     endif ! L_myprint
@@ -182,7 +182,8 @@ info = 0
 
 !off      maxfev=100*(n_time_steps+1)*100
 
-maxfev= 4000 ! 2000 ! 50 ! 10 ! 10000
+!orig  maxfev= 4000 ! 2000 ! 50 ! 10 ! 10000
+maxfev= 1000  ! debug only  ! 4000 ! 2000 ! 50 ! 10 ! 10000
 
 ftol=1.0D-10   ! 15  ! 15   ! 10
 xtol=1.0D-10   ! 15  ! 15   ! 10
@@ -236,21 +237,21 @@ endif ! L_myprint
 !----------------------------------------------------------------------------------------
 
 !if( Lprint_lmdif )then
-!    if( L_myprint )then
+    if( L_myprint )then
 !        !write(myprint_unit,'(/A,4(1x,I6))') &
 !        ! 'strplm: call lmdif, myid, n_time_steps, n_parms, i_G_indiv', &
 !        !                      myid, n_time_steps, n_parms, i_G_indiv
-!        !write(myprint_unit,'(/A)') 'strplm: lmdif parameters '
-!
-!        !write(myprint_unit,'(A,3(1x,I10))')   'strplm: mode, nprint, ldfjac', &
-!        !                                               mode, nprint, ldfjac
-!        !write(myprint_unit,'(A,3(1x,E15.7))') 'strplm: ftol, xtol, gtol    ', &
-!        !                                               ftol, xtol, gtol
-!        !write(myprint_unit,'(A,3(1x,E15.7))') 'strplm: tol,epsfcn, factor  ', &
-!        !                                               tol, epsfcn,factor
-!        !write(myprint_unit,'(A,1x,I10)')   'strplm: maxfev', maxfev
-!        !write(myprint_unit,'(A,1x,I10)')   'strplm: info  ', info
-!    endif ! L_myprint
+        write(myprint_unit,'(/A)') 'strplm: lmdif parameters '
+
+        write(myprint_unit,'(A,3(1x,I10))')   'strplm: mode, nprint, ldfjac', &
+                                                       mode, nprint, ldfjac
+        write(myprint_unit,'(A,3(1x,E24.16))') 'strplm: ftol, xtol, gtol    ', &
+                                                        ftol, xtol, gtol
+        write(myprint_unit,'(A,3(1x,E24.16))') 'strplm: epsfcn, factor  ', &
+                                                        epsfcn,factor
+        write(myprint_unit,'(A,1x,I10)')   'strplm: maxfev', maxfev
+        write(myprint_unit,'(A,1x,I10)')   'strplm: info  ', info
+    endif ! L_myprint
 !endif ! Lprint_lmdif
 
 
@@ -263,30 +264,32 @@ L_bad_result = .false.
 
 iunit = 0
 !if( i_G_indiv == 3 )then
-!    write(myprint_unit,'(/A,1x,I3/)') 'strplm: RUN LMDIF myid =', myid
+    write(myprint_unit,'(/A,1x,I3/)') 'strplm: RUN LMDIF myid =', myid
 !    iunit = 1
 !endif ! myid == 3
 !write(myprint_unit,'(A,2(1x,I10))') 'strplm:input  n_time_steps, n_parms ', &
 !                                                   n_time_steps, n_parms
-!write(myprint_unit,'(A,4(1x,E15.7))') 'strplm:input  ftol, xtol, gtol, epsfcn  ', &
-!                                                     ftol, xtol, gtol, epsfcn
+!write(myprint_unit,'(A,4(1x,E24.16))') 'strplm:input  ftol, xtol, gtol, epsfcn  ', &
+!                                                      ftol, xtol, gtol, epsfcn
 !write(myprint_unit,'(A,2(1x,I10))') 'strplm:input  maxfev ', maxfev
 !write(myprint_unit,'(A,2(1x,I10))') 'strplm:input  mode, nprint ', &
 !                                                   mode, nprint
-!write(myprint_unit,'(A,3(1x,E15.7))') 'strplm:input factor', factor
+!write(myprint_unit,'(A,3(1x,E24.16))') 'strplm:input factor', factor
 
 
+fvec = 0.0D0                                                                                              
+ 
 
-!debug only call lmdif( fcn, n_time_steps, n_parms, x_LMDIF, fvec, &
-!debug only             ftol, xtol, gtol, maxfev, epsfcn, &
-!debug only             diag, mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf )! 20131209
+call lmdif( fcn, n_time_steps, n_parms, x_LMDIF, fvec, &
+            ftol, xtol, gtol, maxfev, epsfcn, &
+            diag, mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf )! 20131209
             !diag, mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf, &  ! 20131209
             !iunit )                                                             ! 20131209
 
 
 
-!write(myprint_unit,'(A,3(1x,I6))') 'strplm:output info, nfev, ldfjac ', &
-!                                                  info, nfev, ldfjac
+write(myprint_unit,'(A,3(1x,I6))') 'strplm:output info, nfev, ldfjac ', &
+                                                  info, nfev, ldfjac
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -414,9 +417,10 @@ enddo ! i_parameter
 
 
 
-!if( L_myprint )then
-!    write(myprint_unit,'(/A/)')'strplm: calculate the individual SSE values '
-!endif ! L_myprint
+if( L_myprint )then
+    write(myprint_unit,'(/A/)')'strplm: calculate the individual SSE values '
+    write(6,'(A,1x,I5)') 'strplm: i_G_indiv ', i_G_indiv
+endif ! L_myprint
 
 
 if( individual_quality > 0 ) then
@@ -426,8 +430,8 @@ if( individual_quality > 0 ) then
 
     do i_time_step=1,n_time_steps
 
-       if( isnan(fvec(i_time_step)) ) fvec(i_time_step) = 0.0d0
-       if( abs(fvec(i_time_step)) >  1.0d20 ) fvec(i_time_step) =  1.0d20
+       if( isnan(fvec(i_time_step)) )         fvec(i_time_step) = 0.0d0
+       if( abs(fvec(i_time_step)) >  1.0d20 ) fvec(i_time_step) = 1.0d20
 
        !newif( isnan(fvec(i_time_step)) .or.  &
        !new    abs(fvec(i_time_step)) >  1.0d20 ) fvec(i_time_step) =  1.0d20
@@ -435,9 +439,9 @@ if( individual_quality > 0 ) then
        !if( i_time_step == 1 .or. &
        !    i_time_step == n_time_steps )then
        !    write(6,'(A,1x,I5)') 'strplm: i_G_indiv ', i_G_indiv
-       !    write(6,'(A,1x,I10,1x,E15.7)') &
-       !          'strplm: i_time_step, fvec(i_time_step) ', &
-       !                   i_time_step, fvec(i_time_step)
+           write(6,'(A,1x,I10,1x,E24.16)') &
+                 'strplm: i_time_step, fvec(i_time_step) ', &
+                          i_time_step, fvec(i_time_step)
        !endif ! i_time_step == 1 ...
 
        my_indiv_SSE = my_indiv_SSE + fvec(i_time_step)
@@ -446,11 +450,13 @@ if( individual_quality > 0 ) then
 
 endif !  individual_quality > 0
 
-!if( L_myprint .and. i_G_indiv == 3 )then
-!    write(myprint_unit,'(A,3(1x,I6), 1x, E15.7)') &
-!    'strplm: myid, i_G_indiv, indiv_qual, my_indiv_SSE', &
-!             myid, i_G_indiv, individual_quality, my_indiv_SSE
-!endif ! L_myprint
+if( L_myprint )then
+    write(myprint_unit,'(A,2(1x,I6))') &                                                      
+      'strplm: myid, info', myid, info       
+    write(myprint_unit,'(A,3(1x,I6), 1x, E24.16)') &
+    'strplm: myid, i_G_indiv, indiv_qual, my_indiv_SSE', &
+             myid, i_G_indiv, individual_quality, my_indiv_SSE
+endif ! L_myprint
 
 
 

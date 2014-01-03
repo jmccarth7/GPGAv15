@@ -116,11 +116,11 @@ do
     if( GP_Adult_Population_SSE(k_GP_Individual_Male(2)) .lt.  &
         GP_Adult_Population_SSE(k_GP_Individual_Male(1))         ) then
 
-        !write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
+        !write(GP_print_unit,'(A,1x,I6,1x,E24.16)' ) &
         !   'gptssr: k_GP_Indiv_Male(1), GP_Adult_Pop_SSE(k_GP_Indiv_Male(1)) ', &
         !            k_GP_Individual_Male(1), &
         !            GP_Adult_Population_SSE(k_GP_Individual_Male(1))
-        !write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
+        !write(GP_print_unit,'(A,1x,I6,1x,E24.16)' ) &
         !   'gptssr: k_GP_Indiv_Male(2), GP_Adult_Pop_SSE(k_GP_Indiv_Male(2)) ', &
         !            k_GP_Individual_Male(2), &
         !            GP_Adult_Population_SSE(k_GP_Individual_Male(2))
@@ -166,11 +166,11 @@ do
     if( GP_Adult_Population_SSE(k_GP_Individual_Female(2)) .lt.  &
         GP_Adult_Population_SSE(k_GP_Individual_Female(1))          ) then
 
-        !write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
+        !write(GP_print_unit,'(A,1x,I6,1x,E24.16)' ) &
         !   'gptssr: k_GP_Indiv_Female(1), GP_Adult_Pop_SSE(k_GP_Indiv_Female(1)) ', &
         !            k_GP_Individual_Female(1), &
         !            GP_Adult_Population_SSE(k_GP_Individual_Female(1))
-        !write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
+        !write(GP_print_unit,'(A,1x,I6,1x,E24.16)' ) &
         !   'gptssr: k_GP_Indiv_Female(2), GP_Adult_Pop_SSE(k_GP_Indiv_Female(2)) ', &
         !            k_GP_Individual_Female(2), &
         !            GP_Adult_Population_SSE(k_GP_Individual_Female(2))

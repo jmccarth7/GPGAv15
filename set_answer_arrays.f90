@@ -129,14 +129,14 @@ if( myid == 0 )then
     write(6,'(A)') ' '
 
     do  ii = 1, n_CODE_equations
-        write(6,'(A,1x,I6,1x,E15.7)') 'saa: ii, Numerical_CODE_Initial_Conditions(ii) ', &
+        write(6,'(A,1x,I6,1x,E24.16)') 'saa: ii, Numerical_CODE_Initial_Conditions(ii) ', &
                                             ii, Numerical_CODE_Initial_Conditions(ii)
     enddo ! ii
 
     write(6,'(A)') ' '
 
     do  ii = 1, n_CODE_equations
-        write(6,'(A,1x,I6,1x,E15.7)') 'saa: ii, Numerical_CODE_Solution(0,ii) ', &
+        write(6,'(A,1x,I6,1x,E24.16)') 'saa: ii, Numerical_CODE_Solution(0,ii) ', &
                                             ii, Numerical_CODE_Solution(0,ii)
     enddo ! ii
 
@@ -150,7 +150,7 @@ if( myid == 0 )then
         do  i_node = 1, n_nodes
 
             if( Runge_Kutta_Node_Type( i_node, i_tree ) == 0     )then
-                write(6,'(2(1x,I8),6x,E15.7)') &
+                write(6,'(2(1x,I8),6x,E24.16)') &
                       i_tree, i_node, Runge_Kutta_Node_Parameters( i_node, i_tree )
             endif ! Runge_Kutta_Node_Type( i_node, i_tree ) == 0
 
