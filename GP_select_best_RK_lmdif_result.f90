@@ -96,7 +96,7 @@ i_GP_Generation = n_GP_Generations
 
 if( L_GP_print )then
     write(GP_print_unit,'(//A)') 'gpsbrl: at entry  '
-    write(GP_print_unit,'(A,1x,E15.7)') 'gpsbrl: dt ', dt
+    write(GP_print_unit,'(A,1x,E24.16)') 'gpsbrl: dt ', dt
     write(GP_print_unit,'(A,1x,I10)') &
           'gpsbrl: n_parameters    =   ', n_parameters
     !write(GP_print_unit,'(A,1x,I10)') &
@@ -107,7 +107,7 @@ if( L_GP_print )then
     write(GP_print_unit,'(A,1x,I10)') &
                   'gpsbrl: i_GP_best_parent ', i_GP_best_parent
     !do  i = 1, nop
-    !    write(GP_print_unit,'(A,1x,I3, 1x,E15.7)') &
+    !    write(GP_print_unit,'(A,1x,I3, 1x,E24.16)') &
     !          'gpsbrl: i, output_array(i)', &
     !                   i, output_array(i)
     !enddo
@@ -124,6 +124,34 @@ endif ! L_GP_print
 !    enddo ! i_node
 !enddo ! i_tree
 
+!---------------------------------------------------------------------------------------
+
+if( allocated(  child_node_parameters ) )then
+    deallocate( child_node_parameters )
+endif ! allocated( child_node_parameters ) )then
+
+allocate( child_node_parameters(n_nodes, n_trees, n_GP_individuals ) )
+
+
+!---------------------------------------------------------------------------------------
+
+if( L_GP_print )then
+    write(GP_print_unit,'(/A)') 'gpsbrl: allocate GP_Trees'
+endif ! L_GP_print
+
+
+if( allocated(  GP_Trees ) )then
+    deallocate( GP_Trees )
+endif ! allocated( GP_Trees )
+
+allocate( GP_Trees( n_trees,  1 )  )
+
+if( L_GP_print )then
+    write(GP_print_unit,'(/A)') 'gpsbrl: AFT allocate GP_Trees'
+endif ! L_GP_print
+
+
+!-----------------------------------------------------------------------------
 
 
 
@@ -171,6 +199,48 @@ endif ! L_GP_print
 
 !-------------------------------------------------------------------------------
 
+! load the array child_node_parameters with only the best parent parameters
+
+child_node_parameters = 0.0D0
+
+i_parameter = n_CODE_equations ! start at this number because of the
+                               ! initial conditions (n_CODE_Equations of them)
+do  i_tree=1,n_trees
+    do  i_node=1,n_nodes
+
+        if( GP_Adult_Population_Node_Type(i_node,i_tree,i_gp_best_parent) .eq. 0 ) then
+
+            !if( L_GP_print )then
+            !    write(GP_print_unit,'(A,3(1x,I6))') &
+            !    'gpsbrl:1 i_tree,i_node,GP_Adult_Population_Node_Type(,,i_gp_best_parent)',&
+            !              i_tree,i_node,GP_Adult_Population_Node_Type(i_node,i_tree,i_gp_best_parent)
+            !endif ! L_GP_print
+
+            i_parameter=i_parameter+1
+
+            child_node_parameters(i_node,i_tree, i_GP_best_Parent ) = &
+                            Parent_Parameters(i_parameter, i_GP_best_Parent)
+
+            if( L_GP_print )then
+
+                write(GP_print_unit,'(A,1x,I6,1x,E20.10)') &
+                 'gpsbrl:1 i_Parameter, parent_parameters', &
+                           i_Parameter, parent_parameters(i_parameter,i_GP_best_Parent )
+
+                write(GP_print_unit,'(A,2(1x,I6),1x,E20.10)') &
+                'gpsbrl:1 i_tree,i_node, child_node_parameters( i_node, i_tree, i_GP_best_parent)', &
+                          i_tree,i_node, child_node_parameters( i_node, i_tree, i_GP_best_parent)
+            endif ! L_GP_print
+
+        endif ! GP_Adult_Population_Node_Type(i_node,i_tree,i_gp_best_parent)
+
+    enddo ! i_node
+enddo ! i_tree
+
+
+!-------------------------------------------------------------------------------
+
+
 !  run lmdif on best individual from the RK process
 
 if( L_GP_print )then
@@ -192,11 +262,15 @@ endif ! L_GP_print
 before_SSE = GP_child_individual_SSE( i_GP_best_Parent )
 
 
-call setup_run_lmdif( i_GP_best_Parent, parent_parameters, individual_quality, &
-                      n_GP_individuals, GP_child_individual_SSE,  &
-                      L_GP_print, GP_print_unit )
+!debug only call setup_run_lmdif( i_GP_best_Parent, parent_parameters, individual_quality, &
+!debug only                       n_GP_individuals, GP_child_individual_SSE,  &
+!debug only                       L_GP_print, GP_print_unit )
 
 
+write(GP_print_unit,'(A,1x,I6,2(1x,E24.16))') &                                       
+      'gpsbrl:1 i_GP_best_Parent, GP_child_individual_SSE( i_GP_best_Parent ), before_SSE  ', &
+                i_GP_best_Parent, GP_child_individual_SSE( i_GP_best_Parent ), before_SSE
+                
 ! if lmdif ends in error, keep the SSE of the child before lmdif
 
 if( abs( GP_child_individual_SSE( i_GP_best_Parent ) ) > 1.0D13 )then
@@ -402,7 +476,7 @@ if( GP_individual_ranked_fitness(i_GP_best_parent) <= &
 
     if( L_GP_output_parameters )then
 
-        write( GP_output_unit, '(I6,1x,I6,1x,E15.7,1x,I6, 12(1x,E15.7))') &
+        write( GP_output_unit, '(I6,1x,I6,1x,E24.16,1x,I6, 12(1x,E24.16))') &
                i_GP_Generation, i_GP_best_parent, &
                GP_individual_ranked_fitness(i_GP_Best_Parent), &
                nop, output_array(1:nop)
@@ -411,13 +485,13 @@ if( GP_individual_ranked_fitness(i_GP_best_parent) <= &
 
     !-----------------------------------------------------------------------------------
 
-    write(GP_print_unit, '(/A,1x,I6,1x,I6,1x,E15.7,1x,I6, 12(1x,E15.7))') &
+    write(GP_print_unit, '(/A,1x,I6,1x,I6,1x,E24.16,1x,I6, 12(1x,E24.16))') &
          'gpsbrl: i_GP_gen,i_GP_best_parent,GP_indiv_ranked_fit, nop, output_array', &
                   i_GP_Generation, i_GP_best_parent, &
                   GP_individual_ranked_fitness(i_GP_Best_Parent), &
                   nop, output_array(1:nop)
 
-    write(GP_print_unit, '(/A,1x,I6,1x,I6,1x,E15.7)') &
+    write(GP_print_unit, '(/A,1x,I6,1x,I6,1x,E24.16)') &
          'gpsbrl: i_GP_gen,i_GP_best_parent,GP_indiv_SSE', &
                   i_GP_Generation, i_GP_best_parent, &
                   GP_individual_SSE_best_parent
@@ -504,7 +578,7 @@ else  ! lmdif is best
     ! choose the parameters from the lmdif output for the best parent
 
     if( L_GP_print )then
-        write(GP_print_unit,'(/A,1x,I6, 12(1x,E15.7))') &
+        write(GP_print_unit,'(/A,1x,I6, 12(1x,E24.16))') &
               'gpsbrl: i_GP_best_parent, Parent_Parameters ', &
                        i_GP_best_parent, &
                        (Parent_Parameters(jj, i_GP_best_Parent),jj= 1,n_parameters)
@@ -575,7 +649,7 @@ else  ! lmdif is best
 
     if( L_GP_output_parameters )then
 
-        write( GP_output_unit, '(I6,1x,I6,1x,E15.7,1x,I6, 12(1x,E15.7))') &
+        write( GP_output_unit, '(I6,1x,I6,1x,E24.16,1x,I6, 12(1x,E24.16))') &
                i_GP_Generation, i_GP_best_parent, &
                GP_individual_ranked_fitness(i_GP_Best_Parent), &
                nop, output_array(1:nop)
@@ -583,12 +657,12 @@ else  ! lmdif is best
 
     !----------------------------------------------------------------------------------
 
-    write(GP_print_unit, '(//A,1x,I6,1x,I6,1x,E15.7,1x,I6, 12(1x,E15.7))') &
+    write(GP_print_unit, '(//A,1x,I6,1x,I6,1x,E24.16,1x,I6, 12(1x,E24.16))') &
          'gpsbrl: i_GP_gen,i_GP_best_parent,GP_indiv_ranked_fit, nop, output_array', &
                 i_GP_Generation, i_GP_best_parent, &
                GP_individual_ranked_fitness(i_GP_Best_Parent), &
                nop, output_array(1:nop)
-    write(GP_print_unit, '(/A,1x,I6,1x,I6,1x,E15.7)') &
+    write(GP_print_unit, '(/A,1x,I6,1x,I6,1x,E24.16)') &
          'gpsbrl: i_GP_gen,i_GP_best_parent,GP_indiv_SSE', &
                 i_GP_Generation, i_GP_best_parent, &
                 GP_individual_SSE_best_parent
@@ -641,6 +715,19 @@ else  ! lmdif is best
 
 endif ! GP_individual_ranked_fitness...
 
+
+!---------------------------------------------------------------------------------------
+
+if( allocated(  child_node_parameters ) )then
+    deallocate( child_node_parameters )
+endif ! allocated( child_node_parameters ) )then
+
+
+if( allocated(  GP_Trees ) )then
+    deallocate( GP_Trees )
+endif ! allocated( GP_Trees )
+
+!---------------------------------------------------------------------------------------
 
 
 return

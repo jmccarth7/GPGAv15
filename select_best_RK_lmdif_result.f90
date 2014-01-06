@@ -80,7 +80,7 @@ n_parameters = n_GP_parameters
 if( myid == 0 )then
     if( L_ga_print )then
         write(GA_print_unit,'(//A)') 'sbrl: at entry  '
-        write(GA_print_unit,'(A,1x,E15.7)') 'sbrl: dt ', dt
+        write(GA_print_unit,'(A,1x,E24.16)') 'sbrl: dt ', dt
         write(GA_print_unit,'(A,1x,I6)') &
               'sbrl: n_parameters    =   ', n_parameters
         write(GA_print_unit,'(A,1x,I6)') &
@@ -174,7 +174,7 @@ if( L_ga_print )then
                        individual_SSE(i_GA_best_parent), &
                        individual_ranked_fitness(i_GA_best_parent)
 
-    write(GA_print_unit,'(/A,1x,E20.10/)') &
+    write(GA_print_unit,'(A,1x,E20.10/)') &
           'sbrl: lmdif individual_fitness ', individual_fitness
 endif ! L_ga_print
 
@@ -209,8 +209,10 @@ if( individual_ranked_fitness(i_GA_best_parent) <= &
 
 
     if( L_ga_print )then
-        write(GA_print_unit,'(/A/)')&
-              'sbrl:  the fitness of the RK process output is better '
+        write(GA_print_unit,'(/A/A/A/)')&
+              '=====================================================', &
+              'sbrl:  the fitness of the RK process output is better', &
+              '====================================================='
     endif ! L_ga_print
 
     individual_fitness         = individual_ranked_fitness_best_1
@@ -249,13 +251,13 @@ if( individual_ranked_fitness(i_GA_best_parent) <= &
 
     if( L_GA_output_parameters )then
         if( L_stop_run )then
-            write( GA_output_unit, '(I6,3(1x,I6), 12(1x,E15.7))') &
+            write( GA_output_unit, '(I6,3(1x,I6), 12(1x,E24.16))') &
               i_GP_Generation,i_GP_individual, &
               i_GA_Generation_last, i_GA_best_parent_1, &
               individual_ranked_fitness_best_1, &
               (parent_parameters_best_1(jj),jj = 1,n_parameters)
         else
-            write( GA_output_unit, '(I6,3(1x,I6), 12(1x,E15.7))') &
+            write( GA_output_unit, '(I6,3(1x,I6), 12(1x,E24.16))') &
               i_GP_Generation,i_GP_individual, &
               n_GA_Generations, i_GA_best_parent_1, &
               individual_ranked_fitness_best_1, &
@@ -324,6 +326,10 @@ else  ! lmdif is best
     if( L_ga_print )then
         write(GA_print_unit,'(/A/)')&
               'sbrl:  the fitness of the lmdif output is better '
+        write(GA_print_unit,'(/A/A/A/)')&
+              '================================================', &
+              'sbrl:  the fitness of the lmdif output is better' , &
+              '================================================'
     endif ! L_ga_print
 
 
@@ -339,7 +345,7 @@ else  ! lmdif is best
     ! choose the parameters from the lmdif output for the best parent
 
     if( L_ga_print )then
-        write(GA_print_unit,'(/A,1x,I6, 12(1x,E15.7))') &
+        write(GA_print_unit,'(/A,1x,I6, 12(1x,E24.16))') &
               'sbrl: i_GA_best_parent, Parent_Parameters ', &
                      i_GA_best_parent, &
                      (Parent_Parameters(jj, i_GA_Best_Parent),jj= 1,n_parameters)
@@ -361,13 +367,13 @@ else  ! lmdif is best
 
     if( L_GA_output_parameters )then
         if( L_stop_run )then
-            write( GA_output_unit, '(I6,3(1x,I6), 12(1x,E15.7))') &
+            write( GA_output_unit, '(I6,3(1x,I6), 12(1x,E24.16))') &
               i_GP_Generation,i_GP_individual, &
               i_GA_Generation_last, i_GA_best_parent, &
               individual_ranked_fitness(i_GA_best_parent), &
               (parent_parameters(jj, i_GA_best_parent), jj=1,n_parameters)
         else
-            write( GA_output_unit, '(I6,3(1x,I6), 12(1x,E15.7))') &
+            write( GA_output_unit, '(I6,3(1x,I6), 12(1x,E24.16))') &
               i_GP_Generation,i_GP_individual, &
               n_GA_Generations, i_GA_best_parent, &
               individual_ranked_fitness(i_GA_best_parent), &
@@ -384,7 +390,7 @@ else  ! lmdif is best
 
     if( L_ga_print )then
         write(GA_print_unit,'(/a/)')&
-              'sbrl: set the GA-optimized CODE parameter array'
+              'sbrl: load the GP_Individual_Node_Parameters array'
     endif ! L_ga_print
 
     i_parameter = n_CODE_equations ! start at this number because of the

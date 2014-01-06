@@ -50,10 +50,10 @@ do  i_GA_replace=1,n_GA_rand_replaces
     !--------------------------------------------------------------------
 
     !if( L_ga_print )then
-    !    write(GA_print_unit,'(A,1x,I6,1x,E15.7,1x,I6)') &
+    !    write(GA_print_unit,'(A,1x,I6,1x,E24.16,1x,I6)') &
     !          'garr: i_GA_replace, dff, i_GA_Individual_replace ', &
     !                 i_GA_replace, dff, i_GA_Individual_replace
-    !    write(GA_print_unit,'(/A/I6,12(1x,E15.7))') &
+    !    write(GA_print_unit,'(/A/I6,12(1x,E24.16))') &
     !          'garr: before i_GA_Individual_replace,  &
     !      &child_parameters(1:n_parameters, i_GA_Individual_replace ) ', &
     !                        i_GA_Individual_replace,  &
@@ -69,8 +69,9 @@ do  i_GA_replace=1,n_GA_rand_replaces
 
         !  randomly pick a new real number for this parameter
 
-        call random_real(cff)
-        dff = cff
+        !call random_real(cff)
+        !dff = cff
+        call random_real(dff)
 
         child_parameters(i_Parameter_replace, i_GA_Individual_replace) = dff
 
@@ -79,11 +80,11 @@ do  i_GA_replace=1,n_GA_rand_replaces
     !----------------------------------------------------------------------------
 
     !if( L_ga_print )then
-    !    write(GA_print_unit,'(A/I6,12(1x,E15.7))') &
+    !    write(GA_print_unit,'(A/I6,12(1x,E24.16))') &
     !      'garr: after ', &
     !      i_GA_Individual_replace,  &
     !      child_parameters(1:n_parameters, i_GA_Individual_replace )
-    !    write(GA_print_unit,'(A,1x,I6,1x,E15.7,1x,I6/)') &
+    !    write(GA_print_unit,'(A,1x,I6,1x,E24.16,1x,I6/)') &
     !      'garr: i_GA_Individual_replace, child_parameters(i_Parm_Mut, i_GA_Ind_Mut) ', &
     !            i_GA_Individual_replace, &
     !       child_parameters(i_Parameter_replace, i_GA_Individual_replace)

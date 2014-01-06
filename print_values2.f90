@@ -43,16 +43,16 @@ write(GP_print_unit,'(A,1x,I6)')   'pv2: n_CODE_equations ', n_CODE_equations
 write(GP_print_unit,'(A,1x,I6)')   'pv2: n_parameters     ', n_parameters
 write(GP_print_unit,'(A,1x,I6)')   'pv2: n_trees          ', n_trees
 write(GP_print_unit,'(A,1x,I6)')   'pv2: n_nodes          ', n_nodes
-write(GP_print_unit,'(A,1x,E15.7)')'pv2: dt (days)        ', dt
-write(GP_print_unit,'(A,1x,E15.7)')'pv2: dt (min)         ', dt * 1440.d0
+write(GP_print_unit,'(A,1x,E24.16)')'pv2: dt (days)        ', dt
+write(GP_print_unit,'(A,1x,E24.16)')'pv2: dt (min)         ', dt * 1440.d0
 !write(GP_print_unit,*) individual_fitness
 !write(GP_print_unit,*) data_array
 
-write(GP_print_unit,'(A,1x,E15.7)') 'pv2: GA_Crossover_Probability  ', &
+write(GP_print_unit,'(A,1x,E24.16)') 'pv2: GA_Crossover_Probability  ', &
                                           GA_Crossover_Probability
-write(GP_print_unit,'(A,1x,E15.7)') 'pv2: GA_Mutation_Probability   ', &
+write(GP_print_unit,'(A,1x,E24.16)') 'pv2: GA_Mutation_Probability   ', &
                                           GA_Mutation_Probability
-write(GP_print_unit,'(A,1x,E15.7)') 'pv2: GA_save_elites_Probability', &
+write(GP_print_unit,'(A,1x,E24.16)') 'pv2: GA_save_elites_Probability', &
                                           GA_save_elites_Probability
 
 write(GP_print_unit,'(/A)')  'pv2: code calls parallel lmdif at end of each GP  generation'

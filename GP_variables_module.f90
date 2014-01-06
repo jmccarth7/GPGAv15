@@ -160,8 +160,8 @@ real(kind=8),allocatable, dimension(:) :: GP_Integrated_Population_Ranked_Fitnes
 
 !GP_Solution contains columns for forcing functions
 
-!real(kind=4) :: GP_Solution(0:n_Time_Steps,n_Variables)
-real(kind=4), dimension(:,:),allocatable :: GP_Solution
+!!!!real(kind=4) :: GP_Solution(0:n_Time_Steps,n_Variables) 
+!!!real(kind=4), dimension(:,:),allocatable :: GP_Solution
 
 
 !Numerical_CODE_Initial_Conditions contains columns for forcing functions
@@ -189,8 +189,10 @@ integer(kind=4), dimension(:,:), allocatable :: bioflo_map
 
 ! must be kept for re-evaluations of next generations <<<
 
+!!!type(Tree_Node_Pointer), dimension(n_Trees,n_ga_individuals, n_Tracked_Resources) :: GP_Trees
+!!type(Tree_Node_Pointer), dimension(:,:,:),allocatable :: GP_Trees
 
-!type(Tree_Node_Pointer), dimension(n_Trees,n_Tracked_Resources) :: GP_Trees
+!type(Tree_Node_Pointer), dimension(n_Trees, n_Tracked_Resources) :: GP_Trees
 type(Tree_Node_Pointer), dimension(:,:),allocatable :: GP_Trees
 
 
