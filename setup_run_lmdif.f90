@@ -132,29 +132,29 @@ ldfjac=n_time_steps
 !endif ! L_myprint
 
 !----------------------------------------------------------------------------------------
-                                                                                                            
-! set up the GP_Trees for the Runge_Kutta integration                                                       
-                                                                                                            
-                                                                                                            
-! Initialize_Model calls build_trees which makes the GP_Trees                                               
-                                                                                                            
-!if( L_myprint )then                                                                                         
-!    write(myprint_unit,'(/A)') 'setrlm: call Initialize_Model(.true.)'                                     
-!endif ! L_myprint                                                                                           
-                                                                                                            
-                                                                                                            
-! initialize_model sets buildtrees = .true. and  calls  build_trees                                         
-                                                                                                            
-!call Initialize_Model( .true., i_G_indiv, L_myprint, myprint_unit )                                         
-                                                                                                            
-                                                                                                            
-!if( L_myprint )then                                                                                         
-!    write(myprint_unit,'(/A)') 'setrlm: aft call Initialize_Model(.true.)'                                 
-!    write(myprint_unit,'(A,1x,I6/)') &                                                                      
-!          'setrlm: size( GP_Trees ) ', size( GP_Trees )                                                     
-!endif ! L_myprint                                                                                           
-                                                                                                            
-                                                                                                            
+
+! set up the GP_Trees for the Runge_Kutta integration
+
+
+! Initialize_Model calls build_trees which makes the GP_Trees
+
+!if( L_myprint )then
+!    write(myprint_unit,'(/A)') 'setrlm: call Initialize_Model(.true.)'
+!endif ! L_myprint
+
+
+! initialize_model sets buildtrees = .true. and  calls  build_trees
+
+!call Initialize_Model( .true., i_G_indiv, L_myprint, myprint_unit )
+
+
+!if( L_myprint )then
+!    write(myprint_unit,'(/A)') 'setrlm: aft call Initialize_Model(.true.)'
+!    write(myprint_unit,'(A,1x,I6/)') &
+!          'setrlm: size( GP_Trees ) ', size( GP_Trees )
+!endif ! L_myprint
+
+
 
 
 !----------------------------------------------------------------------------------------

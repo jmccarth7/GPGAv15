@@ -84,7 +84,7 @@ do i_CODE_equation=1,n_CODE_equations
     !write(GP_print_unit,'(/A,2x,E24.16)') 'cdv: original dff ', dff
 
     !write(GP_print_unit,'(A,1x, I6, 2(1x,E24.16) )') &
-    !     'cdv: myid, dff', myid, dff                        
+    !     'cdv: myid, dff', myid, dff
 
     !!-------------------------------------------------------------------------------
     !nn = n_time_steps + 1

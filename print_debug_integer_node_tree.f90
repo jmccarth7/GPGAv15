@@ -29,7 +29,7 @@ integer(kind=4) :: i_tree
 integer(kind=4) :: i_node
 
 
-integer(kind=4) :: ierr   
+integer(kind=4) :: ierr
 
 !integer(kind=4) :: i_parm
 
@@ -58,7 +58,7 @@ do  i_GP_individual = 1, n_GP_individuals
 
                 if( ierr /= 0 )then
                     write(iunit,*) 'pd3: write error  ierr = ', ierr
-                endif ! ierr /= 0 
+                endif ! ierr /= 0
 
             endif ! input_array(i_Node,i_Tree, i_GP_individual ) > 0.0d0
 

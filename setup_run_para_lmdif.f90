@@ -221,7 +221,7 @@ ldfjac = n_time_steps
 
 ! initialize_model sets buildtrees = .true. and  calls  build_trees
 
-!call Initialize_Model( .true., i_G_indiv, L_myprint, myprint_unit )  
+!call Initialize_Model( .true., i_G_indiv, L_myprint, myprint_unit )
 
 
 !if( L_myprint )then
@@ -277,8 +277,8 @@ iunit = 0
 !write(myprint_unit,'(A,3(1x,E24.16))') 'strplm:input factor', factor
 
 
-fvec = 0.0D0                                                                                              
- 
+fvec = 0.0D0
+
 
 call lmdif( fcn, n_time_steps, n_parms, x_LMDIF, fvec, &
             ftol, xtol, gtol, maxfev, epsfcn, &
@@ -299,7 +299,7 @@ if( myid      > 0 )then
     write(6,'(A,3(1x,I3),1x,I10/)') &
           'strplm: aft call lmdif, myid, n_parms, info, n_time_steps', &
                                    myid, n_parms, info, n_time_steps
-endif ! myid > 0 
+endif ! myid > 0
 
 if( Lprint_lmdif )then
 
@@ -451,8 +451,8 @@ if( individual_quality > 0 ) then
 endif !  individual_quality > 0
 
 if( L_myprint )then
-    write(myprint_unit,'(A,2(1x,I6))') &                                                      
-      'strplm: myid, info', myid, info       
+    write(myprint_unit,'(A,2(1x,I6))') &
+      'strplm: myid, info', myid, info
     write(myprint_unit,'(A,3(1x,I6), 1x, E24.16)') &
     'strplm: myid, i_G_indiv, indiv_qual, my_indiv_SSE', &
              myid, i_G_indiv, individual_quality, my_indiv_SSE

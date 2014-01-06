@@ -310,12 +310,12 @@ call create_tree_node_string()
 
 if( myid == 0 )then
 
-call set_answer_arrays( )
+    call set_answer_arrays( )
 
 endif ! myid == 0
 
-!call MPI_FINALIZE(ierr)  ! debug only 
-!stop ! debug only 
+!call MPI_FINALIZE(ierr)  ! debug only
+!stop ! debug only
 !------------------------------------------------------------------------
 
 ! then broadcast the R-K result: Runge_Kutta_Solution
@@ -368,8 +368,8 @@ call MPI_BCAST( Data_Variance, message_len,    &
 call MPI_BCAST( Data_Variance_inv, message_len,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
-!call MPI_FINALIZE(ierr)  ! debug only 
-!stop ! debug only 
+!call MPI_FINALIZE(ierr)  ! debug only
+!stop ! debug only
 
 !--------------------------------------------------------------------------------
 
@@ -1639,6 +1639,15 @@ endif ! myid == 0
 
 
 !------------------------------------------------------------------
+if( myid == 0 )then
+
+    write(GP_print_unit,'(//A)')  '0: NORMAL TERMINATION'
+    write(GP_print_unit, '(3(A,1x,A,1x)//)') &
+        '0: GPGACODE program version', trim(program_version), &
+        '  branch:', trim( branch ) , &
+        '  Last modified on:', trim( modification_date )
+
+endif ! myid == 0
 
 call MPI_FINALIZE(ierr)
 

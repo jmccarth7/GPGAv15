@@ -215,8 +215,8 @@ subroutine Deserialize_Trees( Trees, num_Tracked_resources, Tree_count, io_dir )
 
                     else if( Nodes(k)%n%Node_Type .eq. VariableNodeType) then
 
-                        ! If the index is in the -5000 range, 
-                        ! this is a forcing function variable. 
+                        ! If the index is in the -5000 range,
+                        ! this is a forcing function variable.
                         ! Associate it with the correct array
 
                         if( Nodes(k)%n%variable_index < -5000) then
@@ -230,7 +230,7 @@ subroutine Deserialize_Trees( Trees, num_Tracked_resources, Tree_count, io_dir )
 
                 enddo
 
-                ! Finally, compute the node count for each node and 
+                ! Finally, compute the node count for each node and
                 ! assign the root node to the position in the Tree matrix
 
                 root%node_count = GetNodeCount(root)
@@ -273,7 +273,7 @@ integer (kind=4):: i, j, k, l
 integer (kind=4):: inode
 integer (kind=4):: inodec
 integer (kind=4):: counter
-integer (kind=4):: n_inode 
+integer (kind=4):: n_inode
 
 real(kind=8) :: parameter_value
 
@@ -287,11 +287,11 @@ type(Tree_Node), pointer :: parent, root
 
 !------------------------------------------------------------------------------------
 
-                                                                                                                                          
+
 ! MathNodeType      = 1
 ! VariableNodeType  = 2
 ! ParameterNodeType = 3
-                                                                                                                                          
+
 
 
 write(6,'(//A,2(1x,I6))') 'DsT2: at entry n_nodes, tree_count ', n_nodes, tree_count
@@ -301,7 +301,7 @@ write(6,'(A,2(1x,I6))')  'DsT2: num_Tracked_resources   ', num_Tracked_resources
 do i = 1, 11   ! Tree_count
 
     write(6,'(//A,1x,I6,1x,A/)') 'DsT2: Tree  i = ', i, &
-       '#########################################################################' 
+       '#########################################################################'
 
 
     do j = 1,num_Tracked_resources
@@ -322,7 +322,7 @@ do i = 1, 11   ! Tree_count
 
         write(6,'(//A,3(1x,I6))') 'DsT2: i, node_count, counter ', i, node_count, counter
 
-        if( node_count <= 0 )  exit  ! j loop 
+        if( node_count <= 0 )  exit  ! j loop
 
         ! Dimension arrays that will hold nodes and node ids
 
@@ -336,7 +336,7 @@ do i = 1, 11   ! Tree_count
         do  inode = 1,  n_inode !  n_nodes
 
             node_type        = 0
-            node_id          = inode 
+            node_id          = inode
             node_operation   = 0
             variable_index   = 0
             parameter_value  = 0.0D0
@@ -346,7 +346,7 @@ do i = 1, 11   ! Tree_count
 
                 write(6,'(//A,3(1x,I6))') &
                       'DsT2: tree, inode, GP_Individual_Node_Type( inode, i ) ', &
-                                i, inode, GP_Individual_Node_Type( inode, i ) 
+                                i, inode, GP_Individual_Node_Type( inode, i )
 
                 counter =  counter + 1
 
@@ -382,10 +382,10 @@ do i = 1, 11   ! Tree_count
                 !                               i, inode, GP_Individual_Node_Type( inode, i )
 
                 !write(6,'(A,2(1x,I6),1x,E15.7)') 'DsT2: i, inode, parameter_value', &
-                !                                        i, inode, parameter_value  
+                !                                        i, inode, parameter_value
 
                 !write(6,'(A,3(1x,I6))') 'DsT2: i, inode, variable_index ', &
-                !                               i, inode, variable_index   
+                !                               i, inode, variable_index
                 !write(6,'(A,3(1x,I6))') 'DsT2: i, inode, node_operation ', &
                 !                               i, inode, node_operation
 
@@ -415,7 +415,7 @@ do i = 1, 11   ! Tree_count
         root => Nodes(1)%n
 
         write(6,'(//A,2(1x,I8))') 'DsT2: tree i, root%node_type', i, root%node_type
-        write(6,'(A,2(1x,I8))')   'DsT2: tree i, node_count    ', i, node_count    
+        write(6,'(A,2(1x,I8))')   'DsT2: tree i, node_count    ', i, node_count
 
 
 
@@ -445,7 +445,7 @@ do i = 1, 11   ! Tree_count
                 !write(6,'(A,3(1x,I6))') 'DeT2: i, k, parent node type ', &
                 !                               i, k, parent%node_type
                 !write(6,'(A,4(1x,I6))') 'DeT2: i, k, left, right      ', &
-                !                               i, k, left, right     
+                !                               i, k, left, right
 
 
                 ! Grab the children and associate
@@ -478,14 +478,14 @@ do i = 1, 11   ! Tree_count
 
             elseif( Nodes(k)%n%Node_Type .eq. VariableNodeType) then
 
-                ! If the index is in the -5000 range, 
-                ! this is a forcing function variable. 
+                ! If the index is in the -5000 range,
+                ! this is a forcing function variable.
                 ! Associate it with the correct array
 
                 !write(6,'(/A,3(1x,I6))') &
                 !      'DeT2: i, k, VariableNodeType ', i, k, VariableNodeType
                 !write(6,'(A,3(1x,I6))')  'DeT2: i, k, Nodes(k)%n%variable_index ', &
-                !                                i, k, Nodes(k)%n%variable_index 
+                !                                i, k, Nodes(k)%n%variable_index
 
 
                 if( Nodes(k)%n%variable_index < -5000) then
@@ -495,7 +495,7 @@ do i = 1, 11   ! Tree_count
 
                     !write(6,'(A,1x,E15.7)') &
                     !   'DeT2: Numerical_CODE_Forcing_Functions(abs(5000 + Nodes(k)%n%variable_index)) ',&
-                    !          Numerical_CODE_Forcing_Functions(abs(5000 + Nodes(k)%n%variable_index)) 
+                    !          Numerical_CODE_Forcing_Functions(abs(5000 + Nodes(k)%n%variable_index))
 
                 else
 
@@ -507,7 +507,7 @@ do i = 1, 11   ! Tree_count
 
                     !write(6,'(A,2(1x,I6),1x,E15.7)') &
                     !    'DeT2: i, k, btmp(  abs( Nodes(k)%n%variable_index )  ) ', &
-                    !           i, k, btmp(  abs( Nodes(k)%n%variable_index )  ) 
+                    !           i, k, btmp(  abs( Nodes(k)%n%variable_index )  )
 
 
                 endif
@@ -531,7 +531,7 @@ do i = 1, 11   ! Tree_count
 
         Trees(i, j)%n => root
 
-        write(6,'(A,2(1x,I6))') 'DsT2: i, root%node_count ', i, root%node_count                  
+        write(6,'(A,2(1x,I6))') 'DsT2: i, root%node_count ', i, root%node_count
 
 
 
@@ -540,9 +540,9 @@ do i = 1, 11   ! Tree_count
 
     enddo ! j
 
-    !write(6,'(A,1x,I6)') 'DsT2: aft J loop i =  ', i 
+    !write(6,'(A,1x,I6)') 'DsT2: aft J loop i =  ', i
 
-enddo ! i 
+enddo ! i
 
 
 end subroutine Deserialize_Trees2

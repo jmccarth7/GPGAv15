@@ -267,10 +267,10 @@ before_SSE = GP_child_individual_SSE( i_GP_best_Parent )
 !debug only                       L_GP_print, GP_print_unit )
 
 
-write(GP_print_unit,'(A,1x,I6,2(1x,E24.16))') &                                       
+write(GP_print_unit,'(A,1x,I6,2(1x,E24.16))') &
       'gpsbrl:1 i_GP_best_Parent, GP_child_individual_SSE( i_GP_best_Parent ), before_SSE  ', &
                 i_GP_best_Parent, GP_child_individual_SSE( i_GP_best_Parent ), before_SSE
-                
+
 ! if lmdif ends in error, keep the SSE of the child before lmdif
 
 if( abs( GP_child_individual_SSE( i_GP_best_Parent ) ) > 1.0D13 )then

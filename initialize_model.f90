@@ -1,6 +1,7 @@
 !subroutine Initialize_Model(buildTrees, i_G_indiv, L_myprint, myprint_unit )
 subroutine Initialize_Model(buildTrees, L_myprint, myprint_unit )
 
+
 use mpi
 use mpi_module
 
@@ -18,11 +19,11 @@ logical :: buildTrees
 
 integer :: i
 !integer,intent(in) :: i_G_indiv
-                                                                                                            
-logical, intent(in)  ::  L_myprint                                                                          
-integer, intent(in)  ::  myprint_unit                                                                       
 
-    
+logical, intent(in)  ::  L_myprint
+integer, intent(in)  ::  myprint_unit
+
+
 !---------------------------------------------------------------------------------------------------
 
 !if( myid == 0 )then
@@ -31,7 +32,7 @@ integer, intent(in)  ::  myprint_unit
 
 if( L_myprint  .and.  myid == 1 )then
     write(myprint_unit,'(/A/)') 'inmod: entry  Initialize_Model '
-endif ! myid == 1 
+endif ! myid == 1
 
 
 ! Set Variables
@@ -44,7 +45,7 @@ endif ! myid == 1
 !phyto   = 0.0D0 ! 30.D0 ! Phytoplankton     [mmol N m-3]
 !zoo     = 0.0D0 ! 2.0D0 ! Zooplankton       [mmol N m-3]
 
-!----------------------------------------------------------------------------------------------------
+!---------------------------------------------------------------------------------------------------
 
 ! Enumerations that represent model variables.
 ! These are used by the binary tree parsing algorithm
@@ -63,8 +64,8 @@ endif ! myid == 1
 !endif ! myid == 0
 
 !if( L_myprint  .and. myid == 1 )then
-!    write(myprint_unit,'(A,1x,I5)') 'inmod: n_CODE_equations ', n_CODE_equations 
-!endif ! L_myprint  .and. myid == 1 
+!    write(myprint_unit,'(A,1x,I5)') 'inmod: n_CODE_equations ', n_CODE_equations
+!endif ! L_myprint  .and. myid == 1
 
 
 ! See comment in GP_Variables
@@ -77,7 +78,7 @@ enddo ! i
 
 !if( L_myprint  .and. myid == 1 )then
 !    write(myprint_unit,'(A,10(1x,I5))') 'inmod: bioflo_map(:,1) ', bioflo_map(:,1)
-!endif ! L_myprint  .and. myid == 1 
+!endif ! L_myprint  .and. myid == 1
 
 
 ! Since indexes are all negative, take the absolute value
@@ -87,10 +88,10 @@ bioflo_map = abs(bioflo_map)
 
 !if( L_myprint  .and. myid == 1 )then
 !    write(myprint_unit,'(A,10(1x,I5))') 'inmod:2 abs bioflo_map(:,1) ', bioflo_map(:,1)
-!endif ! L_myprint  .and. myid == 1 
+!endif ! L_myprint  .and. myid == 1
 
 
-!----------------------------------------------------------------------------------------------------
+!---------------------------------------------------------------------------------------------------
 
 FORCING_MIXED_LAYER_DEPTH         = -5001
 FORCING_MLD_CHANGE_NON_MOTILE     = -5002
@@ -105,7 +106,7 @@ FORCING_LIGHT_LIMITED_GROWTH_RATE = -5004
 !if( L_myprint  .and. myid == 1 )then
 !    write(myprint_unit,'(A,2(1x,E24.16))') 'inmod: Numerical_CODE_Initial_Conditions ', &
 !                                                   Numerical_CODE_Initial_Conditions
-!endif ! L_myprint  .and. myid == 1 
+!endif ! L_myprint  .and. myid == 1
 
 
 Numerical_CODE_Forcing_Functions = 0.0D+0
@@ -125,7 +126,7 @@ if( buildTrees ) then
 
     if( L_myprint  .and. myid == 1 )then
         write(myprint_unit,'(//A)') 'inmod: call Build_Trees  '
-    endif ! L_myprint  .and. myid == 1 
+    endif ! L_myprint  .and. myid == 1
 
 
     !call Build_Trees( GP_Trees(:, 1), i_G_indiv )
@@ -138,11 +139,11 @@ if( buildTrees ) then
 
     if( L_myprint  .and. myid == 1 )then
         write(myprint_unit,'(A//)') 'inmod: aft call Build_Trees  '
-    endif ! L_myprint  .and. myid == 1 
+    endif ! L_myprint  .and. myid == 1
 
 else
 
-    call Deserialize_Trees( GP_Trees(:,:), n_Trees, n_Tracked_Resources, output_dir )
+    !call Deserialize_Trees( GP_Trees(:,:,:), n_Trees, n_Tracked_Resources, output_dir )
 
 endif ! buildTrees
 

@@ -44,6 +44,8 @@ real(kind=8),&
 real(kind=8),&
  dimension(n_maximum_number_parameters,n_GA_individuals) ::  child_parameters
 
+!!real(kind=8),&
+!!dimension( n_nodes,n_trees, n_GP_Individuals ) :: child_node_parameters
 
 real(kind=8) :: buffer(n_maximum_number_parameters + 2)
 real(kind=8) :: buffer_recv(n_maximum_number_parameters + 2)
@@ -73,6 +75,9 @@ integer(kind=4) :: i_Tree
 integer(kind=4) :: i_Node
 
 integer(kind=4) :: jj
+integer(kind=4) :: i_ga_ind
+
+integer(kind=4) :: i_parameter
 
 
 !----------------------------------------------------------------------
@@ -197,7 +202,7 @@ endif ! myid == 0
 !              'GP_GA_opt: myid, allocate child_node_parameters ', myid
 !    write(GA_print_unit,'(/A,1x,I3,4x,L1)')&
 !              'GP_GA_opt: myid, allocated(child_node_parameters)', &
-!                          myid, allocated(child_node_parameters) 
+!                          myid, allocated(child_node_parameters)
 !endif ! L_ga_print
 
 
@@ -210,7 +215,7 @@ allocate( child_node_parameters( n_nodes, n_trees, n_GA_Individuals ) )
 
 !if( L_ga_print )then
 !    write(GA_print_unit,'(/A)')&
-!              'GP_GA_opt: after allocate child_node_parameters '                   
+!              'GP_GA_opt: after allocate child_node_parameters '
 !endif ! L_ga_print
 
 
@@ -433,7 +438,7 @@ do  i_GA_generation = 1,n_GA_Generations
                               i_ga_ind, &
                              (child_parameters(jj, i_ga_ind),&
                                                jj = 1,n_parameters )
-                    enddo ! i_GA_individual
+                    enddo ! i_ga_ind
                 endif ! L_ga_print
 
             endif ! i_GA_generation == n_GA_generations ...
@@ -593,7 +598,7 @@ do  i_GA_generation = 1,n_GA_Generations
     !-----------------------------------------------------------------------------
 
     if( L_ga_print )then
-        write(GA_print_unit,'(/A)') 'GP_GA_opt: allocate GP_Trees'                   
+        write(GA_print_unit,'(/A)') 'GP_GA_opt: allocate GP_Trees'
     endif ! L_ga_print
 
 
@@ -604,7 +609,7 @@ do  i_GA_generation = 1,n_GA_Generations
     allocate( GP_Trees( n_trees,  1 )  )
 
     if( L_ga_print )then
-        write(GA_print_unit,'(A)') 'GP_GA_opt: AFT allocate GP_Trees'                   
+        write(GA_print_unit,'(A)') 'GP_GA_opt: AFT allocate GP_Trees'
     endif ! L_ga_print
 
 
@@ -647,17 +652,17 @@ do  i_GA_generation = 1,n_GA_Generations
         ! numsent is the number of messages sent up to now
 
         numsent = 0
-        i_GA_individual = 0
+        i_ga_ind = 0
 
         do  isource = 1, min( numprocs-1, n_GA_individuals )
 
 
-            i_GA_individual = i_GA_individual + 1
+            i_ga_ind = i_ga_ind + 1
 
             !if( L_ga_print )then
             !    write(GA_print_unit,'(A,1x,I6, 4x, L1)') &
-            !     'GP_GA_opt:1 494 i_GA_individual, Run_GA_lmdif(i_GA_individual)  ', &
-            !                      i_GA_individual, Run_GA_lmdif(i_GA_individual)
+            !     'GP_GA_opt:1 494 i_ga_ind, Run_GA_lmdif(i_ga_ind)  ', &
+            !                      i_ga_ind, Run_GA_lmdif(i_ga_ind)
             !endif ! L_ga_print
 
 
@@ -668,20 +673,20 @@ do  i_GA_generation = 1,n_GA_Generations
 
             !if( L_ga_print )then
             !    write(GA_print_unit,'(A,4(1x,I6))') &
-            !     'GP_GA_opt:1 504 myid, isource, i_GA_individual, numsent ', &
-            !                      myid, isource, i_GA_individual, numsent
+            !     'GP_GA_opt:1 504 myid, isource, i_ga_ind, numsent ', &
+            !                      myid, isource, i_ga_ind, numsent
             !endif ! L_ga_print
 
         enddo ! isource
 
 
-        ! at this point i_GA_individual = numsent
+        ! at this point i_ga_ind = numsent
 
 
         !if( L_ga_print )then
         !    write(GA_print_unit,'(A,4(1x,I6))') &
-        !         'GP_GA_opt: aft source loop 1 myid, i_GA_individual, numsent ', &
-        !                                       myid, i_GA_individual, numsent
+        !         'GP_GA_opt: aft source loop 1 myid, i_ga_ind, numsent ', &
+        !                                       myid, i_ga_ind, numsent
         !endif ! L_ga_print
 
         !-------------------------------------------------------------------------------------
@@ -775,17 +780,17 @@ do  i_GA_generation = 1,n_GA_Generations
                 ! send a message to the processor "sender"
                 ! which just sent a message saying it has
                 ! completed an individual, and tell it to process
-                ! the individual "i_GA_individual" as the  "numsent+1"  task
+                ! the individual "i_ga_ind" as the  "numsent+1"  task
 
-                i_GA_individual = i_GA_individual + 1
+                i_ga_ind = i_ga_ind + 1
 
-                call MPI_SEND( i_GA_individual, 1, MPI_INTEGER,    &
+                call MPI_SEND( i_ga_ind, 1, MPI_INTEGER,    &
                                sender, numsent+1,  MPI_COMM_WORLD, ierr )
 
                 !if( L_ga_print )then
                 !    write(GA_print_unit,'(A,4(1x,I6))') &
-                !      'GP_GA_opt:2 554 send myid, sender, numsent, i_GA_individual', &
-                !                            myid, sender, numsent, i_GA_individual
+                !      'GP_GA_opt:2 554 send myid, sender, numsent, i_ga_ind', &
+                !                            myid, sender, numsent, i_ga_ind
                 !endif ! L_ga_print
 
 
@@ -795,8 +800,8 @@ do  i_GA_generation = 1,n_GA_Generations
 
                 !if( L_ga_print )then
                 !    write(GA_print_unit,'(A,4(1x,I6))') &
-                !     'GP_GA_opt:2 556  myid, sender, numsent, i_GA_individual ', &
-                !                       myid, sender, numsent, i_GA_individual
+                !     'GP_GA_opt:2 556  myid, sender, numsent, i_ga_ind ', &
+                !                       myid, sender, numsent, i_ga_ind
                 !endif ! L_ga_print
 
 
@@ -812,8 +817,8 @@ do  i_GA_generation = 1,n_GA_Generations
 
                 !if( L_ga_print )then
                 !    write(GA_print_unit,'(A,3(1x,I6))') &
-                !      'GP_GA_opt:2 send msg to stop  myid, numsent, i_GA_individual ', &
-                !                                     myid, numsent, i_GA_individual
+                !      'GP_GA_opt:2 send msg to stop  myid, numsent, i_ga_ind ', &
+                !                                     myid, numsent, i_ga_ind
                 !endif ! L_ga_print
 
                 call MPI_SEND( MPI_BOTTOM, 0, MPI_DOUBLE_PRECISION,    &
@@ -930,7 +935,8 @@ do  i_GA_generation = 1,n_GA_Generations
                 !  child_parameters
 
 
-                call setup_run_fcn( i_2_individual, child_parameters, individual_quality )
+                call setup_run_fcn( i_2_individual, &
+                                    child_parameters,individual_quality )
 
 
 

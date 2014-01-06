@@ -1,7 +1,7 @@
 
 subroutine colset(rgb)
     implicit none
-    
+
     real (kind=4) :: rgb(3,1280)
     integer (kind=4) :: i
 
@@ -42,7 +42,7 @@ end subroutine colset
 subroutine setcol(RGB,IWKID)
 
     implicit none
-    
+
     integer (kind=4) :: iwkid, ndx, N
 
     real (kind=4) :: RGB(3,1280)

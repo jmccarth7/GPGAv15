@@ -133,7 +133,7 @@ if( myid == 0) then
 
         call print_debug_integer_node_tree( GP_print_unit, &
                                             'entry GP_para...  GP_pop_Node_Type', &
-                                            GP_Adult_population_Node_Type ) 
+                                            GP_Adult_population_Node_Type )
 
         write(GP_print_unit,'(A)')' '
     endif ! L_GP_print
@@ -151,7 +151,7 @@ endif ! myid == 0
 !-----------------------------------------------------------------------------
 
 do  i_GP_individual = 1, n_GP_individuals
-    do  jj = 1, n_maximum_number_parameters 
+    do  jj = 1, n_maximum_number_parameters
         child_parameters(jj, i_GP_individual) = 0.0d0
     enddo ! jj
 enddo ! i_GP_individual
@@ -894,7 +894,7 @@ if( myid == 0 )then
     !                'gplp:  GP_pop_Node_Type'
     !call print_debug_integer_node_tree( GP_print_unit, &
     !                                    'entry GP_para...  GP_pop_Node_Type', &
-    !                                    GP_Adult_population_Node_Type ) 
+    !                                    GP_Adult_population_Node_Type )
     !write(GP_print_unit,'(/A)') &
     !                'gplp:  child_parameters '
     !call print_debug_real_nparm( GP_print_unit, &

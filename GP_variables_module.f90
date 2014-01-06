@@ -83,6 +83,10 @@ real(kind=8),allocatable,dimension(:,:,:)     :: GP_Population_Node_Parameters
 !real(kind=8) :: GP_Individual_Node_Parameters(n_nodes,n_trees)
 real(kind=8),allocatable,dimension(:,:)       :: GP_Individual_Node_Parameters
 
+!real(kind=8),&
+!dimension( n_nodes,n_trees, n_GP_Individuals ) :: child_node_parameters
+real(kind=8),allocatable, dimension( :, :, : ) :: child_node_parameters
+
 
 ! GP_diversity_index(n_GP_Individuals)
 integer(kind=4),allocatable,dimension(:) :: GP_diversity_index
@@ -160,7 +164,7 @@ real(kind=8),allocatable, dimension(:) :: GP_Integrated_Population_Ranked_Fitnes
 
 !GP_Solution contains columns for forcing functions
 
-!!!!real(kind=4) :: GP_Solution(0:n_Time_Steps,n_Variables) 
+!!!!real(kind=4) :: GP_Solution(0:n_Time_Steps,n_Variables)
 !!!real(kind=4), dimension(:,:),allocatable :: GP_Solution
 
 

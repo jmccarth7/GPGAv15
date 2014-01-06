@@ -25,7 +25,7 @@ integer(kind=4) :: i_GP_Individual
 integer(kind=4) :: i_tree
 integer(kind=4) :: i_node
 
-integer(kind=4) :: ierr  
+integer(kind=4) :: ierr
 
 real(kind=8), dimension( 1:n_Nodes,1:n_Trees, 1:n_GP_individuals ) :: &
                          input_array
@@ -49,9 +49,9 @@ do  i_GP_individual = 1, n_GP_individuals
                     write(iunit,'(3x,3(1x,I10), 1x, E24.16)', iostat = ierr) &
                       i_GP_Individual, i_tree, i_node, &
                              input_array(i_Node,i_Tree, i_GP_individual )
-                if( ierr /= 0 )then                                                                                       
-                    write(iunit,*) 'pd3: write error  ierr = ', ierr                                                      
-                endif ! ierr /= 0                                                                                         
+                if( ierr /= 0 )then
+                    write(iunit,*) 'pd3: write error  ierr = ', ierr
+                endif ! ierr /= 0
 
             endif ! input_array(i_Node,i_Tree, i_GP_individual ) > 0.0d0
 

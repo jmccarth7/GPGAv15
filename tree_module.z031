@@ -28,13 +28,13 @@ recursive subroutine insert(t, counter, number)
 type(Tree_node), pointer :: t  ! A tree
 !type(Tree_node_pointer) :: t  ! A tree
 integer, intent(in) :: number
-integer, intent(in) :: counter 
+integer, intent(in) :: counter
 integer, parameter  :: null_value = -9999
 
 
 !--------------------------------------------
 
-!if(  number <= null_value ) return 
+!if(  number <= null_value ) return
 
 ! If (sub)tree is empty, put number at root
 ! assume first number is not null value
@@ -56,12 +56,12 @@ else  !if( number <= null_value ) then
         if( number > null_value )then
             call insert(t%left, counter, number)
             !call insert(t%left,  number)
-        endif 
+        endif
     else
         if( number > null_value )then
             call insert(t%right,counter,  number)
             !call insert(t%right,  number)
-        endif 
+        endif
     endif
 
 endif ! .not. assoc

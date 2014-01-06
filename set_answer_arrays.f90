@@ -40,11 +40,11 @@ logical :: buildTrees
 Numerical_CODE_Solution(0,1:n_CODE_equations) = Runge_Kutta_Initial_Conditions ! Array Assignment
 Numerical_CODE_Initial_Conditions             = Runge_Kutta_Initial_Conditions ! Array Assignment
 
-allocate( child_node_parameters(n_nodes, n_trees, 1)  ) 
+allocate( child_node_parameters(n_nodes, n_trees, 1)  )
 
 child_node_parameters(:,:,1) = GP_Individual_Node_Parameters  ! Matrix Operation
 
-allocate( GP_Trees(n_trees,1)  ) 
+allocate( GP_Trees(n_trees,1)  )
 
 write(6,'(/A/)') 'saa: call Initialize_Model  '
 

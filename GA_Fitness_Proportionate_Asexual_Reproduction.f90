@@ -24,6 +24,7 @@ integer(kind=4) :: icff
 integer(kind=4) :: icount
 integer(kind=4) :: n_replaced
 integer(kind=4) :: i_parameter
+integer(kind=4) :: i_GA_individual
 
 !--------------------------------------------------------------------------
 
