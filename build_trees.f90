@@ -1,4 +1,4 @@
-subroutine Build_Trees( treeSlice , i_G_indiv )
+subroutine Build_Trees( treeSlice ) ! , i_G_indiv )
 
 use mpi
 use mpi_module
@@ -17,7 +17,7 @@ type(Tree_Node), pointer :: root
 
 integer :: itree
 integer :: inode
-integer,intent(in) :: i_G_indiv
+!integer,intent(in) :: i_G_indiv
 
 !-----------------------------------------------------------------------------------------------
 
@@ -34,7 +34,8 @@ endif ! myid == 1
 ! Deserialize_Trees2 should create trees from
 ! the GP_Individual_Node_Type and GP_Individual_Node_parameter arrays
 
-call Deserialize_Trees2( treeSlice, i_G_indiv, n_Tracked_resources, n_trees )
+!call Deserialize_Trees2( treeSlice, i_G_indiv, n_Tracked_resources, n_trees )
+call Deserialize_Trees2( treeSlice, n_Tracked_resources, n_trees )
 
 
 if( myid == 1 )then

@@ -1,4 +1,5 @@
-subroutine Initialize_Model(buildTrees, i_G_indiv, L_myprint, myprint_unit )
+!subroutine Initialize_Model(buildTrees, i_G_indiv, L_myprint, myprint_unit )
+subroutine Initialize_Model(buildTrees, L_myprint, myprint_unit )
 
                                                                                                                                           
 use mpi
@@ -17,7 +18,7 @@ implicit none
 logical :: buildTrees
 
 integer :: i
-integer,intent(in) :: i_G_indiv
+!integer,intent(in) :: i_G_indiv
                                                                                                             
 logical, intent(in)  ::  L_myprint                                                                          
 integer, intent(in)  ::  myprint_unit                                                                       
@@ -128,7 +129,8 @@ if( buildTrees ) then
     endif ! L_myprint  .and. myid == 1 
 
 
-    call Build_Trees( GP_Trees(:, 1), i_G_indiv )
+    !call Build_Trees( GP_Trees(:, 1), i_G_indiv )
+    call Build_Trees( GP_Trees(:, 1)   )
 
 
     !if( myid == 0 )then

@@ -1,4 +1,4 @@
-subroutine fcn(mm,nn,x,fvec,iflag) !, i_GA_indiv)
+subroutine fcn(mm,nn,x,fvec,iflag) !, i_G_indiv)
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 
@@ -32,7 +32,7 @@ integer(kind=4) :: ii
 integer(kind=4) :: i_CODE_equation
 integer(kind=4) :: i_time_step
 integer(kind=4) :: i_parameter
-!!integer(kind=4),intent(in) :: i_GA_indiv 
+!!integer(kind=4),intent(in) :: i_G_indiv 
 
 logical,parameter :: L_GP_print = .TRUE.
 
@@ -146,7 +146,7 @@ do  i_tree=1,n_trees
         Runge_Kutta_Node_Type(i_node,i_tree) = &
                 GP_Individual_Node_Type(i_node,i_tree) ! jjm 20130417
     
-                !GP_Adult_Population_Node_Type(i_node,i_tree,i_GA_indiv) ! jjm 20131222
+                !GP_Adult_Population_Node_Type(i_node,i_tree,i_G_indiv) ! jjm 20131222
     
         !if( GP_para_flag .and. myid == 1 )then
         !    if( GP_Individual_Node_Type(i_node,i_tree) > -9999 )then
@@ -314,32 +314,33 @@ enddo  ! i_tree
 
 ! jjm 20130417 <<<<<<<<<<<<<<<
 
-!!!!---------------------------------------------------------------------------------
-!!!
-!!!! set up the GP_Trees for the Runge_Kutta integration
-!!!
-!!!
-!!!! Initialize_Model calls build_trees which makes the GP_Trees
-!!!
-!!!if( L_ga_print )then
-!!!    write(GA_print_unit,'(/A/)') 'fcn: call Initialize_Model(.true.)'
-!!!endif ! L_ga_print 
-!!!
-!!!
-!!!! sets buildtrees = .true. in initialize_model
-!!!
-!!!call Initialize_Model( .true. )   ! call build_trees
-!!!
-!!!!call Initialize_Model(.false.)   ! call Deserialize_Trees
-!!!
-!!!if( L_ga_print )then
-!!!    write(GA_print_unit,'(/A/)') 'fcn: aft call Initialize_Model(.true.)'
-!!!    write(GA_print_unit,'(A,1x,I6/)') &
-!!!          'fcn: size( GP_Trees ) ', size( GP_Trees ) 
-!!!endif ! L_ga_print 
-!!!
-!!!
-!!!!------------------------------------------------------------------------------
+!---------------------------------------------------------------------------------
+
+! set up the GP_Trees for the Runge_Kutta integration
+
+
+! Initialize_Model calls build_trees which makes the GP_Trees
+
+if( L_ga_print )then
+    write(GA_print_unit,'(/A/)') 'fcn: call Initialize_Model(.true.)'
+endif ! L_ga_print 
+
+
+! sets buildtrees = .true. in initialize_model
+
+!call Initialize_Model( .true., i_G_indiv, L_myprint, myprint_unit )   ! call build_trees
+call Initialize_Model( .true., .true. , 6 )   ! call build_trees
+
+!call Initialize_Model(.false.)   ! call Deserialize_Trees
+
+if( L_ga_print )then
+    write(GA_print_unit,'(/A/)') 'fcn: aft call Initialize_Model(.true.)'
+    write(GA_print_unit,'(A,1x,I6/)') &
+          'fcn: size( GP_Trees ) ', size( GP_Trees ) 
+endif ! L_ga_print 
+
+
+!------------------------------------------------------------------------------
 
 ! Generate PDF representation of trees
 
@@ -474,7 +475,7 @@ endif ! L_ga_print
 
 !t1 = MPI_Wtime()
 
-call Runge_Kutta_Box_Model( ) ! i_GA_indiv )
+call Runge_Kutta_Box_Model( ) ! i_G_indiv )
 
 !t2 = MPI_Wtime()
 

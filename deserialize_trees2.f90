@@ -1,4 +1,5 @@
-subroutine Deserialize_Trees2( Trees, i_G_indiv, num_Tracked_resources, Tree_count )
+!subroutine Deserialize_Trees2( Trees, i_G_indiv, num_Tracked_resources, Tree_count )
+subroutine Deserialize_Trees2( Trees, num_Tracked_resources, Tree_count )
 
 use mpi
 use mpi_module
@@ -41,7 +42,7 @@ type(Tree_Node), pointer :: parent, root
 
 logical,save :: first  = .TRUE.       
 integer(kind=4):: temp_myid
-integer(kind=4), intent(in) :: i_G_indiv 
+!!!integer(kind=4), intent(in) :: i_G_indiv 
 
 !------------------------------------------------------------------------------------
 
@@ -173,16 +174,25 @@ do i = 1, Tree_count
                 if( GP_Individual_Node_Type( inode, i ) == 0 )then
 
 
-                    parameter_value =  child_Node_parameters( inode, i, i_G_indiv )
+                    !parameter_value =  child_Node_parameters( inode, i, i_G_indiv )
+                    parameter_value =  GP_individual_node_parameters( inode, i )
                     node_type = ParameterNodeType
 
                     write(60,'(A,2(1x,I6),1x,E24.16)') &
-                          'DsT2: i, inode, child_Node_parameters( inode, i, i_G_indiv )', &
-                                 i, inode, child_Node_parameters( inode, i, i_G_indiv )
+                          'DsT2: i, inode, GP_individual_node_parameters( inode, i )   ', &
+                                 i, inode, GP_individual_node_parameters( inode, i )   
 
                     write(6,'(A,2(1x,I6),1x,E24.16)') &
-                          'DsT2: i, inode, child_Node_parameters( inode, i, i_G_indiv )', &
-                                 i, inode, child_Node_parameters( inode, i, i_G_indiv )
+                          'DsT2: i, inode, GP_individual_node_parameters( inode, i )   ', &
+                                 i, inode, GP_individual_node_parameters( inode, i )   
+
+                    !write(60,'(A,2(1x,I6),1x,E24.16)') &
+                    !      'DsT2: i, inode, child_Node_parameters( inode, i, i_G_indiv )', &
+                    !             i, inode, child_Node_parameters( inode, i, i_G_indiv )
+
+                    !write(6,'(A,2(1x,I6),1x,E24.16)') &
+                    !      'DsT2: i, inode, child_Node_parameters( inode, i, i_G_indiv )', &
+                    !             i, inode, child_Node_parameters( inode, i, i_G_indiv )
 
                     write(60,'(A,2(1x,I6),1x,E24.16)') &
                           'DsT2: i, inode,  parameter_value                            ', &

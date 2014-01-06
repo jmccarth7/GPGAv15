@@ -214,21 +214,21 @@ ldfjac = n_time_steps
 
 ! Initialize_Model calls build_trees which makes the GP_Trees
 
-if( L_myprint )then
-    write(myprint_unit,'(/A)') 'strplm: call Initialize_Model(.true.)'
-endif ! L_myprint
+!if( L_myprint )then
+!    write(myprint_unit,'(/A)') 'strplm: call Initialize_Model(.true.)'
+!endif ! L_myprint
 
 
 ! initialize_model sets buildtrees = .true. and  calls  build_trees
 
-call Initialize_Model( .true., i_G_indiv, L_myprint, myprint_unit )  
+!call Initialize_Model( .true., i_G_indiv, L_myprint, myprint_unit )  
 
 
-if( L_myprint )then
-    write(myprint_unit,'(/A)') 'strplm: aft call Initialize_Model(.true.)'
-    write(myprint_unit,'(A,1x,I6/)') &
-          'strplm: size( GP_Trees ) ', size( GP_Trees )
-endif ! L_myprint
+!if( L_myprint )then
+!    write(myprint_unit,'(/A)') 'strplm: aft call Initialize_Model(.true.)'
+!    write(myprint_unit,'(A,1x,I6/)') &
+!          'strplm: size( GP_Trees ) ', size( GP_Trees )
+!endif ! L_myprint
 
 
 

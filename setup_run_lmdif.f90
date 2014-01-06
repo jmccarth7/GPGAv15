@@ -145,7 +145,7 @@ ldfjac=n_time_steps
                                                                                                             
 ! initialize_model sets buildtrees = .true. and  calls  build_trees                                         
                                                                                                             
-call Initialize_Model( .true., i_G_indiv, L_myprint, myprint_unit )                                         
+!call Initialize_Model( .true., i_G_indiv, L_myprint, myprint_unit )                                         
                                                                                                             
                                                                                                             
 !if( L_myprint )then                                                                                         

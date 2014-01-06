@@ -86,21 +86,21 @@ enddo ! i_parameter
 
 ! Initialize_Model calls build_trees which makes the GP_Trees
 
-if( L_ga_print )then
-    write(GA_print_unit,'(/A)') 'setrf: call Initialize_Model(.true.)'
-endif ! L_ga_print
+!if( L_ga_print )then
+!    write(GA_print_unit,'(/A)') 'setrf: call Initialize_Model(.true.)'
+!endif ! L_ga_print
 
 
 ! initialize_model  sets buildtrees = .true. 
 
-call Initialize_Model( .true., i_GA_indiv, L_GA_print, GA_print_unit )   ! call build_trees
+!call Initialize_Model( .true., i_GA_indiv, L_GA_print, GA_print_unit )   ! call build_trees
 
 
-if( L_ga_print )then
-    write(GA_print_unit,'(/A/)') 'setrf: aft call Initialize_Model(.true.)'
-    write(GA_print_unit,'(A,1x,I6/)') &
-          'setrf: size( GP_Trees ) ', size( GP_Trees )
-endif ! L_ga_print
+!if( L_ga_print )then
+!    write(GA_print_unit,'(/A/)') 'setrf: aft call Initialize_Model(.true.)'
+!    write(GA_print_unit,'(A,1x,I6/)') &
+!          'setrf: size( GP_Trees ) ', size( GP_Trees )
+!endif ! L_ga_print
 
 
 
