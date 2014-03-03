@@ -94,7 +94,7 @@ enddo ! i_parameter
 
 ! initialize_model  sets buildtrees = .true.
 
-!call Initialize_Model( .true., i_GA_indiv, L_GA_print, GA_print_unit )   ! call build_trees
+!call Initialize_Model( .true.,  L_GA_print, GA_print_unit )   ! call build_trees
 
 
 !if( L_ga_print )then

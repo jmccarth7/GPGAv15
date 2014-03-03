@@ -326,10 +326,8 @@ endif ! L_ga_print
 
 ! sets buildtrees = .true. in initialize_model
 
-!call Initialize_Model( .true., i_G_indiv, L_myprint, myprint_unit )   ! call build_trees
 call Initialize_Model( .true., .true. , 6 )   ! call build_trees
 
-!call Initialize_Model(.false.)   ! call Deserialize_Trees
 
 if( L_ga_print )then
     write(GA_print_unit,'(/A/)') 'fcn: aft call Initialize_Model(.true.)'

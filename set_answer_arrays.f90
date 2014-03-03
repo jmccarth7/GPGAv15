@@ -45,7 +45,7 @@ allocate( GP_Trees(n_trees,1)  )
 
 write(6,'(/A/)') 'saa: call Initialize_Model  '
 
-call Initialize_Model( .true., 1 )
+call Initialize_Model( .true., .true., 6 )
 
 write(6,'(/A/)') 'saa: aft call Initialize_Model  '
 
