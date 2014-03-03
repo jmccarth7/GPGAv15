@@ -46,7 +46,7 @@ do  i_GP_individual = 1, n_GP_individuals
 
         if( abs( input_array(i_parm, i_GP_individual ) ) > 0.0d0 )then
 
-            write(iunit,'(I6,1x,I6, 10x, E24.16)',iostat=ierr) &
+            write(iunit,'(I6,1x,I6, 10x, E15.7)',iostat=ierr) &
                   i_GP_Individual, i_parm, &
                     input_array(i_parm, i_GP_individual )
             if( ierr /= 0 )then

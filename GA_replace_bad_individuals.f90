@@ -53,7 +53,7 @@ do  i_GA_Individual = 1, n_GA_Individuals
             Child_Parameters(i_Parameter,i_GA_Individual) = dff
 
             !if( L_ga_print )then
-            !    write(GA_print_unit,'(A,2(1x,I6),1x,E24.16)') &
+            !    write(GA_print_unit,'(A,2(1x,I6),1x,E15.7)') &
             !    'grbi: i_GA_Individual, i_parameter, Child_Parameters', &
             !           i_GA_Individual, i_parameter, &
             !           Child_Parameters(i_Parameter,i_GA_Individual)

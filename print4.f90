@@ -27,7 +27,7 @@ integer(kind=4) :: i_function
 
 !if( it <= n_time_steps )then
 !    if( L_ga_print )then
-!        write(GA_print_unit,'(8x, A, 1x,I2,3(1x,E24.16) )') &
+!        write(GA_print_unit,'(8x, A, 1x,I2,3(1x,E15.7) )') &
 !              'icff, left, right, tree_eval ', &
 !               icff, left_node_value, right_node_value, &
 !               tree_evaluation(i_function,i_tree)

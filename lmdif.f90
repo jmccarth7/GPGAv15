@@ -237,12 +237,12 @@ subroutine lmdif ( fcn, m, n, x, fvec, ftol, xtol, gtol, maxfev, epsfcn, &
 !
   iflag = 1
   !if( iunit > 0 ) write(6,'(A)') 'lmdif: call fcn '
-  write(6,'(A)') 'lmdif: call fcn '
+  !write(6,'(A)') 'lmdif: call fcn '
 
   call fcn ( m, n, x, fvec, iflag )
 
   !if( iunit > 0 ) write(6,'(A,1x,I6)') 'lmdif: aft call fcn iflag = ', iflag
-  write(6,'(A,1x,I6)') 'lmdif: aft call fcn iflag = ', iflag
+  !write(6,'(A,1x,I6)') 'lmdif: aft call fcn iflag = ', iflag
 
   nfev = 1
 
@@ -266,7 +266,7 @@ subroutine lmdif ( fcn, m, n, x, fvec, ftol, xtol, gtol, maxfev, epsfcn, &
   iflag = 2
 
   !if( iunit > 0 ) write(6,'(A)') 'lmdif: call fdjac2 '
-  write(6,'(A)') 'lmdif: call fdjac2 '
+  !write(6,'(A)') 'lmdif: call fdjac2 '
 
   call fdjac2 ( fcn, m, n, x, fvec, fjac, ldfjac, iflag, epsfcn )
 
@@ -275,7 +275,7 @@ subroutine lmdif ( fcn, m, n, x, fvec, ftol, xtol, gtol, maxfev, epsfcn, &
   nfev = nfev + n
 
   !if( iunit > 0 ) write(6,'(A,1x,I10)') 'lmdif: aft call fdjac2  nfev = ', nfev
-  write(6,'(A,1x,I10)') 'lmdif: aft call fdjac2  nfev = ', nfev
+  !write(6,'(A,1x,I10)') 'lmdif: aft call fdjac2  nfev = ', nfev
 
   if ( iflag < 0 ) then
     go to 300
@@ -405,12 +405,12 @@ subroutine lmdif ( fcn, m, n, x, fvec, ftol, xtol, gtol, maxfev, epsfcn, &
         call fcn ( m, n, wa2, wa4, iflag )
 
         !if( iunit > 0 ) write(6,'(A,1x,I6)') 'lmdif:2 aft call fcn    iflag = ', iflag
-        write(6,'(A,1x,I6)') 'lmdif:2 aft call fcn    iflag = ', iflag
+        !write(6,'(A,1x,I6)') 'lmdif:2 aft call fcn    iflag = ', iflag
 
         nfev = nfev + 1
 
         !if( iunit > 0 ) write(6,'(A,1x,I10)') 'lmdif:2 aft call fcn     nfev = ', nfev
-        write(6,'(A,1x,I10)') 'lmdif:2 aft call fcn     nfev = ', nfev
+        !write(6,'(A,1x,I10)') 'lmdif:2 aft call fcn     nfev = ', nfev
 
         if ( iflag < 0 ) then
           go to 300
@@ -507,7 +507,7 @@ subroutine lmdif ( fcn, m, n, x, fvec, ftol, xtol, gtol, maxfev, epsfcn, &
 !  Tests for termination and stringent tolerances.
 !
         !if( iunit > 0 ) write(6,'(A,2(1x,I10))') 'lmdif:3 nfev, maxfev ', nfev , maxfev
-        write(6,'(A,2(1x,I10))') 'lmdif:3 nfev, maxfev ', nfev , maxfev
+        !write(6,'(A,2(1x,I10))') 'lmdif:3 nfev, maxfev ', nfev , maxfev
 
         if ( nfev >= maxfev ) then
           info = 5

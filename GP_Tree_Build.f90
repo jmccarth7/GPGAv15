@@ -33,7 +33,7 @@ GP_Child_Population_Node_Type=-9999 ! set all to null [-9999]
 !write(GP_print_unit,'(/A,1x,I6)')    'gtb: n_GP_Individuals ', n_GP_Individuals
 !write(GP_print_unit,'(A,2(1x,I6)/)') 'gtb: n_trees, n_levels', n_trees, n_levels
 
-!write(GP_print_unit,'(A,1x,E24.16 )') &
+!write(GP_print_unit,'(A,1x,E15.7 )') &
 !      'gtb: GP_Set_Terminal_to_Parameter_Probability', &
 !            GP_Set_Terminal_to_Parameter_Probability
 
@@ -49,7 +49,7 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
 
         call random_number(cff) ! uniform random number generator
 
-        !write(GP_print_unit,'(/A,2(1x,E24.16))') 'gtb: cff, GP_Tree_Probability ', &
+        !write(GP_print_unit,'(/A,2(1x,E15.7))') 'gtb: cff, GP_Tree_Probability ', &
         !                                              cff, GP_Tree_Probability
 
         if( cff .le. GP_Tree_Probability ) then  ! go ahead - put in an equation
@@ -200,7 +200,7 @@ do  i_GP_Individual=1,n_GP_Individuals
 
                         Node_Variable = min( Node_Variable, n_CODE_Equations )
 
-                        !write(GP_print_unit,'(A,1x,E24.16, 2(1x,I6))') &
+                        !write(GP_print_unit,'(A,1x,E15.7, 2(1x,I6))') &
                         !      'gtb:2 cff, Node_Variable, n_CODE_Equations', &
                         !             cff, Node_Variable, n_CODE_Equations
 

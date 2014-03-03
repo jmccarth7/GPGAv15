@@ -101,7 +101,7 @@ do i_CODE_equation=1,n_CODE_equations
 
     dff=( (totobs*ssum2)-(ssum**2) ) / ( totobs*(totobs-1.0D+0) )
 
-    write(GP_print_unit,'(/A,2x,E24.16)') 'cdv: original dff ', dff
+    write(GP_print_unit,'(/A,2x,E15.7)') 'cdv: original dff ', dff
 
     !-------------------------------------------------------------------------------
     nn = n_time_steps + 1
@@ -121,7 +121,7 @@ do i_CODE_equation=1,n_CODE_equations
 
     variance = ( sum2 - sum3**2/real(nn, kind=8) ) / real(nn-1, kind=8)
 
-    write(GP_print_unit,'(/A,2x,E24.16)') 'cdv: 1 variance     ', variance
+    write(GP_print_unit,'(/A,2x,E15.7)') 'cdv: 1 variance     ', variance
 
     !-------------------------------------------------------------------------------
     nn = 0
@@ -138,7 +138,7 @@ do i_CODE_equation=1,n_CODE_equations
 
     variance2 = M2/real(nn - 1, kind=8)
 
-    write(GP_print_unit,'(/A,2x,E24.16)') 'cdv: 2 variance2    ', variance2
+    write(GP_print_unit,'(/A,2x,E15.7)') 'cdv: 2 variance2    ', variance2
 
     !-------------------------------------------------------------------------------
 

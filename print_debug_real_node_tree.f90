@@ -46,7 +46,7 @@ do  i_GP_individual = 1, n_GP_individuals
 
             if( input_array(i_Node,i_Tree, i_GP_individual ) > 0.0d0 )then
 
-                    write(iunit,'(3x,3(1x,I10), 1x, E24.16)', iostat = ierr) &
+                    write(iunit,'(3x,3(1x,I10), 1x, E15.7)', iostat = ierr) &
                       i_GP_Individual, i_tree, i_node, &
                              input_array(i_Node,i_Tree, i_GP_individual )
                 if( ierr /= 0 )then

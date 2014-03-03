@@ -58,7 +58,7 @@ call sort( n_GA_individuals, temp_fitness )
 !    write(GA_print_unit,'(/A/)') &
 !          'gase: i, individual_ranked_fitness(i), temp_fitness(i)'
 !    do  i = 1, n_GA_individuals
-!        write(GA_print_unit,'(I6,2(1x,E24.16))') &
+!        write(GA_print_unit,'(I6,2(1x,E15.7))') &
 !        i, individual_ranked_fitness(i), temp_fitness(i)
 !    enddo
 !endif ! L_ga_print
@@ -93,7 +93,7 @@ enddo ! i
 deallocate( temp_fitness )
 
 !if( L_ga_print )then
-!    write(GA_print_unit,'(A,1x,E24.16/)') &
+!    write(GA_print_unit,'(A,1x,E15.7/)') &
 !      'gase: min_fit to be elite ', min_fit
 !endif ! L_ga_print
 

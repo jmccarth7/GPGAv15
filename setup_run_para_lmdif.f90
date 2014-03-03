@@ -80,14 +80,14 @@ external :: fcn
 
 !--------------------------------------------------------------------------------------------
 
-if( i_G_indiv > 0 )then
-    write(myprint_unit,'(A,5(1x,I6))') &
-     'strplm:1 at entry myid, myprint_unit, i_G_indiv, n_parms, n_parms_dim', &
-                        myid, myprint_unit, i_G_indiv, n_parms, n_parms_dim
-    write(myprint_unit,'(A,3(1x,I6))') &
-     'strplm:1 at entry myid, n_indiv, individual_quality', &
-                        myid, n_indiv, individual_quality
-endif ! i_G_indiv > 0
+!if( i_G_indiv > 0 )then
+!    write(myprint_unit,'(A,5(1x,I6))') &
+!     'strplm:1 at entry myid, myprint_unit, i_G_indiv, n_parms, n_parms_dim', &
+!                        myid, myprint_unit, i_G_indiv, n_parms, n_parms_dim
+!    write(myprint_unit,'(A,3(1x,I6))') &
+!     'strplm:1 at entry myid, n_indiv, individual_quality', &
+!                        myid, n_indiv, individual_quality
+!endif ! i_G_indiv == 3
 
 
 if( n_parms <= 0 ) then
@@ -126,18 +126,18 @@ enddo  ! i_tree
 
 !-------------------------------------------------------------------------------
 
-if( L_myprint .and. myid      > 0 )then
-    do  i_tree=1,n_trees
-        do  i_node=1,n_nodes
-            if( GP_individual_Node_Type(i_Node,i_Tree) > -9999 )then
-                write(GP_print_unit,'(8x,4(1x,I6))') &
-                      i_tree, i_node, &
-                      GP_individual_Node_Type(i_Node,i_Tree)
-            endif !   GP_individual_Node_Type(i_Node,i_Tree) > -9999
-        enddo ! i_node
-    enddo  ! i_tree
-    write(GP_print_unit,'(A)')' '
-endif ! L_myprint
+!if( L_myprint .and. myid      > 0 )then
+!    do  i_tree=1,n_trees
+!        do  i_node=1,n_nodes
+!            if( GP_individual_Node_Type(i_Node,i_Tree) > -9999 )then
+!                write(GP_print_unit,'(8x,4(1x,I6))') &
+!                      i_tree, i_node, &
+!                      GP_individual_Node_Type(i_Node,i_Tree)
+!            endif !   GP_individual_Node_Type(i_Node,i_Tree) > -9999
+!        enddo ! i_node
+!    enddo  ! i_tree
+!    write(GP_print_unit,'(A)')' '
+!endif ! L_myprint
 
 !-------------------------------------------------------------------------------
 
@@ -152,15 +152,15 @@ do  i_parameter=1,n_parms
 
     !if( L_myprint  .and. i_G_indiv == 1)then
     if( L_myprint )then
-        write(myprint_unit,'(A,3(1x,I6),1x,E24.16)') &
+        write(myprint_unit,'(A,3(1x,I6),1x,E15.7)') &
         'strplm:1 myid, i_G_indiv,i_parameter, child_parameters', &
                   myid, i_G_indiv,i_parameter, &
                   child_parameters(i_parameter)
-        !write(myprint_unit,'(A,3(1x,I6),2(1x,E24.16))') &
+        !write(myprint_unit,'(A,3(1x,I6),2(1x,E15.7))') &
         !'strplm:1 myid, i_G_indiv,i_parameter, child_parameters, X_LMDIF', &
         !          myid, i_G_indiv,i_parameter, &
         !          child_parameters(i_parameter),  X_LMDIF(i_parameter)
-        !write(myprint_unit,'(A,2(1x,I6),1x,E24.16)') &
+        !write(myprint_unit,'(A,2(1x,I6),1x,E15.7)') &
         !'strplm:1 myid, i_parameter,  X_LMDIF', &
         !          myid, i_parameter,  X_LMDIF(i_parameter)
     endif ! L_myprint
@@ -245,9 +245,9 @@ ldfjac = n_time_steps
 
         write(myprint_unit,'(A,3(1x,I10))')   'strplm: mode, nprint, ldfjac', &
                                                        mode, nprint, ldfjac
-        write(myprint_unit,'(A,3(1x,E24.16))') 'strplm: ftol, xtol, gtol    ', &
+        write(myprint_unit,'(A,3(1x,E15.7))') 'strplm: ftol, xtol, gtol    ', &
                                                         ftol, xtol, gtol
-        write(myprint_unit,'(A,3(1x,E24.16))') 'strplm: epsfcn, factor  ', &
+        write(myprint_unit,'(A,3(1x,E15.7))') 'strplm: epsfcn, factor  ', &
                                                         epsfcn,factor
         write(myprint_unit,'(A,1x,I10)')   'strplm: maxfev', maxfev
         write(myprint_unit,'(A,1x,I10)')   'strplm: info  ', info
@@ -264,17 +264,17 @@ L_bad_result = .false.
 
 iunit = 0
 !if( i_G_indiv == 3 )then
-    write(myprint_unit,'(/A,1x,I3/)') 'strplm: RUN LMDIF myid =', myid
+!    write(myprint_unit,'(/A,1x,I3/)') 'strplm: RUN LMDIF myid =', myid
 !    iunit = 1
 !endif ! myid == 3
 !write(myprint_unit,'(A,2(1x,I10))') 'strplm:input  n_time_steps, n_parms ', &
 !                                                   n_time_steps, n_parms
-!write(myprint_unit,'(A,4(1x,E24.16))') 'strplm:input  ftol, xtol, gtol, epsfcn  ', &
-!                                                      ftol, xtol, gtol, epsfcn
+!write(myprint_unit,'(A,4(1x,E15.7))') 'strplm:input  ftol, xtol, gtol, epsfcn  ', &
+!                                                     ftol, xtol, gtol, epsfcn
 !write(myprint_unit,'(A,2(1x,I10))') 'strplm:input  maxfev ', maxfev
 !write(myprint_unit,'(A,2(1x,I10))') 'strplm:input  mode, nprint ', &
 !                                                   mode, nprint
-!write(myprint_unit,'(A,3(1x,E24.16))') 'strplm:input factor', factor
+!write(myprint_unit,'(A,3(1x,E15.7))') 'strplm:input factor', factor
 
 
 fvec = 0.0D0
@@ -282,24 +282,24 @@ fvec = 0.0D0
 
 call lmdif( fcn, n_time_steps, n_parms, x_LMDIF, fvec, &
             ftol, xtol, gtol, maxfev, epsfcn, &
-            diag, mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf )! 20131209
+            diag, mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf )    ! 20131209
             !diag, mode, factor, nprint, info, nfev, fjac, ldfjac, ipvt, qtf, &  ! 20131209
             !iunit )                                                             ! 20131209
 
 
 
-write(myprint_unit,'(A,3(1x,I6))') 'strplm:output info, nfev, ldfjac ', &
-                                                  info, nfev, ldfjac
+!write(myprint_unit,'(A,3(1x,I6))') 'strplm:output info, nfev, ldfjac ', &
+!                                                  info, nfev, ldfjac
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 !if( i_G_indiv > 0 )then
-if( myid      > 0 )then
-    write(6,'(A,3(1x,I3),1x,I10/)') &
-          'strplm: aft call lmdif, myid, n_parms, info, n_time_steps', &
-                                   myid, n_parms, info, n_time_steps
-endif ! myid > 0
+!if( myid      > 0 )then
+!    write(6,'(A,3(1x,I3),1x,I10/)') &
+!          'strplm: aft call lmdif, myid, n_parms, info, n_time_steps', &
+!                                   myid, n_parms, info, n_time_steps
+!endif ! myid > 0
 
 if( Lprint_lmdif )then
 
@@ -391,7 +391,7 @@ do  i_parameter=1,n_parms
                            dabs( x_LMDIF(i_parameter) )
 
     if( L_myprint  )then
-        write(myprint_unit,'(A,3(1x,I6),1x,E24.16)') &
+        write(myprint_unit,'(A,3(1x,I6),1x,E15.7)') &
           'strplm:4 myid, i_G_indiv,i_parameter, child_parameters', &
                     myid, i_G_indiv,i_parameter, &
                     child_parameters(i_parameter)
@@ -417,10 +417,10 @@ enddo ! i_parameter
 
 
 
-if( L_myprint )then
-    write(myprint_unit,'(/A/)')'strplm: calculate the individual SSE values '
+!if( L_myprint )then
+!    write(myprint_unit,'(/A/)')'strplm: calculate the individual SSE values '
     write(6,'(A,1x,I5)') 'strplm: i_G_indiv ', i_G_indiv
-endif ! L_myprint
+!endif ! L_myprint
 
 
 if( individual_quality > 0 ) then
@@ -439,9 +439,9 @@ if( individual_quality > 0 ) then
        !if( i_time_step == 1 .or. &
        !    i_time_step == n_time_steps )then
        !    write(6,'(A,1x,I5)') 'strplm: i_G_indiv ', i_G_indiv
-           write(6,'(A,1x,I10,1x,E24.16)') &
-                 'strplm: i_time_step, fvec(i_time_step) ', &
-                          i_time_step, fvec(i_time_step)
+       !    write(6,'(A,1x,I10,1x,E15.7)') &
+       !          'strplm: i_time_step, fvec(i_time_step) ', &
+       !                   i_time_step, fvec(i_time_step)
        !endif ! i_time_step == 1 ...
 
        my_indiv_SSE = my_indiv_SSE + fvec(i_time_step)
@@ -450,13 +450,13 @@ if( individual_quality > 0 ) then
 
 endif !  individual_quality > 0
 
-if( L_myprint )then
-    write(myprint_unit,'(A,2(1x,I6))') &
-      'strplm: myid, info', myid, info
-    write(myprint_unit,'(A,3(1x,I6), 1x, E24.16)') &
-    'strplm: myid, i_G_indiv, indiv_qual, my_indiv_SSE', &
-             myid, i_G_indiv, individual_quality, my_indiv_SSE
-endif ! L_myprint
+!if( L_myprint )then
+!    write(myprint_unit,'(A,2(1x,I6))') &
+!      'strplm: myid, info', myid, info
+!    write(myprint_unit,'(A,3(1x,I6), 1x, E15.7)') &
+!    'strplm: myid, i_G_indiv, indiv_qual, my_indiv_SSE', &
+!             myid, i_G_indiv, individual_quality, my_indiv_SSE
+!endif ! L_myprint
 
 
 

@@ -108,7 +108,7 @@ deallocate( Numerical_CODE_Forcing_Functions  )
 deallocate( Numerical_CODE_Solution  )
 
 
-!!!deallocate( GP_Trees )
+deallocate( GP_Trees )
 
 
 deallocate( kval )

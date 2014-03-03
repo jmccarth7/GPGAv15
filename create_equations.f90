@@ -44,12 +44,12 @@ RK_Initial_Conditions(1:n_CODE_Equations ) = &
    GP_Population_Initial_Conditions( 1:n_CODE_Equations, i_GP_individual )
 
 !write(6,'(/a)')    'ceq: RK_Initial_Conditions '
-!write(6,'(5(1x,E24.16))') RK_Initial_Conditions
+!write(6,'(5(1x,E15.7))') RK_Initial_Conditions
 
 RK_Solution(0,1:n_CODE_equations)=RK_Initial_Conditions
 
 !write(6,'(/a)')    'ceq: RK_Solution'
-!write(6,'(5(1x,E24.16))') RK_Solution
+!write(6,'(5(1x,E15.7))') RK_Solution
 
 !RK_Node_Parameters = GP_Individual_Node_Parameters  ! Matrix Operation
 !RK_Node_Type=GP_Individual_Node_Type                ! Matrix Operation
@@ -60,7 +60,7 @@ RK_Node_Type(:,: ) = &
           tree_type(:,:, i_GP_individual )
 
 !write(6,'(/a)')    'ceq: RK_Node_Parameters'
-!write(6,'(5(1x,E24.16))') RK_Node_Parameters
+!write(6,'(5(1x,E15.7))') RK_Node_Parameters
 
 !write(6,'(/a)')  'ceq: RK_Node_Type'
 !write(6,'(5(1x,I10))') RK_Node_Type

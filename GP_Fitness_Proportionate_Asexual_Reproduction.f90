@@ -27,7 +27,7 @@ real(kind=8) :: sse_ind
 !-----------------------------------------------------------------------------
 
 !do  i = 1, n_GP_individuals
-!    write(GP_print_unit,'(A,1x,I6,1x,E24.16)' ) &
+!    write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
 !         'gpfpar: i, GP_Child_Individual_SSE(i)',&
 !                  i, GP_Child_Individual_SSE(i)
 !enddo
@@ -76,7 +76,7 @@ do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
 
     do  j_GP_Individual=1,n_GP_Individuals
 
-        !write(GP_print_unit,'(A,1x,I6,2(1x,E24.16))' ) &
+        !write(GP_print_unit,'(A,1x,I6,2(1x,E15.7))' ) &
         !  'gpfpar: j_GP_Indiv, cff, &
         !  &GP_Integ_Pop_Ranked_Fitness(j_GP_Indiv) ', &
         !           j_GP_Individual, cff, &
@@ -86,7 +86,7 @@ do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
 
             icff=j_GP_Individual
 
-            !write(GP_print_unit,'(A,2(1x,I6),1(1x,E24.16))' ) &
+            !write(GP_print_unit,'(A,2(1x,I6),1(1x,E15.7))' ) &
             !  'gpfpar: j_GP_Indiv, icff, &
             !  &GP_Integ_Pop_Ranked_Fitness(j_GP_Indiv) ', &
             !           j_GP_Individual, icff, &
@@ -121,10 +121,10 @@ do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
 
 
 
-    !write(GP_print_unit,'(A,1x,I6,1x,E24.16)' ) &
+    !write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
     !   'gpfpar: j_GP_individual, GP_Adult_Population_SSE(j_GP_Individual)',&
     !            j_GP_individual, GP_Adult_Population_SSE(j_GP_Individual)
-    !write(GP_print_unit,'(A,1x,I6,1x,E24.16)' ) &
+    !write(GP_print_unit,'(A,1x,I6,1x,E15.7)' ) &
     !      'gpfpar: PREVIOUS i_GP_individual, GP_Child_Individual_SSE(i_GP_Individual)',&
     !                        i_GP_individual, sse_ind
     !write(GP_print_unit,'(A)' ) &

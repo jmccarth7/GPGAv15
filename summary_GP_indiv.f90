@@ -103,12 +103,12 @@ endif ! Lprint
 do  i_code_eq = 1, n_CODE_Equations
 
     if( Lprint )then
-        write(GP_print_unit,'(3(1x,I10), 7x, E24.16)')&
+        write(GP_print_unit,'(3(1x,I10), 7x, E15.7)')&
               i_GP_generation, i_GP_indiv, i_code_eq, &
               GP_Population_Initial_Conditions( i_code_eq, i_GP_indiv )
     endif ! Lprint
 
-    write(GP_summary_output_unit, '(2x,2(1x,I6),1x,I3, 1x, E24.16,2x,A)')&
+    write(GP_summary_output_unit, '(2x,2(1x,I6),1x,I3, 1x, E15.7,2x,A)')&
           i_GP_generation, i_GP_indiv, i_code_eq, &
           GP_Population_Initial_Conditions( i_code_eq, i_GP_indiv ), &
           'gen_indiv_eq'
@@ -175,7 +175,7 @@ if( Lprint )then
 
             if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv ) == 0  ) then
 
-                write(GP_print_unit,'(2(1x,I10), 2(1x,I10),2x, E24.16)') &
+                write(GP_print_unit,'(2(1x,I10), 2(1x,I10),2x, E15.7)') &
                       i_GP_generation, i_GP_indiv,i_tree, i_node, &
                       GP_population_node_parameters(i_node,i_tree,i_GP_indiv)
 
@@ -206,7 +206,7 @@ do  i_tree=1,n_trees
 
         if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv) == 0        ) then
 
-            write(GP_summary_output_unit,'(2x,2(1x,I6),2(1x,I3), 1x,E24.16)') &
+            write(GP_summary_output_unit,'(2x,2(1x,I6),2(1x,I3), 1x,E15.7)') &
                   i_GP_generation, i_GP_indiv,i_tree, i_node, &
                   GP_population_node_parameters( i_node,i_tree, i_GP_indiv)
 

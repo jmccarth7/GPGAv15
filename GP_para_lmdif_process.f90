@@ -99,7 +99,7 @@ enddo ! jj
 !if( myid == 0 )then
 !    !if( L_GP_print )then
 !        !write(GP_print_unit,'(//A)') 'gplp: at entry  '
-!        !write(GP_print_unit,'(A,1x,E24.16)') 'gplp: dt ', dt
+!        !write(GP_print_unit,'(A,1x,E15.7)') 'gplp: dt ', dt
 !        !write(GP_print_unit,'(A,1x,I10)') &
 !        !      'gplp: n_parms    =   ', n_parms
 !        !write(GP_print_unit,'(A,1x,I10)') &
@@ -117,29 +117,24 @@ enddo ! jj
 !endif ! i_GP_generation > 1
 
 
-!! jjm 20130417 >>>>>>>>>>>>>>>
-if( myid == 0) then
-
-    if( L_GP_print )then
-        write(GP_print_unit,'(A)')' '
-        write(GP_print_unit,'(A)') &
-                      'gplp: i_GP_indiv, i_tree, i_node, GP_pop_Node_Param'
-        call print_debug_real_node_tree( GP_print_unit,  &
-                                         'entry GP_para...  GP_pop_Node_Param', &
-                                         GP_population_Node_Parameters  )
-
-        write(GP_print_unit,'(/A)') &
-                     'gplp: i_GP_indiv, i_tree, i_node, GP_pop_Node_Type'
-
-        call print_debug_integer_node_tree( GP_print_unit, &
-                                            'entry GP_para...  GP_pop_Node_Type', &
-                                            GP_Adult_population_Node_Type )
-
-        write(GP_print_unit,'(A)')' '
-    endif ! L_GP_print
-
-endif ! myid == 0
-!! jjm 20130417 <<<<<<<<<<<<<<<
+! jjm 20130417 >>>>>>>>>>>>>>>
+!if( myid == 0) then
+!    if( L_GP_print )then
+!        write(GP_print_unit,'(A)')' '
+!        write(GP_print_unit,'(A)') &
+!                      'gplp: i_GP_indiv, i_tree, i_node, GP_pop_Node_Param'
+!        call  print_debug_real_node_tree( GP_print_unit, &
+!                                          'entry GP_para...  GP_pop_Node_Param', &
+!                                           GP_population_Node_Parameters  )
+!        write(GP_print_unit,'(/A)') &
+!                     'gplp: i_GP_indiv, i_tree, i_node, GP_pop_Node_Type'
+!        call  print_debug_integer_node_tree( GP_print_unit &
+!                                         'entry GP_para...  GP_pop_Node_Type', &
+!                                              GP_Adult_population_Node_Type )
+!        write(GP_print_unit,'(A)')' '
+!    endif ! L_GP_print
+!endif ! myid == 0
+! jjm 20130417 <<<<<<<<<<<<<<<
 
 
 !-----------------------------------------------------------------------------
@@ -167,13 +162,6 @@ allocate( GP_Trees( n_trees,  1 )  )
 
 !-----------------------------------------------------------------------------
 
-if( allocated(  child_node_parameters ) )then
-    deallocate( child_node_parameters )
-endif ! allocated( child_node_parameters )
-allocate( child_node_parameters( n_nodes, n_trees, n_GP_Individuals ) )
-
-!-----------------------------------------------------------------------------
-
 nn = 0
 
 if( myid == 0 )then
@@ -193,10 +181,10 @@ if( myid == 0 )then
             child_parameters( nn, i_GP_individual) =  &
                 GP_Population_Initial_Conditions(i_CODE_Equation, i_GP_Individual)
 
-            write(GP_print_unit,'(I10,1x,I10,1x,I10,2(6x,E24.16))') &
-                  myid, i_GP_individual, nn, &
-                  child_parameters(nn,i_GP_individual), &
-                  GP_Population_Initial_Conditions(i_CODE_Equation, i_GP_Individual)
+            !write(GP_print_unit,'(I10,1x,I10,1x,I10,2(6x,E15.7))') &
+            !      myid, i_GP_individual, nn, &
+            !      child_parameters(nn,i_GP_individual), &
+            !      GP_Population_Initial_Conditions(i_CODE_Equation, i_GP_Individual)
 
         enddo  ! i_CODE_equation
 
@@ -210,13 +198,10 @@ if( myid == 0 )then
                     child_parameters( nn, i_GP_individual) =  &
                          GP_population_node_parameters(i_node,i_tree,i_GP_individual)
 
-                    child_node_parameters( i_node,i_tree, i_GP_individual) =  &
-                         GP_population_node_parameters(i_node,i_tree,i_GP_individual)
-
-                    write(GP_print_unit,'(I10,1x,I10,1x,I10,2(6x,E24.16))') &
-                          myid, i_GP_individual, nn, &
-                          child_parameters(nn,i_GP_individual), &
-                          GP_population_node_parameters(i_node,i_tree,i_GP_individual)
+                    !write(GP_print_unit,'(I10,1x,I10,1x,I10,2(6x,E15.7))') &
+                    !      myid, i_GP_individual, nn, &
+                    !      child_parameters(nn,i_GP_individual), &
+                    !      GP_population_node_parameters(i_node,i_tree,i_GP_individual)
 
                 endif ! GP_Adult_population_Node_Type(i_Node,i_Tree, i_GP_individual ) == 0
 
@@ -230,17 +215,17 @@ if( myid == 0 )then
 endif ! myid == 0
 
 
-if( myid == 0  )then
+!if( myid == 0  )then
 !    if( L_GP_print )then
-        write(GP_print_unit,'(//A/)') 'gplp:  GP_n_parms '
-        write(GP_print_unit,'(A)') &
-              'i_GP_individual        GP_n_parms '
-        do  i_GP_individual = 1, n_GP_individuals
-            write(GP_print_unit,'(I10,10x,I10)') &
-                 i_GP_individual,  GP_n_parms(i_GP_individual)
-        enddo !  i_GP_individual
+!        write(GP_print_unit,'(//A/)') 'gplp:  GP_n_parms '
+!        write(GP_print_unit,'(A)') &
+!              'i_GP_individual        GP_n_parms '
+!        do  i_GP_individual = 1, n_GP_individuals
+!            write(GP_print_unit,'(I10,10x,I10)') &
+!                 i_GP_individual,  GP_n_parms(i_GP_individual)
+!        enddo !  i_GP_individual
 !    endif ! L_GP_print
-endif ! myid == 0
+!endif ! myid == 0
 
 !-----------------------------------------------------------------------------
 
@@ -256,7 +241,7 @@ if( myid == 0  )then
         do  i_GP_individual = 1, n_GP_individuals
 
             do  ii=1,n_CODE_equations
-                write(GP_print_unit,'(4x,I6,1x,I6,6x,E24.16)') &
+                write(GP_print_unit,'(4x,I6,1x,I6,6x,E20.10)') &
                  i_GP_individual,  ii, &
                  GP_Population_Initial_Conditions(ii, i_GP_individual)
             enddo ! ii
@@ -266,7 +251,7 @@ if( myid == 0  )then
             if( nparms_i >  n_code_equations )then
 
                 do  nn= n_code_equations + 1, nparms_i
-                    write(GP_print_unit,'(4x,I6,1x,I6,6x,E24.16)') &
+                    write(GP_print_unit,'(4x,I6,1x,I6,6x,E20.10)') &
                      i_GP_individual, nn, &
                      child_parameters(nn,i_GP_individual)
                 enddo ! nn
@@ -291,8 +276,8 @@ if( myid == 0  )then
     write(GP_print_unit,'(/A)') &
           'gplp: myid   i  Run_GP_Calc_Fit  GP_Child_Individual_SSE'
     do  i = 1, n_GP_individuals
-        write(GP_print_unit,'(2(1x,I6),7x,L1,7x,E24.16)') &
-              myid, i, Run_GP_Calculate_Fitness(i), GP_Child_Individual_SSE(i)
+        write(GP_print_unit,'(2(1x,I6),7x,L1,7x,E20.10)') &
+                 myid, i, Run_GP_Calculate_Fitness(i), GP_Child_Individual_SSE(i)
     enddo
     write(GP_print_unit,'(/A)') ' '
 endif ! myid == 0
@@ -364,43 +349,6 @@ call MPI_BCAST( Child_Parameters,  child_number,    &
 
 !------------------------------------------------------------------------
 
-!  broadcast child_node_parameters
-
-!if( L_GP_print )then
-!    write(GP_print_unit,'(/A,2(1x,I6))') &
-!    'gplp:  broadcast child_node_parameters myid, i_GP_generation ', &
-!                                            myid, i_GP_generation
-!endif ! L_GP_print
-
-child_number =  n_GP_Individuals * n_trees * n_nodes
-
-!if( L_GP_print )then
-!    write(GP_print_unit,'(A,5(1x,I6)/)') &
-!    'gplp: myid, n_GP_Individuals, n_trees, n_nodes, child_number =', &
-!           myid, n_GP_Individuals, n_trees, n_nodes, child_number
-!endif ! L_GP_print
-
-
-call MPI_BCAST( child_node_parameters,  child_number,    &
-                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
-
-
-!if( L_GP_print )then
-!    write(GP_print_unit,'(/A,2(1x,I10)/)') &
-!     'gplp: child_node_parameters  broadcast myid, ierr = ', myid, ierr
-!    write(GP_print_unit,'(/A,2(1x,I10)/)') &
-!     'gplp: myid, n_GP_Individuals = ', myid, n_GP_Individuals
-!    do  i_ga_ind = 1, n_GP_Individuals
-!        write(GP_print_unit,'(I3,1x,I3,1x,12(1x,E24.16))') &
-!              myid, i_ga_ind, &
-!              child_node_parameters(1:n_nodes, 1:n_trees, i_ga_ind)
-!    enddo ! i_ga_ind
-!endif ! L_GP_print
-
-
-
-!------------------------------------------------------------------------
-
 
 !if( myid == 0 )then
 !    !if( L_GP_print )then
@@ -456,7 +404,7 @@ if( myid == 0  )then
     !                              myid, i_GP_individual, numsent
     !endif ! L_GP_print
 
-    !--------------------------------------------------------------------------
+    !-------------------------------------------------------------------------------------
 
     ! processor 0 loops over the number of individuals and waits for a message
     ! from the other processors
@@ -521,10 +469,10 @@ if( myid == 0  )then
         !    write(GP_print_unit,'(A,3(1x,I6))') &
         !     'gplp:2 554 myid, i_individual, GP_n_parms( i_individual )', &
         !                 myid, i_individual, GP_n_parms( i_individual )
-        !    write(GP_print_unit,'(A/(5(1x,E24.16)))') &
+        !    write(GP_print_unit,'(A/(5(1x,E15.7)))') &
         !     'gplp:2 child_parameters(1:n_parms,i_individual)', &
         !             child_parameters(1:n_parms,i_individual)
-        !    write(GP_print_unit,'(A,2(1x,I6),1x,E24.16)') &
+        !    write(GP_print_unit,'(A,2(1x,I6),1x,E15.7)') &
         !     'gplp:2 myid, i_individual, GP_Child_Individual_SSE(i_individual)', &
         !             myid, i_individual, GP_Child_Individual_SSE(i_individual)
         !    write(GP_print_unit,'(A,3(1x,I6))') &
@@ -706,10 +654,10 @@ else  ! not myid == 0
         !    write(GP_print_unit,'(A,3(1x,I6),4x,L1)') &
         !     'gplp:6 554 myid, n_parms, i_2_individual, Run_GP_Calculate_Fitness(i_2_Individual)', &
         !                 myid, n_parms, i_2_individual, Run_GP_Calculate_Fitness(i_2_Individual)
-        !    write(GP_print_unit,'(A/(5(1x,E24.16)))') &
+        !    write(GP_print_unit,'(A/(5(1x,E15.7)))') &
         !     'gplp:6 child_parameters(1:n_parms,i_2_individual)', &
         !             child_parameters(1:n_parms,i_2_individual)
-        !    write(GP_print_unit,'(A,2(1x,I6),1x,E24.16)') &
+        !    write(GP_print_unit,'(A,2(1x,I6),1x,E15.7)') &
         !     'gplp:6 myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)', &
         !             myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)
         !    write(GP_print_unit,'(A,3(1x,I6))') &
@@ -723,12 +671,12 @@ else  ! not myid == 0
 
             temp_SSE = GP_child_individual_SSE(i_2_individual)
 
-            write(GP_print_unit,'(A,2(1x,I6),1x,E24.16)') &
-                  'gplp:4 call setup_para  myid, i_2_individual, temp_SSE', &
-                                           myid, i_2_individual, temp_SSE
-            write(GP_print_unit,'(A/(4(1x,E24.16)))') &
-             'gplp:6 child_parameters(1:n_parms,i_2_individual)', &
-                     child_parameters(1:n_parms,i_2_individual)
+            !write(GP_print_unit,'(A,2(1x,I6),1x,E15.7)') &
+            !      'gplp:4 call setup_para  myid, i_2_individual, temp_SSE', &
+            !                               myid, i_2_individual, temp_SSE
+            !write(GP_print_unit,'(A/(5(1x,E15.7)))') &
+            ! 'gplp:6 child_parameters(1:n_parms,i_2_individual)', &
+            !         child_parameters(1:n_parms,i_2_individual)
 
             call setup_run_para_lmdif( i_2_individual, &
                                        child_parameters(1,i_2_individual), &
@@ -741,9 +689,9 @@ else  ! not myid == 0
 
 
 
-            write(GP_print_unit,'(A,2(1x,I6),1x,E24.16)') &
-                  'gplp:4 AFT call setup_para  myid, i_2_individual, temp_SSE', &
-                                               myid, i_2_individual, temp_SSE
+            !write(GP_print_unit,'(A,2(1x,I6),1x,E15.7)') &
+            !      'gplp:4 AFT call setup_para  myid, i_2_individual, temp_SSE', &
+            !                                   myid, i_2_individual, temp_SSE
 
             !--------------------------------------------------------------------------
 
@@ -758,20 +706,20 @@ else  ! not myid == 0
 
             !--------------------------------------------------------------------------
 
-            if( L_GP_print .and. i_2_individual > 0  )then
-                write(GP_print_unit,'(A,3(1x,I6))') &
-                 'gplp:7 723 myid, n_parms, i_2_individual  AFTER LMDIF ', &
-                             myid, n_parms, i_2_individual
-                write(GP_print_unit,'(A/(4(1x,E24.16)))') &
-                 'gplp:7 child_parameters(1:n_parms,i_2_individual)', &
-                         child_parameters(1:n_parms,i_2_individual)
-                write(GP_print_unit,'(A,2(1x,I6),1x,E24.16)') &
-                 'gplp:7 myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)', &
-                         myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)
-                write(GP_print_unit,'(A,3(1x,I6))') &
-                 'gplp:7 myid, i_2_individual, individual_quality(i_2_individual)', &
-                         myid, i_2_individual, individual_quality(i_2_individual)
-            endif ! L_GP_print
+            !if( L_GP_print .and. i_2_individual == 3 )then
+            !    write(GP_print_unit,'(A,3(1x,I6))') &
+            !     'gplp:7 723 myid, n_parms, i_2_individual  AFTER LMDIF ', &
+            !                 myid, n_parms, i_2_individual
+            !    write(GP_print_unit,'(A/(5(1x,E15.7)))') &
+            !     'gplp:7 child_parameters(1:n_parms,i_2_individual)', &
+            !             child_parameters(1:n_parms,i_2_individual)
+            !    write(GP_print_unit,'(A,2(1x,I6),1x,E15.7)') &
+            !     'gplp:7 myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)', &
+            !             myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)
+            !    write(GP_print_unit,'(A,3(1x,I6))') &
+            !     'gplp:7 myid, i_2_individual, individual_quality(i_2_individual)', &
+            !             myid, i_2_individual, individual_quality(i_2_individual)
+            !endif ! L_GP_print
 
             !if( L_GP_print )then
             !    write(GP_print_unit,'(A,3(1x,I6))') &
@@ -786,7 +734,7 @@ else  ! not myid == 0
             !write(GP_print_unit,'(A,2(1x,I6),3(1x,I6))') &
             ! 'gplp:BEF SEND  myid, i_2_individual, n_parms, n_parms_dim, info', &
             !                 myid, i_2_individual, n_parms, n_parms_dim, info
-            !write(GP_print_unit,'(A,2(1x,I6),1x,E24.16)') &
+            !write(GP_print_unit,'(A,2(1x,I6),1x,E15.7)') &
             ! 'gplp:3 BEF SEND myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)', &
             !                  myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)
 
@@ -1010,7 +958,7 @@ call MPI_BCAST( GP_Population_Initial_Conditions, message_len,    &
 !        write(GP_print_unit,'(A)') &
 !              'gplp:  indiv   GP_Child_Individual_SSE '
 !        do  i_GP_individual = 1, n_GP_individuals
-!            write(GP_print_unit,'(4x,I6,5x, E24.16)') &
+!            write(GP_print_unit,'(4x,I6,5x, E20.10)') &
 !                  i_GP_individual, &
 !                 GP_Child_Individual_SSE(i_GP_individual)
 !
@@ -1025,7 +973,7 @@ call MPI_BCAST( GP_Population_Initial_Conditions, message_len,    &
 !              'gplp:  indiv   equation  GP_Population_Initial_Conditions'
 !
 !            do  ii=1,n_CODE_equations
-!                write(GP_print_unit,'(4x,I6,1x,I6,6x, E24.16)') &
+!                write(GP_print_unit,'(4x,I6,1x,I6,6x, E20.10)') &
 !                 i_GP_individual,  ii, &
 !                 GP_Population_Initial_Conditions(ii, i_GP_individual)
 !            enddo ! ii
@@ -1039,7 +987,7 @@ call MPI_BCAST( GP_Population_Initial_Conditions, message_len,    &
 !                write(GP_print_unit,'(/A)') &
 !                  'gplp:  indiv   parameter  child_parameters '
 !                do  nn= n_code_equations + 1, nparms_i
-!                    write(GP_print_unit,'(4x,I6,1x,I6,6x,E24.16)') &
+!                    write(GP_print_unit,'(4x,I6,1x,I6,6x,E20.10)') &
 !                     i_GP_individual, nn, &
 !                     child_parameters(nn,i_GP_individual)
 !                enddo ! nn
@@ -1056,10 +1004,6 @@ call MPI_BCAST( GP_Population_Initial_Conditions, message_len,    &
 if( allocated(  GP_Trees ) )then
     deallocate( GP_Trees )
 endif ! allocated( GP_Trees )
-
-if( allocated(  child_node_parameters ) )then
-    deallocate( child_node_parameters )
-endif ! allocated( child_node_parameters )
 
 !-------------------------------------------------------
 

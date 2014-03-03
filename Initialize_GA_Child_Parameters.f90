@@ -50,10 +50,10 @@ do  i_GA_Individual=1,n_GA_Individuals
 
 
         if( L_ga_print )then
-            write(6,'(A,2(1x, I6),1x,E24.16 )') &
+            write(6,'(A,2(1x, I6),1x,E15.7 )') &
                  'Init: ', i_GA_individual, i_Parameter, &
                            child_parameters(i_parameter, i_GA_individual)
-            write(GA_print_unit,'(A,2(1x, I6),1x,E24.16 )') &
+            write(GA_print_unit,'(A,2(1x, I6),1x,E15.7 )') &
                  'Init: ', i_GA_individual, i_Parameter, &
                            child_parameters(i_parameter, i_GA_individual)
         endif ! L_ga_print
@@ -72,13 +72,13 @@ do  i_GA_Individual=1,n_GA_Individuals
     !debug only <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
-    !write(6,'(A,1x, I6,1x,12(1x,E24.16))') &
+    !write(6,'(A,1x, I6,1x,12(1x,E15.7))') &
     !      'Init: ', i_GA_individual, &
     !      ( child_parameters(jj, i_GA_individual), jj = 1,n_parameters )
 
 
     !if( L_ga_print )then
-    !    write(GA_print_unit,'(A,1x, I6,1x,12(1x,E24.16))') &
+    !    write(GA_print_unit,'(A,1x, I6,1x,12(1x,E15.7))') &
     !         'Init: ', i_GA_individual, &
     !          ( child_parameters(jj, i_GA_individual), jj = 1,n_parameters )
     !         !'Init: ', i_GA_individual, child_parameters(1:n_parameters, i_GA_individual)

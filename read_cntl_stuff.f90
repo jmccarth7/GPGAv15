@@ -366,7 +366,7 @@ do
 
         Delta_Time_in_Days  = dt
 
-        write(6,'(/A,2(1x,E24.16))') 'rcntl: dt, Delta_Time_in_Days ',  &
+        write(6,'(/A,2(1x,E15.7))') 'rcntl: dt, Delta_Time_in_Days ',  &
                                             dt, Delta_Time_in_Days
 
 
@@ -442,7 +442,7 @@ do
 
         READ(Aline(len('random_scale_small')+1:), * )  random_scale_small
 
-        write(GP_print_unit,'(A,1x,E24.16)') 'rcntl: random_scale_small = ', &
+        write(GP_print_unit,'(A,1x,E15.7)') 'rcntl: random_scale_small = ', &
                                                     random_scale_small
 
 
@@ -458,7 +458,7 @@ do
 
         READ(Aline(len('random_scale_large')+1:), * )  random_scale_large
 
-        write(GP_print_unit,'(A,1x,E24.16)') 'rcntl: random_scale_large = ', &
+        write(GP_print_unit,'(A,1x,E15.7)') 'rcntl: random_scale_large = ', &
                                                     random_scale_large
 
 
@@ -479,7 +479,7 @@ do
 
         READ(Aline(len('random_scale_fraction')+1:), * )  random_scale_fraction
 
-        write(GP_print_unit,'(A,1x,E24.16)') 'rcntl: random_scale_fraction = ', &
+        write(GP_print_unit,'(A,1x,E15.7)') 'rcntl: random_scale_fraction = ', &
                                                     random_scale_fraction
 
 

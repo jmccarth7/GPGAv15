@@ -104,14 +104,14 @@ FORCING_LIGHT_LIMITED_GROWTH_RATE = -5004
 
 
 !if( L_myprint  .and. myid == 1 )then
-!    write(myprint_unit,'(A,2(1x,E24.16))') 'inmod: Numerical_CODE_Initial_Conditions ', &
+!    write(myprint_unit,'(A,2(1x,E15.7))') 'inmod: Numerical_CODE_Initial_Conditions ', &
 !                                                   Numerical_CODE_Initial_Conditions
 !endif ! L_myprint  .and. myid == 1
 
 
 Numerical_CODE_Forcing_Functions = 0.0D+0
 
-!write(6,'(A,4(1x,E24.16))') 'inmod: Numerical_CODE_Forcing_Functions ', &
+!write(6,'(A,4(1x,E15.7))') 'inmod: Numerical_CODE_Forcing_Functions ', &
 !                                    Numerical_CODE_Forcing_Functions
 
 btmp(1:n_code_equations) = 0.0D0
