@@ -106,9 +106,14 @@ allocate( Tree_Value(n_trees) )
 
 allocate( Node_Eval_Type(n_nodes,n_trees) )
 
+!allocate( Numerical_CODE_Initial_Conditions( 1:n_CODE_equations ) )
 allocate( Numerical_CODE_Initial_Conditions( 1:n_CODE_equations ) )
+
+!allocate( Numerical_CODE_Forcing_Functions( n_CODE_forcing ) )
 allocate( Numerical_CODE_Forcing_Functions( n_CODE_forcing ) )
+
 !allocate( Numerical_CODE_Solution( 0:n_input_data_points, n_CODE_equations ) )
+allocate( Numerical_CODE_Solution( 0:n_time_steps, n_CODE_equations ) )
 
 allocate( Runge_Kutta_Solution( 0:n_time_steps, n_CODE_equations )  )
 allocate( Runge_Kutta_Node_Parameters(n_nodes,n_trees) )
@@ -122,19 +127,14 @@ allocate( RK_Initial_Conditions(n_CODE_equations) )
 
 allocate( bioflo(0:n_CODE_equations,0:n_CODE_equations) )
 allocate( bioflo_map( 1:n_CODE_equations,1:n_Tracked_Resources ) )
-allocate( bioflo_string(0:n_CODE_equations,0:n_CODE_equations) )
 
 allocate( b_tmp(n_CODE_equations) )
 !allocate( b_tmp(n_variables)      )
 
-!allocate( Numerical_CODE_Initial_Conditions( 1:n_CODE_equations ) )
-
-!allocate( Numerical_CODE_Forcing_Functions( n_CODE_forcing ) )
-
-allocate( Numerical_CODE_Solution( 0:n_time_steps, n_CODE_equations ) )
 allocate( GP_Trees( n_Trees, n_Tracked_Resources) )
 
 ! Runge-Kutta specific work arrays
+
 allocate( kval(4,n_CODE_equations) )
 allocate( btmp(n_CODE_equations) )
 allocate( fbio(n_CODE_equations) )

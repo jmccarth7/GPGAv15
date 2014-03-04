@@ -372,7 +372,7 @@ endif ! myid == 0
 
 call allocate_arrays1( )
 
-allocate( answer( n_CODE_equations ) )
+allocate( answer( n_maximum_number_parameters ) )
 allocate( output_array( n_maximum_number_parameters ) )
 
 
@@ -1360,10 +1360,14 @@ do  i_GP_Generation=1,n_GP_Generations
             !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-            !if( myid == 0 )then
-            !    write(GP_print_unit,'(A,1x,I6)') &
-            !     '0: aft call GPCODE_GA_lmdif_Parameter_Optimization routine'
-            !endif ! myid == 0
+            if( myid == 0 )then
+                write(GP_print_unit,'(A,1x,I6)') &
+                 '0: aft call GPCODE_GA_lmdif_Parameter_Optimization routine'
+                flush(GP_print_unit)
+            endif ! myid == 0
+
+            call mpi_finalize(ierr) ! debug only
+            stop ! debug only
 
             !--------------------------------------------------------------------------------
 

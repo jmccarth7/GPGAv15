@@ -23,12 +23,12 @@ type(Tree_Node_Pointer), dimension(n_Trees) :: treeSlice
 
 !  create trees from the GP_Individual_Node_Type which was read in
 
-!if( myid == 1 )then
-!    write(6,'(/A/)') 'Trees: create trees from GP_Individual_Node_Type  '
-!    write(6,'(/A/)')      'Trees: call Deserialize_Trees2 '
-!    write(6,'(A,1x,I6)')  'Trees: n_Tracked_resources ', n_Tracked_resources
-!    write(6,'(A,1x,I6/)') 'Trees: n_trees ', n_trees
-!endif ! myid == 1
+if( myid == 1 )then
+    write(6,'(/A/)') 'Trees: create trees from GP_Individual_Node_Type  '
+    write(6,'(/A/)')      'Trees: call Deserialize_Trees2 '
+    write(6,'(A,1x,I6)')  'Trees: n_Tracked_resources ', n_Tracked_resources
+    write(6,'(A,1x,I6/)') 'Trees: n_trees ', n_trees
+endif ! myid == 1
 
 
 ! Deserialize_Trees2 should create trees from

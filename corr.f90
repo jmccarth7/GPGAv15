@@ -118,6 +118,7 @@ integer :: I
 
       GO TO 90 
    50 WRITE(IPR,25) 
+      write(ipr,'(A)') 'The third argument is the number of points = dimension of the input array'
       WRITE(IPR,47)N 
       RETURN 
 
