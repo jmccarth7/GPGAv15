@@ -143,6 +143,8 @@ allocate( fbio(n_CODE_equations) )
 !allocate( btmp(n_variables) )
 !allocate( fbio(n_variables) )
 
+allocate( RK_data_array( 1:n_input_vars ) )
+
 
 if( L_print_equations )then
     allocate( bioflo_string(0:n_CODE_equations,0:n_CODE_equations) )

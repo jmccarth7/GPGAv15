@@ -34,7 +34,8 @@ elseif( trim(model) == 'LV' )then
     if( icall == 0 ) return
 
 
-elseif( trim(model) == 'DATA' )then
+elseif( trim(model) == 'DATA' .and. &
+        n_input_vars > 0               )then
 
     call init_values_data( icall )
     if( icall == 0 ) return

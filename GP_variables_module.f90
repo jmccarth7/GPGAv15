@@ -84,7 +84,6 @@ integer(kind=4), allocatable, dimension(:,:,:)  :: GP_Node_Type_for_Plotting
 real(kind=8),allocatable,dimension(:,:,:)     :: GP_Population_Node_Parameters
 
 !real(kind=8) :: GP_Individual_Node_Parameters(n_nodes,n_trees)
-!!real(kind=8),allocatable,dimension(:,:)       :: GP_Individual_Node_Parameters
 real(kind=8),target,allocatable,dimension(:,:)       :: GP_Individual_Node_Parameters
 
 real(kind=8),target,allocatable,dimension(:,:)       :: GP_minSSE_Individual_Node_Parameters
@@ -172,6 +171,22 @@ real(kind=8),allocatable, dimension(:) :: GP_Integrated_Ranked_Fitness
 real(kind=8),allocatable, dimension(:) :: GP_Population_Ranked_Fitness               ! ???
 real(kind=8),allocatable, dimension(:) :: GP_Integrated_Population_Ranked_Fitness    ! ???
 
+
+!---------------------------------------------------------------------                                                   
+                                                                                                                         
+! input_data_names  - read from input data file
+                                                                                                                         
+character(name_len),allocatable, dimension( : ) :: input_data_names
+                                                                                                                         
+! input_data_array - read from input data file
+                                                                                                                         
+real(kind=8),allocatable, dimension(:,:) ::  input_data_array
+                                                                                                                         
+                                                                                                                         
+real(kind=8),allocatable,target, dimension(:) ::  RK_data_array
+                                                                                                                         
+!---------------------------------------------------------------------                                                   
+             
 
 !GP_Solution contains columns for forcing functions
 

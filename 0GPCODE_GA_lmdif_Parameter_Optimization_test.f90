@@ -196,6 +196,75 @@ endif  ! ierror > 0
 
 !----------------------------------------------------------
 
+if( n_input_vars > 0 )then
+
+    ! read in the data number of points, number of vars
+    
+    if( myid == 0 )then
+    
+        write(6, '(/A)') '0: call read_input_data_size '
+        call read_input_data_size( )
+    
+    endif !   myid == 0
+    
+    
+    
+    !---------------------------------------------------------------------
+    
+    ! broadcast number of data points, number of input variables
+    
+    call MPI_BCAST( n_input_data_points, 1,    &
+                    MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
+    
+    call MPI_BCAST( n_input_vars, 1,    &
+                    MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
+    
+    
+    call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
+    
+    !---------------------------------------------------------------------
+    
+    !write(6, '(/A,2(1x,I6))') '0: myid, n_input_data_points', &
+    !                              myid, n_input_data_points
+    !write(6, '(/A,2(1x,I6))') '0: myid, n_input_vars', myid, n_input_vars
+    
+    
+    ! allocate input data names
+    
+    !write(6, '(/A)') '0: allocate input_data_names'
+    allocate( input_data_names( 0:n_input_vars ) )
+    
+    
+    ! allocate input data array
+    
+    !write(6, '(/A)') '0: allocate input_data_array'
+    allocate( input_data_array( 0:n_input_vars, n_input_data_points) )
+    
+    
+    call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
+    
+    !---------------------------------------------------------------------
+    
+    ! read in the data into the arrays  input_data_names, input_data_array
+    
+    
+    if( myid == 0 )then
+    
+        write(6, '(/A)') '0: call read_input_data'
+    
+        call read_input_data( )
+    
+        write(6,'(/A,2(1x,I6))') '0: n_input_data_points', &
+                                     n_input_data_points
+        write(6,'(/A,2(1x,I6))') '0: n_input_vars      =', n_input_vars
+        write(6,'(/A,2(1x,I6))') '0: n_functions_input =', n_functions_input
+    
+    endif !   myid == 0
+
+
+endif  !  n_input_vars > 0 
+!---------------------------------------------------------------------
+
 !sum_lmdif = 0.0d0
 
 ! broadcast the values read in by cpu 0 to others
@@ -275,12 +344,22 @@ call init_values( 0 )
 
 n_Variables = n_CODE_equations
 
+!---------------------------------------------------------------------
+
+! n_inputs is used in deser*2 to point to input values in rk_data_array
+
+n_inputs = n_input_vars
+
 !------------------------------------------------------------------
+
 
 if( myid == 0 )then
 
-    write(6,'(A,1x,I6)')  '0: n_code_equations ', n_code_equations
-    write(6,'(A,1x,I6)')  '0: n_variables      ', n_variables
+    write(6,'(/A,1x,I6)')     '0: n_code_equations ', n_code_equations
+    write(6,'(A,1x,I6)')      '0: n_variables      ', n_variables
+    write(6, '(/A,2(1x,I6))') '0: n_input_vars     ', n_input_vars
+    write(6, '(A,2(1x,I6))')  '0: n_code_equations ', n_code_equations
+    write(6, '(A,2(1x,I6)/)') '0: n_inputs         ', n_inputs
 
     call print_values1()
 

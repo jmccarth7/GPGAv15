@@ -183,7 +183,7 @@ character(str_len), allocatable, dimension( : )     ::  tree_value_string
 ! with 2500 steps, the LV predator-prey cycle curve is closed
 !integer(kind=4), parameter :: n_time_steps= 2500 ! 8 ! 10
 
-!!integer(kind=4) :: n_time_steps
+integer(kind=4) :: n_time_steps
 
 
 !-------------------------------------------------------------------
@@ -258,5 +258,17 @@ integer, dimension(0:max_level) :: pow2_table
 integer, allocatable, dimension(:) :: GP_n_parms
 logical :: GP_para_flag
 
+!--------------------------------------------------------------------
+
+! number of input variables in the input data file 
+! number of columns in file =  1 + n_input_vars
+
+integer(kind=4) :: n_input_vars
+
+! number of input data points in the input data file 
+
+integer(kind=4) :: n_input_data_points
+
+integer, parameter :: name_len = 20 
 
 end module GP_parameters_module

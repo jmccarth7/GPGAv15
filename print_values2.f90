@@ -24,7 +24,7 @@ implicit none
 
 
 
-!integer :: i
+integer :: i
 real(kind=8), dimension(n_parameters) :: answer
 
 

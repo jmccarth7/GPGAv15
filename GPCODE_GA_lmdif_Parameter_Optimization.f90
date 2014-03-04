@@ -207,7 +207,7 @@ endif ! myid == 0
 L_stop_run  = .FALSE.
 !L_stop_run  = .TRUE.
 
-do  i_GA_generation = 1,n_GA_Generations
+do  i_GA_generation = 1, n_GA_Generations
 
     ! Run_GA_lmdif determines if the new child
     ! has to be sent to lmdif for 'local' optimization
@@ -418,7 +418,7 @@ do  i_GA_generation = 1,n_GA_Generations
                 !    'GP_GA_opt:2 child parameters at start of GA generation:', &
                 !                                            i_GA_generation
                 !    do  i_ga_ind = 1, n_GA_Individuals
-                        write(GA_print_unit,'(I6,1x,10(1x,E15.7)/(10(1x,E15.7)))') &
+                !        write(GA_print_unit,'(I6,1x,10(1x,E15.7)/(10(1x,E15.7)))') &
                 !              i_ga_ind, &
                 !             (child_parameters(jj, i_ga_ind),&
                 !                               jj = 1,n_parameters )
@@ -880,6 +880,7 @@ do  i_GA_generation = 1,n_GA_Generations
             endif ! nsafe
 
             !---------------------------------------------------------------
+
 
          enddo  recv_loop
 

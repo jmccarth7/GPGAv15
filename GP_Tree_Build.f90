@@ -202,7 +202,7 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
 
             enddo level_loop  !  i_Level
 
-        !endif !   cff .le. GP_Tree_Probability
+        endif !   cff .le. GP_Tree_Probability
 
     enddo !  i_Tree
 

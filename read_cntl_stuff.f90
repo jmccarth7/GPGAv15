@@ -974,6 +974,32 @@ do
 !--------------------------------------------------------------------
 
 
+! n_input_vars  = number of input variables
+
+
+    elseif( Aline(1:len('n_input_vars')) == "N_INPUT_VARS" .or.     &
+            Aline(1:len('n_input_vars')) == "n_input_vars" ) then
+
+        READ(Aline(len('n_input_vars')+1:), * )  n_input_vars
+
+        write(GP_print_unit,'(A,1x,I6)') &
+              'rcntl: n_input_vars = ', n_input_vars
+
+
+!--------------------------------------------------------------------
+
+
+! n_levels      = number of levels used in constructing trees
+
+
+    elseif( Aline(1:len('n_levels')) == "N_LEVELS" .or.     &
+            Aline(1:len('n_levels')) == "n_levels" ) then
+
+        READ(Aline(len('n_levels')+1:), * )  n_levels
+
+        write(GP_print_unit,'(A,1x,I6)') &
+              'rcntl: n_levels = ', n_levels
+
 
 !--------------------------------------------------------------------
 

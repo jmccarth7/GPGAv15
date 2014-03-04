@@ -601,7 +601,7 @@ do i_time_step=1,n_time_steps
   fvec(i_time_step)=0.0D0
 
   !if( L_GP_print .and. GP_para_flag .and. myid == 1 .and. &
-        i_time_step == n_time_steps                            )then
+  !      i_time_step == n_time_steps                            )then
   !    write(GP_print_unit,'(/A,1x,I6, 1x,I10)') &
   !      'fcn: myid, i_time_step', myid, i_time_step
   !endif ! L_GP_print
@@ -613,7 +613,7 @@ do i_time_step=1,n_time_steps
   do  i_CODE_equation=1,n_CODE_equations
 
       !if( L_GP_print .and. GP_para_flag .and. myid == 1 .and. &
-            i_time_step == n_time_steps                            )then
+      !      i_time_step == n_time_steps                            )then
       !    write(GP_print_unit,'(A,2(1x,I6), 3(1x,E15.7))') &
       !          'fcn: myid, i_eqn, RK_soln, data_array, var_inv ', &
       !                myid, i_CODE_equation,                   &
