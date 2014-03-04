@@ -1,5 +1,8 @@
 SUBROUTINE sort(n, arr)
 
+use mpi                                                                                                   
+use mpi_module
+
 !USE nrtype; USE nrutil, ONLY : swap,nrerror
 
 use GA_parameters_module
@@ -67,6 +70,7 @@ do
         if( jstack > NSTACK ) then
             write(GA_print_unit,*) 'sort: NSTACK too small'
             write(GP_print_unit,*) 'sort: NSTACK too small'
+            call MPI_FINALIZE(ierr)
             stop 'stack too small'
         endif 
         if( r-i+1 >= j-l ) then

@@ -9,8 +9,8 @@ use GP_Data_module
 
 implicit none
 
-real(kind=8) :: child_parameters(n_maximum_number_parameters,n_GA_Individuals)
-real(kind=4) :: cff
+real(kind=8) :: child_parameters(n_GP_parameters,n_GA_Individuals)
+!real(kind=4) :: cff
 real(kind=8) :: dff
 
 integer (kind=4) :: i_GA_replace

@@ -1,4 +1,4 @@
-subroutine read_cntl_stuff( )
+subroutine read_cntl_stuff( ierror )
 
 
 use mpi
@@ -28,17 +28,23 @@ integer(kind=4) :: GP_output_parameters_flag
 integer(kind=4) :: GA_print_flag
 integer(kind=4) :: GA_log_flag
 integer(kind=4) :: GP_log_flag
+integer(kind=4) :: GPSSE_log_flag
 integer(kind=4) :: fort333_output_flag
 integer(kind=4) :: fort444_output_flag
 integer(kind=4) ::  unit50_output_flag
+integer(kind=4) ::  GP_all_summary_flag 
 
 integer(kind=4) :: print_equations_flag
 
+integer(kind=4) :: i_function_index
+integer(kind=4) :: selected_function
+integer(kind=4) :: i                    
+integer(kind=4) :: ierror                    
 
 real(kind=8) :: dt_min
 
 !----------------------------------------------------------------------
-
+ierror = 0
 
 ! START OF EXECUTABLE CODE
 
@@ -70,7 +76,10 @@ do
         write(GP_print_unit,*) &
         'rcntl: ERROR *** Problem reading GPGACODE_cntl &
                              &in subroutine read_cntl_stuff'
-        STOP 'bad read 1 cntl file'
+        !call MPI_FINALIZE(ierr)
+        !STOP 'bad read 1 cntl file'
+        ierror = 1
+        return
    endif
    if( istat < 0 ) then
        EXIT echoloop
@@ -96,7 +105,13 @@ random_scale_large    = 50.0d0
 random_scale_small    =  1.0d0
 random_scale_fraction =  0.6d0
 
-n_Node_Functions = 7
+selected_functions = 0
+n_functions_input =  0
+
+
+n_Node_Functions = 0
+L_node_functions = .FALSE.
+
 n_GP_individuals = 1  !  9
 n_GP_generations = 1
 
@@ -113,6 +128,8 @@ GP_Asexual_Reproduction_Probability = 0.4d0
 GP_Crossover_Probability            = 0.4d0
 GP_Mutation_Probability             = 0.1d0
 
+prob_no_elite = 0.0d0
+
 ga_tournament_style = 0
 
 n_time_steps = 2500
@@ -122,6 +139,8 @@ Delta_Time_in_Days  = dt
 
 model = 'LV'
 
+GP_all_summary_flag  = 0
+L_GP_all_summary     = .FALSE.
 
 GA_print_flag = 0
 L_GA_print = .FALSE.
@@ -144,6 +163,9 @@ L_GA_log = .FALSE.
 GP_log_flag  = 0
 L_GP_log = .FALSE.
 
+GPSSE_log_flag  = 1
+L_GPSSE_log = .TRUE. 
+
 unit50_output_flag  = 0
 L_unit50_output = .FALSE.
 
@@ -152,7 +174,16 @@ L_print_equations = .FALSE.
 
 number_GA_child_prints  = 10
 number_GP_child_prints  = 10
+
+n_input_vars = 0
+n_levels = 6
+
+
 !---------------------------------------------------------------------
+
+
+i_function_index = 0 
+
 
 rewind(cntl_unitnum)
 
@@ -168,7 +199,10 @@ do
     if( istat > 0 ) then
         write(GP_print_unit,'(/A/)') &
          'rcntl: ERROR *** Problem reading GPGACODE_cntl.'
-        STOP 'bad read 2 cntl file'
+        !call MPI_FINALIZE(ierr)
+        !STOP 'bad read 2 cntl file'
+        ierror = 1
+        return
     endif
     if( istat < 0 ) then
         EXIT cntlloop
@@ -377,7 +411,7 @@ do
 !--------------------------------------------------------------------
 
 
-!model = LV  or  NPZ
+!model = LV  or  NPZ or data
 
     elseif( Aline(1:len('model')) == "MODEL" .or.     &
             Aline(1:len('model')) == "model" ) then
@@ -422,12 +456,45 @@ do
 
 !n_Node_Functions
 
+! sets L_node_functions to .TRUE. to compute node_function from n_node_functions
+
+! if  L_node_functions is .FALSE., the selected_function array is used.
+
     elseif( Aline(1:len('n_Node_Functions')) == "n_Node_Functions" .or.     &
             Aline(1:len('n_Node_Functions')) == "n_node_functions" ) then
 
         READ(Aline(len('n_Node_Functions')+1:), * )  n_Node_Functions
 
         write(GP_print_unit,'(A,1x,I6)') 'rcntl: n_Node_Functions = ', n_Node_Functions
+
+        L_node_functions = .TRUE.
+
+
+!--------------------------------------------------------------------
+
+
+! selected_function
+
+    elseif( Aline(1:len('selected_function')) == "SELECTED_FUNCTION" .or.     &
+            Aline(1:len('selected_function')) == "selected_function" ) then
+
+        READ(Aline(len('selected_function')+1:), * )  selected_function
+
+        L_node_functions = .FALSE.
+
+        !write(GP_print_unit,'(A,1x,I6)') 'rcntl: input selected_function = ', selected_function
+
+        i_function_index = i_function_index + 1
+
+        !write(GP_print_unit,'(A,1x,I6)') 'rcntl: i_function_index', i_function_index
+
+        if( i_function_index <= n_functions_max ) then 
+
+            selected_functions( i_function_index ) = selected_function
+
+            n_functions_input = max( n_functions_input, i_function_index )
+
+        endif ! i_function_index <= n_functions_max 
 
 
 !--------------------------------------------------------------------
@@ -599,7 +666,7 @@ do
 ! if GP_output_parameters_flag <= 0 - do not write printout to GP_output_parameters_unit
 
 !  DEFAULT =   GP_output_parameters_flag == 0
-!              - do not write printout to GA_print_unit
+!              - do not write printout to GP_print_unit
 
 
 
@@ -610,10 +677,15 @@ do
 
 
         if( GP_output_parameters_flag > 0 )then
+
             L_GP_output_parameters = .TRUE.
+
         else
+
             L_GP_output_parameters = .FALSE.
+
         endif ! GP_output_parameters_flag > 0
+
 
         write(GP_print_unit,'(A,1x,I12)') 'rcntl: GP_output_parameters_flag =', &
                                                   GP_output_parameters_flag
@@ -739,6 +811,36 @@ do
 
 !--------------------------------------------------------------------
 
+! GP SSE log
+
+!  if GPSSE_log_flag >  0 - write printout to GPSSE_log_unit
+!  if GPSSE_log_flag <= 0 - do not write printout to GPSSE_log_unit
+
+!  DEFAULT =   GPSSE_log_flag == 0
+!             - do not write printout to GPSSE_log_unit
+
+
+
+    elseif( Aline(1:len('GPSSE_log')) == "GPSSE_log"  .or.     &
+            Aline(1:len('GPSSE_log')) == "gpsse_log"           ) then
+
+
+        READ(Aline(len('GPSSE_log')+1:), * )  GPSSE_log_flag
+
+        if( GPSSE_log_flag > 0 )then
+            L_GPSSE_log = .TRUE.
+        else
+            L_GPSSE_log = .FALSE.
+        endif ! GPSSE_log_flag > 0
+
+        write(GP_print_unit,'(A,1x,I12)') 'rcntl: GPSSE_log_flag =', &
+                                                  GPSSE_log_flag
+        write(GP_print_unit,'(A,4x,L1 )') 'rcntl: L_GPSSE_log =', &
+                                                  L_GPSSE_log
+
+
+!--------------------------------------------------------------------
+
 
 ! unit50_output
 
@@ -766,6 +868,41 @@ do
                                                   unit50_output_flag
         write(GP_print_unit,'(A,4x,L1 )') 'rcntl: L_unit50_output =', &
                                                   L_unit50_output
+
+
+!--------------------------------------------------------------------
+
+
+! write_all_GP_summary
+
+
+! if GP_all_summary_flag >  0 - write printout to GP_all_summary_unit
+! if GP_all_summary_flag <= 0 - do not write printout to GP_all_summary_unit
+
+!  DEFAULT =   GP_all_summary_flag ==  0
+!              - do not write printout to GP_all_summary_unit
+
+
+
+    elseif( Aline(1:len('GP_all_summary')) == "GP_all_summary" .or.  &
+            Aline(1:len('GP_all_summary')) == "GP_ALL_SUMMARY" .or.  &
+            Aline(1:len('GP_all_summary')) == "gp_all_summary"      ) then
+
+
+        READ(Aline(len('GP_all_summary')+1:), * )  GP_all_summary_flag
+
+        if( GP_all_summary_flag > 0 )then
+            L_GP_all_summary = .TRUE.
+        else
+            L_GP_all_summary = .FALSE.
+        endif ! GP_all_summary_flag > 0
+
+        write(GP_print_unit,'(A,1x,I12)') 'rcntl: GP_all_summary_flag =', &
+                                                  GP_all_summary_flag
+        write(GP_print_unit,'(A,4x,L1 )') 'rcntl: L_GP_all_summary =', &
+                                                  L_GP_all_summary
+
+
 
 
 
@@ -837,17 +974,67 @@ do
 !--------------------------------------------------------------------
 
 
+
+!--------------------------------------------------------------------
+
+
+! prob_no_elite      = number of levels used in constructing trees
+
+
+    elseif( Aline(1:len('prob_no_elite')) == "PROB_NO_ELITE" .or.     &
+            Aline(1:len('prob_no_elite')) == "prob_no_elite" ) then
+
+        READ(Aline(len('prob_no_elite')+1:), * )  prob_no_elite
+
+        write(GP_print_unit,'(A,1x,E15.7)') &
+              'rcntl: prob_no_elite = ', prob_no_elite
+
+
+
+
+
+!--------------------------------------------------------------------
+
+
     else
 
         write(GP_print_unit,'(/A)') 'rcntl: WARNING: UNRECOGNIZED OPTION '
 
         write(GP_print_unit,'(A,1x,A)') 'rcntl: Aline =', trim( Aline )
         write(GP_print_unit,'(A/)') 'rcntl: WARNING: UNRECOGNIZED OPTION '
+        ierror = 1
+        return
 
     endif !   Aline(1:6) == ???
 
 
 enddo cntlloop
+
+if( L_node_functions .and. n_node_functions <=0 )then
+
+    write(GP_print_unit,'(//A)') &
+          'rcntl: BAD VALUE FOR n_node_functions '
+    write(GP_print_unit,'(A,1x,I6//)') &
+          'rcntl:               n_node_functions = ', n_node_functions
+
+    !stop 'bad input n_node_functions'
+    ierror = 1
+    return
+
+endif ! .not. L_node_functions 
+
+
+if( .not. L_node_functions )then
+
+    write(GP_print_unit,'(//A,1x,I6)') 'rcntl: n_functions_input', n_functions_input
+    do  i = 1, n_functions_input
+        write(GP_print_unit,'(A,2(1x,I6))') 'rcntl: i, selected_functions(i)', &
+                                                    i, selected_functions(i)
+    enddo !i 
+
+endif ! .not. L_node_functions 
+
+write(GP_print_unit,'(//A)') ' '
 
 
 return

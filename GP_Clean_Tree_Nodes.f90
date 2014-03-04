@@ -66,8 +66,8 @@ do  i_GP_Individual=1,n_GP_Individuals
 
                 i_Function=i_Function+1  ! sets the 'function' node's index
 
-                !write(6,'(A,1x,I6)') 'gpctn: i_node     ', i_node
-                !write(6,'(A,1x,I6)') 'gpctn: i_function ', i_function
+                !write(6,'(A,2(1x,I6))') 'gpctn: i_node, i_function', &
+                !                                i_node, i_function
 
 
                 i_Node_Left=i_Node       ! sets the 'left terminal' node's index;
@@ -76,15 +76,24 @@ do  i_GP_Individual=1,n_GP_Individuals
                 i_Node_Right=i_Node+1    ! sets the 'right terminal' node's index;
                                          ! i_node_right=(i_function*2)+1 would also work
 
+
+                !if( GP_Adult_Population_Node_Type(i_Function, i_Tree,i_GP_Individual) > -9999)then
                 !write(6,'(A,2(1x,I6))') &
                 !'gpctn: i_Function, GP_Adult_Population_Node_Type(i_Function, i_Tree,i_GP_Individual)',&
                 !        i_Function, GP_Adult_Population_Node_Type(i_Function, i_Tree,i_GP_Individual)
+                !endif !  GP_Adult_Population_Node_Type(i_Function,...
+
+                !if( GP_Adult_Population_Node_Type(i_Node_Left, i_Tree,i_GP_Individual) > -9999)then
                 !write(6,'(A,2(1x,I6))') &
                 !'gpctn: i_Node_Left, GP_Adult_Population_Node_Type(i_Node_Left, i_Tree,i_GP_Individual)',&
                 !        i_Node_Left, GP_Adult_Population_Node_Type(i_Node_Left, i_Tree,i_GP_Individual)
+                !endif !  GP_Adult_Population_Node_Type(i_Node_Left,...
+
+                !if( GP_Adult_Population_Node_Type(i_Node_Right, i_Tree,i_GP_Individual) > -9999)then
                 !write(6,'(A,2(1x,I6))') &
                 !'gpctn: i_Node_Right, GP_Adult_Population_Node_Type(i_Node_Right, i_Tree,i_GP_Individual)',&
                 !        i_Node_Right, GP_Adult_Population_Node_Type(i_Node_Right, i_Tree,i_GP_Individual)
+                !endif !  GP_Adult_Population_Node_Type(i_Node_Right....
 
 
                 if( GP_Adult_Population_Node_Type(i_Function,  i_Tree,i_GP_Individual) .gt. 0 .and. &

@@ -17,7 +17,7 @@ integer(kind=4), allocatable, dimension(:) :: ga_individual_elites
 
 real(kind=8) :: GA_Individual_Lowest_SSE
 
-real(kind=8),allocatable, dimension(:,:) :: ppe  ! debug
+real(kind=8),allocatable, dimension(:,:) :: ppex  ! debug
 
 ! must be kept for re-evaluations of next generations
 !real(kind=8) :: GA_Adult_Individual_SSE(n_GA_Individuals)

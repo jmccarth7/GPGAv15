@@ -27,11 +27,13 @@ real(kind=8) :: totobs_m1
 integer(kind=4) :: i_CODE_equation
 integer(kind=4) :: i_time_step
 
-integer(kind=4) :: nn
+!integer(kind=4) :: nn
 
-real(kind=8) :: sum1, sum2, sum3, mean, variance
-real(kind=8) :: variance2
-real(kind=8) :: M2, delta
+!real(kind=8) :: sum1, sum2, sum3, mean, variance
+!real(kind=8) :: variance2
+!real(kind=8) :: M2, delta
+
+real(kind=8), dimension(1:n_code_equations )  :: Data_Variance
 
 !----------------------------------------------------------------------------------------
 
@@ -53,6 +55,8 @@ endif
 !write(GP_print_unit,'(A,3(1x,I6))') &
 !         'cdv: myid, n_CODE_equations, n_time_steps ', &
 !               myid, n_CODE_equations, n_time_steps
+
+if( n_code_equations > 1 )then
 
 do i_CODE_equation=1,n_CODE_equations
 
@@ -124,65 +128,81 @@ do i_CODE_equation=1,n_CODE_equations
     !write(GP_print_unit,'(/A,2x,E15.7)') 'cdv: 2 variance2    ', variance2
     !
     !!-------------------------------------------------------------------------------
+    
+        !------------------------------------------------------------------------------ 
 
-    if( dff .gt. 0.0D+0) then
+        if( dff .gt. 0.0D+0) then
+    
+            ! set variance to observed variance for normalize by the s.d.
+    
+            Data_Variance(i_CODE_equation)=dff
+    
+        else
+    
+            ! set variance to 1.0 for normalization to be 'unaltered'
+    
+            Data_Variance(i_CODE_equation)=1.0D+0
+    
+        endif !   dff .gt. 0.0D+0
+    
+        !------------------------------------------------------------------------------ 
+    
+        ! compute data_variance_inv
+    
+        if( abs( Data_Variance(i_CODE_equation) ) > 0.0D0 ) then
+            Data_Variance_inv(i_CODE_equation) = 1.0D0 / Data_Variance(i_CODE_equation)
+        endif ! abs( data_var...
+    
+    
+        if( abs( Data_Variance(i_CODE_equation) ) < 1.0D-30 )then
+    
+            write(GP_print_unit,'(/A,1x,I6,2x,E24.16)') &
+             'cdv: i_CODE_equation, Data_Variance(i_CODE_equation) ', &
+                   i_CODE_equation, Data_Variance(i_CODE_equation)
+    
+            write(GP_print_unit,'(A/)') 'cdv: bad data variance -- stopping program '
+            call MPI_FINALIZE(ierr)
+            stop 'bad data var'
+    
+        endif ! abs( Data_Variance(i_CODE_equation) ) < 1.0D-30
+    
+        !------------------------------------------------------------------------------ 
 
-        ! set variance to observed variance for normalize by the s.d.
+        if( abs( Data_Variance_inv(i_CODE_equation) ) <= 0.0D0  )then
+    
+            write(GP_print_unit,'(/A,1x,I6,2x,E15.7)') &
+             'cdv: i_CODE_equation, Data_Variance_inv(i_CODE_equation) ', &
+                   i_CODE_equation, Data_Variance_inv(i_CODE_equation)
+    
+            write(GP_print_unit,'(A/)') 'cdv: bad data variance inv -- stopping program '
+            call MPI_FINALIZE(ierr)
+            stop 'bad data var_inv'
+    
+        endif ! abs( Data_Variance_inv(i_CODE_equation) ) <=0.0D0
+    
+        !------------------------------------------------------------------------------ 
+    
+        if( myid == 0 )then
+    
+            write(GP_print_unit,'(A,1x,I4,2(1x,E15.7))') &
+                 'cdv: i_CODE_eq, Data_Variance, Data_Variance_inv ', &
+                       i_CODE_equation, Data_Variance(    i_CODE_equation), &
+                                        Data_Variance_inv(i_CODE_equation)
+        endif ! myid == 0
+    
 
-        Data_Variance(i_CODE_equation)=dff
-
-    else
-
-        ! set variance to 1.0 for normalization to be 'unaltered'
-
-        Data_Variance(i_CODE_equation)=1.0D+0
-
-    endif !   dff .gt. 0.0D+0
-
-
-
-    ! compute data_variance_inv
-
-    if( abs( Data_Variance(i_CODE_equation) ) > 0.0D0 ) then
-        Data_Variance_inv(i_CODE_equation) = 1.0D0 / Data_Variance(i_CODE_equation)
-    endif ! abs( data_var...
-
-
-    if( abs( Data_Variance(i_CODE_equation) ) < 1.0D-30 )then
-
-        write(GP_print_unit,'(/A,1x,I6,2x,E15.7)') &
-         'cdv: i_CODE_equation, Data_Variance(i_CODE_equation) ', &
-               i_CODE_equation, Data_Variance(i_CODE_equation)
-
-        write(GP_print_unit,'(A/)') 'cdv: bad data variance -- stopping program '
-        call MPI_FINALIZE(ierr)
-        stop 'bad data var'
-
-    endif ! abs( Data_Variance(i_CODE_equation) ) < 1.0D-30
-
-    if( abs( Data_Variance_inv(i_CODE_equation) ) <= 0.0D0  )then
-
-        write(GP_print_unit,'(/A,1x,I6,2x,E15.7)') &
-         'cdv: i_CODE_equation, Data_Variance_inv(i_CODE_equation) ', &
-               i_CODE_equation, Data_Variance_inv(i_CODE_equation)
-
-        write(GP_print_unit,'(A/)') 'cdv: bad data variance inv -- stopping program '
-        call MPI_FINALIZE(ierr)
-        stop 'bad data var_inv'
-
-    endif ! abs( Data_Variance_inv(i_CODE_equation) ) <=0.0D0
+    enddo !  i_CODE_equation
 
 
-    if( myid == 0 )then
+else  ! n_code_equations == 1
 
-        write(GP_print_unit,'(A,1x,I4,2(1x,E23.16))') &
-             'cdv: i_CODE_eq, Data_Variance, Data_Variance_inv ', &
-                   i_CODE_equation, Data_Variance(i_CODE_equation), &
-                                  Data_Variance_inv(i_CODE_equation)
 
-    endif ! myid == 0
+    data_variance(1:n_code_equations)     = 1.0d0
+    data_variance_inv(1:n_code_equations) = 1.0d0
 
-enddo !  i_CODE_equation
+
+endif ! n_code_equations > 1 
+
 
 if( myid == 0 )then
     write(GP_print_unit,'(A)') ' '

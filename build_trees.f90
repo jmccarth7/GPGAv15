@@ -1,4 +1,4 @@
-subroutine Build_Trees( treeSlice )
+subroutine Build_Trees( treeSlice ) 
 
 use mpi
 use mpi_module
@@ -13,10 +13,11 @@ use Fasham_Tree_Interfaces
 
 type(Tree_Node_Pointer), dimension(n_Trees) :: treeSlice
 
-type(Tree_Node), pointer :: root
+!type(Tree_Node), pointer :: root
 
-integer :: itree
-integer :: inode
+!integer :: itree
+!integer :: inode
+
 
 !-----------------------------------------------------------------------------------------------
 

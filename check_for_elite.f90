@@ -1,5 +1,8 @@
 subroutine GA_check_for_elite( index0  )
 
+use mpi                                                                                                   
+use mpi_module
+
 use GP_Parameters_module
 use GA_Parameters_module
 use GP_Variables_module
@@ -36,7 +39,10 @@ do
                   'cfe: no good index found  ksafe, n_GA_individuals ', &
                                              ksafe, n_GA_individuals
         endif ! L_ga_print
+
+        call MPI_FINALIZE(ierr)
         stop 'check_elite bad'
+
     endif
 
     call random_number(cff) ! uniform random number generator

@@ -3,6 +3,9 @@
 
 module class_Serialization_Visitor
 
+use mpi                                                                                                   
+use mpi_module
+
 use class_Tree_Node
 use GP_variables_module
 
@@ -29,8 +32,11 @@ use GP_variables_module
         class(Serialization_Visitor), intent(inout) :: this
         class(Tree_Node), intent(in) :: node
 
-        write (6,*) 'Error: generic type Tree_Node encountered in tree traversal.'
+        write (6,'(//A//)') &
+               'Error: generic type Tree_Node encountered in tree traversal.'
+        call MPI_FINALIZE(ierr)
         stop 1 ! Stop program
+
     end subroutine Serialize_Visit_Tree_Node
 
     !-----------------------------------------------------------------------

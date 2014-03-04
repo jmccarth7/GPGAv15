@@ -1,6 +1,7 @@
 subroutine  count_parens( test_string, paren_type, n_parens )
 
 
+
 use GP_Parameters_module
 use GP_Variables_module
 use GP_variables_module
@@ -31,7 +32,11 @@ search_char = ' '
 if( paren_type == left_type  ) search_char = left_paren
 if( paren_type == right_type ) search_char = right_paren
 
-if( search_char == ' ' ) stop 'bad search char'
+if( search_char == ' ' ) then
+    !stop 'bad search char'
+    n_parens = 0
+    return
+endif 
 
 
 len_work = len( trim( test_string ) )

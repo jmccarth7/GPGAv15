@@ -12,10 +12,22 @@ implicit none
 
 integer :: n_levels
 
+
+logical :: L_node_functions
+
 integer :: n_functions
+
+integer, parameter :: n_functions_max = 50
+
+integer :: n_functions_input
+
+integer(kind=4), dimension(n_functions_max) :: selected_functions
 
 integer(kind=4) :: n_CODE_equations
 
+! n_inputs allows putting n_inputs - 1 extra inputs in as -2, -3... for n_code_equations = 1
+!integer(kind=4),parameter :: n_inputs = 7
+integer(kind=4)           :: n_inputs 
 
 ! number of possible node functions
 ! [needed for tree generations/alterations]
@@ -70,20 +82,22 @@ integer(kind=4) :: user_input_random_seed
 integer(kind=4),parameter :: min_N_param = 2
 
 
-integer(kind=4),parameter :: GP_print_unit = 6
-
+integer(kind=4),parameter :: GP_print_unit          =  6
 integer(kind=4),parameter :: GP_summary_output_unit = 40
+integer(kind=4),parameter :: GP_minSSE_summary_output_unit = 41
+integer(kind=4),parameter :: GP_best_summary_output_unit = 42
+integer(kind=4),parameter :: unit_gp_out            = 50
+integer(kind=4),parameter :: GP_log_unit            = 80
+integer(kind=4),parameter :: GPSSE_log_unit         = 90
+integer(kind=4),parameter :: GPSSE_best_log_unit    = 91
+integer(kind=4),parameter :: GP_output_unit         = 30
 
-integer(kind=4),parameter :: unit_gp_out = 50
+logical ::   L_GP_all_summary
+
 logical ::   L_unit50_output
-
-integer(kind=4),parameter :: GP_log_unit = 80
 logical ::   L_GP_log
-
-
-integer(kind=4),parameter :: GP_output_unit = 30
-logical ::          L_GP_output_parameters
-
+logical ::   L_GPSSE_log
+logical ::   L_GP_output_parameters
 logical ::   L_print_equations
 
 integer(kind=4) :: n_GP_individuals
@@ -102,9 +116,9 @@ integer(kind=4) :: n_parameters
 ! NOTE: the last value must be set to zero to set the last level as terminals only.
 
 !-------------------------------------------------------------------
-integer, parameter :: str_len = 500
+integer, parameter :: str_len = 1000  ! 500
 
-character(160) :: tree_node_string
+character(str_len) :: tree_node_string
 character(3) :: node_element_string
 !-------------------------------------------------------------------
 
@@ -169,7 +183,7 @@ character(str_len), allocatable, dimension( : )     ::  tree_value_string
 ! with 2500 steps, the LV predator-prey cycle curve is closed
 !integer(kind=4), parameter :: n_time_steps= 2500 ! 8 ! 10
 
-integer(kind=4) :: n_time_steps
+!!integer(kind=4) :: n_time_steps
 
 
 !-------------------------------------------------------------------
@@ -234,7 +248,7 @@ real(kind=8) ::  random_scale_fraction
 
 ! table to store 2**level - 1  for use in RK integration
 
-integer, parameter :: max_level = 10
+integer, parameter :: max_level = 20
 integer, dimension(0:max_level) :: pow2_table
 
 !--------------------------------------------------------------------

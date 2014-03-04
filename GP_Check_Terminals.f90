@@ -12,7 +12,6 @@ subroutine GP_Check_Terminals( temp_Node_Type, i_Error)
 use mpi
 use mpi_module
 use GP_Parameters_module
-!!!!!!use GP_model_parameters_module
 use GA_Parameters_module
 use GP_Variables_module
 use GA_Variables_module
@@ -48,13 +47,13 @@ do  i_Tree=1,n_Trees
         do  i_Node= pow2_table(i_level) + 1,  pow2_table(i_level+1) , 2
 
 
-            i_Function=i_Function+1                  ! sets the 'function' node's index
+            i_Function=i_Function+1        ! sets the 'function' node's index
 
-            i_Node_Left=i_Node                       ! sets the 'left terminal' node's index;
-                                                     ! i_node_left=i_function*2 would also work
+            i_Node_Left=i_Node             ! sets the 'left terminal' node's index;
+                                           ! i_node_left=i_function*2 would also work
 
-            i_Node_Right=i_Node+1                    ! sets the 'right terminal' node's index;
-                                                     ! i_node_right=(i_function*2)+1 would also work
+            i_Node_Right=i_Node+1          ! sets the 'right terminal' node's index;
+                                           ! i_node_right=(i_function*2)+1 would also work
 
 
 

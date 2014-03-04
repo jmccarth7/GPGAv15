@@ -1,4 +1,4 @@
-subroutine Runge_Kutta_Box_Model( )
+subroutine Runge_Kutta_Box_Model( L_print_RK ) 
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ! carry out a prescribed Runge-Kutta numerical integration
@@ -49,8 +49,11 @@ integer(kind=4) :: i_node
 integer(kind=4) :: tree_node_count
 !integer(kind=4),intent(in) :: i_GA_indiv
 
+logical :: L_GP_print
+logical,intent(in) :: L_print_RK 
 
 !--------------------------------------------------------------------------------------
+L_GP_print = .true.
 
 tree_node_count = 0
 
@@ -59,6 +62,43 @@ tree_node_count = 0
 !    write(GA_print_unit,'(A,1x,I6/)')  'rkbm: n_Variables ', n_Variables
 !    !!!write(GA_print_unit,'(A,1x,I6/)')  'rkbm: tree_value modified'
 !endif ! L_ga_print .and. myid == 1
+
+!--------------------------------------------------------------------------------------
+!! debug >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+!! debug only  - put in discover problem tree
+!GP_individual_node_type(:, :) =  -9999
+!
+!i_tree = 1
+!i_node = 1
+!GP_individual_node_type(i_node, i_tree) =  6
+!i_node = 2
+!GP_individual_node_type(i_node, i_tree) =  0
+!i_node = 3
+!GP_individual_node_type(i_node, i_tree) =  4
+!i_node = 6
+!GP_individual_node_type(i_node, i_tree) = -1
+!i_node = 7
+!GP_individual_node_type(i_node, i_tree) =  7
+!i_node = 14
+!GP_individual_node_type(i_node, i_tree) = -2
+!i_node = 15
+!GP_individual_node_type(i_node, i_tree) = -1
+!
+!i_tree = 5
+!i_node = 1
+!GP_individual_node_type(i_node, i_tree) = -2
+!
+!
+!GP_individual_node_parameters(:, :) = 0.0D0
+!i_tree = 1
+!i_node = 2
+!GP_individual_node_parameters(i_node, i_tree) = 0.7191251516342163D+02
+!
+!Numerical_CODE_Solution( 0 , 1) = 0.6718252785503864D-02
+!Numerical_CODE_Solution( 0 , 2) = 0.8888030052185059D+02
+!
+!!--------------------------------------------------------------------------------------
+!
 
 
 if( dt <= 0.0d0 )then
@@ -113,11 +153,20 @@ endif ! dt <= 0.0D0
 do  i_Time_Step = 1, n_Time_Steps
 
 
+    !------------------------------------------------------------------------------
 
+    !!!RK_data_array(1:n_input_vars) = input_data_array(1:n_input_vars, i_data_point )
     b_tmp(:) = Numerical_CODE_Solution(i_Time_Step-1,:)  ! Array Assignment
+
+    if( any( isnan( b_tmp ) ) .or.  any( abs(b_tmp)  > 1.0d20 ) ) then
+        L_bad_result = .TRUE.
+        return
+    endif !  any( isnan( b_tmp ) ) .or.  any( abs(b_tmp)  > 1.0d20 )
+
 
     btmp = b_tmp
 
+    !------------------------------------------------------------------------------
 
     ! carry out a Runge-Kutta time step
     do  iter=1,4
@@ -169,6 +218,16 @@ do  i_Time_Step = 1, n_Time_Steps
 !                    !endif ! myid == 0
 !
 !    endif ! i_time_step < 251
+
+        if( isnan( Tree_Value(i_Tree) )          .or.   &
+              abs( Tree_Value(i_Tree) )  > 1.0d20    ) then
+            L_bad_result = .TRUE.
+            !write(6,'(A,1x,I6,1x,I6,1x,E24.16)') &
+            !      'rkbm: bad value i_data_point, i_tree, Tree_Value(i_tree)', &
+            !                       i_data_point, i_tree, Tree_Value(i_tree)
+            return
+        endif !  isnan( Tree_Value(i_Tree) ) .or. abs(Tree_Value(i_Tree)) > 1.0d20 
+
                     !write(GA_print_unit,'(/A,2x,I6)') &
                     !          'rkbm: aft size( GP_Trees ) ', size( GP_Trees )
 

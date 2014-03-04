@@ -35,6 +35,7 @@ subroutine Deserialize_Trees( Trees, num_Tracked_resources, Tree_count, io_dir )
         do j = 1,num_Tracked_resources
 
             Trees(i, j)%n => null()
+
             write(file_name, '((A,I0.0,A,I0.0,A))') io_dir//'/Trees/', i, '-', j, '.tree'
             INQUIRE(FILE=trim(file_name), EXIST=file_exists)
 

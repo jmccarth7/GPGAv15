@@ -3,8 +3,8 @@ subroutine GP_Tree_Build
 
 use mpi
 use mpi_module
+
 use GP_Parameters_module
-!!!!!!!!!!use GP_model_parameters_module
 use GA_Parameters_module
 use GP_Variables_module
 use GA_Variables_module
@@ -22,9 +22,27 @@ integer(kind=4) :: n_Nodes_at_Level
 integer(kind=4) :: i_Level_Node
 integer(kind=4) :: Node_Function
 integer(kind=4) :: Node_Variable
+!integer(kind=4) :: i
+integer(kind=4) :: test_function_index
 
+!integer(kind=4),dimension(9)  :: allowed_functions
+
+!!integer(kind=4),parameter :: n_inputs = 7  ! in GP_param_module
 
 !-----------------------------------------------------------------------------
+
+!allowed_functions = 0
+
+!allowed_functions(1) = 1
+!allowed_functions(2) = 2
+!allowed_functions(3) = 3
+!allowed_functions(4) = 4
+!allowed_functions(5) = 0
+!allowed_functions(6) = 0
+!allowed_functions(7) = 7
+!allowed_functions(8) = 8
+!allowed_functions(9) = 9
+
 
 GP_Child_Population_Node_Type=-9999 ! set all to null [-9999]
 
@@ -42,9 +60,11 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
     !write(GP_print_unit,'(/A,1(1x,I6))') &
     !             'gtb: i_GP_individual ', i_GP_individual
 
+
     do  i_Tree=1,n_Trees                ! for each GPCODE tree
 
-        !write(GP_print_unit,'(/A,1(1x,I6))') 'gtb: i_Tree ', i_Tree
+
+        !write(GP_print_unit,'(A,1(1x,I6))') 'gtb: i_Tree ', i_Tree
 
 
         call random_number(cff) ! uniform random number generator
@@ -58,6 +78,7 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
             GP_Child_Population_Node_Type(1,i_Tree,i_GP_Individual)=0
 
             i_Node=0
+            level_loop:&
             do  i_Level=1,n_Levels-1                    !original
 
                 n_Nodes_at_Level= pow2_table( i_level-1 ) + 1 ! int(2**(i_Level-1))
@@ -71,7 +92,14 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
 
                     i_Node=i_Node+1
 
+                    !write(GP_print_unit,'(/A,2(1x,I6)/)') &
+                    !      'gtb: i_node , n_Nodes ', i_node , n_Nodes
+
+                    if( i_node > n_nodes ) exit level_loop
+
+
                     if( GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual)  .eq. 0 ) then
+
 
                         ! randomly decide function or terminal
 
@@ -82,24 +110,52 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
                         !      'gtb: i_Level, cff, Node_Probability(i_Level)', &
                         !            i_Level, cff, Node_Probability(i_Level)
 
-                        if( cff .lt. Node_Probability(i_Level) ) then  ! set as a terminal
+                        if( cff .lt. Node_Probability(i_Level) ) then  ! set as a function 
 
                             call random_number(cff) ! uniform random number generator
 
-                            node_function=1+int(cff*float(n_Node_Functions))
 
-                            !write(GP_print_unit,'(A,1x,I6,1x,F10.4)') 'gtb: Node_Function, cff ', &
-                            !                                                Node_Function, cff
-                            !write(GP_print_unit,'(A,1x,I6)') 'gtb: n_Node_Functions', &
-                            !                                       n_Node_Functions
+                            if( L_node_functions )then
 
-                            Node_Function = min( Node_Function, n_Node_Functions )
+                                node_function=1+int(cff*float(n_Node_Functions))
+    
+                                !write(GP_print_unit,'(A,1x,I6,1x,F10.4)') &
+                                !      'gtb:1 Node_Function, cff ', &
+                                !             Node_Function, cff
+                                !write(GP_print_unit,'(A,1x,I6)') 'gtb:1 n_Node_Functions', &
+                                !                                        n_Node_Functions
+    
+                                Node_Function = min( Node_Function, n_Node_Functions )
+    
+                                !write(GP_print_unit,'(A,1x,I6)') &
+                                !       'gtb:1 Node_Function', Node_Function
 
-                            !write(GP_print_unit,'(A,1x,I6)') 'gtb: Node_Function', Node_Function
+                            else 
 
+                                
+                                test_function_index = 1+int(cff*float(n_functions_input))
+                                test_function_index = max( 1, test_function_index  ) 
+                                test_function_index = min( n_functions_input, test_function_index  ) 
+    
+                                !write(GP_print_unit,'(A,1x,I6,1x,F10.4)') &
+                                !      'gtb:2 n_functions_input, cff ', &
+                                !             n_functions_input, cff
+                                !write(GP_print_unit,'(A,1x,I6)') 'gtb:2 test_function_index', &
+                                !                                        test_function_index
+    
+                                      
+                                node_function = selected_functions( test_function_index ) 
+                                       
+                                !write(GP_print_unit,'(A,1x,I6)') &
+                                !       'gtb:2 Node_Function', Node_Function
+
+                            endif ! L_node_functions 
+
+                            !--------------------------------------------------------------------------
 
                             GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) =  &
                                                                              Node_Function
+                            !--------------------------------------------------------------------------
 
                             !  set the node vs terminal selection capability
                             !  for the node inputs at the next level
@@ -112,22 +168,28 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
 
                                 ! set the node lowel level inputs to open
 
-                                GP_Child_Population_Node_Type( 2*i_Node  ,i_Tree,i_GP_Individual)=0
-                                GP_Child_Population_Node_Type( 2*i_Node+1,i_Tree,i_GP_Individual)=0
+                                GP_Child_Population_Node_Type( min(2*i_Node, n_nodes)  , &
+                                                                       i_Tree,i_GP_Individual) = 0
+                                GP_Child_Population_Node_Type( min(2*i_Node+1, n_nodes), &
+                                                                       i_Tree,i_GP_Individual) = 0
 
                             else
 
                                 ! complete setting the node lowest level nodes with terminals
 
-                                GP_Child_Population_Node_Type( 2*i_Node  ,i_Tree,i_GP_Individual)=-1
-                                GP_Child_Population_Node_Type( 2*i_Node+1,i_Tree,i_GP_Individual)=-1
+                                GP_Child_Population_Node_Type( min(2*i_Node, n_nodes)  , &
+                                                                       i_Tree,i_GP_Individual) = -1
+                                GP_Child_Population_Node_Type( min(2*i_Node+1, n_nodes), &
+                                                                       i_Tree,i_GP_Individual) = -1
+
 
                             endif !   i_Level .lt. N_Levels-1
 
 
                         else ! set it as a Parameter or Variable at a later point in the code
 
-                            ! set a parameter or variable later
+                            !  cff >=   Node_Probability(i_Level)
+                            !  so set a parameter or variable later
 
                             GP_Child_Population_Node_Type(i_Node,i_Tree, i_GP_Individual)=-1
 
@@ -138,9 +200,9 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
 
                 enddo !  i_Level_Node
 
-            enddo !  i_Level
+            enddo level_loop  !  i_Level
 
-        endif !   cff .le. GP_Tree_Probability
+        !endif !   cff .le. GP_Tree_Probability
 
     enddo !  i_Tree
 
@@ -160,7 +222,9 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
 
 enddo !  i_GP_Individual
 
+
 !------------------------------------------------------------------------------------------------
+
 
 ! randomly fill the terminals of the GP_Child_Population_Node_Type array
 ! with parameter or variable 'types'
@@ -171,6 +235,8 @@ do  i_GP_Individual=1,n_GP_Individuals
     do  i_Tree=1,n_Trees
 
         i_Node=0
+
+        level_loop2:&
         do  i_Level=1,n_Levels
 
             n_Nodes_at_Level = pow2_table( i_level - 1 ) + 1  ! int(2**(i_Level-1))
@@ -179,6 +245,7 @@ do  i_GP_Individual=1,n_GP_Individuals
             do  i_Level_Node = 1,n_Nodes_at_Level
 
                 i_Node=i_Node+1
+                if( i_node > n_nodes ) exit level_loop2
 
                 if( GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) .eq. -1) then
 
@@ -190,7 +257,9 @@ do  i_GP_Individual=1,n_GP_Individuals
 
                     if( cff .le. GP_Set_Terminal_to_Parameter_Probability ) then
 
-                        ! Set the Terminal to a Parameter
+
+                        ! Set the Terminal to a Variable 
+
 
                         call random_number(cff) ! uniform random number generator
 
@@ -216,7 +285,7 @@ do  i_GP_Individual=1,n_GP_Individuals
                     endif !   cff .le. GP_Set_Terminal_to_Parameter_Probability
                 endif !   GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) .eq. -1
             enddo !  i_Level_Node
-        enddo !  i_Level
+        enddo level_loop2 !  i_Level
     enddo !  i_Tree
 
 
@@ -261,6 +330,7 @@ enddo !  i_GP_Individual
 
 
 GP_Adult_Population_Node_Type=GP_Child_Population_Node_Type
+
 
 
 

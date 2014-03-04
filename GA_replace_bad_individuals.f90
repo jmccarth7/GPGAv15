@@ -11,11 +11,11 @@ use GP_Data_module
 implicit none
 
 real(kind=8), &
-dimension( n_maximum_number_parameters, n_GA_Individuals ) :: child_parameters
+dimension( n_GP_parameters, n_GA_Individuals ) :: child_parameters
 
 integer(kind=4) :: individual_quality(n_GA_individuals)
 
-real(kind=4) :: cff
+!real(kind=4) :: cff
 real(kind=8) :: dff
 
 integer(kind=4) :: n_replaced

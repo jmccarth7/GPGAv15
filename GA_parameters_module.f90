@@ -7,21 +7,23 @@ implicit none
 ! set the integer parameters
 
 integer(kind=4),parameter :: GA_output_unit = 20
-logical         :: L_GA_output_parameters
+integer(kind=4),parameter :: GA_print_unit  = 60
+integer(kind=4),parameter :: GA_log_unit    = 70
+integer(kind=4),parameter :: data_unitnum   = 77
 
-integer(kind=4),parameter :: GA_print_unit = 60
-logical         :: L_GA_print
-
-
-integer(kind=4),parameter :: GA_log_unit   = 70
-logical         :: L_GA_log
-
-
-logical         :: L_fort333_output
-logical         :: L_fort444_output
+logical :: L_GA_output_parameters
+logical :: L_GA_print
+logical :: L_GA_log
+logical :: L_fort333_output
+logical :: L_fort444_output
 
 
 logical :: Lprint_lmdif
+
+
+
+
+
 
 ! set the real parameters
 
@@ -49,14 +51,22 @@ real(kind=8) :: GA_Asexual_Reproduction_Probability
 
 real(kind=8) :: GA_rand_replace_Probability
 
+
+!---------------------------------------------------------------------
+
 ! GP Probability of a Tree being assigned
 ! Estimated from previous work by Joel Cohen
 !real (kind=4), parameter :: GP_Tree_Probability=0.5
+
+!---------------------------------------------------------------------
 
 ! probability of setting a terminal node to a parameter
 
 real(kind=8), parameter :: GP_Set_Terminal_to_Parameter_Probability = 0.6d0
 
+!real(kind=8), parameter :: GP_Set_Terminal_to_Parameter_Probability = 0.3d0
+
+!---------------------------------------------------------------------
 
 ! determines how the GA_Tournament subroutine works
 

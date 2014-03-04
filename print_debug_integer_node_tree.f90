@@ -43,8 +43,8 @@ write(iunit,'(/A)') 'pd3: entry print_debug3'
 
 !! debug
 write(iunit,'(/A,1x,A)') 'pd3: print ', trim(label)
-write(iunit,'(A)') &
-   'pd3: i_GP_Individual, i_tree, i_node input_array(i_Node,i_Tree, i_GP_individual )'
+write(iunit,'(/A)') &
+   'pd3: i_GP_Individual  i_tree  i_node   input_array(i_Node,i_Tree, i_GP_individual )'
 
 do  i_GP_individual = 1, n_GP_individuals
     do  i_tree = 1, n_trees
@@ -67,11 +67,11 @@ do  i_GP_individual = 1, n_GP_individuals
 enddo ! i_GP_individual
 
 
-write(iunit,'(/A)') ' '
+!write(iunit,'(/A)') ' '
 
 !-------------------------------------------------------------------------------------------------
 
-write(iunit,'(A//)') 'pd3: at return   '
+write(iunit,'(/A/)') 'pd3: at return   '
 
 return
 

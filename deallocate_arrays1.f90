@@ -40,7 +40,7 @@ deallocate( integrated_ranked_fitness )
 !deallocate( fitness_expectation_value )
 deallocate( Run_GA_lmdif )
 deallocate( Data_Array  )
-deallocate( Data_Variance )
+!!deallocate( Data_Variance )
 deallocate( Data_Variance_inv )
 
 deallocate( GP_Population_Node_Parameters )
@@ -69,6 +69,10 @@ deallocate( GA_Integrated_Ranked_Fitness )
 
 deallocate( GP_Individual_N_GP_param )  ! jjm 20130409
 
+deallocate( GP_minSSE_Individual_Initial_Conditions )
+deallocate( GP_minSSE_Individual_Node_Type ) 
+deallocate( GP_minSSE_Individual_Node_Parameters )
+      
 
 deallocate( GP_Population_Initial_Conditions )
 deallocate( GP_Individual_Initial_Conditions )
@@ -94,6 +98,7 @@ deallocate( RK_Solution )
 deallocate( Node_Values )
 deallocate( Tree_Evaluation )
 
+deallocate( GP_Trees )
 deallocate( Tree_Value )
 
 deallocate( Node_Eval_Type )
@@ -108,18 +113,21 @@ deallocate( Numerical_CODE_Forcing_Functions  )
 deallocate( Numerical_CODE_Solution  )
 
 
-deallocate( GP_Trees )
 
 
 deallocate( kval )
 deallocate( btmp )
 deallocate( fbio )
 
+if( L_print_equations )then                                                                                 
+    deallocate( bioflo_string  )
+    deallocate( node_type_string )
+    deallocate( node_parameters_string )
+    deallocate( tree_evaluation_string )
+    deallocate( tree_value_string )
+endif ! L_print_equations                
 
-deallocate( node_type_string )
-deallocate( node_parameters_string )
-deallocate( tree_evaluation_string )
-deallocate( tree_value_string )
+
 !!deallocate( linked_parms )
 
 
@@ -129,6 +137,8 @@ deallocate( Node_Probability )
 deallocate( GP_Adult_Population_SSE )
 !deallocate( GP_Child_Population_SSE )
 !>>>>>>>>>>>>>
+
+!deallocate( ppex ) 
 
 !deallocate( buffer )
 !deallocate( buffer_recv )

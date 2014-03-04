@@ -46,6 +46,9 @@ real(kind=8),allocatable, target, dimension( : ) :: btmp
 !real(kind=8) :: fbio(n_CODE_equations)
 real(kind=8),allocatable, dimension( : ) :: fbio
 
+!--------------------------------------------------------------------
+
+real(kind=8) :: prob_no_elite
 
 !--------------------------------------------------------------------
 
@@ -81,7 +84,11 @@ integer(kind=4), allocatable, dimension(:,:,:)  :: GP_Node_Type_for_Plotting
 real(kind=8),allocatable,dimension(:,:,:)     :: GP_Population_Node_Parameters
 
 !real(kind=8) :: GP_Individual_Node_Parameters(n_nodes,n_trees)
-real(kind=8),allocatable,dimension(:,:)       :: GP_Individual_Node_Parameters
+!!real(kind=8),allocatable,dimension(:,:)       :: GP_Individual_Node_Parameters
+real(kind=8),target,allocatable,dimension(:,:)       :: GP_Individual_Node_Parameters
+
+real(kind=8),target,allocatable,dimension(:,:)       :: GP_minSSE_Individual_Node_Parameters
+
 
 
 ! GP_diversity_index(n_GP_Individuals)
@@ -99,6 +106,7 @@ integer(kind=4),allocatable,dimension(:,:) :: Parent_Tree_Swap_Node_Type
 ! GP_Individual_Node_Type(n_Nodes,n_Trees)
 integer(kind=4),allocatable,dimension(:,:) :: GP_Individual_Node_Type
 
+integer(kind=4),allocatable,dimension(:,:) :: GP_minSSE_Individual_Node_Type
 
 
 !real(kind=8) :: GP_Population_Initial_Conditions(n_CODE_equations,n_GP_individuals)
@@ -106,6 +114,10 @@ real(kind=8),allocatable,dimension(:,:)       :: GP_Population_Initial_Condition
 
 !real(kind=8) :: GP_Individual_Initial_Conditions(n_CODE_equations)
 real(kind=8),allocatable,dimension(:)         :: GP_Individual_Initial_Conditions
+
+
+real(kind=8),allocatable,dimension(:)         :: GP_minSSE_Individual_Initial_Conditions
+
 
 !real(kind=8) :: GP_Population_Fitness(n_GP_individuals)
 real(kind=8),allocatable,dimension(:)         :: GP_Population_Fitness
@@ -137,6 +149,9 @@ real(kind=8),allocatable, dimension(:,:)   :: RK_Solution
 
 real(kind=8) :: GP_Individual_Lowest_SSE
 
+real(kind=8) :: GP_minSSE_Individual_SSE
+
+integer :: GP_minSSE_Individual_N_GP_param
 !---------------------------------------------------------------------------
 
 ! must be kept for re-evaluations of next generations >>>

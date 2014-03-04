@@ -43,10 +43,11 @@ integer(kind=4) :: SPECIES_Nitro
 
 ! Variables to define indexes of forcing functions in Numerical_CODE_Forcing_Functions
 
-integer(kind=4) :: FORCING_LIGHT_LIMITED_GROWTH_RATE
-integer(kind=4) :: FORCING_MLD_CHANGE_NON_MOTILE
-integer(kind=4) :: FORCING_MLD_CHANGE_MOTILE
-integer(kind=4) :: FORCING_MIXED_LAYER_DEPTH
+integer(kind=4),parameter :: FORCING_LIGHT_LIMITED_GROWTH_RATE = -5004
+integer(kind=4),parameter :: FORCING_MLD_CHANGE_NON_MOTILE     = -5002
+integer(kind=4),parameter :: FORCING_MLD_CHANGE_MOTILE         = -5003
+integer(kind=4),parameter :: FORCING_MIXED_LAYER_DEPTH         = -5001
+
 
 
 end module Fasham_Variables_module

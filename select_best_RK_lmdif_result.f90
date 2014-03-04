@@ -26,16 +26,16 @@ implicit none
 
 
 real(kind=8),&
- dimension(n_maximum_number_parameters,n_GA_individuals) ::  parent_parameters
+ dimension(n_GP_parameters,n_GA_individuals) ::  parent_parameters
 real(kind=8),&
- dimension(n_maximum_number_parameters,n_GA_individuals) ::  child_parameters
+ dimension(n_GP_parameters,n_GA_individuals) ::  child_parameters
 
 
 real(kind=8) :: individual_SSE_best_1
 real(kind=8) :: individual_ranked_fitness_best_1
 real(kind=8) :: Individual_Fitness_best_1
 
-real(kind=8),dimension(n_maximum_number_parameters) :: parent_parameters_best_1
+real(kind=8),dimension(n_GP_parameters) :: parent_parameters_best_1
 
 
 integer (kind=4) ::      i
@@ -160,8 +160,8 @@ if( L_ga_print )then
 endif ! L_ga_print
 
 
-individual_ranked_fitness(i_GA_best_parent) = indiv_fitness( i_GA_best_parent )
-
+individual_ranked_fitness(i_GA_best_parent) = &
+                           indiv_fitness( i_GA_best_parent ) ! function
 
 Individual_Fitness = Individual_Ranked_Fitness(i_GA_Best_Parent)
 
@@ -193,6 +193,13 @@ endif ! L_ga_print
 
 if( L_ga_print )then
     write(GA_print_unit,'(/A, 1x,E15.7)') &
+          'sbrl: fcn   individual_SSE_best_1                       ', &
+                       individual_SSE_best_1           
+    write(GA_print_unit,'(A, 1x,E24.16)') &
+          'sbrl: lmdif individual_SSE(i_GA_best_parent)            ', &
+                       individual_SSE(i_GA_best_parent)           
+
+    write(GA_print_unit,'(/A, 1x,E24.16)') &
           'sbrl: fcn   individual_ranked_fitness_best_1            ', &
                        individual_ranked_fitness_best_1
     write(GA_print_unit,'(A, 1x,E15.7/)') &
@@ -250,6 +257,7 @@ if( individual_ranked_fitness(i_GA_best_parent) <= &
 
 
     if( L_GA_output_parameters )then
+
         if( L_stop_run )then
             write( GA_output_unit, '(I6,3(1x,I6), 12(1x,E15.7))') &
               i_GP_Generation,i_GP_individual, &
@@ -263,6 +271,7 @@ if( individual_ranked_fitness(i_GA_best_parent) <= &
               individual_ranked_fitness_best_1, &
               (parent_parameters_best_1(jj),jj = 1,n_parameters)
         endif ! L_stop_run
+
     endif ! L_GA_output_parameters
 
 
@@ -283,7 +292,7 @@ if( individual_ranked_fitness(i_GA_best_parent) <= &
     do  i_tree=1,n_trees
         do  i_node=1,n_nodes
 
-            if( GP_individual_node_type(i_node,i_tree) .eq. 0 ) then  ! there is a set parameter
+            if( GP_individual_node_type(i_node,i_tree) .eq. 0 ) then  ! parameter
 
                 !if( L_ga_print )then
                 !    write(GA_print_unit,'(A,3(1x,I6))') &
@@ -366,6 +375,7 @@ else  ! lmdif is best
 
 
     if( L_GA_output_parameters )then
+
         if( L_stop_run )then
             write( GA_output_unit, '(I6,3(1x,I6), 12(1x,E15.7))') &
               i_GP_Generation,i_GP_individual, &
@@ -379,6 +389,7 @@ else  ! lmdif is best
               individual_ranked_fitness(i_GA_best_parent), &
               (parent_parameters(jj, i_GA_best_parent), jj=1,n_parameters)
         endif ! L_stop_run
+
     endif ! L_GA_output_parameters
 
 
@@ -400,8 +411,7 @@ else  ! lmdif is best
 
         do  i_node=1,n_nodes
 
-
-            if( GP_individual_node_type(i_node,i_tree) .eq. 0 ) then  ! there is a set parameter
+            if( GP_individual_node_type(i_node,i_tree) .eq. 0 ) then  ! parameter
 
                 !if( L_ga_print )then
                 !    write(GA_print_unit,'(A,4(1x,I6))') &

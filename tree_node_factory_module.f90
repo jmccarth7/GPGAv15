@@ -7,6 +7,9 @@
 
 module Tree_Node_Factory_module
 
+    use mpi
+    use mpi_module
+
     use class_Tree_Node
 
     integer(kind=4), parameter :: Add = 1
@@ -17,14 +20,21 @@ module Tree_Node_Factory_module
     integer(kind=4), parameter :: MichealisMenton = 6
     integer(kind=4), parameter :: MayzaudPouletGrazingFunction = 7
     integer(kind=4), parameter :: Power = 8
-    integer(kind=4), parameter :: Minimize = 9
-    integer(kind=4), parameter :: Maximize = 10
-    integer(kind=4), parameter :: ExponentialDecay = 11
+    integer(kind=4), parameter :: ExponentialDecay = 9
+    integer(kind=4), parameter :: Minimize = 10
+    integer(kind=4), parameter :: Maximize = 11
+!orig    integer(kind=4), parameter :: Minimize = 9
+!orig    integer(kind=4), parameter :: Maximize = 10
+!orig    integer(kind=4), parameter :: ExponentialDecay = 11
     integer(kind=4), parameter :: IfThen = 12
     integer(kind=4), parameter :: IfGt = 13
     integer(kind=4), parameter :: IfGte = 14
     integer(kind=4), parameter :: IfLt = 15
     integer(kind=4), parameter :: IfLte = 16
+    integer(kind=4), parameter :: ExponentialLeftPlus  = 17
+    integer(kind=4), parameter :: ExponentialRightPlus = 18
+    integer(kind=4), parameter :: ExponentialLeftMinus  = 19
+    integer(kind=4), parameter :: ExponentialRightMinus = 20
 
     integer(kind=4), parameter :: MathNodeType = 1
     integer(kind=4), parameter :: VariableNodeType = 2
@@ -47,7 +57,9 @@ module Tree_Node_Factory_module
         if( .not. associated(Left) .or. &
             .not. associated(Right)       ) then
 
-            write(*,*) 'MathNode with NULL child(ren)'
+            write(*,'(//A//)') &
+                       'GetMathNode:  MathNode with NULL child(ren)'
+            call MPI_FINALIZE(ierr)
             stop 1 ! Stop program
 
         endif
@@ -56,8 +68,8 @@ module Tree_Node_Factory_module
 
         allocate(node)
 
-        !write(6,'(A)') 'GMN: entry GetMathNode '
-        !write(6,'(A,1x,I6)') 'GMN: OperationIndex ', OperationIndex
+        !write(*,'(A)')       'GMN: entry GetMathNode '
+        !write(*,'(A,1x,I6)') 'GMN: OperationIndex ', OperationIndex
 
         ! Constructor: Node Type, Node Count, Parent,
         !              LeftChild, RightChild,
@@ -76,7 +88,7 @@ module Tree_Node_Factory_module
         Left%parent => node
         Right%parent => node
 
-        !write(6,'(A)') 'GMN: leave GetMathNode '
+        !write(*,'(A)') 'GMN: leave GetMathNode '
 
     end function
 
@@ -92,9 +104,9 @@ module Tree_Node_Factory_module
 
         !--------------------------------------------------------------------------
 
-        !write(6,'(A)') 'GVN: entry GetVariableNode'
-        !write(6,'(A,1x,E15.7)') 'GVN: VariableValue  ', VariableValue
-        !write(6,'(A,1x,I6   )') 'GVN: Variable_Index ', Variable_Index
+        !write(*,'(A)') 'GVN: entry GetVariableNode'
+        !write(*,'(A,1x,E24.16)') 'GVN: VariableValue  ', VariableValue
+        !write(*,'(A,1x,I6   )') 'GVN: Variable_Index ', Variable_Index
 
         allocate(node)
 
@@ -110,7 +122,7 @@ module Tree_Node_Factory_module
                           Tree_Node_Get_Pointers,  &
                           Tree_Node_Swap)
 
-        !write(6,'(A)') 'GVN: leave GetVariableNode'
+        !write(*,'(A)') 'GVN: leave GetVariableNode'
 
     end function
 
@@ -127,9 +139,8 @@ module Tree_Node_Factory_module
 
         allocate(node)
 
-        !write(6,'(A)') 'GPN:  enter GetParameterNode '
-
-        !write(6,'(A,1x,E15.7)') 'GPN:  ParameterValue ', ParameterValue
+        !write(*,'(A)') 'GPN:  enter GetParameterNode '
+        !write(*,'(A,1x,E24.16)') 'GPN:  ParameterValue ', ParameterValue
 
         ! Constructor: Node Type, Node Count, Parent,
         !              LeftChild, RightChild, Operation,
@@ -144,7 +155,7 @@ module Tree_Node_Factory_module
                           Tree_Node_Get_Pointers, &
                           Tree_Node_Swap)
 
-        !write(6,'(A)') 'GPN:  leave GetParameterNode '
+        !write(*,'(A)') 'GPN:  leave GetParameterNode '
 
     end function
 
@@ -205,7 +216,9 @@ module Tree_Node_Factory_module
 
                node => NULL()
 
-               write(*,*) 'Bad Node Type:  node_type = ', node_type
+               write(*,'(//A,1x,I10//)') &
+                  'GetNodeFromRead:  Bad Node Type:  node_type = ', node_type
+               call MPI_FINALIZE(ierr)
                stop 1 ! Stop program
 
         end select

@@ -11,8 +11,8 @@ use GP_Data_module
 
 implicit none
 
-real(kind=8)    :: parent_parameters(n_maximum_number_parameters,n_GA_Individuals)
-real(kind=8)    :: child_parameters(n_maximum_number_parameters,n_GA_Individuals)
+real(kind=8)    :: parent_parameters(n_GP_parameters,n_GA_Individuals)
+real(kind=8)    :: child_parameters(n_GP_parameters,n_GA_Individuals)
 integer(kind=4) :: individual_quality(n_GA_individuals)
 
 real(kind=4) :: cff
@@ -85,7 +85,7 @@ do i_GA_Individual=1,n_GA_Individuals
 
   call Random_Number(cff) ! uniform random number generator
 
-  dff = cff
+  dff = real(cff,kind=8)   
 
   !if( L_ga_print )then
   !    write(GA_print_unit,'(/A,1x,I6,1x,E15.7)') &

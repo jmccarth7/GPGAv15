@@ -30,17 +30,19 @@ do  i = 1, n_array
     sum1 = sum1 + array(i)
     sum2 = sum2 + array(i)**2
     icount = icount + 1
+    !write(6,'(A,2(1x,I6),2(1x,E24.16))') &
+    !  'cs: i, icount, array(i), sum1', &
+    !       i, icount, array(i), sum1
 
 enddo
 
 if( icount == 0 )then
-
     mean = 0.0d0
     rms  = 0.0d0
     std_dev = 0.0d0
     return
-
 endif ! icount == 0
+
 
 xcount = real( icount, kind = 8 )
 

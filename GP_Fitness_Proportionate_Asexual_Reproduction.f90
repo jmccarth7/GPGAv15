@@ -13,14 +13,14 @@ implicit none
 
 real(kind=4) :: cff
 
-integer(kind=4) :: i
+!integer(kind=4) :: i
 integer(kind=4) :: icff
 integer(kind=4) :: i_GP_individual
 integer(kind=4) :: j_GP_Individual
 integer(kind=4) :: i_GP_Asexual_Reproduction
 
-integer(kind=4) :: i_parm
-integer(kind=4) :: iii
+!integer(kind=4) :: i_parm
+!integer(kind=4) :: iii
 
 real(kind=8) :: sse_ind
 
@@ -36,15 +36,14 @@ real(kind=8) :: sse_ind
 
 i_GP_Individual = n_GP_Elitists
 
-write(GP_print_unit,'(/A,1x,I6)' ) &
-      'gpfpar: n_GP_Asexual_Reproductions ', n_GP_Asexual_Reproductions
-write(GP_print_unit,'(A,1x,I6)' ) &
-      'gpfpar: n_GP_Elitists         ', n_GP_Elitists
+write(GP_print_unit,'(A,2(1x,I6))' ) &
+      'gpfpar: n_GP_Asexual_Reproductions, n_GP_Elitists', &
+               n_GP_Asexual_Reproductions, n_GP_Elitists
 write(GP_print_unit,'(A,1x,I6)' ) &
       'gpfpar: start i_GP_individual ', n_GP_Elitists  + 1
 
-write(GP_print_unit,'(/A)' ) &
-      'gpfpar: j_GP_individual replaces i_GP_individual'
+!write(GP_print_unit,'(/A)' ) &
+!      'gpfpar: j_GP_individual replaces i_GP_individual'
 
 do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
 
@@ -130,8 +129,8 @@ do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
     !write(GP_print_unit,'(A)' ) &
     !      'gpfpar: j_GP_individual replaces i_GP_individual'
 
-    write(GP_print_unit,'(I6,1x,A, 1x, I6)' ) &
-           j_GP_individual, ' ---> ', i_GP_Individual
+    !write(GP_print_unit,'(I6,1x,A, 1x, I6)' ) &
+    !       j_GP_individual, ' ---> ', i_GP_Individual
 
 
 enddo ! i_GP_Asexual_Reproduction

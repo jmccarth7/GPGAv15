@@ -32,9 +32,8 @@ write(GP_print_unit,*) ' '
 
 do  i_CODE_equation=1,n_CODE_equations
     write(GP_print_unit,'(A,1x,I6,2(1x,E15.7))') &
-          'ssec: i_eqn, data_variance, data_variance_inv ', &
-                 i_CODE_equation, data_variance(i_CODE_equation), &
-                                  data_variance_inv(i_CODE_equation)
+          'ssec: i_eqn,  data_variance_inv ', &
+                 i_CODE_equation, data_variance_inv(i_CODE_equation)
 enddo !  i_CODE_equation
 
 write(GP_print_unit,'(/A/)') 'ssec: using data_variance inv   '
@@ -43,7 +42,7 @@ write(GP_print_unit,'(/A/)') 'ssec: using data_variance inv   '
 
 
 SSE0 = 0.0D+0
-do  i_time_step=1,n_time_steps
+do  i_time_step = 1, n_time_steps
 
     fvec(i_time_step)=0.
 
@@ -58,19 +57,15 @@ do  i_time_step=1,n_time_steps
         !            myid, i_CODE_equation,                    &
         !            Runge_Kutta_Solution(i_time_step,i_CODE_equation), &
         !            Data_Array(i_time_step,i_CODE_equation), &
-        !            data_variance(i_CODE_equation)
+        !            data_variance_inv(i_CODE_equation)
 
         !write(GP_print_unit,'(A,2(1x,I6), 1x,E15.7)') &
         !      'ssec: myid, i_eqn, data_variance ', &
-        !            myid, i_CODE_equation, data_variance(i_CODE_equation)
+        !            myid, i_CODE_equation, data_variance_inv(i_CODE_equation)
 
         fvec(i_time_step) = fvec(i_time_step)  +                   &
              Data_Array(i_time_step,i_CODE_equation)**2  *         &
                                 Data_Variance_inv(i_CODE_equation)
-
-        !fvec(i_time_step) = fvec(i_time_step)  +                 &
-        !     Data_Array(i_time_step,i_CODE_equation)**2  /       &
-        !                        Data_Variance(i_CODE_equation)
 
     enddo ! i_CODE_equation
 

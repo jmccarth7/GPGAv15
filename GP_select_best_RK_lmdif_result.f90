@@ -22,9 +22,9 @@ implicit none
 
 
 real(kind=8),&
- dimension(n_maximum_number_parameters,n_GP_individuals) ::  parent_parameters
+ dimension(nop,n_GP_individuals) ::  parent_parameters
 real(kind=8),&
- dimension(n_maximum_number_parameters,n_GP_individuals) ::  child_parameters
+ dimension(nop,n_GP_individuals) ::  child_parameters
 
 real(kind=8) :: GP_individual_fitness
 real(kind=8) :: GP_individual_SSE_best_parent
@@ -33,9 +33,9 @@ real(kind=8) :: GP_individual_SSE_best_1
 real(kind=8) :: GP_individual_ranked_fitness_best_1
 real(kind=8) :: GP_Individual_Fitness_best_1
 
-real(kind=8),dimension(n_maximum_number_parameters) :: parent_parameters_best_1
+real(kind=8),dimension(nop) :: parent_parameters_best_1
 
-real(kind=8), dimension(n_maximum_number_parameters),intent(in) :: output_array
+real(kind=8), dimension(nop),intent(in) :: output_array
 
 
 
@@ -124,27 +124,8 @@ endif ! L_GP_print
 !    enddo ! i_node
 !enddo ! i_tree
 
+
 !---------------------------------------------------------------------------------------
-
-if( L_GP_print )then
-    write(GP_print_unit,'(/A)') 'gpsbrl: allocate GP_Trees'
-endif ! L_GP_print
-
-
-if( allocated(  GP_Trees ) )then
-    deallocate( GP_Trees )
-endif ! allocated( GP_Trees )
-
-allocate( GP_Trees( n_trees,  1 )  )
-
-if( L_GP_print )then
-    write(GP_print_unit,'(/A)') 'gpsbrl: AFT allocate GP_Trees'
-endif ! L_GP_print
-
-
-!-----------------------------------------------------------------------------
-
-
 
 ! save best parent parameters from the RK process,
 ! then run lmdif to try to improve the best parent
@@ -186,9 +167,14 @@ if( L_GP_print )then
         write(GP_print_unit,'(I6, 1x,E15.7 )') i, parent_parameters_best_1(i)
     enddo
 
+    write(GP_print_unit,'(A)') ' '
+
 endif ! L_GP_print
 
+
+
 !-------------------------------------------------------------------------------
+
 
 !  run lmdif on best individual from the RK process
 
@@ -198,7 +184,7 @@ if( L_GP_print )then
     !      'gpsbrl: i_GP_Generation_last, i_GP_best_Parent  call setup_run_lmdif ', &
     !               i_GP_Generation_last, i_GP_best_Parent
     !else
-        write(GP_print_unit,'(A,2(1x,I6))') &
+        write(GP_print_unit,'(/A,2(1x,I6))') &
           'gpsbrl: i_GP_Generation, i_GP_best_Parent  call setup_run_lmdif ', &
                    i_GP_Generation, i_GP_best_Parent
     !endif ! L_stop_run
@@ -646,7 +632,7 @@ else  ! lmdif is best
         !write(GP_print_unit,'(A,2(1x,I6))') &
         !    'gpsbrl:1 i_GP_generation, i_GP_best_parent ', &
         !              i_GP_generation, i_GP_best_parent
-        write(GP_print_unit, '(//A)')  ' '
+        write(GP_print_unit, '(/A)')  ' '
 
         call summary_GP_indiv2( i_GP_generation, i_GP_best_parent )
 
@@ -655,7 +641,7 @@ else  ! lmdif is best
         !write(GP_print_unit,'(A,2(1x,I6))') &
         !      'gpsbrl:2 aft i_GP_generation, i_GP_best_parent ', &
         !                    i_GP_generation, i_GP_best_parent
-        write(GP_print_unit, '(//A)')  ' '
+        write(GP_print_unit, '(A)')  ' '
 
     endif !  myid == 0
 
@@ -664,12 +650,6 @@ else  ! lmdif is best
 
 endif ! GP_individual_ranked_fitness...
 
-
-!---------------------------------------------------------------------------------------
-
-if( allocated(  GP_Trees ) )then
-    deallocate( GP_Trees )
-endif ! allocated( GP_Trees )
 
 !---------------------------------------------------------------------------------------
 

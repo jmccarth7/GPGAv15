@@ -21,7 +21,7 @@ integer(kind=4) :: icff
 integer(kind=4) :: i_tree
 integer(kind=4) :: i_node
 
-integer(kind=4) :: i_parm
+!integer(kind=4) :: i_parm
 integer(kind=4) :: jj
 
 real(kind=8), dimension( 1:n_Nodes,1:n_Trees, 1:n_GP_individuals ) :: &
@@ -35,7 +35,7 @@ real(kind=8), dimension( 1:n_CODE_equations, 1:n_GP_individuals ) :: &
 !--------------------------------------------------------------------------------
 
 
-write(6,'(/A)') 'gprs: entry GP_ranking_sort '
+!write(6,'(/A)') 'gprs: entry GP_ranking_sort '
 
 
 
@@ -45,18 +45,19 @@ do  i_GP_Individual=1,n_GP_Individuals
     Ranked_Fitness_Index(i_GP_Individual)=i_GP_Individual
 enddo
 
+
 !write(6,'(/A)') 'gprs: before sort '
 !write(6,'(A)')                    &
-!      'gprs:i_GP_Individual, Ranked_Fitness_Index(i_GP_Individual), &
-!                            &GP_Child_Individual_SSE(i_GP_Individual)'
+! 'gprs:i_GP_Individual, Ranked_Fitness_Index(i_GP_Individual), &
+!                    &GP_Child_Individual_SSE(i_GP_Individual)'
 !do  i_GP_Individual=1,n_GP_Individuals
-!    write(6,'(I6,1x, I6, 1x, E15.7)') &
-!          i_GP_Individual, Ranked_Fitness_Index(i_GP_Individual), &
-!                           GP_Child_Individual_SSE(i_GP_Individual)
+!    write(6,'(I6,1x, I6, 1x, E24.16)') &
+!      i_GP_Individual, Ranked_Fitness_Index(i_GP_Individual), &
+!                    GP_Child_Individual_SSE(i_GP_Individual)
 !enddo
 
 
-!-------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 
 ! Now, rank the Individual SSE so that
 ! the Individual with the lowest (highest) SSE is First (Last)
@@ -70,11 +71,17 @@ do  i_GP_Individual=1,n_GP_Individuals
 
             !     Swap the two ranked fitness and index array values around
             cff=GP_Child_Individual_SSE(j_GP_Individual)
-            GP_Child_Individual_SSE(j_GP_Individual)=GP_Child_Individual_SSE(j_GP_Individual+1)
+
+            GP_Child_Individual_SSE(j_GP_Individual) = &
+                 GP_Child_Individual_SSE(j_GP_Individual+1)
+
             GP_Child_Individual_SSE(j_GP_Individual+1)=cff
 
             icff=Ranked_Fitness_Index(j_GP_Individual)
-            Ranked_Fitness_Index(j_GP_Individual)=Ranked_Fitness_Index(j_GP_Individual+1)
+
+            Ranked_Fitness_Index(j_GP_Individual) = &
+                  Ranked_Fitness_Index(j_GP_Individual+1)
+
             Ranked_Fitness_Index(j_GP_Individual+1)=icff
 
         endif !GP_Child_Individual_SSE(j_GP_Individual+1) .lt. ...
@@ -83,7 +90,7 @@ do  i_GP_Individual=1,n_GP_Individuals
 
 enddo  ! i_GP_Individual
 
-!-------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 
 !write(6,'(/A)') 'gprs: after  sort '
 !write(6,'(A)')  'gprs:i_GP_Individual, Ranked_Fitness_Index, &
@@ -94,8 +101,8 @@ enddo  ! i_GP_Individual
 !                           GP_Child_Individual_SSE(i_GP_Individual)
 !enddo
 
-!-------------------------------------------------------------------------------------------------
-!-------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 
 
 do  jj = 1, n_GP_Individuals   ! 20131209
@@ -104,11 +111,12 @@ do  jj = 1, n_GP_Individuals   ! 20131209
 enddo
 
 
-!-------------------------------------------------------------------------------------------------
-!-------------------------------------------------------------------------------------------------
-! Re-rank ALL of the Individuals to keep the code simple and not replicate copies of children
-!-------------------------------------------------------------------------------------------------
-!-------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
+! Re-rank ALL of the Individuals to keep the code simple 
+! and not replicate copies of children
+!-------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 
 !! debug
 !write(6,'(/A)') 'gprs: before applying  sort to GP_Child_Population_Node_Type '
@@ -116,7 +124,7 @@ enddo
 !      'from GP_ranking_sort before sort GP_Child_Population_Node_Type', &
 !      GP_Child_Population_Node_Type )
 
-!-------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 
 ! Copy this back across to the Child Population values
 ! to allow the Elite codes to propagate along in the next generations
@@ -126,7 +134,8 @@ do  i_GP_individual = 1, n_GP_individuals          ! 20131209
     do  i_tree = 1, n_trees
         do  i_node = 1, n_nodes
             GP_Adult_Population_Node_Type(i_Node,i_Tree,  i_GP_Individual) = &
-               GP_Child_Population_Node_Type(i_Node,i_Tree, Ranked_Fitness_Index(i_GP_Individual) )
+               GP_Child_Population_Node_Type(i_Node,i_Tree, &
+                                     Ranked_Fitness_Index(i_GP_Individual) )
         enddo ! i_node
     enddo ! i_tree
 
@@ -136,13 +145,13 @@ enddo ! i_GP_individual
 do  i_GP_individual = 1, n_GP_individuals          ! 20131209
     do  i_tree = 1, n_trees
         do  i_node = 1, n_nodes
-            GP_Child_Population_Node_Type(i_Node,i_Tree,  i_GP_Individual) =  &
-                     GP_Adult_Population_Node_Type(i_Node,i_Tree,  i_GP_Individual)
+            GP_Child_Population_Node_Type(i_Node,i_Tree, i_GP_Individual) =  &
+                     GP_Adult_Population_Node_Type(i_Node,i_Tree, i_GP_Individual)
         enddo ! i_node
     enddo ! i_tree
 enddo ! i_GP_individual
 
-!-------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 
 !write(6,'(/A)') 'gprs: after applying  sort to GP_Child_Population_Node_Type '
 !call print_debug_integer_node_tree( 6, &
@@ -154,20 +163,21 @@ enddo ! i_GP_individual
 !      'from GP_ranking_sort after  sort GP_Adult_Population_Node_Type', &
 !      GP_Adult_Population_Node_Type )
 
-!-------------------------------------------------------------------------------------------------
-!-------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 
 
 ! GP_Population_Initial_Conditions(1:n_CODE_Equations, 1:n_GP_Individuals )
 
 
 ! debug
-!write(6,'(/A)') 'gprs: before applying  sort to GP_Population_Initial_Conditions       '
+!write(6,'(/A)') &
+! 'gprs: before applying  sort to GP_Population_Initial_Conditions       '
 !call print_debug_real_nparm( 6, &
 !       'from GP_ranking_sort before sort GP_Population_Initial_Conditions ', &
 !       GP_Population_Initial_Conditions )
 
-!-------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 
 ! sort the GP_population_initial_conditions
 
@@ -175,8 +185,9 @@ enddo ! i_GP_individual
 do  i_GP_individual = 1, n_GP_individuals
 
     do  jj = 1, n_CODE_Equations
-        GP_Population_Initial_Conditions_temp(jj , i_GP_individual ) = &
-             GP_Population_Initial_Conditions(jj,  Ranked_Fitness_Index(i_GP_individual) )
+        GP_Population_Initial_Conditions_temp(jj, i_GP_individual ) = &
+             GP_Population_Initial_Conditions(jj,  &
+                             Ranked_Fitness_Index(i_GP_individual) )
     enddo ! jj
 
 enddo ! i_GP_individual
@@ -185,24 +196,25 @@ enddo ! i_GP_individual
 do  i_GP_individual = 1, n_GP_individuals
 
     do  jj = 1, n_CODE_Equations
-        GP_Population_Initial_Conditions(jj , i_GP_individual ) = &
-          GP_Population_Initial_Conditions_temp(jj , i_GP_individual )
+        GP_Population_Initial_Conditions(jj, i_GP_individual ) = &
+          GP_Population_Initial_Conditions_temp(jj, i_GP_individual )
     enddo ! jj
 
 enddo ! i_GP_individual
 
-!-------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 
 
-!write(6,'(/A)') 'gprs: after applying  sort to GP_Population_Initial_Conditions       '
+!write(6,'(/A)') &
+! 'gprs: after applying  sort to GP_Population_Initial_Conditions       '
 
 !call print_debug_real_nparm( 6, &
 !      'from GP_ranking_sort after sort GP_Population_Initial_Conditions ', &
 !      GP_Population_Initial_Conditions )
 
 
-!-------------------------------------------------------------------------------------------------
-!-------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 
 ! debug
 !write(6,'(/A)') 'gprs: before applying  sort to GP_population_node_parameters '
@@ -211,7 +223,7 @@ enddo ! i_GP_individual
 !      'from GP_ranking_sort before  sort GP_population_node_parameters', &
 !      GP_population_node_parameters)
 
-!-------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 
 ! sort the GP_population_node_parameters
 
@@ -220,7 +232,8 @@ do  i_GP_individual = 1, n_GP_individuals
     do  i_tree = 1, n_trees
         do  i_node = 1, n_nodes
             GP_population_node_parameters_temp(i_Node,i_Tree, i_GP_individual ) = &
-                 GP_population_node_parameters(i_Node,i_Tree, Ranked_Fitness_Index(i_GP_individual) )
+                 GP_population_node_parameters(i_Node,i_Tree, &
+                                         Ranked_Fitness_Index(i_GP_individual) )
         enddo ! i_node
     enddo ! i_tree
 
@@ -230,14 +243,14 @@ enddo ! i_GP_individual
 do  i_GP_individual = 1, n_GP_individuals
     do  i_tree = 1, n_trees
         do  i_node = 1, n_nodes
-            GP_population_node_parameters(i_Node,i_Tree,  i_GP_Individual) = &
-                    GP_population_node_parameters_temp(i_Node,i_Tree,  i_GP_Individual)
+            GP_population_node_parameters(i_Node,i_Tree, i_GP_Individual) = &
+                    GP_population_node_parameters_temp(i_Node,i_Tree, i_GP_Individual)
         enddo ! i_node
     enddo ! i_tree
 enddo ! i_GP_individual
 
 
-!-------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 
 ! debug
 !write(6,'(/A)') 'gprs: after applying  sort to GP_population_node_parameters '
@@ -247,8 +260,8 @@ enddo ! i_GP_individual
 !  GP_population_node_parameters)
 
 
-!-------------------------------------------------------------------------------------------------
-!-------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 !!
 !!! original calculation
 !!
@@ -353,23 +366,23 @@ if( GP_Integrated_Population_Ranked_Fitness(n_GP_Individuals) > 0.0d0 )then
 
 endif ! GP_Integrated_Population_Ranked_Fitness(n_GP_Individuals) > 0.0d0
 
-!------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 
-write(6,'(/A)') 'gprs: after  sort '
+!write(6,'(/A)') 'gprs: after  sort '
 
-write(6,'(A)')                    &
-    'gprs:i_GP_Individual GP_Integ_Pop_Ranked_Fitness GP_Pop_Ranked_Fitness GP_Child_Indiv_SSE'
+!write(6,'(A)')                    &
+!    'gprs:i_GP_Individual   GP_Integ_Pop_Rank_Fit  &
+!    &GP_Pop_Rank_Fit        GP_Child_Indiv_SSE'
 
-do  i_GP_Individual=1,n_GP_Individuals
-    write(6,'(I10, 20x,3(3x, E15.7))') &
-          i_GP_Individual, GP_Integrated_Population_Ranked_Fitness(i_GP_Individual), &
-                           GP_Population_Ranked_Fitness(i_GP_Individual), &
-                           GP_Child_Individual_SSE(i_GP_Individual)
-enddo   ! i_GP_Individual
+!do  i_GP_Individual=1,n_GP_Individuals
+!    write(6,'(I10, 6x,3(3x, E20.10))') &
+!          i_GP_Individual, &
+!          GP_Integrated_Population_Ranked_Fitness(i_GP_Individual), &
+!          GP_Population_Ranked_Fitness(i_GP_Individual), &
+!          GP_Child_Individual_SSE(i_GP_Individual)
+!enddo   ! i_GP_Individual
 
-
-
-write(6,'(/A)') 'gprs: at return   '
+!write(6,'(/A)') 'gprs: at return   '
 
 return
 

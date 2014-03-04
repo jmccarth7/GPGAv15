@@ -41,7 +41,7 @@ Numerical_CODE_Solution(0,1:n_CODE_equations) = Runge_Kutta_Initial_Conditions !
 Numerical_CODE_Initial_Conditions             = Runge_Kutta_Initial_Conditions ! Array Assignment
 
 
-allocate( GP_Trees(n_trees,1)  )
+!!!allocate( GP_Trees(n_trees,1)  )
 
 write(6,'(/A/)') 'saa: call Initialize_Model  '
 
@@ -187,7 +187,7 @@ if( myid == 0 )then
 
     Runge_Kutta_Solution = Numerical_CODE_Solution
 
-    deallocate( GP_Trees )
+    !!!deallocate( GP_Trees )
 
 endif ! myid == 0
 

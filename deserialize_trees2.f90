@@ -28,53 +28,78 @@ integer(kind=4):: i, j, k, l
 integer(kind=4):: inode
 integer(kind=4):: inodec
 integer(kind=4):: counter
+integer(kind=4):: parm_counter
 integer(kind=4):: n_inode
+
+!integer(kind=4):: i_node
+!integer(kind=4):: i_tree
 
 real(kind=8) :: parameter_value
 
 type(Tree_Node_Pointer), dimension(:), allocatable :: Nodes
 integer(kind=4), dimension(:), allocatable :: Node_IDs
 
-character(len=80) :: file_name
-logical :: file_exists
+!character(len=80) :: file_name
+!logical :: file_exists
+
 type(Tree_Node), pointer :: parent, root
 
-logical,save :: first  = .TRUE.
-integer(kind=4):: temp_myid
+!logical,save :: first  = .TRUE.
+!integer(kind=4):: temp_myid
 
 !------------------------------------------------------------------------------------
 
-if( first ) then        ! debug_only
-    temp_myid = 0
-    first = .false.
-else
-    temp_myid = 1
-endif
+!if( first ) then        ! debug_only
+!    temp_myid = 0
+!    first = .false.
+!else
+!    temp_myid = 1
+!endif
 
 ! MathNodeType      = 1
 ! VariableNodeType  = 2
 ! ParameterNodeType = 3
 
 
+!--------------------------------------------------------------------------------------
+!! debug only  - put in discover problem tree
+!GP_individual_node_type(:, :) =  -9999
+!i_tree = 1
+!i_node = 1
+!GP_individual_node_type(i_node, i_tree) =  6
+!i_node = 2
+!GP_individual_node_type(i_node, i_tree) =  0
+!i_node = 3
+!GP_individual_node_type(i_node, i_tree) =  4
+!i_node = 6
+!GP_individual_node_type(i_node, i_tree) = -1
+!i_node = 7
+!GP_individual_node_type(i_node, i_tree) =  7
+!i_node = 14
+!GP_individual_node_type(i_node, i_tree) = -2
+!i_node = 15
+!GP_individual_node_type(i_node, i_tree) = -1
+!
+!
+!i_tree = 5
+!i_node = 1
+!GP_individual_node_type(i_node, i_tree) = -2
+!
+!
+!GP_individual_node_parameters(:, :) = 0.0D0
+!i_tree = 1
+!i_node = 2
+!GP_individual_node_parameters(i_node, i_tree) = 0.7191251516342163D+02
+!
+!Numerical_CODE_Solution( 0 , 1) = 0.6718252785503864D-02
+!Numerical_CODE_Solution( 0 , 2) = 0.8888030052185059D+02
+!
+!--------------------------------------------------------------------------------------
 !if( myid == temp_myid )then
-!
-!     write(60,'(//A,2(1x,I6))') 'DsT2: at entry n_nodes, tree_count ', n_nodes, tree_count
-!     write(60,'(A,2(1x,I6))')   'DsT2: num_Tracked_resources   ', num_Tracked_resources
-!
-!     write(6,'(//A,2(1x,I6))') 'DsT2: at entry n_nodes, tree_count ', n_nodes, tree_count
-!     write(6,'(A,2(1x,I6))')   'DsT2: num_Tracked_resources   ', num_Tracked_resources
-!
-!    call print_debug_integer_node_tree( 6,  'GP_Individual_Node_Type in Deser_tree2 ', &
-!                                             GP_Individual_Node_Type )
-!    call print_debug_integer_node_tree( 60,  &
-!                                       'GP_Individual_Node_Type in Deser_tree2 ', &
-!                                        GP_Individual_Node_Type )
-!
-!    call print_debug_real_node_tree( 6, 'GP_Individual_Node_parameters in Deser_tree2 ', &
-!                                         GP_Individual_Node_parameters  )
-!    call print_debug_real_node_tree( 60, &
-!                                    'GP_Individual_Node_parameters in Deser_tree2 ', &
-!                                     GP_Individual_Node_parameters  )
+!    write(6,'(//A,2(1x,I6))') &
+!    'DsT2: at entry n_nodes, tree_count ', n_nodes, tree_count
+!    write(6,'(A,2(1x,I6))')   &
+!    'DsT2: num_Tracked_resources   ', num_Tracked_resources
 !endif !  myid == temp_myid
 
 
@@ -82,10 +107,8 @@ endif
 do i = 1, Tree_count
 
     !if( myid == temp_myid )then
-    !    write(60,'(//A,1x,I6,1x,A/)') 'DsT2: Tree  i = ', i, &
-    !       '#########################################################################'
     !    write(6,'(//A,1x,I6,1x,A/)')  'DsT2: Tree  i = ', i, &
-    !       '#########################################################################'
+    !    '#########################################################################'
     !endif !  myid == temp_myid
 
 
@@ -100,7 +123,6 @@ do i = 1, Tree_count
         counter = 0
         do  inodec = 1, n_nodes
 
-            !if( GP_adult_population_node_type( inodec, i, i_G_indiv) > -9999 )then
             if( GP_individual_node_type( inodec, i) > -9999 )then
                 counter =  counter + 1
             endif ! GP_Individual_Node_Type...
@@ -110,8 +132,6 @@ do i = 1, Tree_count
         node_count = counter
 
         !if( myid == temp_myid )then
-        !    write(60,'(//A,3(1x,I6))') 'DsT2: tree i, node_count, counter ', &
-        !                                           i, node_count, counter
         !    write(6,'(//A,3(1x,I6))')  'DsT2: tree i, node_count, counter ', &
         !                                           i, node_count, counter
         !endif !  myid == temp_myid
@@ -126,7 +146,6 @@ do i = 1, Tree_count
 
         !if( myid == temp_myid )then
         !    write(6,'(A,2(1x,I6))')  'DsT2: allocate Nodes, Node_IDS for tree = ', i
-        !    write(60,'(A,2(1x,I6))') 'DsT2: allocate Nodes, Node_IDS for tree = ', i
         !endif !  myid == temp_myid
 
         allocate( Nodes(node_count), Node_IDs(node_count) )
@@ -134,6 +153,7 @@ do i = 1, Tree_count
 
 
         counter = 0
+        parm_counter = 0
         do  inode = 1,  n_nodes
 
             node_type        = 0
@@ -148,9 +168,6 @@ do i = 1, Tree_count
             if( GP_Individual_Node_Type( inode, i ) > -9999 )then
 
                 !if( myid == temp_myid )then
-                !    write(60,'(//A,3(1x,I6))') &
-                !      'DsT2: tree i, inode, GP_Individual_Node_Type( inode, i )', &
-                !                  i, inode, GP_Individual_Node_Type( inode, i )
                 !    write(6,'(//A,3(1x,I6))') &
                 !      'DsT2: tree i, inode, GP_Individual_Node_Type( inode, i )', &
                 !                  i, inode, GP_Individual_Node_Type( inode, i )
@@ -161,30 +178,24 @@ do i = 1, Tree_count
                 !!node_type =  GP_Individual_Node_Type( inode, i )
                 !node_id   =  counter
 
-                write(60,'(A,3(1x,I6))') &
-                       'DsT2: i, inode, GP_Individual_Node_Type( inode, i )                ', &
-                              i, inode, GP_Individual_Node_Type( inode, i )
-                write(6,'(A,3(1x,I6))') &
-                       'DsT2: i, inode, GP_Individual_Node_Type( inode, i )                ', &
-                              i, inode, GP_Individual_Node_Type( inode, i )
+                !write(6,'(A,3(1x,I6))') &
+                !       'DsT2: i, inode, GP_Individual_Node_Type( inode, i )                ', &
+                !              i, inode, GP_Individual_Node_Type( inode, i )
 
 
                 if( GP_Individual_Node_Type( inode, i ) == 0 )then
 
                     parameter_value =  GP_individual_node_parameters( inode, i )
+
                     node_type = ParameterNodeType
 
-                    !write(60,'(A,2(1x,I6),1x,E15.7)') &
-                    !      'DsT2: i, inode, GP_Individual_Node_parameters( inode, i )', &
-                    !             i, inode, GP_Individual_Node_parameters( inode, i )
-                    !write(60,'(A,2(1x,I6),1x,E15.7)') 'DsT2: i, inode,  parameter_value', &
-                    !                                         i, inode,  parameter_value
+                    !write(6,'(A,2(1x,I6),1x,E24.16)') &
+                    !'DsT2: i, inode, GP_individual_node_parameters( inode, i )   ', &
+                    !       i, inode, GP_individual_node_parameters( inode, i )
 
-                    !write(6,'(A,2(1x,I6),1x,E15.7)') &
-                    !      'DsT2: i, inode, GP_Individual_Node_parameters( inode, i )', &
-                    !             i, inode, GP_Individual_Node_parameters( inode, i )
-                    !write(6,'(A,2(1x,I6),1x,E15.7)') 'DsT2: i, inode,  parameter_value', &
-                    !                                        i, inode,  parameter_value
+                    !write(6,'(A,2(1x,I6),1x,E24.16)') &
+                    !'DsT2: i, inode,  parameter_value                            ', &
+                    !       i, inode,  parameter_value
 
                 endif
 
@@ -194,27 +205,19 @@ do i = 1, Tree_count
                     variable_index =  GP_Individual_Node_type( inode, i )
                     node_type = VariableNodeType
 
-                    !write(60,'(A,3(1x,I6))') 'DsT2: i, inode, GP_Individual_Node_Type( inode, i )', &
-                    !                                i, inode, GP_Individual_Node_Type( inode, i )
-                    !write(60,'(A,4(1x,I6))') 'DsT2: i, inode, node_type, variable_index ', &
-                    !                                i, inode, node_type, variable_index
-
-                    !write(6,'(A,3(1x,I6))') 'DsT2: i, inode, GP_Individual_Node_Type( inode, i )', &
-                    !                               i, inode, GP_Individual_Node_Type( inode, i )
+                    !write(6,'(A,3(1x,I6))') &
+                     !'DsT2: i, inode, GP_Individual_Node_Type( inode, i )', &
+                    !       i, inode, GP_Individual_Node_Type( inode, i )
                     !write(6,'(A,4(1x,I6))') 'DsT2: i, inode, node_type, variable_index ', &
                     !                               i, inode, node_type, variable_index
 
                 endif
 
+
                 if( GP_Individual_Node_Type( inode, i ) >  0 )then
 
                     node_operation =  GP_Individual_Node_type( inode, i )
                     node_type = MathNodeType
-
-                    !write(60,'(A,3(1x,I6))') 'DsT2: i, inode, GP_Individual_Node_Type( inode, i )', &
-                    !                                i, inode, GP_Individual_Node_Type( inode, i )
-                    !write(60,'(A,4(1x,I6))') 'DsT2: i, inode, node_type, node_operation ', &
-                    !                                i, inode, node_type, node_operation
 
                     !write(6,'(A,3(1x,I6))') 'DsT2: i, inode, GP_Individual_Node_Type( inode, i )', &
                     !                               i, inode, GP_Individual_Node_Type( inode, i )
@@ -224,16 +227,6 @@ do i = 1, Tree_count
                 endif
 
 
-
-                !write(60,'(/A,4(1x,I6))') 'DsT2: i, inode, node_id, node_type', &
-                !                                 i, inode, node_id, node_type
-                !write(60,'(A,2(1x,I6),1x,E15.7)') &
-                !                         'DsT2: i, inode, parameter_value   ', &
-                !                                i, inode, parameter_value
-                !write(60,'(A,3(1x,I6))') 'DsT2: i, inode, variable_index     ', &
-                !                                i, inode, variable_index
-                !write(60,'(A,3(1x,I6))') 'DsT2: i, inode, node_operation     ', &
-                !                                i, inode, node_operation
 
                 !write(6,'(/A,4(1x,I6))') 'DsT2: i, inode, node_id, node_type', &
                 !                                i, inode, node_id, node_type
@@ -245,25 +238,17 @@ do i = 1, Tree_count
                 !write(6,'(A,3(1x,I6))') 'DsT2: i, inode, node_operation     ', &
                 !                               i, inode, node_operation
 
+                !---------------------------------------------------------------------
+
+                ! GetNodeFromRead is in tree_node_factory_module.f90
 
                 Nodes(counter)%n => GetNodeFromRead( node_type, node_operation, &
                                                     variable_index, parameter_value)
                 Node_IDs(counter) = node_id
 
+                !---------------------------------------------------------------------
 
                 !if( myid == temp_myid )then
-                !    write(60,'(A,4(1x,I6))') &
-                !          'DsT2: i, inode, counter, Nodes(counter)%n%variable_index', &
-                !                 i, inode, counter, Nodes(counter)%n%variable_index
-                !    write(60,'(A,4(1x,I6))') &
-                !          'DsT2: i, inode, counter, Nodes(counter)%n%operation     ', &
-                !                 i, inode, counter, Nodes(counter)%n%operation
-                !    write(60,'(A,3(1x,I6),1x,E15.7)') &
-                !          'DsT2: i, inode, counter, Nodes(counter)%n%param         ', &
-                !                 i, inode, counter, Nodes(counter)%n%param
-                !    write(60,'(A,4(1x,I6))') &
-                !          'DsT2: i, inode, counter, Node_IDs(counter)              ', &
-                !                 i, inode, counter, Node_IDs(counter)
                 !    write(6,'(A,4(1x,I6))') &
                 !          'DsT2: i, inode, counter, Nodes(counter)%n%variable_index', &
                 !                 i, inode, counter, Nodes(counter)%n%variable_index
@@ -288,10 +273,10 @@ do i = 1, Tree_count
         root => Nodes(1)%n
 
         !if( myid == temp_myid )then
-        !    write(60,'(//A,2(1x,I8))') 'DsT2: tree i, root%node_type', i, root%node_type
-        !    write(60,'(A,2(1x,I8))')   'DsT2: tree i, node_count    ', i, node_count
-        !    write(6,'(//A,2(1x,I8))')  'DsT2: tree i, root%node_type', i, root%node_type
-        !    write(6,'(A,2(1x,I8))')    'DsT2: tree i, node_count    ', i, node_count
+        !    write(6,'(//A,2(1x,I8))')  &
+        !    'DsT2: tree i, root%node_type', i, root%node_type
+        !    write(6,'(A,2(1x,I8))')    &
+        !    'DsT2: tree i, node_count    ', i, node_count
         !endif !  myid == temp_myid
 
 
@@ -304,13 +289,10 @@ do i = 1, Tree_count
 
         ! Make the above two associations
 
-        !write(60,'(//A/)')  'DsT2: k loop  '
         !write(6, '(//A/)')  'DsT2: k loop  '
 
         do  k = 1, node_count
 
-            !write(60,'(A,3(1x,I6))') 'DsT2: i, k, Nodes(k)%n%Node_Type ', &
-            !                                i, k, Nodes(k)%n%Node_Type
             !write(6,'(A,3(1x,I6))')  'DsT2: i, k, Nodes(k)%n%Node_Type ', &
             !                                i, k, Nodes(k)%n%Node_Type
 
@@ -323,19 +305,12 @@ do i = 1, Tree_count
                 left = Node_IDs(k)*2
                 right = Node_IDs(k)*2+1
 
-                !write(60,'(/A,3(1x,I6))') 'DsT2: i, k, MathNodeType     ', &
-                !                                 i, k, MathNodeType
-                !write(60,'(A,3(1x,I6))')  'DsT2: i, k, parent node type ', &
-                !                                 i, k, parent%node_type
-                !write(60,'(A,4(1x,I6))')  'DsT2: i, k, left, right      ', &
-                !                                 i, k, left, right
-
-                !write(6,'(/A,3(1x,I6))') 'DsT2: i, k, MathNodeType     ', &
-                !                                i, k, MathNodeType
-                !write(6,'(A,3(1x,I6))')  'DsT2: i, k, parent node type ', &
-                !                                i, k, parent%node_type
-                !write(6,'(A,4(1x,I6))')  'DsT2: i, k, left, right      ', &
-                !                                i, k, left, right
+                !write(6,'(/A,3(1x,I6))')'DsT2: i, k, MathNodeType     ', &
+                !                               i, k, MathNodeType
+                !write(6,'(A,3(1x,I6))') 'DsT2: i, k, parent node type ', &
+                !                               i, k, parent%node_type
+                !write(6,'(A,4(1x,I6))') 'DsT2: i, k, left, right      ', &
+                !                               i, k, left, right
 
 
                 ! Grab the children and associate
@@ -344,10 +319,8 @@ do i = 1, Tree_count
 
                     if( Node_IDs(l) .eq. left ) then
 
-                        !write(60,'(/A,3(1x,I6))') 'DsT2:left i, l, Node_IDs(l)', &
+                        !write(6,'(/A,3(1x,I6))')  'DsT2:left i, l, Node_IDs(l)', &
                         !                                     i, l, Node_IDs(l)
-                        !write(6,'(/A,3(1x,I6))') 'DsT2:left i, l, Node_IDs(l)', &
-                        !                                    i, l, Node_IDs(l)
 
                         parent%left => Nodes(l)%n
                         Nodes(l)%n%parent => parent
@@ -360,11 +333,8 @@ do i = 1, Tree_count
 
                     if( Node_IDs(l) .eq. right ) then
 
-                        !write(60,'(/A,3(1x,I6))') 'DsT2:right i, l, Node_IDs(l)  ', &
+                        !write(6,'(/A,3(1x,I6))')  'DsT2:right i, l, Node_IDs(l)  ', &
                         !                                      i, l, Node_IDs(l)
-
-                        !write(6,'(/A,3(1x,I6))') 'DsT2:right i, l, Node_IDs(l)  ', &
-                        !                                     i, l, Node_IDs(l)
 
                         parent%right => Nodes(l)%n
                         Nodes(l)%n%parent => parent
@@ -381,12 +351,6 @@ do i = 1, Tree_count
                 ! this is a forcing function variable.
                 ! Associate it with the correct array
 
-                !write(60,'(/A,3(1x,I6))') &
-                !      'DsT2: i, k, VariableNodeType         ', i, k, VariableNodeType
-                !write(60,'(A,3(1x,I6))')  &
-                !      'DsT2: i, k, Nodes(k)%n%variable_index', &
-                !             i, k, Nodes(k)%n%variable_index
-
                 !write(6,'(/A,3(1x,I6))') &
                 !      'DsT2: i, k, VariableNodeType         ', i, k, VariableNodeType
                 !write(6,'(A,3(1x,I6))')  &
@@ -397,47 +361,52 @@ do i = 1, Tree_count
                 if( Nodes(k)%n%variable_index < -5000) then
 
                     Nodes(k)%n%variable => &
-                     Numerical_CODE_Forcing_Functions(  abs( 5000 + Nodes(k)%n%variable_index )  )
+                     Numerical_CODE_Forcing_Functions( &
+                                  abs( 5000 + Nodes(k)%n%variable_index )  )
 
-                    !write(60,'(A,1x,E15.7)') &
-                    !   'DsT2: Numerical_CODE_Forcing_Functions(abs(5000 + Nodes(k)%n%variable_index)) ',&
-                    !          Numerical_CODE_Forcing_Functions(abs(5000 + Nodes(k)%n%variable_index))
                     !write(6,'(A,1x,E15.7)') &
                     !   'DsT2: Numerical_CODE_Forcing_Functions(abs(5000 + Nodes(k)%n%variable_index)) ',&
                     !          Numerical_CODE_Forcing_Functions(abs(5000 + Nodes(k)%n%variable_index))
 
                 else
 
-                    Nodes(k)%n%variable =>   btmp( abs( Nodes(k)%n%variable_index ) )
-
-                    !write(60,'(A,3(1x,I6))') &
-                    !    'DsT2: i, k, Nodes(k)%n%variable_index', &
-                    !           i, k, Nodes(k)%n%variable_index
-                    !write(60,'(A,2(1x,I6),1x,E15.7)') &
-                    !    'DsT2: i, k, btmp(  abs( Nodes(k)%n%variable_index )  ) ', &
-                    !           i, k, btmp(  abs( Nodes(k)%n%variable_index )  )
-
                     !write(6,'(A,3(1x,I6))') &
                     !    'DsT2: i, k, Nodes(k)%n%variable_index', &
                     !           i, k, Nodes(k)%n%variable_index
-                    !write(6,'(A,2(1x,I6),1x,E15.7)') &
-                    !    'DsT2: i, k, btmp(  abs( Nodes(k)%n%variable_index )  ) ', &
-                    !           i, k, btmp(  abs( Nodes(k)%n%variable_index )  )
+
+                    if( abs( Nodes(k)%n%variable_index ) <= n_code_equations )then
+
+                        Nodes(k)%n%variable =>   btmp( abs( Nodes(k)%n%variable_index ) )
+
+                        !write(6,'(A,2(1x,I6),1x,E24.16)') &
+                        !'DsT2: i, k, btmp(  abs( Nodes(k)%n%variable_index )  ) ', &
+                        !       i, k, btmp(  abs( Nodes(k)%n%variable_index )  )
+                    else
+
+                                                    ! n_code_equations = 1 only
+                        Nodes(k)%n%variable =>  &
+                             RK_data_array( &
+                                   abs( Nodes(k)%n%variable_index ) - n_code_equations )
+
+                        !write(6,'(A,3(1x,I6))') &
+                        !'DsT2: i, k, abs( Nodes(k)%n%variable_index ) -1', &
+                        !       i, k, abs( Nodes(k)%n%variable_index ) -1
+                        !write(6,'(A,2(1x,I6),1x,E24.16)') &
+                        !'DsT2: i, k, RK_data_array( abs( Nodes(k)%n%variable_index ) -1 ) ', &
+                        !       i, k, RK_data_array( abs( Nodes(k)%n%variable_index ) -1 )
+
+                    endif !   abs( Nodes(k)%n%variable_index ) <= n_code_equations
+
 
                 endif
 
 
             elseif( Nodes(k)%n%Node_Type .eq. ParameterNodeType) then
 
-                !write(60,'(/A,3(1x,I6))') &
-                !      'DsT2: i, k, ParameterNodeType    ', i, k, ParameterNodeType
-                !write(60,'(A,3(1x,I6))') &
-                !      'DsT2: i, k, Nodes(k)%n%Node_Type ', i, k, Nodes(k)%n%Node_Type
-
                 !write(6,'(/A,3(1x,I6))') &
-                !      'DsT2: i, k, ParameterNodeType    ', i, k, ParameterNodeType
+                !'DsT2: i, k, ParameterNodeType    ', i, k, ParameterNodeType
                 !write(6,'(A,3(1x,I6))') &
-                !      'DsT2: i, k, Nodes(k)%n%Node_Type ', i, k, Nodes(k)%n%Node_Type
+                !'DsT2: i, k, Nodes(k)%n%Node_Type ', i, k, Nodes(k)%n%Node_Type
 
             endif
 
@@ -452,18 +421,30 @@ do i = 1, Tree_count
         Trees(i, j)%n => root
 
         !if( myid == temp_myid )then
-        !    write(60,'(A,2(1x,I6))') 'DsT2: i, root%node_count ', i, root%node_count
-        !    write(6,'(A,2(1x,I6))')  'DsT2: i, root%node_count ', i, root%node_count
+        !    write(6,'(A,2(1x,I6))') &
+        !    'DsT2: i, root%node_count ', i, root%node_count
         !endif !  myid == temp_myid
 
 
 
         ! Clean up
-        deallocate( Nodes, Node_IDs )
+
+        !do  k = 1, node_count
+        !    call Nodes(k)%n%delete()
+        !    !deallocate( Nodes(k)%n )
+        !enddo
+
+        deallocate( Nodes )
+        deallocate( Node_IDs )
+
+
+        !if( myid <= 1 )then
+        !    write(6,'(A,4x,L1)') 'DsT2: associated( root ) ', &
+        !                                associated( root )
+        !endif ! myid <= 1
 
     enddo ! j
 
-    !write(60,'(A,1x,I6)') 'DsT2: aft J loop i =  ', i
     !write(6,'(A,1x,I6)')  'DsT2: aft J loop i =  ', i
 
 enddo ! i

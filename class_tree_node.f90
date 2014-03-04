@@ -46,6 +46,8 @@ contains
 
     subroutine Tree_Node_Delete(this)
         class(Tree_Node), intent(inout) :: this
+        !!call this%delete()                 ! jjm 20140207
+        !write(*,*) 'Tree_Node_Delete'
     end subroutine Tree_Node_Delete
 
 
@@ -54,6 +56,7 @@ contains
         call this%left%delete()
         call this%right%delete()
         deallocate(this%left, this%right)
+        !write(*,*) 'Tree_Math_Node_Delete'
     end subroutine Tree_Math_Node_Delete
 
 
@@ -74,12 +77,9 @@ contains
 
         v = math_funcs( this%operation )%f( this%left%val(), this%right%val() )
 
-        !write(6,'(A,1x,I6)') 'tMnv: this%operation  = ', this%operation
-        !write(6,'(A,1x,I6)') 'tMnv: this%node_count = ', this%node_count
-        !write(6,'(A,1x,E15.7)') 'tMnv: v = ', v
-        !write(60,'(A,1x,I6)') 'tMnv: this%operation  = ', this%operation
-        !write(60,'(A,1x,I6)') 'tMnv: this%node_count = ', this%node_count
-        !write(60,'(A,1x,E15.7)') 'tMnv: v = ', v
+        !write(6,'(A,1x,I6,1x,E24.16)')     'tMnv: this%operation, v', this%operation, v
+        !!write(6,'(A,1x,I6)')     'tMnv: this%node_count = ', this%node_count
+        !write(6,'(A,1x,E24.16)') 'tMnv: v               = ', v
 
     end function Tree_Math_Node_Val
 
@@ -90,10 +90,9 @@ contains
 
         v = this%param
 
-        !write(6,'(A,1x,E15.7)')  'tPnv: this%param = ', this%param
-        !write(6,'(A,1x,E15.7)')  'tPnv: parm = ', v
-        !write(60,'(A,1x,E15.7)') 'tPnv: this%param = ', this%param
-        !write(60,'(A,1x,E15.7)') 'tPnv: parm = ', v
+        !write(6,'(A,1x,E24.16)')  'tPnv: this%param = ', this%param
+        !write(6,'(A,1x,E24.16)')  'tPnv: parm       = ', v
+        !write(6,'(A,2(1x,E24.16))')     'tMnv: this%param, v', this%param, v
 
     end function Tree_Parameter_Node_Val
 
@@ -104,12 +103,10 @@ contains
 
         v = this%variable
 
-        !write(6,'(A,1x,E15.7)') 'tVnv: this%variable   = ', this%variable
-        !write(6,'(A,1x,I6)')    'tVnv: this%node_count = ', this%node_count
-        !write(6,'(A,1x,E15.7)') 'tVnv: variable = ', v
-        !write(60,'(A,1x,E15.7)')'tVnv: this%variable   = ', this%variable
-        !write(60,'(A,1x,I6)')   'tVnv: this%node_count = ', this%node_count
-        !write(60,'(A,1x,E15.7)')'tVnv: variable = ', v
+        !write(6,'(A,1x,E24.16)') 'tVnv: this%variable   = ', this%variable
+        !!write(6,'(A,1x,I6)')     'tVnv: this%node_count = ', this%node_count
+        !write(6,'(A,1x,E24.16)') 'tVnv: variable        = ', v
+        !write(6,'(A,2(1x,E24.16))')     'tMnv: this%variable, v', this%variable, v
 
     end function Tree_Variable_Node_Val
 
@@ -157,7 +154,7 @@ contains
     !---------------------------------------------------------------------
 
     subroutine Tree_Node_Get_Pointers(this, pointers, pointer_count, index)
-        !orig class(Tree_Node), intent(inout) :: this
+       !class(Tree_Node), intent(inout)        :: this   ! orig 
         class(Tree_Node), intent(inout),target :: this   ! jjm
         integer (kind=4), intent(in) :: pointer_count
         class(Tree_Node_Pointer), dimension(pointer_count) :: pointers
@@ -169,11 +166,12 @@ contains
             pointers(index)%n => a
         endselect
         index = index + 1
+        write(*,*)'Tree_Node_Get_Pointers: index = ', index
     end subroutine Tree_Node_Get_Pointers
 
 
     subroutine Tree_Math_Node_Get_Pointers(this, pointers, pointer_count, index)
-        !orig class(Tree_Node), intent(inout) :: this
+       !class(Tree_Node), intent(inout)        :: this  ! orig 
         class(Tree_Node), intent(inout),target :: this  ! jjm
         integer (kind=4), intent(in) :: pointer_count
         class(Tree_Node_Pointer), dimension(pointer_count) :: pointers
@@ -185,7 +183,8 @@ contains
             pointers(index)%n => a
         endselect
         index = index + 1
-        call this%left%GetNodePointers(pointers, pointer_count, index)
+        write(*,*)'Tree_Math_Node_Get_Pointers: index = ', index
+        call this%left%GetNodePointers( pointers, pointer_count, index)
         call this%right%GetNodePointers(pointers, pointer_count, index)
     end subroutine Tree_Math_Node_Get_Pointers
 
@@ -239,6 +238,8 @@ contains
 
         type(Tree_Node), pointer       :: a   !jjm
         type(Tree_Node), pointer       :: b   !jjm
+
+        write(*,*) 'Tree_Node_Swap: '
 
         select type(a => this)
             type is (Tree_Node)

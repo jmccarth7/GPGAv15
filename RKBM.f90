@@ -6,6 +6,8 @@ subroutine RKBM( i_gen, i_indiv )
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 
+use mpi                                                                                                   
+use mpi_module
 
 use GP_Parameters_module
 use GP_Variables_module
@@ -40,6 +42,8 @@ integer ::  iter
 !real(kind=8) :: left_node_value
 real(kind=8) :: right_node_value
 
+real(kind=8) :: aaa
+real(kind=8) :: bbb
 
 !-------------------------------------------------------------------------------
 
@@ -410,9 +414,448 @@ do  i_tree=1,n_trees
                     !             tree_evaluation )
 
 
+
+                CASE(8)  ! 'abs(LHS*RHS)*(1.0D+0 - dexp(-dabs(LHS*RHS)))'
+
+                    cff_string = trim( left_node_value_string ) // &
+                        ' ** ' // trim( right_node_value_string)
+
+                    cff_string = trim( cff_string )
+
+                    !write(6,'(8x, A, A )') 'left_node_value_string  ', &
+                    !      trim( left_node_value_string )
+                    !write(6,'(8x, A, A )') 'right_node_value_string ', &
+                    !      trim( right_node_value_string )
+                    !write(6,'(8x, A, A )') 'cff_string ', trim( cff_string )
+
+
+                    tree_evaluation_string(i_function,i_tree) = trim( cff_string )
+
+                    !write(6,'(8x, A, 2(1x,I3),1x,A )') &
+                    !      'RKBM: i_function, i_tree, tree_evaluation_string  ', &
+                    !      i_function, i_tree, &
+                    !      trim( tree_evaluation_string(i_function,i_tree) )
+
+                    !write(6,'(A)') 'RKBM: call print4  case 8'
+
+                    !call print4( i_data_point, icff, i_function , &
+                    !             left_node_value,  left_node_value_string, &
+                    !             right_node_value, right_node_value_string, &
+                    !             tree_evaluation )
+
+
+
+                CASE(9)  ! 'abs(LHS*RHS)*(1.0D+0 - dexp(-dabs(LHS*RHS)))'
+
+                    cff_string = 'abs( ' // trim( left_node_value_string ) // &
+                        ' * ' // trim( right_node_value_string) // ' )'
+
+                    cff_string = trim( cff_string )
+
+                    !write(6,'(8x, A, A )') 'left_node_value_string  ', &
+                    !      trim( left_node_value_string )
+                    !write(6,'(8x, A, A )') 'right_node_value_string ', &
+                    !      trim( right_node_value_string )
+                    !write(6,'(8x, A, A )') 'cff_string ', trim( cff_string )
+
+
+                    tree_evaluation_string(i_function,i_tree) = &
+                    'exp( -1.0 * '// trim( cff_string ) // ' )'
+
+                    !write(6,'(8x, A, 2(1x,I3),1x,A )') &
+                    !      'RKBM: i_function, i_tree, tree_evaluation_string  ', &
+                    !      i_function, i_tree, &
+                    !      trim( tree_evaluation_string(i_function,i_tree) )
+
+                    !write(6,'(A)') 'RKBM: call print4  case 9'
+
+                    !call print4( i_data_point, icff, i_function , &
+                    !             left_node_value,  left_node_value_string, &
+                    !             right_node_value, right_node_value_string, &
+                    !             tree_evaluation )
+
+                CASE(10)  !   min( a, b )
+
+                    cff_string = 'min( ' // trim( left_node_value_string ) // &
+                        ' , ' // trim( right_node_value_string) // ' )'
+
+                    cff_string = trim( cff_string )
+
+                    !write(6,'(8x, A, A )') 'left_node_value_string  ', &
+                    !      trim( left_node_value_string )
+                    !write(6,'(8x, A, A )') 'right_node_value_string ', &
+                    !      trim( right_node_value_string )
+                    !write(6,'(8x, A, A )') 'cff_string ', trim( cff_string )
+
+
+                    tree_evaluation_string(i_function,i_tree) = &
+                                               trim( cff_string )
+
+                    !write(6,'(8x, A, 2(1x,I3),1x,A )') &
+                    !      'RKBM: i_function, i_tree, tree_evaluation_string  ', &
+                    !      i_function, i_tree, &
+                    !      trim( tree_evaluation_string(i_function,i_tree) )
+
+                    !write(6,'(A)') 'RKBM: call print4  case 10'
+
+                    !call print4( i_data_point, icff, i_function , &
+                    !             left_node_value,  left_node_value_string, &
+                    !             right_node_value, right_node_value_string, &
+                    !             tree_evaluation )
+
+                    !--------------------------------------------------------------------------
+
+                CASE(11)  !   max( a, b )
+
+
+                    cff_string = 'max( ' // trim( left_node_value_string ) // &
+                        ' , ' // trim( right_node_value_string) // ' )'
+
+                    cff_string = trim( cff_string )
+
+                    !write(6,'(8x, A, A )') 'left_node_value_string  ', &
+                    !      trim( left_node_value_string )
+                    !write(6,'(8x, A, A )') 'right_node_value_string ', &
+                    !      trim( right_node_value_string )
+                    !write(6,'(8x, A, A )') 'cff_string ', trim( cff_string )
+
+
+                    tree_evaluation_string(i_function,i_tree) = &
+                                                trim( cff_string )
+
+                    !write(6,'(8x, A, 2(1x,I3),1x,A )') &
+                    !      'RKBM: i_function, i_tree, tree_evaluation_string  ', &
+                    !      i_function, i_tree, &
+                    !      trim( tree_evaluation_string(i_function,i_tree) )
+
+                    !write(6,'(A)') 'RKBM: call print4  case 11'
+
+                    !call print4( i_data_point, icff, i_function , &
+                    !             left_node_value,  left_node_value_string, &
+                    !             right_node_value, right_node_value_string, &
+                    !             tree_evaluation )
+                    !--------------------------------------------------------------------------
+
+                CASE(12)  !   if a /= 0.0d0, then b, else 0.0d0
+
+
+                    read( left_node_value_string,  * ) aaa
+                    read( right_node_value_string, * ) bbb
+
+                    if( aaa /= 0.0d0 )then
+
+                        cff_string = trim( right_node_value_string )
+                    else
+                        cff_string = '0.0d0'
+                    endif
+
+                    !write(6,'(8x, A, A )') 'left_node_value_string  ', &
+                    !      trim( left_node_value_string )
+                    !write(6,'(8x, A, A )') 'right_node_value_string ', &
+                    !      trim( right_node_value_string )
+                    !write(6,'(8x, A, A )') 'cff_string ', trim( cff_string )
+
+
+                    tree_evaluation_string(i_function,i_tree) = &
+                                                    trim( cff_string )
+
+                    !write(6,'(8x, A, 2(1x,I3),1x,A )') &
+                    !      'RKBM: i_function, i_tree, tree_evaluation_string  ', &
+                    !      i_function, i_tree, &
+                    !      trim( tree_evaluation_string(i_function,i_tree) )
+
+                    !write(6,'(A)') 'RKBM: call print4  case 12'
+
+                    !call print4( i_data_point, icff, i_function , &
+                    !             left_node_value,  left_node_value_string, &
+                    !             right_node_value, right_node_value_string, &
+                    !             tree_evaluation )
+                    !--------------------------------------------------------------------------
+
+                CASE(13)  !   if a >  b    , then 1.0d0, else 0.0d0
+
+
+
+                    cff_string = 'abs( ' // trim( left_node_value_string ) // &
+                        ' * ' // trim( right_node_value_string) // ' )'
+
+                    read( left_node_value_string,  * ) aaa
+                    read( right_node_value_string, * ) bbb
+
+                    if( aaa > bbb  )then
+
+                        cff_string = '1.0d0'
+                    else
+                        cff_string = '0.0d0'
+                    endif
+
+                    cff_string = trim( cff_string )
+
+                    !write(6,'(8x, A, A )') 'left_node_value_string  ', &
+                    !      trim( left_node_value_string )
+                    !write(6,'(8x, A, A )') 'right_node_value_string ', &
+                    !      trim( right_node_value_string )
+                    !write(6,'(8x, A, A )') 'cff_string ', trim( cff_string )
+
+
+                    tree_evaluation_string(i_function,i_tree) = &
+                                                       trim( cff_string )
+
+                    !write(6,'(8x, A, 2(1x,I3),1x,A )') &
+                    !      'RKBM: i_function, i_tree, tree_evaluation_string  ', &
+                    !      i_function, i_tree, &
+                    !      trim( tree_evaluation_string(i_function,i_tree) )
+
+                    !write(6,'(A)') 'RKBM: call print4  case 13'
+
+                    !call print4( i_data_point, icff, i_function , &
+                    !             left_node_value,  left_node_value_string, &
+                    !             right_node_value, right_node_value_string, &
+                    !             tree_evaluation )
+                    !--------------------------------------------------------------------------
+
+                CASE(14)  !   if a >= b    , then 1.0d0, else 0.0d0
+
+
+                    read( left_node_value_string,  * ) aaa
+                    read( right_node_value_string, * ) bbb
+
+                    if( aaa >= bbb  )then
+
+                        cff_string = '1.0d0'
+                    else
+                        cff_string = '0.0d0'
+                    endif
+
+                    cff_string = trim( cff_string )
+
+                    !write(6,'(8x, A, A )') 'left_node_value_string  ', &
+                    !      trim( left_node_value_string )
+                    !write(6,'(8x, A, A )') 'right_node_value_string ', &
+                    !      trim( right_node_value_string )
+                    !write(6,'(8x, A, A )') 'cff_string ', trim( cff_string )
+
+
+                    tree_evaluation_string(i_function,i_tree) = &
+                                                   trim( cff_string )
+
+                    !write(6,'(8x, A, 2(1x,I3),1x,A )') &
+                    !      'RKBM: i_function, i_tree, tree_evaluation_string  ', &
+                    !      i_function, i_tree, &
+                    !      trim( tree_evaluation_string(i_function,i_tree) )
+
+                    !write(6,'(A)') 'RKBM: call print4  case 14'
+
+                    !call print4( i_data_point, icff, i_function , &
+                    !             left_node_value,  left_node_value_string, &
+                    !             right_node_value, right_node_value_string, &
+                    !             tree_evaluation )
+                    !--------------------------------------------------------------------------
+
+                CASE(15)  !   if a <  b    , then 1.0d0, else 0.0d0
+
+
+
+                    read( left_node_value_string,  * ) aaa
+                    read( right_node_value_string, * ) bbb
+
+                    if( aaa <  bbb  )then
+
+                        cff_string = '1.0d0'
+                    else
+                        cff_string = '0.0d0'
+                    endif
+
+                    cff_string = trim( cff_string )
+
+                    !write(6,'(8x, A, A )') 'left_node_value_string  ', &
+                    !      trim( left_node_value_string )
+                    !write(6,'(8x, A, A )') 'right_node_value_string ', &
+                    !      trim( right_node_value_string )
+                    !write(6,'(8x, A, A )') 'cff_string ', trim( cff_string )
+
+
+                    tree_evaluation_string(i_function,i_tree) = &
+                                                           trim( cff_string )
+
+                    !write(6,'(8x, A, 2(1x,I3),1x,A )') &
+                    !      'RKBM: i_function, i_tree, tree_evaluation_string  ', &
+                    !      i_function, i_tree, &
+                    !      trim( tree_evaluation_string(i_function,i_tree) )
+
+                    !write(6,'(A)') 'RKBM: call print4  case 15'
+
+                    !call print4( i_data_point, icff, i_function , &
+                    !             left_node_value,  left_node_value_string, &
+                    !             right_node_value, right_node_value_string, &
+                    !             tree_evaluation )
+                    !--------------------------------------------------------------------------
+
+                CASE(16)  !   if a <= b    , then 1.0d0, else 0.0d0
+
+                    read( left_node_value_string,  * ) aaa
+                    read( right_node_value_string, * ) bbb
+
+                    if( aaa <=  bbb  )then
+
+                        cff_string = '1.0d0'
+                    else
+                        cff_string = '0.0d0'
+                    endif
+
+                    cff_string = trim( cff_string )
+
+                    !write(6,'(8x, A, A )') 'left_node_value_string  ', &
+                    !      trim( left_node_value_string )
+                    !write(6,'(8x, A, A )') 'right_node_value_string ', &
+                    !      trim( right_node_value_string )
+                    !write(6,'(8x, A, A )') 'cff_string ', trim( cff_string )
+
+
+                    tree_evaluation_string(i_function,i_tree) = &
+                                                       trim( cff_string )
+
+                    !write(6,'(8x, A, 2(1x,I3),1x,A )') &
+                    !      'RKBM: i_function, i_tree, tree_evaluation_string  ', &
+                    !      i_function, i_tree, &
+                    !      trim( tree_evaluation_string(i_function,i_tree) )
+
+                    !write(6,'(A)') 'RKBM: call print4  case 16'
+
+                    !call print4( i_data_point, icff, i_function , &
+                    !             left_node_value,  left_node_value_string, &
+                    !             right_node_value, right_node_value_string, &
+                    !             tree_evaluation )
+                    !--------------------------------------------------------------------------
+
+                CASE(17)  !   exp(a)
+
+
+
+
+                    cff_string =  'exp( ' // trim( left_node_value_string ) // ' )'
+
+                    cff_string = trim( cff_string )
+
+                    !write(6,'(8x, A, A )') 'left_node_value_string  ', &
+                    !      trim( left_node_value_string )
+                    !write(6,'(8x, A, A )') 'right_node_value_string ', &
+                    !      trim( right_node_value_string )
+                    !write(6,'(8x, A, A )') 'cff_string ', trim( cff_string )
+
+
+                    tree_evaluation_string(i_function,i_tree) = &
+                                                        trim( cff_string )
+
+                    !write(6,'(8x, A, 2(1x,I3),1x,A )') &
+                    !      'RKBM: i_function, i_tree, tree_evaluation_string  ', &
+                    !      i_function, i_tree, &
+                    !      trim( tree_evaluation_string(i_function,i_tree) )
+
+                    !write(6,'(A)') 'RKBM: call print4  case 17'
+
+                    !call print4( i_data_point, icff, i_function , &
+                    !             left_node_value,  left_node_value_string, &
+                    !             right_node_value, right_node_value_string, &
+                    !             tree_evaluation )
+                    !--------------------------------------------------------------------------
+
+                CASE(18)  !   exp(b)
+
+
+                    cff_string =  'exp( ' // trim( right_node_value_string ) // ' )'
+
+                    cff_string = trim( cff_string )
+
+                    !write(6,'(8x, A, A )') 'left_node_value_string  ', &
+                    !      trim( left_node_value_string )
+                    !write(6,'(8x, A, A )') 'right_node_value_string ', &
+                    !      trim( right_node_value_string )
+                    !write(6,'(8x, A, A )') 'cff_string ', trim( cff_string )
+
+
+                    tree_evaluation_string(i_function,i_tree) = &
+                                                      trim( cff_string ) 
+
+                    !write(6,'(8x, A, 2(1x,I3),1x,A )') &
+                    !      'RKBM: i_function, i_tree, tree_evaluation_string  ', &
+                    !      i_function, i_tree, &
+                    !      trim( tree_evaluation_string(i_function,i_tree) )
+
+                    !write(6,'(A)') 'RKBM: call print4  case 18'
+
+                    !call print4( i_data_point, icff, i_function , &
+                    !             left_node_value,  left_node_value_string, &
+                    !             right_node_value, right_node_value_string, &
+                    !             tree_evaluation )
+                    !--------------------------------------------------------------------------
+
+                CASE(19)  !   exp( -1.0d0 * a )
+
+
+                    cff_string =  'exp( -1.0 * ' // trim( left_node_value_string ) // ' )'
+
+
+                    cff_string = trim( cff_string )
+
+                    !write(6,'(8x, A, A )') 'left_node_value_string  ', &
+                    !      trim( left_node_value_string )
+                    !write(6,'(8x, A, A )') 'right_node_value_string ', &
+                    !      trim( right_node_value_string )
+                    !write(6,'(8x, A, A )') 'cff_string ', trim( cff_string )
+
+
+                    tree_evaluation_string(i_function,i_tree) = &
+                                                         trim( cff_string ) 
+
+                    !write(6,'(8x, A, 2(1x,I3),1x,A )') &
+                    !      'RKBM: i_function, i_tree, tree_evaluation_string  ', &
+                    !      i_function, i_tree, &
+                    !      trim( tree_evaluation_string(i_function,i_tree) )
+
+                    !write(6,'(A)') 'RKBM: call print4  case 19'
+
+                    !call print4( i_data_point, icff, i_function , &
+                    !             left_node_value,  left_node_value_string, &
+                    !             right_node_value, right_node_value_string, &
+                    !             tree_evaluation )
+                    !--------------------------------------------------------------------------
+
+                CASE(20)  !   exp( -1.0d0 * b )
+
+                    cff_string =  'exp( -1.0 * ' // trim( right_node_value_string ) // ' )'
+
+                    cff_string = trim( cff_string )
+
+                    !write(6,'(8x, A, A )') 'left_node_value_string  ', &
+                    !      trim( left_node_value_string )
+                    !write(6,'(8x, A, A )') 'right_node_value_string ', &
+                    !      trim( right_node_value_string )
+                    !write(6,'(8x, A, A )') 'cff_string ', trim( cff_string )
+
+
+                    tree_evaluation_string(i_function,i_tree) = &
+                                                            trim( cff_string ) 
+
+                    !write(6,'(8x, A, 2(1x,I3),1x,A )') &
+                    !      'RKBM: i_function, i_tree, tree_evaluation_string  ', &
+                    !      i_function, i_tree, &
+                    !      trim( tree_evaluation_string(i_function,i_tree) )
+
+                    !write(6,'(A)') 'RKBM: call print4  case 20'
+
+                    !call print4( i_data_point, icff, i_function , &
+                    !             left_node_value,  left_node_value_string, &
+                    !             right_node_value, right_node_value_string, &
+                    !             tree_evaluation )
+                    !--------------------------------------------------------------------------
+
+
                 CASE DEFAULT
 
-                    write(*,*) 'wrong case number chosen in Runge Kutta evaluations'
+                    write(*,'(//A//)') 'wrong case number chosen in Runge Kutta evaluations'
+
+                    call MPI_FINALIZE(ierr)
                     stop 'RK bad case number'
 
                 END SELECT

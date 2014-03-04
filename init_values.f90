@@ -33,6 +33,13 @@ elseif( trim(model) == 'LV' )then
     call init_values_LV( icall )
     if( icall == 0 ) return
 
+
+elseif( trim(model) == 'DATA' )then
+
+    call init_values_data( icall )
+    if( icall == 0 ) return
+
+
 endif ! trim(model) == 'NPZ'
 
 

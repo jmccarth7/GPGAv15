@@ -32,7 +32,7 @@ integer, intent(in)  ::  myprint_unit
 
 ! lmdif arrays and variables
 
-real(kind=8) :: x_LMDIF(n_maximum_number_parameters)
+real(kind=8) :: x_LMDIF(n_GP_parameters)
 real(kind=8) :: fvec(n_time_steps)
 real(kind=8) :: ftol,xtol,gtol
 
@@ -42,11 +42,11 @@ real(kind=8), parameter :: epsfcn = 1.0d-6    ! original
 real(kind=8), parameter :: factor=1.0D+0
 real(kind=8), parameter :: zero = 0.0d0
 
-real(kind=8) :: diag(n_maximum_number_parameters)
-real(kind=8) :: fjac(n_time_steps,n_maximum_number_parameters)
-real(kind=8) :: qtf(n_maximum_number_parameters)
+real(kind=8) :: diag(n_GP_parameters)
+real(kind=8) :: fjac(n_time_steps,n_GP_parameters)
+real(kind=8) :: qtf(n_GP_parameters)
 integer(kind=4) :: maxfev,ldfjac,mode,nprint,info,nfev
-integer(kind=4) :: ipvt(n_maximum_number_parameters)
+integer(kind=4) :: ipvt(n_GP_parameters)
 
 
 ! individual_quality contains information on the result of lmdif
@@ -58,13 +58,13 @@ integer(kind=4) :: individual_quality(n_indiv)
 integer(kind=4) :: i_time_step
 integer(kind=4) :: i_parameter
 
-real(kind=8) :: child_parameters(n_maximum_number_parameters,n_indiv)
+real(kind=8) :: child_parameters(n_GP_parameters,n_indiv)
 
 external :: fcn
 
-real(kind=8) :: t1
-real(kind=8) :: t2
-real(kind=8) :: delta_wt
+!real(kind=8) :: t1
+!real(kind=8) :: t2
+!real(kind=8) :: delta_wt
 
 !--------------------------------------------------------------------------------------------
 
@@ -192,6 +192,7 @@ L_bad_result = .false.
 !write(myprint_unit,'(A,4(1x,E15.7))')'setrlm:input ftol, xtol, gtol, epsfcn',&
 !                                                   ftol, xtol, gtol, epsfcn
 !write(myprint_unit,'(A,2(1x,I10))') 'setrlm:input  maxfev ', maxfev
+
 !write(myprint_unit,'(A,2(1x,I10))') 'setrlm:input  mode, nprint ', &
 !                                                   mode, nprint
 !write(myprint_unit,'(A,3(1x,E15.7))') 'setrlm:input    factor  ', factor
@@ -274,13 +275,13 @@ if( info < 0 ) then
     individual_quality( i_G_indiv ) = -1
     my_indiv_SSE(i_G_indiv) =  1.0D+13
 
-    if( L_myprint )then
-        write(myprint_unit,'(/A/ 3(1x, I6),  1x,E12.5)') &
-          'setrlm:3 myid, i_G_indiv, individual_quality(i_G_indiv), &
-                                      &my_indiv_SSE(i_G_indiv) ', &
-                    myid, i_G_indiv, individual_quality(i_G_indiv), &
-                                      my_indiv_SSE(i_G_indiv)
-    endif ! L_myprint
+    !if( L_myprint )then
+    !    write(myprint_unit,'(/A/ 3(1x, I6),  1x,E12.5)') &
+    !      'setrlm:3 myid, i_G_indiv, individual_quality(i_G_indiv), &
+    !                                  &my_indiv_SSE(i_G_indiv) ', &
+    !                myid, i_G_indiv, individual_quality(i_G_indiv), &
+    !                                  my_indiv_SSE(i_G_indiv)
+    !endif ! L_myprint
     return
 
 endif ! info < 0

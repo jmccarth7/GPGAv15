@@ -14,6 +14,8 @@ use GP_variables_module
 
 implicit none
 
+integer :: array_len
+!integer :: i
 
 !----------------------------------------------------------------------------------------
 
@@ -72,6 +74,9 @@ call MPI_BCAST( number_GA_child_prints, 1,    &
 call MPI_BCAST( number_GP_child_prints, 1,    &
                 MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
 
+call MPI_BCAST( n_levels, 1,    &
+                MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
+
 
 !-----------------------------------------------------------------
 
@@ -90,6 +95,7 @@ call MPI_BCAST( L_unit50_output, 1,    &
 call MPI_BCAST( L_GP_output_parameters, 1,    &
                 MPI_LOGICAL,  0, MPI_COMM_WORLD, ierr )
 
+!-----------------------------------------------------------------
 !-----------------------------------------------------------------
 
 return

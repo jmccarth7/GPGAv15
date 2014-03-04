@@ -70,6 +70,7 @@ enddo !  i_tree
 
 write(GP_print_unit,'(A)') ' '
 
+return
 !-----------------------------------------------------------------------------
 
 bioflo_string = ''
@@ -87,6 +88,8 @@ do  i_code_equation=0,n_code_equations   ! source of material   ! orig
         if( i_code_equation .ne. j_code_equation) then
 
             i_tree=i_tree+1
+
+            i_tree = min( i_tree, n_trees )  ! 20140122 jjm
 
             ! 'dabs' forces flow of material in one direction
 

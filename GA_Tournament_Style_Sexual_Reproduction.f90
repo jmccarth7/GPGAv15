@@ -15,8 +15,8 @@ use GP_Data_module
 
 implicit none
 
-real(kind=8) :: parent_parameters(n_maximum_number_parameters,n_GA_Individuals)
-real(kind=8) ::  child_parameters(n_maximum_number_parameters,n_GA_Individuals)
+real(kind=8) :: parent_parameters(n_GP_parameters,n_GA_Individuals)
+real(kind=8) ::  child_parameters(n_GP_parameters,n_GA_Individuals)
 
 integer(kind=4) :: individual_quality(n_GA_individuals)
 
@@ -267,7 +267,9 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
       !call random_real(cff)
       !dff = cff
+
       call random_real(dff)
+
       Child_One_Parameters(i_GA_Crossover_Point) = dff
 
   endif
@@ -280,6 +282,7 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
       !call random_real(cff)
       !dff = cff
+
       call random_real(dff)
 
 
@@ -308,8 +311,9 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
       !call random_number( cff )
       !std_dev_parm = 0.5d0 + real(cff,kind=8) * mean_parm
-      call random_number( dff )
-      std_dev_parm = 0.5d0 + dff * mean_parm
+
+      call random_number( cff )
+      std_dev_parm = 0.5d0 + real(cff,kind=8)  * mean_parm
 
       !if( L_ga_print )then
       !    write(GA_print_unit,'(A,3(1x,E15.7))') &
@@ -317,13 +321,13 @@ do i_GA_Crossover=1,n_GA_Crossovers
       !                  cff, mean_parm, std_dev_parm
       !endif ! L_ga_print
 
-      !call random_number( cff )
-      !cff_1 = real( cff, kind = 8 )
-      !call random_number( cff )
-      !cff_2 = real( cff, kind = 8 )
+      call random_number( cff )
+      cff_1 = real( cff, kind = 8 )
+      call random_number( cff )
+      cff_2 = real( cff, kind = 8 )
 
-      call random_number( cff_1 )
-      call random_number( cff_2 )
+      !call random_number( cff_1 )
+      !call random_number( cff_2 )
 
       dff = mean_parm  + &
             std_dev_parm * &
@@ -373,6 +377,7 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
       !call random_real(cff)
       !dff = cff
+
       call random_real(dff)
 
 
@@ -399,10 +404,11 @@ do i_GA_Crossover=1,n_GA_Crossovers
       !                  old_male, old_female, mean_parm
       !endif ! L_ga_print
 
-      !call random_number( cff )
-      !std_dev_parm = 0.5d0 + real(cff,kind=8) * mean_parm
-      call random_number( dff )
-      std_dev_parm = 0.5d0 + dff * mean_parm
+      call random_number( cff )
+      std_dev_parm = 0.5d0 + real(cff,kind=8) * mean_parm
+
+      !call random_number( dff )
+      !std_dev_parm = 0.5d0 + dff * mean_parm
 
       !if( L_ga_print )then
       !    write(GA_print_unit,'(A,3(1x,E15.7))') &
@@ -410,12 +416,14 @@ do i_GA_Crossover=1,n_GA_Crossovers
       !                  cff, mean_parm, std_dev_parm
       !endif ! L_ga_print
 
-      !call random_number( cff )
-      !cff_1 = real( cff, kind = 8 )
-      !call random_number( cff )
-      !cff_2 = real( cff, kind = 8 )
-      call random_number( cff_1 )
-      call random_number( cff_2 )
+      call random_number( cff )
+      cff_1 = real( cff, kind = 8 )
+
+      call random_number( cff )
+      cff_2 = real( cff, kind = 8 )
+
+      !call random_number( cff_1 )
+      !call random_number( cff_2 )
 
       dff = mean_parm  + &
             std_dev_parm * &

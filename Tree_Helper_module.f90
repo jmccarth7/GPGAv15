@@ -16,26 +16,18 @@ type(Tree_Node), pointer :: node
 
 !--------------------------------------------
 
-!write(6,*)'gnc:0 node%node_type, count ', node%node_type, count
 
 if( node%node_type .eq. 1 ) then
 
-
     node%node_count = 1 + GetNodeCount(node%left) + &
                           GetNodeCount(node%right)
-
-    !write(6,*)'gnc:1 GetNodeCount(node%left) ', GetNodeCount(node%left)
-    !write(6,*)'gnc:1 GetNodeCount(node%right)', GetNodeCount(node%right)
-    !write(6,*)'gnc:1 node%node_count, count ', node%node_count, count
-
     count = node%node_count
 
-    !write(6,*)'gnc:2 node%node_count, count ', node%node_count, count
+    !write(*,*)'GNC: count = ', count
 endif
 
 count = node%node_count
 
-!write(6,*)'gnc:3 node%node_type, count ', node%node_type, count
 
 end function
 

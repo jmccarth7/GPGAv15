@@ -29,12 +29,11 @@ implicit none
 
 
 allocate( ga_individual_elites( n_GA_individuals )  )
-!allocate( fitness_expectation_value( n_GA_individuals )  )
 
 allocate( Run_GA_lmdif( n_GA_individuals )  )
 
 allocate( Data_Array( 0:n_time_steps, n_CODE_equations )  )
-allocate( Data_Variance( n_CODE_equations )  )
+!!allocate( Data_Variance( n_CODE_equations )  )
 allocate( Data_Variance_inv( n_CODE_equations )  )
 
 allocate( Parent_Tree_Swap_Node_Type(n_Nodes,2) )
@@ -77,6 +76,9 @@ allocate( GP_Individual_Initial_Conditions(n_CODE_equations) )
 allocate( GP_Individual_Node_Type(n_nodes,n_trees) )
 allocate( GP_Individual_Node_Parameters(n_nodes,n_trees) )
 
+allocate( GP_minSSE_Individual_Initial_Conditions(n_CODE_equations) )
+allocate( GP_minSSE_Individual_Node_Type(n_nodes,n_trees) )
+allocate( GP_minSSE_Individual_Node_Parameters(n_nodes,n_trees) )
 
 allocate( GP_Individual_N_GP_param(n_GP_Individuals) )  ! jjm 20130409
 
@@ -84,11 +86,9 @@ allocate( GP_Individual_N_GP_param(n_GP_Individuals) )  ! jjm 20130409
 allocate( GP_Node_Parameters_Answer(n_Nodes,n_Trees) )
 allocate( GP_Node_Type_Answer(n_Nodes,n_Trees) )
 
-!allocate( GP_Node_Type_for_Plotting(9, n_Nodes,n_Trees) )
 
 allocate( GP_Node_Type_for_Plotting( n_Nodes,n_Trees, n_GP_Individuals ) )
 
-!allocate( GP_Solution(0:n_Time_Steps,n_CODE_Equations) )
 
 allocate( GP_diversity_index( n_GP_individuals ) )
 
@@ -98,9 +98,17 @@ allocate( GP_diversity_index( n_GP_individuals ) )
 allocate( Node_Values(n_nodes,n_trees) )
 allocate( Tree_Evaluation(n_nodes,n_trees) )
 
+                                                                                                                                     
+!allocate( GP_Trees( n_trees,  1 )  )                                                                                                 
+                                                                                                                                     
+
 allocate( Tree_Value(n_trees) )
 
 allocate( Node_Eval_Type(n_nodes,n_trees) )
+
+allocate( Numerical_CODE_Initial_Conditions( 1:n_CODE_equations ) )
+allocate( Numerical_CODE_Forcing_Functions( n_CODE_forcing ) )
+!allocate( Numerical_CODE_Solution( 0:n_input_data_points, n_CODE_equations ) )
 
 allocate( Runge_Kutta_Solution( 0:n_time_steps, n_CODE_equations )  )
 allocate( Runge_Kutta_Node_Parameters(n_nodes,n_trees) )
@@ -116,50 +124,42 @@ allocate( bioflo(0:n_CODE_equations,0:n_CODE_equations) )
 allocate( bioflo_map( 1:n_CODE_equations,1:n_Tracked_Resources ) )
 allocate( bioflo_string(0:n_CODE_equations,0:n_CODE_equations) )
 
-!allocate( b_tmp(n_CODE_equations) )
-allocate( b_tmp(n_variables)      )
+allocate( b_tmp(n_CODE_equations) )
+!allocate( b_tmp(n_variables)      )
 
-allocate( Numerical_CODE_Initial_Conditions( 1:n_CODE_equations ) )
+!allocate( Numerical_CODE_Initial_Conditions( 1:n_CODE_equations ) )
 
-allocate( Numerical_CODE_Forcing_Functions( n_CODE_forcing ) )
+!allocate( Numerical_CODE_Forcing_Functions( n_CODE_forcing ) )
 
 allocate( Numerical_CODE_Solution( 0:n_time_steps, n_CODE_equations ) )
 allocate( GP_Trees( n_Trees, n_Tracked_Resources) )
 
 ! Runge-Kutta specific work arrays
-!allocate( kval(4,n_CODE_equations) )
-!allocate( btmp(n_CODE_equations) )
-!allocate( fbio(n_CODE_equations) )
+allocate( kval(4,n_CODE_equations) )
+allocate( btmp(n_CODE_equations) )
+allocate( fbio(n_CODE_equations) )
 
-allocate( kval(4, n_variables) )
-allocate( btmp(n_variables) )
-allocate( fbio(n_variables) )
+!allocate( kval(4, n_variables) )
+!allocate( btmp(n_variables) )
+!allocate( fbio(n_variables) )
 
 
+if( L_print_equations )then
+    allocate( bioflo_string(0:n_CODE_equations,0:n_CODE_equations) )
+    allocate( node_type_string( n_nodes, n_trees ) )
+    allocate( node_parameters_string( n_nodes, n_trees ) )
+    allocate( tree_evaluation_string( n_nodes, n_trees ) )
+    allocate( tree_value_string( n_trees ) )
+endif ! L_print_equations 
 
-allocate( node_type_string( n_nodes, n_trees ) )
-allocate( node_parameters_string( n_nodes, n_trees ) )
-allocate( tree_evaluation_string( n_nodes, n_trees ) )
-allocate( tree_value_string( n_trees ) )
-
-!!allocate( linked_parms( 2, n_linked_parms_dim ) )
 
 allocate( Node_Probability( n_levels ) )
 
-!>>>>>>>>>>>>>
 
 allocate( GP_Adult_Population_SSE( n_GP_Individuals  )  )
 !allocate( GP_Child_Population_SSE( n_GP_Individuals  )  )
 
-allocate( ppe(n_Maximum_Number_Parameters,n_GA_individuals )  )
-
-
-!allocate( buffer( n_maximum_number_parameters + 2 ) )
-!allocate( buffer_recv( n_maximum_number_parameters + 2 ) )
-
-!allocate( buffer2( n_maximum_number_parameters + 2 ) )
-!allocate( buffer2_recv( n_maximum_number_parameters + 2 ) )
-
+!allocate( ppex(n_Maximum_Number_Parameters,n_GA_individuals )  )
 
 
 !>>>>>>>>>>>>>
@@ -167,12 +167,10 @@ allocate( ppe(n_Maximum_Number_Parameters,n_GA_individuals )  )
 
 
 ga_individual_elites  = 0
-!fitness_expectation_value  = 0.0d0
 
 Run_GA_lmdif  = .FALSE.
 
 Data_Array  = 0.0d0
-Data_Variance  = 0.0d0
 Data_Variance_inv  = 0.0d0
 
 Parent_Tree_Swap_Node_Type = 0
@@ -206,13 +204,16 @@ GP_Individual_Initial_Conditions = 0.0d0
 GP_Individual_Node_Type = -9999
 GP_Individual_Node_Parameters = 0.0d0
 
+GP_minSSE_Individual_Initial_Conditions = 0.0d0
+GP_minSSE_Individual_Node_Type = -9999
+GP_minSSE_Individual_Node_Parameters = 0.0d0
+
 GP_Individual_N_GP_param = 0
 
 GP_Node_Parameters_Answer = 0.0d0
 GP_Node_Type_Answer = -9999
 GP_Node_Type_for_Plotting = -9999
 
-!GP_Solution = 0.0d0
 
 GP_Adult_Population_Node_Type = -9999
 GP_Child_Population_Node_Type = -9999
@@ -245,31 +246,28 @@ Numerical_CODE_Initial_Conditions = 0.0d0
 Numerical_CODE_Forcing_Functions = 0.0d0
 Numerical_CODE_Solution = 0.0d0
 
-! GP_Trees = ?
 
 ! Runge-Kutta specific work arrays
 kval = 0.0d0
 btmp = 0.0d0
 fbio = 0.0d0
 
+if( L_print_equations )then
+    bioflo_string = ' '
+    node_type_string = ' '
+    node_parameters_string = ' '
+    tree_evaluation_string = ' '
+    tree_value_string = ' '
+endif ! L_print_equations 
 
-node_type_string = ' '
-node_parameters_string = ' '
-tree_evaluation_string = ' '
-tree_value_string = ' '
 
-!!linked_parms = 0
 
 Node_Probability = 0.0d0
 !>>>>>>>>>>>>>
 GP_Adult_Population_SSE = 0.0d0
-!GP_Child_Population_SSE = 0.0d0
-!>>>>>>>>>>>>>
+!ppex = 0.0d0 
+!!>>>>>>>>>>>>>
 
-!buffer       = 0.0d0
-!buffer_recv  = 0.0d0
-!buffer2      = 0.0d0
-!buffer2_recv = 0.0d0
 
 return
 

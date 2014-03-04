@@ -27,7 +27,7 @@ integer ::  iflag
 
 ! lmdif arrays and variables
 
-real (kind=8) :: x_LMDIF(n_maximum_number_parameters)
+real (kind=8) :: x_LMDIF(n_GP_parameters)
 real (kind=8) :: fvec(n_time_steps)
 
 
@@ -44,7 +44,7 @@ integer(kind=4) :: i_parameter
 integer(kind=4) :: individual_quality(n_GA_individuals)
 
 
-real(kind=8) :: child_parameters(n_maximum_number_parameters, n_GA_individuals)
+real(kind=8) :: child_parameters(n_GP_parameters, n_GA_individuals)
 
 external :: fcn
 
@@ -54,11 +54,12 @@ external :: fcn
 
 
 !if( L_ga_print )then
-!    write(GA_print_unit,'(/A,2(1x,I6)/)') &
-!          'setrf: myid, i_GA_indiv ', myid, i_GA_indiv
+!    write(6,'(/A,4(1x,I6)/)') &
+!          'setrf: myid, i_GA_indiv, n_parameters, n_GP_parameters ', &
+!                  myid, i_GA_indiv, n_parameters, n_GP_parameters
 !endif ! L_ga_print
 
-x_LMDIF(1:n_maximum_number_parameters) = 0.0D0
+x_LMDIF(1:n_GP_parameters) = 0.0D0
 
 do  i_parameter=1,n_parameters
 

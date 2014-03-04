@@ -8,7 +8,7 @@ implicit none
 real(kind=8),allocatable, dimension(:,:) :: Data_Array
 
 !real (kind=8) :: Data_Variance(n_CODE_equations)
-real(kind=8),allocatable, dimension( : )  :: Data_Variance
+!real(kind=8),allocatable, dimension( : )  :: Data_Variance
 
 real(kind=8),allocatable, dimension( : )  :: Data_Variance_inv
 
