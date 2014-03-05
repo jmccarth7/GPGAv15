@@ -159,19 +159,19 @@ do  i_parameter = 1, n_parms
     ! debug_only--------------------------------------------------------------------
 
     !if( L_myprint  .and. i_G_indiv == 1)then
-    if( L_myprint .and. myid == 1 )then
-        write(myprint_unit,'(A,3(1x,I3),1x,E15.7)') &
-        'strplm:1 myid, i_G_indiv,i_parameter, child_parameters', &
-                  myid, i_G_indiv,i_parameter, &
-                  child_parameters(i_parameter)
-        !write(myprint_unit,'(A,3(1x,I6),2(1x,E15.7))') &
-        !'strplm:1 myid, i_G_indiv,i_parameter, child_parameters, X_LMDIF', &
-        !          myid, i_G_indiv,i_parameter, &
-        !          child_parameters(i_parameter),  X_LMDIF(i_parameter)
-        !write(myprint_unit,'(A,2(1x,I6),1x,E15.7)') &
-        !'strplm:1 myid, i_parameter,  X_LMDIF', &
-        !          myid, i_parameter,  X_LMDIF(i_parameter)
-    endif ! L_myprint
+    !if( L_myprint .and. myid == 1 )then
+    !    write(myprint_unit,'(A,3(1x,I3),1x,E15.7)') &
+    !    'strplm:1 myid, i_G_indiv,i_parameter, child_parameters', &
+    !              myid, i_G_indiv,i_parameter, &
+    !              child_parameters(i_parameter)
+    !    !write(myprint_unit,'(A,3(1x,I6),2(1x,E15.7))') &
+    !    !'strplm:1 myid, i_G_indiv,i_parameter, child_parameters, X_LMDIF', &
+    !    !          myid, i_G_indiv,i_parameter, &
+    !    !          child_parameters(i_parameter),  X_LMDIF(i_parameter)
+    !    !write(myprint_unit,'(A,2(1x,I6),1x,E15.7)') &
+    !    !'strplm:1 myid, i_parameter,  X_LMDIF', &
+    !    !          myid, i_parameter,  X_LMDIF(i_parameter)
+    !endif ! L_myprint
 
 enddo ! i_parameter
 

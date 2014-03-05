@@ -86,14 +86,14 @@ if( myid == 0 )then
         write(GA_print_unit,'(A,1x,I6)') &
               'sbrl: n_GP_parameters =   ', n_GP_parameters
     endif ! L_ga_print
-
-        write(6,'(//A)') 'sbrl: at entry  '
-        write(6,'(A,1x,E15.7)') 'sbrl: dt ', dt
-        write(6,'(A,1x,I6)') &
-              'sbrl: n_parameters    =   ', n_parameters
-        write(6,'(A,1x,I6)') &
-              'sbrl: n_GP_parameters =   ', n_GP_parameters
-        flush(6)
+!
+!        write(6,'(//A)') 'sbrl: at entry  '
+!        write(6,'(A,1x,E15.7)') 'sbrl: dt ', dt
+!        write(6,'(A,1x,I6)') &
+!              'sbrl: n_parameters    =   ', n_parameters
+!        write(6,'(A,1x,I6)') &
+!              'sbrl: n_GP_parameters =   ', n_GP_parameters
+!        flush(6)
 endif ! myid == 0
 
 

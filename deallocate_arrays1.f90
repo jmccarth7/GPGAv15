@@ -105,7 +105,6 @@ deallocate( Node_Eval_Type )
 
 deallocate( bioflo )
 deallocate( bioflo_map )
-deallocate( bioflo_string  )
 deallocate( b_tmp )
 
 deallocate( Numerical_CODE_Initial_Conditions )

@@ -40,6 +40,11 @@ character(string_length)   :: value_string
 character(element_length)  :: node_element_string2
 character(element_length)  :: value_element_string2
 
+character(7)  :: tree_type_fmt1 
+character(2)  :: tree_type_fmt2
+character(7)  :: tree_type_fmt3 
+
+character(16)  :: tree_type_fmt
 integer(kind=4), intent(in), &
         dimension( 1:n_nodes, 1:n_trees, n_GP_individuals) :: tree_type
 
@@ -59,6 +64,29 @@ integer(kind=4),parameter :: nodes_on_line = 15
 write( element_fmt2, '(I1)') element_length
 
 element_format= '(I' // element_fmt2 // ')'
+
+!-----------------------------------------------
+
+! format for small number of nodes
+
+if( n_nodes < node_boundary ) then
+
+    tree_type_fmt1 = '(I6,4x,'
+    write(tree_type_fmt2, '(I2)')  n_nodes
+    tree_type_fmt3 = '(1x,A))'
+
+    tree_type_fmt = tree_type_fmt1 // &
+                    trim( tree_type_fmt2 ) // tree_type_fmt3
+
+    !write(6,'(A,A)') 'pt: tree_type_fmt1 ', tree_type_fmt1
+    !write(6,'(A,A)') 'pt: tree_type_fmt2 ', tree_type_fmt2
+    !write(6,'(A,A)') 'pt: tree_type_fmt3 ', tree_type_fmt3
+    !write(6,'(A,A)') 'pt: tree_type_fmt  ', tree_type_fmt 
+
+endif ! n_nodes < node_boundary 
+
+!-----------------------------------------------
+
 
 ! print trees
 
@@ -120,8 +148,11 @@ do  i_GP_individual = n_indiv_start, n_indiv_stop
             !write(GP_print_unit,'(I6,4x,20(1x,I5))' ) &
             !     i_tree, ( Tree_Type(jj, i_tree,i_GP_individual), jj = 1, n_nodes )
     
-            write(GP_print_unit,'(I6,4x,50(1x,A))' ) &
+
+            !write(GP_print_unit,'(I6,4x,50(1x,A))' ) &
+            write(GP_print_unit, tree_type_fmt  ) &
                  i_tree, Tree_Type_string(1:n_nodes)
+
 
 
         else  ! n_nodes > node_boundary
@@ -188,7 +219,7 @@ do  i_GP_individual = n_indiv_start, n_indiv_stop
 
         endif ! n_nodes < node_boundary
 
-        write(GP_print_unit,'(A)') ' '
+        !!write(GP_print_unit,'(A)') ' '
 
     enddo ! i_tree
 

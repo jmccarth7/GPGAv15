@@ -652,8 +652,8 @@ endif ! L_unit50_output
 
 if( i_GP_generation < n_GP_generations )then
 
-    write(GP_print_unit,'(/A,1x,I6)') &
-       'gpcf: call GP_ranking GP_Gen ',  i_GP_Generation
+    !write(GP_print_unit,'(/A,1x,I6)') &
+    !   'gpcf: call GP_ranking GP_Gen ',  i_GP_Generation
 
     call GP_ranking_sort()
 

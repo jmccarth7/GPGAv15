@@ -23,13 +23,13 @@ integer, intent(in)  ::  myprint_unit
 
 !---------------------------------------------------------------------------------------------------
 
-if( myid == 0 )then
-    write(6,'(/A/)') 'inmod: entry  Initialize_Model '
-endif ! myid == 0
+!if( myid == 0 )then
+!    write(6,'(/A/)') 'inmod: entry  Initialize_Model '
+!endif ! myid == 0
 
-if( L_myprint  .and.  myid == 1 )then
-    write(myprint_unit,'(/A/)') 'inmod: entry  Initialize_Model '
-endif ! myid == 1
+!if( L_myprint  .and.  myid == 1 )then
+!    write(myprint_unit,'(/A/)') 'inmod: entry  Initialize_Model '
+!endif ! myid == 1
 
 
 !-------------------------------------------------------------------------------
@@ -56,15 +56,15 @@ endif ! myid == 1
 
 !-------------------------------------------------------------------------------
 
-if( myid == 0 )then
-    write(6,'(A,1x,I5)') &
-    'inmod: n_CODE_equations ', n_CODE_equations
-endif ! myid == 0
+!if( myid == 0 )then
+!    write(6,'(A,1x,I5)') &
+!    'inmod: n_CODE_equations ', n_CODE_equations
+!endif ! myid == 0
 
-if( L_myprint  .and. myid == 1 )then
-    write(myprint_unit,'(A,1x,I5)') &
-    'inmod: n_CODE_equations ', n_CODE_equations
-endif ! L_myprint  .and. myid == 1
+!if( L_myprint  .and. myid == 1 )then
+!    write(myprint_unit,'(A,1x,I5)') &
+!    'inmod: n_CODE_equations ', n_CODE_equations
+!endif ! L_myprint  .and. myid == 1
 
 
 ! See comment in GP_Variables
@@ -75,9 +75,9 @@ do  i = 1, n_CODE_equations
 
 enddo ! i
 
-if( L_myprint  .and. myid == 1 )then
-    write(myprint_unit,'(A,10(1x,I5))') 'inmod: bioflo_map(:,1) ', bioflo_map(:,1)
-endif ! L_myprint  .and. myid == 1
+!if( L_myprint  .and. myid == 1 )then
+!    write(myprint_unit,'(A,10(1x,I5))') 'inmod: bioflo_map(:,1) ', bioflo_map(:,1)
+!endif ! L_myprint  .and. myid == 1
 
 
 ! Since indexes are all negative, take the absolute value
@@ -85,9 +85,9 @@ endif ! L_myprint  .and. myid == 1
 bioflo_map = abs(bioflo_map)
 
 
-if( L_myprint  .and. myid == 1 )then
-    write(myprint_unit,'(A,10(1x,I5))') 'inmod:2 abs bioflo_map(:,1) ', bioflo_map(:,1)
-endif ! L_myprint  .and. myid == 1
+!if( L_myprint  .and. myid == 1 )then
+!    write(myprint_unit,'(A,10(1x,I5))') 'inmod:2 abs bioflo_map(:,1) ', bioflo_map(:,1)
+!endif ! L_myprint  .and. myid == 1
 
 
 !---------------------------------------------------------------------------------------------------
@@ -122,26 +122,26 @@ btmp(1:n_code_equations) = 0.0D0
 
 if( buildTrees ) then
 
-    if( myid == 0 )then
-        write(6,'(//A)') 'inmod: call Build_Trees  '
-    endif ! myid == 0
+    !if( myid == 0 )then
+    !    write(6,'(//A)') 'inmod: call Build_Trees  '
+    !endif ! myid == 0
 
-    if( L_myprint  .and. myid == 1 )then
-        write(myprint_unit,'(//A)') 'inmod: call Build_Trees  '
-    endif ! L_myprint  .and. myid == 1
+    !if( L_myprint  .and. myid == 1 )then
+    !    write(myprint_unit,'(//A)') 'inmod: call Build_Trees  '
+    !endif ! L_myprint  .and. myid == 1
 
 
 
     call Build_Trees( GP_Trees(:, 1)   )
 
 
-    if( myid == 0 )then
-        write(6,'(A//)') 'inmod: aft call Build_Trees  '
-    endif ! myid == 0
+    !if( myid == 0 )then
+    !    write(6,'(A//)') 'inmod: aft call Build_Trees  '
+    !endif ! myid == 0
 
-    if( L_myprint  .and. myid == 1 )then
-        write(myprint_unit,'(A//)') 'inmod: aft call Build_Trees  '
-    endif ! L_myprint  .and. myid == 1
+    !if( L_myprint  .and. myid == 1 )then
+    !    write(myprint_unit,'(A//)') 'inmod: aft call Build_Trees  '
+    !endif ! L_myprint  .and. myid == 1
 
 else
 

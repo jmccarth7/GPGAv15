@@ -1360,14 +1360,12 @@ do  i_GP_Generation=1,n_GP_Generations
             !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-            if( myid == 0 )then
-                write(GP_print_unit,'(A,1x,I6)') &
-                 '0: aft call GPCODE_GA_lmdif_Parameter_Optimization routine'
-                flush(GP_print_unit)
-            endif ! myid == 0
+            !if( myid == 0 )then
+            !    write(GP_print_unit,'(A,1x,I6)') &
+            !     '0: aft call GPCODE_GA_lmdif_Parameter_Optimization routine'
+            !    flush(GP_print_unit)
+            !endif ! myid == 0
 
-            call mpi_finalize(ierr) ! debug only
-            stop ! debug only
 
             !--------------------------------------------------------------------------------
 
@@ -1583,15 +1581,15 @@ do  i_GP_Generation=1,n_GP_Generations
 
     !  call routine to run lmdif in parallel on all the GP individuals
 
-    if( myid == 0 )then
-        write(GP_print_unit,'(/A)')&
-          '0:-----------------------------------------------------------------'
-        write(GP_print_unit,'(A,1x,I6)') &
-          '0: call GP_para_lmdif_process i_GP_generation =', &
-                                         i_GP_Generation
-        write(GP_print_unit,'(A/)')&
-          '0:-----------------------------------------------------------------'
-    endif ! myid == 0
+    !if( myid == 0 )then
+    !    write(GP_print_unit,'(/A)')&
+    !      '0:-----------------------------------------------------------------'
+    !    write(GP_print_unit,'(A,1x,I6)') &
+    !      '0: call GP_para_lmdif_process i_GP_generation =', &
+    !                                     i_GP_Generation
+    !    write(GP_print_unit,'(A/)')&
+    !      '0:-----------------------------------------------------------------'
+    !endif ! myid == 0
 
 
     !-------------------------------------------------------------------------------------------
@@ -1893,7 +1891,7 @@ endif ! myid == 0
 flush(GP_print_unit)
 
 
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+!----------------------------------------------------------------------------------------
 
 ! plot results
 
@@ -1904,6 +1902,8 @@ flush(GP_print_unit)
 
 
 if( myid == 0 )then
+
+    !------------------------------------------------------------------------------------
 
     max_n_gp_params = maxval( GP_Individual_N_GP_param )
 
@@ -1937,19 +1937,8 @@ if( myid == 0 )then
 
 endif ! myid == 0
 
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-
-!------------------------------------------------------------------
-
-! deallocate variable dimension arrays
-
-call deallocate_arrays1( )
-
-deallocate( answer )
-deallocate( output_array )
-
-!------------------------------------------------------------------
+!---------------------------------------------------------------------------------------
 
 !  close output units
 
@@ -1996,6 +1985,16 @@ if( myid == 0 )then
 
 
 endif ! myid == 0
+
+
+!------------------------------------------------------------------
+
+! deallocate variable dimension arrays
+
+call deallocate_arrays1( )
+
+deallocate( answer )
+deallocate( output_array )
 
 
 !------------------------------------------------------------------

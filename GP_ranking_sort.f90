@@ -306,8 +306,8 @@ do  i_GP_Individual=1,n_GP_Individuals
     endif
 enddo
 
-write(6,'(/A, 1x, E15.7)') &
-      'gprs: after: sum GP_Child_Individual_SSE ', cff
+!write(6,'(/A, 1x, E15.7)') &
+!      'gprs: after: sum GP_Child_Individual_SSE ', cff
 
 !------------------------------------------------------------------------------------
 
@@ -350,9 +350,9 @@ enddo ! i_GP_Individual
 ! Normalize to the integrated ranking values so that
 ! the ranking integration ranges from [0. to 1.]
 
-write(6,'(/A, 1x, E15.7)') &
-      'gprs: GP_Integrated_Population_Ranked_Fitness(n_GP_Individuals) ', &
-             GP_Integrated_Population_Ranked_Fitness(n_GP_Individuals)
+!write(6,'(/A, 1x, E15.7)') &
+!      'gprs: GP_Integrated_Population_Ranked_Fitness(n_GP_Individuals) ', &
+!             GP_Integrated_Population_Ranked_Fitness(n_GP_Individuals)
 
 if( GP_Integrated_Population_Ranked_Fitness(n_GP_Individuals) > 0.0d0 )then
 
