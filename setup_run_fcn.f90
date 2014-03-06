@@ -123,17 +123,15 @@ enddo ! i_parameter
 !     flush(6)
 !endif ! myid == 1
 
+!----------------------------------------------------------------------------------------
 
 iflag = 1
 
-
-
 call fcn( n_time_steps, n_parameters, x_LMDIF, fvec, iflag )
-
-
 
 info = iflag
 
+!----------------------------------------------------------------------------------------
 
 !if( myid == 1 )then
 !    if( L_ga_print )then

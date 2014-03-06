@@ -185,7 +185,11 @@ do  i_GA_individual=1,n_GA_individuals  ! calculate the total populations SSE
         !if( individual_SSE(i_GA_individual) >  edit_level .or.  &
         !    individual_SSE(i_GA_individual) >= sse0      ) then
 
-        if( individual_SSE(i_GA_individual) > edit_level  ) then
+        !orig if( individual_SSE(i_GA_individual) > edit_level  ) then
+        !orig     individual_quality( i_GA_individual ) = -1
+        !orig endif !   individual_SSE(i_GA_individual) >  edit_level
+
+        if( individual_SSE(i_GA_individual) > 1.0d13      ) then
             individual_quality( i_GA_individual ) = -1
         endif !   individual_SSE(i_GA_individual) >  edit_level
 

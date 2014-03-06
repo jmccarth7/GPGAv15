@@ -72,9 +72,7 @@ do i_GA_Mutation=1,n_GA_Mutations
   call random_number(cff)   ! uniform random number generator
   dff = real(cff,kind=8)   
 
-  !call random_number(dff)   ! uniform random number generator
-
-  i_Parameter_Mutation=1+int( dff*dble(n_parameters-1) )
+  i_Parameter_Mutation=1+int( dff * real(n_parameters-1,kind=8) )
   i_Parameter_Mutation = min( i_Parameter_Mutation , n_parameters )
 
   !if( L_ga_print )then
@@ -87,8 +85,6 @@ do i_GA_Mutation=1,n_GA_Mutations
 
   !  randomly pick a new real number for this parameter
 
-  !call random_real(cff)
-  !dff = cff
   call random_real(dff)
 
   child_parameters(i_Parameter_Mutation, i_GA_Individual_Mutation) = dff

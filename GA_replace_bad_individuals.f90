@@ -15,7 +15,6 @@ dimension( n_GP_parameters, n_GA_Individuals ) :: child_parameters
 
 integer(kind=4) :: individual_quality(n_GA_individuals)
 
-!real(kind=4) :: cff
 real(kind=8) :: dff
 
 integer(kind=4) :: n_replaced
@@ -47,9 +46,8 @@ do  i_GA_Individual = 1, n_GA_Individuals
 
         do  i_Parameter = 1, n_Parameters
 
-            !call random_real(cff) ! random real number generator
-            !dff = cff
             call random_real(dff) ! random real number generator
+
             Child_Parameters(i_Parameter,i_GA_Individual) = dff
 
             !if( L_ga_print )then

@@ -91,11 +91,6 @@ if( i_GP_generation == 1                                 .or. &
     write(GP_print_unit,'(A)') &
           'gpcf: i_GP_Indiv, GP_Indiv_N_GP_param(i_GP_Indiv) '
 
-    !do  i_GP_Individual=1,n_GP_Individuals
-    !    write(GP_print_unit,'(5x,2(1x,I6))') &
-    !          i_GP_Individual, GP_Individual_N_GP_param(i_GP_Individual)
-    !enddo
-
     !write(GP_print_unit, '(5(1x,I8," :", I3))') &
     write(GP_print_unit, '(10(1x,I6," :", I3))') &
            ( i_GP_Individual, GP_Individual_N_GP_param(i_GP_Individual), &
@@ -164,7 +159,7 @@ if( L_GPSSE_log )then
 
     enddo ! i_gp_individual
 
-    flush( GPSSE_log_unit )
+    !flush( GPSSE_log_unit )
 
 endif ! L_GPSSE_log
 
@@ -319,11 +314,11 @@ write(GP_print_unit,'(/A,2(1x,I6),2(1x,E15.7))') &
              GP_Child_Individual_SSE(i_GP_Best_Parent)
 
 
+!------------------------------------------------------------------------------------
 
 ! this prints a summary of the initial conditions,
 ! parameters,  and node types for the i_GP_Best_Parent 
 ! and writes the tree to the summary_best file
-
 
 write(GP_print_unit,'(/A)') &
       'gpcf:------------------------------------------&
@@ -334,6 +329,7 @@ write(GP_print_unit,'(A,2(1x,I6))') &
 
 call summary_GP_indiv( i_GP_generation, i_GP_Best_Parent, 1 )
 
+!------------------------------------------------------------------------------------
 
 
 
@@ -346,12 +342,17 @@ if( L_GPSSE_log )then
               '#gpcf: gen Best_Parent SSE'
     endif !  i_GP_generation == 1
 
+    !write(GP_print_unit,'(A,2(1x,I6),1x,E20.10)') &
+    !  'gpcf: best parent SSE i_GP_generation, i_GP_Best_Parent, SSE ', &
+    !                         i_GP_generation, i_GP_Best_Parent, &
+    !                         GP_Child_Individual_SSE(i_GP_Best_Parent)
+                             
 
     write(GPSSE_best_log_unit,'(I6,1x,I6,1x,E20.10)') &
           i_GP_Generation, i_GP_Best_Parent, &
           GP_Child_Individual_SSE(i_GP_Best_Parent)
 
-    flush( GPSSE_best_log_unit )
+    !flush( GPSSE_best_log_unit )
 
 
 endif ! L_GPSSE_log

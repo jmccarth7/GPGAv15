@@ -22,27 +22,11 @@ integer(kind=4) :: n_Nodes_at_Level
 integer(kind=4) :: i_Level_Node
 integer(kind=4) :: Node_Function
 integer(kind=4) :: Node_Variable
-!integer(kind=4) :: i
 integer(kind=4) :: test_function_index
 
-!integer(kind=4),dimension(9)  :: allowed_functions
 
-!!integer(kind=4),parameter :: n_inputs = 7  ! in GP_param_module
 
 !-----------------------------------------------------------------------------
-
-!allowed_functions = 0
-
-!allowed_functions(1) = 1
-!allowed_functions(2) = 2
-!allowed_functions(3) = 3
-!allowed_functions(4) = 4
-!allowed_functions(5) = 0
-!allowed_functions(6) = 0
-!allowed_functions(7) = 7
-!allowed_functions(8) = 8
-!allowed_functions(9) = 9
-
 
 GP_Child_Population_Node_Type=-9999 ! set all to null [-9999]
 
@@ -151,11 +135,11 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
 
                             endif ! L_node_functions 
 
-                            !--------------------------------------------------------------------------
+                            !--------------------------------------------------------------------
 
                             GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) =  &
                                                                              Node_Function
-                            !--------------------------------------------------------------------------
+                            !--------------------------------------------------------------------
 
                             !  set the node vs terminal selection capability
                             !  for the node inputs at the next level
@@ -214,7 +198,7 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
     !    do  i_Node=1,n_Nodes
     !        if( GP_Child_Population_Node_Type( i_Node,i_Tree,i_GP_Individual) /= -9999 )then
     !            write(GP_print_unit,'(3(1x,I8))') &
-    !                  i_tree, i_node, GP_Child_Population_Node_Type( i_Node,i_Tree,i_GP_Individual)
+    !                i_tree, i_node, GP_Child_Population_Node_Type( i_Node,i_Tree,i_GP_Individual)
     !        endif ! GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) /= -9999
     !    enddo ! i_node
     !enddo ! i_tree
@@ -260,7 +244,6 @@ do  i_GP_Individual=1,n_GP_Individuals
 
                         ! Set the Terminal to a Variable 
 
-
                         call random_number(cff) ! uniform random number generator
 
                         ! One of the OBSERVATIONS, one for each equations N, P, Z, etc.
@@ -273,7 +256,8 @@ do  i_GP_Individual=1,n_GP_Individuals
                         !      'gtb:2 cff, Node_Variable, n_CODE_Equations', &
                         !             cff, Node_Variable, n_CODE_Equations
 
-                        GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) = -Node_Variable
+                        GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) = &
+                                                                          -Node_Variable
 
 
                     else  ! set as a random parameter
@@ -283,7 +267,9 @@ do  i_GP_Individual=1,n_GP_Individuals
                         GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) = 0
 
                     endif !   cff .le. GP_Set_Terminal_to_Parameter_Probability
+
                 endif !   GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) .eq. -1
+
             enddo !  i_Level_Node
         enddo level_loop2 !  i_Level
     enddo !  i_Tree
@@ -302,7 +288,7 @@ do  i_GP_Individual=1,n_GP_Individuals
     !    do  i_Node=1,n_Nodes
     !        if( GP_Child_Population_Node_Type( i_Node,i_Tree,i_GP_Individual) /= -9999 )then
     !            write(GP_print_unit,'(3(1x,I8))') &
-    !                  i_tree, i_node, GP_Child_Population_Node_Type( i_Node,i_Tree,i_GP_Individual)
+    !                i_tree, i_node, GP_Child_Population_Node_Type( i_Node,i_Tree,i_GP_Individual)
     !        endif ! GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) /= -9999
     !    enddo ! i_node
     !enddo ! i_tree

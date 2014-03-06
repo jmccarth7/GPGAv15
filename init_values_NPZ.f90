@@ -62,8 +62,8 @@ integer(kind=4) :: i_Node
 if(  icall  == 0  )then
 
 
-    n_levels    = 5
-    n_functions = 5
+    !n_levels    = 5
+    !n_functions = 5
 
     n_CODE_equations=3
 

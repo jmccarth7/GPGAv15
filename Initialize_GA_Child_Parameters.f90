@@ -30,6 +30,7 @@ Run_GA_lmdif=.true.
 !if( L_ga_print )then
 !    write(6,'(/A,1x, I6)')  'Init: n_parameters   ', n_Parameters
 !    write(6,'(A,1x, I6/)')  'Init: n_GP_parameters', n_GP_Parameters
+!    write(6,'(/A,1x, I6/)')  'Init: n_GA_Individuals ', n_GA_Individuals
 !    write(6,'(/A/)') &
 !          'Init:  i_GA_individual  child parameters(:,i_GA_individual)  '
 !    write(GA_print_unit,'(/A,1x, I6/)')  'Init: n_parameters ', n_Parameters

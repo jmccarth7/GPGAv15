@@ -10,7 +10,6 @@ use GP_Data_module
 implicit none
 
 real(kind=8) :: child_parameters(n_GP_parameters,n_GA_Individuals)
-!real(kind=4) :: cff
 real(kind=8) :: dff
 
 integer (kind=4) :: i_GA_replace
@@ -70,8 +69,6 @@ do  i_GA_replace=1,n_GA_rand_replaces
 
         !  randomly pick a new real number for this parameter
 
-        !call random_real(cff)
-        !dff = cff
         call random_real(dff)
 
         child_parameters(i_Parameter_replace, i_GA_Individual_replace) = dff

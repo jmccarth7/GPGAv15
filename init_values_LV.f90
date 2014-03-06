@@ -48,8 +48,8 @@ integer(kind=4) :: i_Node
 if(  icall  == 0  )then
 
 
-    n_levels    =  4
-    n_functions =  4
+    !!n_levels    =  4  ! debug only
+    !!n_functions =  4  ! debug only
 
 
     n_CODE_equations = 2

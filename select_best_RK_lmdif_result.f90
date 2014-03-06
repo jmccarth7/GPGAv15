@@ -202,11 +202,11 @@ if( L_ga_print )then
     write(GA_print_unit,'(/A, 1x,E15.7)') &
           'sbrl: fcn   individual_SSE_best_1                       ', &
                        individual_SSE_best_1           
-    write(GA_print_unit,'(A, 1x,E24.16)') &
+    write(GA_print_unit,'(A, 1x,E15.7)') &
           'sbrl: lmdif individual_SSE(i_GA_best_parent)            ', &
                        individual_SSE(i_GA_best_parent)           
 
-    write(GA_print_unit,'(/A, 1x,E24.16)') &
+    write(GA_print_unit,'(/A, 1x,E15.7)') &
           'sbrl: fcn   individual_ranked_fitness_best_1            ', &
                        individual_ranked_fitness_best_1
     write(GA_print_unit,'(A, 1x,E15.7/)') &

@@ -94,13 +94,13 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
   ! you picked the same individual for both male parents, so choose another
 
-  if( k_GA_Individual_Male(2) .eq. k_GA_Individual_Male(1)) then
+  if( k_GA_Individual_Male(2) .eq. k_GA_Individual_Male(1) ) then
 
       if( k_GA_Individual_Male(1) .ne. N_GA_Individuals) then
           k_GA_Individual_Male(2) =  &
-             min( k_GA_Individual_Male(1)+1, N_GA_Individuals )
+             min( k_GA_Individual_Male(1) + 1, N_GA_Individuals )
       else
-          k_GA_Individual_Male(2)= max( k_GA_Individual_Male(1)-1, 1 )
+          k_GA_Individual_Male(2)= max( k_GA_Individual_Male(1) - 1, 1 )
       endif !   k_GA_Individual_Male(1) .ne. N_GA_Individuals
 
   endif ! k_GA_Individual_Male(2) .eq. k_GA_Individual_Male(1)
@@ -162,11 +162,11 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
   if( k_GA_Individual_Female(2) .eq. k_GA_Individual_Female(1)) then
 
-      if( k_GA_Individual_Female(1) .ne. N_GA_Individuals) then
+      if( k_GA_Individual_Female(1) .ne. N_GA_Individuals ) then
           k_GA_Individual_Female(2) =  &
-                 min( k_GA_Individual_Female(1)+1, N_GA_Individuals )
+                 min( k_GA_Individual_Female(1) + 1, N_GA_Individuals )
       else
-          k_GA_Individual_Female(2) =  max( k_GA_Individual_Female(1)-1, 1 )
+          k_GA_Individual_Female(2) =  max( k_GA_Individual_Female(1) - 1, 1 )
       endif !   k_GA_Individual_Female(1) .ne. N_GA_Individuals)
 
   endif !   k_GA_Individual_Female(2) .eq. k_GA_Individual_Female(1)
@@ -203,6 +203,7 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
   temp_male_parameters(1:n_parameters)   = &
             Child_Parameters( 1:n_parameters, k_GA_Individual_Male(1) )
+
   temp_female_parameters(1:n_parameters) = &
             Child_Parameters( 1:n_parameters, k_GA_Individual_Female(1) )
 
@@ -210,14 +211,13 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
   ! choose the location along the parameter string for the crossover to occur
 
-  !call Random_Number(cff) ! uniform random number generator
-  !dff = cff
   call Random_Number(dff) ! uniform random number generator
 
   ! pick a location from 1 to n_parameters-1
 
-  i_GA_Crossover_Point=1+int( dff*dble(n_Parameters-2) )
+  i_GA_Crossover_Point = 1 + int( dff * real(n_Parameters-2,kind=8) )
   i_GA_Crossover_Point = min( i_GA_Crossover_Point , n_Parameters )
+  i_GA_Crossover_Point = max( i_GA_Crossover_Point , 1            )
 
   !if( L_ga_print )then
   !    write(GA_print_unit,'(/A,2(1x,I6))')&
@@ -235,6 +235,7 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
           Child_One_Parameters(i_Parameter) = &
              Parent_Parameters(i_parameter,k_GA_Individual_Male(1))
+
           Child_Two_Parameters(i_Parameter) = &
              Parent_Parameters(i_parameter,k_GA_Individual_Female(1))
 
@@ -242,6 +243,7 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
           Child_One_Parameters(i_Parameter) = &
              Parent_Parameters(i_parameter,k_GA_Individual_Female(1))
+
           Child_Two_Parameters(i_Parameter) = &
              Parent_Parameters(i_parameter,k_GA_Individual_Male(1))
 
@@ -265,9 +267,6 @@ do i_GA_Crossover=1,n_GA_Crossovers
       ! modify the crossover point parameter value
       ! with a new random number in each child
 
-      !call random_real(cff)
-      !dff = cff
-
       call random_real(dff)
 
       Child_One_Parameters(i_GA_Crossover_Point) = dff
@@ -279,9 +278,6 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
       ! modify the crossover point parameter value
       ! with JM formula formula
-
-      !call random_real(cff)
-      !dff = cff
 
       call random_real(dff)
 
@@ -301,6 +297,7 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
       old_male   = Parent_Parameters(i_GA_Crossover_Point, k_GA_Individual_Male(1))
       old_female = Parent_Parameters(i_GA_Crossover_Point, k_GA_Individual_Female(1))
+
       mean_parm = 0.5d0 * ( old_male + old_female )
 
       !if( L_ga_print )then
@@ -309,11 +306,9 @@ do i_GA_Crossover=1,n_GA_Crossovers
       !                  old_male, old_female, mean_parm
       !endif ! L_ga_print
 
-      !call random_number( cff )
-      !std_dev_parm = 0.5d0 + real(cff,kind=8) * mean_parm
 
       call random_number( cff )
-      std_dev_parm = 0.5d0 + real(cff,kind=8)  * mean_parm
+      std_dev_parm = 0.5d0 + real(cff,kind=8) * mean_parm
 
       !if( L_ga_print )then
       !    write(GA_print_unit,'(A,3(1x,E15.7))') &
@@ -323,15 +318,14 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
       call random_number( cff )
       cff_1 = real( cff, kind = 8 )
+
       call random_number( cff )
       cff_2 = real( cff, kind = 8 )
 
-      !call random_number( cff_1 )
-      !call random_number( cff_2 )
 
       dff = mean_parm  + &
             std_dev_parm * &
-            sqrt( -2.0d0 * log( cff_1 ) ) * cos( 2.0d0 * pi * cff_2 )
+            sqrt( -2.0d0 * log(cff_1) ) * cos( 2.0d0 * pi * cff_2 )
 
 
       ! use abs( dff ) because sometimes dff < 0.0
@@ -363,8 +357,8 @@ do i_GA_Crossover=1,n_GA_Crossovers
       ! modify the crossover point parameter value
       ! with a new random number in each child
 
-      call random_real(cff)
-      dff = cff
+      call random_real(dff)
+
       Child_Two_Parameters(i_GA_Crossover_Point) = dff
 
   endif
@@ -374,9 +368,6 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
       ! modify the crossover point parameter value
       ! with JM formula formula
-
-      !call random_real(cff)
-      !dff = cff
 
       call random_real(dff)
 
@@ -396,6 +387,7 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
       old_male   = Parent_Parameters( i_GA_Crossover_Point, k_GA_Individual_Male(1) )
       old_female = Parent_Parameters( i_GA_Crossover_Point, k_GA_Individual_Female(1) )
+
       mean_parm = 0.5d0 * ( old_male + old_female )
 
       !if( L_ga_print )then
@@ -407,8 +399,6 @@ do i_GA_Crossover=1,n_GA_Crossovers
       call random_number( cff )
       std_dev_parm = 0.5d0 + real(cff,kind=8) * mean_parm
 
-      !call random_number( dff )
-      !std_dev_parm = 0.5d0 + dff * mean_parm
 
       !if( L_ga_print )then
       !    write(GA_print_unit,'(A,3(1x,E15.7))') &
@@ -422,14 +412,14 @@ do i_GA_Crossover=1,n_GA_Crossovers
       call random_number( cff )
       cff_2 = real( cff, kind = 8 )
 
-      !call random_number( cff_1 )
-      !call random_number( cff_2 )
 
       dff = mean_parm  + &
             std_dev_parm * &
-            sqrt( -2.0d0 * log( cff_1 ) ) * cos( 2.0d0 * pi * cff_2 )
+            sqrt( -2.0d0 * log(cff_1) ) * cos( 2.0d0 * pi * cff_2 )
 
-      Child_Two_Parameters(i_GA_Crossover_Point) = dff
+      ! use abs( dff ) because sometimes dff < 0.0
+
+      Child_Two_Parameters(i_GA_Crossover_Point) = abs(dff)
 
       !if( L_ga_print )then
       !    write(GA_print_unit,'(A,3(1x,E15.7))') &
@@ -454,6 +444,7 @@ do i_GA_Crossover=1,n_GA_Crossovers
 
       Child_Parameters(i_parameter, k_GA_Individual_Male(1)) = &
                Child_One_Parameters(i_Parameter)
+
       Child_Parameters(i_parameter,k_GA_Individual_Female(1)) = &
                Child_Two_Parameters(i_Parameter)
 

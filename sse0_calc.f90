@@ -52,16 +52,15 @@ do  i_time_step = 1, n_time_steps
     do  i_CODE_equation=1,n_CODE_equations
 
 
-        !write(GP_print_unit,'(A,2(1x,I6), 3(1x,E15.7))') &
-        !      'ssec: myid, i_eqn, RK_soln, data_array, var ', &
+        !write(GP_print_unit,'(A,2(1x,I6), 2(1x,E15.7))') &
+        !      'ssec: myid, i_eqn,  data_array, var_inv ', &
         !            myid, i_CODE_equation,                    &
-        !            Runge_Kutta_Solution(i_time_step,i_CODE_equation), &
         !            Data_Array(i_time_step,i_CODE_equation), &
         !            data_variance_inv(i_CODE_equation)
 
         !write(GP_print_unit,'(A,2(1x,I6), 1x,E15.7)') &
-        !      'ssec: myid, i_eqn, data_variance ', &
-        !            myid, i_CODE_equation, data_variance_inv(i_CODE_equation)
+        !      'ssec: myid, i_eqn, data_variance_inv ', &
+        !             myid, i_CODE_equation, data_variance_inv(i_CODE_equation)
 
         fvec(i_time_step) = fvec(i_time_step)  +                   &
              Data_Array(i_time_step,i_CODE_equation)**2  *         &
@@ -79,7 +78,7 @@ do  i_time_step = 1, n_time_steps
 enddo ! i_time_step
 
 
-write(GP_print_unit,'(A,1x,I6,2x,E15.7/)') 'ssec: myid, SSE0 = ',myid, SSE0
+write(GP_print_unit,'(/A,1x,I6,2x,E15.7/)') 'ssec: myid, SSE0 = ',myid, SSE0
 
 return
 end subroutine sse0_calc
