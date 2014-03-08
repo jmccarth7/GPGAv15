@@ -68,8 +68,8 @@ module Tree_Node_Factory_module
 
         allocate(node)
 
-        !write(*,'(A)')       'GMN: entry GetMathNode '
-        !write(*,'(A,1x,I6)') 'GMN: OperationIndex ', OperationIndex
+        write(*,'(A)')       'GMN: entry GetMathNode '
+        write(*,'(A,1x,I6)') 'GMN: OperationIndex ', OperationIndex
 
         ! Constructor: Node Type, Node Count, Parent,
         !              LeftChild, RightChild,
@@ -104,9 +104,9 @@ module Tree_Node_Factory_module
 
         !--------------------------------------------------------------------------
 
-        !write(*,'(A)') 'GVN: entry GetVariableNode'
-        !write(*,'(A,1x,E24.16)') 'GVN: VariableValue  ', VariableValue
-        !write(*,'(A,1x,I6   )') 'GVN: Variable_Index ', Variable_Index
+        write(*,'(A)') 'GVN: entry GetVariableNode'
+        write(*,'(A,1x,E24.16)') 'GVN: VariableValue  ', VariableValue
+        write(*,'(A,1x,I6   )') 'GVN: Variable_Index ', Variable_Index
 
         allocate(node)
 
@@ -122,7 +122,7 @@ module Tree_Node_Factory_module
                           Tree_Node_Get_Pointers,  &
                           Tree_Node_Swap)
 
-        !write(*,'(A)') 'GVN: leave GetVariableNode'
+        write(*,'(A)') 'GVN: leave GetVariableNode'
 
     end function
 
@@ -139,8 +139,8 @@ module Tree_Node_Factory_module
 
         allocate(node)
 
-        !write(*,'(A)') 'GPN:  enter GetParameterNode '
-        !write(*,'(A,1x,E24.16)') 'GPN:  ParameterValue ', ParameterValue
+        write(*,'(A)') 'GPN:  enter GetParameterNode '
+        write(*,'(A,1x,E24.16)') 'GPN:  ParameterValue ', ParameterValue
 
         ! Constructor: Node Type, Node Count, Parent,
         !              LeftChild, RightChild, Operation,
@@ -155,7 +155,7 @@ module Tree_Node_Factory_module
                           Tree_Node_Get_Pointers, &
                           Tree_Node_Swap)
 
-        !write(*,'(A)') 'GPN:  leave GetParameterNode '
+        write(*,'(A)') 'GPN:  leave GetParameterNode '
 
     end function
 

@@ -41,6 +41,13 @@ elseif( trim(model) == 'DATA' .and. &
     if( icall == 0 ) return
 
 
+elseif( trim(model) == 'fasham' .or. &
+        trim(model) == 'FASHAM'          )then
+
+    call init_values_fasham( icall )
+    if( icall == 0 ) return
+
+
 endif ! trim(model) == 'NPZ'
 
 

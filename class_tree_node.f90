@@ -100,13 +100,17 @@ contains
     function Tree_Variable_Node_Val(this) result(v)
         class(Tree_Node), intent(in) :: this
         real (kind=8) :: v
+        integer(kind=4) :: v_index
 
         v = this%variable
 
+        v_index = this%variable_index
+ 
         !write(6,'(A,1x,E24.16)') 'tVnv: this%variable   = ', this%variable
         !!write(6,'(A,1x,I6)')     'tVnv: this%node_count = ', this%node_count
         !write(6,'(A,1x,E24.16)') 'tVnv: variable        = ', v
-        !write(6,'(A,2(1x,E24.16))')     'tMnv: this%variable, v', this%variable, v
+        !write(6,'(A,2(1x,E24.16))')     'tVnv: this%variable, v', this%variable, v
+        !write(6,'(A,1x,I6)')     'tVnv: v_index  = ', v_index
 
     end function Tree_Variable_Node_Val
 

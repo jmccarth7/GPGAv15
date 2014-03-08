@@ -88,7 +88,8 @@ contains
 
         write(this%funit,'(I0.0,A,I0.0,A)',advance='no') &
                          this%node_id, '[label="[', this%node_id, '] '
-        write(this%funit,'(A,E12.5)',advance='no') '(V) ', node%val()
+        !write(this%funit,'(A,E12.5)',advance='no') '(V) ', node%val()
+        write(this%funit,'(A,I5)',advance='no') '(V) ', abs(node%variable_index)
         write(this%funit,'(A)') '"];'
 
         call Dot_Graph_Hierarchy(this%funit, this%node_id)

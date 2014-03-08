@@ -411,7 +411,7 @@ do
 !--------------------------------------------------------------------
 
 
-!model = LV  or  NPZ or data
+!model = LV  or  NPZ  or  data  or  fasham
 
     elseif( Aline(1:len('model')) == "MODEL" .or.     &
             Aline(1:len('model')) == "model" ) then

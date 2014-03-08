@@ -33,47 +33,126 @@ integer, intent(in)  ::  myprint_unit
 
 
 !-------------------------------------------------------------------------------
-! Set Variables
+!!if(  model == 'fasham'  .or. &
+!!     model == 'FASHAM'         )then
 
 
-! initialize the biological data fields
-!nitro   = 0.0D0
-!phyto   = 0.0D0 ! 30.D0 ! Phytoplankton     [mmol N m-3]
-!zoo     = 0.0D0 ! 2.0D0 ! Zooplankton       [mmol N m-3]
+!!    !-----------------------------------------------------------------------------------------
+!!
+!!    ! Set Variables
+!!
+!!    alpha   =  0.025D+0    ! initial slope of the P-I curve [(W m-2)-1 d-1]
+!!    aK1     =  0.5D+0      ! half-saturation for phytoplankton NO3 uptake [mMol N m-3]
+!!    aK2     =  0.5D+0      ! half-saturation for phytoplankton NH4 uptake [mMol N m-3]
+!!    amu1    =  0.045D+0    ! phytoplankton specific mortality rate [d-1]
+!!    akc     =  0.03D+0     ! light attenuation by phytoplankton [m^2 mMol N)-1]
+!!    gamma1  =  0.05D+0     ! fraction of total primary production that is exuded [n.d.]
+!!    phi     =  1.5D+0      ! phytoplankton ammonium inhibition parameter [(mMol N)-1]
+!!    g       =  1.0D+0      ! maximum zooplankton growth rate [d-1]
+!!    beta1   =  0.75D+0     ! zooplankton assimilation efficiency of zooplankton [n.d.]
+!!    beta2   =  0.75D+0     ! zooplankton assimilation efficiency of phytoplankton [n.d.]
+!!    beta3   =  0.75D+0     ! zooplankton assimilation efficiency of bacteria [n.d.]
+!!    amu2    =  0.1D+0      ! zooplankton specific excretion rate [d-1]
+!!    amu5    =  0.05D+0     ! zooplankton specific mortality rate [d-1]
+!!    aK3     =  1.0D+0      ! zooplankton half-saturation conts. for ingestion [d-1]
+!!    omega   =  0.33D+0     ! detrital fraction of zooplankton mortality [n.d.]
+!!    epsilon =  0.75D+0     ! ammonium fraction of zooplankton excretion [n.d.]
+!!    Vb      =  2.0D+0      ! bacteria maximum growth rate [d-1]
+!!    Vp      =  2.9D+0      ! phyto maximum growth rate [d-1]
+!!    amu3    =  0.05D+0     ! bacteria specific excretion rate [d-1]
+!!    aK4     =  0.5D+0      ! bacteria half-saturation rate for uptake [(mMol N) m-3]
+!!    eta     =  0.6D+0      ! ammonium/DON uptake ratio [n.d.]
+!!    amu4    =  0.05D+0     ! detrital breakdown rate [d-1]
+!!    V       =  1.0D+0      ! detrital sinking rate [m d-1]
+!!    p1      =  1.0D+0      ! zooplankton preference for phytoplankton [n.d.]
+!!    p2      =  1.0D+0      ! zooplankton preference for bacteria [n.d.]
+!!    p3      =  1.0D+0      ! zooplankton preference for detritus [n.d.]
+!!    aN0     =  2.0D+0      ! concentration of NO3 below the mixed-layer [(mMol N) m-3]
+!!
+!!
+!!    !-----------------------------------------------------------------------------------------
+!!
+!!    ! parameters as in Table 1; Fasham et al. [JMR, 48, 591-639, 1990]
+!!    akw = 0.04D+0     ! light attenuation due to sea water [m-1]
+!!    am  = 0.1D+0      ! cross-thermocline mixing rate [m d-1]
+!!
+!!    alatd=50.0 !Latitude
+!!
+!!    !-----------------------------------------------------------------------------------------
+!!
+!!    ! initialize the biological data fields
+!!    aNO3    =   0.2D+0 ! Nitrate           [mmol N m-3]
+!!    aNH4    =   0.1D+0 ! Ammonium          [mmol N m-3]
+!!    DON     =   0.1D+0 ! DON               [mmol N m-3]
+!!    DET     =   0.1D+0 ! DET [Detritus]    [mmol N m-3]
+!!    bact    =   0.1D+0 ! Bacteria          [mmol N m-3]
+!!    phyto   =   0.1D+0 ! Phytoplankton     [mmol N m-3]
+!!    zoo     =   0.1D+0 ! Zooplankton       [mmol N m-3]
+!!
+!!    !-----------------------------------------------------------------------------------------
+!!
+!!    ! Enumerations that represent model variables. 
+!!    ! These are used by the binary tree parsing algorithm to select the index of the
+!!    ! species or forcing function variable's value
+!!
+!!    SPECIES_NITRATE = -1
+!!    SPECIES_AMMONIUM = -2
+!!    SPECIES_DISSOLVED_ORGANIC_NITROGEN = -3
+!!    SPECIES_DETRITUS = -4
+!!    SPECIES_BACTERIA = -5
+!!    SPECIES_PHYTOPLANKTON = -6
+!!    SPECIES_ZOOPLANKTON = -7
+!!
+!!
+!!!---------------------------------------------------------------------------------------------
+!!
+!!    ! made parameters and init in fasham*mod*
+!!
+!!    ! See comment in GP_Variables
+!!
+!!    bioflo_map(:,1) = (/ SPECIES_NITRATE, &
+!!                         SPECIES_AMMONIUM, &
+!!                         SPECIES_DISSOLVED_ORGANIC_NITROGEN, &
+!!                         SPECIES_DETRITUS, &
+!!                         SPECIES_BACTERIA, &
+!!                         SPECIES_PHYTOPLANKTON, &
+!!
+!!                         SPECIES_ZOOPLANKTON /)
+!!    ! Since indexes are all negative, take the absolute value
+!!
+!!    bioflo_map = abs(bioflo_map)
+!!
+!!    !-------------------------------------------------------------------------------
+!!
+!!    FORCING_MIXED_LAYER_DEPTH  = -5001
+!!    FORCING_MLD_CHANGE_NON_MOTILE = -5002
+!!    FORCING_MLD_CHANGE_MOTILE = -5003
+!!    FORCING_LIGHT_LIMITED_GROWTH_RATE = -5004
+!!
+!!    Numerical_CODE_Initial_Conditions = (/aNO3, aNH4, DON, DET, bact, phyto, zoo/)
+!!    Numerical_CODE_Forcing_Functions = 0.0D+0
 
-!-------------------------------------------------------------------------------
+!!else
 
-! Enumerations that represent model variables.
-! These are used by the binary tree parsing algorithm
-! to select the index of the species or forcing function variable's value
 
-!SPECIES_Nitro    = -1
-!SPECIES_Phyto    = -2
-!SPECIES_Zoo      = -3
-
-!write(6,'(A,1x,I5)') 'inmod: SPECIES_Phyto ', SPECIES_Phyto
-!write(6,'(A,1x,I5)') 'inmod: SPECIES_Zoo   ', SPECIES_Zoo
 
 !-------------------------------------------------------------------------------
 
 !if( myid == 0 )then
-!    write(6,'(A,1x,I5)') &
-!    'inmod: n_CODE_equations ', n_CODE_equations
+!    write(6,'(A,1x,I5)') 'inmod: n_CODE_equations ', n_CODE_equations
 !endif ! myid == 0
 
 !if( L_myprint  .and. myid == 1 )then
-!    write(myprint_unit,'(A,1x,I5)') &
-!    'inmod: n_CODE_equations ', n_CODE_equations
+!    write(myprint_unit,'(A,1x,I5)') 'inmod: n_CODE_equations ', n_CODE_equations
 !endif ! L_myprint  .and. myid == 1
 
 
 ! See comment in GP_Variables
 
 do  i = 1, n_CODE_equations
-
     bioflo_map(i,1) = -i
-
 enddo ! i
+
 
 !if( L_myprint  .and. myid == 1 )then
 !    write(myprint_unit,'(A,10(1x,I5))') 'inmod: bioflo_map(:,1) ', bioflo_map(:,1)
@@ -90,20 +169,7 @@ bioflo_map = abs(bioflo_map)
 !endif ! L_myprint  .and. myid == 1
 
 
-!---------------------------------------------------------------------------------------------------
-
-! made parameters and init in fasham*mod*
-
-!FORCING_MIXED_LAYER_DEPTH         = -5001       
-!FORCING_MLD_CHANGE_NON_MOTILE     = -5002 
-!FORCING_MLD_CHANGE_MOTILE         = -5003 
-!FORCING_LIGHT_LIMITED_GROWTH_RATE = -5004
-
-!Numerical_CODE_Initial_Conditions = &
-!        (/aNO3, aNH4, DON, DET, bact, phyto, zoo/)
-
-!Numerical_CODE_Initial_Conditions = (/phyto, zoo/)
-
+!-----------------------------------------------------------------------------------
 
 !if( L_myprint  .and. myid == 1 )then
 !    write(myprint_unit,'(A,2(1x,E15.7))') 'inmod: Numerical_CODE_Initial_Conditions ', &
@@ -117,6 +183,11 @@ Numerical_CODE_Forcing_Functions = 0.0D+0
 !                                   Numerical_CODE_Forcing_Functions
 
 btmp(1:n_code_equations) = 0.0D0
+
+
+!!endif  ! model == 'fasham' ....
+
+
 
 !-------------------------------------------------------------------------------
 

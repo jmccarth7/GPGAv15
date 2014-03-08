@@ -57,6 +57,9 @@ logical Ivlev
 integer(kind=4) :: i_Tree
 integer(kind=4) :: i_Node
 
+real(kind=8) :: increment 
+integer(kind=4) :: i
+
 !-------------------------------------------------------------------------
 
 if(  icall  == 0  )then
@@ -121,7 +124,57 @@ enddo ! i_tree
 
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-Node_Probability = (/0.8d0,0.6d0,0.4d0,0.2d0,0.d0/)  ! NOTE: Last value MUST BE 0.0!!!]
+
+
+!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+
+
+! NOTE: Last value in Node_Probability  MUST BE 0.0!!!]
+
+if( n_levels == 5 )then
+
+    Node_Probability = (/0.8d0,0.6d0,0.4d0,0.2d0,0.d0/)   ! original NPZ
+
+
+elseif( n_levels == 6 )then
+
+!   n_levels = 6
+    Node_Probability = (/0.8d0,0.7d0,6.d0, &
+                         0.4d0,0.3d0,0.d0/)  ! NOTE: Last value MUST BE 0.0!!!]
+
+
+elseif( n_levels == 7 )then
+
+    !!  n_levels = 7
+    Node_Probability = (/0.8d0,0.7d0,6.d0, &
+                         0.5d0,0.4d0,0.3d0,0.d0/)  ! NOTE: Last value MUST BE 0.0!!!]
+
+elseif( n_levels == 8 )then
+
+    !   n_levels = 8
+    Node_Probability = (/0.9d0,0.8d0,0.7d0,6.d0, &
+                         0.5d0,0.4d0,0.3d0,0.d0/)  ! NOTE: Last value MUST BE 0.0!!!]
+else
+
+    increment = 1.0d0 / real( n_levels, kind=8 )
+
+    do  i = 1, n_levels-1
+        Node_Probability(i) = 1.0d0 - increment * real(i,kind=8)
+    enddo
+    Node_Probability(n_levels) = 0.0d0
+
+endif ! n_levels == 6
+
+if( myid == 0 )then
+    write(GP_print_unit,'(/A,1x,I6)')   'ivDA: n_levels ', n_levels
+    write(GP_print_unit,'(A/(10(1x,E12.5)))') 'ivDA: Node_Probability', &
+                                                     Node_Probability
+    write(GP_print_unit,'(A)') ' '
+endif ! myid == 0
+
+!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

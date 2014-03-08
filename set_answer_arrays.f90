@@ -163,7 +163,7 @@ if( myid == 0 )then
 
     ! Runge_Kutta_Box_Model now put the time series in Numerical_CODE_Solution
 
-    call Runge_Kutta_Box_Model( )  ! 1 )
+    call Runge_Kutta_Box_Model( .false. )  ! 1 )
 
     Runge_Kutta_Solution = Numerical_CODE_Solution
 

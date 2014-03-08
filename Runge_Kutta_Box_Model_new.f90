@@ -63,8 +63,8 @@ tree_node_count = 0
 !    !!!write(GA_print_unit,'(A,1x,I6/)')  'rkbm: tree_value modified'
 !endif ! L_ga_print .and. myid == 1
 
-!write(6,'(/A,1x,I6)')  'rkbm: n_Variables     ', n_Variables
-!write(6,'(A,1x,I6/)')  'rkbm: n_code_equations', n_code_equations
+write(6,'(/A,1x,I6)')  'rkbm: n_Variables     ', n_Variables
+write(6,'(A,1x,I6/)')  'rkbm: n_code_equations', n_code_equations
 !--------------------------------------------------------------------------------------
 !! debug >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 !! debug only  - put in discover problem tree
@@ -178,8 +178,8 @@ do  i_Time_Step = 1, n_Time_Steps
         !    write(GA_print_unit,'(//A,2(1x,I6)/)') 'rkbm: i_time_step, iter ', &
         !                                                  i_time_step, iter
         !endif ! myid == 0
-        !write(6,'(//A,2(1x,I6)/)') 'rkbm: i_time_step, iter ', &
-        !                                  i_time_step, iter
+        write(6,'(//A,2(1x,I6)/)') 'rkbm: i_time_step, iter ', &
+                                          i_time_step, iter
 
         ! Call forcing functions for the box model
 
@@ -216,9 +216,9 @@ do  i_Time_Step = 1, n_Time_Steps
                     !              'rkbm: iter, i_tree, Tree_Value(i_tree)', &
                     !                     iter, i_tree, Tree_Value(i_tree)
                     !    !if( myid == 0 )then
-                    !        write(6,'(A,22x,I6,1x,I6,1x,E15.7)') &
-                    !              'rkbm: iter, i_tree, Tree_Value(i_tree)', &
-                    !                     iter, i_tree, Tree_Value(i_tree)
+                            write(6,'(A,22x,I6,1x,I6,1x,E15.7)') &
+                                  'rkbm: iter, i_tree, Tree_Value(i_tree)', &
+                                         iter, i_tree, Tree_Value(i_tree)
                     !    !endif ! myid == 0
                     !endif ! i_time_step < 251
 
@@ -525,8 +525,8 @@ do  i_Time_Step = 1, n_Time_Steps
     !             myid, i_time_step, b_tmp(1:n_CODE_equations)
 
     !if( myid == 0 )then
-    !    write(6,'(/A,1x,I6,1x,6(1x,E15.7)/)') 'rkbm: i_time_step, solution ', &
-    !                   i_Time_Step, Numerical_CODE_Solution(i_Time_Step,1:n_Variables)
+        write(6,'(/A,1x,I6,1x,6(1x,E15.7)/)') 'rkbm: i_time_step, solution ', &
+                       i_Time_Step, Numerical_CODE_Solution(i_Time_Step,1:n_Variables)
     !endif ! myid == 0
 
     !if( L_ga_print )then ! .and. myid == 1 )then
