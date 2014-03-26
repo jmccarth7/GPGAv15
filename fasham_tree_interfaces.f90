@@ -1,5 +1,6 @@
 module Fasham_Tree_Interfaces
 
+       use class_Tree_Node
 
 !-------------------------------------------
 ! File:   Interfaces.f03

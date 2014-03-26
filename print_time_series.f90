@@ -25,7 +25,7 @@ use class_Tree_Node
 
 implicit none
 
-character(500) :: title_string 
+character(1000) :: title_string 
 
 integer(kind=4),intent(in) :: i_GP_best_parent
 integer(kind=4),intent(in) :: nop
@@ -91,15 +91,15 @@ if( myid == 0 )then
 
     write(6,'(/A,2(1x,I6)/)') 'pts: nop',  nop
 
-    do  ii = 1, nop ! n_GP_parameters
-        if( abs( output_array(ii) ) > 0.0D0 )then
-            write(6,'(A,1x,I6,1x,E24.16)') 'pts: ii, output_array(ii) ', &
-                                                 ii, output_array(ii)
-        endif ! abs( output_array(ii) ) > 0.0D0
-    enddo ! ii
+    !do  ii = 1, nop ! n_GP_parameters
+    !    if( abs( output_array(ii) ) > 0.0D0 )then
+    !        write(6,'(A,1x,I6,1x,E24.16)') 'pts: ii, output_array(ii) ', &
+    !                                             ii, output_array(ii)
+    !    endif ! abs( output_array(ii) ) > 0.0D0
+    !enddo ! ii
 
 
-    write(6,'(A)') ' '
+    !write(6,'(A)') ' '
 
     !do  ii = 1, n_CODE_equations
     !    write(6,'(A,1x,I6,1x,E24.16)') &
@@ -292,7 +292,7 @@ if( myid == 0 )then
 
 
 
-    title_string = 'pts: pt'
+    title_string = '#pts: pt'
     title_string = trim( title_string ) // &
                        '   RK_Soln      input_data  resid'
     do  j = 2, n_code_equations
@@ -326,11 +326,11 @@ if( myid == 0 )then
         enddo ! j 
 
 
-        write(GP_print_unit,'(I6,2x,9(1x,E12.5))') &
+        write(GP_print_unit,'(I6,2x,50(1x,E12.5))') &
               i, (Numerical_CODE_Solution(i,j),  Data_Array(i,j), &
                  Data_Array(i,j) - Numerical_CODE_Solution(i,j), j = 1, n_code_equations )
 
-        write(plot_unit, '(I6,2x,9(1x,E12.5))') &
+        write(plot_unit, '(I6,2x,50(1x,E12.5))') &
               i, (Numerical_CODE_Solution(i,j),  Data_Array(i,j), &
                  Data_Array(i,j) - Numerical_CODE_Solution(i,j), j = 1, n_code_equations )
 

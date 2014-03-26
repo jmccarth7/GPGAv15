@@ -1,7 +1,6 @@
 module class_Tree_Node
 
     use Math_Node_Functions
-    !use fasham_tree_interfaces
 
     implicit none
 
@@ -74,40 +73,49 @@ contains
 
     function Tree_Math_Node_Val(this) result(v)
 
-        use fasham_tree_functions 
-        use Fasham_Tree_Interfaces, only : f_G1, f_G2, f_G3, f_G_Lower
+        !use fasham_tree_functions,  only : f_G1, f_G2, f_G3, f_G_Lower
+        !use Fasham_Tree_Interfaces, only : f_G1, f_G2, f_G3, f_G_Lower
+
+        !external :: f_G1, f_G2, f_G3, f_G_Lower 
 
         class(Tree_Node), intent(in) :: this
         real (kind=8) :: v
 
         type(Tree_Node), pointer :: np   ! jjm 20140326
+        type(Tree_Node), pointer,external :: f_G1, f_G2, f_G3, f_G_Lower ! jjm 20140326
 
         if( this%operation <= 20 )then
             v = math_funcs( this%operation )%f( this%left%val(), this%right%val() )
+
+        else
+
+            if( this%operation == 21 )then
+                np = f_G_Lower()
+                v = np%val()
+                !v = f_G_Lower()%val()
+            endif ! this%operation == 21 
+    
+            if( this%operation == 22 )then
+                np = f_G1()
+                v = np%val()
+                !v = f_G1()%val()
+            endif ! this%operation == 22 
+    
+            if( this%operation == 23 )then
+                np = f_G2()
+                v = np%val()
+                !v = f_G2()%val()
+            endif ! this%operation == 23 
+    
+            if( this%operation == 24 )then
+                np = f_G3()
+                v = np%val()
+                !v = f_G3()%val()
+            endif ! this%operation == 24 
+
         endif ! this%operation <= 20 
 
-        if( this%operation == 21 )then
-            np => f_G_Lower()
-            v = np%val()
-        endif ! this%operation == 21 
-
-        if( this%operation == 22 )then
-            np => f_G1()
-            v = np%val()
-        endif ! this%operation == 22 
-
-        if( this%operation == 23 )then
-            np => f_G2()
-            v = np%val()
-        endif ! this%operation == 23 
-
-        if( this%operation == 24 )then
-            np => f_G3()
-            v = np%val()
-        endif ! this%operation == 24 
-
-
-        write(6,'(A,1x,I6,1x,E24.16)')     'tMnv: this%operation, v', this%operation, v
+        !write(6,'(A,1x,I6,1x,E24.16)')     'tMnv: this%operation, v', this%operation, v
         !!write(6,'(A,1x,I6)')     'tMnv: this%node_count = ', this%node_count
         !write(6,'(A,1x,E24.16)') 'tMnv: v               = ', v
 
@@ -200,7 +208,7 @@ contains
             pointers(index)%n => a
         endselect
         index = index + 1
-        write(*,*)'Tree_Node_Get_Pointers: index = ', index
+        !write(*,*)'Tree_Node_Get_Pointers: index = ', index
     end subroutine Tree_Node_Get_Pointers
 
 
@@ -217,7 +225,7 @@ contains
             pointers(index)%n => a
         endselect
         index = index + 1
-        write(*,*)'Tree_Math_Node_Get_Pointers: index = ', index
+        !write(*,*)'Tree_Math_Node_Get_Pointers: index = ', index
         call this%left%GetNodePointers( pointers, pointer_count, index)
         call this%right%GetNodePointers(pointers, pointer_count, index)
     end subroutine Tree_Math_Node_Get_Pointers
@@ -273,7 +281,7 @@ contains
         type(Tree_Node), pointer       :: a   !jjm
         type(Tree_Node), pointer       :: b   !jjm
 
-        write(*,*) 'Tree_Node_Swap: '
+        !write(*,*) 'Tree_Node_Swap: '
 
         select type(a => this)
             type is (Tree_Node)

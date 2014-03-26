@@ -25,7 +25,7 @@ use class_Tree_Node
 
 implicit none
 
-character(500) :: title_string 
+character(1000) :: title_string 
 
 !integer(kind=4),intent(in) :: i_GP_best_parent
 !integer(kind=4),intent(in) :: nop
@@ -236,7 +236,7 @@ if( myid == 0 )then
 
 
 
-    title_string = 'ptsMS: pt'
+    title_string = '#ptsMS: pt'
     title_string = trim( title_string ) // &
                        '   RK_Soln      input_data  resid'
     do  j = 2, n_code_equations
@@ -264,11 +264,11 @@ if( myid == 0 )then
         enddo ! j 
 
 
-        write(GP_print_unit,'(I6,2x,9(1x,E12.5))') &
+        write(GP_print_unit,'(I6,2x,50(1x,E12.5))') &
               i, (Numerical_CODE_Solution(i,j),  Data_Array(i,j), &
                  Data_Array(i,j) - Numerical_CODE_Solution(i,j), j = 1, n_code_equations )
 
-        write(plotMS_unit, '(I6,2x,9(1x,E12.5))') &
+        write(plotMS_unit, '(I6,2x,50(1x,E12.5))') &
               i, (Numerical_CODE_Solution(i,j),  Data_Array(i,j), &
                  Data_Array(i,j) - Numerical_CODE_Solution(i,j), j = 1, n_code_equations )
 

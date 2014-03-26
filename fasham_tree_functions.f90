@@ -1,9 +1,9 @@
-module fasham_tree_functions
+!module fasham_tree_functions
 
 
 !-------------------------------------------------------------------------------------------
 
-contains
+!contains
 
 
 
@@ -27,7 +27,7 @@ function Bacterial_Mortality_To_NH4() result(n1)
     implicit none
     type(Tree_Node), pointer :: n1, n2, n3
     
-    write(6,'(A)') 'in Bacterial_Mortality_To_NH4 '
+    !write(6,'(A)') 'in Bacterial_Mortality_To_NH4 '
 
     n3 => GetVariableNode(btmp(abs(SPECIES_BACTERIA)),SPECIES_BACTERIA) ! Bacteria - [mmol N m-3]
     n2 => GetParameterNode(amu3) ! bacteria specific excretion rate [d-1]
@@ -50,19 +50,19 @@ function NH4_Sink_To_Bacteria() result(n1)
     type(Tree_Node), pointer :: n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11, &
                                n12, n13, n14, n15, n16, n17, n24, n25
                      
-    write(6,'(A)') 'in NH4_Sink_To_Bacteria'
-    write(6,'(A,1x,I6)') &
-          'in NH4_Sink_To_Bacteria SPECIES_DISSOLVED_ORGANIC_NITROGEN ', SPECIES_DISSOLVED_ORGANIC_NITROGEN
-    write(6,'(A,1x,I6)') &
-          'in NH4_Sink_To_Bacteria SPECIES_AMMONIUM                   ', SPECIES_AMMONIUM                  
-    write(6,'(A,1x,I6)') &
-          'in NH4_Sink_To_Bacteria SPECIES_BACTERIA                   ', SPECIES_BACTERIA                  
-    write(6,'(A,1x,E15.7)') &
-          'in NH4_Sink_To_Bacteria eta ', eta
-    write(6,'(A,1x,E15.7)') &
-          'in NH4_Sink_To_Bacteria aK4 ', aK4
-    write(6,'(A,1x,E15.7)') &
-          'in NH4_Sink_To_Bacteria Vb  ', Vb 
+    !write(6,'(A)') 'in NH4_Sink_To_Bacteria'
+    !write(6,'(A,1x,I6)') &
+    !      'in NH4_Sink_To_Bacteria SPECIES_DISSOLVED_ORGANIC_NITROGEN ', SPECIES_DISSOLVED_ORGANIC_NITROGEN
+    !write(6,'(A,1x,I6)') &
+    !      'in NH4_Sink_To_Bacteria SPECIES_AMMONIUM                   ', SPECIES_AMMONIUM                  
+    !write(6,'(A,1x,I6)') &
+    !      'in NH4_Sink_To_Bacteria SPECIES_BACTERIA                   ', SPECIES_BACTERIA                  
+    !write(6,'(A,1x,E15.7)') &
+    !      'in NH4_Sink_To_Bacteria eta ', eta
+    !write(6,'(A,1x,E15.7)') &
+    !      'in NH4_Sink_To_Bacteria aK4 ', aK4
+    !write(6,'(A,1x,E15.7)') &
+    !      'in NH4_Sink_To_Bacteria Vb  ', Vb 
 
     n25 => GetVariableNode(btmp( abs(SPECIES_DISSOLVED_ORGANIC_NITROGEN)  ), &
                                      SPECIES_DISSOLVED_ORGANIC_NITROGEN   ) ! DON - [mmol N m-3]
@@ -105,7 +105,7 @@ function DON_Sink_To_Bacteria() result(n1)
     type(Tree_Node), pointer :: n1, n2, n3, n4, n5, n6, n7, n8, n9, &
                                n12, n13, n24, n25, n48, n49
                    
-    write(6,'(A)') 'in DON_Sink_To_Bacteria'
+    !write(6,'(A)') 'in DON_Sink_To_Bacteria'
     n49 => GetVariableNode(btmp(abs(SPECIES_DISSOLVED_ORGANIC_NITROGEN)), &
                                     SPECIES_DISSOLVED_ORGANIC_NITROGEN) ! DON - [mmol N m-3]
     n48 => GetParameterNode(eta) ! ammonium/DON uptake ratio [n.d.]
@@ -153,7 +153,7 @@ function Detrital_Sink_To_DON() result(n1)
     implicit none
     type(Tree_Node), pointer :: n1, n2, n3
 
-    write(6,'(A)') 'in Detrital_Sink_To_DON'
+    !write(6,'(A)') 'in Detrital_Sink_To_DON'
     n3 => GetVariableNode(btmp(abs(SPECIES_DETRITUS)),SPECIES_DETRITUS) ! DET - [mmol N m-3]
     n2 => GetParameterNode(amu4) ! Detrital breakdown rate [d-1]
     n1 => GetMathNode(Multiply, n2, n3)
@@ -185,15 +185,15 @@ function GetNonMotileDilution(species) result(n1)
     integer(kind=4), intent(in) :: species
     type(Tree_Node), pointer :: n1, n2, n3, n4, n5, n8, n9
 
-    write(6,'(A,1x,I6)') 'in GetNonMotileDilution   species = ', species
-    write(6,'(A,1x,I6)') &
-          'in GetNonMotileDilution   FORCING_MLD_CHANGE_NON_MOTILE = ', &
-                                     FORCING_MLD_CHANGE_NON_MOTILE
-    write(6,'(A,1x,E15.7)') &
-          'in GetNonMotileDilution   am = ', am
-    write(6,'(A,1x,I6)') &
-          'in GetNonMotileDilution   FORCING_MIXED_LAYER_DEPTH = ', &
-                                     FORCING_MIXED_LAYER_DEPTH
+    !write(6,'(A,1x,I6)') 'in GetNonMotileDilution   species = ', species
+    !write(6,'(A,1x,I6)') &
+    !      'in GetNonMotileDilution   FORCING_MLD_CHANGE_NON_MOTILE = ', &
+    !                                 FORCING_MLD_CHANGE_NON_MOTILE
+    !write(6,'(A,1x,E15.7)') &
+    !      'in GetNonMotileDilution   am = ', am
+    !write(6,'(A,1x,I6)') &
+    !      'in GetNonMotileDilution   FORCING_MIXED_LAYER_DEPTH = ', &
+    !                                 FORCING_MIXED_LAYER_DEPTH
 
 
     n9 => GetVariableNode( Numerical_CODE_Forcing_Functions( &
@@ -207,8 +207,8 @@ function GetNonMotileDilution(species) result(n1)
                                  FORCING_MIXED_LAYER_DEPTH) ! aMLD - Mixed Layer Depth [m]
     n4 => GetMathNode(Add, n8, n9)
     n3 => GetVariableNode(btmp(abs(species)),species) ! [mmol N m-3]
-    write(6,'(A,1x,E15.7)') &
-          'in GetNonMotileDilution   btmp(abs(species)) ', btmp(abs(species))
+    !write(6,'(A,1x,E15.7)') &
+    !      'in GetNonMotileDilution   btmp(abs(species)) ', btmp(abs(species))
     n2 => GetMathNode(ProtectedDivide, n4, n5)
     n1 => GetMathNode(Multiply, n2, n3)
 
@@ -226,7 +226,7 @@ function GetNonMotileDetritusDilution() result(n1)
     implicit none
     type(Tree_Node), pointer :: n1, n2, n3, n4, n5, n8, n9, n16, n17
 
-    write(6,'(A)') 'in GetNonMotileDetritusDilution'
+    !write(6,'(A)') 'in GetNonMotileDetritusDilution'
     n17 => GetVariableNode( &
                Numerical_CODE_Forcing_Functions( &
                    abs(5000+FORCING_MLD_CHANGE_NON_MOTILE)), &
@@ -258,18 +258,18 @@ function GetNitrateInjection() result(n1)
     type(Tree_Node), pointer :: n1, n2, n3, n4, n5, n8, n9
 
 
-    write(6,'(A)') 'in GetNitrateInjection'
+    !write(6,'(A)') 'in GetNitrateInjection'
 
-    write(6,'(A,1x,I6)') &
-          'in GetNonMotileDilution   FORCING_MLD_CHANGE_NON_MOTILE = ', &
-                                     FORCING_MLD_CHANGE_NON_MOTILE
-    write(6,'(A,1x,I6)') &
-          'in GetNonMotileDilution   FORCING_MIXED_LAYER_DEPTH     = ', &
-                                     FORCING_MIXED_LAYER_DEPTH    
-    write(6,'(A,1x,E15.7)') &
-          'in GetNonMotileDilution   am = ', am 
-    write(6,'(A,1x,E15.7)') &
-          'in GetNonMotileDilution   aN0 =', aN0
+    !write(6,'(A,1x,I6)') &
+    !      'in GetNonMotileDilution   FORCING_MLD_CHANGE_NON_MOTILE = ', &
+    !                                 FORCING_MLD_CHANGE_NON_MOTILE
+    !write(6,'(A,1x,I6)') &
+    !      'in GetNonMotileDilution   FORCING_MIXED_LAYER_DEPTH     = ', &
+    !                                 FORCING_MIXED_LAYER_DEPTH    
+    !write(6,'(A,1x,E15.7)') &
+    !      'in GetNonMotileDilution   am = ', am 
+    !write(6,'(A,1x,E15.7)') &
+    !      'in GetNonMotileDilution   aN0 =', aN0
 
 
     n9 => GetVariableNode( &
@@ -300,9 +300,9 @@ function GetMotileDilution() result(n1)
     implicit none
     type(Tree_Node), pointer :: n1, n2, n3, n4, n5, n6, n7, n8, n9, n12, n13
 
-    write(6,'(A)') 'in GetMotileDilution '
+    !write(6,'(A)') 'in GetMotileDilution '
 
-    write(6,'(A,2(1x,E15.7))') 'GetMotileDilution:  omega, amu5  ', omega, amu5
+    !write(6,'(A,2(1x,E15.7))') 'GetMotileDilution:  omega, amu5  ', omega, amu5
     n13 => GetParameterNode(omega) ! detrital fraction of zooplankton mortality [n.d.]
     n12 => GetParameterNode(amu5) ! zooplankton specific mortality rate [d-1]
     n9 => GetVariableNode( &
@@ -335,7 +335,7 @@ function Nitrate_Sink_To_Phytoplankton() result(n1)
     implicit none
     type(Tree_Node), pointer :: n1, n2, n3, n4, n5, n8, n9, n16, n17, n18, n19
     
-    write(6,'(A)') 'in Nitrate_Sink_To_Phytoplankton'
+    !write(6,'(A)') 'in Nitrate_Sink_To_Phytoplankton'
     n19 => GetVariableNode(btmp(abs(SPECIES_NITRATE)),SPECIES_NITRATE)
     n18 => GetParameterNode(aK1)
     n17 => GetVariableNode(btmp(abs(SPECIES_AMMONIUM)),SPECIES_AMMONIUM)
@@ -364,7 +364,7 @@ function Ammonium_Sink_To_Phytoplankton() result(n1)
     implicit none
     type(Tree_Node), pointer :: n1, n2, n3, n4, n5, n8, n9
     
-    write(6,'(A)') 'in Ammonium_Sink_To_Phytoplankton '
+    !write(6,'(A)') 'in Ammonium_Sink_To_Phytoplankton '
     n9 => GetVariableNode(btmp(abs(SPECIES_AMMONIUM)),SPECIES_AMMONIUM)
     n8 => GetParameterNode(aK2)
     n5 => GetVariableNode(Numerical_CODE_Forcing_Functions(abs(5000+FORCING_LIGHT_LIMITED_GROWTH_RATE)), &
@@ -389,7 +389,7 @@ function Phytoplankton_Exudation_To_DON() result(n1)
     type(Tree_Node), pointer :: n1, n2, n3, n4, n5, n8, n9, n16, n17, n32, n33, n34, n35, &
         n64, n65, n66, n67
     
-    write(6,'(A)') 'in Phytoplankton_Exudation_To_DON '
+    !write(6,'(A)') 'in Phytoplankton_Exudation_To_DON '
     n67 => GetVariableNode(btmp(abs(SPECIES_NITRATE)),SPECIES_NITRATE)
     n66 => GetParameterNode(aK1)
     n65 => GetVariableNode(btmp(abs(SPECIES_AMMONIUM)),SPECIES_AMMONIUM)
@@ -424,7 +424,7 @@ function Phytoplankton_Sink_To_DET() result(n1)
     implicit none
     type(Tree_Node), pointer :: n1, n2, n3
     
-    write(6,'(A)') 'in Phytoplankton_Sink_To_DET '
+    !write(6,'(A)') 'in Phytoplankton_Sink_To_DET '
     n3 => GetVariableNode(btmp(abs(SPECIES_PHYTOPLANKTON)),SPECIES_PHYTOPLANKTON)
     n2 => GetParameterNode(amu1)
     n1 => GetMathNode(Multiply, n2, n3)
@@ -442,7 +442,7 @@ function Zooplankton_Sink_To_NH4() result(n1)
     implicit none
     type(Tree_Node), pointer :: n1, n2, n3, n4, n5, n6, n7, n8, n9, n12, n13, n16, n17
     
-    write(6,'(A)') 'in Zooplankton_Sink_To_NH4'
+    !write(6,'(A)') 'in Zooplankton_Sink_To_NH4'
     n17 => GetParameterNode(omega)
     n16 => GetParameterNode(1.D+0)
     n13 => GetParameterNode(amu2)
@@ -471,7 +471,7 @@ function Zooplankton_Excretion_To_DON() result(n1)
     implicit none
     type(Tree_Node), pointer :: n1, n2, n3, n4, n5, n8, n9
     
-    write(6,'(A)') 'in Zooplankton_Excretion_To_DON'
+    !write(6,'(A)') 'in Zooplankton_Excretion_To_DON'
     n9 => GetParameterNode(epsilon)
     n8 => GetParameterNode(1.D+0)
     n5 => GetParameterNode(amu2)
@@ -496,7 +496,7 @@ function Zooplankton_Sink_To_Detritus() result(n1)
     type(Tree_Node), pointer :: n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11, n14, n15, &
         n18, n19, n22, n23
     
-    write(6,'(A)') 'in Zooplankton_Sink_To_Detritus'
+    !write(6,'(A)') 'in Zooplankton_Sink_To_Detritus'
     n23 => GetParameterNode(beta2)
     n22 => GetParameterNode(1.D+0)
     n19 => GetParameterNode(beta1)
@@ -530,7 +530,7 @@ end function Zooplankton_Sink_To_Detritus
 !    implicit none
 !    type (Tree_Node), pointer :: n1, n2, n3, n4, n5, n8, n9, n10, n11, n16, n17
 !    
-!    write(6,'(A)') 'in G1 '
+!    !write(6,'(A)') 'in G1 '
 !    n17 => GetVariableNode(btmp(abs(SPECIES_ZOOPLANKTON)),SPECIES_ZOOPLANKTON)
 !    n16 => GetParameterNode(g)
 !    n11 => GetParameterNode(2.D+0)
@@ -558,7 +558,7 @@ end function Zooplankton_Sink_To_Detritus
 !    implicit none
 !    type (Tree_Node), pointer :: n1, n2, n3, n4, n5, n8, n9, n10, n11, n16, n17
 !    
-!    write(6,'(A)') 'in G2'
+!    !write(6,'(A)') 'in G2'
 !    n17 => GetVariableNode(btmp(abs(SPECIES_ZOOPLANKTON)),SPECIES_ZOOPLANKTON)
 !    n16 => GetParameterNode(g)
 !    n11 => GetParameterNode(2.D+0)
@@ -586,7 +586,7 @@ end function Zooplankton_Sink_To_Detritus
 !    implicit none
 !    type (Tree_Node), pointer :: n1, n2, n3, n4, n5, n8, n9, n10, n11, n16, n17
 !    
-!    write(6,'(A)') 'in G3'
+!    !write(6,'(A)') 'in G3'
 !    n17 => GetVariableNode(btmp(abs(SPECIES_ZOOPLANKTON)),SPECIES_ZOOPLANKTON)
 !    n16 => GetParameterNode(g)
 !    n11 => GetParameterNode(2.D+0)
@@ -617,7 +617,7 @@ end function Zooplankton_Sink_To_Detritus
 !    type(Tree_Node), pointer :: n1, n2, n3, n4, n5, n6, n7, n8, n9, n12, n13, n14, n15, &
 !        n16, n17, n18, n19, n24, n25, n28, n29, n30, n31, n32, n33, n34, n35, n56, n57, n60, n61
 !    
-!    write(6,'(A)') 'in G_Lower '
+!    !write(6,'(A)') 'in G_Lower '
 !    n61 => GetParameterNode(2.D+0)
 !    n60 => GetVariableNode(btmp(abs(SPECIES_DETRITUS)),SPECIES_DETRITUS)
 !    n57 => GetParameterNode(2.D+0)
@@ -669,7 +669,7 @@ end function Zooplankton_Sink_To_Detritus
                                     n24, n25, n28, n29, n30, n31, n32, n33, &
                                     n34, n35, n56, n57, n60, n61
         
-        write(6,'(A)') 'in G_Lower '
+        !write(6,'(A)') 'in G_Lower '
 
         n61 => GetParameterNode(2.D+0)
         n60 => GetVariableNode(btmp(abs(SPECIES_DETRITUS)),SPECIES_DETRITUS)
@@ -720,7 +720,7 @@ end function Zooplankton_Sink_To_Detritus
         implicit none
         type (Tree_Node), pointer :: n1, n2, n3, n4, n5, n8, n9, n10, n11, n16, n17
         
-        write(6,'(A)') 'in G1 '
+        !write(6,'(A)') 'in G1 '
         n17 => GetVariableNode(btmp(abs(SPECIES_ZOOPLANKTON)),SPECIES_ZOOPLANKTON)
         n16 => GetParameterNode(g)
         n11 => GetParameterNode(2.D+0)
@@ -750,7 +750,7 @@ end function Zooplankton_Sink_To_Detritus
         implicit none
         type (Tree_Node), pointer :: n1, n2, n3, n4, n5, n8, n9, n10, n11, n16, n17
         
-        write(6,'(A)') 'in G2'
+        !write(6,'(A)') 'in G2'
         n17 => GetVariableNode(btmp(abs(SPECIES_ZOOPLANKTON)),SPECIES_ZOOPLANKTON)
         n16 => GetParameterNode(g)
         n11 => GetParameterNode(2.D+0)
@@ -780,7 +780,7 @@ end function Zooplankton_Sink_To_Detritus
         implicit none
         type (Tree_Node), pointer :: n1, n2, n3, n4, n5, n8, n9, n10, n11, n16, n17
         
-        write(6,'(A)') 'in f_G3'
+        !write(6,'(A)') 'in f_G3'
         n17 => GetVariableNode(btmp(abs(SPECIES_ZOOPLANKTON)),SPECIES_ZOOPLANKTON)
         n16 => GetParameterNode(g)
         n11 => GetParameterNode(2.D+0)
@@ -800,4 +800,4 @@ end function Zooplankton_Sink_To_Detritus
 
 
 
-end module fasham_tree_functions
+!end module fasham_tree_functions

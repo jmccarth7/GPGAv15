@@ -22,7 +22,7 @@ type(Tree_Node_Pointer), dimension(n_Trees) :: treeSlice
 
 !------------------------------------------------------------------------------------------------
 
-write(6,'(A,1x,A /)') 'build_trees: model   ', trim(model) 
+!write(6,'(A,1x,A /)') 'build_trees: model   ', trim(model) 
 
 if( trim(model) == 'fasham' .or. &
     trim(model) == 'FASHAM'          )then
@@ -44,7 +44,7 @@ if( trim(model) == 'fasham' .or. &
     
     ! Column 1
 
-    write(6,'(A/)') 'build_trees:  set Fasham tree pointers '
+    !write(6,'(A/)') 'build_trees:  set Fasham tree pointers '
 
     treeSlice( 8)%n => GetNonMotileDilution(SPECIES_NITRATE)
     treeSlice(15)%n => GetNonMotileDilution(SPECIES_AMMONIUM)

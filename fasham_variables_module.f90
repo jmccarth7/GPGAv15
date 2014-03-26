@@ -2,20 +2,20 @@ module Fasham_Variables_module
 
 implicit none
 
-real(kind=8) :: akw,am,alpha,aK1,aK2,amu1,akc,gamma1
-real(kind=8) :: phi,g,beta1,beta2,beta3,amu2,amu5,aK3,omega,epsilon,Vb,amu3,aK4,eta
+real(kind=8) :: akw, am, alpha, aK1, aK2, amu1, akc, gamma1
+real(kind=8) :: phi, g, beta1, beta2, beta3, amu2, amu5, aK3, omega, epsilon, Vb, amu3, aK4, eta
 
-real(kind=8) :: amu4,V,p1,p2,p3,aN0,aNO3,aNH4,DON,DET,bact
-real(kind=8) :: Q1,Q2,Q
+real(kind=8) :: amu4, V, p1, p2, p3, aN0, aNO3, aNH4, DON, DET, bact
+real(kind=8) :: Q1, Q2, Q
 
 real(kind=8) :: nitro
 real(kind=8) :: phyto
 real(kind=8) :: zoo
 
-real(kind=8) :: par0,cloudy,cloud,z,delz,oktas,tday,ratio,trans,albedo,saltd,cosz
-real(kind=8) :: zenith,alatd,alatr,dec,th,E_0,value,sigma,parz,tmp,beta,tau
-real(kind=8) :: U2,U1,S,enot,date,temp,Vp
-real(kind=8) :: thour, dayn
+real(kind=8) :: par0, cloudy, cloud, z, delz, oktas, tday, ratio, trans, albedo, saltd, cosz
+real(kind=8) :: zenith, alatd, alatr, dec, th, E_0, value, sigma, parz, tmp, beta, tau
+real(kind=8) :: U2, U1, S, enot, date, temp, Vp
+real(kind=8) :: thour,  dayn
 
 
 real(kind=8) :: prey_growth_rate

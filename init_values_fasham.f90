@@ -1037,7 +1037,7 @@ endif ! myid == 0
 
     ! n8 => GetParameterNode(am) ! m - Cross-thermocline Mixing rate
 
-    GP_Individual_Node_Parameters(8,36) = m     
+    GP_Individual_Node_Parameters(8,36) = am     
     GP_Individual_Node_Type(8,36) =  0
 
     !---------------------------------------------------------------------------
