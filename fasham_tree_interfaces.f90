@@ -89,25 +89,25 @@ module Fasham_Tree_Interfaces
             type(Tree_Node), pointer :: n1
         end function Detrital_Sink_To_DON
 
-        function G1() result(n1)
+        function f_G1() result(n1)
             use class_Tree_Node
             type(Tree_Node), pointer :: n1
-        end function G1
+        end function f_G1
 
-        function G2() result(n1)
+        function f_G2() result(n1)
             use class_Tree_Node
             type(Tree_Node), pointer :: n1
-        end function G2
+        end function f_G2
 
-        function G3() result(n1)
+        function f_G3() result(n1)
             use class_Tree_Node
             type(Tree_Node), pointer :: n1
-        end function G3
+        end function f_G3
 
-        function G_Lower() result(n1)
+        function f_G_Lower() result(n1)
             use class_Tree_Node
             type(Tree_Node), pointer :: n1
-        end function G_Lower
+        end function f_G_Lower
 
     end interface
 

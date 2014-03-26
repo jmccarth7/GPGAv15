@@ -36,6 +36,11 @@ module Tree_Node_Factory_module
     integer(kind=4), parameter :: ExponentialLeftMinus  = 19
     integer(kind=4), parameter :: ExponentialRightMinus = 20
 
+    integer(kind=4), parameter :: G_lower_function      = 21
+    integer(kind=4), parameter :: G1_function           = 22
+    integer(kind=4), parameter :: G2_function           = 23
+    integer(kind=4), parameter :: G3_function           = 24
+
     integer(kind=4), parameter :: MathNodeType = 1
     integer(kind=4), parameter :: VariableNodeType = 2
     integer(kind=4), parameter :: ParameterNodeType = 3

@@ -79,9 +79,9 @@ if( trim(model) == 'fasham' .or. &
     treeSlice(20)%n => Ammonium_Sink_To_Phytoplankton()
     
     ! Column 8
-    treeSlice(35)%n => G3()
-    treeSlice(42)%n => G2()
-    treeSlice(49)%n => G1()
+    treeSlice(35)%n => f_G3()
+    treeSlice(42)%n => f_G2()
+    treeSlice(49)%n => f_G1()
     
 
 else

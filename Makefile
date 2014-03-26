@@ -88,7 +88,6 @@ LIBS =
 
 CC = cc
 CFLAGS = -O
-
 #FC = gfortran
 #FFLAGS = -g
 #F90 = gfortran
@@ -108,7 +107,7 @@ F90FLAGS =  -g -fbacktrace -ffree-form  -fcheck=bounds #-fbacktrace  -fcheck=bou
 #F90FLAGS =  -O3 -ffree-form #-g -fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
 
 LDFLAGS = -L/opt/openmpi-1.6.5/lib \
-          -I/Developer/SDKs/MacOSX10.6.sdk/usr/include
+          -I/Developer/SDKs/MacOSX10.6.sdk/usr/include 
 LIBS= -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib \
       -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/usr/lib \
       -L/Developer/SDKs/MacOSX10.6.sdk/usr/lib
@@ -120,6 +119,7 @@ LIBS= -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Dev
 #F90FLAGS = -O3  -free -traceback #-warn all #-C -ftrapuv  # -warn all   #  -ftrace=full    # -fzero -Wall
 #LDFLAGS =
 ##########################################################################################
+
 
 
 all: $(PROG)
@@ -169,7 +169,7 @@ check_for_elite.o: GA_parameters_module.o GA_variables_module.o \
 	mpi_module.o
 class_serialization_visitor.o: GP_variables_module.o class_tree_node.o \
 	mpi_module.o
-class_tree_node.o: Math_Node_Functions.o
+class_tree_node.o: Math_Node_Functions.o  fasham_tree_functions.o
 combine_tree_strings.o: GP_parameters_module.o GP_variables_module.o
 comp_data_variance.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
@@ -190,7 +190,7 @@ deserialize_trees2.o: GP_variables_module.o Tree_Helper_module.o \
 Fasham_Forcing.o: GP_variables_module.o fasham_variables_module.o
 fasham_tree_functions.o: GP_variables_module.o fasham_tree_interfaces.o \
 	fasham_variables_module.o tree_node_factory_module.o
-fasham_tree_interfaces.o: class_tree_node.o
+#fasham_tree_interfaces.o: class_tree_node.o
 fcn.o: GA_parameters_module.o GP_data_module.o GP_parameters_module.o \
 	GP_variables_module.o Tree_Helper_module.o \
 	class_serialization_visitor.o class_tree_node.o mpi_module.o \
@@ -214,8 +214,9 @@ GA_variables_module.o: GA_parameters_module.o
 gammp.o: mpi_module.o
 gammq.o: mpi_module.o
 gcf.o: mpi_module.o
-Generate_Dot_Graph.o:  class_tree_node.o
-Global_Setup.o: Math_Node_Functions.o tree_node_factory_module.o
+Generate_Dot_Graph.o: class_tree_node.o
+Global_Setup.o: Math_Node_Functions.o fasham_tree_interfaces.o \
+	tree_node_factory_module.o
 GP_calc_diversity_index.o: GA_parameters_module.o GA_variables_module.o \
 	GP_parameters_module.o GP_variables_module.o
 GP_calc_fitness.o: GA_parameters_module.o GA_variables_module.o \
@@ -257,7 +258,7 @@ indiv_fitness.o: GA_parameters_module.o GA_variables_module.o \
 init_values.o: GP_parameters_module.o GP_variables_module.o mpi_module.o
 init_values_data.o: GP_parameters_module.o GP_variables_module.o mpi_module.o
 init_values_fasham.o: GP_parameters_module.o GP_variables_module.o \
-	mpi_module.o fasham_variables_module.o
+	fasham_tree_interfaces.o fasham_variables_module.o mpi_module.o
 init_values_LV.o: GP_parameters_module.o GP_variables_module.o mpi_module.o
 init_values_NPZ.o: GP_parameters_module.o GP_variables_module.o mpi_module.o
 Initialize_GA_Child_Parameters.o: GA_parameters_module.o \
