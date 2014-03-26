@@ -177,13 +177,13 @@ enddo ! i_tree
     ! These are used by the binary tree parsing algorithm to select the index of the
     ! species or forcing function variable's value
 
-    SPECIES_NITRATE = -1
-    SPECIES_AMMONIUM = -2
+    SPECIES_NITRATE                    = -1
+    SPECIES_AMMONIUM                   = -2
     SPECIES_DISSOLVED_ORGANIC_NITROGEN = -3
-    SPECIES_DETRITUS = -4
-    SPECIES_BACTERIA = -5
-    SPECIES_PHYTOPLANKTON = -6
-    SPECIES_ZOOPLANKTON = -7
+    SPECIES_DETRITUS                   = -4
+    SPECIES_BACTERIA                   = -5
+    SPECIES_PHYTOPLANKTON              = -6
+    SPECIES_ZOOPLANKTON                = -7
 
 
 !---------------------------------------------------------------------------------------------
@@ -213,9 +213,11 @@ enddo ! i_tree
     !FORCING_LIGHT_LIMITED_GROWTH_RATE = -5004
 
 
+    Numerical_CODE_Forcing_Functions = 0.0D+0
+
 
     Numerical_CODE_Initial_Conditions = (/aNO3, aNH4, DON, DET, bact, phyto, zoo/)
-    Numerical_CODE_Forcing_Functions = 0.0D+0
+
 
 
 
@@ -226,9 +228,10 @@ enddo ! i_tree
 
 if( myid == 0 )then
     write(GP_print_unit,'(/A,1x,I6)')   'ivFA: n_CODE_equations  ', n_CODE_equations
-    write(GP_print_unit,'(A,1x,E15.7/)') &
+    write(GP_print_unit,'(A/(6(1x,E15.7)))') &
           'ivFA: Numerical_CODE_Initial_Conditions(1:n_code_equations)', &
                  Numerical_CODE_Initial_Conditions(1:n_code_equations)
+    write(GP_print_unit,'(A/)') ' '
 endif ! myid == 0
 
 

@@ -65,7 +65,7 @@ do i_CODE_equation=1,n_CODE_equations
     ssum  = 0.0D+0
     ssum2 = 0.0D+0
 
-    do  i_time_step=0,n_time_steps
+    do  i_time_step=1,n_time_steps
         ssum  = ssum  +  Data_Array(i_time_step,i_CODE_equation)
         ssum2 = ssum2 +  Data_Array(i_time_step,i_CODE_equation)**2
     enddo !   i_time_step
@@ -74,8 +74,8 @@ do i_CODE_equation=1,n_CODE_equations
     !      'cdv: myid, i_CODE_equation, ssum, ssum2', &
     !            myid, i_CODE_equation, ssum, ssum2
 
-    totobs    = dble(n_time_steps+1)
-    totobs_m1 = dble(n_time_steps)
+    totobs    = dble(n_time_steps)
+    totobs_m1 = dble(n_time_steps-1)
 
     !write(GP_print_unit,'(A,1x,I6, 2(1x,E15.7) )') &
     !      'cdv: myid, totobs, totobs_m1', &

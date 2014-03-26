@@ -23,9 +23,9 @@ integer, intent(in)  ::  myprint_unit
 
 !---------------------------------------------------------------------------------------------------
 
-!if( myid == 0 )then
-!    write(6,'(/A/)') 'inmod: entry  Initialize_Model '
-!endif ! myid == 0
+if( myid == 0 )then
+    write(6,'(/A/)') 'inmod: entry  Initialize_Model '
+endif ! myid == 0
 
 !if( L_myprint  .and.  myid == 1 )then
 !    write(myprint_unit,'(/A/)') 'inmod: entry  Initialize_Model '

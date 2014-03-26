@@ -47,21 +47,34 @@ function NH4_Sink_To_Bacteria() result(n1)
                                n12, n13, n14, n15, n16, n17, n24, n25
                      
     write(6,'(A)') 'in NH4_Sink_To_Bacteria'
-    n25 => GetVariableNode(btmp( abs(SPECIES_DISSOLVED_ORGANIC_NITROGEN)), &
-                                     SPECIES_DISSOLVED_ORGANIC_NITROGEN ) ! DON - [mmol N m-3]
+    write(6,'(A,1x,I6)') &
+          'in NH4_Sink_To_Bacteria SPECIES_DISSOLVED_ORGANIC_NITROGEN ', SPECIES_DISSOLVED_ORGANIC_NITROGEN
+    write(6,'(A,1x,I6)') &
+          'in NH4_Sink_To_Bacteria SPECIES_AMMONIUM                   ', SPECIES_AMMONIUM                  
+    write(6,'(A,1x,I6)') &
+          'in NH4_Sink_To_Bacteria SPECIES_BACTERIA                   ', SPECIES_BACTERIA                  
+    write(6,'(A,1x,E15.7)') &
+          'in NH4_Sink_To_Bacteria eta ', eta
+    write(6,'(A,1x,E15.7)') &
+          'in NH4_Sink_To_Bacteria aK4 ', aK4
+    write(6,'(A,1x,E15.7)') &
+          'in NH4_Sink_To_Bacteria Vb  ', Vb 
+
+    n25 => GetVariableNode(btmp( abs(SPECIES_DISSOLVED_ORGANIC_NITROGEN)  ), &
+                                     SPECIES_DISSOLVED_ORGANIC_NITROGEN   ) ! DON - [mmol N m-3]
     n24 => GetParameterNode(eta) ! ammonium/DON uptake ratio [n.d.]
-    n17 => GetVariableNode(btmp( abs(SPECIES_DISSOLVED_ORGANIC_NITROGEN)), &
-                                     SPECIES_DISSOLVED_ORGANIC_NITROGEN) ! DON - [mmol N m-3]
+    n17 => GetVariableNode(btmp( abs(SPECIES_DISSOLVED_ORGANIC_NITROGEN)  ), &
+                                     SPECIES_DISSOLVED_ORGANIC_NITROGEN  ) ! DON - [mmol N m-3]
     n16 => GetParameterNode(eta) ! ammonium/DON uptake ratio [n.d.]
-    n15 => GetVariableNode(btmp( abs(SPECIES_DISSOLVED_ORGANIC_NITROGEN)), &
-                                     SPECIES_DISSOLVED_ORGANIC_NITROGEN) ! DON - [mmol N m-3]
+    n15 => GetVariableNode(btmp( abs(SPECIES_DISSOLVED_ORGANIC_NITROGEN)  ), &
+                                     SPECIES_DISSOLVED_ORGANIC_NITROGEN  ) ! DON - [mmol N m-3]
 
     n14 => GetParameterNode(aK4) ! bacteria half-saturation rate for uptake [(mMol N) m-3]
-    n13 => GetVariableNode(btmp( abs(SPECIES_AMMONIUM)),SPECIES_AMMONIUM) ! Ammonium - [mmol N m-3]
+    n13 => GetVariableNode(btmp( abs(SPECIES_AMMONIUM)),  SPECIES_AMMONIUM  ) ! Ammonium - [mmol N m-3]
     n12 => GetMathNode(Multiply, n24, n25)
-    n11 => GetVariableNode(btmp( abs(SPECIES_BACTERIA)),SPECIES_BACTERIA) ! Bacteria - [mmol N m-3]
+    n11 => GetVariableNode(btmp( abs(SPECIES_BACTERIA)),  SPECIES_BACTERIA) ! Bacteria - [mmol N m-3]
     n10 => GetParameterNode(Vb) ! bacteria maximum growth rate [d-1]
-    n9 => GetVariableNode(btmp( abs(SPECIES_AMMONIUM)),SPECIES_AMMONIUM) ! Ammonium - [mmol N m-3]
+    n9 => GetVariableNode(btmp( abs(SPECIES_AMMONIUM)),   SPECIES_AMMONIUM) ! Ammonium - [mmol N m-3]
     n8 => GetMathNode(Multiply, n16, n17)
     n7 => GetMathNode(Add, n14, n15)
     n6 => GetMathNode(Minimize, n12, n13)
@@ -168,11 +181,21 @@ function GetNonMotileDilution(species) result(n1)
     integer(kind=4), intent(in) :: species
     type(Tree_Node), pointer :: n1, n2, n3, n4, n5, n8, n9
 
-    write(6,'(A)') 'in GetNonMotileDilution'
-    n9 => GetVariableNode( &
-                  Numerical_CODE_Forcing_Functions( &
-                        abs(5000+FORCING_MLD_CHANGE_NON_MOTILE)), &
-                                 FORCING_MLD_CHANGE_NON_MOTILE) ! h+ - Change in the mixed layer depth [m d-1]
+    write(6,'(A,1x,I6)') 'in GetNonMotileDilution   species = ', species
+    write(6,'(A,1x,I6)') &
+          'in GetNonMotileDilution   FORCING_MLD_CHANGE_NON_MOTILE = ', &
+                                     FORCING_MLD_CHANGE_NON_MOTILE
+    write(6,'(A,1x,E15.7)') &
+          'in GetNonMotileDilution   am = ', am
+    write(6,'(A,1x,I6)') &
+          'in GetNonMotileDilution   FORCING_MIXED_LAYER_DEPTH = ', &
+                                     FORCING_MIXED_LAYER_DEPTH
+
+
+    n9 => GetVariableNode( Numerical_CODE_Forcing_Functions( &
+                            abs(5000+FORCING_MLD_CHANGE_NON_MOTILE)) , &
+                                     FORCING_MLD_CHANGE_NON_MOTILE       ) ! h+ - Change in the mixed layer depth [m d-1]
+
     n8 => GetParameterNode(am) ! m - Cross-thermocline Mixing rate
     n5 => GetVariableNode( &
                   Numerical_CODE_Forcing_Functions( &
@@ -180,6 +203,8 @@ function GetNonMotileDilution(species) result(n1)
                                  FORCING_MIXED_LAYER_DEPTH) ! aMLD - Mixed Layer Depth [m]
     n4 => GetMathNode(Add, n8, n9)
     n3 => GetVariableNode(btmp(abs(species)),species) ! [mmol N m-3]
+    write(6,'(A,1x,E15.7)') &
+          'in GetNonMotileDilution   btmp(abs(species)) ', btmp(abs(species))
     n2 => GetMathNode(ProtectedDivide, n4, n5)
     n1 => GetMathNode(Multiply, n2, n3)
 
@@ -228,7 +253,21 @@ function GetNitrateInjection() result(n1)
     implicit none
     type(Tree_Node), pointer :: n1, n2, n3, n4, n5, n8, n9
 
+
     write(6,'(A)') 'in GetNitrateInjection'
+
+    write(6,'(A,1x,I6)') &
+          'in GetNonMotileDilution   FORCING_MLD_CHANGE_NON_MOTILE = ', &
+                                     FORCING_MLD_CHANGE_NON_MOTILE
+    write(6,'(A,1x,I6)') &
+          'in GetNonMotileDilution   FORCING_MIXED_LAYER_DEPTH     = ', &
+                                     FORCING_MIXED_LAYER_DEPTH    
+    write(6,'(A,1x,E15.7)') &
+          'in GetNonMotileDilution   am = ', am 
+    write(6,'(A,1x,E15.7)') &
+          'in GetNonMotileDilution   aN0 =', aN0
+
+
     n9 => GetVariableNode( &
                    Numerical_CODE_Forcing_Functions(  &
                       abs(5000+FORCING_MLD_CHANGE_NON_MOTILE)), &
@@ -560,51 +599,54 @@ end function G3
 
 
 !-------------------------------------------------------------------------------------------
+!
+! put G_Lower in math function 21
+!
 
-function G_Lower() result(n1)
-
-    use Tree_Node_Factory_module
-    use Fasham_Variables_module
-    use GP_variables_module
-    
-    implicit none
-    type(Tree_Node), pointer :: n1, n2, n3, n4, n5, n6, n7, n8, n9, n12, n13, n14, n15, &
-        n16, n17, n18, n19, n24, n25, n28, n29, n30, n31, n32, n33, n34, n35, n56, n57, n60, n61
-    
-    write(6,'(A)') 'in G_Lower '
-    n61 => GetParameterNode(2.D+0)
-    n60 => GetVariableNode(btmp(abs(SPECIES_DETRITUS)),SPECIES_DETRITUS)
-    n57 => GetParameterNode(2.D+0)
-    n56 => GetVariableNode(btmp(abs(SPECIES_BACTERIA)),SPECIES_BACTERIA)
-    n35 => GetVariableNode(btmp(abs(SPECIES_BACTERIA)),SPECIES_BACTERIA)
-    n34 => GetParameterNode(p2)
-    n33 => GetVariableNode(btmp(abs(SPECIES_PHYTOPLANKTON)),SPECIES_PHYTOPLANKTON)
-    n32 => GetParameterNode(p1)
-    n31 => GetParameterNode(p3)
-    n30 => GetMathNode(Power, n60, n61)
-    n29 => GetParameterNode(p2)
-    n28 => GetMathNode(Power, n56, n57)
-    n25 => GetParameterNode(2.D+0)
-    n24 => GetVariableNode(btmp(abs(SPECIES_PHYTOPLANKTON)),SPECIES_PHYTOPLANKTON)
-    n19 => GetVariableNode(btmp(abs(SPECIES_DETRITUS)),SPECIES_DETRITUS)
-    n18 => GetParameterNode(p3)
-    n17 => GetMathNode(Multiply, n34, n35)
-    n16 => GetMathNode(Multiply, n32, n33)
-    n15 => GetMathNode(Multiply, n30, n31)
-    n14 => GetMathNode(Multiply, n28, n29)
-    n13 => GetParameterNode(p1)
-    n12 => GetMathNode(Power, n24, n25)
-    n9 => GetMathNode(Multiply, n18, n19)
-    n8 => GetMathNode(Add, n16, n17)
-    n7 => GetMathNode(Add, n14, n15)
-    n6 => GetMathNode(Multiply, n12, n13)
-    n5 => GetParameterNode(aK3)
-    n4 => GetMathNode(Add, n8, n9)
-    n3 => GetMathNode(Add, n6, n7)
-    n2 => GetMathNode(Multiply, n4, n5)
-    n1 => GetMathNode(Add, n2, n3)
-    
-end function G_Lower
+!function G_Lower() result(n1)
+!
+!    use Tree_Node_Factory_module
+!    use Fasham_Variables_module
+!    use GP_variables_module
+!    
+!    implicit none
+!    type(Tree_Node), pointer :: n1, n2, n3, n4, n5, n6, n7, n8, n9, n12, n13, n14, n15, &
+!        n16, n17, n18, n19, n24, n25, n28, n29, n30, n31, n32, n33, n34, n35, n56, n57, n60, n61
+!    
+!    write(6,'(A)') 'in G_Lower '
+!    n61 => GetParameterNode(2.D+0)
+!    n60 => GetVariableNode(btmp(abs(SPECIES_DETRITUS)),SPECIES_DETRITUS)
+!    n57 => GetParameterNode(2.D+0)
+!    n56 => GetVariableNode(btmp(abs(SPECIES_BACTERIA)),SPECIES_BACTERIA)
+!    n35 => GetVariableNode(btmp(abs(SPECIES_BACTERIA)),SPECIES_BACTERIA)
+!    n34 => GetParameterNode(p2)
+!    n33 => GetVariableNode(btmp(abs(SPECIES_PHYTOPLANKTON)),SPECIES_PHYTOPLANKTON)
+!    n32 => GetParameterNode(p1)
+!    n31 => GetParameterNode(p3)
+!    n30 => GetMathNode(Power, n60, n61)
+!    n29 => GetParameterNode(p2)
+!    n28 => GetMathNode(Power, n56, n57)
+!    n25 => GetParameterNode(2.D+0)
+!    n24 => GetVariableNode(btmp(abs(SPECIES_PHYTOPLANKTON)),SPECIES_PHYTOPLANKTON)
+!    n19 => GetVariableNode(btmp(abs(SPECIES_DETRITUS)),SPECIES_DETRITUS)
+!    n18 => GetParameterNode(p3)
+!    n17 => GetMathNode(Multiply, n34, n35)
+!    n16 => GetMathNode(Multiply, n32, n33)
+!    n15 => GetMathNode(Multiply, n30, n31)
+!    n14 => GetMathNode(Multiply, n28, n29)
+!    n13 => GetParameterNode(p1)
+!    n12 => GetMathNode(Power, n24, n25)
+!    n9 => GetMathNode(Multiply, n18, n19)
+!    n8 => GetMathNode(Add, n16, n17)
+!    n7 => GetMathNode(Add, n14, n15)
+!    n6 => GetMathNode(Multiply, n12, n13)
+!    n5 => GetParameterNode(aK3)
+!    n4 => GetMathNode(Add, n8, n9)
+!    n3 => GetMathNode(Add, n6, n7)
+!    n2 => GetMathNode(Multiply, n4, n5)
+!    n1 => GetMathNode(Add, n2, n3)
+!    
+!end function G_Lower
 
 
 

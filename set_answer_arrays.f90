@@ -37,8 +37,8 @@ logical :: buildTrees
 !------------------------------------------------------------------------------
 
 
-Numerical_CODE_Solution(0,1:n_CODE_equations) = Runge_Kutta_Initial_Conditions ! Array Assignment
-Numerical_CODE_Initial_Conditions             = Runge_Kutta_Initial_Conditions ! Array Assignment
+!Numerical_CODE_Solution(0,1:n_CODE_equations) = Runge_Kutta_Initial_Conditions ! Array Assignment
+!Numerical_CODE_Initial_Conditions             = Runge_Kutta_Initial_Conditions ! Array Assignment
 
 
 !!!allocate( GP_Trees(n_trees,1)  )
@@ -90,15 +90,16 @@ endif ! L_unit50_output
 
 ! initialize the biological data fields
 
-Runge_Kutta_Solution(0,1:n_CODE_equations)    = Runge_Kutta_Initial_Conditions    ! Array Assignment
+!Runge_Kutta_Solution(0,1:n_CODE_equations)    = Runge_Kutta_Initial_Conditions    ! Array Assignment
 
 
-Numerical_CODE_Solution(0,1:n_CODE_equations) = Runge_Kutta_Initial_Conditions ! Array Assignment
-Numerical_CODE_Initial_Conditions             = Runge_Kutta_Initial_Conditions ! Array Assignment
+!Numerical_CODE_Solution(0,1:n_CODE_equations) = Runge_Kutta_Initial_Conditions ! Array Assignment
+!Numerical_CODE_Initial_Conditions             = Runge_Kutta_Initial_Conditions ! Array Assignment
 
+Numerical_CODE_Solution(0,1:n_CODE_equations) = Numerical_CODE_Initial_Conditions ! Array Assignment
 
-Runge_Kutta_Node_Parameters = GP_Individual_Node_Parameters  ! Matrix Operation
-Runge_Kutta_Node_Type       = GP_Individual_Node_Type        ! Matrix Operation
+!Runge_Kutta_Node_Parameters = GP_Individual_Node_Parameters  ! Matrix Operation
+!Runge_Kutta_Node_Type       = GP_Individual_Node_Type        ! Matrix Operation
 
 
 if( myid == 0 )then
@@ -121,34 +122,34 @@ if( myid == 0 )then
     write(6,'(A)') ' '
     write(6,'(A,2(1x,I6))') 'saa: n_trees, n_nodes ', n_trees, n_nodes
 
-    write(6,'(/A)') &
-          'saa: i_tree  i_node  Runge_Kutta_Node_Parameters( i_node, i_tree ) '
-    do  i_tree = 1, n_trees
-        do  i_node = 1, n_nodes
+!    write(6,'(/A)') &
+!          'saa: i_tree  i_node  Runge_Kutta_Node_Parameters( i_node, i_tree ) '
+!    do  i_tree = 1, n_trees
+!        do  i_node = 1, n_nodes
+!
+!            if( Runge_Kutta_Node_Type( i_node, i_tree ) == 0     )then
+!                write(6,'(2(1x,I8),6x,E15.7)') &
+!                      i_tree, i_node, Runge_Kutta_Node_Parameters( i_node, i_tree )
+!            endif ! Runge_Kutta_Node_Type( i_node, i_tree ) == 0
+!
+!        enddo ! i_node
+!    enddo ! i_tree
 
-            if( Runge_Kutta_Node_Type( i_node, i_tree ) == 0     )then
-                write(6,'(2(1x,I8),6x,E15.7)') &
-                      i_tree, i_node, Runge_Kutta_Node_Parameters( i_node, i_tree )
-            endif ! Runge_Kutta_Node_Type( i_node, i_tree ) == 0
-
-        enddo ! i_node
-    enddo ! i_tree
-
-    write(6,'(//A)') &
-          'saa: i_tree  i_node  Runge_Kutta_Node_Type( i_node, i_tree ) '
-
-    do  i_tree = 1, n_trees
-        do  i_node = 1, n_nodes
-
-            if( Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999 )then
-                write(6,'(3(1x,I8))') &
-                        i_tree, i_node, Runge_Kutta_Node_Type( i_node, i_tree )
-            endif ! Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999
-
-        enddo ! i_node
-    enddo ! i_tree
-
-    write(6,'(A)') ' '
+!    write(6,'(//A)') &
+!          'saa: i_tree  i_node  Runge_Kutta_Node_Type( i_node, i_tree ) '
+!
+!    do  i_tree = 1, n_trees
+!        do  i_node = 1, n_nodes
+!
+!            if( Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999 )then
+!                write(6,'(3(1x,I8))') &
+!                        i_tree, i_node, Runge_Kutta_Node_Type( i_node, i_tree )
+!            endif ! Runge_Kutta_Node_Type( i_node, i_tree ) /= -9999
+!
+!        enddo ! i_node
+!    enddo ! i_tree
+!
+!    write(6,'(A)') ' '
 
 endif ! myid == 0
 
@@ -165,7 +166,7 @@ if( myid == 0 )then
 
     call Runge_Kutta_Box_Model( .false. )  ! 1 )
 
-    Runge_Kutta_Solution = Numerical_CODE_Solution
+    !!Runge_Kutta_Solution = Numerical_CODE_Solution
 
 
 endif ! myid == 0

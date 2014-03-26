@@ -446,8 +446,6 @@ if( myid == 0 )then
 
 endif ! myid == 0
 
-call mpi_finalize(ierr) ! debug only
-stop  ! debug only
 !------------------------------------------------------------------------
 
 ! then broadcast the R-K result: Runge_Kutta_Solution
@@ -458,14 +456,14 @@ if( myid == 0 )then    ! 20131209
           '0: time_step   Runge_Kutta_Solution(time_step,1:n_CODE_equations)'
     do  i = 0, n_time_steps
         write(GP_print_unit,'(I6,2x,10(1x,E14.7))') &
-              i, (Runge_Kutta_Solution(i,jj), jj = 1,n_CODE_equations )
+              i, (Numerical_Code_Solution(i,jj), jj = 1,n_CODE_equations )
     enddo ! i
 endif ! myid == 0
 
 
-message_len = ( n_time_steps + 1 ) * n_CODE_equations
-call MPI_BCAST( Runge_Kutta_Solution, message_len,    &
-                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+!message_len = ( n_time_steps + 1 ) * n_CODE_equations
+!call MPI_BCAST( Runge_Kutta_Solution, message_len,    &
+!                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
 
 message_len = ( n_time_steps + 1 ) * n_CODE_equations
@@ -474,7 +472,8 @@ call MPI_BCAST( Numerical_CODE_Solution, message_len,    &
 
 
 
-Data_Array=Runge_Kutta_Solution          ! Matrix Operation
+!Data_Array=Runge_Kutta_Solution          ! Matrix Operation
+Data_Array=Numerical_CODE_Solution        ! Matrix Operation
 
 
 !--------------------------------------------------------------------------------
@@ -513,7 +512,7 @@ endif ! myid == 0
 
 do  i_CODE_equation=1,n_CODE_equations
     n_parameters=n_parameters+1
-    answer(n_parameters)=Runge_Kutta_Initial_Conditions(i_CODE_equation)
+    answer(n_parameters)=Numerical_CODE_Initial_Conditions(i_CODE_equation)
 enddo ! i_CODE_equation
 
 

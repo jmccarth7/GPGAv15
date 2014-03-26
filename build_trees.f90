@@ -44,7 +44,7 @@ if( trim(model) == 'fasham' .or. &
     
     ! Column 1
 
-    write(6,'(A)') 'build_trees:  set tree pointers '
+    write(6,'(A/)') 'build_trees:  set Fasham tree pointers '
 
     treeSlice( 8)%n => GetNonMotileDilution(SPECIES_NITRATE)
     treeSlice(15)%n => GetNonMotileDilution(SPECIES_AMMONIUM)
@@ -126,5 +126,7 @@ else
     ! debug <<<<<
 
 endif ! model == 'fasham'  
+
+return
 
 end subroutine Build_Trees

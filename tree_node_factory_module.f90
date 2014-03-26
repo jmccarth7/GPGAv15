@@ -104,9 +104,9 @@ module Tree_Node_Factory_module
 
         !--------------------------------------------------------------------------
 
-        write(*,'(A)') 'GVN: entry GetVariableNode'
+        write(*,'(A)')           'GVN: entry GetVariableNode'
         write(*,'(A,1x,E24.16)') 'GVN: VariableValue  ', VariableValue
-        write(*,'(A,1x,I6   )') 'GVN: Variable_Index ', Variable_Index
+        write(*,'(A,1x,I6   )')  'GVN: Variable_Index ', Variable_Index
 
         allocate(node)
 
@@ -139,7 +139,7 @@ module Tree_Node_Factory_module
 
         allocate(node)
 
-        write(*,'(A)') 'GPN:  enter GetParameterNode '
+        write(*,'(A)')           'GPN:  enter GetParameterNode '
         write(*,'(A,1x,E24.16)') 'GPN:  ParameterValue ', ParameterValue
 
         ! Constructor: Node Type, Node Count, Parent,
