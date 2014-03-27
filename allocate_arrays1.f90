@@ -134,7 +134,7 @@ allocate( RK_Initial_Conditions(n_CODE_equations) )
 allocate( bioflo(0:n_CODE_equations,0:n_CODE_equations) )
 allocate( bioflo_map( 1:n_CODE_equations,1:n_Tracked_Resources ) )
 
-allocate( b_tmp(n_CODE_equations) )
+allocate( b_tmp( n_CODE_equations) )
 !allocate( b_tmp(n_variables)      )
 
 allocate( GP_Trees( n_Trees, n_Tracked_Resources) )
@@ -142,8 +142,8 @@ allocate( GP_Trees( n_Trees, n_Tracked_Resources) )
 ! Runge-Kutta specific work arrays
 
 allocate( kval(4,n_CODE_equations) )
-allocate( btmp(n_CODE_equations) )
-allocate( fbio(n_CODE_equations) )
+allocate( btmp( n_CODE_equations) )
+allocate( fbio( n_CODE_equations) )
 
 !allocate( kval(4, n_variables) )
 !allocate( btmp(n_variables) )

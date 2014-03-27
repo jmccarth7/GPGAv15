@@ -25,6 +25,8 @@ integer(kind=4) :: i_GA_individual
 
 integer(kind=4) :: inode                 
 integer(kind=4) :: itree               
+integer(kind=4) :: nparm               
+
 !----------------------------------------------------------------------------
 
 Run_GA_lmdif=.true.
@@ -32,9 +34,9 @@ Run_GA_lmdif=.true.
 
 
 !if( L_ga_print )then
-!    write(6,'(/A,1x, I6)')  'Init: n_parameters   ', n_Parameters
-!    write(6,'(A,1x, I6/)')  'Init: n_GP_parameters', n_GP_Parameters
-!    write(6,'(/A,1x, I6/)')  'Init: n_GA_Individuals ', n_GA_Individuals
+    write(6,'(/A,1x, I6)')  'Init: n_parameters   ', n_Parameters
+    write(6,'(A,1x, I6/)')  'Init: n_GP_parameters', n_GP_Parameters
+    write(6,'(/A,1x, I6/)')  'Init: n_GA_Individuals ', n_GA_Individuals
 !    write(6,'(/A/)') &
 !          'Init:  i_GA_individual  child parameters(:,i_GA_individual)  '
 !    write(GA_print_unit,'(/A,1x, I6/)')  'Init: n_parameters ', n_Parameters
@@ -44,6 +46,8 @@ Run_GA_lmdif=.true.
 
 
 do  i_GA_Individual=1,n_GA_Individuals
+
+    write(6,'(A,1x, I6)')  'Init: i_GA_Individual ', i_GA_Individual 
 
 !    do  i_Parameter=1,n_Parameters
 !
@@ -104,6 +108,11 @@ do  i_GA_Individual=1,n_GA_Individuals
     do  itree = 1, n_trees 
         do  inode = 1, n_nodes 
 
+        write(6, '(A,3(1x,I6),1x,E15.7)') &
+              'Init: itree, inode, GP_Ind_Node_Type,GP_Ind_Node_Par', &              
+                     itree, inode, GP_Individual_Node_Type(inode, itree), &
+                                   GP_Individual_Node_Parameters(inode,itree)    
+
             if( GP_Individual_Node_Type(inode, itree) == 0 )then
                 i_parameter = i_parameter + 1
 
@@ -113,6 +122,14 @@ do  i_GA_Individual=1,n_GA_Individuals
         enddo
     enddo
 
+    nparm = i_parameter
+
+    do  i_parameter = 1, nparm
+
+        write(6, '(A,1x,I6,1x,E15.7)') &
+              'Init: i_parameter, Child_Parameters(i_parameter,i_GA_Individual)', &
+                     i_parameter, Child_Parameters(i_parameter,i_GA_Individual)
+    enddo
     !debug only <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 

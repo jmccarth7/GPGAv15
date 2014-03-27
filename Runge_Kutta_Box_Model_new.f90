@@ -199,11 +199,11 @@ do  i_Time_Step = 1, n_Time_Steps
 
         ! Call forcing functions for the box model
 
-        write(6,'(/A)') 'rkbm: call DoForcing'
+        !write(6,'(/A)') 'rkbm: call DoForcing'
 
-        call DoForcing( btmp, Runge_Kutta_Time_Step(iter), i_Time_Step )
+        !call DoForcing( btmp, Runge_Kutta_Time_Step(iter), i_Time_Step )
 
-        write(6,'(A/)') 'rkbm: aft call DoForcing'
+        !write(6,'(A/)') 'rkbm: aft call DoForcing'
 
         fbio = 0.0D+0
 

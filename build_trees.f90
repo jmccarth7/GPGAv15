@@ -41,6 +41,8 @@ if( buildtrees )then
     
     call Deserialize_Trees2( treeSlice, n_Tracked_resources, n_trees    )
     
+    call MPI_finalize(ierr) ! debug only
+    stop  ! debug only
     
     !if( myid == 1 )then
         write(6,'(/A/)') 'build_trees: aft call Deserialize_Trees2 '

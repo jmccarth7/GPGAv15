@@ -714,9 +714,10 @@ do  i_GP_Generation=1,n_GP_Generations
 
             i_gp_individual = 1
             GP_Adult_Population_Node_Type(:,:, i_GP_individual ) = -9999
+            GP_Individual_Node_Type(:,:) =  -9999
 
         
-            GP_Individual_Node_Type(5,1) =  -2
+            GP_Individual_Node_Type(9,1) =  -2
             !GP_Individual_Node_Parameters(8,1) = am  
             GP_Individual_Node_Type(8,1) =  0
             GP_Individual_Node_Type(5,1) =  -1
@@ -725,204 +726,127 @@ do  i_GP_Generation=1,n_GP_Generations
             GP_Individual_Node_Type(3,1) =  0
             GP_Individual_Node_Type(2,1) =  4
             GP_Individual_Node_Type(1,1) =  3
-            GP_Individual_Node_Type(5,8) =  -2
+
+
+            GP_Individual_Node_Type(9,8) =  -2
             !GP_Individual_Node_Parameters(8,8) = am  
             GP_Individual_Node_Type(8,8) =  0
             GP_Individual_Node_Type(5,8) =  -1
             GP_Individual_Node_Type(4,8) =  1
             GP_Individual_Node_Type(3,8) =  -1
-        
-
-        
-        
-
             GP_Individual_Node_Type(2,8) =  4
-        
-
-        
-
             GP_Individual_Node_Type(1,8) =  3
+
 
         
             GP_Individual_Node_Type(19,13) = -1 
             !GP_Individual_Node_Parameters(18,13) = aK1 
             GP_Individual_Node_Type(18,13) =  0
-        
             GP_Individual_Node_Type(17,13) = -2 
-        
             !GP_Individual_Node_Parameters(16,13) = phi 
             GP_Individual_Node_Type(16,13) =  0
-        
             GP_Individual_Node_Type(9,13) =  6
-        
             GP_Individual_Node_Type(8,13) =  9
-        
             GP_Individual_Node_Type(5,13) = -6 
-        
             GP_Individual_Node_Type(4,13) =  3
-
-
-        
             GP_Individual_Node_Type(3,13) = -4 
             GP_Individual_Node_Type(2,13) =  3
             GP_Individual_Node_Type(1,13) =  3
 
         
             GP_Individual_Node_Type(9,15) = -2
-
-        
             !GP_Individual_Node_Parameters(8,15) = am  
             GP_Individual_Node_Type(8,15) =  0
             GP_Individual_Node_Type(5,15) = -1
-        
             GP_Individual_Node_Type(4,15) =  1
             GP_Individual_Node_Type(3,15) = -2
             GP_Individual_Node_Type(2,15) =  4
-        
             GP_Individual_Node_Type(1,15) =  3
+
         
             GP_Individual_Node_Type(25,19) =  -3
-        
             !GP_Individual_Node_Parameters(24,19) = eta 
             GP_Individual_Node_Type(24,19) =  0
-        
             GP_Individual_Node_Type(17,19) =  -3
-        
             !GP_Individual_Node_Parameters(16,19) = eta 
             GP_Individual_Node_Type(16,19) =  0
-
-        
             GP_Individual_Node_Type(15,19) =  -3
-        
             !GP_Individual_Node_Parameters(14,19) = aK4 
             GP_Individual_Node_Type(14,19) =  0
-
-        
-
-        
             GP_Individual_Node_Type(13,19) =  -2
-        
             GP_Individual_Node_Type(12,19) =  3
-        
             GP_Individual_Node_Type(11,19) =  -5
             !GP_Individual_Node_Parameters(10,19) = Vb  
             GP_Individual_Node_Type(10,19) =  0
-        
             GP_Individual_Node_Type(9,19) =  -2
-        
             GP_Individual_Node_Type(8,19) =  3
-        
             GP_Individual_Node_Type(7,19) =  1
-        
             GP_Individual_Node_Type(6,19) =  10
-        
             GP_Individual_Node_Type(5,19) =  3
-        
             GP_Individual_Node_Type(4,19) =  10
-        
             GP_Individual_Node_Type(3,19) =  1
-        
             GP_Individual_Node_Type(2,19) =  3
-        
             GP_Individual_Node_Type(1,19) =  4
         
 
         
             !GP_Individual_Node_Parameters(8,20) = aK2 
             GP_Individual_Node_Type(8,20) =  0
-
-        
             GP_Individual_Node_Type(5,20) =  -4
             GP_Individual_Node_Type(4,20) =  6
-        
             GP_Individual_Node_Type(3,20) =  -6
             GP_Individual_Node_Type(2,20) =  3
-        
             GP_Individual_Node_Type(1,20) =  3
 
 
         
             GP_Individual_Node_Type(9,22) =  -2
-        
             !GP_Individual_Node_Parameters(8,22) = am  
             GP_Individual_Node_Type(8,22) =  0
-
-
-
-        
             GP_Individual_Node_Type(5,22) =  -1
-        
             GP_Individual_Node_Type(4,22) =  1
-        
             GP_Individual_Node_Type(3,22) =  -3
-        
             GP_Individual_Node_Type(2,22) =  4
-        
-        
             GP_Individual_Node_Type(1,22) =  3
         
         
             GP_Individual_Node_Type(49,26) =  -3
-        
             !GP_Individual_Node_Parameters(48,26) = eta 
             GP_Individual_Node_Type(48,26) =  0
-        
             GP_Individual_Node_Type(25,26) =  -2
-        
             GP_Individual_Node_Type(24,26) =  3
-        
             !GP_Individual_Node_Parameters(13,26) = aK4 
             GP_Individual_Node_Type(13,26) =  0
-        
             GP_Individual_Node_Type(12,26) =  10
-        
             GP_Individual_Node_Type(9,26) =  -5
-        
             !GP_Individual_Node_Parameters(8,26) = Vb  
             GP_Individual_Node_Type(8,26) =  0
-        
-        
             GP_Individual_Node_Type(7,26) =  -3
-        
             GP_Individual_Node_Type(6,26) =  1
-
-        
             GP_Individual_Node_Type(5,26) =  -3
-        
             GP_Individual_Node_Type(4,26) =  3
-        
             GP_Individual_Node_Type(3,26) =  1
-        
             GP_Individual_Node_Type(2,26) =  3
-        
             GP_Individual_Node_Type(1,26) =  4
 
+
+
             GP_Individual_Node_Type(17,29) =  -2
-        
             !GP_Individual_Node_Parameters(16,29) = am 
             GP_Individual_Node_Type(16,29) =  0
-        
             !GP_Individual_Node_Parameters(9,29) = V  
             GP_Individual_Node_Type(9,29) =  0
-        
             GP_Individual_Node_Type(8,29) =  1
-        
             GP_Individual_Node_Type(5,29) =  -1
-        
             GP_Individual_Node_Type(4,29) =  1
-        
             GP_Individual_Node_Type(3,29) =  -4
-        
             GP_Individual_Node_Type(2,29) =  4
-        
             GP_Individual_Node_Type(1,29) =  3
 
         
             GP_Individual_Node_Type(3,32) =  -4
-        
             !GP_Individual_Node_Parameters(9,32) = amu4
             GP_Individual_Node_Type(9,32) =  0
-        
             GP_Individual_Node_Type(1,32) =  3
 
         
@@ -938,51 +862,37 @@ do  i_GP_Generation=1,n_GP_Generations
             GP_Individual_Node_Type( 63,35) = 0       
 
             GP_Individual_Node_Type(17,35) =  -7
-        
             !GP_Individual_Node_Parameters(16,35) = g         
             GP_Individual_Node_Type(16,35) =  0
-        
             !GP_Individual_Node_Parameters(11,35) = 2.0d0 
             GP_Individual_Node_Type(11,35) =  0
-        
             GP_Individual_Node_Type(10,35) =  -4
-        
             !GP_Individual_Node_Parameters(9,35) = p3    
             GP_Individual_Node_Type(9,35) =  0
-        
             GP_Individual_Node_Type(8,35) =  3
-        
             GP_Individual_Node_Type(5,35) =  8
-        
             GP_Individual_Node_Type(4,35) =  3
-        
             GP_Individual_Node_Type(3,35) =  21
-        
             GP_Individual_Node_Type(2,35) =  3
-        
             GP_Individual_Node_Type(1,35) =  4
+
+
             GP_Individual_Node_Type(9,36) =  -2
-        
             !GP_Individual_Node_Parameters(8,36) = am     
             GP_Individual_Node_Type(8,36) =  0
             GP_Individual_Node_Type(5,36) =  -1
-        
             GP_Individual_Node_Type(4,36) =  1
-        
             GP_Individual_Node_Type(3,36) =  -5
-        
             GP_Individual_Node_Type(2,36) =  4
-        
             GP_Individual_Node_Type(1,36) =  3
         
         
             GP_Individual_Node_Type(3,38) = -5
-        
             !GP_Individual_Node_Parameters(2,38) = amu3  
             GP_Individual_Node_Type(2,38) =  0
-        
             GP_Individual_Node_Type(1,38) =  3
         
+
             GP_Individual_Node_Type( 96,42) = 0                                                              
             GP_Individual_Node_Type( 98,42) = 0                                                              
             GP_Individual_Node_Type( 50,42) = 0                                                              
@@ -995,106 +905,60 @@ do  i_GP_Generation=1,n_GP_Generations
             GP_Individual_Node_Type( 63,42) = 0       
 
             GP_Individual_Node_Type(17,42) = -7
-        
             !GP_Individual_Node_Parameters(16,42) = g
             GP_Individual_Node_Type(16,42) =  0
-
-        
-
-        
             !GP_Individual_Node_Parameters(11,42) = 2.0d0 
             GP_Individual_Node_Type(11,42) =  0
-        
             GP_Individual_Node_Type(10,42) = -5  
-        
             !GP_Individual_Node_Parameters(9,42) = p2    
             GP_Individual_Node_Type(9,42) =  0
-        
             GP_Individual_Node_Type(8,42) = 3  
-        
             GP_Individual_Node_Type(5,42) = 8  
-        
             GP_Individual_Node_Type(4,42) = 3  
-        
             GP_Individual_Node_Type(3,42) =  21
-        
             GP_Individual_Node_Type(2,42) =  3
-        
-
-        
-
-        
             GP_Individual_Node_Type(1,42) =  4
-            GP_Individual_Node_Type(9,43) =  -2
         
+        
+            GP_Individual_Node_Type(9,43) =  -2
             !GP_Individual_Node_Parameters(8,43) = am    
             GP_Individual_Node_Type(8,43) =  0
-
-
-        
             GP_Individual_Node_Type(5,43) =  -1
-        
             GP_Individual_Node_Type(4,43) =  1
-        
             GP_Individual_Node_Type(3,43) =  -6
-        
             GP_Individual_Node_Type(2,43) =  4
-        
             GP_Individual_Node_Type(1,43) =  3
 
         
             GP_Individual_Node_Type(67,46) =  -1 
-        
             !GP_Individual_Node_Parameters(66,46) = aK1    
             GP_Individual_Node_Type(66,46) =  0
-        
             GP_Individual_Node_Type(65,46) =  -2 
-        
             !GP_Individual_Node_Parameters(64,46) = phi    
             GP_Individual_Node_Type(64,46) =  0
-        
             GP_Individual_Node_Type(35,46) =  -2 
-        
             !GP_Individual_Node_Parameters(34,46) = ak2    
             GP_Individual_Node_Type(34,46) =  0
-        
             GP_Individual_Node_Type(33,46) =  6
-        
-
-        
-
-        
             GP_Individual_Node_Type(32,46) =  9
-        
             GP_Individual_Node_Type(17,46) =  6
-        
             GP_Individual_Node_Type(16,46) =  3
-        
             !GP_Individual_Node_Parameters(9,46) = gamma1
             GP_Individual_Node_Type(9,46) =  0
-        
             GP_Individual_Node_Type(8,46) =  1
-        
             GP_Individual_Node_Type(3,46) =  -6
-        
             GP_Individual_Node_Type(4,46) =  3
-
-
-        
             GP_Individual_Node_Type(3,46) =  -4
-        
             GP_Individual_Node_Type(2,46) =  3
-        
             GP_Individual_Node_Type(1,46) =  3
         
         
             GP_Individual_Node_Type(3,47) = -6
-        
             !GP_Individual_Node_Parameters(2,47) = amu1        
             GP_Individual_Node_Type(2,47) =  0
-        
             GP_Individual_Node_Type(1,47) =  3
         
+
             GP_Individual_Node_Type( 96,49) = 0                                                              
             GP_Individual_Node_Type( 98,49) = 0                                                              
             GP_Individual_Node_Type( 50,49) = 0                                                              
@@ -1107,92 +971,53 @@ do  i_GP_Generation=1,n_GP_Generations
             GP_Individual_Node_Type( 63,49) = 0         
 
             GP_Individual_Node_Type(17,49) = -7 
-        
             !GP_Individual_Node_Parameters(16,49) = g           
             GP_Individual_Node_Type(16,49) =  0
-        
             !GP_Individual_Node_Parameters(11,49) = 2.0d0       
             GP_Individual_Node_Type(11,49) =  0
-        
-
-        
-
-        
             GP_Individual_Node_Type(10,49) = -6 
-        
             !GP_Individual_Node_Parameters(9,49) = p1          
             GP_Individual_Node_Type(9,49) =  0
-        
             GP_Individual_Node_Type(8,49) = 3  
-        
             GP_Individual_Node_Type(3,49) = 8  
-        
             GP_Individual_Node_Type(4,49) = 3  
-        
             GP_Individual_Node_Type(3,49) =  21
-        
             GP_Individual_Node_Type(2,49) =  3
-        
             GP_Individual_Node_Type(1,49) =  4
         
+
             !GP_Individual_Node_Parameters(13,50) = omega       
             GP_Individual_Node_Type(13,50) =  0
-        
             !GP_Individual_Node_Parameters(12,50) = amu5        
             GP_Individual_Node_Type(12,50) =  0
-
-        
             GP_Individual_Node_Type(9,50) =  -7
-
-
-        
             GP_Individual_Node_Type(8,50) =  -3
-        
             GP_Individual_Node_Type(7,50) =  -7
-        
             GP_Individual_Node_Type(6,50) =  3
-
-
-        
             GP_Individual_Node_Type(5,50) =  -1
-        
             GP_Individual_Node_Type(4,50) =  3
-        
             GP_Individual_Node_Type(3,50) =  3
-        
             GP_Individual_Node_Type(2,50) =  4
-        
             GP_Individual_Node_Type(1,50) =  1
         
+
             !GP_Individual_Node_Parameters(17,52) = omega
             GP_Individual_Node_Type(17,52) =  0
-        
             !GP_Individual_Node_Parameters(16,52) = 1.0d0
             GP_Individual_Node_Type(16,52) =  0
-        
             !GP_Individual_Node_Parameters(13,52) = amu2        
             GP_Individual_Node_Type(13,52) =  0
-        
             !GP_Individual_Node_Parameters(12,52) = epsilon     
             GP_Individual_Node_Type(12,52) =  0
-        
             !GP_Individual_Node_Parameters(9,52) = amu5        
             GP_Individual_Node_Type(9,52) =  0
-        
             GP_Individual_Node_Type(8,52) =  3
-        
             GP_Individual_Node_Type(7,52) = -7
-        
             GP_Individual_Node_Type(6,52) =  3
-        
             GP_Individual_Node_Type(5,52) = -7
-        
             GP_Individual_Node_Type(4,52) =  3
-        
             GP_Individual_Node_Type(3,52) =  3
-        
             GP_Individual_Node_Type(2,52) =  3
-        
             GP_Individual_Node_Type(1,52) =  1
         
 
@@ -1201,21 +1026,14 @@ do  i_GP_Generation=1,n_GP_Generations
         
             !GP_Individual_Node_Parameters(9,53) = epsilon     
             GP_Individual_Node_Type(9,53) =  0
-        
             !GP_Individual_Node_Parameters(8,53) = 1.0d0       
             GP_Individual_Node_Type(8,53) =  0
-        
             !GP_Individual_Node_Parameters(5,53) = amu2        
             GP_Individual_Node_Type(5,53) =  0
-        
             GP_Individual_Node_Type(4,53) = 2
-        
             GP_Individual_Node_Type(3,53) = -7
-        
             GP_Individual_Node_Type(2,53) =  3
-        
             GP_Individual_Node_Type(1,53) =  3
-        
             GP_Individual_Node_Type( 128,54) = 0                                                             
             GP_Individual_Node_Type( 65,54) = 0                                                              
             GP_Individual_Node_Type( 67,54) = 0                                                              
@@ -1255,43 +1073,28 @@ do  i_GP_Generation=1,n_GP_Generations
             GP_Individual_Node_Type( 221,54) = 0                                                             
             GP_Individual_Node_Type( 445,54) = 0                                                             
             GP_Individual_Node_Type( 223,54) = 0             
-
             !GP_Individual_Node_Parameters(23,54) = beta2
             GP_Individual_Node_Type(23,54) =  0
             !GP_Individual_Node_Parameters(22,54) = 1.0d0 
             GP_Individual_Node_Type(22,54) =  0
-        
             !GP_Individual_Node_Parameters(19,54) = beta1 
             GP_Individual_Node_Type(19,54) =  0
-        
             !GP_Individual_Node_Parameters(18,54) = 1.0d0 
             GP_Individual_Node_Type(18,54) =  0
-        
             !GP_Individual_Node_Parameters(15,54) = beta3
             GP_Individual_Node_Type(15,54) =  0
             !GP_Individual_Node_Parameters(14,54) = 1.0d0       
             GP_Individual_Node_Type(14,54) =  0
-        
             GP_Individual_Node_Type(11,54) =  2
-        
             GP_Individual_Node_Type(10,54) =  23
-        
             GP_Individual_Node_Type(9,54) =  2
-        
             GP_Individual_Node_Type(8,54) =  22
-        
             GP_Individual_Node_Type(7,54) =  2
-        
             GP_Individual_Node_Type(6,54) =  24
-        
             GP_Individual_Node_Type(5,54) =  3
-        
             GP_Individual_Node_Type(4,54) =  3
-        
             GP_Individual_Node_Type(3,54) =  3
-        
             GP_Individual_Node_Type(2,54) =  1
-        
             GP_Individual_Node_Type(1,54) =  1
     
 
@@ -1768,6 +1571,9 @@ do  i_GP_Generation=1,n_GP_Generations
         ! and save this number in GP_Individual_N_GP_param(i_GP_individual)
 
         n_GP_Parameters = n_code_equations
+        write(GP_print_unit,'(A,2(1x,I6))')&
+         '0: before loop n_code_equations,  n_GP_params',&
+                         n_code_equations,  n_GP_parameters
 
         do  i_Tree=1,n_Trees
 
@@ -1868,7 +1674,8 @@ do  i_GP_Generation=1,n_GP_Generations
                     GP_Individual_Node_Type(i_Node,i_Tree) = &
                        GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Individual)
 
-                    GP_Individual_Node_Parameters(i_Node,i_Tree) = 0.0d0
+                    !!debug only  !GP_Individual_Node_Parameters(i_Node,i_Tree) = 0.0d0
+
                 enddo ! i_node
             enddo ! i_tree
 
