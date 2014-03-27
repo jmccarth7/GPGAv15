@@ -10,6 +10,8 @@ use GP_Variables_module
 use GA_Variables_module
 use GP_Data_module
 
+use fasham_variables_module
+
 implicit none
 
 
@@ -21,6 +23,8 @@ integer(kind=4) :: i_parameter
 !integer(kind=4) :: jj
 integer(kind=4) :: i_GA_individual
 
+integer(kind=4) :: inode                 
+integer(kind=4) :: itree               
 !----------------------------------------------------------------------------
 
 Run_GA_lmdif=.true.
@@ -41,28 +45,28 @@ Run_GA_lmdif=.true.
 
 do  i_GA_Individual=1,n_GA_Individuals
 
-    do  i_Parameter=1,n_Parameters
-
-        !call random_real(cff) ! random real number generator
-        !dff = cff
-
-        call random_real(dff) ! random real number generator
-
-
-        Child_Parameters(i_Parameter,i_GA_Individual) = dff
-
-
-        
-        !if( L_ga_print )then
-        !    write(6,'(A,2(1x, I6),1x,E15.7 )') &
-        !         'Init: ', i_GA_individual, i_Parameter, &
-        !                   child_parameters(i_parameter, i_GA_individual)
-        !    write(GA_print_unit,'(A,2(1x, I6),1x,E15.7 )') &
-        !         'Init: ', i_GA_individual, i_Parameter, &
-        !                   child_parameters(i_parameter, i_GA_individual)
-        !endif ! L_ga_print
-
-    enddo ! i_parameter
+!    do  i_Parameter=1,n_Parameters
+!
+!        !call random_real(cff) ! random real number generator
+!        !dff = cff
+!
+!        call random_real(dff) ! random real number generator
+!
+!
+!        Child_Parameters(i_Parameter,i_GA_Individual) = dff
+!
+!
+!        
+!        !if( L_ga_print )then
+!        !    write(6,'(A,2(1x, I6),1x,E15.7 )') &
+!        !         'Init: ', i_GA_individual, i_Parameter, &
+!        !                   child_parameters(i_parameter, i_GA_individual)
+!        !    write(GA_print_unit,'(A,2(1x, I6),1x,E15.7 )') &
+!        !         'Init: ', i_GA_individual, i_Parameter, &
+!        !                   child_parameters(i_parameter, i_GA_individual)
+!        !endif ! L_ga_print
+!
+!    enddo ! i_parameter
 
 
     !debug only >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -73,6 +77,42 @@ do  i_GA_Individual=1,n_GA_Individuals
     !Child_Parameters(5,i_GA_Individual) =   0.6d0    ! debug only
     !Child_Parameters(6,i_GA_Individual) =   0.5d0    ! debug only
     !Child_Parameters(7,i_GA_Individual) =   0.02d0   ! debug only
+    !debug only <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+    !debug only >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+    ! fasham model
+
+
+    i_parameter = 1
+    Child_Parameters(i_parameter,i_GA_Individual) = 0.2D+0 ! Nitrate           [mmol N m-3]
+    i_parameter = i_parameter + 1
+    Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! Ammonium          [mmol N m-3]
+    i_parameter = i_parameter + 1
+    Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! DON               [mmol N m-3]
+    i_parameter = i_parameter + 1
+    Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! DET [Detritus]    [mmol N m-3]
+    i_parameter = i_parameter + 1
+    Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! Bacteria          [mmol N m-3]
+    i_parameter = i_parameter + 1
+    Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! Phytoplankton     [mmol N m-3]
+    i_parameter = i_parameter + 1
+    Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! Zooplankton       [mmol N m-3]
+
+    !------------------------------------------------------------------
+
+    do  itree = 1, n_trees 
+        do  inode = 1, n_nodes 
+
+            if( GP_Individual_Node_Type(inode, itree) == 0 )then
+                i_parameter = i_parameter + 1
+
+                Child_Parameters(i_parameter,i_GA_Individual) =  &
+                       GP_Individual_Node_Parameters(inode,itree)
+            endif 
+        enddo
+    enddo
+
     !debug only <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 

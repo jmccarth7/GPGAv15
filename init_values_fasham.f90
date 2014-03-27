@@ -33,7 +33,7 @@ use mpi_module
 use GP_parameters_module
 use GP_variables_module
 use fasham_variables_module
-use fasham_tree_interfaces 
+use fasham_tree_interfaces
 
 
 implicit none
@@ -294,13 +294,13 @@ endif ! myid == 0
     !                  abs(5000+FORCING_MLD_CHANGE_NON_MOTILE)), &
     !                           FORCING_MLD_CHANGE_NON_MOTILE) ! h+ - Change in the mixed layer depth [m d-1]
 
-    GP_Individual_Node_Type(5,1) =  -2
+    GP_Individual_Node_Type(9,1) =  -2
 
     !---------------------------------------------------------------------------
 
     ! n8 => GetParameterNode(am) ! m - Cross-thermocline Mixing rate
 
-    GP_Individual_Node_Parameters(8,1) = am  
+    GP_Individual_Node_Parameters(8,1) = am
     GP_Individual_Node_Type(8,1) =  0
 
     !---------------------------------------------------------------------------
@@ -350,7 +350,7 @@ endif ! myid == 0
 
     ! n8 => GetParameterNode(am) ! m - Cross-thermocline Mixing rate
 
-    GP_Individual_Node_Parameters(8,8) = am  
+    GP_Individual_Node_Parameters(8,8) = am
     GP_Individual_Node_Type(8,8) =  0
 
     !---------------------------------------------------------------------------
@@ -391,25 +391,25 @@ endif ! myid == 0
 
     ! n19 => GetVariableNode(btmp(abs(SPECIES_NITRATE)),SPECIES_NITRATE)
 
-    GP_Individual_Node_Type(19,13) = -1 
+    GP_Individual_Node_Type(19,13) = -1
     !---------------------------------------------------------------------------
 
     ! n18 => GetParameterNode(aK1)
 
-    GP_Individual_Node_Parameters(18,13) = aK1 
+    GP_Individual_Node_Parameters(18,13) = aK1
     GP_Individual_Node_Type(18,13) =  0
 
     !---------------------------------------------------------------------------
 
     ! n17 => GetVariableNode(btmp(abs(SPECIES_AMMONIUM)),SPECIES_AMMONIUM)
 
-    GP_Individual_Node_Type(17,13) = -2 
+    GP_Individual_Node_Type(17,13) = -2
 
     !---------------------------------------------------------------------------
 
     ! n16 => GetParameterNode(phi)
 
-    GP_Individual_Node_Parameters(16,13) = phi 
+    GP_Individual_Node_Parameters(16,13) = phi
     GP_Individual_Node_Type(16,13) =  0
 
     !---------------------------------------------------------------------------
@@ -428,7 +428,7 @@ endif ! myid == 0
 
     ! n5 => GetVariableNode(btmp(abs(SPECIES_PHYTOPLANKTON)),SPECIES_PHYTOPLANKTON)
 
-    GP_Individual_Node_Type(5,13) = -6 
+    GP_Individual_Node_Type(5,13) = -6
 
     !---------------------------------------------------------------------------
 
@@ -442,7 +442,7 @@ endif ! myid == 0
     !             Numerical_CODE_Forcing_Functions(abs(5000+FORCING_LIGHT_LIMITED_GROWTH_RATE)), &
     !                                                       FORCING_LIGHT_LIMITED_GROWTH_RATE)
 
-    GP_Individual_Node_Type(3,13) = -4 
+    GP_Individual_Node_Type(3,13) = -4
 
     !---------------------------------------------------------------------------
 
@@ -474,7 +474,7 @@ endif ! myid == 0
 
     ! n8 => GetParameterNode(am) ! m - Cross-thermocline Mixing rate
 
-    GP_Individual_Node_Parameters(8,15) = am  
+    GP_Individual_Node_Parameters(8,15) = am
     GP_Individual_Node_Type(8,15) =  0
 
     !---------------------------------------------------------------------------
@@ -526,7 +526,7 @@ endif ! myid == 0
 
     ! n24 => GetParameterNode(eta) ! ammonium/DON uptake ratio [n.d.]
 
-    GP_Individual_Node_Parameters(24,19) = eta 
+    GP_Individual_Node_Parameters(24,19) = eta
     GP_Individual_Node_Type(24,19) =  0
     !---------------------------------------------------------------------------
 
@@ -539,7 +539,7 @@ endif ! myid == 0
 
     ! n16 => GetParameterNode(eta) ! ammonium/DON uptake ratio [n.d.]
 
-    GP_Individual_Node_Parameters(16,19) = eta 
+    GP_Individual_Node_Parameters(16,19) = eta
     GP_Individual_Node_Type(16,19) =  0
 
     !---------------------------------------------------------------------------
@@ -553,7 +553,7 @@ endif ! myid == 0
 
     ! n14 => GetParameterNode(aK4) ! bacteria half-saturation rate for uptake [(mMol N) m-3]
 
-    GP_Individual_Node_Parameters(14,19) = aK4 
+    GP_Individual_Node_Parameters(14,19) = aK4
     GP_Individual_Node_Type(14,19) =  0
     !---------------------------------------------------------------------------
 
@@ -576,7 +576,7 @@ endif ! myid == 0
 
     ! n10 => GetParameterNode(Vb) ! bacteria maximum growth rate [d-1]
 
-    GP_Individual_Node_Parameters(10,19) = Vb  
+    GP_Individual_Node_Parameters(10,19) = Vb
     GP_Individual_Node_Type(10,19) =  0
 
     !---------------------------------------------------------------------------
@@ -647,7 +647,7 @@ endif ! myid == 0
 
     ! n8 => GetParameterNode(aK2)
 
-    GP_Individual_Node_Parameters(8,20) = aK2 
+    GP_Individual_Node_Parameters(8,20) = aK2
     GP_Individual_Node_Type(8,20) =  0
 
     !---------------------------------------------------------------------------
@@ -699,7 +699,7 @@ endif ! myid == 0
 
     ! n8 => GetParameterNode(am) ! m - Cross-thermocline Mixing rate
 
-    GP_Individual_Node_Parameters(8,22) = am  
+    GP_Individual_Node_Parameters(8,22) = am
     GP_Individual_Node_Type(8,22) =  0
 
     !---------------------------------------------------------------------------
@@ -755,7 +755,7 @@ endif ! myid == 0
 
     ! n48 => GetParameterNode(eta) ! ammonium/DON uptake ratio [n.d.]
 
-    GP_Individual_Node_Parameters(48,26) = eta 
+    GP_Individual_Node_Parameters(48,26) = eta
     GP_Individual_Node_Type(48,26) =  0
 
     !---------------------------------------------------------------------------
@@ -774,7 +774,7 @@ endif ! myid == 0
 
     ! n13 => GetParameterNode(aK4) ! bacteria half-saturation rate for uptake [(mMol N) m-3]
 
-    GP_Individual_Node_Parameters(13,26) = aK4 
+    GP_Individual_Node_Parameters(13,26) = aK4
     GP_Individual_Node_Type(13,26) =  0
 
     !---------------------------------------------------------------------------
@@ -793,7 +793,7 @@ endif ! myid == 0
 
     ! n8 => GetParameterNode(Vb) ! bacteria maximum growth rate [d-1]
 
-    GP_Individual_Node_Parameters(8,26) = Vb  
+    GP_Individual_Node_Parameters(8,26) = Vb
     GP_Individual_Node_Type(8,26) =  0
 
     !---------------------------------------------------------------------------
@@ -846,7 +846,7 @@ endif ! myid == 0
 !=============================================================================================
 
 ! treeSlice(29)%n => GetNonMotileDetritusDilution()
-    
+
 !=============================================================================================
 
     !---------------------------------------------------------------------------
@@ -861,14 +861,14 @@ endif ! myid == 0
 
     ! n16 => GetParameterNode(am) ! m - Cross-thermocline Mixing rate
 
-    GP_Individual_Node_Parameters(16,29) = am 
+    GP_Individual_Node_Parameters(16,29) = am
     GP_Individual_Node_Type(16,29) =  0
 
     !---------------------------------------------------------------------------
 
     ! n9 => GetParameterNode(V) ! V - detrital sinking rate [m d-1]
 
-    GP_Individual_Node_Parameters(9,29) = V  
+    GP_Individual_Node_Parameters(9,29) = V
     GP_Individual_Node_Type(9,29) =  0
 
     !---------------------------------------------------------------------------
@@ -929,8 +929,8 @@ endif ! myid == 0
 
     ! n2 => GetParameterNode(amu4) ! Detrital breakdown rate [d-1]
 
-    GP_Individual_Node_Parameters(9,32) = amu4
-    GP_Individual_Node_Type(9,32) =  0
+    GP_Individual_Node_Parameters(2,32) = amu4
+    GP_Individual_Node_Type(2,32) =  0
 
     !---------------------------------------------------------------------------
 
@@ -949,6 +949,32 @@ endif ! myid == 0
 
     !---------------------------------------------------------------------------
 
+    GP_Individual_Node_Type( 96,35) = 0
+    GP_Individual_Node_Type( 98,35) = 0
+    GP_Individual_Node_Type( 50,35) = 0
+    GP_Individual_Node_Type( 13,35) = 0
+    GP_Individual_Node_Type( 57,35) = 0
+    GP_Individual_Node_Type( 29,35) = 0
+    GP_Individual_Node_Type( 121,35) = 0
+    GP_Individual_Node_Type( 61,35) = 0
+    GP_Individual_Node_Type( 125,35) = 0
+    GP_Individual_Node_Type( 63,35) = 0
+
+
+    GP_Individual_Node_Parameters( 96,35) = 1.0d0
+    GP_Individual_Node_Parameters( 98,35) = 1.0d0
+    GP_Individual_Node_Parameters( 50,35) = 1.0d0
+    GP_Individual_Node_Parameters( 13,35) = 1.0d0
+    GP_Individual_Node_Parameters( 57,35) = 2.0d0
+    GP_Individual_Node_Parameters( 29,35) = 1.0d0
+    GP_Individual_Node_Parameters( 121,35) = 2.0d0
+    GP_Individual_Node_Parameters( 61,35) = 1.0d0
+    GP_Individual_Node_Parameters( 125,35) = 2.0d0
+    GP_Individual_Node_Parameters( 63,35) = 1.0d0
+
+
+    !---------------------------------------------------------------------------
+
     ! n17 => GetVariableNode(btmp(abs(SPECIES_ZOOPLANKTON)),SPECIES_ZOOPLANKTON)
 
     GP_Individual_Node_Type(17,35) =  -7
@@ -957,14 +983,14 @@ endif ! myid == 0
 
     ! n16 => GetParameterNode(g)
 
-    GP_Individual_Node_Parameters(16,35) = g         
+    GP_Individual_Node_Parameters(16,35) = g
     GP_Individual_Node_Type(16,35) =  0
 
     !---------------------------------------------------------------------------
 
     ! n11 => GetParameterNode(2.D+0)
 
-    GP_Individual_Node_Parameters(11,35) = 2.0d0 
+    GP_Individual_Node_Parameters(11,35) = 2.0d0
     GP_Individual_Node_Type(11,35) =  0
 
     !---------------------------------------------------------------------------
@@ -977,7 +1003,7 @@ endif ! myid == 0
 
     ! n9 => GetParameterNode(p3)
 
-    GP_Individual_Node_Parameters(9,35) = p3    
+    GP_Individual_Node_Parameters(9,35) = p3
     GP_Individual_Node_Type(9,35) =  0
 
     !---------------------------------------------------------------------------
@@ -1037,7 +1063,7 @@ endif ! myid == 0
 
     ! n8 => GetParameterNode(am) ! m - Cross-thermocline Mixing rate
 
-    GP_Individual_Node_Parameters(8,36) = am     
+    GP_Individual_Node_Parameters(8,36) = am
     GP_Individual_Node_Type(8,36) =  0
 
     !---------------------------------------------------------------------------
@@ -1092,7 +1118,7 @@ endif ! myid == 0
 
     ! n2 => GetParameterNode(amu3) ! bacteria specific excretion rate [d-1]
 
-    GP_Individual_Node_Parameters(2,38) = amu3  
+    GP_Individual_Node_Parameters(2,38) = amu3
     GP_Individual_Node_Type(2,38) =  0
 
     !---------------------------------------------------------------------------
@@ -1111,6 +1137,30 @@ endif ! myid == 0
 
     !---------------------------------------------------------------------------
 
+    GP_Individual_Node_Type( 96,42) = 0
+    GP_Individual_Node_Type( 98,42) = 0
+    GP_Individual_Node_Type( 50,42) = 0
+    GP_Individual_Node_Type( 13,42) = 0
+    GP_Individual_Node_Type( 57,42) = 0
+    GP_Individual_Node_Type( 29,42) = 0
+    GP_Individual_Node_Type( 121,42) = 0
+    GP_Individual_Node_Type( 61,42) = 0
+    GP_Individual_Node_Type( 125,42) = 0
+    GP_Individual_Node_Type( 63,42) = 0
+
+    GP_Individual_Node_Parameters( 96,42) = 1.0d0
+    GP_Individual_Node_Parameters( 98,42) = 1.0d0
+    GP_Individual_Node_Parameters( 50,42) = 1.0d0
+    GP_Individual_Node_Parameters( 13,42) = 1.0d0
+    GP_Individual_Node_Parameters( 57,42) = 2.0d0
+    GP_Individual_Node_Parameters( 29,42) = 1.0d0
+    GP_Individual_Node_Parameters( 121,42) = 2.0d0
+    GP_Individual_Node_Parameters( 61,42) = 1.0d0
+    GP_Individual_Node_Parameters( 125,42) = 2.0d0
+    GP_Individual_Node_Parameters( 63,42) = 1.0d0
+
+    !---------------------------------------------------------------------------
+
     ! n17 => GetVariableNode(btmp(abs(SPECIES_ZOOPLANKTON)),SPECIES_ZOOPLANKTON)
 
     GP_Individual_Node_Type(17,42) = -7
@@ -1125,39 +1175,39 @@ endif ! myid == 0
 
     ! n11 => GetParameterNode(2.D+0)
 
-    GP_Individual_Node_Parameters(11,42) = 2.0d0 
+    GP_Individual_Node_Parameters(11,42) = 2.0d0
     GP_Individual_Node_Type(11,42) =  0
 
     !---------------------------------------------------------------------------
 
     ! n10 => GetVariableNode(btmp(abs(SPECIES_BACTERIA)),SPECIES_BACTERIA)
 
-    GP_Individual_Node_Type(10,42) = -5  
+    GP_Individual_Node_Type(10,42) = -5
 
     !---------------------------------------------------------------------------
 
     ! n9 => GetParameterNode(p2)
 
-    GP_Individual_Node_Parameters(9,42) = p2    
+    GP_Individual_Node_Parameters(9,42) = p2
     GP_Individual_Node_Type(9,42) =  0
 
     !---------------------------------------------------------------------------
 
     ! n8 => GetMathNode(Multiply, n16, n17)
 
-    GP_Individual_Node_Type(8,42) = 3  
+    GP_Individual_Node_Type(8,42) = 3
 
     !---------------------------------------------------------------------------
 
     ! n5 => GetMathNode(Power, n10, n11)
 
-    GP_Individual_Node_Type(5,42) = 8  
+    GP_Individual_Node_Type(5,42) = 8
 
     !---------------------------------------------------------------------------
 
     ! n4 => GetMathNode(Multiply, n8, n9)
 
-    GP_Individual_Node_Type(4,42) = 3  
+    GP_Individual_Node_Type(4,42) = 3
 
     !---------------------------------------------------------------------------
 
@@ -1178,7 +1228,7 @@ endif ! myid == 0
     GP_Individual_Node_Type(1,42) =  4
 
     !---------------------------------------------------------------------------
-    
+
 
 !=============================================================================================
 
@@ -1187,7 +1237,7 @@ endif ! myid == 0
 !=============================================================================================
 
     !---------------------------------------------------------------------------
-    
+
     ! n9 => GetVariableNode( Numerical_CODE_Forcing_Functions( &
     !             abs(5000+FORCING_MLD_CHANGE_NON_MOTILE)) , &
     !                      FORCING_MLD_CHANGE_NON_MOTILE       ) ! h+ - Change in the mixed layer depth [m d-1]
@@ -1195,14 +1245,14 @@ endif ! myid == 0
     GP_Individual_Node_Type(9,43) =  -2
 
     !---------------------------------------------------------------------------
-    
+
     ! n8 => GetParameterNode(am) ! m - Cross-thermocline Mixing rate
 
-    GP_Individual_Node_Parameters(8,43) = am    
+    GP_Individual_Node_Parameters(8,43) = am
     GP_Individual_Node_Type(8,43) =  0
 
     !---------------------------------------------------------------------------
-    
+
     ! n5 => GetVariableNode( Numerical_CODE_Forcing_Functions( &
     !                    abs(5000+FORCING_MIXED_LAYER_DEPTH)), &
     !                             FORCING_MIXED_LAYER_DEPTH) ! aMLD - Mixed Layer Depth [m]
@@ -1210,25 +1260,25 @@ endif ! myid == 0
     GP_Individual_Node_Type(5,43) =  -1
 
     !---------------------------------------------------------------------------
-    
+
     ! n4 => GetMathNode(Add, n8, n9)
 
     GP_Individual_Node_Type(4,43) =  1
 
     !---------------------------------------------------------------------------
-    
+
     ! n3 => GetVariableNode(btmp(abs(species)),species) ! [mmol N m-3]
 
     GP_Individual_Node_Type(3,43) =  -6
 
     !---------------------------------------------------------------------------
-    
+
     ! n2 => GetMathNode(ProtectedDivide, n4, n5)
 
     GP_Individual_Node_Type(2,43) =  4
 
     !---------------------------------------------------------------------------
-    
+
     ! n1 => GetMathNode(Multiply, n2, n3)
 
     GP_Individual_Node_Type(1,43) =  3
@@ -1246,39 +1296,39 @@ endif ! myid == 0
 
     ! n67 => GetVariableNode(btmp(abs(SPECIES_NITRATE)),SPECIES_NITRATE)
 
-    GP_Individual_Node_Type(67,46) =  -1 
+    GP_Individual_Node_Type(67,46) =  -1
 
     !---------------------------------------------------------------------------
 
     ! n66 => GetParameterNode(aK1)
 
-    GP_Individual_Node_Parameters(66,46) = aK1    
+    GP_Individual_Node_Parameters(66,46) = aK1
     GP_Individual_Node_Type(66,46) =  0
 
     !---------------------------------------------------------------------------
 
     ! n65 => GetVariableNode(btmp(abs(SPECIES_AMMONIUM)),SPECIES_AMMONIUM)
 
-    GP_Individual_Node_Type(65,46) =  -2 
+    GP_Individual_Node_Type(65,46) =  -2
 
     !---------------------------------------------------------------------------
 
     ! n64 => GetParameterNode(phi)
 
-    GP_Individual_Node_Parameters(64,46) = phi    
+    GP_Individual_Node_Parameters(64,46) = phi
     GP_Individual_Node_Type(64,46) =  0
 
     !---------------------------------------------------------------------------
 
     ! n35 => GetVariableNode(btmp(abs(SPECIES_AMMONIUM)),SPECIES_AMMONIUM)
 
-    GP_Individual_Node_Type(35,46) =  -2 
+    GP_Individual_Node_Type(35,46) =  -2
 
     !---------------------------------------------------------------------------
 
     ! n34 => GetParameterNode(aK2)
 
-    GP_Individual_Node_Parameters(34,46) = ak2    
+    GP_Individual_Node_Parameters(34,46) = ak2
     GP_Individual_Node_Type(34,46) =  0
 
     !---------------------------------------------------------------------------
@@ -1356,7 +1406,7 @@ endif ! myid == 0
 !=============================================================================================
 
 ! treeSlice(47)%n => Phytoplankton_Sink_To_DET()
- 
+
 !=============================================================================================
 
     !---------------------------------------------------------------------------
@@ -1369,7 +1419,7 @@ endif ! myid == 0
 
     ! n2 => GetParameterNode(amu1)
 
-    GP_Individual_Node_Parameters(2,47) = amu1        
+    GP_Individual_Node_Parameters(2,47) = amu1
     GP_Individual_Node_Type(2,47) =  0
 
     !---------------------------------------------------------------------------
@@ -1387,55 +1437,80 @@ endif ! myid == 0
 !=============================================================================================
 
     !---------------------------------------------------------------------------
+    GP_Individual_Node_Type( 96,49) = 0
+    GP_Individual_Node_Type( 98,49) = 0
+    GP_Individual_Node_Type( 50,49) = 0
+    GP_Individual_Node_Type( 13,49) = 0
+    GP_Individual_Node_Type( 57,49) = 0
+    GP_Individual_Node_Type( 29,49) = 0
+    GP_Individual_Node_Type( 121,49) = 0
+    GP_Individual_Node_Type( 61,49) = 0
+    GP_Individual_Node_Type( 125,49) = 0
+    GP_Individual_Node_Type( 63,49) = 0
+
+    GP_Individual_Node_Parameters( 96,49) = 1.0d0
+    GP_Individual_Node_Parameters( 98,49) = 1.0d0
+    GP_Individual_Node_Parameters( 50,49) = 1.0d0
+    GP_Individual_Node_Parameters( 13,49) = 1.0d0
+    GP_Individual_Node_Parameters( 57,49) = 2.0d0
+    GP_Individual_Node_Parameters( 29,49) = 1.0d0
+    GP_Individual_Node_Parameters( 121,49) = 2.0d0
+    GP_Individual_Node_Parameters( 61,49) = 1.0d0
+    GP_Individual_Node_Parameters( 125,49) = 2.0d0
+    GP_Individual_Node_Parameters( 63,49) = 1.0d0
+
+
+
+    !---------------------------------------------------------------------------
 
     ! n17 => GetVariableNode(btmp(abs(SPECIES_ZOOPLANKTON)),SPECIES_ZOOPLANKTON)
 
-    GP_Individual_Node_Type(17,49) = -7 
+    GP_Individual_Node_Type(17,49) = -7
 
     !---------------------------------------------------------------------------
 
     ! n16 => GetParameterNode(g)
 
-    GP_Individual_Node_Parameters(16,49) = g           
+    GP_Individual_Node_Parameters(16,49) = g
     GP_Individual_Node_Type(16,49) =  0
 
     !---------------------------------------------------------------------------
 
     ! n11 => GetParameterNode(2.D+0)
 
-    GP_Individual_Node_Parameters(11,49) = 2.0d0       
+    GP_Individual_Node_Parameters(11,49) = 2.0d0
     GP_Individual_Node_Type(11,49) =  0
 
     !---------------------------------------------------------------------------
 
     ! n10 => GetVariableNode(btmp(abs(SPECIES_PHYTOPLANKTON)),SPECIES_PHYTOPLANKTON)
 
-    GP_Individual_Node_Type(10,49) = -6 
+    GP_Individual_Node_Type(10,49) = -6
 
     !---------------------------------------------------------------------------
 
     ! n9 => GetParameterNode(p1)
 
-    GP_Individual_Node_Parameters(9,49) = p1          
+    GP_Individual_Node_Parameters(9,49) = p1
     GP_Individual_Node_Type(9,49) =  0
 
     !---------------------------------------------------------------------------
 
     ! n8 => GetMathNode(Multiply, n16, n17)
 
-    GP_Individual_Node_Type(8,49) = 3  
+    GP_Individual_Node_Type(8,49) = 3
 
     !---------------------------------------------------------------------------
 
     ! n5 => GetMathNode(Power, n10, n11)
 
-    GP_Individual_Node_Type(3,49) = 8  
+    GP_Individual_Node_Type(3,49) = 8
 
     !---------------------------------------------------------------------------
 
     ! n4 => GetMathNode(Multiply, n8, n9)
 
-    GP_Individual_Node_Type(4,49) = 3  
+    GP_Individual_Node_Type(4,49) = 3
 
     !---------------------------------------------------------------------------
 
@@ -1467,14 +1542,14 @@ endif ! myid == 0
 
     ! n13 => GetParameterNode(omega) ! detrital fraction of zooplankton mortality [n.d.]
 
-    GP_Individual_Node_Parameters(13,50) = omega       
+    GP_Individual_Node_Parameters(13,50) = omega
     GP_Individual_Node_Type(13,50) =  0
 
     !---------------------------------------------------------------------------
 
     ! n12 => GetParameterNode(amu5) ! zooplankton specific mortality rate [d-1]
 
-    GP_Individual_Node_Parameters(12,50) = amu5        
+    GP_Individual_Node_Parameters(12,50) = amu5
     GP_Individual_Node_Type(12,50) =  0
 
     !---------------------------------------------------------------------------
@@ -1541,7 +1616,7 @@ endif ! myid == 0
 !=============================================================================================
 
 ! treeSlice(52)%n => Zooplankton_Sink_To_NH4()
-    
+
 !=============================================================================================
 
     !---------------------------------------------------------------------------
@@ -1562,21 +1637,21 @@ endif ! myid == 0
 
     ! n13 => GetParameterNode(amu2)
 
-    GP_Individual_Node_Parameters(13,52) = amu2        
+    GP_Individual_Node_Parameters(13,52) = amu2
     GP_Individual_Node_Type(13,52) =  0
 
     !---------------------------------------------------------------------------
 
     ! n12 => GetParameterNode(epsilon)
 
-    GP_Individual_Node_Parameters(12,52) = epsilon     
+    GP_Individual_Node_Parameters(12,52) = epsilon
     GP_Individual_Node_Type(12,52) =  0
 
     !---------------------------------------------------------------------------
 
     ! n9 => GetParameterNode(amu5)
 
-    GP_Individual_Node_Parameters(9,52) = amu5        
+    GP_Individual_Node_Parameters(9,52) = amu5
     GP_Individual_Node_Type(9,52) =  0
 
     !---------------------------------------------------------------------------
@@ -1639,21 +1714,21 @@ endif ! myid == 0
 
     ! n9 => GetParameterNode(epsilon)
 
-    GP_Individual_Node_Parameters(9,53) = epsilon     
+    GP_Individual_Node_Parameters(9,53) = epsilon
     GP_Individual_Node_Type(9,53) =  0
 
     !---------------------------------------------------------------------------
 
     ! n8 => GetParameterNode(1.D+0)
 
-    GP_Individual_Node_Parameters(8,53) = 1.0d0       
+    GP_Individual_Node_Parameters(8,53) = 1.0d0
     GP_Individual_Node_Type(8,53) =  0
 
     !---------------------------------------------------------------------------
 
     ! n5 => GetParameterNode(amu2)
 
-    GP_Individual_Node_Parameters(5,53) = amu2        
+    GP_Individual_Node_Parameters(5,53) = amu2
     GP_Individual_Node_Type(5,53) =  0
 
     !---------------------------------------------------------------------------
@@ -1687,6 +1762,88 @@ endif ! myid == 0
 ! treeSlice(54)%n => Zooplankton_Sink_To_Detritus()
 
 !=============================================================================================
+    !---------------------------------------------------------------------------
+
+    GP_Individual_Node_Type( 128,54) = 0
+    GP_Individual_Node_Type( 65,54) = 0
+    GP_Individual_Node_Type( 67,54) = 0
+    GP_Individual_Node_Type( 544,54) = 0
+    GP_Individual_Node_Type( 546,54) = 0
+    GP_Individual_Node_Type( 274,54) = 0
+    GP_Individual_Node_Type( 69,54) = 0
+    GP_Individual_Node_Type( 281,54) = 0
+    GP_Individual_Node_Type( 141,54) = 0
+    GP_Individual_Node_Type( 569,54) = 0
+    GP_Individual_Node_Type( 285,54) = 0
+    GP_Individual_Node_Type( 573,54) = 0
+    GP_Individual_Node_Type( 287,54) = 0
+    GP_Individual_Node_Type( 160,54) = 0
+    GP_Individual_Node_Type( 81,54) = 0
+    GP_Individual_Node_Type( 83,54) = 0
+    GP_Individual_Node_Type( 672,54) = 0
+    GP_Individual_Node_Type( 674,54) = 0
+    GP_Individual_Node_Type( 338,54) = 0
+    GP_Individual_Node_Type( 85,54) = 0
+    GP_Individual_Node_Type( 345,54) = 0
+    GP_Individual_Node_Type( 173,54) = 0
+    GP_Individual_Node_Type( 697,54) = 0
+    GP_Individual_Node_Type( 349,54) = 0
+    GP_Individual_Node_Type( 701,54) = 0
+    GP_Individual_Node_Type( 351,54) = 0
+    GP_Individual_Node_Type( 96,54) = 0
+    GP_Individual_Node_Type( 49,54) = 0
+    GP_Individual_Node_Type( 51,54) = 0
+    GP_Individual_Node_Type( 416,54) = 0
+    GP_Individual_Node_Type( 418,54) = 0
+    GP_Individual_Node_Type( 210,54) = 0
+    GP_Individual_Node_Type( 53,54) = 0
+    GP_Individual_Node_Type( 217,54) = 0
+    GP_Individual_Node_Type( 109,54) = 0
+    GP_Individual_Node_Type( 441,54) = 0
+    GP_Individual_Node_Type( 221,54) = 0
+    GP_Individual_Node_Type( 445,54) = 0
+    GP_Individual_Node_Type( 223,54) = 0
+
+    GP_Individual_Node_Parameters( 128,54) = 1.0d0
+    GP_Individual_Node_Parameters( 65,54) = 1.0d0
+    GP_Individual_Node_Parameters( 67,54) = 2.0d0
+    GP_Individual_Node_Parameters( 544,54) = 1.0d0
+    GP_Individual_Node_Parameters( 546,54) = 1.0d0
+    GP_Individual_Node_Parameters( 274,54) = 1.0d0
+    GP_Individual_Node_Parameters( 69,54) = 1.0d0
+    GP_Individual_Node_Parameters( 281,54) = 2.0d0
+    GP_Individual_Node_Parameters( 141,54) = 1.0d0
+    GP_Individual_Node_Parameters( 569,54) = 2.0d0
+    GP_Individual_Node_Parameters( 285,54) = 1.0d0
+    GP_Individual_Node_Parameters( 573,54) = 2.0d0
+    GP_Individual_Node_Parameters( 287,54) = 1.0d0
+    GP_Individual_Node_Parameters( 160,54) = 1.0d0
+    GP_Individual_Node_Parameters( 81,54) = 1.0d0
+    GP_Individual_Node_Parameters( 83,54) = 2.0d0
+    GP_Individual_Node_Parameters( 672,54) = 1.0d0
+    GP_Individual_Node_Parameters( 674,54) = 1.0d0
+    GP_Individual_Node_Parameters( 338,54) = 1.0d0
+    GP_Individual_Node_Parameters( 85,54) = 1.0d0
+    GP_Individual_Node_Parameters( 345,54) = 2.0d0
+    GP_Individual_Node_Parameters( 173,54) = 1.0d0
+    GP_Individual_Node_Parameters( 697,54) = 2.0d0
+    GP_Individual_Node_Parameters( 349,54) = 1.0d0
+    GP_Individual_Node_Parameters( 701,54) = 2.0d0
+    GP_Individual_Node_Parameters( 351,54) = 1.0d0
+    GP_Individual_Node_Parameters( 96,54) = 1.0d0
+    GP_Individual_Node_Parameters( 49,54) = 1.0d0
+    GP_Individual_Node_Parameters( 51,54) = 2.0d0
+    GP_Individual_Node_Parameters( 416,54) = 1.0d0
+    GP_Individual_Node_Parameters( 418,54) = 1.0d0
+    GP_Individual_Node_Parameters( 210,54) = 1.0d0
+    GP_Individual_Node_Parameters( 53,54) = 1.0d0
+    GP_Individual_Node_Parameters( 217,54) = 2.0d0
+    GP_Individual_Node_Parameters( 109,54) = 1.0d0
+    GP_Individual_Node_Parameters( 441,54) = 2.0d0
+    GP_Individual_Node_Parameters( 221,54) = 1.0d0
+    GP_Individual_Node_Parameters( 445,54) = 2.0d0
+    GP_Individual_Node_Parameters( 223,54) = 1.0d0
+
 
     !---------------------------------------------------------------------------
 
@@ -1698,21 +1855,21 @@ endif ! myid == 0
 
     ! n22 => GetParameterNode(1.D+0)
 
-    GP_Individual_Node_Parameters(22,54) = 1.0d0 
+    GP_Individual_Node_Parameters(22,54) = 1.0d0
     GP_Individual_Node_Type(22,54) =  0
 
     !---------------------------------------------------------------------------
 
     ! n19 => GetParameterNode(beta1)
 
-    GP_Individual_Node_Parameters(19,54) = beta1 
+    GP_Individual_Node_Parameters(19,54) = beta1
     GP_Individual_Node_Type(19,54) =  0
 
     !---------------------------------------------------------------------------
 
     ! n18 => GetParameterNode(1.D+0)
 
-    GP_Individual_Node_Parameters(18,54) = 1.0d0 
+    GP_Individual_Node_Parameters(18,54) = 1.0d0
     GP_Individual_Node_Type(18,54) =  0
 
     !---------------------------------------------------------------------------
@@ -1725,7 +1882,7 @@ endif ! myid == 0
 
     ! n14 => GetParameterNode(1.D+0)
 
-    GP_Individual_Node_Parameters(14,54) = 1.0d0       
+    GP_Individual_Node_Parameters(14,54) = 1.0d0
     GP_Individual_Node_Type(14,54) =  0
 
     !---------------------------------------------------------------------------
@@ -1796,17 +1953,17 @@ endif ! myid == 0
 
     !---------------------------------------------------------------------------
 
-    
+
 
     !=============================================================================================
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
 
 
 

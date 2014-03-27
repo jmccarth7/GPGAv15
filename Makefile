@@ -261,7 +261,7 @@ init_values_LV.o: GP_parameters_module.o GP_variables_module.o mpi_module.o
 init_values_NPZ.o: GP_parameters_module.o GP_variables_module.o mpi_module.o
 Initialize_GA_Child_Parameters.o: GA_parameters_module.o \
 	GA_variables_module.o GP_data_module.o GP_parameters_module.o \
-	GP_variables_module.o mpi_module.o
+	GP_variables_module.o mpi_module.o fasham_variables_module.o
 initialize_model.o: GA_parameters_module.o GP_parameters_module.o \
 	GP_variables_module.o fasham_variables_module.o mpi_module.o
 load_pow2_level.o: GA_parameters_module.o GA_variables_module.o \
