@@ -230,7 +230,7 @@ enddo ! i_tree
 
 if( myid == 0 )then
     write(GP_print_unit,'(/A,1x,I6)')   'ivFA: n_CODE_equations  ', n_CODE_equations
-    write(GP_print_unit,'(A/(6(1x,E15.7)))') &
+    write(GP_print_unit,'(A/(7(1x,E15.7)))') &
           'ivFA: Numerical_CODE_Initial_Conditions(1:n_code_equations)', &
                  Numerical_CODE_Initial_Conditions(1:n_code_equations)
     write(GP_print_unit,'(A/)') ' '

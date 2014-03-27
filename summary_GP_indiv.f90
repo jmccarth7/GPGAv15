@@ -176,8 +176,8 @@ endif ! icall == 0
 
 
 !!if( Lprint )then
-    write(GP_print_unit,'(A)')  &
-          'sgpi: i_GP_gen  i_GP_indiv   i_tree     i_node    GP_Indiv_Node_Type'
+!    write(GP_print_unit,'(A)')  &
+!          'sgpi: i_GP_gen  i_GP_indiv   i_tree     i_node    GP_Indiv_Node_Type'
 !!endif ! Lprint
 
 !  write node types to summary file
@@ -191,9 +191,9 @@ if( icall == 0 )then
             if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv) .ne. -9999 ) then
 
                 !if( Lprint )then
-                    write(GP_print_unit,'(2(1x,I10),3(1x,I10))') &
-                          i_GP_generation, i_GP_indiv,i_tree, i_node, &
-                          GP_Individual_Node_Type(i_Node,i_Tree)
+                !    write(GP_print_unit,'(2(1x,I10),3(1x,I10))') &
+                !          i_GP_generation, i_GP_indiv,i_tree, i_node, &
+                !          GP_Individual_Node_Type(i_Node,i_Tree)
                 !endif ! Lprint
 
     
@@ -237,26 +237,26 @@ endif ! icall == 0
 !! print the node parameters (if there are any)
 !
 
-if( Lprint )then
-    write(GP_print_unit,'(/A/)') &
-    'sgpi: i_GP_gen i_GP_indiv     tree        node   &
-    &GP_population_node_parameters'
-
-    do  i_tree=1,n_trees
-        do  i_node=1,n_nodes
-
-            if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv ) == 0  ) then
-
-                write(GP_print_unit,'(2(1x,I10), 2(1x,I10),2x, E15.7)') &
-                      i_GP_generation, i_GP_indiv,i_tree, i_node, &
-                      GP_population_node_parameters(i_node,i_tree,i_GP_indiv)
-
-            endif  ! GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv) == 0
-
-        enddo ! i_node
-    enddo  ! i_tree
-
-endif ! Lprint
+!if( Lprint )then
+!    write(GP_print_unit,'(/A/)') &
+!    'sgpi: i_GP_gen i_GP_indiv     tree        node   &
+!    &GP_population_node_parameters'
+!
+!    do  i_tree=1,n_trees
+!        do  i_node=1,n_nodes
+!
+!            if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv ) == 0  ) then
+!
+!                write(GP_print_unit,'(2(1x,I10), 2(1x,I10),2x, E15.7)') &
+!                      i_GP_generation, i_GP_indiv,i_tree, i_node, &
+!                      GP_population_node_parameters(i_node,i_tree,i_GP_indiv)
+!
+!            endif  ! GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv) == 0
+!
+!        enddo ! i_node
+!    enddo  ! i_tree
+!
+!endif ! Lprint
 
 
 !---------------------------------------------------------------------------------

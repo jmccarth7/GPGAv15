@@ -84,10 +84,10 @@ deallocate( GP_diversity_index )
 
 deallocate( GP_Individual_Node_Type )
 
-deallocate( Runge_Kutta_Node_Type )
-deallocate( Runge_Kutta_Node_Parameters )
-deallocate( Runge_Kutta_Initial_Conditions )
-deallocate( Runge_Kutta_Solution )
+!deallocate( Runge_Kutta_Node_Type )
+!deallocate( Runge_Kutta_Node_Parameters )
+!deallocate( Runge_Kutta_Initial_Conditions )
+!deallocate( Runge_Kutta_Solution )
 
 deallocate( RK_Node_Type )
 deallocate( RK_Node_Parameters )

@@ -65,17 +65,17 @@ do  i_parameter=1,n_parameters
 
     X_LMDIF(i_parameter) = child_parameters(i_parameter,i_GA_indiv)
 
-    !if( myid == 1 )then
+    if( myid == 1 )then
     !    if( L_ga_print )then
     !        !write(GA_print_unit,'(A,3(1x,I6),1x,E20.10)') &
     !        !      'setrf:1 myid, i_GA_indiv,i_parameter, child_parameters ', &
     !        !               myid, i_GA_indiv,i_parameter, &
     !        !               child_parameters(i_parameter,i_GA_indiv)
-    !        write(GA_print_unit,'(A,3(1x,I6),1x,E20.10)') &
-    !              'setrf:1 myid, i_GA_indiv, i_parameter,  X_LMDIF', &
-    !                       myid, i_GA_indiv, i_parameter,  X_LMDIF(i_parameter)
+            write(GA_print_unit,'(A,3(1x,I6),1x,E20.10)') &
+                  'setrf:1 myid, i_GA_indiv, i_parameter,  X_LMDIF', &
+                           myid, i_GA_indiv, i_parameter,  X_LMDIF(i_parameter)
     !    endif ! L_ga_print
-    !endif ! myid == 1
+    endif ! myid == 1
 
 enddo ! i_parameter
 
@@ -133,20 +133,20 @@ info = iflag
 
 !----------------------------------------------------------------------------------------
 
-!if( myid == 1 )then
-!    if( L_ga_print )then
-!        write(GA_print_unit,'(A,5(1x,I10)/)') &
-!         'setrf: aft call fcn myid, i_GA_indiv, n_time_steps, n_parameters, info ', &
-!                              myid, i_GA_indiv, n_time_steps, n_parameters, info
-!    endif ! L_ga_print
-!endif ! myid == 1
+if( myid == 1 )then
+    if( L_ga_print )then
+        write(GA_print_unit,'(A,5(1x,I10)/)') &
+         'setrf: aft call fcn myid, i_GA_indiv, n_time_steps, n_parameters, info ', &
+                              myid, i_GA_indiv, n_time_steps, n_parameters, info
+    endif ! L_ga_print
+endif ! myid == 1
 
-!if( myid == 1 )then
-!    write(6,'(A,5(1x,I10)/)') &
-!     'setrf: aft call fcn myid, i_GA_indiv, n_time_steps, n_parameters, info ', &
-!                          myid, i_GA_indiv, n_time_steps, n_parameters, info
-!     flush(6)
-!endif ! myid == 1
+if( myid == 1 )then
+    write(6,'(A,5(1x,I10)/)') &
+     'setrf: aft call fcn myid, i_GA_indiv, n_time_steps, n_parameters, info ', &
+                          myid, i_GA_indiv, n_time_steps, n_parameters, info
+     flush(6)
+endif ! myid == 1
 
 
 !----------------------------------------------------------------------------------------
@@ -158,19 +158,19 @@ if( info < 0 ) then
     individual_quality( i_GA_indiv ) = -1
     individual_SSE(i_GA_indiv) =  1.0D+13
 
-    !if( L_ga_print )then
-    !    write(GA_print_unit,'(A, 3(1x, I6),  1x,E15.7/)') &
-    !          'setrf:3 myid, i_GA_indiv, quality, SSE ', &
-    !                   myid, i_GA_indiv, &
-    !                   individual_quality(i_GA_indiv), &
-    !                   individual_SSE(i_GA_indiv)
-    !endif ! L_ga_print
-    !write(GA_print_unit,'(A, 3(1x, I6),  1x,E15.7/)') &
-    !      'setrf:3 myid, i_GA_indiv, quality, SSE ', &
-    !               myid, i_GA_indiv, &
-    !               individual_quality(i_GA_indiv), &
-    !               individual_SSE(i_GA_indiv)
-    !flush(6)
+    if( L_ga_print )then
+        write(GA_print_unit,'(A, 3(1x, I6),  1x,E15.7/)') &
+              'setrf:3 myid, i_GA_indiv, quality, SSE ', &
+                       myid, i_GA_indiv, &
+                       individual_quality(i_GA_indiv), &
+                       individual_SSE(i_GA_indiv)
+    endif ! L_ga_print
+    write(6,'(A, 3(1x, I6),  1x,E15.7/)') &
+          'setrf:3 myid, i_GA_indiv, quality, SSE ', &
+                   myid, i_GA_indiv, &
+                   individual_quality(i_GA_indiv), &
+                   individual_SSE(i_GA_indiv)
+    flush(6)
 
     return
 
@@ -214,9 +214,9 @@ enddo ! i_parameter
 !  fvec(i) = ( fcn(i) - truth(i) )**2
 !  so SSE is calculated by summing fvec, not fvec**2
 
-!if( L_ga_print )then
-!    write(GA_print_unit,'(/A/)')'setrf: calculate the individual SSE values '
-!endif ! L_ga_print
+if( L_ga_print )then
+    write(GA_print_unit,'(/A/)')'setrf: calculate the individual SSE values '
+endif ! L_ga_print
 !write(6,'(/A/)')'setrf: calculate the individual SSE values '
 
 !flush(6)
@@ -225,9 +225,9 @@ individual_SSE(i_GA_indiv)=0.0D+0
 
 if( individual_quality( i_GA_indiv ) > 0 ) then
 
-    !if( L_ga_print )then
-    !    write(GA_print_unit,'(A,1x,I6)') 'setrf: i_GA_indiv ', i_GA_indiv
-    !endif ! L_ga_print
+    if( L_ga_print )then
+        write(GA_print_unit,'(A,1x,I6)') 'setrf: i_GA_indiv ', i_GA_indiv
+    endif ! L_ga_print
 
     do i_time_step=1,n_time_steps
 
@@ -240,11 +240,11 @@ if( individual_quality( i_GA_indiv ) > 0 ) then
 !new   if( isnan(fvec(i_time_step))  .or.   &
 !new         abs(fvec(i_time_step)) >  1.0d20   ) fvec(i_time_step) =  1.0d20
 
-       !if( L_ga_print )then
-       !    write(GA_print_unit,'(A,1x,I6,1x,E15.7)' ) &
-       !          'setrf: i_time_step, fvec(i_time_step) ', &
-       !                  i_time_step, fvec(i_time_step)
-       !endif ! L_ga_print
+       if( L_ga_print )then
+           write(GA_print_unit,'(A,1x,I6,1x,E15.7)' ) &
+                 'setrf: i_time_step, fvec(i_time_step) ', &
+                         i_time_step, fvec(i_time_step)
+       endif ! L_ga_print
 
        individual_SSE(i_GA_indiv) = individual_SSE(i_GA_indiv) + &
                                     fvec(i_time_step)
@@ -253,21 +253,21 @@ if( individual_quality( i_GA_indiv ) > 0 ) then
 
 endif !  individual_quality( i_GA_indiv ) > 0
 
-!if( L_ga_print )then
-!    write(GA_print_unit,'(A,3(1x,I6), 1x, E15.7)') &
-!          'setrf: myid, i_GA_indiv, individual_quality, individual_SSE', &
-!                  myid, i_GA_indiv, &
-!                  individual_quality( i_GA_indiv ), &
-!                  individual_SSE(i_GA_indiv)
-!endif ! L_ga_print
+if( L_ga_print )then
+    write(GA_print_unit,'(A,3(1x,I6), 1x, E15.7)') &
+          'setrf: myid, i_GA_indiv, individual_quality, individual_SSE', &
+                  myid, i_GA_indiv, &
+                  individual_quality( i_GA_indiv ), &
+                  individual_SSE(i_GA_indiv)
+endif ! L_ga_print
 
-!write(6,'(A,3(1x,I6), 1x, E15.7)') &
-!      'setrf: myid, i_GA_indiv, individual_quality, individual_SSE', &
-!              myid, i_GA_indiv, &
-!              individual_quality( i_GA_indiv ), &
-!              individual_SSE(i_GA_indiv)
-!
-!flush(6)
+write(6,'(A,3(1x,I6), 1x, E15.7)') &
+      'setrf: myid, i_GA_indiv, individual_quality, individual_SSE', &
+              myid, i_GA_indiv, &
+              individual_quality( i_GA_indiv ), &
+              individual_SSE(i_GA_indiv)
+
+flush(6)
 
 
 return

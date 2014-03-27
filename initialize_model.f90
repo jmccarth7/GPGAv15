@@ -191,35 +191,33 @@ btmp(1:n_code_equations) = 0.0D0
 
 !-------------------------------------------------------------------------------
 
-if( buildTrees ) then
 
-    !if( myid == 0 )then
-    !    write(6,'(//A)') 'inmod: call Build_Trees  '
-    !endif ! myid == 0
+!if( myid == 0 )then
+!    write(6,'(//A)') 'inmod: call Build_Trees  '
+!endif ! myid == 0
 
-    !if( L_myprint  .and. myid == 1 )then
-    !    write(myprint_unit,'(//A)') 'inmod: call Build_Trees  '
-    !endif ! L_myprint  .and. myid == 1
-
+!if( L_myprint  .and. myid == 1 )then
+!    write(myprint_unit,'(//A)') 'inmod: call Build_Trees  '
+!endif ! L_myprint  .and. myid == 1
 
 
-    call Build_Trees( GP_Trees(:, 1)   )
+
+call Build_Trees( GP_Trees(:, 1) ,  buildTrees )
 
 
-    !if( myid == 0 )then
-    !    write(6,'(A//)') 'inmod: aft call Build_Trees  '
-    !endif ! myid == 0
+!if( myid == 0 )then
+!    write(6,'(A//)') 'inmod: aft call Build_Trees  '
+!endif ! myid == 0
 
-    !if( L_myprint  .and. myid == 1 )then
-    !    write(myprint_unit,'(A//)') 'inmod: aft call Build_Trees  '
-    !endif ! L_myprint  .and. myid == 1
+!if( L_myprint  .and. myid == 1 )then
+!    write(myprint_unit,'(A//)') 'inmod: aft call Build_Trees  '
+!endif ! L_myprint  .and. myid == 1
 
-else
 
-    !call Deserialize_Trees( GP_Trees(:,:,:), &
-    !                        n_Trees, n_Tracked_Resources, output_dir )
 
-endif ! buildTrees
+!call Deserialize_Trees( GP_Trees(:,:,:), &
+!                        n_Trees, n_Tracked_Resources, output_dir )
+
 
 !-------------------------------------------------------------------------------
 
@@ -254,6 +252,8 @@ thour=mod(((i_Time_Step+time_step_fraction)* dt *24),24.D+0) ! time of day in ho
 dayn=(i_Time_Step+time_step_fraction)* dt ! day number
 day=mod(dayn,365.D+0) ! year day [0.D+0 to 365.D+0]
 
+write(6,'(A,1x,I6,1x,E15.7)') 'dof: i_time_step, dt ', i_time_step, dt
+
 call mldforce(day, h, aMLD)
 
 call JQforce(b_tmp_local, day, aMLD, aJ)
@@ -264,10 +264,15 @@ else
     hplus=0.D+0
 endif
 
-Numerical_CODE_Forcing_Functions(abs(5000 + FORCING_MLD_CHANGE_MOTILE)) = h
-Numerical_CODE_Forcing_Functions(abs(5000 + FORCING_MLD_CHANGE_NON_MOTILE)) = hplus
-Numerical_CODE_Forcing_Functions(abs(5000 + FORCING_MIXED_LAYER_DEPTH)) = aMLD
+Numerical_CODE_Forcing_Functions(abs(5000 + FORCING_MLD_CHANGE_MOTILE))         = h
+Numerical_CODE_Forcing_Functions(abs(5000 + FORCING_MLD_CHANGE_NON_MOTILE))     = hplus
+Numerical_CODE_Forcing_Functions(abs(5000 + FORCING_MIXED_LAYER_DEPTH))         = aMLD
 Numerical_CODE_Forcing_Functions(abs(5000 + FORCING_LIGHT_LIMITED_GROWTH_RATE)) = aJ
+
+write(6,'(A,1x,I6,4(1x,E15.7))') 'dof: i_time_step, h, hplus, aMLD, aJ ', &
+                                       i_time_step, h, hplus, aMLD, aJ 
+
+return
 
 end subroutine
 

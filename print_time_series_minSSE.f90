@@ -85,11 +85,11 @@ GP_individual_Initial_Conditions = GP_minSSE_Individual_Initial_Conditions
 GP_Individual_Node_Parameters    = GP_minSSE_Individual_Node_Parameters
 GP_Individual_Node_Type          = GP_minSSE_Individual_Node_Type
 
-Runge_Kutta_Node_Type        = GP_minSSE_Individual_Node_Type
-Runge_Kutta_Node_Parameters  = GP_minSSE_Individual_Node_Parameters
+!Runge_Kutta_Node_Type        = GP_minSSE_Individual_Node_Type
+!Runge_Kutta_Node_Parameters  = GP_minSSE_Individual_Node_Parameters
 
 Numerical_CODE_Solution(0,1:n_CODE_equations)         = GP_minSSE_individual_Initial_Conditions
-Runge_Kutta_Solution(0,1:n_CODE_equations)            = GP_minSSE_individual_Initial_Conditions
+!Runge_Kutta_Solution(0,1:n_CODE_equations)            = GP_minSSE_individual_Initial_Conditions
 Numerical_CODE_Initial_Conditions(1:n_CODE_equations) = GP_minSSE_individual_Initial_Conditions
 
 

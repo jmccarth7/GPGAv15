@@ -101,12 +101,12 @@ do  i_GP_individual = n_indiv_start, n_indiv_stop
 
     if( n_indiv_stop - n_indiv_start > 0 )then
 
-        write(GP_print_unit,'(/A/A,2(1x,I6))') &
+        write(GP_print_unit,'(/A/A,2(1x,I6)/)') &
           '============================================================================', &
           'pt: i_generation, i_GP_indiv ', i_gen, i_GP_individual
     else
 
-        write(GP_print_unit,'(/A,2(1x,I6))') &
+        write(GP_print_unit,'(/A,2(1x,I6)/)') &
           'pt: i_generation, i_GP_indiv ', i_gen, i_GP_individual
 
     endif !  n_indiv_stop - n_indiv_start > 1
@@ -158,7 +158,7 @@ do  i_GP_individual = n_indiv_start, n_indiv_stop
         else  ! n_nodes > node_boundary
 
 
-              write(GP_print_unit,'(A,1x,I6/)' )  'pt: i_tree ', i_tree
+              write(GP_print_unit,'(/A,1x,I6)' )  'pt: i_tree ', i_tree
               !chunksize = 20
               !ichunk = 1
               !do  

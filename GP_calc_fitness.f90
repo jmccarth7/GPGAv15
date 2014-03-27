@@ -387,7 +387,7 @@ do  i_CODE_equation=1,n_CODE_equations
 
     write(GP_print_unit,'(6x,I6,7x, E20.10, 10x, E20.10)') &
           i_CODE_equation, &
-          Runge_Kutta_Initial_Conditions(i_CODE_equation),  &
+          Numerical_CODE_Initial_Conditions(i_CODE_equation),  &
           GP_Population_Initial_Conditions( i_CODE_equation, i_GP_Best_Parent )
 
     output_array( i_CODE_equation ) = &

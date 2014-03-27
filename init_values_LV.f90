@@ -146,11 +146,11 @@ enddo ! i_tree
 ! Initial Conditions
 
 if( LV_model1 )then
-    Runge_Kutta_Initial_Conditions(1) = 30.0D+0  ! [prey]         [mmol N m-3]
-    Runge_Kutta_Initial_Conditions(2) = 2.0D+0   ! [predator]     [mmol N m-3]
+    Numerical_CODE_Initial_Conditions(1) = 30.0D+0  ! [prey]         [mmol N m-3]
+    Numerical_CODE_Initial_Conditions(2) = 2.0D+0   ! [predator]     [mmol N m-3]
 else
-    Runge_Kutta_Initial_Conditions(1) = 19.66561d0   ! 30.0D+0  ! [prey]         [mmol N m-3]
-    Runge_Kutta_Initial_Conditions(2) = 0.3960451d0  ! 2.0D+0   ! [predator]     [mmol N m-3]
+    Numerical_CODE_Initial_Conditions(1) = 19.66561d0   ! 30.0D+0  ! [prey]         [mmol N m-3]
+    Numerical_CODE_Initial_Conditions(2) = 0.3960451d0  ! 2.0D+0   ! [predator]     [mmol N m-3]
 endif  ! LV_model1
 
 
@@ -268,8 +268,8 @@ if( myid == 0 )then
     write(GP_print_unit,'(A,1x,I6, 4x,L1)') 'ivLV: myid, LV_model1 ', &
                                                    myid, LV_model1
     write(GP_print_unit,'(A,1x,I6, 2(1x,F10.2))') &
-          'ivLV: myid, Runge_Kutta_Initial_Conditions(1:2) ', &
-                 myid, Runge_Kutta_Initial_Conditions(1:2)
+          'ivLV: myid, Numerical_CODE_Initial_Conditions(1:2) ', &
+                 myid, Numerical_CODE_Initial_Conditions(1:2)
     write(GP_print_unit,'(A,2(1x,I6))') &
           'ivLV: myid, GP_Individual_Node_Type(1,1)        ', &
                  myid, GP_Individual_Node_Type(1,1)

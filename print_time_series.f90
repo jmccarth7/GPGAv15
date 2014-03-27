@@ -79,11 +79,11 @@ GP_individual_Initial_Conditions = GP_Population_Initial_Conditions(:, i_GP_best
 GP_Individual_Node_Parameters    = GP_population_node_parameters(:,:,i_GP_best_parent)
 GP_Individual_Node_Type          = GP_Adult_Population_Node_Type(:,:,i_GP_best_parent)
 
-Runge_Kutta_Node_Type        = GP_Adult_Population_Node_Type(:,:,i_GP_best_parent)
-Runge_Kutta_Node_Parameters  = GP_population_node_parameters(:,:,i_GP_best_parent)
+!Runge_Kutta_Node_Type        = GP_Adult_Population_Node_Type(:,:,i_GP_best_parent)
+!Runge_Kutta_Node_Parameters  = GP_population_node_parameters(:,:,i_GP_best_parent)
 
 Numerical_CODE_Solution(0,1:n_CODE_equations)         = GP_individual_Initial_Conditions
-Runge_Kutta_Solution(0,1:n_CODE_equations)            = GP_individual_Initial_Conditions
+!Runge_Kutta_Solution(0,1:n_CODE_equations)            = GP_individual_Initial_Conditions
 Numerical_CODE_Initial_Conditions(1:n_CODE_equations) = GP_individual_Initial_Conditions
 
 

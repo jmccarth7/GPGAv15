@@ -121,10 +121,10 @@ allocate( Numerical_CODE_Forcing_Functions( n_CODE_forcing ) )
 !allocate( Numerical_CODE_Solution( 0:n_input_data_points, n_CODE_equations ) )
 allocate( Numerical_CODE_Solution( 0:n_time_steps, n_CODE_equations ) )
 
-allocate( Runge_Kutta_Solution( 0:n_time_steps, n_CODE_equations )  )
-allocate( Runge_Kutta_Node_Parameters(n_nodes,n_trees) )
-allocate( Runge_Kutta_Node_Type(n_nodes,n_trees) )
-allocate( Runge_Kutta_Initial_Conditions(n_CODE_equations) )
+!allocate( Runge_Kutta_Solution( 0:n_time_steps, n_CODE_equations )  )
+!allocate( Runge_Kutta_Node_Parameters(n_nodes,n_trees) )
+!allocate( Runge_Kutta_Node_Type(n_nodes,n_trees) )
+!allocate( Runge_Kutta_Initial_Conditions(n_CODE_equations) )
 
 allocate( RK_Solution( 0:n_time_steps, n_CODE_equations )  )
 allocate( RK_Node_Parameters(n_nodes,n_trees) )
@@ -237,10 +237,10 @@ Tree_Value = 0.0d0
 
 Node_Eval_Type = 0
 
-Runge_Kutta_Solution  = 0.0d0
-Runge_Kutta_Node_Parameters = 0.0d0
-Runge_Kutta_Node_Type = -9999
-Runge_Kutta_Initial_Conditions = 0.0d0
+!Runge_Kutta_Solution  = 0.0d0
+!Runge_Kutta_Node_Parameters = 0.0d0
+!Runge_Kutta_Node_Type = -9999
+!Runge_Kutta_Initial_Conditions = 0.0d0
 
 RK_Solution  = 0.0d0
 RK_Node_Parameters = 0.0d0

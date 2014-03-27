@@ -212,9 +212,9 @@ endif ! myid == 0
 
 
 
-Runge_Kutta_Initial_Conditions( iNO3 )   = 1.6D0   ! [NO3]            [mmol N m-3]
-Runge_Kutta_Initial_Conditions( iphyto ) = 0.3D0   ! [Phytoplankton]  [mmol N m-3]
-Runge_Kutta_Initial_Conditions( izoo )   = 0.1D0   ! [Zooplankton]    [mmol N m-3]
+Numerical_CODE_Initial_Conditions( iNO3 )   = 1.6D0   ! [NO3]            [mmol N m-3]
+Numerical_CODE_Initial_Conditions( iphyto ) = 0.3D0   ! [Phytoplankton]  [mmol N m-3]
+Numerical_CODE_Initial_Conditions( izoo )   = 0.1D0   ! [Zooplankton]    [mmol N m-3]
 
 
 
