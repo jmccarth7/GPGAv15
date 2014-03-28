@@ -122,6 +122,8 @@ do  i_GP_individual = n_indiv_start, n_indiv_stop
         !write(GP_print_unit,'(I6,4x,20(1x,I2))' ) &
         !     i_tree, Tree_Type( 1:n_nodes, i_tree,i_GP_individual)
 
+        if( .not. any( Tree_Type > -9999 )  ) cycle 
+
         if( n_nodes < node_boundary ) then
 
             tree_type_string = '  '

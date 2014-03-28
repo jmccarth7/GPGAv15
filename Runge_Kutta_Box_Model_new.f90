@@ -166,10 +166,10 @@ do  i_Time_Step = 1, n_Time_Steps
         !write(GA_print_unit,'(/A,1x,I6,3(1x,E15.7)/)') 'rkbm: iter, btmp(1:n_eqs)' , &
         !                                                      iter, btmp(1:n_code_equations)
 
-    write(GA_print_unit,'(/A,1x,I6,3(1x,E15.7)/)') &
+    write(GA_print_unit,'(/A,1x,I6,10(1x,E15.7)/)') &
           'rkbm: i_time_step, b_tmp(1:n_eqs)' , &
                  i_time_step, b_tmp(1:n_code_equations)
-    write(6,'(/A,1x,I6,3(1x,E15.7)/)') &
+    write(6,'(/A,1x,I6,10(1x,E15.7)/)') &
           'rkbm: i_time_step, b_tmp(1:n_eqs)' , &
                  i_time_step, b_tmp(1:n_code_equations)
 
@@ -190,13 +190,14 @@ do  i_Time_Step = 1, n_Time_Steps
 
         !if( myid == 0 )then
         if( L_ga_print )then
-            write(GA_print_unit,'(//A,2(1x,I6)/)') 'rkbm: i_time_step, iter ', &
-                                                          i_time_step, iter
+            write(GA_print_unit,'(A,2(1x,I6))') 'rkbm: i_time_step, iter ', &
+                                                       i_time_step, iter
         endif ! L_ga_print
         !endif ! myid == 0
-        write(6,'(//A,2(1x,I6)/)') 'rkbm: i_time_step, iter ', &
-                                          i_time_step, iter
+        write(6,'(A,2(1x,I6))') 'rkbm: i_time_step, iter ', &
+                                       i_time_step, iter
 
+        !--------------------------------------------------------------------------
         ! Call forcing functions for the box model
 
         !write(6,'(/A)') 'rkbm: call DoForcing'
@@ -204,6 +205,7 @@ do  i_Time_Step = 1, n_Time_Steps
         !call DoForcing( btmp, Runge_Kutta_Time_Step(iter), i_Time_Step )
 
         !write(6,'(A/)') 'rkbm: aft call DoForcing'
+        !--------------------------------------------------------------------------
 
         fbio = 0.0D+0
 
@@ -562,10 +564,10 @@ do  i_Time_Step = 1, n_Time_Steps
 
     !if( myid == 0 )then
     if( L_ga_print )then 
-        write(GA_print_unit,'(/A,1x,I6,1x,7(1x,E15.7)/)') 'rkbm: i_time_step, solution ', &
+        write(GA_print_unit,'(/A,1x,I6,1x,10(1x,E15.7)/)') 'rkbm: i_time_step, solution ', &
                       i_Time_Step, Numerical_CODE_Solution(i_Time_Step,1:n_Variables)
     endif ! L_ga_print
-         write(6,'(/A,1x,I6,1x,7(1x,E15.7)/)') 'rkbm: i_time_step, solution ', &
+         write(6,'(/A,1x,I6,1x,10(1x,E15.7)/)') 'rkbm: i_time_step, solution ', &
                          i_Time_Step, Numerical_CODE_Solution(i_Time_Step,1:n_Variables)
     !endif ! myid == 0
 
