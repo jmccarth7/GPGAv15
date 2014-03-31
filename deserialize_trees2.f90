@@ -108,6 +108,7 @@ type(Tree_Node), pointer :: parent, root
 
 do i = 1, Tree_count
 
+
     !if( myid == temp_myid )then
 
         write(6,'(/A,1x,I6,1x,A)')  'DsT2: Tree  i = ', i, &
@@ -293,12 +294,6 @@ do i = 1, Tree_count
         !endif !  myid == temp_myid
 
 
-
-        if( i == 35 ) then            ! debug only
-            call mpi_finalize(ierr)   ! debug only
-            stop                      ! debug only
-        endif                         ! debug only
-
         ! At this point, we have a collection of nodes, but there are:
 
         !   1) No associations between Math nodes and their children
@@ -308,6 +303,7 @@ do i = 1, Tree_count
         ! Make the above two associations
 
         write(6, '(//A,2(1x,I6)/)')  'DsT2: k loop i, node_count  ', i, node_count
+        flush(6)
 
         do  k = 1, node_count
 
@@ -380,18 +376,17 @@ do i = 1, Tree_count
 
                 if( Nodes(k)%n%variable_index < -5000) then
 
-                    !if( i <= 32 )then
-                    !    Nodes(k)%n%variable => &
-                    !     Numerical_CODE_Forcing_Functions( &
-                    !                  abs( 5000 + Nodes(k)%n%variable_index )  )
-                    !endif ! i <= 32 
 
-                    !write(6,'(A,1x,E15.7)') &
-                    ! 'DsT2: Numerical_CODE_Forcing_Functions(abs(5000+Nodes(k)%n%variable_index)) ',&
-                    !        Numerical_CODE_Forcing_Functions(abs(5000+Nodes(k)%n%variable_index))
                     write(6,'(A,2(1x,I6))') &
                      'DsT2: k, abs(5000+Nodes(k)%n%variable_index) ',&
                             k, abs(5000+Nodes(k)%n%variable_index)
+                    write(6,'(A,1x,E15.7)') &
+                     'DsT2: Numerical_CODE_Forcing_Functions(abs(5000+Nodes(k)%n%variable_index)) ',&
+                            Numerical_CODE_Forcing_Functions(abs(5000+Nodes(k)%n%variable_index))
+
+                    Nodes(k)%n%variable =>  &
+                           Numerical_CODE_Forcing_Functions(abs(5000+Nodes(k)%n%variable_index))
+
                     flush(6)
 
                 else

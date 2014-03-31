@@ -94,6 +94,9 @@ deallocate( RK_Node_Parameters )
 deallocate( RK_Initial_Conditions )
 deallocate( RK_Solution )
 
+if( n_input_vars > 0 )then     
+    deallocate( RK_data_array ) 
+endif 
 
 deallocate( Node_Values )
 deallocate( Tree_Evaluation )
