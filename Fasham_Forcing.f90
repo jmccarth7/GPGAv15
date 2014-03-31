@@ -13,8 +13,11 @@ use GP_variables_module
 
     real (kind=8), intent(in) :: species(n_CODE_Equations), day, aMLD
     real (kind=8), intent(out) :: aJ
-    real (kind=8) :: daym(14),coktas(14),pi
-    real (kind=8), parameter :: solar=1353.D+0 ! the solar max is from Brock, 1981
+    real (kind=8) :: daym(14),coktas(14)
+
+    real (kind=8),parameter :: solar=1353.D+0 ! the solar max is from Brock, 1981
+    real (kind=8),parameter :: pi = 3.141592653589793D0
+
     integer (kind=4) :: iz,i
 
     ! Copy phytoplankton to
@@ -26,20 +29,28 @@ use GP_variables_module
     ! OWS Papa CLOUD CLIMATOLOGY
     !offdata coktas /6.29D+0,6.26D+0,6.31D+0,6.31D+0,6.32D+0,6.70D+0,&
     !           7.12D+0,7.26D+0,6.93D+0,6.25D+0,6.19D+0,6.23D+0,6.31D+0,6.29D+0/
+
     ! BATS CLOUD CLIMATOLOGY
     data coktas /4.00D+0,4.00D+0,4.00D+0,4.00D+0,4.00D+0,4.00D+0,4.00D+0,&
                  4.00D+0,4.00D+0,4.00D+0,4.00D+0,4.00D+0,4.00D+0,4.00D+0/
+
     ! BATS COADS CLOUD CLIMATOLOGY
     !off data coktas /5.25D+0,5.36D+0,5.38D+0,5.18D+0,4.84D+0,4.65D+0,&
     !                 4.58D+0,3.87D+0,3.81D+0,4.15D+0,4.70D+0,4.81D+0,5.14D+0,5.25D+0/
 
-    !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-    pi=acos(-1.D+0)
+
+    !---------------------------------------------------------------------------------
+
+    !pi=acos(-1.D+0)
 
     dec=-0.406D+0*cos(2.D+0*pi*day/365.D+0) ! in radians and from Evans and Parlsow, 1985
     alatr=alatd*2.D+0*pi/360.D+0
-!   correction of solar constant due to the ellipse if the earth orbit
-    enot=1.D+0+(0.033D+0*cos(2.D+0*pi*day/365.D+0))              ! E_0 from [Duffie and Beckman, 1980]
+
+
+!   correction of solar constant due to the ellipticity of the earth orbit
+
+    enot=1.D+0+(0.033D+0*cos(2.D+0*pi*day/365.D+0))   ! E_0 from [Duffie and Beckman, 1980]
+
 
     th=(abs(thour-12.D+0)*15.D+0)*(2.D+0*pi/360.D+0)     ! hour angle [15.D+0 ==> degrees per hour]
     cosz=((sin(dec)*sin(alatr))+(cos(dec)*cos(alatr)*cos(th)))
@@ -54,7 +65,9 @@ use GP_variables_module
         oktas=coktas(i)+(ratio*(coktas(i+1)-coktas(i)))
       endif
     enddo
+
     cloud=oktas/8.D+0
+
 !   cloud corr from Smith and Dobson, [Ecological Modeling, 14, 1-19, 1981]
     if (zenith .le. 1.55D+0) then
       cloudy=0.0375D+0+(cosz*exp(-0.24D+0/cosz)*((cloud*exp(-0.07D+0/cosz))+1.D+0-cloud))
@@ -70,6 +83,7 @@ use GP_variables_module
     endif
 
 !   calculate aJ by integrating (simple trapezoidal) PvsI terms over the aMLD
+
     aJ=0.D+0
     if (par0 .gt. 0.D+0) then
       delz=aMLD/100.D+0
@@ -89,9 +103,13 @@ use GP_variables_module
 
 end subroutine JQforce
 
+
+
 subroutine mldforce(day, h, aMLD)
-    ! subroutine to determine the aMLD and h(t) terms
-    !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+! subroutine to determine the aMLD and h(t) terms
+!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 use fasham_variables_module
 use GP_variables_module
@@ -103,9 +121,6 @@ use GP_variables_module
     integer (kind=4), parameter :: n=14
     real (kind=8) :: daym(14),cmld(14)
     integer (kind=4) nloop,iloop,i
-
-
-    !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
     data daym /0.D+0,16.D+0,46.D+0,75.D+0,105.D+0,136.D+0,&
                166.D+0,197.D+0,228.D+0,258.D+0,289.D+0,319.D+0,350.D+0,365.D+0/
@@ -141,6 +156,9 @@ use GP_variables_module
         aMLD=cmld(i)+(ratio*(cmld(i+1)-cmld(i)))
       endif
     enddo
+
     !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
     return
+
 end subroutine mldforce

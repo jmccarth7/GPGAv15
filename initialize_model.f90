@@ -252,7 +252,8 @@ thour=mod(((i_Time_Step+time_step_fraction)* dt *24),24.D+0) ! time of day in ho
 dayn=(i_Time_Step+time_step_fraction)* dt ! day number
 day=mod(dayn,365.D+0) ! year day [0.D+0 to 365.D+0]
 
-write(6,'(A,1x,I6,1x,E15.7)') 'dof: i_time_step, dt ', i_time_step, dt
+write(6,'(A,1x,I6,4(1x,E15.7))') 'dof: i_time_step, dt, date, thour, day ', &
+                                       i_time_step, dt, date, thour, day
 
 call mldforce(day, h, aMLD)
 

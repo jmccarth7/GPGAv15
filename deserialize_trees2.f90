@@ -110,7 +110,7 @@ do i = 1, Tree_count
 
     !if( myid == temp_myid )then
 
-        write(6,'(//A,1x,I6,1x,A/)')  'DsT2: Tree  i = ', i, &
+        write(6,'(/A,1x,I6,1x,A)')  'DsT2: Tree  i = ', i, &
         '#########################################################################'
         flush(6)
 
@@ -294,6 +294,11 @@ do i = 1, Tree_count
 
 
 
+        if( i == 35 ) then            ! debug only
+            call mpi_finalize(ierr)   ! debug only
+            stop                      ! debug only
+        endif                         ! debug only
+
         ! At this point, we have a collection of nodes, but there are:
 
         !   1) No associations between Math nodes and their children
@@ -302,7 +307,7 @@ do i = 1, Tree_count
 
         ! Make the above two associations
 
-        !write(6, '(//A/)')  'DsT2: k loop  '
+        write(6, '(//A,2(1x,I6)/)')  'DsT2: k loop i, node_count  ', i, node_count
 
         do  k = 1, node_count
 
@@ -366,22 +371,27 @@ do i = 1, Tree_count
                 ! this is a forcing function variable.
                 ! Associate it with the correct array
 
-                !write(6,'(/A,3(1x,I6))') &
-                !      'DsT2: i, k, VariableNodeType         ', i, k, VariableNodeType
-                !write(6,'(A,3(1x,I6))')  &
-                !      'DsT2: i, k, Nodes(k)%n%variable_index', &
-                !             i, k, Nodes(k)%n%variable_index
+                write(6,'(/A,3(1x,I6))') &
+                      'DsT2: i, k, VariableNodeType         ', i, k, VariableNodeType
+                write(6,'(A,3(1x,I6))')  &
+                      'DsT2: i, k, Nodes(k)%n%variable_index', &
+                             i, k, Nodes(k)%n%variable_index
 
 
                 if( Nodes(k)%n%variable_index < -5000) then
 
-                    Nodes(k)%n%variable => &
-                     Numerical_CODE_Forcing_Functions( &
-                                  abs( 5000 + Nodes(k)%n%variable_index )  )
+                    !if( i <= 32 )then
+                    !    Nodes(k)%n%variable => &
+                    !     Numerical_CODE_Forcing_Functions( &
+                    !                  abs( 5000 + Nodes(k)%n%variable_index )  )
+                    !endif ! i <= 32 
 
-                    write(6,'(A,1x,E15.7)') &
-                     'DsT2: Numerical_CODE_Forcing_Functions(abs(5000+Nodes(k)%n%variable_index)) ',&
-                            Numerical_CODE_Forcing_Functions(abs(5000+Nodes(k)%n%variable_index))
+                    !write(6,'(A,1x,E15.7)') &
+                    ! 'DsT2: Numerical_CODE_Forcing_Functions(abs(5000+Nodes(k)%n%variable_index)) ',&
+                    !        Numerical_CODE_Forcing_Functions(abs(5000+Nodes(k)%n%variable_index))
+                    write(6,'(A,2(1x,I6))') &
+                     'DsT2: k, abs(5000+Nodes(k)%n%variable_index) ',&
+                            k, abs(5000+Nodes(k)%n%variable_index)
                     flush(6)
 
                 else
@@ -399,16 +409,17 @@ do i = 1, Tree_count
                         'DsT2: i, k, btmp(  abs( Nodes(k)%n%variable_index )  ) ', &
                                i, k, btmp(  abs( Nodes(k)%n%variable_index )  )
                         flush(6)
+
                     else
 
                                                     ! n_code_equations = 1 only
-                        Nodes(k)%n%variable =>  &
-                             RK_data_array( &
-                                   abs( Nodes(k)%n%variable_index ) - n_code_equations )
+                        !Nodes(k)%n%variable =>  &
+                        !     RK_data_array( &
+                        !           abs( Nodes(k)%n%variable_index ) - n_code_equations )
 
                         write(6,'(A,3(1x,I6))') &
-                        'DsT2: i, k, abs( Nodes(k)%n%variable_index ) -1', &
-                               i, k, abs( Nodes(k)%n%variable_index ) -1
+                        'DsT2: i, k, abs( Nodes(k)%n%variable_index ) - n_code_equations !!! ', &
+                               i, k, abs( Nodes(k)%n%variable_index ) - n_code_equations
 
                         flush(6)
 
@@ -423,12 +434,12 @@ do i = 1, Tree_count
                 endif ! Nodes(k)%n%variable_index < -5000
 
 
-            elseif( Nodes(k)%n%Node_Type .eq. ParameterNodeType) then
+            elseif( Nodes(k)%n%Node_Type .eq. ParameterNodeType ) then
 
                 write(6,'(/A,3(1x,I6))') &
-                'DsT2: i, k, ParameterNodeType    ', i, k, ParameterNodeType
+                'DsT2: i, k, ParameterNodeType   ', i, k, ParameterNodeType
                 write(6,'(A,3(1x,I6))') &
-                'DsT2: i, k, Nodes(k)%n%Node_Type ', i, k, Nodes(k)%n%Node_Type
+                'DsT2: i, k, Nodes(k)%n%Node_Type', i, k, Nodes(k)%n%Node_Type
 
                 flush(6)
 
@@ -436,6 +447,8 @@ do i = 1, Tree_count
 
         enddo ! k
 
+        write(6,'(A,2(1x,I6))') &
+            'DsT2: after k loop i = ', i
 
         ! Finally, compute the node count for each node and
         ! assign the root node to the position in the Tree matrix
@@ -449,7 +462,7 @@ do i = 1, Tree_count
             'DsT2: i, root%node_count ', i, root%node_count
         !endif !  myid == temp_myid
 
-            flush(6)
+        flush(6)
 
 
         ! Clean up

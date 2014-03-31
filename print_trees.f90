@@ -53,6 +53,7 @@ integer(kind=4) :: i_Tree
 integer(kind=4) :: i_node
 integer(kind=4) :: i_gen
 integer(kind=4) :: i
+integer(kind=4) :: jj
 
 integer(kind=4) :: nodes_filled
 integer(kind=4) :: isub1         
@@ -87,6 +88,7 @@ endif ! n_nodes < node_boundary
 
 !-----------------------------------------------
 
+write(6,'(/A,2(1x,I6)/)' ) 'pt: n_nodes ', n_nodes
 
 ! print trees
 
@@ -94,8 +96,8 @@ write(GP_print_unit,'(/A)')  &
  'pt: ############################################################################'
 if( len( trim(tree_descrip) ) > 0 )write(GP_print_unit,'(A)')  tree_descrip
 
-!write(GP_print_unit,'(A,2(1x,I6))' ) &
-!     'pt: n_indiv_start, n_indiv_stop ', n_indiv_start, n_indiv_stop
+write(6,'(A,2(1x,I6))' ) &
+     'pt: n_indiv_start, n_indiv_stop ', n_indiv_start, n_indiv_stop  ! debug
 
 do  i_GP_individual = n_indiv_start, n_indiv_stop
 
@@ -111,16 +113,20 @@ do  i_GP_individual = n_indiv_start, n_indiv_stop
 
     endif !  n_indiv_stop - n_indiv_start > 1
 
+
     if( n_nodes < node_boundary ) then
         write(GP_print_unit,'(A)') 'pt: i_tree                    nodes '
         write(GP_print_unit,'(10x,A)') trim( tree_node_string )
     endif ! n_nodes < node_boundary 
 
 
+    write(6,'(/A,2(1x,I6)/)') &
+          'pt: begin tree loop n_trees = ', n_trees   ! debug
+
     do  i_Tree=1,n_Trees
 
-        !write(GP_print_unit,'(I6,4x,20(1x,I2))' ) &
-        !     i_tree, Tree_Type( 1:n_nodes, i_tree,i_GP_individual)
+        !write(6,'(I6,4x,20(1x,I2))' ) &
+        !     i_tree, Tree_Type( 1:n_nodes, i_tree,i_GP_individual)  ! debug
 
         if( .not. any( Tree_Type > -9999 )  ) cycle 
 
@@ -129,9 +135,9 @@ do  i_GP_individual = n_indiv_start, n_indiv_stop
             tree_type_string = '  '
             do  i_node = 1, n_nodes
     
-                !write(GP_print_unit,'(A,3(1x,I6))' ) &
-                !     'pt: i_tree, i_node, Tree_Type( i_node, i_tree,i_GP_individual ) ', &
-                !          i_tree, i_node, Tree_Type( i_node, i_tree,i_GP_individual )
+                write(6,'(A,3(1x,I6))' ) &
+                     'pt: i_tree, i_node, Tree_Type( i_node, i_tree,i_GP_individual ) ', &
+                          i_tree, i_node, Tree_Type( i_node, i_tree,i_GP_individual )  ! debug
     
                 if( Tree_Type( i_node, i_tree, i_GP_individual) == -9999 )then
                     tree_type_string(i_node)  = ' .'
@@ -140,15 +146,15 @@ do  i_GP_individual = n_indiv_start, n_indiv_stop
                           tree_type( i_node, i_tree, i_GP_individual )
                 endif ! tree_type(...-9999
     
-                !write(GP_print_unit,'(A,2(1x,I6), 1x, A)' ) &
-                !     'pt: i_tree, i_node, Tree_Type_string( i_node ) ', &
-                !          i_tree, i_node, Tree_Type_string( i_node )
+                write(6,'(A,2(1x,I6), 1x, A)' ) &
+                     'pt: i_tree, i_node, Tree_Type_string( i_node ) ', &
+                          i_tree, i_node, Tree_Type_string( i_node )  ! debug
     
             enddo ! i_node
     
     
-            !write(GP_print_unit,'(I6,4x,20(1x,I5))' ) &
-            !     i_tree, ( Tree_Type(jj, i_tree,i_GP_individual), jj = 1, n_nodes )
+            write(6,'(I6,4x,20(1x,I5))' ) &
+                 i_tree, ( Tree_Type(jj, i_tree,i_GP_individual), jj = 1, n_nodes )  ! debug
     
 
             !write(GP_print_unit,'(I6,4x,50(1x,A))' ) &
@@ -160,64 +166,51 @@ do  i_GP_individual = n_indiv_start, n_indiv_stop
         else  ! n_nodes > node_boundary
 
 
-              write(GP_print_unit,'(/A,1x,I6)' )  'pt: i_tree ', i_tree
-              !chunksize = 20
-              !ichunk = 1
-              !do  
-              !    node1 = 1 + chunksize * ( ichunk - 1 )
-              !    node2 =     chunksize *   ichunk
-                  
-              !    if( node1 > n_nodes ) exit 
-              !    if( node2 > n_nodes ) node2 = n_nodes
+            write(GP_print_unit,'(/A,1x,I6)' )  'pt: i_tree ', i_tree
 
-                  node_string = ''
-                  value_string = ''
+            node_string = ''
+            value_string = ''
 
-                  nodes_filled = 0
-                  do  i_node = 1, n_nodes
+            nodes_filled = 0
+            do  i_node = 1, n_nodes
 
-                      if( Tree_Type( i_node, i_tree, i_GP_individual) > -9999 ) then
+                if( Tree_Type( i_node, i_tree, i_GP_individual) > -9999 ) then
 
-                          !write(node_element_string2, '(I7)') i_node
-                          !write(value_element_string2, '(I7)') &
+                    !write(node_element_string2, '(I7)') i_node
+                    !write(value_element_string2, '(I7)') &
 
-                          write( node_element_string2, element_format ) i_node
-                          write( value_element_string2, element_format ) &
-                                       Tree_Type( i_node, i_tree, i_GP_individual)
+                    write( node_element_string2, element_format ) i_node
+                    write( value_element_string2, element_format ) &
+                                  Tree_Type( i_node, i_tree, i_GP_individual)
 
-                          node_string  = trim(node_string) // node_element_string2
-                          value_string = trim(value_string) // value_element_string2
-                          nodes_filled =  nodes_filled + 1
+                    node_string  = trim(node_string) // node_element_string2
+                    value_string = trim(value_string) // value_element_string2
+                    nodes_filled =  nodes_filled + 1
 
-                      endif ! Tree_Type( i_node, i_tree, i_GP_individual) > -9999
+                endif ! Tree_Type( i_node, i_tree, i_GP_individual) > -9999
 
-                  enddo ! i_node 
+            enddo ! i_node 
 
-                  !write(GP_print_unit,'(/A, 1x,I6/)')  'pt; nodes_filled ', nodes_filled
+            write(6,'(/A, 2(1x,I6)/)')  'pt; i_tree, nodes_filled ', i_tree, nodes_filled  ! debug
 
-                  if( nodes_filled > 0 ) then 
-                      do  i = 1, nodes_filled/nodes_on_line + 1
-                          !write(GP_print_unit,'(A, 1x,I6 )')  'pt; i ', i
+            if( nodes_filled > 0 ) then 
+                do  i = 1, nodes_filled/nodes_on_line + 1
+                    !write(GP_print_unit,'(A, 1x,I6 )')  'pt; i ', i
 
-                          !isub1 = 1 + (i-1) * 7 * nodes_on_line
-                          !isub2 =         i * 7 * nodes_on_line
-                          isub1 = 1 + (i-1) * element_length * nodes_on_line
-                          isub2 =         i * element_length * nodes_on_line
+                    !isub1 = 1 + (i-1) * 7 * nodes_on_line
+                    !isub2 =         i * 7 * nodes_on_line
+                    isub1 = 1 + (i-1) * element_length * nodes_on_line
+                    isub2 =         i * element_length * nodes_on_line
 
-                          if( nodes_filled - (i-1)*nodes_on_line > 0 )then
-                              write(GP_print_unit,'(A, A      )') &
-                                      'node: ', trim( node_string( isub1: isub2    ) )
-                              write(GP_print_unit,'(A, A     /)') &
-                                      'value:', trim( value_string( isub1: isub2   ) )
-                          endif ! nodes_filled - (i-1)*nodes_on_line > 0 
-                      enddo 
-                  endif ! nodes_filled > 0 
+                    if( nodes_filled - (i-1)*nodes_on_line > 0 )then
+                        write(GP_print_unit,'(A, A      )') &
+                                  'node: ', trim( node_string( isub1: isub2    ) )
+                        write(GP_print_unit,'(A, A     /)') &
+                                  'value:', trim( value_string( isub1: isub2   ) )
+                    endif ! nodes_filled - (i-1)*nodes_on_line > 0 
+                enddo 
+            endif ! nodes_filled > 0 
 
-                  !ichunk = ichunk + 1
-                  !if( node2 >= n_nodes ) exit
-
-              !enddo ! ichunk
-                
 
         endif ! n_nodes < node_boundary
 
@@ -232,8 +225,8 @@ do  i_GP_individual = n_indiv_start, n_indiv_stop
 
     if( L_print_equations )then
 
-        write(GP_print_unit,'(/A/)' ) &
-                 'pt: call create_equations '
+        write(6,'(/A/)' ) &
+                 'pt: call create_equations '  ! debug
 
         call create_equations( i_gen, i_GP_individual, tree_type )
     endif ! L_print_equations
