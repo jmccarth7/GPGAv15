@@ -23,9 +23,9 @@ integer, intent(in)  ::  myprint_unit
 
 !---------------------------------------------------------------------------------------------------
 
-if( myid == 0 )then
-    write(6,'(/A/)') 'inmod: entry  Initialize_Model '
-endif ! myid == 0
+!if( myid == 0 )then
+!    write(6,'(/A/)') 'inmod: entry  Initialize_Model '
+!endif ! myid == 0
 
 !if( L_myprint  .and.  myid == 1 )then
 !    write(myprint_unit,'(/A/)') 'inmod: entry  Initialize_Model '
@@ -252,8 +252,8 @@ thour=mod(((i_Time_Step+time_step_fraction)* dt *24),24.D+0) ! time of day in ho
 dayn=(i_Time_Step+time_step_fraction)* dt ! day number
 day=mod(dayn,365.D+0) ! year day [0.D+0 to 365.D+0]
 
-write(6,'(A,1x,I6,4(1x,E15.7))') 'dof: i_time_step, dt, date, thour, day ', &
-                                       i_time_step, dt, date, thour, day
+!write(6,'(A,1x,I6,4(1x,E15.7))') 'dof: i_time_step, dt, date, thour, day ', &
+!                                       i_time_step, dt, date, thour, day
 
 call mldforce(day, h, aMLD)
 
@@ -270,8 +270,8 @@ Numerical_CODE_Forcing_Functions(abs(5000 + FORCING_MLD_CHANGE_NON_MOTILE))     
 Numerical_CODE_Forcing_Functions(abs(5000 + FORCING_MIXED_LAYER_DEPTH))         = aMLD
 Numerical_CODE_Forcing_Functions(abs(5000 + FORCING_LIGHT_LIMITED_GROWTH_RATE)) = aJ
 
-write(6,'(A,1x,I6,4(1x,E15.7))') 'dof: i_time_step, h, hplus, aMLD, aJ ', &
-                                       i_time_step, h, hplus, aMLD, aJ 
+!write(6,'(A,1x,I6,4(1x,E15.7))') 'dof: i_time_step, h, hplus, aMLD, aJ ', &
+!                                       i_time_step, h, hplus, aMLD, aJ 
 
 return
 

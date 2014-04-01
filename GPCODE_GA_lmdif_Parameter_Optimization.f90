@@ -98,23 +98,25 @@ n_parameters = n_GP_parameters
 
 
 
-!if( myid == 0 )then
-!    !if( L_ga_print )then
-!        write(GA_print_unit,'(//A)') 'GP_GA_opt: at entry  '
-!        write(GA_print_unit,'(A,1x,E24.16)') 'GP_GA_opt: dt ', dt
-!        write(GA_print_unit,'(/A,1x,I10)') &
-!              'GP_GA_opt: numprocs        =   ', numprocs
-!        write(GA_print_unit,'(A,1x,I10)') &
-!              'GP_GA_opt: n_parameters    =   ', n_parameters
-!        write(GA_print_unit,'(A,1x,I10)') &
-!              'GP_GA_opt: n_GP_parameters =   ', n_GP_parameters
-!        write(6,'(A,1x,I10)') &
-!              'GP_GA_opt: n_parameters    =   ', n_parameters
-!        write(6,'(A,1x,I10)') &
-!              'GP_GA_opt: n_GP_parameters =   ', n_GP_parameters
-!    !endif ! L_ga_print
+if( myid == 0 )then
+    !if( L_ga_print )then
+        !write(GA_print_unit,'(//A)') 'GP_GA_opt: at entry  '
+        !write(GA_print_unit,'(A,1x,E24.16)') 'GP_GA_opt: dt ', dt
+        !write(GA_print_unit,'(/A,1x,I10)') &
+        !      'GP_GA_opt: numprocs        =   ', numprocs
+        !write(GA_print_unit,'(A,1x,I10)') &
+        !      'GP_GA_opt: n_parameters    =   ', n_parameters
+        !write(GA_print_unit,'(A,1x,I10)') &
+        !      'GP_GA_opt: n_GP_parameters =   ', n_GP_parameters
+        write(6,'(//A)') 'GP_GA_opt: at entry  '
+        write(6,'(A,1x,E24.16)') 'GP_GA_opt: dt ', dt
+        write(6,'(A,1x,I10)') &
+              'GP_GA_opt: n_parameters    =   ', n_parameters
+        write(6,'(A,1x,I10)') &
+              'GP_GA_opt: n_GP_parameters =   ', n_GP_parameters
+    !endif ! L_ga_print
 !
-!endif ! myid == 0
+endif ! myid == 0
 
 
 ! jjm 20130417 >>>>>>>>>>>>>>>
@@ -181,6 +183,12 @@ if( n_time_steps .lt. n_parameters) then
     write(GA_print_unit,'(A,1x,I10)') &
           'GP_GA_opt:  n_time_steps = ', n_time_steps
     write(GA_print_unit,'(A,1x,I10)') &
+          'GP_GA_opt: n_parameters =   ', n_parameters
+    write(6,'(A)') &
+          'GP_GA_opt: ERROR: n_time_steps < n_parameters'
+    write(6,'(A,1x,I10)') &
+          'GP_GA_opt:  n_time_steps = ', n_time_steps
+    write(6,'(A,1x,I10)') &
           'GP_GA_opt: n_parameters =   ', n_parameters
     stop 'n_time < n_par'
 endif ! n_time_steps .lt. n_parameters
@@ -791,14 +799,14 @@ do  i_GA_generation = 1, n_GA_Generations
 
             if( Run_GA_lmdif(i_2_individual)) then
 
-                if( L_ga_print )then
-                    write(GA_print_unit,'(A,2(1x,I6))') &
-                      'GP_GA_opt:3 call setup_run_fcn  myid, i_2_individual', &
-                                                       myid, i_2_individual
-                endif ! L_ga_print
-                write(6,'(A,2(1x,I6))') &
-                      'GP_GA_opt:3 call setup_run_fcn  myid, i_2_individual', &
-                                                       myid, i_2_individual
+                !if( L_ga_print )then
+                !    write(GA_print_unit,'(A,2(1x,I6))') &
+                !      'GP_GA_opt:3 call setup_run_fcn  myid, i_2_individual', &
+                !                                       myid, i_2_individual
+                !endif ! L_ga_print
+                !write(6,'(A,2(1x,I6))') &
+                !      'GP_GA_opt:3 call setup_run_fcn  myid, i_2_individual', &
+                !                                       myid, i_2_individual
 
 
 
@@ -819,13 +827,14 @@ do  i_GA_generation = 1, n_GA_Generations
 
 
                 !if( L_ga_print )then
-                    !write(GA_print_unit,'(A,3(1x,I6))') &
-                    write(6,'(A,3(1x,I6))') &
-                      'GP_GA_opt:3 AFTER call setup_run_fcn myid, i_2_individual', &
-                                                            myid, i_2_individual
-                    flush(6)
-
+                !    !write(GA_print_unit,'(A,3(1x,I6))') &
+                !    write(6,'(A,3(1x,I6))') &
+                !      'GP_GA_opt:3 AFTER call setup_run_fcn myid, i_2_individual', &
+                !                                            myid, i_2_individual
+                !    flush(6)
+                !
                 !endif ! L_ga_print
+
                 !-------------------------------------------------------------------------
 
                 do  jj = 1, n_GP_parameters

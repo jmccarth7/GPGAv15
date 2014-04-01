@@ -57,11 +57,11 @@ L_GP_print = .true.
 
 tree_node_count = 0
 
-if( L_ga_print )then 
+!if( L_ga_print )then 
     write(GA_print_unit,'(/A,1x,I6/)') 'rkbm: entry Runge_Kutta_Box_Model myid = ', myid
     write(GA_print_unit,'(A,1x,I6/)')  'rkbm: n_Variables ', n_Variables
-!    !!!write(GA_print_unit,'(A,1x,I6/)')  'rkbm: tree_value modified'
-endif ! L_ga_print
+!!    !!!write(GA_print_unit,'(A,1x,I6/)')  'rkbm: tree_value modified'
+!endif ! L_ga_print
 
 write(6,'(/A,1x,I6)')  'rkbm: n_Variables     ', n_Variables
 write(6,'(A,1x,I6/)')  'rkbm: n_code_equations', n_code_equations
@@ -134,28 +134,28 @@ write(6,'(A,10(1x,E15.7)/ )') &
 !write(6,'(A,1x,E20.10/)') 'rkbm: dt', dt
 
 
-! debug >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-do  i_tree = 1, n_trees
-    do  i_node = 1, n_nodes
-        if( GP_individual_node_type(i_node, i_tree) > -9999 )then
-            write(GA_print_unit,'(A,3(1x,I4))')&
-                  'rkbm: i_tree, i_node, GP_indiv_node_type', &
-                          i_tree, i_node, GP_individual_node_type(i_node, i_tree)
-        endif !  GP_individual_node_type(i_node, i_tree) > -9999
-    enddo ! i_node
-enddo ! i_tree
-
-do  i_tree = 1, n_trees
-    do  i_node = 1, n_nodes
-        if( GP_individual_node_parameters(i_node, i_tree) > 0.0d0 )then
-            write(GA_print_unit,'(A,2(1x,I4),1x,E15.7)')&
-                  'rkbm: i_tree, i_node, GP_indiv_node_parms', &
-                          i_tree, i_node, GP_individual_node_parameters(i_node, i_tree)
-        endif !  GP_individual_node_parameters(i_node, i_tree) > 0.0d0
-    enddo ! i_node
-enddo ! i_tree
-! debug <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+!!! debug >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+!
+!do  i_tree = 1, n_trees
+!    do  i_node = 1, n_nodes
+!        if( GP_individual_node_type(i_node, i_tree) > -9999 )then
+!            write(GA_print_unit,'(A,3(1x,I4))')&
+!                  'rkbm: i_tree, i_node, GP_indiv_node_type', &
+!                          i_tree, i_node, GP_individual_node_type(i_node, i_tree)
+!        endif !  GP_individual_node_type(i_node, i_tree) > -9999
+!    enddo ! i_node
+!enddo ! i_tree
+!
+!do  i_tree = 1, n_trees
+!    do  i_node = 1, n_nodes
+!        if( GP_individual_node_parameters(i_node, i_tree) > 0.0d0 )then
+!            write(GA_print_unit,'(A,2(1x,I4),1x,E15.7)')&
+!                  'rkbm: i_tree, i_node, GP_indiv_node_parms', &
+!                          i_tree, i_node, GP_individual_node_parameters(i_node, i_tree)
+!        endif !  GP_individual_node_parameters(i_node, i_tree) > 0.0d0
+!    enddo ! i_node
+!enddo ! i_tree
+!! debug <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 flush(6)
 flush(GA_print_unit)
@@ -174,61 +174,60 @@ do  i_Time_Step = 1, n_Time_Steps
     b_tmp(:) = Numerical_CODE_Solution(i_Time_Step-1,:)  ! Array Assignment
 
 
-    write(GA_print_unit,'(/A,1x,I6,10(1x,E15.7)/)') &
-          'rkbm: i_time_step, b_tmp(1:n_eqs)' , &
-                 i_time_step, b_tmp(1:n_code_equations)
-    write(6,'(/A,1x,I6,10(1x,E15.7)/)') &
-          'rkbm: i_time_step, b_tmp(1:n_eqs)' , &
-                 i_time_step, b_tmp(1:n_code_equations)
+    !write(GA_print_unit,'(/A,1x,I6,10(1x,E15.7)/)') &
+    !      'rkbm: i_time_step, b_tmp(1:n_eqs)' , &
+    !             i_time_step, b_tmp(1:n_code_equations)
+    !write(6,'(/A,1x,I6,10(1x,E15.7)/)') &
+    !      'rkbm: i_time_step, b_tmp(1:n_eqs)' , &
+    !             i_time_step, b_tmp(1:n_code_equations)
 
-    flush(6)
-    flush(GA_print_unit)
+    !flush(6)
+    !flush(GA_print_unit)
 
     if( any( isnan( b_tmp ) ) .or.  any( abs(b_tmp)  > 1.0d20 ) ) then
         write(6,'(/A,1x,I6/)') &
              'rkbm: bad b_tmp  i_time_step', i_time_step 
         L_bad_result = .TRUE.
+        flush(6)
         return
     endif !  any( isnan( b_tmp ) ) .or.  any( abs(b_tmp)  > 1.0d20 )
 
-    flush(6)
-    flush(GA_print_unit)
 
     btmp = b_tmp
 
-    write(6,'(/A,10(1x,E15.7)/)') &
-          'rkbm: btmp(1:n_eqs)' , &
-                 btmp(1:n_code_equations)
-    flush(6)
-    flush(GA_print_unit)
+    !write(6,'(/A,10(1x,E15.7)/)') &
+    !      'rkbm: btmp(1:n_eqs)' , &
+    !             btmp(1:n_code_equations)
+    !flush(6)
+    !flush(GA_print_unit)
     !------------------------------------------------------------------------------
 
     ! carry out a Runge-Kutta time step
     do  iter=1,4
 
         !if( myid == 0 )then
-        if( L_ga_print )then
-            write(GA_print_unit,'(A,2(1x,I6))') 'rkbm: i_time_step, iter ', &
-                                                       i_time_step, iter
-        endif ! L_ga_print
-        !endif ! myid == 0
-        write(6,'(A,2(1x,I6))') 'rkbm: i_time_step, iter ', &
-                                       i_time_step, iter
-        flush(6)
-        flush(GA_print_unit)
+        !if( L_ga_print )then
+        !    write(GA_print_unit,'(A,2(1x,I6))') 'rkbm: i_time_step, iter ', &
+        !                                               i_time_step, iter
+        !endif ! L_ga_print
+        !!endif ! myid == 0
+        !write(6,'(A,2(1x,I6))') 'rkbm: i_time_step, iter ', &
+        !                               i_time_step, iter
+        !flush(6)
+        !flush(GA_print_unit)
 
         !--------------------------------------------------------------------------
         ! Call forcing functions for the box model
 
-        write(6,'(/A)') 'rkbm: call DoForcing'
-        flush(6)
-        flush(GA_print_unit)
+        !write(6,'(/A)') 'rkbm: call DoForcing'
+        !flush(6)
+        !flush(GA_print_unit)
 
         call DoForcing( btmp, Runge_Kutta_Time_Step(iter), i_Time_Step )
 
-        write(6,'(A/)') 'rkbm: aft call DoForcing'
-        flush(6)
-        flush(GA_print_unit)
+        !write(6,'(A/)') 'rkbm: aft call DoForcing'
+        !flush(6)
+        !flush(GA_print_unit)
         !--------------------------------------------------------------------------
 
         fbio = 0.0D+0
@@ -264,12 +263,12 @@ do  i_Time_Step = 1, n_Time_Steps
                     !    !if( myid == 0 )then
 
                     !if( abs( Tree_Value(i_tree) ) > 0.0d0 )then
-                        write(6,'(A,22x,I6,1x,I6,1x,E15.7)') &
-                              'rkbm: iter, i_tree, Tree_Value(i_tree)', &
-                                     iter, i_tree, Tree_Value(i_tree)
+                    !    write(6,'(A,22x,I6,1x,I6,1x,E15.7)') &
+                    !          'rkbm: iter, i_tree, Tree_Value(i_tree)', &
+                    !                 iter, i_tree, Tree_Value(i_tree)
                     !endif ! abs( Tree_Value(i_tree) ) > 0.0d0 
-                    flush(6)
-                    flush(GA_print_unit)
+                    !flush(6)
+                    !flush(GA_print_unit)
 
                     !    !endif ! myid == 0
                     !endif ! i_time_step < 251
@@ -585,24 +584,24 @@ do  i_Time_Step = 1, n_Time_Steps
     Numerical_CODE_Solution(i_Time_Step,1:n_Variables)=max(b_tmp(1:n_Variables),0.0D+0)
 
 
-    write(GA_print_unit,'(//A,2(1x,I6),12(1x,E15.7))') &
-          'rkbm: myid, i_time_step, b_tmp ', &
-                 myid, i_time_step, b_tmp(1:n_CODE_equations)
-    write(6,'(//A,2(1x,I6),12(1x,E15.7))') &
-          'rkbm: myid, i_time_step, b_tmp ', &
-                 myid, i_time_step, b_tmp(1:n_CODE_equations)
+    !write(GA_print_unit,'(//A,2(1x,I6),12(1x,E15.7))') &
+    !      'rkbm: myid, i_time_step, b_tmp ', &
+    !             myid, i_time_step, b_tmp(1:n_CODE_equations)
+    !write(6,'(//A,2(1x,I6),12(1x,E15.7))') &
+    !      'rkbm: myid, i_time_step, b_tmp ', &
+    !             myid, i_time_step, b_tmp(1:n_CODE_equations)
 
     !if( myid == 0 )then
-    if( L_ga_print )then 
-        write(GA_print_unit,'(/A,1x,I6,1x,10(1x,E15.7)/)') 'rkbm: i_time_step, solution ', &
-                      i_Time_Step, Numerical_CODE_Solution(i_Time_Step,1:n_Variables)
-    endif ! L_ga_print
-         write(6,'(/A,1x,I6,1x,10(1x,E15.7)/)') 'rkbm: i_time_step, solution ', &
-                         i_Time_Step, Numerical_CODE_Solution(i_Time_Step,1:n_Variables)
-    !endif ! myid == 0
+    !if( L_ga_print )then 
+    !    write(GA_print_unit,'(/A,1x,I6,1x,10(1x,E15.7)/)') 'rkbm: i_time_step, solution ', &
+    !                  i_Time_Step, Numerical_CODE_Solution(i_Time_Step,1:n_Variables)
+    !endif ! L_ga_print
+    !     write(6,'(/A,1x,I6,1x,10(1x,E15.7)/)') 'rkbm: i_time_step, solution ', &
+    !                     i_Time_Step, Numerical_CODE_Solution(i_Time_Step,1:n_Variables)
+    !!endif ! myid == 0
 
-    flush(6)
-    flush(GA_print_unit)
+    !flush(6)
+    !flush(GA_print_unit)
 
     !if( L_ga_print )then ! .and. myid == 1 )then
     !    write(GA_print_unit,'(A,1x,I6,1x,6(1x,E15.7)/)') &

@@ -1683,15 +1683,15 @@ do  i_GP_Generation=1,n_GP_Generations
 
     ! print trees before tree clean
 
-    if( myid == 0 )then
-        !if( i_GP_generation == 1                                  .or. &
-        !    mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
-        !    i_GP_generation == n_GP_generations                          )then
-            tree_descrip =  ' trees before call to GP_Clean_Tree_Nodes'
-            call print_trees( i_GP_generation, 1, n_GP_individuals, &
-                 GP_Adult_Population_Node_Type, trim( tree_descrip )  )
-        !endif ! i_GP_generation == 1
-    endif !  myid == 0
+    !if( myid == 0 )then
+    !    !if( i_GP_generation == 1                                  .or. &
+    !    !    mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
+    !    !    i_GP_generation == n_GP_generations                          )then
+    !        tree_descrip =  ' trees before call to GP_Clean_Tree_Nodes'
+    !        call print_trees( i_GP_generation, 1, n_GP_individuals, &
+    !             GP_Adult_Population_Node_Type, trim( tree_descrip )  )
+    !    !endif ! i_GP_generation == 1
+    !endif !  myid == 0
 
 
     !-----------------------------------------------------------------------------------------
@@ -1820,15 +1820,15 @@ do  i_GP_Generation=1,n_GP_Generations
 
                 endif ! GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Individual)
 
-                if( myid == 0 )then
-                    if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) > -9999 )then
-                        write(GP_print_unit,'(A,5(1x,I6))')&
-                        '0: i_GP_indiv, i_tree, i_node, GP_Adult_Pop_Node_Type, n_GP_params',&
-                            i_GP_individual, i_tree, i_node, &
-                            GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Individual), &
-                            n_GP_parameters
-                    endif ! GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) > -9999
-                endif !  myid == 0
+                !if( myid == 0 )then
+                !    if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) > -9999)then
+                !        write(GP_print_unit,'(A,5(1x,I6))')&
+                !        '0: i_GP_indiv, i_tree, i_node, GP_Adult_Pop_Node_Type, n_GP_params',&
+                !            i_GP_individual, i_tree, i_node, &
+                !            GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Individual), &
+                !            n_GP_parameters
+                !    endif ! GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) > -9999
+                !endif !  myid == 0
 
             enddo ! i_node
 
