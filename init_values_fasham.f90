@@ -916,34 +916,34 @@ endif ! myid == 0
     !---------------------------------------------------------------------------
 
 
-!=============================================================================================
-
-! treeSlice(32)%n => Detrital_Sink_To_DON()
-
-!=============================================================================================
-
-    !---------------------------------------------------------------------------
-
-    ! n3 => GetVariableNode(btmp(abs(SPECIES_DETRITUS)),SPECIES_DETRITUS) ! DET - [mmol N m-3]
-
-    GP_Individual_Node_Type(3,32) =  -4
-
-    !---------------------------------------------------------------------------
-
-    ! n2 => GetParameterNode(amu4) ! Detrital breakdown rate [d-1]
-
-    GP_Individual_Node_Parameters(2,32) = amu4
-    GP_Individual_Node_Type(2,32) =  0
-
-    !---------------------------------------------------------------------------
-
-    ! n1 => GetMathNode(Multiply, n2, n3)
-
-    GP_Individual_Node_Type(1,32) =  3
-
-    !---------------------------------------------------------------------------
-
-
+!>!=============================================================================================
+!>
+!>! treeSlice(32)%n => Detrital_Sink_To_DON()
+!>
+!>!=============================================================================================
+!>
+!>    !---------------------------------------------------------------------------
+!>
+!>    ! n3 => GetVariableNode(btmp(abs(SPECIES_DETRITUS)),SPECIES_DETRITUS) ! DET - [mmol N m-3]
+!>
+!>    GP_Individual_Node_Type(3,32) =  -4
+!>
+!>    !---------------------------------------------------------------------------
+!>
+!>    ! n2 => GetParameterNode(amu4) ! Detrital breakdown rate [d-1]
+!>
+!>    GP_Individual_Node_Parameters(2,32) = amu4
+!>    GP_Individual_Node_Type(2,32) =  0
+!>
+!>    !---------------------------------------------------------------------------
+!>
+!>    ! n1 => GetMathNode(Multiply, n2, n3)
+!>
+!>    GP_Individual_Node_Type(1,32) =  3
+!>
+!>    !---------------------------------------------------------------------------
+!>
+!>
 !=============================================================================================
 
 ! treeSlice(35)%n => f_G3()
@@ -1516,121 +1516,121 @@ endif ! myid == 0
     !---------------------------------------------------------------------------
 
 
-!=============================================================================================
-
-! treeSlice(46)%n => Phytoplankton_Exudation_To_DON()
-
-!=============================================================================================
-
-    !---------------------------------------------------------------------------
-
-    ! n67 => GetVariableNode(btmp(abs(SPECIES_NITRATE)),SPECIES_NITRATE)
-
-    GP_Individual_Node_Type(67,46) =  -1
-
-    !---------------------------------------------------------------------------
-
-    ! n66 => GetParameterNode(aK1)
-
-    GP_Individual_Node_Parameters(66,46) = aK1
-    GP_Individual_Node_Type(66,46) =  0
-
-    !---------------------------------------------------------------------------
-
-    ! n65 => GetVariableNode(btmp(abs(SPECIES_AMMONIUM)),SPECIES_AMMONIUM)
-
-    GP_Individual_Node_Type(65,46) =  -2
-
-    !---------------------------------------------------------------------------
-
-    ! n64 => GetParameterNode(phi)
-
-    GP_Individual_Node_Parameters(64,46) = phi
-    GP_Individual_Node_Type(64,46) =  0
-
-    !---------------------------------------------------------------------------
-
-    ! n35 => GetVariableNode(btmp(abs(SPECIES_AMMONIUM)),SPECIES_AMMONIUM)
-
-    GP_Individual_Node_Type(35,46) =  -2
-
-    !---------------------------------------------------------------------------
-
-    ! n34 => GetParameterNode(aK2)
-
-    GP_Individual_Node_Parameters(34,46) = ak2
-    GP_Individual_Node_Type(34,46) =  0
-
-    !---------------------------------------------------------------------------
-
-    ! n33 => GetMathNode(MichealisMenton, n66, n67)
-
-    GP_Individual_Node_Type(33,46) =  6
-
-    !---------------------------------------------------------------------------
-
-    ! n32 => GetMathNode(ExponentialDecay, n64, n65)
-
-    GP_Individual_Node_Type(32,46) =  9
-
-    !---------------------------------------------------------------------------
-
-    ! n17 => GetMathNode(MichealisMenton, n34, n35)
-
-    GP_Individual_Node_Type(17,46) =  6
-
-    !---------------------------------------------------------------------------
-
-    ! n16 => GetMathNode(Multiply, n32, n33)
-
-    GP_Individual_Node_Type(16,46) =  3
-
-    !---------------------------------------------------------------------------
-
-    ! n9 => GetParameterNode(gamma1)
-
-    GP_Individual_Node_Parameters(9,46) = gamma1
-    GP_Individual_Node_Type(9,46) =  0
-
-    !---------------------------------------------------------------------------
-
-    ! n8 => GetMathNode(Add, n16, n17)
-
-    GP_Individual_Node_Type(8,46) =  1
-
-    !---------------------------------------------------------------------------
-
-    ! n5 => GetVariableNode(btmp(abs(SPECIES_PHYTOPLANKTON)),SPECIES_PHYTOPLANKTON)
-
-    GP_Individual_Node_Type(3,46) =  -6
-
-    !---------------------------------------------------------------------------
-
-    ! n4 => GetMathNode(Multiply, n8, n9)
-
-    GP_Individual_Node_Type(4,46) =  3
-
-    !---------------------------------------------------------------------------
-
-    ! n3 => GetVariableNode( &
-    !           Numerical_CODE_Forcing_Functions(abs(5000+FORCING_LIGHT_LIMITED_GROWTH_RATE)), &
-    !                                                     FORCING_LIGHT_LIMITED_GROWTH_RATE)
-
-    GP_Individual_Node_Type(3,46) =  -5004 ! -4
-
-    !---------------------------------------------------------------------------
-
-    ! n2 => GetMathNode(Multiply, n4, n5)
-
-    GP_Individual_Node_Type(2,46) =  3
-
-    !---------------------------------------------------------------------------
-
-    ! n1 => GetMathNode(Multiply, n2, n3)
-
-    GP_Individual_Node_Type(1,46) =  3
-
-    !---------------------------------------------------------------------------
+!>!=============================================================================================
+!>
+!>! treeSlice(46)%n => Phytoplankton_Exudation_To_DON()
+!>
+!>!=============================================================================================
+!>
+!>    !---------------------------------------------------------------------------
+!>
+!>    ! n67 => GetVariableNode(btmp(abs(SPECIES_NITRATE)),SPECIES_NITRATE)
+!>
+!>    GP_Individual_Node_Type(67,46) =  -1
+!>
+!>    !---------------------------------------------------------------------------
+!>
+!>    ! n66 => GetParameterNode(aK1)
+!>
+!>    GP_Individual_Node_Parameters(66,46) = aK1
+!>    GP_Individual_Node_Type(66,46) =  0
+!>
+!>    !---------------------------------------------------------------------------
+!>
+!>    ! n65 => GetVariableNode(btmp(abs(SPECIES_AMMONIUM)),SPECIES_AMMONIUM)
+!>
+!>    GP_Individual_Node_Type(65,46) =  -2
+!>
+!>    !---------------------------------------------------------------------------
+!>
+!>    ! n64 => GetParameterNode(phi)
+!>
+!>    GP_Individual_Node_Parameters(64,46) = phi
+!>    GP_Individual_Node_Type(64,46) =  0
+!>
+!>    !---------------------------------------------------------------------------
+!>
+!>    ! n35 => GetVariableNode(btmp(abs(SPECIES_AMMONIUM)),SPECIES_AMMONIUM)
+!>
+!>    GP_Individual_Node_Type(35,46) =  -2
+!>
+!>    !---------------------------------------------------------------------------
+!>
+!>    ! n34 => GetParameterNode(aK2)
+!>
+!>    GP_Individual_Node_Parameters(34,46) = ak2
+!>    GP_Individual_Node_Type(34,46) =  0
+!>
+!>    !---------------------------------------------------------------------------
+!>
+!>    ! n33 => GetMathNode(MichealisMenton, n66, n67)
+!>
+!>    GP_Individual_Node_Type(33,46) =  6
+!>
+!>    !---------------------------------------------------------------------------
+!>
+!>    ! n32 => GetMathNode(ExponentialDecay, n64, n65)
+!>
+!>    GP_Individual_Node_Type(32,46) =  9
+!>
+!>    !---------------------------------------------------------------------------
+!>
+!>    ! n17 => GetMathNode(MichealisMenton, n34, n35)
+!>
+!>    GP_Individual_Node_Type(17,46) =  6
+!>
+!>    !---------------------------------------------------------------------------
+!>
+!>    ! n16 => GetMathNode(Multiply, n32, n33)
+!>
+!>    GP_Individual_Node_Type(16,46) =  3
+!>
+!>    !---------------------------------------------------------------------------
+!>
+!>    ! n9 => GetParameterNode(gamma1)
+!>
+!>    GP_Individual_Node_Parameters(9,46) = gamma1
+!>    GP_Individual_Node_Type(9,46) =  0
+!>
+!>    !---------------------------------------------------------------------------
+!>
+!>    ! n8 => GetMathNode(Add, n16, n17)
+!>
+!>    GP_Individual_Node_Type(8,46) =  1
+!>
+!>    !---------------------------------------------------------------------------
+!>
+!>    ! n5 => GetVariableNode(btmp(abs(SPECIES_PHYTOPLANKTON)),SPECIES_PHYTOPLANKTON)
+!>
+!>    GP_Individual_Node_Type(3,46) =  -6
+!>
+!>    !---------------------------------------------------------------------------
+!>
+!>    ! n4 => GetMathNode(Multiply, n8, n9)
+!>
+!>    GP_Individual_Node_Type(4,46) =  3
+!>
+!>    !---------------------------------------------------------------------------
+!>
+!>    ! n3 => GetVariableNode( &
+!>    !           Numerical_CODE_Forcing_Functions(abs(5000+FORCING_LIGHT_LIMITED_GROWTH_RATE)), &
+!>    !                                                     FORCING_LIGHT_LIMITED_GROWTH_RATE)
+!>
+!>    GP_Individual_Node_Type(3,46) =  -5004 ! -4
+!>
+!>    !---------------------------------------------------------------------------
+!>
+!>    ! n2 => GetMathNode(Multiply, n4, n5)
+!>
+!>    GP_Individual_Node_Type(2,46) =  3
+!>
+!>    !---------------------------------------------------------------------------
+!>
+!>    ! n1 => GetMathNode(Multiply, n2, n3)
+!>
+!>    GP_Individual_Node_Type(1,46) =  3
+!>
+!>    !---------------------------------------------------------------------------
 
 
 !=============================================================================================

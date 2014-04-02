@@ -114,6 +114,7 @@ if( myid == 0 )then
               'GP_GA_opt: n_parameters    =   ', n_parameters
         write(6,'(A,1x,I10)') &
               'GP_GA_opt: n_GP_parameters =   ', n_GP_parameters
+        flush(6)
     !endif ! L_ga_print
 !
 endif ! myid == 0
@@ -257,16 +258,19 @@ do  i_GA_generation = 1, n_GA_Generations
             ! print child parameters at start of the generation
 
             !if( L_ga_print )then
-            !    write(GA_print_unit,'(/A,1x,I6)') &
-            !    'GP_GA_opt:1 child parameters at start of generation: ', &
-            !                                        i_GA_generation
-            !    do  i_ga_ind = 1, n_GA_Individuals
-            !        write(GA_print_unit,'(I6,4(1x,E24.16)/(4(1x,E24.16)))') &
-            !              i_ga_ind, &
-            !              ( child_parameters(jj,i_ga_ind), jj = 1,n_parameters )
-            !    enddo ! i_ga_ind
+                !write(GA_print_unit,'(/A,1x,I6)') &
+                write(6,'(/A,1x,I6)') &
+                'GP_GA_opt:1 child parameters at start of generation: ', &
+                                                    i_GA_generation
+                do  i_ga_ind = 1, n_GA_Individuals
+                    !write(GA_print_unit,'(I6,4(1x,E24.16)/(4(1x,E24.16)))') &
+                    write(6,'(I6,4(1x,E24.16)/(4(1x,E24.16)))') &
+                          i_ga_ind, &
+                          ( child_parameters(jj,i_ga_ind), jj = 1,n_parameters )
+                enddo ! i_ga_ind
             !endif ! L_ga_print
 
+            flush(6)
 
 
         else  ! i_GA_generation > 1
@@ -804,9 +808,10 @@ do  i_GA_generation = 1, n_GA_Generations
                 !      'GP_GA_opt:3 call setup_run_fcn  myid, i_2_individual', &
                 !                                       myid, i_2_individual
                 !endif ! L_ga_print
-                !write(6,'(A,2(1x,I6))') &
-                !      'GP_GA_opt:3 call setup_run_fcn  myid, i_2_individual', &
-                !                                       myid, i_2_individual
+                write(6,'(A,2(1x,I6))') &
+                      'GP_GA_opt:3 call setup_run_fcn  myid, i_2_individual', &
+                                                       myid, i_2_individual
+                flush(6)
 
 
 
@@ -828,10 +833,10 @@ do  i_GA_generation = 1, n_GA_Generations
 
                 !if( L_ga_print )then
                 !    !write(GA_print_unit,'(A,3(1x,I6))') &
-                !    write(6,'(A,3(1x,I6))') &
-                !      'GP_GA_opt:3 AFTER call setup_run_fcn myid, i_2_individual', &
-                !                                            myid, i_2_individual
-                !    flush(6)
+                    write(6,'(A,3(1x,I6))') &
+                      'GP_GA_opt:3 AFTER call setup_run_fcn myid, i_2_individual', &
+                                                            myid, i_2_individual
+                    flush(6)
                 !
                 !endif ! L_ga_print
 

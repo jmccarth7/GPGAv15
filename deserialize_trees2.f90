@@ -96,8 +96,8 @@ type(Tree_Node), pointer :: parent, root
 !
 !--------------------------------------------------------------------------------------
 !if( myid == temp_myid )then
-!    write(6,'(//A,2(1x,I6))') &
-!    'DsT2: at entry n_nodes, tree_count ', n_nodes, tree_count
+    write(6,'(//A,2(1x,I6))') &
+    'DsT2: at entry n_nodes, tree_count ', n_nodes, tree_count
 !    write(6,'(A,2(1x,I6))')   &
 !    'DsT2: num_Tracked_resources   ', num_Tracked_resources
 !    write(6,'(A,2(1x,I6))')   &
@@ -367,27 +367,29 @@ do i = 1, Tree_count
                 ! this is a forcing function variable.
                 ! Associate it with the correct array
 
-                !write(6,'(/A,3(1x,I6))') &
-                !      'DsT2: i, k, VariableNodeType         ', i, k, VariableNodeType
-                !write(6,'(A,3(1x,I6))')  &
-                !      'DsT2: i, k, Nodes(k)%n%variable_index', &
-                !             i, k, Nodes(k)%n%variable_index
+                write(6,'(/A,3(1x,I6))') &
+                      'DsT2: i, k, VariableNodeType         ', i, k, VariableNodeType
+                write(6,'(A,3(1x,I6))')  &
+                      'DsT2: i, k, Nodes(k)%n%variable_index', &
+                             i, k, Nodes(k)%n%variable_index
 
 
                 if( Nodes(k)%n%variable_index < -5000) then
 
 
-                    !write(6,'(A,2(1x,I6))') &
-                    ! 'DsT2: k, abs(5000+Nodes(k)%n%variable_index) ',&
-                    !        k, abs(5000+Nodes(k)%n%variable_index)
-                    !write(6,'(A,1x,E15.7)') &
-                    ! 'DsT2: Numerical_CODE_Forcing_Functions(abs(5000+Nodes(k)%n%variable_index)) ',&
-                    !        Numerical_CODE_Forcing_Functions(abs(5000+Nodes(k)%n%variable_index))
+                    write(6,'(A,2(1x,I6))') &
+                     'DsT2: k, abs(5000+Nodes(k)%n%variable_index) ',&
+                            k, abs(5000+Nodes(k)%n%variable_index)
+                    write(6,'(A,1x,E15.7)') &
+                     'DsT2: &
+                     &Numerical_CODE_Forcing_Functions(abs(5000+Nodes(k)%n%variable_index)) ',&
+                      Numerical_CODE_Forcing_Functions(abs(5000+Nodes(k)%n%variable_index))
+
+                    flush(6)
 
                     Nodes(k)%n%variable =>  &
                            Numerical_CODE_Forcing_Functions(abs(5000+Nodes(k)%n%variable_index))
 
-                    !flush(6)
 
                 else
 

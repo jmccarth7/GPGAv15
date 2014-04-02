@@ -108,12 +108,12 @@ do  i_GA_Individual=1,n_GA_Individuals
     do  itree = 1, n_trees 
         do  inode = 1, n_nodes 
 
-            !if( GP_Individual_Node_Type(inode, itree) > -9999 )then 
-            !    write(6, '(A,3(1x,I6),1x,E15.7)') &
-            !          'Init: itree, inode, GP_Ind_Node_Type,GP_Ind_Node_Par', &              
-            !                 itree, inode, GP_Individual_Node_Type(inode, itree), &
-            !                               GP_Individual_Node_Parameters(inode,itree)    
-            !endif ! GP_Individual_Node_Type(inode, itree) > -9999 
+            if( GP_Individual_Node_Type(inode, itree) > -9999 )then 
+                write(6, '(A,3(1x,I6),1x,E15.7)') &
+                      'Init: itree, inode, GP_Ind_Node_Type,GP_Ind_Node_Par', &              
+                             itree, inode, GP_Individual_Node_Type(inode, itree), &
+                                           GP_Individual_Node_Parameters(inode,itree)    
+            endif ! GP_Individual_Node_Type(inode, itree) > -9999 
 
             if( GP_Individual_Node_Type(inode, itree) == 0 )then
                 i_parameter = i_parameter + 1

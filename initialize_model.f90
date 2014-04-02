@@ -21,11 +21,11 @@ logical, intent(in)  ::  L_myprint
 integer, intent(in)  ::  myprint_unit
 
 
-!---------------------------------------------------------------------------------------------------
+!------------------------------------------------------------------------------------------------
 
-!if( myid == 0 )then
-!    write(6,'(/A/)') 'inmod: entry  Initialize_Model '
-!endif ! myid == 0
+if( myid == 0 )then
+    write(6,'(/A,6x,L1/)') 'inmod: entry  Initialize_Model buildtrees = ', buildtrees
+endif ! myid == 0
 
 !if( L_myprint  .and.  myid == 1 )then
 !    write(myprint_unit,'(/A/)') 'inmod: entry  Initialize_Model '

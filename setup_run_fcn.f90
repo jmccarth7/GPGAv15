@@ -54,9 +54,10 @@ external :: fcn
 
 
 !if( L_ga_print )then
-!    write(6,'(/A,4(1x,I6)/)') &
-!          'setrf: myid, i_GA_indiv, n_parameters, n_GP_parameters ', &
-!                  myid, i_GA_indiv, n_parameters, n_GP_parameters
+    write(6,'(/A,4(1x,I6)/)') &
+          'setrf: myid, i_GA_indiv, n_parameters, n_GP_parameters ', &
+                  myid, i_GA_indiv, n_parameters, n_GP_parameters
+flush(6)
 !endif ! L_ga_print
 
 x_LMDIF(1:n_GP_parameters) = 0.0D0
@@ -111,17 +112,17 @@ enddo ! i_parameter
 ! call fcn
 
 
-!if( myid == 1 )then
+if( myid == 1 )then
 !    if( L_ga_print )then
 !        write(GA_print_unit,'(/A,4(1x,I10))') &
 !              'setrf: call fcn, myid, i_GA_indiv, n_time_steps, n_parameters', &
 !                                myid, i_GA_indiv, n_time_steps, n_parameters
 !    endif ! L_ga_print
-!     write(6,'(/A,4(1x,I10))') &
-!          'setrf: call fcn, myid, i_GA_indiv, n_time_steps, n_parameters', &
-!                            myid, i_GA_indiv, n_time_steps, n_parameters
-!     flush(6)
-!endif ! myid == 1
+     write(6,'(/A,4(1x,I10))') &
+          'setrf: call fcn, myid, i_GA_indiv, n_time_steps, n_parameters', &
+                            myid, i_GA_indiv, n_time_steps, n_parameters
+     flush(6)
+endif ! myid == 1
 
 !----------------------------------------------------------------------------------------
 
@@ -141,12 +142,12 @@ info = iflag
 !    endif ! L_ga_print
 !endif ! myid == 1
 
-!if( myid == 1 )then
-!    write(6,'(A,5(1x,I10)/)') &
-!     'setrf: aft call fcn myid, i_GA_indiv, n_time_steps, n_parameters, info ', &
-!                          myid, i_GA_indiv, n_time_steps, n_parameters, info
-!     flush(6)
-!endif ! myid == 1
+if( myid == 1 )then
+    write(6,'(A,5(1x,I10)/)') &
+     'setrf: aft call fcn myid, i_GA_indiv, n_time_steps, n_parameters, info ', &
+                          myid, i_GA_indiv, n_time_steps, n_parameters, info
+     flush(6)
+endif ! myid == 1
 
 
 !----------------------------------------------------------------------------------------

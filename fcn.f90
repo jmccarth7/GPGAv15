@@ -50,10 +50,11 @@ logical,parameter :: L_GP_print = .TRUE.
 !write(6,'(A,1x,I5,1x,I5)') 'fcn: myid, GA_print_unit', myid, GA_print_unit
 
 !if( GP_para_flag .and. myid == 3 )then
-!    write(GP_print_unit,'(A,2(1x,I6))') &
-!           'fcn: n_CODE_equations, nn', &
-!                 n_CODE_equations, nn
-!!endif ! myid == 1
+if( myid == 1 )then
+    write(GP_print_unit,'(A,2(1x,I6))') &
+           'fcn: n_CODE_equations, nn', &
+                 n_CODE_equations, nn
+endif ! myid == 1
 
 ! move the values you are trying to fit into
 ! the initial conditions and variable terms
@@ -148,8 +149,8 @@ enddo !  i_CODE_equation
 
 i_parameter = n_CODE_equations
 
-!write(GP_print_unit,'(A)') &
-!      'fcn: myid, i_tree, i_node, GP_Individual_Node_Type'
+write(GP_print_unit,'(A)') &
+      'fcn: myid, i_tree, i_node, GP_Individual_Node_Type'
 
 tree_loop:&
 do  i_tree=1,n_trees
@@ -368,6 +369,8 @@ enddo tree_loop  ! i_tree
 
 !if( L_ga_print )then
 !    write(GA_print_unit,'(/A/)') 'fcn: call Initialize_Model(.true.)'
+    write(6,'(/A/)') 'fcn: call Initialize_Model(.true.)'
+    flush(6)
 !endif ! L_ga_print
 
 
@@ -470,28 +473,28 @@ Numerical_CODE_Initial_Conditions(1:n_CODE_equations) = Numerical_CODE_Solution(
 !
 !endif ! myid == 1
 
-!if( myid == 1 )then
-!    write(6,'(A)') ' '
-!
-!    do  ii = 1, n_CODE_equations
-!        write(6,'(A,1x,I6,1x,E15.7)') &
-!              'fcn: ii, Numerical_CODE_Initial_Conditions(ii)', &
-!                    ii, Numerical_CODE_Initial_Conditions(ii)
-!    enddo ! ii
-!
-!    write(6,'(A)') ' '
-!
-!    do  ii = 1, n_CODE_equations
-!        write(6,'(A,1x,I6,1x,E15.7)') &
-!              'fcn: ii, Numerical_CODE_Solution(0,ii)        ', &
-!                    ii, Numerical_CODE_Solution(0,ii)
-!    enddo ! ii
-!
-!
-!    write(6,'(A)') ' '
-!
-!    write(6,'(A,2(1x,I6))') &
-!    'fcn: n_trees, n_nodes ', n_trees, n_nodes
+if( myid == 1 )then
+    write(6,'(A)') ' '
+
+    do  ii = 1, n_CODE_equations
+        write(6,'(A,1x,I6,1x,E15.7)') &
+              'fcn: ii, Numerical_CODE_Initial_Conditions(ii)', &
+                    ii, Numerical_CODE_Initial_Conditions(ii)
+    enddo ! ii
+
+    write(6,'(A)') ' '
+
+    do  ii = 1, n_CODE_equations
+        write(6,'(A,1x,I6,1x,E15.7)') &
+              'fcn: ii, Numerical_CODE_Solution(0,ii)        ', &
+                    ii, Numerical_CODE_Solution(0,ii)
+    enddo ! ii
+
+
+    write(6,'(A)') ' '
+
+    write(6,'(A,2(1x,I6))') &
+    'fcn: n_trees, n_nodes ', n_trees, n_nodes
 !
 !    write(6,'(/A)') &
 !          'fcn: i_tree  i_node  Runge_Kutta_Node_Parameters( i_node, i_tree ) '
@@ -506,19 +509,19 @@ Numerical_CODE_Initial_Conditions(1:n_CODE_equations) = Numerical_CODE_Solution(
 !        enddo ! i_node
 !    enddo ! i_tree
 !
-!    write(6,'(/A)') &
-!          'fcn: i_tree  i_node  GP_Individual_Node_Parameters( i_node, i_tree ) '
-!    do  i_tree = 1, n_trees
-!        do  i_node = 1, n_nodes
-!
-!            if( GP_Individual_Node_Type( i_node, i_tree ) == 0     )then
-!                write(6,'(2(1x,I8),6x,E15.7)') &
-!                      i_tree, i_node, GP_Individual_Node_Parameters( i_node, i_tree )
-!            endif ! GP_Individual_Node_Type( i_node, i_tree ) == 0
-!
-!        enddo ! i_node
-!    enddo ! i_tree
-!
+    write(6,'(/A)') &
+          'fcn: i_tree  i_node  GP_Individual_Node_Parameters( i_node, i_tree ) '
+    do  i_tree = 1, n_trees
+        do  i_node = 1, n_nodes
+
+            if( GP_Individual_Node_Type( i_node, i_tree ) == 0     )then
+                write(6,'(2(1x,I8),6x,E15.7)') &
+                      i_tree, i_node, GP_Individual_Node_Parameters( i_node, i_tree )
+            endif ! GP_Individual_Node_Type( i_node, i_tree ) == 0
+
+        enddo ! i_node
+    enddo ! i_tree
+
 !    write(6,'(//A)') &
 !          'fcn: i_tree  i_node  Runge_Kutta_Node_Type( i_node, i_tree ) '
 !
@@ -533,9 +536,9 @@ Numerical_CODE_Initial_Conditions(1:n_CODE_equations) = Numerical_CODE_Solution(
 !        enddo ! i_node
 !    enddo ! i_tree
 !
-!    write(6,'(A)') ' '
-!
-!endif ! myid == 1
+    write(6,'(A)') ' '
+
+endif ! myid == 1
 
 
 
@@ -580,10 +583,10 @@ if( L_bad_result ) then
 
     !if( L_GP_print ) then !.and. GP_para_flag .and. myid == 1 )then
     !    write(GP_print_unit,'(A,1x,I6,4x,L1)') &
-    !    write(6,'(A,1x,I6,4x,L1)') &
-    !          'fcn: aft call Runge_Kutta_Box_Model  myid, L_bad_result = ', &
-    !                                                myid, L_bad_result
-    !    flush(6)
+        write(6,'(A,1x,I6,4x,L1)') &
+              'fcn: aft call Runge_Kutta_Box_Model  myid, L_bad_result = ', &
+                                                    myid, L_bad_result
+        flush(6)
     !endif ! L_GP_print
     !if( L_ga_print )then
     !    write(GA_print_unit,'(A,1x,I6,4x,L1)') &
@@ -717,8 +720,8 @@ do  i_time_step=1,n_time_steps
 enddo ! i_time_step
 
 !if( L_GP_print .and. GP_para_flag .and. myid == 3  )then
-!    write(GP_print_unit,'(A,1x,I6,2x,E15.7)') &
-!    'fcn: myid, sse_local = ',myid, sse_local
+    write(GP_print_unit,'(A,1x,I6,2x,E15.7)') &
+    'fcn: myid, sse_local = ',myid, sse_local
 !endif ! L_GP_print
 !if( L_ga_print .and. myid == 1 )then
 !    write(GA_print_unit,'(A,1x,I6,2x,E15.7)') 'fcn: myid, sse_local = ',myid, sse_local
