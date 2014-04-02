@@ -399,6 +399,24 @@ function Phytoplankton_Exudation_To_DON() result(n1)
     implicit none
     type(Tree_Node), pointer :: n1, n2, n3, n4, n5, n8, n9, n16, n17, n32, n33, n34, n35, &
         n64, n65, n66, n67
+
+
+
+!    SPECIES_NITRATE                    = -1                                                                   
+!    SPECIES_AMMONIUM                   = -2                                                                   
+!    SPECIES_DISSOLVED_ORGANIC_NITROGEN = -3                                                                   
+!    SPECIES_DETRITUS                   = -4                                                                   
+!    SPECIES_BACTERIA                   = -5                                                                   
+!    SPECIES_PHYTOPLANKTON              = -6                                                                   
+!    SPECIES_ZOOPLANKTON                = -7                                                                   
+
+!    FORCING_MIXED_LAYER_DEPTH         = -5001                                                                
+!    FORCING_MLD_CHANGE_NON_MOTILE     = -5002                                                                
+!    FORCING_MLD_CHANGE_MOTILE         = -5003                                                                
+!    FORCING_LIGHT_LIMITED_GROWTH_RATE = -5004                                                                
+                                                                                                              
+
+
     
     !write(6,'(A)') 'in Phytoplankton_Exudation_To_DON '
     n67 => GetVariableNode(btmp(abs(SPECIES_NITRATE)),SPECIES_NITRATE)
