@@ -199,13 +199,13 @@ do i = 1, Tree_count
 
                     node_type = ParameterNodeType
 
-                    write(6,'(A,2(1x,I6),1x,E24.16)') &
-                    'DsT2: i, inode, GP_individual_node_parameters( inode, i )   ', &
-                           i, inode, GP_individual_node_parameters( inode, i )
+                    !write(6,'(A,2(1x,I6),1x,E24.16)') &
+                    !'DsT2: i, inode, GP_individual_node_parameters( inode, i )   ', &
+                    !       i, inode, GP_individual_node_parameters( inode, i )
 
-                    write(6,'(A,2(1x,I6),1x,E24.16)') &
-                    'DsT2: i, inode,  parameter_value                            ', &
-                           i, inode,  parameter_value
+                    !write(6,'(A,2(1x,I6),1x,E24.16)') &
+                    !'DsT2: i, inode,  parameter_value                            ', &
+                    !       i, inode,  parameter_value
 
                 endif
 

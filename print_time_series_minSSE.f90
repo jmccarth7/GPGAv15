@@ -365,7 +365,7 @@ if( myid == 0 )then
     write(GP_print_unit, '(/A,1x,E15.7)')  'ptsMS: y_min', y_min
     write(GP_print_unit, '(A,1x,E15.7/)')  'ptsMS: y_max', y_max
 
-    flush(GP_print_unit) 
+    !flush(GP_print_unit) 
 
     !--------------------------------------------------------------------------------
 
@@ -400,7 +400,7 @@ if( myid == 0 )then
     write(plotMS_unit, '(A,1x,E15.7)') '#ptsMS: y_min', y_min
     write(plotMS_unit, '(A,1x,E15.7)') '#ptsMS: y_max', y_max
 
-    flush( plotMS_unit )
+    !flush( plotMS_unit )
     close( plotMS_unit )
 
 endif ! myid == 0

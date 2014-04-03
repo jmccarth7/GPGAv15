@@ -176,7 +176,7 @@ if( myid == 0 )then
 
     call Generate_Dot_Graph( GP_Trees(:,1), n_Trees, './pts')
 
-    !write(6,'(/A/)') 'pts: aft call Generate_Dot_Graph'
+    write(6,'(/A/)') 'pts: aft call Generate_Dot_Graph'
 
 endif ! myid == 0
 
@@ -427,7 +427,7 @@ if( myid == 0 )then
     write(GP_print_unit, '(/A,1x,E15.7)') 'pts: y_min', y_min
     write(GP_print_unit, '(A,1x,E15.7/)') 'pts: y_max', y_max
 
-    flush(GP_print_unit) 
+    !flush(GP_print_unit) 
 
     !--------------------------------------------------------------------------------
 
@@ -458,7 +458,7 @@ if( myid == 0 )then
     write(plot_unit, '(A,1x,E15.7)')  '#pts: y_min', y_min
     write(plot_unit, '(A,1x,E15.7)')  '#pts: y_max', y_max
 
-    flush(plot_unit)
+    !flush(plot_unit)
 
     !write(plot_unit, '(A,1x,5(1x,E15.7))') &
     !      '#pts: R probability     ', prob_r

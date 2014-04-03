@@ -58,15 +58,15 @@ L_GP_print = .true.
 tree_node_count = 0
 
 !if( L_ga_print )then 
-    write(GA_print_unit,'(/A,1x,I6/)') 'rkbm: entry Runge_Kutta_Box_Model myid = ', myid
-    write(GA_print_unit,'(A,1x,I6/)')  'rkbm: n_Variables ', n_Variables
+!    write(GA_print_unit,'(/A,1x,I6/)') 'rkbm: entry Runge_Kutta_Box_Model myid = ', myid
+!    write(GA_print_unit,'(A,1x,I6/)')  'rkbm: n_Variables ', n_Variables
 !!    !!!write(GA_print_unit,'(A,1x,I6/)')  'rkbm: tree_value modified'
 !endif ! L_ga_print
 
-write(6,'(/A,1x,I6)')  'rkbm: n_Variables     ', n_Variables
-write(6,'(A,1x,I6/)')  'rkbm: n_code_equations', n_code_equations
-flush(6)
-flush(GA_print_unit)
+!write(6,'(/A,1x,I6)')  'rkbm: n_Variables     ', n_Variables
+!write(6,'(A,1x,I6/)')  'rkbm: n_code_equations', n_code_equations
+!flush(6)
+!flush(GA_print_unit)
 
 !--------------------------------------------------------------------------------------
 !! debug >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -115,21 +115,21 @@ if( dt <= 0.0d0 )then
     stop 'bad delta_time'
 endif ! dt <= 0.0D0
 
-write(6,'(/A,1x,E20.10/)') 'rkbm: dt', dt
+!write(6,'(/A,1x,E20.10/)') 'rkbm: dt', dt
 
-if( L_ga_print )then ! .and. myid == 1 )then
-    write(GA_print_unit,'(A,10(1x,E15.7)/ )') &
-      'rkbm: before loop Numerical_CODE_Solution(0,:)', &
-                         Numerical_CODE_Solution(0,:)
-    write(GA_print_unit,'(A,10(1x,E15.7)/ )') &
-      'rkbm: before loop  btmp(:)', btmp(:)
-endif ! L_ga_print .and. myid == 1
+!if( L_ga_print )then ! .and. myid == 1 )then
+!    write(GA_print_unit,'(A,10(1x,E15.7)/ )') &
+!      'rkbm: before loop Numerical_CODE_Solution(0,:)', &
+!                         Numerical_CODE_Solution(0,:)
+!    write(GA_print_unit,'(A,10(1x,E15.7)/ )') &
+!      'rkbm: before loop  btmp(:)', btmp(:)
+!endif ! L_ga_print .and. myid == 1
 
-write(6,'(A,10(1x,E15.7)/ )') &
-      'rkbm: before loop Numerical_CODE_Solution(0,:)', &
-                         Numerical_CODE_Solution(0,:)
-write(6,'(A,10(1x,E15.7)/ )') &
-      'rkbm: before loop  btmp(:)', btmp(:)
+!write(6,'(A,10(1x,E15.7)/ )') &
+!      'rkbm: before loop Numerical_CODE_Solution(0,:)', &
+!                         Numerical_CODE_Solution(0,:)
+!write(6,'(A,10(1x,E15.7)/ )') &
+!      'rkbm: before loop  btmp(:)', btmp(:)
 
 !write(6,'(A,1x,E20.10/)') 'rkbm: dt', dt
 
@@ -157,8 +157,8 @@ write(6,'(A,10(1x,E15.7)/ )') &
 !enddo ! i_tree
 !! debug <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-flush(6)
-flush(GA_print_unit)
+!flush(6)
+!flush(GA_print_unit)
 
 
 ! start the time stepping loop
@@ -185,10 +185,13 @@ do  i_Time_Step = 1, n_Time_Steps
     !flush(GA_print_unit)
 
     if( any( isnan( b_tmp ) ) .or.  any( abs(b_tmp)  > 1.0d20 ) ) then
-        write(6,'(/A,1x,I6/)') &
-             'rkbm: bad b_tmp  i_time_step', i_time_step 
+
+        !write(6,'(/A,1x,I6/)') &
+        !     'rkbm: bad b_tmp  i_time_step', i_time_step 
+        !flush(6)
+
         L_bad_result = .TRUE.
-        flush(6)
+
         return
     endif !  any( isnan( b_tmp ) ) .or.  any( abs(b_tmp)  > 1.0d20 )
 
@@ -276,17 +279,20 @@ do  i_Time_Step = 1, n_Time_Steps
 
                     if( isnan( Tree_Value(i_Tree) )          .or.   &
                           abs( Tree_Value(i_Tree) )  > 1.0d20    ) then
+
                         L_bad_result = .TRUE.
-                        if( L_ga_print )then
-                            write(GA_print_unit,'(A,1x,I6,1x,I6,1x,E24.16)') &
-                              'rkbm: bad value i_time_step, i_tree, Tree_Value(i_tree)', &
-                                               i_time_step, i_tree, Tree_Value(i_tree)
-                        endif ! L_ga_print 
-                        write(6,'(A,1x,I6,1x,I6,1x,E24.16)') &
-                              'rkbm: bad value i_time_step, i_tree, Tree_Value(i_tree)', &
-                                               i_time_step, i_tree, Tree_Value(i_tree)
-                        flush(6)
-                        flush(GA_print_unit)
+
+                        !if( L_ga_print )then
+                        !    write(GA_print_unit,'(A,1x,I6,1x,I6,1x,E24.16)') &
+                        !      'rkbm: bad value i_time_step, i_tree, Tree_Value(i_tree)', &
+                        !                       i_time_step, i_tree, Tree_Value(i_tree)
+                        !endif ! L_ga_print 
+                        !write(6,'(A,1x,I6,1x,I6,1x,E24.16)') &
+                        !      'rkbm: bad value i_time_step, i_tree, Tree_Value(i_tree)', &
+                        !                       i_time_step, i_tree, Tree_Value(i_tree)
+                        !flush(6)
+                        !flush(GA_print_unit)
+
                         return
                     endif !  isnan( Tree_Value(i_Tree) ) .or. abs(Tree_Value(i_Tree)) > 1.0d20 
 
@@ -562,20 +568,20 @@ do  i_Time_Step = 1, n_Time_Steps
 
         L_bad_result = .TRUE.
 
-        if( L_GP_print )then
-            write(6,'(A,2(1x,I6),12(1x,E15.7))') &
-                  'rkbm: bad result myid, i_time_step, b_tmp ', &
-                                    myid, i_time_step, b_tmp(1:n_CODE_equations)
-        endif ! L_GP_print
+        !if( L_GP_print )then
+        !    write(6,'(A,2(1x,I6),12(1x,E15.7))') &
+        !          'rkbm: bad result myid, i_time_step, b_tmp ', &
+        !                            myid, i_time_step, b_tmp(1:n_CODE_equations)
+        !endif ! L_GP_print
 
-        if( L_GA_print )then
-            write(GA_print_unit,'(A,2(1x,I6),12(1x,E15.7))') &
-                  'rkbm: bad result myid, i_time_step, b_tmp ', &
-                                    myid, i_time_step, b_tmp(1:n_CODE_equations)
-        endif ! L_GA_print
+        !if( L_GA_print )then
+        !    write(GA_print_unit,'(A,2(1x,I6),12(1x,E15.7))') &
+        !          'rkbm: bad result myid, i_time_step, b_tmp ', &
+        !                            myid, i_time_step, b_tmp(1:n_CODE_equations)
+        !endif ! L_GA_print
 
-        flush(6)
-        flush(GA_print_unit)
+        !flush(6)
+        !flush(GA_print_unit)
         return
 
     endif !   any( isnan( b_tmp ) ) .or.  any( abs(b_tmp) > 1.0d20
@@ -597,11 +603,11 @@ do  i_Time_Step = 1, n_Time_Steps
     !    write(GA_print_unit,'(/A,1x,I6,1x,10(1x,E15.7)/)') 'rkbm: i_time_step, solution ', &
     !                  i_Time_Step, Numerical_CODE_Solution(i_Time_Step,1:n_Variables)
     !endif ! L_ga_print
-         write(6,'(A,1x,I6,1x,10(1x,E15.7))') 'rkbm: i_time_step, solution ', &
-                         i_Time_Step, Numerical_CODE_Solution(i_Time_Step,1:n_Variables)
+    !     write(6,'(A,1x,I6,1x,10(1x,E15.7))') 'rkbm: i_time_step, solution ', &
+    !                     i_Time_Step, Numerical_CODE_Solution(i_Time_Step,1:n_Variables)
     !!endif ! myid == 0
 
-    flush(6)
+    !flush(6)
     !flush(GA_print_unit)
 
     !if( L_ga_print )then ! .and. myid == 1 )then
