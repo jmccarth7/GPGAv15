@@ -174,7 +174,7 @@ if( myid == 0 )then
 
     write(6,'(/A)') 'pts: call Generate_Dot_Graph'
 
-    call Generate_Dot_Graph( GP_Trees(:,1), n_Trees, output_dir )
+    call Generate_Dot_Graph( GP_Trees(:,1), n_Trees, './pts')
 
     !write(6,'(/A/)') 'pts: aft call Generate_Dot_Graph'
 

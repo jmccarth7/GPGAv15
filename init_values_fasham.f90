@@ -122,46 +122,77 @@ enddo ! i_tree
 
     ! Set Variables
 
-    alpha   =  0.025D+0    ! initial slope of the P-I curve [(W m-2)-1 d-1]
-    aK1     =  0.5D+0      ! half-saturation for phytoplankton NO3 uptake [mMol N m-3]
-    aK2     =  0.5D+0      ! half-saturation for phytoplankton NH4 uptake [mMol N m-3]
-    amu1    =  0.045D+0    ! phytoplankton specific mortality rate [d-1]
-    akc     =  0.03D+0     ! light attenuation by phytoplankton [m^2 mMol N)-1]
-    gamma1  =  0.05D+0     ! fraction of total primary production that is exuded [n.d.]
-    phi     =  1.5D+0      ! phytoplankton ammonium inhibition parameter [(mMol N)-1]
-    g       =  1.0D+0      ! maximum zooplankton growth rate [d-1]
-    beta1   =  0.75D+0     ! zooplankton assimilation efficiency of zooplankton [n.d.]
-    beta2   =  0.75D+0     ! zooplankton assimilation efficiency of phytoplankton [n.d.]
-    beta3   =  0.75D+0     ! zooplankton assimilation efficiency of bacteria [n.d.]
-    amu2    =  0.1D+0      ! zooplankton specific excretion rate [d-1]
-    amu5    =  0.05D+0     ! zooplankton specific mortality rate [d-1]
-    aK3     =  1.0D+0      ! zooplankton half-saturation conts. for ingestion [d-1]
-    omega   =  0.33D+0     ! detrital fraction of zooplankton mortality [n.d.]
-    epsilon =  0.75D+0     ! ammonium fraction of zooplankton excretion [n.d.]
-    Vb      =  2.0D+0      ! bacteria maximum growth rate [d-1]
-    Vp      =  2.9D+0      ! phyto maximum growth rate [d-1]
-    amu3    =  0.05D+0     ! bacteria specific excretion rate [d-1]
-    aK4     =  0.5D+0      ! bacteria half-saturation rate for uptake [(mMol N) m-3]
-    eta     =  0.6D+0      ! ammonium/DON uptake ratio [n.d.]
-    amu4    =  0.05D+0     ! detrital breakdown rate [d-1]
-    V       =  1.0D+0      ! detrital sinking rate [m d-1]
-    p1      =  1.0D+0      ! zooplankton preference for phytoplankton [n.d.]
-    p2      =  1.0D+0      ! zooplankton preference for bacteria [n.d.]
-    p3      =  1.0D+0      ! zooplankton preference for detritus [n.d.]
-    aN0     =  2.0D+0      ! concentration of NO3 below the mixed-layer [(mMol N) m-3]
+!    alpha   =  0.025D+0    ! initial slope of the P-I curve [(W m-2)-1 d-1]
+!    aK1     =  0.5D+0      ! half-saturation for phytoplankton NO3 uptake [mMol N m-3]
+!    aK2     =  0.5D+0      ! half-saturation for phytoplankton NH4 uptake [mMol N m-3]
+!    amu1    =  0.045D+0    ! phytoplankton specific mortality rate [d-1]
+!    akc     =  0.03D+0     ! light attenuation by phytoplankton [m^2 mMol N)-1]
+!    gamma1  =  0.05D+0     ! fraction of total primary production that is exuded [n.d.]
+!    phi     =  1.5D+0      ! phytoplankton ammonium inhibition parameter [(mMol N)-1]
+!    g       =  1.0D+0      ! maximum zooplankton growth rate [d-1]
+!    beta1   =  0.75D+0     ! zooplankton assimilation efficiency of zooplankton [n.d.]
+!    beta2   =  0.75D+0     ! zooplankton assimilation efficiency of phytoplankton [n.d.]
+!    beta3   =  0.75D+0     ! zooplankton assimilation efficiency of bacteria [n.d.]
+!    amu2    =  0.1D+0      ! zooplankton specific excretion rate [d-1]
+!    amu5    =  0.05D+0     ! zooplankton specific mortality rate [d-1]
+!    aK3     =  1.0D+0      ! zooplankton half-saturation conts. for ingestion [d-1]
+!    omega   =  0.33D+0     ! detrital fraction of zooplankton mortality [n.d.]
+!    epsilon =  0.75D+0     ! ammonium fraction of zooplankton excretion [n.d.]
+!    Vb      =  2.0D+0      ! bacteria maximum growth rate [d-1]
+!    Vp      =  2.9D+0      ! phyto maximum growth rate [d-1]
+!    amu3    =  0.05D+0     ! bacteria specific excretion rate [d-1]
+!    aK4     =  0.5D+0      ! bacteria half-saturation rate for uptake [(mMol N) m-3]
+!    eta     =  0.6D+0      ! ammonium/DON uptake ratio [n.d.]
+!    amu4    =  0.05D+0     ! detrital breakdown rate [d-1]
+!    V       =  1.0D+0      ! detrital sinking rate [m d-1]
+!    p1      =  1.0D+0      ! zooplankton preference for phytoplankton [n.d.]
+!    p2      =  1.0D+0      ! zooplankton preference for bacteria [n.d.]
+!    p3      =  1.0D+0      ! zooplankton preference for detritus [n.d.]
+!    aN0     =  2.0D+0      ! concentration of NO3 below the mixed-layer [(mMol N) m-3]
 
 
     !-----------------------------------------------------------------------------------------
 
     ! parameters as in Table 1; Fasham et al. [JMR, 48, 591-639, 1990]
 
-    akw = 0.04D+0     ! light attenuation due to sea water [m-1]
-    am  = 0.1D+0      ! cross-thermocline mixing rate [m d-1]
+!    akw = 0.04D+0     ! light attenuation due to sea water [m-1]
+!    am  = 0.1D+0      ! cross-thermocline mixing rate [m d-1]
 
     alatd=50.0 !Latitude
 
     !-----------------------------------------------------------------------------------------
+    !write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: Node_Probability', Node_Probability
 
+    write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: alpha  ', alpha
+    write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: aK1    ', aK1
+    write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: aK2    ', aK2
+    write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: amu1   ', amu1
+    write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: akc    ', akc
+    write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: gamma1 ', gamma1
+    write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: phi    ', phi
+    write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: g      ', g
+    write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: beta1  ', beta1
+    write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: beta2  ', beta2
+    write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: beta3  ', beta3
+    write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: amu2   ', amu2
+    write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: amu5   ', amu5
+    write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: aK3    ', aK3
+    write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: omega  ', omega
+    write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: epsilon', epsilon
+    write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: Vb     ', Vb
+    write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: Vp     ', Vp
+    write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: amu3   ', amu3
+    write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: aK4    ', aK4
+    write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: eta    ', eta
+    write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: V      ', V
+    write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: p1     ', p1
+    write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: p2     ', p2
+    write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: p3     ', p3
+    write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: aN0    ', aN0
+
+    write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: akw    ', akw
+    write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: am     ', am
+    !-----------------------------------------------------------------------------------------
 
     ! initialize the biological data fields
 
@@ -179,13 +210,13 @@ enddo ! i_tree
     ! These are used by the binary tree parsing algorithm to select the index of the
     ! species or forcing function variable's value
 
-    SPECIES_NITRATE                    = -1
-    SPECIES_AMMONIUM                   = -2
-    SPECIES_DISSOLVED_ORGANIC_NITROGEN = -3
-    SPECIES_DETRITUS                   = -4
-    SPECIES_BACTERIA                   = -5
-    SPECIES_PHYTOPLANKTON              = -6
-    SPECIES_ZOOPLANKTON                = -7
+!    SPECIES_NITRATE                    = -1
+!    SPECIES_AMMONIUM                   = -2
+!    SPECIES_DISSOLVED_ORGANIC_NITROGEN = -3
+!    SPECIES_DETRITUS                   = -4
+!    SPECIES_BACTERIA                   = -5
+!    SPECIES_PHYTOPLANKTON              = -6
+!    SPECIES_ZOOPLANKTON                = -7
 
 
 !---------------------------------------------------------------------------------------------
@@ -294,7 +325,7 @@ endif ! myid == 0
     !   abs(5000+FORCING_MLD_CHANGE_NON_MOTILE)), &
     !            FORCING_MLD_CHANGE_NON_MOTILE) ! h+ - Change in the mixed layer depth [m d-1]
 
-    GP_Individual_Node_Type(9,1) = -5002   !  -2
+    GP_Individual_Node_Type(9,1) = -5002   
 
     !---------------------------------------------------------------------------
 
@@ -309,7 +340,7 @@ endif ! myid == 0
     !                abs(5000+FORCING_MIXED_LAYER_DEPTH)), &
     !                         FORCING_MIXED_LAYER_DEPTH) ! aMLD - Mixed Layer Depth [m]
 
-    GP_Individual_Node_Type(5,1) =  -5001   ! -1
+    GP_Individual_Node_Type(5,1) =  -5001 
 
     !---------------------------------------------------------------------------
 
@@ -344,7 +375,7 @@ endif ! myid == 0
     ! n9 => GetVariableNode( Numerical_CODE_Forcing_Functions( &
     !               abs(5000+FORCING_MLD_CHANGE_NON_MOTILE)) , &
     !                        FORCING_MLD_CHANGE_NON_MOTILE       ) ! h+ - Change in the mixed layer depth [m d-1]
-    GP_Individual_Node_Type(9,8) = -5002 !   -2
+    GP_Individual_Node_Type(9,8) = -5002 
 
     !---------------------------------------------------------------------------
 
@@ -359,7 +390,7 @@ endif ! myid == 0
     !              Numerical_CODE_Forcing_Functions( &
     !                    abs(5000+FORCING_MIXED_LAYER_DEPTH)), &
     !                             FORCING_MIXED_LAYER_DEPTH) ! aMLD - Mixed Layer Depth [m]
-    GP_Individual_Node_Type(5,8) =  -5001  ! -1
+    GP_Individual_Node_Type(5,8) =  -5001  
 
     !---------------------------------------------------------------------------
 
@@ -442,7 +473,7 @@ endif ! myid == 0
     !             Numerical_CODE_Forcing_Functions(abs(5000+FORCING_LIGHT_LIMITED_GROWTH_RATE)), &
     !                                                       FORCING_LIGHT_LIMITED_GROWTH_RATE)
 
-    GP_Individual_Node_Type(3,13) = -5004  ! -4
+    GP_Individual_Node_Type(3,13) = -5004  
 
     !---------------------------------------------------------------------------
 
@@ -467,7 +498,7 @@ endif ! myid == 0
     !          abs(5000+FORCING_MLD_CHANGE_NON_MOTILE)) , &
     !                   FORCING_MLD_CHANGE_NON_MOTILE       ) ! h+ - Change in the mixed layer depth [m d-1]
 
-    GP_Individual_Node_Type(9,15) = -5002  ! -2
+    GP_Individual_Node_Type(9,15) = -5002  
 
     !---------------------------------------------------------------------------
 
@@ -484,7 +515,7 @@ endif ! myid == 0
     !                    abs(5000+FORCING_MIXED_LAYER_DEPTH)), &
     !                             FORCING_MIXED_LAYER_DEPTH) ! aMLD - Mixed Layer Depth [m]
 
-    GP_Individual_Node_Type(5,15) = -5001  ! -1
+    GP_Individual_Node_Type(5,15) = -5001  
 
     !---------------------------------------------------------------------------
 
@@ -518,7 +549,7 @@ endif ! myid == 0
     !---------------------------------------------------------------------------
 
     ! n25 => GetVariableNode(btmp( abs(SPECIES_DISSOLVED_ORGANIC_NITROGEN)  ), &
-    !                                 SPECIES_DISSOLVED_ORGANIC_NITROGEN   ) ! DON - [mmol N m-3]
+    !                                  SPECIES_DISSOLVED_ORGANIC_NITROGEN   ) ! DON - [mmol N m-3]
 
     GP_Individual_Node_Type(25,19) =   -3
 
@@ -531,7 +562,7 @@ endif ! myid == 0
     !---------------------------------------------------------------------------
 
     ! n17 => GetVariableNode(btmp( abs(SPECIES_DISSOLVED_ORGANIC_NITROGEN)  ), &
-    !                                 SPECIES_DISSOLVED_ORGANIC_NITROGEN  ) ! DON - [mmol N m-3]
+    !                                  SPECIES_DISSOLVED_ORGANIC_NITROGEN  ) ! DON - [mmol N m-3]
 
     GP_Individual_Node_Type(17,19) =   -3
 
@@ -545,7 +576,7 @@ endif ! myid == 0
     !---------------------------------------------------------------------------
 
     ! n15 => GetVariableNode(btmp( abs(SPECIES_DISSOLVED_ORGANIC_NITROGEN)  ), &
-    !                                 SPECIES_DISSOLVED_ORGANIC_NITROGEN  ) ! DON - [mmol N m-3]
+    !                                  SPECIES_DISSOLVED_ORGANIC_NITROGEN  ) ! DON - [mmol N m-3]
 
     GP_Individual_Node_Type(15,19) =   -3
 
@@ -658,7 +689,7 @@ endif ! myid == 0
     !             abs(5000+FORCING_LIGHT_LIMITED_GROWTH_RATE)), &
     !                      FORCING_LIGHT_LIMITED_GROWTH_RATE)
 
-    GP_Individual_Node_Type(5,20) =  -5004 ! -4
+    GP_Individual_Node_Type(5,20) =  -5004 
     !---------------------------------------------------------------------------
 
     ! n4 => GetMathNode(MichealisMenton, n8, n9)
@@ -696,7 +727,7 @@ endif ! myid == 0
     !          abs(5000+FORCING_MLD_CHANGE_NON_MOTILE)) , &
     !                   FORCING_MLD_CHANGE_NON_MOTILE ) ! h+ - Change in the mixed layer depth [m d-1]
 
-    GP_Individual_Node_Type(9,22) =  -5002  ! -2
+    GP_Individual_Node_Type(9,22) =  -5002  
 
     !---------------------------------------------------------------------------
 
@@ -712,7 +743,7 @@ endif ! myid == 0
     !                    abs(5000+FORCING_MIXED_LAYER_DEPTH)), &
     !                             FORCING_MIXED_LAYER_DEPTH) ! aMLD - Mixed Layer Depth [m]
 
-    GP_Individual_Node_Type(5,22) = -5001 !  -1
+    GP_Individual_Node_Type(5,22) = -5001 
 
 
     !---------------------------------------------------------------------------
@@ -859,7 +890,7 @@ endif ! myid == 0
     !           abs(5000+FORCING_MLD_CHANGE_NON_MOTILE)), &
     !                    FORCING_MLD_CHANGE_NON_MOTILE) ! h+ - Change in the mixed layer depth [m d-1]
 
-    GP_Individual_Node_Type(17,29) = -5002 !   -2
+    GP_Individual_Node_Type(17,29) = -5002 
 
     !---------------------------------------------------------------------------
 
@@ -888,7 +919,7 @@ endif ! myid == 0
     !               abs(5000+FORCING_MIXED_LAYER_DEPTH)), &
     !                        FORCING_MIXED_LAYER_DEPTH) ! aMLD - Mixed Layer Depth [m]
 
-    GP_Individual_Node_Type(5,29) =  -5001 ! -1
+    GP_Individual_Node_Type(5,29) =  -5001 
 
     !---------------------------------------------------------------------------
 
@@ -1096,7 +1127,7 @@ endif ! myid == 0
     !         abs(5000+FORCING_MLD_CHANGE_NON_MOTILE)) , &
     !                  FORCING_MLD_CHANGE_NON_MOTILE  ) ! h+ - Change in the mixed layer depth [m d-1]
 
-    GP_Individual_Node_Type(9,36) = -5002 !  -2
+    GP_Individual_Node_Type(9,36) = -5002 
 
     !---------------------------------------------------------------------------
 
@@ -1112,7 +1143,7 @@ endif ! myid == 0
     !                    abs(5000+FORCING_MIXED_LAYER_DEPTH)), &
     !                             FORCING_MIXED_LAYER_DEPTH) ! aMLD - Mixed Layer Depth [m]
 
-    GP_Individual_Node_Type(5,36) =  -5001 ! -1
+    GP_Individual_Node_Type(5,36) =  -5001 
 
     !---------------------------------------------------------------------------
 
@@ -1283,7 +1314,7 @@ endif ! myid == 0
             GP_Individual_Node_Type(7,42)= 1  !  "[7] +"];
             GP_Individual_Node_Type(14,42)= 3  !  "[14] *"];
             GP_Individual_Node_Type(28,42)= 8  !  "[28] pow"];
-            GP_Individual_Node_Type(56,42)= -5 ! BACT "[56] (V)       0.00"];
+            GP_Individual_Node_Type(56,42)= -6 ! PHY  "[56] (V)       0.00"];
             GP_Individual_Node_Type(57,42)= 0
             GP_Individual_Node_Parameters(57,42)= 2.0d0  ! "[57] (P)   2.00000000"];
             GP_Individual_Node_Type(29,42)= 0
@@ -1295,7 +1326,7 @@ endif ! myid == 0
             GP_Individual_Node_Type(121,42)= 0
             GP_Individual_Node_Parameters(121,42)= 2.0d0  ! "[121] (P)   2.00000000"];
             GP_Individual_Node_Type(61,42)= 0
-            GP_Individual_Node_Parameters(61,42)= 2.0d0  ! "[61] (P)   1.00000000"];
+            GP_Individual_Node_Parameters(61,42)=  p2 !   2.0d0  ! "[61] (P)   1.00000000"];
             GP_Individual_Node_Type(31,42)= 3  !  "[31] *"];
             GP_Individual_Node_Type(62,42)= 8  !  "[62] pow"];
             GP_Individual_Node_Type(124,42)= -4  ! DET "[124] (V)       0.00"];
@@ -1319,7 +1350,7 @@ endif ! myid == 0
     !        abs(5000+FORCING_MLD_CHANGE_NON_MOTILE)) , &
     !                 FORCING_MLD_CHANGE_NON_MOTILE ) ! h+ - Change in the mixed layer depth [m d-1]
 
-    GP_Individual_Node_Type(9,43) =  -5002 ! -2
+    GP_Individual_Node_Type(9,43) =  -5002 
 
     !---------------------------------------------------------------------------
 
@@ -1334,7 +1365,7 @@ endif ! myid == 0
     !                    abs(5000+FORCING_MIXED_LAYER_DEPTH)), &
     !                             FORCING_MIXED_LAYER_DEPTH) ! aMLD - Mixed Layer Depth [m]
 
-    GP_Individual_Node_Type(5,43) = -5001 !  -1
+    GP_Individual_Node_Type(5,43) = -5001 
 
 
     !---------------------------------------------------------------------------
@@ -1588,7 +1619,7 @@ endif ! myid == 0
 !!    !---------------------------------------------------------------------------
 
 
-            GP_Individual_Node_Type(1,49)= 1  !  "[1] /"];
+            GP_Individual_Node_Type(1,49)= 4  !  "[1] /"];
             GP_Individual_Node_Type(2,49)= 3  !  "[2] *"];
             GP_Individual_Node_Type(4,49)= 3  !  "[4] *"];
             GP_Individual_Node_Type(8,49)= 3  !  "[8] *"];
@@ -1622,7 +1653,7 @@ endif ! myid == 0
             GP_Individual_Node_Type(7,49)= 1  !  "[7] +"];
             GP_Individual_Node_Type(14,49)= 3  !  "[14] *"];
             GP_Individual_Node_Type(28,49)= 8  !  "[28] pow"];
-            GP_Individual_Node_Type(56,49)= -5  ! BACT "[56] (V)       0.00"];
+            GP_Individual_Node_Type(56,49)= -6  ! PHY  "[56] (V)       0.00"];
             GP_Individual_Node_Type(57,49)= 0
             GP_Individual_Node_Parameters(57,49)= 2.0d0  ! "[57] (P)   2.00000000"];
             GP_Individual_Node_Type(29,49)= 0
@@ -1679,7 +1710,7 @@ endif ! myid == 0
     !                    abs(5000+FORCING_MLD_CHANGE_MOTILE)), &
     !                             FORCING_MLD_CHANGE_MOTILE) ! h - Change in the mixed layer depth [m d-1]
 
-    GP_Individual_Node_Type(8,50) =  -5003 !  -3
+    GP_Individual_Node_Type(8,50) =  -5003 
 
     !---------------------------------------------------------------------------
 
@@ -1699,7 +1730,7 @@ endif ! myid == 0
     !                    abs(5000+FORCING_MIXED_LAYER_DEPTH)), &
     !                             FORCING_MIXED_LAYER_DEPTH) ! aMLD - Mixed Layer Depth [m]
 
-    GP_Individual_Node_Type(5,50) =  -5001 ! -1
+    GP_Individual_Node_Type(5,50) =  -5001 
 
     !---------------------------------------------------------------------------
 
@@ -1772,7 +1803,7 @@ endif ! myid == 0
 
     ! n8 => GetMathNode(Subtract, n16, n17)
 
-    GP_Individual_Node_Type(8,52) =  3
+    GP_Individual_Node_Type(8,52) =  2
 
     !---------------------------------------------------------------------------
 
@@ -2002,7 +2033,7 @@ endif ! myid == 0
             GP_Individual_Node_Parameters(128,54)= g  ! "[128] (P)   1.00000000"];
             GP_Individual_Node_Type(129,54)= -7  ! "[129] (V)       0.00"];
             GP_Individual_Node_Type(65,54)= 0
-            GP_Individual_Node_Parameters(65,54)= -6 ! "[65] (P)   1.00000000"];
+            GP_Individual_Node_Parameters(65,54)= p1  !  -6 ! "[65] (P)   1.00000000"];
             GP_Individual_Node_Type(33,54)= 8  !  "[33] pow"];
             GP_Individual_Node_Type(66,54)= -6  ! "[66] (V)       0.00"];
             GP_Individual_Node_Type(67,54)= 0

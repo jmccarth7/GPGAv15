@@ -217,7 +217,20 @@ call Build_Trees( GP_Trees(:, 1) ,  buildTrees )
 
 !call Deserialize_Trees( GP_Trees(:,:,:), &
 !                        n_Trees, n_Tracked_Resources, output_dir )
+!-------------------------------------------------------------------------------
+                                                                                                                        
+if( .not. buildtrees .and.  myid == 0 )then                                                                                                     
 
+    ! compute trees from fasham functions
+                                                                                                                        
+    write(6,'(/A)') 'inmod: call Generate_Dot_Graph'                                                                      
+                                                                                                                        
+    call Generate_Dot_Graph( GP_Trees(:,1), n_Trees, output_dir )                                                       
+                                                                                                                        
+    write(6,'(/A/)') 'inmod: aft call Generate_Dot_Graph'                                                                
+                                                                                                                        
+endif ! myid == 0                                                                                                       
+   
 
 !-------------------------------------------------------------------------------
 

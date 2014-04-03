@@ -8,6 +8,7 @@ SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 allocate_arrays1.f90 \
 	count_parens.f90 create_equations.f90 create_tree_node_string.f90 \
 	deallocate_arrays1.f90 deserialize_trees.f90 deserialize_trees2.f90 \
 	enorm.f90 erfc.f90 erfcc.f90 Fasham_Forcing.f90 \
+	fasham_model_debug.f90 \
 	fasham_tree_functions.f90 fasham_tree_interfaces.f90 \
 	fasham_variables_module.f90 fcn.f90 fdjac2.f90 fill_string_arrays.f90 \
 	GA_Fitness_Proportionate_Asexual_Reproduction.f90 GA_Mutations.f90 \
@@ -50,6 +51,7 @@ OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o allocate_arrays1.o \
 	combine_tree_strings.o comp_data_variance.o corr.o count_parens.o \
 	create_equations.o create_tree_node_string.o deallocate_arrays1.o \
 	deserialize_trees.o deserialize_trees2.o enorm.o erfc.o erfcc.o \
+	fasham_model_debug.o \
 	Fasham_Forcing.o fasham_tree_functions.o fasham_tree_interfaces.o \
 	fasham_variables_module.o fcn.o fdjac2.o fill_string_arrays.o \
 	GA_Fitness_Proportionate_Asexual_Reproduction.o GA_Mutations.o \
@@ -189,6 +191,10 @@ deserialize_trees2.o: GP_variables_module.o Tree_Helper_module.o \
 	class_serialization_visitor.o class_tree_node.o mpi_module.o \
 	tree_node_factory_module.o
 Fasham_Forcing.o: GP_variables_module.o fasham_variables_module.o
+fasham_model_debug.o: GA_parameters_module.o \
+	GA_variables_module.o GP_data_module.o GP_parameters_module.o \
+	GP_variables_module.o class_tree_node.o fasham_variables_module.o \
+	mpi_module.o tree_node_factory_module.o
 fasham_tree_functions.o: GP_variables_module.o fasham_tree_interfaces.o \
 	fasham_variables_module.o tree_node_factory_module.o
 fasham_tree_interfaces.o: class_tree_node.o
