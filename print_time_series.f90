@@ -29,15 +29,12 @@ character(1000) :: title_string
 
 integer(kind=4),intent(in) :: i_GP_best_parent
 integer(kind=4),intent(in) :: nop
-!integer(kind=4) :: i_GP_individual
 integer(kind=4) :: i_tree
 integer(kind=4) :: i_node
 integer(kind=4) :: ii
 integer(kind=4) :: i
 integer(kind=4) :: j
-!integer(kind=4) :: jj
 
-!logical :: buildTrees
 
 
 !real(kind=8), dimension( n_input_data_points, n_code_equations ) :: resid
@@ -79,77 +76,13 @@ GP_individual_Initial_Conditions = GP_Population_Initial_Conditions(:, i_GP_best
 GP_Individual_Node_Parameters    = GP_population_node_parameters(:,:,i_GP_best_parent)
 GP_Individual_Node_Type          = GP_Adult_Population_Node_Type(:,:,i_GP_best_parent)
 
-!Runge_Kutta_Node_Type        = GP_Adult_Population_Node_Type(:,:,i_GP_best_parent)
-!Runge_Kutta_Node_Parameters  = GP_population_node_parameters(:,:,i_GP_best_parent)
 
 Numerical_CODE_Solution(0,1:n_CODE_equations)         = GP_individual_Initial_Conditions
-!Runge_Kutta_Solution(0,1:n_CODE_equations)            = GP_individual_Initial_Conditions
 Numerical_CODE_Initial_Conditions(1:n_CODE_equations) = GP_individual_Initial_Conditions
 
 
 if( myid == 0 )then
-
     write(6,'(/A,2(1x,I6)/)') 'pts: nop',  nop
-
-    !do  ii = 1, nop ! n_GP_parameters
-    !    if( abs( output_array(ii) ) > 0.0D0 )then
-    !        write(6,'(A,1x,I6,1x,E24.16)') 'pts: ii, output_array(ii) ', &
-    !                                             ii, output_array(ii)
-    !    endif ! abs( output_array(ii) ) > 0.0D0
-    !enddo ! ii
-
-
-    !write(6,'(A)') ' '
-
-    !do  ii = 1, n_CODE_equations
-    !    write(6,'(A,1x,I6,1x,E24.16)') &
-    !          'pts: ii, Numerical_CODE_Initial_Conditions(ii) ', &
-    !                ii, Numerical_CODE_Initial_Conditions(ii)
-    !enddo ! ii
-
-    !write(6,'(A)') ' '
-
-    !do  ii = 1, n_CODE_equations
-    !    write(6,'(A,1x,I6,1x,E24.16)') &
-    !          'pts: ii, Numerical_CODE_Solution(0,ii)         ', &
-    !                ii, Numerical_CODE_Solution(0,ii)
-    !enddo ! ii
-
-
-    !write(6,'(/A,2(1x,I6))') 'pts: n_trees, n_nodes ', n_trees, n_nodes
-
-    !write(6,'(/A)') &
-    !      'pts: i_tree  i_node  &
-    !      &GP_Individual_Node_Parameters( i_node, i_tree ) '
-
-    !do  i_tree = 1, n_trees
-    !    do  i_node = 1, n_nodes
-
-    !        if( GP_Individual_Node_Type( i_node, i_tree ) == 0     )then
-    !            write(6,'(2(1x,I8),6x,E24.16)') &
-    !                  i_tree, i_node, &
-    !                  GP_Individual_Node_Parameters( i_node, i_tree )
-    !        endif ! GP_Individual_Node_Type( i_node, i_tree ) == 0
-
-    !    enddo ! i_node
-    !enddo ! i_tree
-
-    !write(6,'(//A)') &
-    !  'pts: i_tree  i_node  GP_Individual_Node_Type( i_node, i_tree ) '
-
-    !do  i_tree = 1, n_trees
-    !    do  i_node = 1, n_nodes
-
-    !        if( GP_Individual_Node_Type( i_node, i_tree ) /= -9999 )then
-    !            write(6,'(3(1x,I8))') &
-    !               i_tree, i_node, GP_Individual_Node_Type( i_node, i_tree )
-    !        endif ! GP_Individual_Node_Type( i_node, i_tree ) /= -9999
-
-    !    enddo ! i_node
-    !enddo ! i_tree
-
-    !write(6,'(//A)') ' '
-
 endif ! myid == 0
 
 
@@ -273,7 +206,7 @@ endif ! myid == 0
 
 if( myid == 0 )then
 
-    ! RK_Box_Model now put the time series in Numerical_CODE_Solution
+    ! RK_Box_Model now puts the time series in Numerical_CODE_Solution
 
     !call Runge_Kutta_Box_Model( .true. )  ! print
     call Runge_Kutta_Box_Model( .false. )   ! don't print
@@ -337,8 +270,6 @@ if( myid == 0 )then
     enddo ! i
 
 
-    !call calc_stats( n_input_data_points, Numerical_CODE_Solution(1,1), &
-    !                 RKmean, RKrms, RKstddev )
 
     !--------------------------------------------------------------------------------
 
@@ -396,9 +327,11 @@ if( myid == 0 )then
     enddo ! j 
 
     !--------------------------------------------------------------------------------
+
     !write(GP_print_unit, '(//A,1x, I6,1x,E24.16/)') &
     !     'pts: n_input_data_points, resid_SSE', &
     !           n_input_data_points, resid_SSE
+
     write(GP_print_unit, '(//A,1x, I6,1x,E24.16/)') &
          'pts: n_time_steps, resid_SSE', &
                n_time_steps, resid_SSE
@@ -471,14 +404,6 @@ endif ! myid == 0
 
 
 !--------------------------------------------------------------------------------
-
-!if( allocated(  GP_Trees ) )then
-!    do  i = 1, n_trees
-!        call GP_Trees(i,1)%n%delete()
-!        deallocate( GP_Trees(i,1)%n )
-!    enddo
-!    deallocate( GP_Trees )
-!endif ! allocated( GP_Trees )
 
 do  i = 1, n_trees
     if( associated( GP_Trees(i,1)%n ) ) then 

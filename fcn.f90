@@ -46,9 +46,6 @@ logical,parameter :: L_GP_print = .TRUE.
 !---------------------------------------------------------------------
 
 
-!write(6,'(A,1x,I5,4x,L1)') 'fcn: myid, L_GA_print   ', myid, L_GA_print
-!write(6,'(A,1x,I5,1x,I5)') 'fcn: myid, GA_print_unit', myid, GA_print_unit
-
 !if( GP_para_flag .and. myid == 3 )then
 !if( myid == 1 )then
 !    write(GP_print_unit,'(A,2(1x,I6))') &
@@ -62,7 +59,6 @@ logical,parameter :: L_GP_print = .TRUE.
 
 ! set up the initial conditions
 
-!Runge_Kutta_Solution = 0.0D0
 Numerical_CODE_Solution = 0.0d0
 
 do i_CODE_equation=1,n_CODE_equations
@@ -113,8 +109,6 @@ write(GP_print_unit,'(A)') &
 tree_loop:&
 do  i_tree=1,n_trees
     do  i_node=1,n_nodes
-
-
 
         !if( GP_para_flag .and. myid == 1 )then
         !    if( GP_Individual_Node_Type(i_node,i_tree) > -9999 )then
@@ -246,8 +240,6 @@ call Initialize_Model( .true., .true. , 6 )   ! call build_trees
 
 !if( L_ga_print )then
 !    write(GA_print_unit,'(/A/)') 'fcn: aft call Initialize_Model(.true.)'
-!    write(GA_print_unit,'(A,1x,I6/)') &
-!          'fcn: size( GP_Trees ) ', size( GP_Trees )
 !endif ! L_ga_print
 
 
@@ -282,11 +274,7 @@ Numerical_CODE_Initial_Conditions(1:n_CODE_equations) = Numerical_CODE_Solution(
 !                    ii, Numerical_CODE_Solution(0,ii)
 !    enddo ! ii
 !
-!
-!    write(GA_print_unit,'(A)') ' '
-!
-!    write(GA_print_unit,'(A,2(1x,I6))') &
-!    'fcn: n_trees, n_nodes ', n_trees, n_nodes
+!    write(GA_print_unit,'(/A,2(1x,I6))') 'fcn: n_trees, n_nodes ', n_trees, n_nodes
 !
 !
 !    write(GA_print_unit,'(/A)') &
@@ -323,11 +311,7 @@ Numerical_CODE_Initial_Conditions(1:n_CODE_equations) = Numerical_CODE_Solution(
 !                    ii, Numerical_CODE_Solution(0,ii)
 !    enddo ! ii
 !
-!
-!    write(6,'(A)') ' '
-!
-!    write(6,'(A,2(1x,I6))') &
-!    'fcn: n_trees, n_nodes ', n_trees, n_nodes
+!    write(6,'(/A,2(1x,I6))') 'fcn: n_trees, n_nodes ', n_trees, n_nodes
 !
 !    write(6,'(/A)') &
 !          'fcn: i_tree  i_node  GP_Individual_Node_Parameters( i_node, i_tree ) '
@@ -387,7 +371,6 @@ call Runge_Kutta_Box_Model( .FALSE. )
 if( L_bad_result ) then
 
     !if( L_GP_print ) then !.and. GP_para_flag .and. myid == 1 )then
-    !    write(GP_print_unit,'(A,1x,I6,4x,L1)') &
     !    write(6,'(A,1x,I6,4x,L1)') &
     !          'fcn: aft call Runge_Kutta_Box_Model  myid, L_bad_result = ', &
     !                                                myid, L_bad_result
@@ -401,27 +384,6 @@ if( L_bad_result ) then
 
     iflag = -1
 
-    !if( allocated(  GP_Trees ) )then
-    !    !do  i = 1, n_trees
-    !    !    call GP_Trees(i,1)%n%delete()
-    !    !    !deallocate( GP_Trees(i,1)%n )
-    !    !enddo
-    !    deallocate( GP_Trees )
-    !endif ! allocated( GP_Trees )
-    !!---------------------------------------------------------------------------------
-    !tree_node_count = 0
-    !do  i = 1, n_trees
-    !write(GP_print_unit,'(A,1x,I6,5x,L1)') &
-    !      'fcn:4bef myid, associated( GP_Trees(i,1)%n ) ', &
-    !                myid, associated( GP_Trees(i,1)%n )
-    !if( associated( GP_Trees(i,1)%n )  )then
-    !    tree_node_count = GetNodeCount( GP_Trees( i, 1 )%n )
-    !endif
-    !write(GP_print_unit,'(A,2(1x,I6))') &
-    !      'fcn:4bef myid, tree_node_count ', myid, tree_node_count
-    !enddo
-    !!---------------------------------------------------------------------------------
-
 
     do  i = 1, n_trees
         if( associated( GP_Trees(i,1)%n )  )then
@@ -429,20 +391,6 @@ if( L_bad_result ) then
             deallocate( GP_Trees(i,1)%n )
         endif
     enddo
-
-    !!---------------------------------------------------------------------------------
-    !tree_node_count = 0
-    !do  i = 1, n_trees
-    !write(GP_print_unit,'(A,1x,I6,5x,L1)') &
-    !      'fcn:4aft myid, associated( GP_Trees(i,1)%n ) ', &
-    !                myid, associated( GP_Trees(i,1)%n )
-    !if( associated( GP_Trees(i,1)%n )  )then
-    !    tree_node_count = GetNodeCount( GP_Trees( i, 1 )%n )
-    !endif
-    !write(GP_print_unit,'(A,2(1x,I6))') &
-    !      'fcn:4aft myid, tree_node_count ', myid, tree_node_count
-    !enddo
-    !!---------------------------------------------------------------------------------
 
     return
 
@@ -511,7 +459,8 @@ do  i_time_step=1,n_time_steps
   
     sse_local = sse_local + fvec(i_time_step)  ! 20131209
   
-    !if( L_GP_print .and. GP_para_flag .and. myid == 1 .and. i_time_step == n_time_steps )then
+    !if( L_GP_print .and. GP_para_flag .and. myid == 1 .and. &
+    !                                  i_time_step == n_time_steps )then
     !   write(GP_print_unit,'(A,1x,I6, 1x,I6, 1x, E15.7)')&
     !          'fcn: myid, i_time_step, fvec', &
     !                myid, i_time_step, fvec(i_time_step)
@@ -533,28 +482,7 @@ enddo ! i_time_step
 !endif ! L_ga_print
 
 
-!if( allocated(  GP_Trees ) )then
-!    !do  i = 1, n_trees
-!    !    call GP_Trees(i,1)%n%delete()
-!    !    !deallocate( GP_Trees(i,1)%n )
-!    !enddo
-!    deallocate( GP_Trees )
-!endif ! allocated( GP_Trees )
-
-!!---------------------------------------------------------------------------------
-!tree_node_count = 0
-!do  i = 1, n_trees
-!write(GP_print_unit,'(A,1x,I6,5x,L1)') &
-!      'fcn:bef AT RETURN myid, associated( GP_Trees(i,1)%n ) ', &
-!                         myid, associated( GP_Trees(i,1)%n )
-!if( associated( GP_Trees(i,1)%n )  )then
-!    tree_node_count = GetNodeCount( GP_Trees( i, 1 )%n )
-!endif
-!enddo
-!write(GP_print_unit,'(A,3(1x,I6))') &
-!      'fcn:bef AT RETURN  myid, tree_node_count, size( GP_Trees ) ', &
-!                          myid, tree_node_count, size( GP_Trees )
-!!---------------------------------------------------------------------------------
+!---------------------------------------------------------------------------------
 
 do  i = 1, n_trees
     !write(6,'(A,1x,I6,5x,L1)') &
@@ -566,21 +494,7 @@ do  i = 1, n_trees
     endif
 enddo
 
-!!---------------------------------------------------------------------------------
-!tree_node_count = 0
-!do  i = 1, n_trees
-!write(GP_print_unit,'(A,1x,I6,5x,L1)') &
-!      'fcn:aft AT RETURN myid, associated( GP_Trees(i,1)%n ) ', &
-!                         myid, associated( GP_Trees(i,1)%n )
-!if( associated( GP_Trees(i,1)%n )  )then
-!    tree_node_count = GetNodeCount( GP_Trees( i, 1 )%n )
-!endif
-!enddo
-!write(GP_print_unit,'(A,3(1x,I6))') &
-!      'fcn:aft AT RETURN  myid, tree_node_count, size( GP_Trees ) ', &
-!                          myid, tree_node_count, size( GP_Trees )
-!!---------------------------------------------------------------------------------
-
+!---------------------------------------------------------------------------------
 
 return
 

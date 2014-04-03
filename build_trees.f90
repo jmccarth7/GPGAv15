@@ -45,10 +45,6 @@ if( buildtrees )then
     
     if( myid == 1 )then
         write(6,'(/A/)') 'build_trees: aft call Deserialize_Trees2 '
-
-    !call MPI_Finalize(ierr) ! debug only
-    !stop ! debug only
-
     endif ! myid == 1
     
     
@@ -56,16 +52,12 @@ if( buildtrees )then
     ! debug >>>>
     
     !if( myid == 1 )then
-    !
     !    !write(6,'(A,2(1x,I6))') 'build_trees: before tree loop '
-    !
     !    do  i = 1, n_Trees
-    !        !write(6,'(A,2(1x,I6))') 'build_trees: i, treeSlice(i)%n%node_type ', &
+    !        write(6,'(A,2(1x,I6))') 'build_trees: i, treeSlice(i)%n%node_type ', &
     !                                              i, treeSlice(i)%n%node_type
     !    enddo  ! i
-    !
-    !    !write(6,'(A,2(1x,I6))') 'build_trees: after tree loop '
-    !
+    !    write(6,'(A,2(1x,I6))') 'build_trees: after tree loop '
     !endif ! myid == 1
     
     ! debug <<<<<

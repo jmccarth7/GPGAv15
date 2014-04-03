@@ -41,10 +41,24 @@ logical :: buildTrees
 
 write(6,'(/A/)') 'saa: call Initialize_Model  '
 
-!call Initialize_Model( .true., .true., 6 )
-call Initialize_Model( .false., .true., 6 )    ! for built-in Fasham model
+!call Initialize_Model( .true., .true., 6 )    ! for the regular tree, node array model
+call Initialize_Model( .false., .true., 6 )    ! for built-in Fasham function model
 
 write(6,'(/A/)') 'saa: aft call Initialize_Model  '
+
+!------------------------------------------------------------------------------
+
+
+if( myid == 0 )then
+
+    ! print the trees made from fasham functions
+
+    write(6,'(/A)') 'saa: call Generate_Dot_Graph'
+    call Generate_Dot_Graph( GP_Trees(:,1), n_Trees, output_dir )
+
+    write(6,'(/A/)') 'saa: aft call Generate_Dot_Graph'
+
+endif ! myid == 0
 
 
 !------------------------------------------------------------------------------
@@ -84,13 +98,10 @@ endif ! L_unit50_output
 ! for the 'twin experiment case'
 
 
-
 ! initialize the biological data fields
 
-
-
-
-Numerical_CODE_Solution(0,1:n_CODE_equations) = Numerical_CODE_Initial_Conditions ! Array Assignment
+Numerical_CODE_Solution(0,1:n_CODE_equations) = &
+             Numerical_CODE_Initial_Conditions 
 
 
 if( myid == 0 )then
@@ -110,8 +121,7 @@ if( myid == 0 )then
     enddo ! ii
 
 
-    write(6,'(A)') ' '
-    write(6,'(A,2(1x,I6))') 'saa: n_trees, n_nodes ', n_trees, n_nodes
+    write(6,'(/A,2(1x,I6))') 'saa: n_trees, n_nodes ', n_trees, n_nodes
 
     write(6,'(/A)') &
           'saa: i_tree  i_node  GP_Individual_Node_Parameters( i_node, i_tree ) '
@@ -156,8 +166,6 @@ if( myid == 0 )then
     ! Runge_Kutta_Box_Model now put the time series in Numerical_CODE_Solution
 
     call Runge_Kutta_Box_Model( .false. )  ! 1 )
-
-    !!Runge_Kutta_Solution = Numerical_CODE_Solution
 
 
 endif ! myid == 0

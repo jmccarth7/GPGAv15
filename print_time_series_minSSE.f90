@@ -27,9 +27,6 @@ implicit none
 
 character(1000) :: title_string 
 
-!integer(kind=4),intent(in) :: i_GP_best_parent
-!integer(kind=4),intent(in) :: nop
-!integer(kind=4) :: i_GP_individual
 integer(kind=4) :: i_tree
 integer(kind=4) :: i_node
 integer(kind=4) :: ii
@@ -37,7 +34,6 @@ integer(kind=4) :: i
 integer(kind=4) :: j
 !integer(kind=4) :: jj
 
-!logical :: buildTrees
 
 
 !real(kind=8), dimension( n_input_data_points, n_code_equations ) :: resid
@@ -46,7 +42,6 @@ real(kind=8), dimension( n_time_steps, n_code_equations ) :: resid
 !real(kind=8), dimension( n_input_data_points ) :: temp_data_array
 !origreal(kind=8), intent(in),dimension( n_GP_parameters ) :: output_array
 
-!real(kind=8), intent(in),dimension( nop ) :: output_array
 
 
 real(kind=8),dimension(n_code_equations)  :: RKmean
@@ -85,11 +80,8 @@ GP_individual_Initial_Conditions = GP_minSSE_Individual_Initial_Conditions
 GP_Individual_Node_Parameters    = GP_minSSE_Individual_Node_Parameters
 GP_Individual_Node_Type          = GP_minSSE_Individual_Node_Type
 
-!Runge_Kutta_Node_Type        = GP_minSSE_Individual_Node_Type
-!Runge_Kutta_Node_Parameters  = GP_minSSE_Individual_Node_Parameters
 
 Numerical_CODE_Solution(0,1:n_CODE_equations)         = GP_minSSE_individual_Initial_Conditions
-!Runge_Kutta_Solution(0,1:n_CODE_equations)            = GP_minSSE_individual_Initial_Conditions
 Numerical_CODE_Initial_Conditions(1:n_CODE_equations) = GP_minSSE_individual_Initial_Conditions
 
 
@@ -217,7 +209,7 @@ endif ! myid == 0
 
 if( myid == 0 )then
 
-    ! RK_Box_Model now put the time series in Numerical_CODE_Solution
+    ! RK_Box_Model now puts the time series in Numerical_CODE_Solution
 
     !call Runge_Kutta_Box_Model( .true. )  ! print
     call Runge_Kutta_Box_Model( .false. )   ! don't print
@@ -252,7 +244,7 @@ if( myid == 0 )then
 
     resid_SSE = 0.0d0
 !    do  i = 1, n_input_data_points
-    do  i = 1, n_time_steps   !  n_input_data_points
+    do  i = 1, n_time_steps  
 
         do  j = 1, n_code_equations 
 
@@ -275,8 +267,6 @@ if( myid == 0 )then
     enddo ! i
 
 
-    !call calc_stats( n_input_data_points, Numerical_CODE_Solution(1,1), &
-    !                 RKmean, RKrms, RKstddev )
 
     !--------------------------------------------------------------------------------
 
@@ -407,14 +397,6 @@ endif ! myid == 0
 
 
 !--------------------------------------------------------------------------------
-
-!if( allocated(  GP_Trees ) )then
-!    do  i = 1, n_trees
-!        call GP_Trees(i,1)%n%delete()
-!        deallocate( GP_Trees(i,1)%n )
-!    enddo
-!    deallocate( GP_Trees )
-!endif ! allocated( GP_Trees )
 
 do  i = 1, n_trees
     if( associated( GP_Trees(i,1)%n ) ) then 

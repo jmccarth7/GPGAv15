@@ -61,10 +61,6 @@ character(200) :: tree_descrip
 character(10),parameter :: program_version   = '201401.002'
 character(10),parameter :: modification_date = '20140303'
 character(50),parameter :: branch  =  'master'
-!!type(Tree_Node_Pointer) :: t1, t2, t3, t4
-!!type(Tree_Node_Pointer), dimension(:), allocatable :: T1_Nodes, T2_Nodes
-!!!real(kind=8) :: r
-!!integer(kind=4) :: index, swap_node_1, swap_node_2
 
 
 !---------------------------------------------------------------------------------------
@@ -465,9 +461,6 @@ if( myid == 0 )then    ! 20131209
 endif ! myid == 0
 
 
-!message_len = ( n_time_steps + 1 ) * n_CODE_equations
-!call MPI_BCAST( Runge_Kutta_Solution, message_len,    &
-!                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
 
 message_len = ( n_time_steps + 1 ) * n_CODE_equations
@@ -476,7 +469,6 @@ call MPI_BCAST( Numerical_CODE_Solution, message_len,    &
 
 
 
-!Data_Array=Runge_Kutta_Solution          ! Matrix Operation
 Data_Array=Numerical_CODE_Solution        ! Matrix Operation
 
 
@@ -1677,7 +1669,9 @@ do  i_GP_Generation=1,n_GP_Generations
 
     !---------------------------------------------------------------
 
+    ! debug only
     ! debug only call GP_para_lmdif_process( i_GP_generation, max_n_gp_params  )
+    ! debug only
 
     !---------------------------------------------------------------
 

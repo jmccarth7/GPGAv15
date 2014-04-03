@@ -83,32 +83,6 @@ enddo ! i_parameter
 
 !----------------------------------------------------------------------------------------
 
-
-! set up the GP_Trees for the Runge_Kutta integration
-
-
-! Initialize_Model calls build_trees which makes the GP_Trees
-
-!if( L_ga_print )then
-!    write(GA_print_unit,'(/A)') 'setrf: call Initialize_Model(.true.)'
-!endif ! L_ga_print
-
-
-! initialize_model  sets buildtrees = .true.
-
-!call Initialize_Model( .true.,  L_GA_print, GA_print_unit )   ! call build_trees
-
-
-!if( L_ga_print )then
-!    write(GA_print_unit,'(/A/)') 'setrf: aft call Initialize_Model(.true.)'
-!    write(GA_print_unit,'(A,1x,I6/)') &
-!          'setrf: size( GP_Trees ) ', size( GP_Trees )
-!endif ! L_ga_print
-
-
-
-!----------------------------------------------------------------------------------------
-
 ! call fcn
 
 
@@ -219,7 +193,6 @@ enddo ! i_parameter
 !    write(GA_print_unit,'(/A/)')'setrf: calculate the individual SSE values '
 !endif ! L_ga_print
 !write(6,'(/A/)')'setrf: calculate the individual SSE values '
-
 !flush(6)
 
 individual_SSE(i_GA_indiv)=0.0D+0
@@ -267,7 +240,6 @@ endif !  individual_quality( i_GA_indiv ) > 0
 !              myid, i_GA_indiv, &
 !              individual_quality( i_GA_indiv ), &
 !              individual_SSE(i_GA_indiv)
-
 !flush(6)
 
 
