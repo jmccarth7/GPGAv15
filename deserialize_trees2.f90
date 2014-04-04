@@ -39,8 +39,6 @@ real(kind=8) :: parameter_value
 type(Tree_Node_Pointer), dimension(:), allocatable :: Nodes
 integer(kind=4), dimension(:), allocatable :: Node_IDs
 
-!character(len=80) :: file_name
-!logical :: file_exists
 
 type(Tree_Node), pointer :: parent, root
 
@@ -56,10 +54,11 @@ type(Tree_Node), pointer :: parent, root
 !    temp_myid = 1
 !endif
 
+!--------------------------------------------------------------------------------------
+
 ! MathNodeType      = 1
 ! VariableNodeType  = 2
 ! ParameterNodeType = 3
-
 
 !--------------------------------------------------------------------------------------
 !! debug only  - put in discover problem tree
@@ -242,14 +241,14 @@ do i = 1, Tree_count
 
                 !write(6,'(/A,4(1x,I6))') 'DsT2: i, inode, node_id, node_type', &
                 !                                i, inode, node_id, node_type
-                !flush(6)
                 !write(6,'(A,2(1x,I6),1x,E15.7)') &
-                !                         'DsT2: i, inode, parameter_value   ', &
-                !                                i, inode, parameter_value
+                !                        'DsT2: i, inode, parameter_value   ', &
+                !                               i, inode, parameter_value
                 !write(6,'(A,3(1x,I6))') 'DsT2: i, inode, variable_index     ', &
                 !                               i, inode, variable_index
                 !write(6,'(A,3(1x,I6))') 'DsT2: i, inode, node_operation     ', &
                 !                               i, inode, node_operation
+                !flush(6)
 
                 !---------------------------------------------------------------------
 
@@ -282,8 +281,11 @@ do i = 1, Tree_count
 
         !flush(6)
 
+
         ! First node is always the root
+
         root => Nodes(1)%n
+
 
         !if( myid == temp_myid )then
             !write(6,'(//A,2(1x,I8))')  &
@@ -294,6 +296,8 @@ do i = 1, Tree_count
         !endif !  myid == temp_myid
 
 
+
+
         ! At this point, we have a collection of nodes, but there are:
 
         !   1) No associations between Math nodes and their children
@@ -302,6 +306,8 @@ do i = 1, Tree_count
 
         ! Make the above two associations
 
+
+
         !write(6, '(//A,2(1x,I6)/)')  'DsT2: k loop i, node_count  ', i, node_count
         !flush(6)
 
@@ -309,16 +315,19 @@ do i = 1, Tree_count
 
             !write(6,'(/A,3(1x,I6))')  'DsT2: i, k, Nodes(k)%n%Node_Type ', &
             !                                 i, k, Nodes(k)%n%Node_Type
-
             !flush(6)
 
             if( Nodes(k)%n%Node_Type .eq. MathNodeType ) then
 
+
                 ! Grab the parent & calculate children indexes
+
 
                 parent => Nodes(k)%n
                 left = Node_IDs(k)*2
                 right = Node_IDs(k)*2+1
+
+
 
                 !write(6,'(/A,3(1x,I6))')'DsT2: i, k, MathNodeType     ', &
                 !                               i, k, MathNodeType
@@ -326,8 +335,9 @@ do i = 1, Tree_count
                 !                               i, k, parent%node_type
                 !write(6,'(A,4(1x,I6))') 'DsT2: i, k, left, right      ', &
                 !                               i, k, left, right
-
                 !flush(6)
+
+
 
                 ! Grab the children and associate
 
@@ -368,10 +378,10 @@ do i = 1, Tree_count
                 ! Associate it with the correct array
 
                 !write(6,'(/A,3(1x,I6))') &
-                !      'DsT2: i, k, VariableNodeType         ', i, k, VariableNodeType
+                !  'DsT2: i, k, VariableNodeType         ', i, k, VariableNodeType
                 !write(6,'(A,3(1x,I6))')  &
-                !      'DsT2: i, k, Nodes(k)%n%variable_index', &
-                !             i, k, Nodes(k)%n%variable_index
+                !  'DsT2: i, k, Nodes(k)%n%variable_index', &
+                !         i, k, Nodes(k)%n%variable_index
 
 
                 if( Nodes(k)%n%variable_index < -5000) then
@@ -384,7 +394,6 @@ do i = 1, Tree_count
                     ! 'DsT2: &
                     ! &Numerical_CODE_Forcing_Functions(abs(5000+Nodes(k)%n%variable_index)) ',&
                     !  Numerical_CODE_Forcing_Functions(abs(5000+Nodes(k)%n%variable_index))
-
                     !flush(6)
 
                     Nodes(k)%n%variable =>  &
@@ -409,7 +418,9 @@ do i = 1, Tree_count
 
                     else
 
-                                                    ! n_code_equations = 1 only
+                        ! this section for the data processing version 
+                        ! n_code_equations = 1 only
+
                         !Nodes(k)%n%variable =>  &
                         !     RK_data_array( &
                         !           abs( Nodes(k)%n%variable_index ) - n_code_equations )
@@ -417,7 +428,6 @@ do i = 1, Tree_count
                         !write(6,'(A,3(1x,I6))') &
                         !'DsT2: i, k, abs( Nodes(k)%n%variable_index ) - n_code_equations !!! ', &
                         !       i, k, abs( Nodes(k)%n%variable_index ) - n_code_equations
-
                         !flush(6)
 
                         !write(6,'(A,2(1x,I6),1x,E24.16)') &
@@ -437,7 +447,6 @@ do i = 1, Tree_count
                 !'DsT2: i, k, ParameterNodeType   ', i, k, ParameterNodeType
                 !write(6,'(A,3(1x,I6))') &
                 !'DsT2: i, k, Nodes(k)%n%Node_Type', i, k, Nodes(k)%n%Node_Type
-
                 !flush(6)
 
             endif
@@ -450,16 +459,15 @@ do i = 1, Tree_count
         ! Finally, compute the node count for each node and
         ! assign the root node to the position in the Tree matrix
 
-        !root%node_count = GetNodeCount(root)
+        !root%node_count = GetNodeCount(root)  ! this line gives an error if executed
 
         Trees(i, j)%n => root
 
         !if( myid == temp_myid )then
         !    write(6,'(A,2(1x,I6))') &
         !    'DsT2: i, root%node_count ', i, root%node_count
+        !    flush(6)
         !endif !  myid == temp_myid
-
-        !flush(6)
 
 
         ! Clean up

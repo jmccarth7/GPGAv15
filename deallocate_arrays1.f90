@@ -37,10 +37,10 @@ deallocate( GP_N_parms )
 
 deallocate( individual_ranked_fitness )
 deallocate( integrated_ranked_fitness )
-!deallocate( fitness_expectation_value )
+
 deallocate( Run_GA_lmdif )
 deallocate( Data_Array  )
-!!deallocate( Data_Variance )
+
 deallocate( Data_Variance_inv )
 
 deallocate( GP_Population_Node_Parameters )
@@ -50,7 +50,7 @@ deallocate( GP_Individual_Node_Parameters )
 deallocate( GP_Node_Parameters_Answer )
 deallocate( GP_Node_Type_Answer )
 deallocate( GP_Node_Type_for_Plotting )
-!deallocate( GP_Solution )
+
 deallocate( GP_Adult_Population_Node_Type )
 deallocate( GP_Child_Population_Node_Type )
 deallocate( Parent_Tree_Swap_Node_Type )
@@ -83,11 +83,6 @@ deallocate( GP_Integrated_Population_Ranked_Fitness )
 deallocate( GP_diversity_index )
 
 deallocate( GP_Individual_Node_Type )
-
-!deallocate( Runge_Kutta_Node_Type )
-!deallocate( Runge_Kutta_Node_Parameters )
-!deallocate( Runge_Kutta_Initial_Conditions )
-!deallocate( Runge_Kutta_Solution )
 
 deallocate( RK_Node_Type )
 deallocate( RK_Node_Parameters )
@@ -130,24 +125,15 @@ if( L_print_equations )then
 endif ! L_print_equations                
 
 
-!!deallocate( linked_parms )
 
 
 deallocate( Node_Probability )
 
 !>>>>>>>>>>>>>
 deallocate( GP_Adult_Population_SSE )
-!deallocate( GP_Child_Population_SSE )
 !>>>>>>>>>>>>>
 
 !deallocate( ppex ) 
-
-!deallocate( buffer )
-!deallocate( buffer_recv )
-
-!deallocate( buffer2 )
-!deallocate( buffer2_recv )
-
 
 
 return

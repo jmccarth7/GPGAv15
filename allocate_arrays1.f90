@@ -11,7 +11,6 @@ subroutine allocate_arrays1( )
 use mpi
 use mpi_module
 
-!!!!!!!!!use GP_model_parameters_module
 use GP_Parameters_module
 use GP_variables_module
 use GA_Parameters_module
@@ -41,7 +40,7 @@ allocate( ga_individual_elites( n_GA_individuals )  )
 allocate( Run_GA_lmdif( n_GA_individuals )  )
 
 allocate( Data_Array( 0:n_time_steps, n_CODE_equations )  )
-!!allocate( Data_Variance( n_CODE_equations )  )
+
 allocate( Data_Variance_inv( n_CODE_equations )  )
 
 allocate( Parent_Tree_Swap_Node_Type(n_Nodes,2) )
@@ -114,19 +113,13 @@ allocate( Tree_Value(n_trees) )
 
 allocate( Node_Eval_Type(n_nodes,n_trees) )
 
-!allocate( Numerical_CODE_Initial_Conditions( 1:n_CODE_equations ) )
 allocate( Numerical_CODE_Initial_Conditions( 1:n_CODE_equations ) )
 
-!allocate( Numerical_CODE_Forcing_Functions( n_CODE_forcing ) )
 allocate( Numerical_CODE_Forcing_Functions( n_CODE_forcing ) )
 
 !allocate( Numerical_CODE_Solution( 0:n_input_data_points, n_CODE_equations ) )
 allocate( Numerical_CODE_Solution( 0:n_time_steps, n_CODE_equations ) )
 
-!allocate( Runge_Kutta_Solution( 0:n_time_steps, n_CODE_equations )  )
-!allocate( Runge_Kutta_Node_Parameters(n_nodes,n_trees) )
-!allocate( Runge_Kutta_Node_Type(n_nodes,n_trees) )
-!allocate( Runge_Kutta_Initial_Conditions(n_CODE_equations) )
 
 allocate( RK_Solution( 0:n_time_steps, n_CODE_equations )  )
 allocate( RK_Node_Parameters(n_nodes,n_trees) )
@@ -169,7 +162,6 @@ allocate( Node_Probability( n_levels ) )
 
 
 allocate( GP_Adult_Population_SSE( n_GP_Individuals  )  )
-!allocate( GP_Child_Population_SSE( n_GP_Individuals  )  )
 
 !allocate( ppex(n_Maximum_Number_Parameters,n_GA_individuals )  )
 
@@ -240,11 +232,6 @@ Tree_Evaluation = 0.0d0
 Tree_Value = 0.0d0
 
 Node_Eval_Type = 0
-
-!Runge_Kutta_Solution  = 0.0d0
-!Runge_Kutta_Node_Parameters = 0.0d0
-!Runge_Kutta_Node_Type = -9999
-!Runge_Kutta_Initial_Conditions = 0.0d0
 
 RK_Solution  = 0.0d0
 RK_Node_Parameters = 0.0d0

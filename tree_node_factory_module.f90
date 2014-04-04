@@ -1,11 +1,11 @@
+module Tree_Node_Factory_module
+
 !
 ! File:   Tree_Node_Factory.f03
 ! Author: Dave
 !
 ! Created on August 5, 2013, 11:18 AM
 !
-
-module Tree_Node_Factory_module
 
     use mpi
     use mpi_module
@@ -36,13 +36,10 @@ module Tree_Node_Factory_module
     integer(kind=4), parameter :: ExponentialLeftMinus  = 19
     integer(kind=4), parameter :: ExponentialRightMinus = 20
 
-    !integer(kind=4), parameter :: G_lower_function      = 21
-    !integer(kind=4), parameter :: G1_function           = 22
-    !integer(kind=4), parameter :: G2_function           = 23
-    !integer(kind=4), parameter :: G3_function           = 24
 
-    integer(kind=4), parameter :: MathNodeType = 1
-    integer(kind=4), parameter :: VariableNodeType = 2
+
+    integer(kind=4), parameter :: MathNodeType      = 1
+    integer(kind=4), parameter :: VariableNodeType  = 2
     integer(kind=4), parameter :: ParameterNodeType = 3
 
     contains
@@ -241,7 +238,7 @@ module Tree_Node_Factory_module
 
         call random_number(rrnd)
 
-!        rrnd = rrnd * 3
+        ! rrnd = rrnd * 3
 
         if( rrnd .ge. 0.66D+0 ) then
 
@@ -263,5 +260,6 @@ module Tree_Node_Factory_module
     end function
 
     !--------------------------------------------------------------------------------
+
 
 end module Tree_Node_Factory_module
