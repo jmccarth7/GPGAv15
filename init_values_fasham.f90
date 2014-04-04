@@ -4,27 +4,6 @@ subroutine init_values_fasham( icall  )
 !     written by John R. Moisan [14 November 2012]
 !     for GPCODE testing/developing
 
-! Lotka_Volterra_Example_Set_Up
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-! This is the tree representation of the CODE System
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-! this examples is a simple Lotka-Volterra model.
-
-! dP/dt = (grow * P)  - (graze * P * Z)
-! dZ/dt = (graze * P * Z) - ((1 - efficiency) * graze * P *  Z) - (amort * Z)
-! [Note: In this example, the (1-efficiency) parameter is set to a new unique parameter, 'effic']
-
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-! 1: [ 3, 0,-1, N, N, N, N, N, N, N, N, N, N, N, N]
-! 2: [ N, N, N, N, N, N, N, N, N, N, N, N, N, N, N]
-! 3: [ N, N, N, N, N, N, N, N, N, N, N, N, N, N, N]
-! 4: [ 3, 0, 3, N, N,-1,-2, N, N, N, N, N, N, N, N]
-! 5: [ 1, 3, 3, 0,-2, 3, 3, N, N, N, N, 0,-2, 0,-1]
-! 6: [ N, N, N, N, N, N, N, N, N, N, N, N, N, N, N]
-!    [01,02,03,04,05,06,07,08,09,10,11,12,13,14,15]
-
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 
 use mpi
@@ -41,7 +20,6 @@ implicit none
 
 integer,intent(in)  :: icall
 
-!logical :: LV_model1 = .TRUE.
 
 integer(kind=4) :: i_Tree
 integer(kind=4) :: i_Node
@@ -49,30 +27,29 @@ integer(kind=4) :: i_Node
 integer(kind=4) :: i
 real(kind=8) :: increment
 
+
 !-------------------------------------------------------------------------
 
-if(  icall  == 0  )then
+!   Fasham model
 
-
-
+if( icall  == 0  )then
 
     n_CODE_equations =   7
-
+ 
     n_variables = 7
-
-    !!! n_code_forcing = 4   ! parameter
-
+ 
+    !!! n_code_forcing = 4      ! parameter
     !!! n_Tracked_Resources = 1 ! parameter  ! number of different resources being tracked
-
-
+ 
+ 
     n_trees=  ((n_CODE_equations+1)**2)-(n_CODE_equations+1)
-
+ 
     n_nodes = pow2_table( n_levels )  ! n_nodes = int(2**n_levels)-1
-
-
+ 
+ 
     !orig n_maximum_number_parameters = n_CODE_equations +  n_nodes
     !n_maximum_number_parameters       = n_CODE_equations *  n_nodes
-
+ 
     !n_maximum_number_parameters       = n_CODE_equations +  n_nodes
     n_maximum_number_parameters       =  n_trees * 2    +  n_nodes   ! jjm 20140307
 
@@ -98,11 +75,7 @@ if(  icall  == 0  )then
 endif ! icall == 0
 
 
-
-
 ! load the arrays
-
-
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 !     set the GPCODE tree control values
@@ -151,17 +124,17 @@ enddo ! i_tree
 !    aN0     =  2.0D+0      ! concentration of NO3 below the mixed-layer [(mMol N) m-3]
 
 
-    !-----------------------------------------------------------------------------------------
+!-----------------------------------------------------------------------------------------
 
-    ! parameters as in Table 1; Fasham et al. [JMR, 48, 591-639, 1990]
+! parameters as in Table 1; Fasham et al. [JMR, 48, 591-639, 1990]
 
 !    akw = 0.04D+0     ! light attenuation due to sea water [m-1]
 !    am  = 0.1D+0      ! cross-thermocline mixing rate [m d-1]
 
     alatd=50.0 !Latitude
 
-    !-----------------------------------------------------------------------------------------
-    !write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: Node_Probability', Node_Probability
+!-----------------------------------------------------------------------------------------
+
 
     write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: alpha  ', alpha
     write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: aK1    ', aK1
@@ -192,9 +165,10 @@ enddo ! i_tree
 
     write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: akw    ', akw
     write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: am     ', am
-    !-----------------------------------------------------------------------------------------
 
-    ! initialize the biological data fields
+!-----------------------------------------------------------------------------------------
+
+! initialize the biological data fields
 
     aNO3    =   0.2D+0 ! Nitrate           [mmol N m-3]
     aNH4    =   0.1D+0 ! Ammonium          [mmol N m-3]
@@ -204,19 +178,21 @@ enddo ! i_tree
     phyto   =   0.1D+0 ! Phytoplankton     [mmol N m-3]
     zoo     =   0.1D+0 ! Zooplankton       [mmol N m-3]
 
-    !-----------------------------------------------------------------------------------------
+!-----------------------------------------------------------------------------------------
 
-    ! Enumerations that represent model variables.
-    ! These are used by the binary tree parsing algorithm to select the index of the
-    ! species or forcing function variable's value
+! Enumerations that represent model variables.
+! These are used by the binary tree parsing algorithm to select the index of the
+! species or forcing function variable's value
 
-!    SPECIES_NITRATE                    = -1
-!    SPECIES_AMMONIUM                   = -2
-!    SPECIES_DISSOLVED_ORGANIC_NITROGEN = -3
-!    SPECIES_DETRITUS                   = -4
-!    SPECIES_BACTERIA                   = -5
-!    SPECIES_PHYTOPLANKTON              = -6
-!    SPECIES_ZOOPLANKTON                = -7
+! in fasham*mod*
+
+!    SPECIES_NITRATE                    = -1          ! parameter
+!    SPECIES_AMMONIUM                   = -2          ! parameter
+!    SPECIES_DISSOLVED_ORGANIC_NITROGEN = -3          ! parameter
+!    SPECIES_DETRITUS                   = -4          ! parameter
+!    SPECIES_BACTERIA                   = -5          ! parameter
+!    SPECIES_PHYTOPLANKTON              = -6          ! parameter
+!    SPECIES_ZOOPLANKTON                = -7          ! parameter
 
 
 !---------------------------------------------------------------------------------------------
@@ -234,11 +210,12 @@ enddo ! i_tree
                          SPECIES_ZOOPLANKTON /)
 
     ! Since indexes are all negative, take the absolute value
+
     bioflo_map = abs(bioflo_map)
 
-    !-------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 
-    ! initialized as parameters in fasham_variables_module
+! initialized as parameters in fasham_variables_module
 
     !FORCING_MIXED_LAYER_DEPTH         = -5001
     !FORCING_MLD_CHANGE_NON_MOTILE     = -5002
@@ -248,10 +225,7 @@ enddo ! i_tree
 
     Numerical_CODE_Forcing_Functions = 0.0D+0
 
-
     Numerical_CODE_Initial_Conditions = (/aNO3, aNH4, DON, DET, bact, phyto, zoo/)
-
-
 
 
 !--------------------------------------------------------------------------------------
@@ -289,6 +263,8 @@ elseif( n_levels == 8 )then
     Node_Probability = (/0.9d0,0.8d0,0.7d0,6.d0, &
                          0.5d0,0.4d0,0.3d0,0.d0/)  ! NOTE: Last value MUST BE 0.0!!!]
 else
+
+    ! n_levels has some other value
 
     increment = 1.0d0 / real( n_levels, kind=8 )
 
@@ -1055,8 +1031,8 @@ endif ! myid == 0
 !!    GP_Individual_Node_Type(1,35) =  4
 !!
 !!    !---------------------------------------------------------------------------
-!!
-!!
+
+
 
             GP_Individual_Node_Type(1,35)= 4   ! "[1] /"];
             GP_Individual_Node_Type(2,35)= 3   ! "[2] *"];
@@ -2043,26 +2019,26 @@ endif ! myid == 0
             GP_Individual_Node_Type(68,54)= 1  !  "[68] +"];                               ****1
             GP_Individual_Node_Type(136,54)= 1  !  "[136] +"];                             ****1
             GP_Individual_Node_Type(272,54)= 3 !   "[272] *"];                             ****1
-            GP_Individual_Node_Type(544,54)= 0                                          !   ****1
+            GP_Individual_Node_Type(544,54)= 0                                          !  ****1
             GP_Individual_Node_Parameters(544,54)= p1 ! "[544] (P)   1.00000000"];         ****1
             GP_Individual_Node_Type(545,54)= -6 ! PHY "[545] (V)       0.00"];             ****1
             GP_Individual_Node_Type(273,54)= 3 !   "[273] *"];                             ****1
-            GP_Individual_Node_Type(546,54)= 0                                          !   ****1
+            GP_Individual_Node_Type(546,54)= 0                                          !  ****1
             GP_Individual_Node_Parameters(546,54)= p2 ! "[546] (P)   1.00000000"];         ****1
             GP_Individual_Node_Type(547,54)= -5  ! BACT "[547] (V)       0.00"];           ****1
             GP_Individual_Node_Type(137,54)= 3 !   "[137] *"];                             ****1
-            GP_Individual_Node_Type(274,54)= 0                                          !   ****1
+            GP_Individual_Node_Type(274,54)= 0                                          !  ****1
             GP_Individual_Node_Parameters(274,54)= p3  !  "[274] (P)   1.00000000"];       ****1
             GP_Individual_Node_Type(275,54)= -4  ! DET "[275] (V)       0.00"];            ****1
-            GP_Individual_Node_Type(69,54)= 0                                            !  ****1
+            GP_Individual_Node_Type(69,54)= 0                                            ! ****1
             GP_Individual_Node_Parameters(69,54)= ak3  !  "[69] (P)   1.00000000"];        ****1
             GP_Individual_Node_Type(35,54)= 1  !  "[35] +"];                               ****1
             GP_Individual_Node_Type(70,54)= 3 !   "[70] *"];                               ****1
             GP_Individual_Node_Type(140,54)= 8  !  "[140] pow"];                           ****1
-            GP_Individual_Node_Type(280,54)= -6  ! PHY "[280] (V)       0.00"];          !  ****1
-            GP_Individual_Node_Type(281,54)= 0                                           !  ****1
+            GP_Individual_Node_Type(280,54)= -6  ! PHY "[280] (V)       0.00"];          ! ****1
+            GP_Individual_Node_Type(281,54)= 0                                           ! ****1
             GP_Individual_Node_Parameters(281,54)= 2.0d0 !  "[281] (P)   2.00000000"];     ****1
-            GP_Individual_Node_Type(141,54)= 0                                           !  ****1
+            GP_Individual_Node_Type(141,54)= 0                                           ! ****1
             GP_Individual_Node_Parameters(141,54)= p1  !  "[141] (P)   1.00000000"];       ****1
             GP_Individual_Node_Type(71,54)= 1  !  "[71] +"];                               ****1
             GP_Individual_Node_Type(142,54)= 3 !   "[142] *"];                             ****1
@@ -2070,14 +2046,14 @@ endif ! myid == 0
             GP_Individual_Node_Type(568,54)= -5  ! BACT "[568] (V)       0.00"];           ****1
             GP_Individual_Node_Type(569,54)= 0                                          !  ****1
             GP_Individual_Node_Parameters(569,54)= 2.0d0 !  "[569] (P)   2.00000000"];     ****1
-            GP_Individual_Node_Type(285,54)= 0                                           !  ****1
+            GP_Individual_Node_Type(285,54)= 0                                           ! ****1
             GP_Individual_Node_Parameters(285,54)= p2  !  "[285] (P)   1.00000000"];       ****1
             GP_Individual_Node_Type(143,54)= 3 !   "[143] *"];                             ****1
             GP_Individual_Node_Type(286,54)= 8  !  "[286] pow"];                           ****1
             GP_Individual_Node_Type(572,54)= -4  ! DET  "[572] (V)       0.00"];           ****1
-            GP_Individual_Node_Type(573,54)= 0                                           !  ****1
+            GP_Individual_Node_Type(573,54)= 0                                           ! ****1
             GP_Individual_Node_Parameters(573,54)= 2.0d0  !  "[573] (P)   2.00000000"];    ****1
-            GP_Individual_Node_Type(287,54)= 0                                           !  ****1
+            GP_Individual_Node_Type(287,54)= 0                                           ! ****1
             GP_Individual_Node_Parameters(287,54)= p3  !  "[287] (P)   1.00000000"];       ****1
             GP_Individual_Node_Type(9,54)= 2  !  "[9] -"];
             GP_Individual_Node_Type(18,54)= 0
@@ -2103,41 +2079,41 @@ endif ! myid == 0
             GP_Individual_Node_Type(84,54)= 1  !  "[84] +"];                               ****2
             GP_Individual_Node_Type(168,54)= 1  !  "[168] +"];                             ****2
             GP_Individual_Node_Type(336,54)= 3 !   "[336] *"];                             ****2
-            GP_Individual_Node_Type(672,54)= 0                                          !   ****2
+            GP_Individual_Node_Type(672,54)= 0                                          !  ****2
             GP_Individual_Node_Parameters(672,54)= p1 !  "[672] (P)   1.00000000"];        ****2
             GP_Individual_Node_Type(673,54)= -6  ! PHY "[673] (V)       0.00"];            ****2
             GP_Individual_Node_Type(337,54)= 3 !   "[337] *"];                             ****2
-            GP_Individual_Node_Type(674,54)= 0                                          !   ****2
+            GP_Individual_Node_Type(674,54)= 0                                          !  ****2
             GP_Individual_Node_Parameters(674,54)= p2  ! "[674] (P)   1.00000000"];        ****2
             GP_Individual_Node_Type(675,54)= -5 ! BACT "[675] (V)       0.00"];            ****2
             GP_Individual_Node_Type(169,54)= 3 !   "[169] *"];                             ****2
-            GP_Individual_Node_Type(338,54)= 0                                          !   ****2
+            GP_Individual_Node_Type(338,54)= 0                                          !  ****2
             GP_Individual_Node_Parameters(338,54)= p3 !  "[338] (P)   1.00000000"];        ****2
             GP_Individual_Node_Type(339,54)= -4  ! DET "[339] (V)       0.00"];            ****2
-            GP_Individual_Node_Type(85,54)= 0                                           !   ****2
+            GP_Individual_Node_Type(85,54)= 0                                           !  ****2
             GP_Individual_Node_Parameters(85,54)= ak3 ! "[85] (P)   1.00000000"];          ****2
             GP_Individual_Node_Type(43,54)= 1  !  "[43] +"];                               ****2
             GP_Individual_Node_Type(86,54)= 3 !   "[86] *"];                               ****2
             GP_Individual_Node_Type(172,54)= 8  !  "[172] pow"];                           ****2
             GP_Individual_Node_Type(344,54)= -6 ! PHY "[344] (V)       0.00"];             ****2
-            GP_Individual_Node_Type(345,54)= 0                                          !   ****2
+            GP_Individual_Node_Type(345,54)= 0                                          !  ****2
             GP_Individual_Node_Parameters(345,54)= 2.0d0 ! "[345] (P)   2.00000000"];      ****2
-            GP_Individual_Node_Type(173,54)= 0                                          !   ****2
+            GP_Individual_Node_Type(173,54)= 0                                          !  ****2
             GP_Individual_Node_Parameters(173,54)= p1 !  "[173] (P)   1.00000000"];        ****2
             GP_Individual_Node_Type(87,54)= 1  !  "[87] +"];                               ****2
             GP_Individual_Node_Type(174,54)= 3 !   "[174] *"];                             ****2
             GP_Individual_Node_Type(348,54)= 8  !  "[348] pow"];                           ****2
             GP_Individual_Node_Type(696,54)= -5  ! BACT "[696] (V)       0.00"];           ****2
-            GP_Individual_Node_Type(697,54)= 0                                          !   ****2
+            GP_Individual_Node_Type(697,54)= 0                                          !  ****2
             GP_Individual_Node_Parameters(697,54)= 2.0d0 !  "[697] (P)   2.00000000"];     ****2
-            GP_Individual_Node_Type(349,54)= 0                                          !   ****2
+            GP_Individual_Node_Type(349,54)= 0                                          !  ****2
             GP_Individual_Node_Parameters(349,54)= p2  !  "[349] (P)   1.00000000"];       ****2
             GP_Individual_Node_Type(175,54)= 3 !   "[175] *"];                             ****2
             GP_Individual_Node_Type(350,54)= 8  !  "[350] pow"];                           ****2
             GP_Individual_Node_Type(700,54)= -4  ! DET "[700] (V)       0.00"];            ****2
-            GP_Individual_Node_Type(701,54)= 0                                          !   ****2
+            GP_Individual_Node_Type(701,54)= 0                                          !  ****2
             GP_Individual_Node_Parameters(701,54)= 2.0d0  !  "[701] (P)   2.00000000"];    ****2
-            GP_Individual_Node_Type(351,54)= 0                                          !   ****2
+            GP_Individual_Node_Type(351,54)= 0                                          !  ****2
             GP_Individual_Node_Parameters(351,54)= p3  !  "[351] (P)   1.00000000"];       ****2
             GP_Individual_Node_Type(11,54)= 2  !  "[11] -"];
             GP_Individual_Node_Type(22,54)= 0
@@ -2163,43 +2139,43 @@ endif ! myid == 0
             GP_Individual_Node_Type(52,54)= 1  !  "[52] +"];                               ****3
             GP_Individual_Node_Type(104,54)= 1  !  "[104] +"];                             ****3
             GP_Individual_Node_Type(208,54)= 3 !   "[208] *"];                             ****3
-            GP_Individual_Node_Type(416,54)= 0                                         !    ****3
+            GP_Individual_Node_Type(416,54)= 0                                         !   ****3
             GP_Individual_Node_Parameters(416,54)= p1  !  "[416] (P)   1.00000000"];       ****3
             GP_Individual_Node_Type(417,54)=  -6  !  PHY  "[417] (V)       0.00"];         ****3
             GP_Individual_Node_Type(209,54)= 3 !   "[209] *"];                             ****3
-            GP_Individual_Node_Type(418,54)= 0                                         !    ****3
+            GP_Individual_Node_Type(418,54)= 0                                         !   ****3
             GP_Individual_Node_Parameters(418,54)= p2  !  "[418] (P)   1.00000000"];       ****3
             GP_Individual_Node_Type(419,54)= -5  ! BACT "[419] (V)       0.00"];           ****3
             GP_Individual_Node_Type(105,54)= 3 !   "[105] *"];                             ****3
-            GP_Individual_Node_Type(210,54)= 0                                         !    ****3
+            GP_Individual_Node_Type(210,54)= 0                                         !   ****3
             GP_Individual_Node_Parameters(210,54)= p3  !  "[210] (P)   1.00000000"];       ****3
             GP_Individual_Node_Type(211,54)= -4  ! DET  "[211] (V)       0.00"];           ****3
-            GP_Individual_Node_Type(53,54)= 0                                          !    ****3
+            GP_Individual_Node_Type(53,54)= 0                                          !   ****3
             GP_Individual_Node_Parameters(53,54)= ak3  ! "[53] (P)   1.00000000"];         ****3
-            GP_Individual_Node_Type(210,54)= 0                                         !    ****3
+            GP_Individual_Node_Type(210,54)= 0                                         !   ****3
             GP_Individual_Node_Parameters(210,54)= p3 !  "[210] (P)   1.00000000"];        ****3
             GP_Individual_Node_Type(27,54)= 1  !  "[27] +"];                               ****3
             GP_Individual_Node_Type(54,54)= 3 !   "[54] *"];                               ****3
             GP_Individual_Node_Type(108,54)= 8  !  "[108] pow"];                           ****3
             GP_Individual_Node_Type(216,54)= -6  ! PHY "[216] (V)       0.00"];            ****3
-            GP_Individual_Node_Type(217,54)= 0                                         !    ****3
+            GP_Individual_Node_Type(217,54)= 0                                         !   ****3
             GP_Individual_Node_Parameters(217,54)= 2.0d0 !  "[217] (P)   2.00000000"];     ****3
-            GP_Individual_Node_Type(109,54)= 0                                         !    ****3
+            GP_Individual_Node_Type(109,54)= 0                                         !   ****3
             GP_Individual_Node_Parameters(109,54)=  p1  ! "[109] (P)   1.00000000"];       ****3
             GP_Individual_Node_Type(55,54)= 1  !  "[55] +"];                               ****3
             GP_Individual_Node_Type(110,54)= 3 !   "[110] *"];                             ****3
             GP_Individual_Node_Type(220,54)= 8  !  "[220] pow"];                           ****3
             GP_Individual_Node_Type(440,54)= -5  ! BACT  "[440] (V)       0.00"];          ****3
-            GP_Individual_Node_Type(441,54)= 0                                          !   ****3
+            GP_Individual_Node_Type(441,54)= 0                                          !  ****3
             GP_Individual_Node_Parameters(441,54)= 2.0d0 ! "[441] (P)   2.00000000"];      ****3
-            GP_Individual_Node_Type(221,54)= 0                                          !   ****3
+            GP_Individual_Node_Type(221,54)= 0                                          !  ****3
             GP_Individual_Node_Parameters(221,54)= p2 !  "[221] (P)   1.00000000"];        ****3
             GP_Individual_Node_Type(111,54)= 3 !   "[111] *"];                             ****3
             GP_Individual_Node_Type(222,54)= 8  !  "[222] pow"];                           ****3
             GP_Individual_Node_Type(444,54)= -4  ! DET "[444] (V)       0.00"];            ****3
-            GP_Individual_Node_Type(445,54)= 0                                          !   ****3
+            GP_Individual_Node_Type(445,54)= 0                                          !  ****3
             GP_Individual_Node_Parameters(445,54)= 2.0d0  !  "[445] (P)   2.00000000"];    ****3
-            GP_Individual_Node_Type(223,54)= 0                                          !   ****3
+            GP_Individual_Node_Type(223,54)= 0                                          !  ****3
             GP_Individual_Node_Parameters(223,54)= p3  !  "[223] (P)   1.00000000"];       ****3
             GP_Individual_Node_Type(7,54)= 2  !  "[7] -"];
             GP_Individual_Node_Type(14,54)= 0
@@ -2208,16 +2184,7 @@ endif ! myid == 0
             GP_Individual_Node_Parameters(15,54)=  beta3  ! "[15] (P)   0.75000000"];
 
 
-
     !=============================================================================================
-
-
-
-
-
-
-
-
 
 
 

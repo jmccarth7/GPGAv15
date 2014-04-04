@@ -420,6 +420,8 @@ do
 
         write(GP_print_unit,'(A,1x,A)') 'rcntl: model = ', trim( model )
 
+        if( trim(model) == 'FASHAM' ) model = 'fasham'
+        if( trim(model) == 'Fasham' ) model = 'fasham'
 
 
 !--------------------------------------------------------------------

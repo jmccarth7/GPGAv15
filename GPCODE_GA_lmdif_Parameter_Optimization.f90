@@ -226,14 +226,14 @@ do  i_GA_generation = 1, n_GA_Generations
 
     Run_GA_lmdif=.false.
 
-    if( myid == 0 )then
-!        if( L_ga_print )then
-!            write(GA_print_unit,'(/A,1x,I6,1x,A/)') &
-!                  'GA Generation ',i_GA_generation,' is underway'
-!        endif ! L_ga_print
-        write(6,'(/A,1x,I6,1x,A/)') &
-                  'GA Generation ',i_GA_generation,' is underway'
-    endif ! myid == 0
+    !if( myid == 0 )then
+    !    if( L_ga_print )then
+    !        write(GA_print_unit,'(/A,1x,I6,1x,A/)') &
+    !              'GA Generation ',i_GA_generation,' is underway'
+    !    endif ! L_ga_print
+    !    write(6,'(/A,1x,I6,1x,A/)') &
+    !              'GA Generation ',i_GA_generation,' is underway'
+    !endif ! myid == 0
 
 
 

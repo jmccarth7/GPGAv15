@@ -23,14 +23,10 @@ integer, intent(in)  ::  myprint_unit
 
 !------------------------------------------------------------------------------------------------
 
-if( myid == 0 )then
-    write(6,'(/A,6x,L1/)') 'inmod: entry  Initialize_Model buildtrees = ', buildtrees
-endif ! myid == 0
-
 !if( L_myprint  .and.  myid == 1 )then
-!    write(myprint_unit,'(/A/)') 'inmod: entry  Initialize_Model '
+!    write(myprint_unit,'(/A,6x,L1/)') &
+!      'inmod: entry  Initialize_Model buildtrees = ', buildtrees
 !endif ! myid == 1
-
 
 
 !-------------------------------------------------------------------------------
@@ -53,22 +49,27 @@ bioflo_map = abs(bioflo_map)
 
 
 !if( L_myprint  .and. myid == 1 )then
-!    write(myprint_unit,'(A,10(1x,I5))') 'inmod:2 abs bioflo_map(:,1) ', bioflo_map(:,1)
+!    write(myprint_unit,'(A,10(1x,I5))') &
+!      'inmod:2 abs bioflo_map(:,1) ', bioflo_map(:,1)
 !endif ! L_myprint  .and. myid == 1
 
 
 !-----------------------------------------------------------------------------------
 
 !if( L_myprint  .and. myid == 1 )then
-!    write(myprint_unit,'(A,2(1x,E15.7))') 'inmod: Numerical_CODE_Initial_Conditions ', &
-!                                                  Numerical_CODE_Initial_Conditions
+!    write(myprint_unit,'(A,2(1x,E15.7))') &
+!      'inmod: Numerical_CODE_Initial_Conditions ', &
+!              Numerical_CODE_Initial_Conditions
 !endif ! L_myprint  .and. myid == 1
 
 
 Numerical_CODE_Forcing_Functions = 0.0D+0
 
-!write(6,'(A,4(1x,E15.7))') 'inmod: Numerical_CODE_Forcing_Functions ', &
-!                                   Numerical_CODE_Forcing_Functions
+!if( L_myprint  .and. myid == 1 )then
+!write(myprint_unit,'(A,4(1x,E15.7))') &
+!  'inmod: Numerical_CODE_Forcing_Functions ', &
+!          Numerical_CODE_Forcing_Functions
+!endif ! L_myprint  .and. myid == 1
 
 btmp(1:n_code_equations) = 0.0D0
 
@@ -76,23 +77,17 @@ btmp(1:n_code_equations) = 0.0D0
 !-------------------------------------------------------------------------------
 
 
-!if( myid == 0 )then
-!    write(6,'(//A)') 'inmod: call Build_Trees  '
-!endif ! myid == 0
-
 !if( L_myprint  .and. myid == 1 )then
 !    write(myprint_unit,'(//A)') 'inmod: call Build_Trees  '
 !endif ! L_myprint  .and. myid == 1
 
 
 ! if buildtrees is FALSE, you get the Fasham functions tree
+! if buildtrees is TRUE,  you get the GP_individual node_type and parameter arrays
+
 
 call Build_Trees( GP_Trees(:, 1) ,  buildTrees )
 
-
-!if( myid == 0 )then
-!    write(6,'(A//)') 'inmod: aft call Build_Trees  '
-!endif ! myid == 0
 
 !if( L_myprint  .and. myid == 1 )then
 !    write(myprint_unit,'(A//)') 'inmod: aft call Build_Trees  '
@@ -108,26 +103,18 @@ call Build_Trees( GP_Trees(:, 1) ,  buildTrees )
 
 ! Generate_Dot_Graph now called from set_answer_array  and print_time_series*
 
+
 !if( .not. buildtrees .and.  myid == 0 )then
-
 !    ! compute trees from fasham functions
-
 !    write(6,'(/A)') 'inmod: call Generate_Dot_Graph'
-
 !    call Generate_Dot_Graph( GP_Trees(:,1), n_Trees, output_dir )
-
 !    write(6,'(/A/)') 'inmod: aft call Generate_Dot_Graph'
-
 !endif ! myid == 0
-
 
 !-------------------------------------------------------------------------------
 
 
 end subroutine Initialize_Model
-
-
-
 
 
 

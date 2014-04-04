@@ -705,11 +705,8 @@ do  i_GP_Generation=1,n_GP_Generations
 
 
             !! debug only >>>>>>>>>>>>>>>>
-            ! fasham model
-
-            call fasham_model_debug()
-
-
+            !!! fasham model
+            !!call fasham_model_debug()
             !! debug only <<<<<<<<<<<<<<<<<
 
         endif ! myid == 0
@@ -1083,24 +1080,24 @@ do  i_GP_Generation=1,n_GP_Generations
     ! to replace function nodes that have both terminals set as parameters
     ! and to set the replaced node to a parameter itself
 
-! debug only     if( myid == 0 )then
-! debug only 
-! debug only         write(GP_print_unit,'(/A,1x,I6/)') &
-! debug only               '0: call GP_Clean_Tree_Nodes  Generation =', i_GP_Generation
-! debug only 
-! debug only         !tree_descrip =  ' trees BEFORE call to GP_Clean_Tree_Nodes'
-! debug only         !call print_trees( i_GP_generation, 1, n_GP_individuals, &
-! debug only         !         GP_Adult_Population_Node_Type, trim( tree_descrip )  )
-! debug only 
-! debug only 
-! debug only         call GP_Clean_Tree_Nodes
-! debug only 
-! debug only 
-! debug only         !tree_descrip =  ' trees after call to GP_Clean_Tree_Nodes'
-! debug only         !call print_trees( i_GP_generation, 1, n_GP_individuals, &
-! debug only         !         GP_Adult_Population_Node_Type, trim( tree_descrip )  )
-! debug only 
-! debug only     endif ! myid == 0
+    if( myid == 0 )then
+
+        write(GP_print_unit,'(/A,1x,I6/)') &
+              '0: call GP_Clean_Tree_Nodes  Generation =', i_GP_Generation
+
+        !tree_descrip =  ' trees BEFORE call to GP_Clean_Tree_Nodes'
+        !call print_trees( i_GP_generation, 1, n_GP_individuals, &
+        !         GP_Adult_Population_Node_Type, trim( tree_descrip )  )
+
+
+        call GP_Clean_Tree_Nodes
+
+
+        !tree_descrip =  ' trees after call to GP_Clean_Tree_Nodes'
+        !call print_trees( i_GP_generation, 1, n_GP_individuals, &
+        !         GP_Adult_Population_Node_Type, trim( tree_descrip )  )
+
+    endif ! myid == 0
 
 
     ! broadcast GP_Adult_Population_Node_Type changed by GP_Clean_Tree_Nodes
@@ -1133,10 +1130,11 @@ do  i_GP_Generation=1,n_GP_Generations
     !        call print_trees( i_GP_generation, 1, n_GP_individuals, &
     !                   GP_Adult_Population_Node_Type, trim( tree_descrip )  )
     !
-    !       write(GP_print_unit,'(/A, 1x, I6/)') &
-    !         '0: after call to GP_Clean_Tree_Nodes i_GP_generation =',i_GP_generation
+    !        write(GP_print_unit,'(/A, 1x, I6/)') &
+    !          '0: after call to GP_Clean_Tree_Nodes i_GP_generation =',i_GP_generation
+    !
     !        print node type information for each GP individual
-    !           call print_gp_node_type_parm( )
+    !        call print_gp_node_type_parm( )
     !
     !    endif ! i_GP_generation == 1 .or. ...
     !
@@ -1601,6 +1599,7 @@ do  i_GP_Generation=1,n_GP_Generations
             '=================================&
             &================================================'
 
+
             write(GP_print_unit, '(A )') &
                  '0:i_GP_Indiv  GP_Indiv_N_param    GP_Adult_Pop_SSE   &
                   &  GP_Child_Indiv_SSE   GP_Child_Indiv_SSE/SSE0'
@@ -1651,12 +1650,12 @@ do  i_GP_Generation=1,n_GP_Generations
 
             write(GP_print_unit,'(/A)')&
             '0:-----------------------------------------------------------------'
-            write(GP_print_unit,'(A,2(1x,I6))') &
-            '0: DO NOT call GP_para_lmdif_process i_GP_generation, max_n_gp_params', &
-                                           i_GP_Generation, max_n_gp_params
             !write(GP_print_unit,'(A,2(1x,I6))') &
-            !'0: call GP_para_lmdif_process i_GP_generation, max_n_gp_params', &
+            !'0: DO NOT call GP_para_lmdif_process i_GP_generation, max_n_gp_params', &
             !                               i_GP_Generation, max_n_gp_params
+            write(GP_print_unit,'(A,2(1x,I6))') &
+            '0: call GP_para_lmdif_process i_GP_generation, max_n_gp_params', &
+                                           i_GP_Generation, max_n_gp_params
             write(GP_print_unit,'(A/)')&
             '0:-----------------------------------------------------------------'
 
@@ -1669,9 +1668,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
     !---------------------------------------------------------------
 
-    ! debug only
-    ! debug only call GP_para_lmdif_process( i_GP_generation, max_n_gp_params  )
-    ! debug only
+    call GP_para_lmdif_process( i_GP_generation, max_n_gp_params  )
 
     !---------------------------------------------------------------
 

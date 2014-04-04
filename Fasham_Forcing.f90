@@ -20,8 +20,6 @@ use GP_variables_module
 
     integer (kind=4) :: iz,i
 
-    ! Copy phytoplankton to
-    phyto = species(max(1,abs(SPECIES_PHYTOPLANKTON)))
 
     data daym /0.D+0,16.D+0,46.D+0,75.D+0,105.D+0,136.D+0,166.D+0,&
                197.D+0,228.D+0,258.D+0,289.D+0, 319.D+0, 350.D+0, 365.D+0/
@@ -41,6 +39,11 @@ use GP_variables_module
 
     !---------------------------------------------------------------------------------
 
+    ! Copy phytoplankton to phyto
+
+    phyto = species(max(1,abs(SPECIES_PHYTOPLANKTON)))
+
+
     !pi=acos(-1.D+0)
 
     dec=-0.406D+0*cos(2.D+0*pi*day/365.D+0) ! in radians and from Evans and Parlsow, 1985
@@ -59,47 +62,48 @@ use GP_variables_module
     albedo=0.04D+0
     trans=1.0D+0
 
-    do i=1,13
-      if (day .ge. daym(i) .and. day .le. daym(i+1)) then
-        ratio=(day-daym(i))/(daym(i+1)-daym(i))
-        oktas=coktas(i)+(ratio*(coktas(i+1)-coktas(i)))
-      endif
-    enddo
+    do  i=1,13
+        if( day .ge. daym(i) .and. day .le. daym(i+1) ) then
+            ratio=(day-daym(i))/(daym(i+1)-daym(i))
+            oktas=coktas(i)+(ratio*(coktas(i+1)-coktas(i)))
+        endif
+    enddo ! i
 
     cloud=oktas/8.D+0
 
 !   cloud corr from Smith and Dobson, [Ecological Modeling, 14, 1-19, 1981]
-    if (zenith .le. 1.55D+0) then
-      cloudy=0.0375D+0+(cosz*exp(-0.24D+0/cosz)*((cloud*exp(-0.07D+0/cosz))+1.D+0-cloud))
+    if( zenith .le. 1.55D+0 ) then
+        cloudy=0.0375D+0+(cosz*exp(-0.24D+0/cosz)*((cloud*exp(-0.07D+0/cosz))+1.D+0-cloud))
     else
-      cloudy=0.0375D+0
+        cloudy=0.0375D+0
     endif
 
 !   calculate the light value only during the day [night = zenith .ge. pi/2.D+0]
-    if (zenith .lt. pi/2.D+0) then
-      par0=solar*trans*enot*cosz*0.43D+0*(1.D+0-albedo)*cloudy
+    if( zenith .lt. pi/2.D+0 ) then
+        par0=solar*trans*enot*cosz*0.43D+0*(1.D+0-albedo)*cloudy
     else
-      par0=0.D+0
+        par0=0.D+0
     endif
 
 !   calculate aJ by integrating (simple trapezoidal) PvsI terms over the aMLD
 
     aJ=0.D+0
-    if (par0 .gt. 0.D+0) then
-      delz=aMLD/100.D+0
-      do iz=0,100
-        z=float(iz)*delz
-        parz=par0*exp(-z*(akw+(akc*phyto)))
-        tmp=(Vp*alpha*parz)/(sqrt((Vp*Vp)+(alpha*alpha*parz*parz)))
-        if (iz .eq. 0 .or. iz .eq. 100) then
-          aJ=aJ+(0.5D+0*tmp)
-        elseif (iz .gt. 0 .and. iz .lt. 100) then
-          aJ=aJ+tmp
-        endif
-      enddo
-      aJ=aJ*delz/aMLD
+    if( par0 .gt. 0.D+0) then
 
-    endif
+        delz=aMLD/100.D+0
+        do  iz=0,100
+            z=float(iz)*delz
+            parz=par0*exp(-z*(akw+(akc*phyto)))
+            tmp=(Vp*alpha*parz)/(sqrt((Vp*Vp)+(alpha*alpha*parz*parz)))
+            if( iz .eq. 0 .or. iz .eq. 100 ) then
+                aJ=aJ+(0.5D+0*tmp)
+            elseif( iz .gt. 0 .and. iz .lt. 100 ) then
+                aJ=aJ+tmp
+            endif
+        enddo
+        aJ=aJ*delz/aMLD
+
+    endif !  par0 .gt. 0.D+0
 
 end subroutine JQforce
 
@@ -131,33 +135,41 @@ use GP_variables_module
     data cmld /87.0D+0,92.5D+0,100.0D+0,93.5D+0,67.0D+0,45.0D+0,&
                30.0D+0,19.0D+0,22.5D+0,30.0D+0,45.0D+0,65.0D+0,82.0D+0,87.0D+0/
 
+!----------------------------------------------------------------------------------
+
     !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     ! calculate the aMLD and h values
     !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
     ! find a [nloop+1] day moving average for h
+
     nloop=30     ! make the number EVEN to keep it symmetrical
     th=0.D+0
-    do iloop=1,nloop+1
-      tday=day-(nloop/2.D+0)+iloop
-      if (tday .lt. 0.D+0) tday=tday+365.D+0
-      if (tday .ge. 365.D+0) tday=tday-365.D+0
-      do i=1,n-1
-        if (tday .ge. daym(i) .and. tday .lt. daym(i+1)) then
-          th=th+((cmld(i+1)-cmld(i))/(daym(i+1)-daym(i)))
-        endif
-      enddo
-    enddo
+
+    do  iloop=1,nloop+1
+
+        tday=day-(nloop/2.D+0)+iloop
+
+        if( tday .lt. 0.D+0 ) tday=tday+365.D+0
+        if( tday .ge. 365.D+0 ) tday=tday-365.D+0
+
+        do  i=1,n-1
+            if( tday .ge. daym(i) .and. tday .lt. daym(i+1) ) then
+                th=th+((cmld(i+1)-cmld(i))/(daym(i+1)-daym(i)))
+            endif
+        enddo ! i 
+
+    enddo ! iloop
+
     h=th/(nloop+1)
 
-    do i=1,n-1
-      if (day .ge. daym(i) .and. day .le. daym(i+1)) then
-        ratio=(day-daym(i))/(daym(i+1)-daym(i))
-        aMLD=cmld(i)+(ratio*(cmld(i+1)-cmld(i)))
-      endif
-    enddo
+    do  i=1,n-1
+        if( day .ge. daym(i) .and. day .le. daym(i+1) ) then
+            ratio=(day-daym(i))/(daym(i+1)-daym(i))
+            aMLD=cmld(i)+(ratio*(cmld(i+1)-cmld(i)))
+        endif
+    enddo ! i
 
-    !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
     return
 
