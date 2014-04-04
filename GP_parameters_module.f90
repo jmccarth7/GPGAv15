@@ -271,4 +271,11 @@ integer(kind=4) :: n_input_data_points
 
 integer, parameter :: name_len = 20 
 
+!----------------------------------------------------------------
+! big_real is large number for testing if a result is too big
+
+real(kind=8),parameter :: big_real = 1.0D100
+
+!----------------------------------------------------------------
+
 end module GP_parameters_module

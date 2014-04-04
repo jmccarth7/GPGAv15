@@ -129,13 +129,13 @@ if( L_ga_print )then
         write(GA_print_unit,'(/A)') 'gacf: i_GA_individual, parent params'
 
         do  i_GA_individual=1,n_GA_individuals
-            write(GA_print_unit,'(I6,(12(1x,E15.7)))') i_GA_individual, &
+            write(GA_print_unit,'(I6,(10(1x,E12.5)))') i_GA_individual, &
                       parent_parameters( 1:n_parameters, i_GA_individual )
         enddo !  i_GA_individual
 
         write(GA_print_unit,*) ' '
         do  i_GA_individual=1,n_GA_individuals
-            write(GA_print_unit,'(A,1x,I6,1x,E20.10, 1x, I6)') &
+            write(GA_print_unit,'(A,1x,I6,1x,E15.7, 1x, I6)') &
                 'gacf: i_GA_individual, individual_SSE, individual_quality', &
                        i_GA_individual, individual_SSE(i_GA_individual), &
                                         individual_quality( i_GA_individual )

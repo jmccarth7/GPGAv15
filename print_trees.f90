@@ -59,7 +59,7 @@ integer(kind=4) :: nodes_filled
 integer(kind=4) :: isub1         
 integer(kind=4) :: isub2         
 integer(kind=4),parameter :: node_boundary = 32
-integer(kind=4),parameter :: nodes_on_line = 15
+integer(kind=4),parameter :: nodes_on_line = 20  ! 15
 !----------------------------------------------------------------------------------------
 
 write( element_fmt2, '(I1)') element_length

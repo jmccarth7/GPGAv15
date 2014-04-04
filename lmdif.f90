@@ -237,12 +237,12 @@ subroutine lmdif ( fcn, m, n, x, fvec, ftol, xtol, gtol, maxfev, epsfcn, &
 !
   iflag = 1
   !if( iunit > 0 ) write(6,'(A)') 'lmdif: call fcn '
-  !write(6,'(A)') 'lmdif: call fcn '
+  write(6,'(A)') 'lmdif: call fcn '
 
   call fcn ( m, n, x, fvec, iflag )
 
   !if( iunit > 0 ) write(6,'(A,1x,I6)') 'lmdif: aft call fcn iflag = ', iflag
-  !write(6,'(A,1x,I6)') 'lmdif: aft call fcn iflag = ', iflag
+  write(6,'(A,1x,I6)') 'lmdif: aft call fcn iflag = ', iflag
 
   nfev = 1
 

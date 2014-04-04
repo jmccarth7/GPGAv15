@@ -96,6 +96,10 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
 
                         if( cff .lt. Node_Probability(i_Level) ) then  ! set as a function 
 
+
+
+                            ! new random number to choose the function
+
                             call random_number(cff) ! uniform random number generator
 
 
@@ -229,6 +233,7 @@ do  i_GP_Individual=1,n_GP_Individuals
             do  i_Level_Node = 1,n_Nodes_at_Level
 
                 i_Node=i_Node+1
+
                 if( i_node > n_nodes ) exit level_loop2
 
                 if( GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) .eq. -1) then

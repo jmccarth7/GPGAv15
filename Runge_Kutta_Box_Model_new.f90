@@ -38,6 +38,7 @@ data Runge_Kutta_Time_Step /0.0D+0,0.5D+0,0.5D+0,1.0D+0/  ! fraction of R-K time
 !Forcing functions are used in computations, so are included here for book keeping purposes
 
 
+!!!!!real(kind=8),parameter :: big_real = 1.0D100  ! in GP_parameters_module
 
 real(kind=8) :: cff
 
@@ -184,7 +185,7 @@ do  i_Time_Step = 1, n_Time_Steps
     !flush(6)
     !flush(GA_print_unit)
 
-    if( any( isnan( b_tmp ) ) .or.  any( abs(b_tmp)  > 1.0d20 ) ) then
+    if( any( isnan( b_tmp ) ) .or.  any( abs(b_tmp)  > big_real ) ) then
 
         !write(6,'(/A,1x,I6/)') &
         !     'rkbm: bad b_tmp  i_time_step', i_time_step
@@ -193,7 +194,7 @@ do  i_Time_Step = 1, n_Time_Steps
         L_bad_result = .TRUE.
 
         return
-    endif !  any( isnan( b_tmp ) ) .or.  any( abs(b_tmp)  > 1.0d20 )
+    endif !  any( isnan( b_tmp ) ) .or.  any( abs(b_tmp)  > big_real 
 
 
     btmp = b_tmp
@@ -215,12 +216,15 @@ do  i_Time_Step = 1, n_Time_Steps
 
         ! Call forcing functions for the Fasham box model
 
-        !write(6,'(/A)') 'rkbm: call DoForcing'
+        !write(6,'(/A, 1x, A)') 'rkbm: call DoForcing model = ', trim(model)
         !flush(6)
 
         if( trim(model) == 'fasham' )then
             call DoForcing( btmp, Runge_Kutta_Time_Step(iter), i_Time_Step )
         endif ! trim(model) == 'fasham'
+
+        !write(6,'(/A, 1x, A)') 'rkbm: aft call DoForcing model = ', trim(model)
+        !flush(6)
 
         !--------------------------------------------------------------------------
 
@@ -240,7 +244,7 @@ do  i_Time_Step = 1, n_Time_Steps
 
                 if( associated( GP_Trees(i_Tree, i_Track)%n) ) then
 
-                    !write(6,'(//A,1x,I6,5x,L1)') &
+                    !write(6,'(A,1x,I6,5x,L1)') &
                     !      'rkbm: i_tree, associated(GP_Trees(i_Tree, i_Track)%n)  ', &
                     !             i_tree, associated(GP_Trees(i_Tree, i_Track)%n)
 
@@ -248,16 +252,18 @@ do  i_Time_Step = 1, n_Time_Steps
                     Tree_Value(i_Tree) = GP_Trees( i_Tree,  i_Track )%n%val()
 
 
-                    !if( abs( Tree_Value(i_tree) ) > 0.0d0 )then
+                    !if( abs( Tree_Value(i_tree) ) > 1.0d10 )then
+                    if( abs( Tree_Value(i_tree) ) > 0.0d0  )then
                     !    write(6,'(A,22x,I6,1x,I6,1x,E15.7)') &
-                    !          'rkbm: iter, i_tree, Tree_Value(i_tree)', &
-                    !                 iter, i_tree, Tree_Value(i_tree)
-                    !endif ! abs( Tree_Value(i_tree) ) > 0.0d0
+                        write(6,'(A,2x,I6,1x,I6,1x,I6,1x,E15.7)') &
+                              'rkbm: i_time_step, iter, i_tree, Tree_Value(i_tree)', &
+                                     i_time_step, iter, i_tree, Tree_Value(i_tree)
+                    endif ! abs( Tree_Value(i_tree) ) > 1.0d10
                     !flush(6)
 
 
                     if( isnan( Tree_Value(i_Tree) )          .or.   &
-                          abs( Tree_Value(i_Tree) )  > 1.0d20    ) then
+                          abs( Tree_Value(i_Tree) )  > big_real  ) then
 
                         L_bad_result = .TRUE.
 
@@ -269,7 +275,7 @@ do  i_Time_Step = 1, n_Time_Steps
                         !endif ! L_ga_print
 
                         return
-                    endif !  isnan( Tree_Value(i_Tree) ) .or. abs(Tree_Value(i_Tree)) > 1.0d20
+                    endif !  isnan( Tree_Value(i_Tree) ) .or. abs(Tree_Value(i_Tree)) > big_real
 
 
                     !----------------------------------------------------------------------------
@@ -497,7 +503,7 @@ do  i_Time_Step = 1, n_Time_Steps
 
     ! if b_tmp is bad on any time step, then return with a bad result
 
-    if( any( isnan( b_tmp ) ) .or.  any( abs(b_tmp)  > 1.0d20 ) ) then
+    if( any( isnan( b_tmp ) ) .or.  any( abs(b_tmp)  > big_real  ) ) then
 
         L_bad_result = .TRUE.
 
@@ -509,7 +515,7 @@ do  i_Time_Step = 1, n_Time_Steps
         !endif ! L_GA_print
         return
 
-    endif !   any( isnan( b_tmp ) ) .or.  any( abs(b_tmp) > 1.0d20
+    endif !   any( isnan( b_tmp ) ) .or.  any( abs(b_tmp) > big_real 
 
     !---------------------------------------------------------------------------
 
@@ -528,6 +534,9 @@ do  i_Time_Step = 1, n_Time_Steps
     !!if( i_time_step == 250 .or. i_time_step == 1 ) then
     !    if( L_GA_print )then
     !        write(GA_print_unit,'(A,2(1x,I6),12(1x,E15.7))') &
+    !        'rkbm:g myid, i_time_step, RK_Soln ', &
+    !                myid, i_time_step, Numerical_CODE_Solution(i_time_step,1:n_CODE_equations)
+    !write(6,'(A,2(1x,I6),12(1x,E15.7))') &
     !        'rkbm:g myid, i_time_step, RK_Soln ', &
     !                myid, i_time_step, Numerical_CODE_Solution(i_time_step,1:n_CODE_equations)
     !    endif ! L_ga_print

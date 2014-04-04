@@ -443,8 +443,6 @@ if( myid == 0 )then
 
 endif ! myid == 0
 
-!!call MPI_FINALIZE(ierr)  ! debug only
-!!stop  ! debug only
 
 !------------------------------------------------------------------------
 
@@ -471,6 +469,15 @@ call MPI_BCAST( Numerical_CODE_Solution, message_len,    &
 
 Data_Array=Numerical_CODE_Solution        ! Matrix Operation
 
+!--------------------------------------------------------------------------------
+
+! zero so that later solutions don't have answer results in array
+
+Numerical_CODE_Solution(1:n_time_steps, 1:n_code_equations) = 0.0d0 
+
+message_len = ( n_time_steps + 1 ) * n_CODE_equations
+call MPI_BCAST( Numerical_CODE_Solution, message_len,    &
+                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
 !--------------------------------------------------------------------------------
 
@@ -510,7 +517,6 @@ do  i_CODE_equation=1,n_CODE_equations
     n_parameters=n_parameters+1
     answer(n_parameters)=Numerical_CODE_Initial_Conditions(i_CODE_equation)
 enddo ! i_CODE_equation
-
 
 !--------------------------------------------------------------------------------
 
@@ -1178,7 +1184,7 @@ do  i_GP_Generation=1,n_GP_Generations
         n_GP_Parameters = n_code_equations
 
         if( myid == 0 )then
-            write(GP_print_unit,'(/A,2(1x,I6)/)')&
+            write(GP_print_unit,'(/A,2(1x,I6))')&
              '0: before loop n_code_equations,  n_GP_params',&
                              n_code_equations,  n_GP_parameters
         endif !  myid == 0
@@ -1217,7 +1223,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
 
         if( myid == 0 )then
-            write(GP_print_unit,'(/A,2(1x,I6)/)')&
+            write(GP_print_unit,'(A,2(1x,I6)/)')&
              '0: after loop n_code_equations,  n_GP_params',&
                             n_code_equations,  n_GP_parameters
         endif !  myid == 0
@@ -1230,15 +1236,23 @@ do  i_GP_Generation=1,n_GP_Generations
         if( n_GP_parameters > n_maximum_number_parameters )then
 
             if( myid == 0 )then
-                write(GP_print_unit,'(/A,5(1x,I10)/)')&
+                write(GP_print_unit,'(/A,3(1x,I5),2(1x,I10))')&
                   '0:WARNING  myid, i_GP_generation, i_GP_Individual, &
                       &n_GP_parameters, n_maximum_number_parameters', &
                       myid, i_GP_generation, i_GP_Individual, &
                        n_GP_parameters, n_maximum_number_parameters
             endif !  myid == 0
 
-            call MPI_FINALIZE(ierr)
-            stop 'too many parms'
+            !call MPI_FINALIZE(ierr)
+            !stop 'too many parms'
+
+
+            GP_Child_Individual_SSE(i_GP_Individual) = 1.0D13
+
+            GP_Adult_Individual_SSE(i_GP_Individual) = 1.0D13
+            GP_Adult_Population_SSE(i_GP_Individual) = 1.0D13
+
+            cycle gp_ind_loop
 
         endif  ! n_GP_parameters > n_maximum_number_parameters
 
@@ -1516,7 +1530,7 @@ do  i_GP_Generation=1,n_GP_Generations
 
 
 
-            if( myid == 0 )then
+            !if( myid == 0 )then
 
                 !----------------------------------------------------------------------------
 
@@ -1544,7 +1558,7 @@ do  i_GP_Generation=1,n_GP_Generations
                 !      '0: after loading GP_Pop arrays with GP_indiv array values '
 
 
-            endif !  myid == 0
+            !endif !  myid == 0
 
         endif !   Run_GP_Calculate_Fitness(i_GP_Individual)
 

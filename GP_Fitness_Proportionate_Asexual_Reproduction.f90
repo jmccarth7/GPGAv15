@@ -99,6 +99,8 @@ do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
 
     ! index to move over both the parent parameters and the individual fitness levels
 
+    if( icff < 1 ) cycle
+
     j_GP_Individual=icff
 
     !write(GP_print_unit,'(/A,2(1x,I6)/)' ) 'gpfpar: j_GP_Individual, icff ', &

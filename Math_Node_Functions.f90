@@ -175,6 +175,17 @@ module Math_Node_Functions
             return
         endif
 
+        !-------------------------------------
+
+        ! try to eliminate a**a functions
+
+        if( abs( a - b ) <= 1.0D-99 )then
+            !write(*,*)'f8:  a, b ', a, b
+            f_Power = 0.0d0 
+            return
+        endif 
+        !-------------------------------------
+
         f_Power = abs(a)**b
 
         f_Power = min( f_Power, 1.0D+99 )

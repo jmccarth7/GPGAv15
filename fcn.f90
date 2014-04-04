@@ -79,7 +79,7 @@ do i_CODE_equation=1,n_CODE_equations
 
 
   if( isnan( Numerical_CODE_Solution(0,i_CODE_equation) ) .or. &
-        abs( Numerical_CODE_Solution(0,i_CODE_equation) )  > 1.0D20  )then
+        abs( Numerical_CODE_Solution(0,i_CODE_equation) )  > big_real  )then
 
       if( L_GP_print )then
           write(GP_print_unit,'(A,2(1x,I6))') &
@@ -149,7 +149,7 @@ do  i_tree=1,n_trees
   
   
             !if( L_GA_print )then
-            !    write(GA_print_unit,'(A,5(1x,I4),1x,E15.7)') &
+            !    write(6,'(A,5(1x,I4),1x,E15.7)') &
             !    'fcn: myid, i_tree, i_node, i_parameter, nn,  GP_Indiv_Node_Params', &
             !          myid, i_tree, i_node, i_parameter, nn,  &
             !                            GP_Individual_Node_Parameters(i_node,i_tree)
@@ -157,7 +157,7 @@ do  i_tree=1,n_trees
   
   
             if( isnan( GP_Individual_Node_Parameters(i_node,i_tree) )  .or. &
-                  abs( GP_Individual_Node_Parameters(i_node,i_tree) ) > 1.0D20 ) then
+                  abs( GP_Individual_Node_Parameters(i_node,i_tree) ) > big_real  ) then
   
                 !if( L_ga_print )then
                 !    write(GA_print_unit,'(A,3(1x,I6))') &
@@ -166,9 +166,9 @@ do  i_tree=1,n_trees
                 !endif ! L_ga_print
   
                 !if( L_GP_print )then
-                !    write(GP_print_unit,'(A,3(1x,I6))') &
-                !     'fcn: bad  GP_Individual_Node_Parameters for myid, i_tree, i_node ', &
-                !                                                  myid, i_tree, i_node
+                    write(GP_print_unit,'(A,3(1x,I6))') &
+                     'fcn: bad  GP_Individual_Node_Parameters for myid, i_tree, i_node ', &
+                                                                  myid, i_tree, i_node
                 !endif ! L_GP_print
   
                 L_bad_result = .TRUE.
@@ -371,9 +371,9 @@ call Runge_Kutta_Box_Model( .FALSE. )
 if( L_bad_result ) then
 
     !if( L_GP_print ) then !.and. GP_para_flag .and. myid == 1 )then
-    !    write(6,'(A,1x,I6,4x,L1)') &
-    !          'fcn: aft call Runge_Kutta_Box_Model  myid, L_bad_result = ', &
-    !                                                myid, L_bad_result
+        write(6,'(A,1x,I6,4x,L1)') &
+              'fcn: aft call Runge_Kutta_Box_Model  myid, L_bad_result = ', &
+                                                    myid, L_bad_result
     !    flush(6)
     !endif ! L_GP_print
     !if( L_ga_print )then

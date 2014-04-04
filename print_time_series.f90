@@ -41,7 +41,7 @@ integer(kind=4) :: j
 real(kind=8), dimension( n_time_steps, n_code_equations ) :: resid
 
 !real(kind=8), dimension( n_input_data_points ) :: temp_data_array
-!origreal(kind=8), intent(in),dimension( n_GP_parameters ) :: output_array
+
 
 real(kind=8), intent(in),dimension( nop ) :: output_array
 
@@ -80,6 +80,8 @@ GP_Individual_Node_Type          = GP_Adult_Population_Node_Type(:,:,i_GP_best_p
 Numerical_CODE_Solution(0,1:n_CODE_equations)         = GP_individual_Initial_Conditions
 Numerical_CODE_Initial_Conditions(1:n_CODE_equations) = GP_individual_Initial_Conditions
 
+Numerical_CODE_Solution(1:n_time_steps,1:n_CODE_equations) = 0.0d0
+
 
 if( myid == 0 )then
     write(6,'(/A,2(1x,I6)/)') 'pts: nop',  nop
@@ -114,6 +116,8 @@ if( myid == 0 )then
 endif ! myid == 0
 
 
+!------------------------------------------------------------------------------
+
 ! Write trees to disk
 
 !if( myid == 0 )then
@@ -147,7 +151,7 @@ if( myid == 0 )then
                     ii, Numerical_CODE_Initial_Conditions(ii)
     enddo ! ii
 
-    !write(6,'(A)') ' '
+    write(6,'(A)') ' '
 
     do  ii = 1, n_CODE_equations
         write(6,'(A,1x,I6,1x,E24.16)') &
@@ -156,7 +160,6 @@ if( myid == 0 )then
     enddo ! ii
 
 
-    !write(6,'(A)') ' '
     write(6,'(/A,2(1x,I6))') 'pts: n_trees, n_nodes ', n_trees, n_nodes
 
     write(6,'(/A)') &
@@ -206,7 +209,9 @@ endif ! myid == 0
 
 if( myid == 0 )then
 
+
     ! RK_Box_Model now puts the time series in Numerical_CODE_Solution
+
 
     !call Runge_Kutta_Box_Model( .true. )  ! print
     call Runge_Kutta_Box_Model( .false. )   ! don't print
@@ -215,14 +220,15 @@ if( myid == 0 )then
 
     !write(GP_print_unit,'(/A/)') &
     ! 'pts: data_point   Numerical_CODE_Solution(data_point,1:n_CODE_equations)'
-    !do  i = 0, n_input_data_points
+    !do  i = 1, n_input_data_points
     !    write(GP_print_unit,'(I6,2x,10(1x,E14.7))') &
     !          i, (Numerical_CODE_Solution(i,jj), jj = 1,n_CODE_equations )
     !enddo ! i
 
+
+
     open( plot_unit, file = 'plot.txt', status = 'unknown', &
           form = 'formatted', access = 'sequential' )
-
 
 
     title_string = '#pts: pt'
@@ -234,13 +240,6 @@ if( myid == 0 )then
     enddo 
 
 
-
-    !write(GP_print_unit,'(/A/)') &
-    !  'pts:point   RK_Soln          input_data     resid '
-
-    !write(plot_unit,'(A)') &
-    ! '#pts:point   RK_Soln          input_data       &
-    !   &diff = input_data_array - RK_Soln'
 
     write(GP_print_unit,'(/A/)')  trim( title_string ) 
     write(plot_unit,'(A)')        trim( title_string ) 
@@ -260,12 +259,14 @@ if( myid == 0 )then
 
 
         write(GP_print_unit,'(I6,2x,50(1x,E12.5))') &
-              i, (Numerical_CODE_Solution(i,j),  Data_Array(i,j), &
-                 Data_Array(i,j) - Numerical_CODE_Solution(i,j), j = 1, n_code_equations )
+              i, ( Numerical_CODE_Solution(i,j),  Data_Array(i,j), &
+                   Data_Array(i,j) - Numerical_CODE_Solution(i,j), &
+                                                  j = 1, n_code_equations )
 
         write(plot_unit, '(I6,2x,50(1x,E12.5))') &
-              i, (Numerical_CODE_Solution(i,j),  Data_Array(i,j), &
-                 Data_Array(i,j) - Numerical_CODE_Solution(i,j), j = 1, n_code_equations )
+              i, ( Numerical_CODE_Solution(i,j),  Data_Array(i,j), &
+                   Data_Array(i,j) - Numerical_CODE_Solution(i,j), &
+                                                  j = 1, n_code_equations )
 
     enddo ! i
 
@@ -299,12 +300,11 @@ if( myid == 0 )then
                    n_time_steps, 0, r_corr(j)  )
     
     
-        RK_min(j) = minval( Numerical_CODE_Solution(:,j) )
-        RK_max(j) = maxval( Numerical_CODE_Solution(:,j) )
+        RK_min(j)    = minval( Numerical_CODE_Solution(:,j) )
+        RK_max(j)    = maxval( Numerical_CODE_Solution(:,j) )
     
-    
-        data_min(j) = minval( Data_Array(:,j) )
-        data_max(j) = maxval( Data_Array(:,j) )
+        data_min(j)  = minval( Data_Array(:,j) )
+        data_max(j)  = maxval( Data_Array(:,j) )
     
         resid_min(j) = minval( resid(:,j) )
         resid_max(j) = maxval( resid(:,j) )
@@ -312,6 +312,8 @@ if( myid == 0 )then
     enddo ! j 
 
     !--------------------------------------------------------------------------------
+
+    ! calculate overall y_min and y_max for plotting
 
     y_min =  1.0d99
     y_max = -1.0d99
@@ -338,6 +340,8 @@ if( myid == 0 )then
 
     !--------------------------------------------------------------------------------
 
+    ! print results
+
     do  j = 1, n_code_equations 
 
         write(GP_print_unit, '(/A)') &
@@ -360,14 +364,17 @@ if( myid == 0 )then
     write(GP_print_unit, '(/A,1x,E15.7)') 'pts: y_min', y_min
     write(GP_print_unit, '(A,1x,E15.7/)') 'pts: y_max', y_max
 
-    !flush(GP_print_unit) 
-
-    !--------------------------------------------------------------------------------
-
     !write(GP_print_unit, '(A,1x,5(1x,E15.7))') &
     !      'pts: R probability     ', prob_r
     !write(GP_print_unit, '(A,1x,5(1x,E15.7)/)') &
     !      'pts: Fisher''s Z        ', fisher_z
+
+    !flush(GP_print_unit) 
+
+
+    !--------------------------------------------------------------------------------
+
+    !  write results to output file
 
     do  j = 1, n_code_equations 
 
@@ -391,12 +398,12 @@ if( myid == 0 )then
     write(plot_unit, '(A,1x,E15.7)')  '#pts: y_min', y_min
     write(plot_unit, '(A,1x,E15.7)')  '#pts: y_max', y_max
 
-    !flush(plot_unit)
-
     !write(plot_unit, '(A,1x,5(1x,E15.7))') &
     !      '#pts: R probability     ', prob_r
     !write(plot_unit, '(A,1x,5(1x,E15.7))') &
     !      '#pts: Fisher''s Z        ', fisher_z
+
+    !flush(plot_unit)
 
     close( plot_unit )
 

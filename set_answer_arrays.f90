@@ -42,7 +42,9 @@ logical :: buildTrees
 write(6,'(/A/)') 'saa: call Initialize_Model  '
 
 !call Initialize_Model( .true., .true., 6 )    ! for the regular tree, node array model
+
 call Initialize_Model( .false., .true., 6 )    ! for built-in Fasham function model
+
 
 write(6,'(/A/)') 'saa: aft call Initialize_Model  '
 
@@ -54,6 +56,7 @@ if( myid == 0 )then
     ! print the trees made from fasham functions
 
     write(6,'(/A)') 'saa: call Generate_Dot_Graph'
+
     call Generate_Dot_Graph( GP_Trees(:,1), n_Trees, output_dir )
 
     write(6,'(/A/)') 'saa: aft call Generate_Dot_Graph'
@@ -63,11 +66,10 @@ endif ! myid == 0
 
 !------------------------------------------------------------------------------
 
-!off include 'Lotka_Volterra_Example_Set_Up.f901'  ! replaced with routine init_values
-!off include 'Franks_etal_NPZ_Mar_Bio_Example_Set_Up.f901'
 
 ! set the desired 'twin experiment' population node type
 ! and parameter using the info from the set up file
+
 
 GP_Node_Type_Answer       = GP_Individual_Node_Type       ! Matrix Operation
 GP_Node_Parameters_Answer = GP_Individual_Node_Parameters ! Matrix Operation
@@ -94,6 +96,7 @@ endif ! L_unit50_output
 
 ! set the initial population node type using the info obtained
 ! from the set up file
+
 ! set the Initial Conditions, Model Parameters and Node Type
 ! for the 'twin experiment case'
 
@@ -125,6 +128,7 @@ if( myid == 0 )then
 
     write(6,'(/A)') &
           'saa: i_tree  i_node  GP_Individual_Node_Parameters( i_node, i_tree ) '
+
     do  i_tree = 1, n_trees
         do  i_node = 1, n_nodes
 
@@ -135,6 +139,7 @@ if( myid == 0 )then
 
         enddo ! i_node
     enddo ! i_tree
+
 
     write(6,'(//A)') &
           'saa: i_tree  i_node  GP_Individual_Node_Type( i_node, i_tree ) '

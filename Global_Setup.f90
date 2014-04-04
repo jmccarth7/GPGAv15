@@ -32,8 +32,6 @@ subroutine Global_Setup()
 
     math_funcs(Maximize)%f => f_Maximize
 
-!    math_funcs(ExponentialDecay)%f => f_ExponentialDecay
-
     math_funcs(IfThen)%f => f_IfThen
 
     math_funcs(IfGt)%f => f_IfGt
@@ -51,11 +49,5 @@ subroutine Global_Setup()
     math_funcs(ExponentialLeftMinus)%f => f_ExponentialLeftMinus 
 
     math_funcs(ExponentialRightMinus)%f => f_ExponentialRightMinus 
-
-    !math_funcs(G_lower_function)%f => f_G_lower               
-    !math_funcs(G1_function)%f => f_G1                    
-    !math_funcs(G2_function)%f => f_G2                      
-    !math_funcs(G3_function)%f => f_G3                    
-
 
 end subroutine
