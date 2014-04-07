@@ -94,8 +94,8 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
                         !      'gtb: i_Level, cff, Node_Probability(i_Level)', &
                         !            i_Level, cff, Node_Probability(i_Level)
 
-                        if( cff .lt. Node_Probability(i_Level) ) then  ! set as a function 
 
+                        if( cff .lt. Node_Probability(i_Level) ) then  ! set as a function 
 
 
                             ! new random number to choose the function

@@ -253,12 +253,12 @@ do  i_Time_Step = 1, n_Time_Steps
 
 
                     !if( abs( Tree_Value(i_tree) ) > 1.0d10 )then
-                    if( abs( Tree_Value(i_tree) ) > 0.0d0  )then
-                    !    write(6,'(A,22x,I6,1x,I6,1x,E15.7)') &
-                        write(6,'(A,2x,I6,1x,I6,1x,I6,1x,E15.7)') &
-                              'rkbm: i_time_step, iter, i_tree, Tree_Value(i_tree)', &
-                                     i_time_step, iter, i_tree, Tree_Value(i_tree)
-                    endif ! abs( Tree_Value(i_tree) ) > 1.0d10
+                    !if( myid == 1 .and. abs( Tree_Value(i_tree) ) > 0.0d0  )then
+                    !!    write(6,'(A,22x,I6,1x,I6,1x,E15.7)') &
+                    !    write(6,'(A,2x,I6,1x,I6,1x,I6,1x,E15.7)') &
+                    !          'rkbm: i_time_step, iter, i_tree, Tree_Value(i_tree)', &
+                    !                 i_time_step, iter, i_tree, Tree_Value(i_tree)
+                    !endif ! myid == 1 .and. abs( Tree_Value(i_tree) ) > 1.0d10
                     !flush(6)
 
 

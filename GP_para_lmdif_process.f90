@@ -167,9 +167,11 @@ nn = 0
 if( myid == 0 )then
 
 
+    if( L_GP_print )then
     write(GP_print_unit,'(/A)' ) &
      'gplp: myid  i_GP_individual  n_parms    child_parameters  &
                    &       GP_pop_init_cond/GP_pop_node_params'
+    endif ! L_GP_print
 
     do  i_GP_individual = 1, n_GP_individuals
 
@@ -181,10 +183,12 @@ if( myid == 0 )then
             child_parameters( nn, i_GP_individual) =  &
                 GP_Population_Initial_Conditions(i_CODE_Equation, i_GP_Individual)
 
-            write(GP_print_unit,'(I10,1x,I10,1x,I10,2(6x,E15.7))') &
+            if( L_GP_print )then
+                write(GP_print_unit,'(I10,1x,I10,1x,I10,2(6x,E15.7))') &
                   myid, i_GP_individual, nn, &
                   child_parameters(nn,i_GP_individual), &
                   GP_Population_Initial_Conditions(i_CODE_Equation, i_GP_Individual)
+            endif ! L_GP_print
 
         enddo  ! i_CODE_equation
 
@@ -199,11 +203,13 @@ if( myid == 0 )then
                     child_parameters( nn, i_GP_individual) =  &
                          GP_population_node_parameters(i_node,i_tree,i_GP_individual)
 
-                    write(GP_print_unit,'(I10,1x,I10,1x,I10,2(6x,E15.7))') &
+                    if( L_GP_print )then
+                        write(GP_print_unit,'(I10,1x,I10,1x,I10,2(6x,E15.7))') &
                           myid, i_GP_individual, nn, &
                           child_parameters(nn,i_GP_individual), &
                           GP_population_node_parameters(i_node,i_tree,i_GP_individual)
 
+                    endif ! L_GP_print
                 endif ! GP_Adult_population_Node_Type(i_Node,i_Tree, i_GP_individual ) == 0
 
             enddo ! i_node

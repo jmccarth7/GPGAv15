@@ -271,7 +271,8 @@ else
     increment = 1.0d0 / real( n_levels, kind=8 )
 
     do  i = 1, n_levels-1
-        Node_Probability(i) = 1.0d0 - increment * real(i,kind=8)
+        !Node_Probability(i) =  1.0d0 - increment * real(i,kind=8)
+        Node_Probability(i) = ( 1.0d0 - increment * real(i,kind=8) )**2
     enddo
     Node_Probability(n_levels) = 0.0d0
 

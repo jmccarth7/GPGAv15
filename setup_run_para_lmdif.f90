@@ -101,15 +101,15 @@ if( n_parms <= n_code_equations ) then
     my_indiv_SSE =  1.0D+13
 
     !if( L_myprint  )then
-        write(myprint_unit,'(A, 2(1x, I6))') &
-        'strplm:0 myid, n_parms <=0  myid,  n_parms =', myid,  n_parms
+    !    write(myprint_unit,'(A, 2(1x, I6))') &
+    !    'strplm:0 myid, n_parms <=0  myid,  n_parms =', myid,  n_parms
     !endif ! L_myprint
 
     !if( L_myprint .and. i_G_indiv == 3 )then
     !if( L_myprint  )then
-        write(myprint_unit,'(A, 3(1x, I6),  1x,E12.5)') &
-        'strplm:0 myid, i_G_indiv, indiv_qual, my_indiv_SSE',&
-                  myid, i_G_indiv, individual_quality, my_indiv_SSE
+    !    write(myprint_unit,'(A, 3(1x, I6),  1x,E12.5)') &
+    !    'strplm:0 myid, i_G_indiv, indiv_qual, my_indiv_SSE',&
+    !              myid, i_G_indiv, individual_quality, my_indiv_SSE
     !endif ! L_myprint
 
     return   ! 20131016 jjm
@@ -168,9 +168,9 @@ do  i_parameter = 1, n_parms
     !    !'strplm:1 myid, i_G_indiv,i_parameter, child_parameters, X_LMDIF', &
     !    !          myid, i_G_indiv,i_parameter, &
     !    !          child_parameters(i_parameter),  X_LMDIF(i_parameter)
-        write(myprint_unit,'(A,2(1x,I6),1x,E15.7)') &
-        'strplm:1 myid, i_parameter,  X_LMDIF', &
-                  myid, i_parameter,  X_LMDIF(i_parameter)
+    !    write(myprint_unit,'(A,2(1x,I6),1x,E15.7)') &
+    !    'strplm:1 myid, i_parameter,  X_LMDIF', &
+    !              myid, i_parameter,  X_LMDIF(i_parameter)
     !endif ! L_myprint
 
 enddo ! i_parameter
@@ -269,17 +269,17 @@ call lmdif( fcn, n_time_steps, n_parms, x_LMDIF, fvec, &
 
 
 !if( L_myprint .and. myid == 1)then
-    write(myprint_unit,'(A,3(1x,I6))') 'strplm:output info, nfev, ldfjac ', &
-                                                      info, nfev, ldfjac
+!    write(myprint_unit,'(A,3(1x,I6))') 'strplm:output info, nfev, ldfjac ', &
+!                                                      info, nfev, ldfjac
 !endif ! myid == 1
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 !if( L_myprint .and. myid  == 1 )then
-    write(6,'(A,3(1x,I3),1x,I10/)') &
-          'strplm: AFT CALL LMDIF, myid, n_parms, info, n_time_steps', &
-                                   myid, n_parms, info, n_time_steps
+!    write(6,'(A,3(1x,I3),1x,I10/)') &
+!          'strplm: AFT CALL LMDIF, myid, n_parms, info, n_time_steps', &
+!                                   myid, n_parms, info, n_time_steps
 !endif ! myid == 1
 
 !flush(myprint_unit)
@@ -348,9 +348,9 @@ if( info <= 0 ) then
 
     !if( L_myprint  .and. i_G_indiv == 3 )then
     !if( L_myprint )then
-        write(myprint_unit,'(A, 3(1x, I6),  1x,E12.5)') &
-        'strplm:3 myid, i_G_indiv, indiv_qual, my_indiv_SSE',&
-                  myid, i_G_indiv, individual_quality, my_indiv_SSE
+    !    write(myprint_unit,'(A, 3(1x, I6),  1x,E12.5)') &
+    !    'strplm:3 myid, i_G_indiv, indiv_qual, my_indiv_SSE',&
+    !              myid, i_G_indiv, individual_quality, my_indiv_SSE
     !endif ! L_myprint
 
     return
@@ -379,10 +379,10 @@ do  i_parameter = 1, n_parms
                            dabs( x_LMDIF(i_parameter) )
 
     !if( L_myprint .and. myid == 1 )then
-        write(myprint_unit,'(A,3(1x,I6),1x,E15.7)') &
-          'strplm:4 myid, i_G_indiv,i_parameter, child_parameters', &
-                    myid, i_G_indiv,i_parameter, &
-                    child_parameters(i_parameter)
+    !    write(myprint_unit,'(A,3(1x,I6),1x,E15.7)') &
+    !      'strplm:4 myid, i_G_indiv,i_parameter, child_parameters', &
+    !                myid, i_G_indiv,i_parameter, &
+    !                child_parameters(i_parameter)
     !endif ! L_myprint
 
 enddo ! i_parameter
@@ -406,8 +406,8 @@ enddo ! i_parameter
 
 
 !if( L_myprint .and. myid == 1 )then
-    write(myprint_unit,'(/A/)')'strplm: calculate the individual SSE values '
-    write(myprint_unit,'(A,1x,I5)') 'strplm: i_G_indiv ', i_G_indiv
+!    write(myprint_unit,'(/A/)')'strplm: calculate the individual SSE values '
+!    write(myprint_unit,'(A,1x,I5)') 'strplm: i_G_indiv ', i_G_indiv
 !endif ! L_myprint
 
 
@@ -439,15 +439,15 @@ if( individual_quality > 0 ) then
 endif !  individual_quality > 0
 
 !if( L_myprint .and. myid == 1  )then
-    write(myprint_unit,'(/A,2(1x,I6))') &
-      'strplm: myid, info', myid, info
-    write(myprint_unit,'(A,3(1x,I6), 1x, E15.7)') &
-    'strplm: myid, i_G_indiv, indiv_qual, my_indiv_SSE', &
-             myid, i_G_indiv, individual_quality, my_indiv_SSE
+!    write(myprint_unit,'(/A,2(1x,I6))') &
+!      'strplm: myid, info', myid, info
+!    write(myprint_unit,'(A,3(1x,I6), 1x, E15.7)') &
+!    'strplm: myid, i_G_indiv, indiv_qual, my_indiv_SSE', &
+!             myid, i_G_indiv, individual_quality, my_indiv_SSE
 !endif ! L_myprint
 
 
-write(myprint_unit,'(A,1x,I6/)') 'strplm: AT RETURN  myid', myid
+!write(myprint_unit,'(A,1x,I6/)') 'strplm: AT RETURN  myid', myid
 
 
 return

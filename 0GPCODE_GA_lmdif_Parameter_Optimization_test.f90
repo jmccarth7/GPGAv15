@@ -1183,11 +1183,11 @@ do  i_GP_Generation=1,n_GP_Generations
 
         n_GP_Parameters = n_code_equations
 
-        if( myid == 0 )then
-            write(GP_print_unit,'(/A,2(1x,I6))')&
-             '0: before loop n_code_equations,  n_GP_params',&
-                             n_code_equations,  n_GP_parameters
-        endif !  myid == 0
+        !if( myid == 0 )then
+        !    write(GP_print_unit,'(/A,2(1x,I6))')&
+        !     '0: before loop n_code_equations,  n_GP_params',&
+        !                     n_code_equations,  n_GP_parameters
+        !endif !  myid == 0
 
         do  i_Tree=1,n_Trees
 
@@ -1222,11 +1222,11 @@ do  i_GP_Generation=1,n_GP_Generations
         enddo ! i_tree
 
 
-        if( myid == 0 )then
-            write(GP_print_unit,'(A,2(1x,I6)/)')&
-             '0: after loop n_code_equations,  n_GP_params',&
-                            n_code_equations,  n_GP_parameters
-        endif !  myid == 0
+        !if( myid == 0 )then
+        !    write(GP_print_unit,'(A,2(1x,I6)/)')&
+        !     '0: after loop n_code_equations,  n_GP_params',&
+        !                    n_code_equations,  n_GP_parameters
+        !endif !  myid == 0
 
         !------------------------------------------------------------------------
 
