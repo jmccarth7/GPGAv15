@@ -184,12 +184,15 @@ module Math_Node_Functions
             f_Power = 0.0d0 
             return
         endif 
+
         !-------------------------------------
 
         f_Power = abs(a)**b
 
-        f_Power = min( f_Power, 1.0D+99 )
-        f_Power = max( f_Power, 1.0D-99 )
+        !f_Power = min( f_Power, 1.0D+99 )
+        !f_Power = max( f_Power, 1.0D-99 )
+        f_Power = min( f_Power, 1.0D+19 )
+        f_Power = max( f_Power, 1.0D-19 )
 
         !write(*,*)'f8:  a, b, f_Power ', a, b, f_Power
 
@@ -373,8 +376,10 @@ module Math_Node_Functions
         !cff=abs(a)
         f_ExponentialLeftPlus = exp( a )
 
-        f_ExponentialLeftPlus = min( f_ExponentialLeftPlus, 1.0D+99 )
-        f_ExponentialLeftPlus = max( f_ExponentialLeftPlus, 1.0D-99 )
+        !f_ExponentialLeftPlus = min( f_ExponentialLeftPlus, 1.0D+99 )
+        !f_ExponentialLeftPlus = max( f_ExponentialLeftPlus, 1.0D-99 )
+        f_ExponentialLeftPlus = min( f_ExponentialLeftPlus, 1.0D+19 )
+        f_ExponentialLeftPlus = max( f_ExponentialLeftPlus, 1.0D-19 )
     end function
 
 
@@ -389,8 +394,10 @@ module Math_Node_Functions
 
         !cff=abs(a)
         f_ExponentialRightPlus = exp( b )
-        f_ExponentialRightPlus = min( f_ExponentialRightPlus, 1.0D+99 )
-        f_ExponentialRightPlus = max( f_ExponentialRightPlus, 1.0D-99 )
+        !f_ExponentialRightPlus = min( f_ExponentialRightPlus, 1.0D+99 )
+        !f_ExponentialRightPlus = max( f_ExponentialRightPlus, 1.0D-99 )
+        f_ExponentialRightPlus = min( f_ExponentialRightPlus, 1.0D+19 )
+        f_ExponentialRightPlus = max( f_ExponentialRightPlus, 1.0D-19 )
     end function
 
 
@@ -406,8 +413,10 @@ module Math_Node_Functions
 
         !cff=abs(a)
         f_ExponentialLeftMinus = exp( -1.0d0 * a )
-        f_ExponentialLeftMinus = min( f_ExponentialLeftMinus, 1.0D+99 )
-        f_ExponentialLeftMinus = max( f_ExponentialLeftMinus, 1.0D-99 )
+        !f_ExponentialLeftMinus = min( f_ExponentialLeftMinus, 1.0D+99 )
+        !f_ExponentialLeftMinus = max( f_ExponentialLeftMinus, 1.0D-99 )
+        f_ExponentialLeftMinus = min( f_ExponentialLeftMinus, 1.0D+19 )
+        f_ExponentialLeftMinus = max( f_ExponentialLeftMinus, 1.0D-19 )
     end function
 
 
@@ -422,8 +431,10 @@ module Math_Node_Functions
 
         !cff=abs(a)
         f_ExponentialRightMinus = exp( -1.0d0 * b )
-        f_ExponentialRightMinus = min( f_ExponentialRightMinus, 1.0D+99 )
-        f_ExponentialRightMinus = max( f_ExponentialRightMinus, 1.0D-99 )
+        !f_ExponentialRightMinus = min( f_ExponentialRightMinus, 1.0D+99 )
+        !f_ExponentialRightMinus = max( f_ExponentialRightMinus, 1.0D-99 )
+        f_ExponentialRightMinus = min( f_ExponentialRightMinus, 1.0D+19 )
+        f_ExponentialRightMinus = max( f_ExponentialRightMinus, 1.0D-19 )
     end function
 
 

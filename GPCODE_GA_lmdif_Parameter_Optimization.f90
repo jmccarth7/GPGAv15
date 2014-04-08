@@ -177,21 +177,21 @@ if( n_parameters .le. 0) then
 endif !   n_parameters .le. 0
 
 
-if( n_time_steps .lt. n_parameters) then
-    write(GA_print_unit,'(A)') &
-          'GP_GA_opt: ERROR: n_time_steps < n_parameters'
-    write(GA_print_unit,'(A,1x,I10)') &
-          'GP_GA_opt:  n_time_steps = ', n_time_steps
-    write(GA_print_unit,'(A,1x,I10)') &
-          'GP_GA_opt: n_parameters =   ', n_parameters
-    write(6,'(A)') &
-          'GP_GA_opt: ERROR: n_time_steps < n_parameters'
-    write(6,'(A,1x,I10)') &
-          'GP_GA_opt:  n_time_steps = ', n_time_steps
-    write(6,'(A,1x,I10)') &
-          'GP_GA_opt: n_parameters =   ', n_parameters
-    stop 'n_time < n_par'
-endif ! n_time_steps .lt. n_parameters
+!if( n_time_steps .lt. n_parameters) then
+!    write(GA_print_unit,'(A)') &
+!          'GP_GA_opt: ERROR: n_time_steps < n_parameters'
+!    write(GA_print_unit,'(A,1x,I10)') &
+!          'GP_GA_opt:  n_time_steps = ', n_time_steps
+!    write(GA_print_unit,'(A,1x,I10)') &
+!          'GP_GA_opt: n_parameters =   ', n_parameters
+!    write(6,'(A)') &
+!          'GP_GA_opt: ERROR: n_time_steps < n_parameters'
+!    write(6,'(A,1x,I10)') &
+!          'GP_GA_opt:  n_time_steps = ', n_time_steps
+!    write(6,'(A,1x,I10)') &
+!          'GP_GA_opt: n_parameters =   ', n_parameters
+!    stop 'n_time < n_par'
+!endif ! n_time_steps .lt. n_parameters
 
 
 

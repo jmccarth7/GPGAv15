@@ -425,10 +425,10 @@ do i = 1, Tree_count
                         !     RK_data_array( &
                         !           abs( Nodes(k)%n%variable_index ) - n_code_equations )
 
-                        !write(6,'(A,3(1x,I6))') &
-                        !'DsT2: i, k, abs( Nodes(k)%n%variable_index ) - n_code_equations !!! ', &
-                        !       i, k, abs( Nodes(k)%n%variable_index ) - n_code_equations
-                        !flush(6)
+                        write(6,'(A,3(1x,I6))') &
+                        'DsT2: i, k, abs( Nodes(k)%n%variable_index ) - n_code_equations !!! ', &
+                               i, k, abs( Nodes(k)%n%variable_index ) - n_code_equations
+                        flush(6)
 
                         !write(6,'(A,2(1x,I6),1x,E24.16)') &
                         !'DsT2: i, k, RK_data_array( abs( Nodes(k)%n%variable_index ) -1 ) ', &

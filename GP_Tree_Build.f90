@@ -32,12 +32,12 @@ GP_Child_Population_Node_Type=-9999 ! set all to null [-9999]
 
 
 
-!write(GP_print_unit,'(/A,1x,I6)')    'gtb: n_GP_Individuals ', n_GP_Individuals
-!write(GP_print_unit,'(A,2(1x,I6)/)') 'gtb: n_trees, n_levels', n_trees, n_levels
+write(GP_print_unit,'(/A,1x,I6)')    'gtb: n_GP_Individuals ', n_GP_Individuals
+write(GP_print_unit,'(A,2(1x,I6)/)') 'gtb: n_trees, n_levels', n_trees, n_levels
 
-!write(GP_print_unit,'(A,1x,E15.7 )') &
-!      'gtb: GP_Set_Terminal_to_Parameter_Probability', &
-!            GP_Set_Terminal_to_Parameter_Probability
+write(GP_print_unit,'(A,1x,E15.7 )') &
+      'gtb: GP_Set_Terminal_to_Parameter_Probability', &
+            GP_Set_Terminal_to_Parameter_Probability
 
 do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
 

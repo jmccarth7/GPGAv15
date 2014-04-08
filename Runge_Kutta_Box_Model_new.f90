@@ -133,7 +133,7 @@ endif ! dt <= 0.0D0
 !write(6,'(A,10(1x,E15.7)/ )') &
 !      'rkbm: before loop  btmp(:)', btmp(:)
 
-!write(6,'(A,1x,E20.10/)') 'rkbm: dt', dt
+write(6,'(A,1x,E20.10/)') 'rkbm: dt', dt
 
 
 !!! debug >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -169,6 +169,9 @@ endif ! dt <= 0.0D0
 do  i_Time_Step = 1, n_Time_Steps
 
 
+    if( i_time_step > 5 ) exit  ! debug only 
+
+
     !------------------------------------------------------------------------------
 
     !!!RK_data_array(1:n_input_vars) = input_data_array(1:n_input_vars, i_data_point )
@@ -187,8 +190,8 @@ do  i_Time_Step = 1, n_Time_Steps
 
     if( any( isnan( b_tmp ) ) .or.  any( abs(b_tmp)  > big_real ) ) then
 
-        !write(6,'(/A,1x,I6/)') &
-        !     'rkbm: bad b_tmp  i_time_step', i_time_step
+        write(6,'(/A,1x,I6/)') &
+             'rkbm: bad b_tmp  i_time_step', i_time_step
         !flush(6)
 
         L_bad_result = .TRUE.
@@ -219,9 +222,9 @@ do  i_Time_Step = 1, n_Time_Steps
         !write(6,'(/A, 1x, A)') 'rkbm: call DoForcing model = ', trim(model)
         !flush(6)
 
-        if( trim(model) == 'fasham' )then
-            call DoForcing( btmp, Runge_Kutta_Time_Step(iter), i_Time_Step )
-        endif ! trim(model) == 'fasham'
+        !if( trim(model) == 'fasham' )then
+        !    call DoForcing( btmp, Runge_Kutta_Time_Step(iter), i_Time_Step )
+        !endif ! trim(model) == 'fasham'
 
         !write(6,'(/A, 1x, A)') 'rkbm: aft call DoForcing model = ', trim(model)
         !flush(6)
@@ -252,13 +255,13 @@ do  i_Time_Step = 1, n_Time_Steps
                     Tree_Value(i_Tree) = GP_Trees( i_Tree,  i_Track )%n%val()
 
 
-                    !if( abs( Tree_Value(i_tree) ) > 1.0d10 )then
+                    if( abs( Tree_Value(i_tree) ) > 1.0d10 )then
                     !if( myid == 1 .and. abs( Tree_Value(i_tree) ) > 0.0d0  )then
                     !!    write(6,'(A,22x,I6,1x,I6,1x,E15.7)') &
-                    !    write(6,'(A,2x,I6,1x,I6,1x,I6,1x,E15.7)') &
-                    !          'rkbm: i_time_step, iter, i_tree, Tree_Value(i_tree)', &
-                    !                 i_time_step, iter, i_tree, Tree_Value(i_tree)
-                    !endif ! myid == 1 .and. abs( Tree_Value(i_tree) ) > 1.0d10
+                        write(6,'(A,2x,I6,1x,I6,1x,I6,1x,E15.7)') &
+                              'rkbm: i_time_step, iter, i_tree, Tree_Value(i_tree)', &
+                                     i_time_step, iter, i_tree, Tree_Value(i_tree)
+                    endif ! myid == 1 .and. abs( Tree_Value(i_tree) ) > 1.0d10
                     !flush(6)
 
 
@@ -268,6 +271,9 @@ do  i_Time_Step = 1, n_Time_Steps
                         L_bad_result = .TRUE.
 
                         !if( L_ga_print )then
+                            write(6,'(A,1x,I6,1x,I6,1x,E24.16)') &
+                              'rkbm: bad value i_time_step, i_tree, Tree_Value(i_tree)', &
+                                               i_time_step, i_tree, Tree_Value(i_tree)
                         !    write(GA_print_unit,'(A,1x,I6,1x,I6,1x,E24.16)') &
                         !      'rkbm: bad value i_time_step, i_tree, Tree_Value(i_tree)', &
                         !                       i_time_step, i_tree, Tree_Value(i_tree)
@@ -508,6 +514,9 @@ do  i_Time_Step = 1, n_Time_Steps
         L_bad_result = .TRUE.
 
         !if( L_GA_print )then
+            write(6,'(A,2(1x,I6),12(1x,E15.7))') &
+                  'rkbm: bad result myid, i_time_step, b_tmp ', &
+                                    myid, i_time_step, b_tmp(1:n_CODE_equations)
         !    write(GA_print_unit,'(A,2(1x,I6),12(1x,E15.7))') &
         !          'rkbm: bad result myid, i_time_step, b_tmp ', &
         !                            myid, i_time_step, b_tmp(1:n_CODE_equations)
@@ -536,9 +545,9 @@ do  i_Time_Step = 1, n_Time_Steps
     !        write(GA_print_unit,'(A,2(1x,I6),12(1x,E15.7))') &
     !        'rkbm:g myid, i_time_step, RK_Soln ', &
     !                myid, i_time_step, Numerical_CODE_Solution(i_time_step,1:n_CODE_equations)
-    !write(6,'(A,2(1x,I6),12(1x,E15.7))') &
-    !        'rkbm:g myid, i_time_step, RK_Soln ', &
-    !                myid, i_time_step, Numerical_CODE_Solution(i_time_step,1:n_CODE_equations)
+    write(6,'(A,2(1x,I6),12(1x,E15.7))') &
+            'rkbm:g myid, i_time_step, RK_Soln ', &
+                    myid, i_time_step, Numerical_CODE_Solution(i_time_step,1:n_CODE_equations)
     !    endif ! L_ga_print
     !!endif !  i_time_step == 250 .or. i_time_step == 1
     !endif ! i_time_step < 251
