@@ -133,7 +133,7 @@ endif ! dt <= 0.0D0
 !write(6,'(A,10(1x,E15.7)/ )') &
 !      'rkbm: before loop  btmp(:)', btmp(:)
 
-write(6,'(A,1x,E20.10/)') 'rkbm: dt', dt
+!write(6,'(A,1x,E20.10/)') 'rkbm: dt', dt
 
 
 !!! debug >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -169,7 +169,7 @@ write(6,'(A,1x,E20.10/)') 'rkbm: dt', dt
 do  i_Time_Step = 1, n_Time_Steps
 
 
-    if( i_time_step > 5 ) exit  ! debug only 
+    !if( i_time_step > 5 ) exit  ! debug only 
 
 
     !------------------------------------------------------------------------------
@@ -545,9 +545,9 @@ do  i_Time_Step = 1, n_Time_Steps
     !        write(GA_print_unit,'(A,2(1x,I6),12(1x,E15.7))') &
     !        'rkbm:g myid, i_time_step, RK_Soln ', &
     !                myid, i_time_step, Numerical_CODE_Solution(i_time_step,1:n_CODE_equations)
-    write(6,'(A,2(1x,I6),12(1x,E15.7))') &
-            'rkbm:g myid, i_time_step, RK_Soln ', &
-                    myid, i_time_step, Numerical_CODE_Solution(i_time_step,1:n_CODE_equations)
+    !write(6,'(A,2(1x,I6),12(1x,E15.7))') &
+    !        'rkbm:g myid, i_time_step, RK_Soln ', &
+    !                myid, i_time_step, Numerical_CODE_Solution(i_time_step,1:n_CODE_equations)
     !    endif ! L_ga_print
     !!endif !  i_time_step == 250 .or. i_time_step == 1
     !endif ! i_time_step < 251

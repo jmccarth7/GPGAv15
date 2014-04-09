@@ -82,7 +82,7 @@ contains
 
         v = math_funcs( this%operation )%f( this%left%val(), this%right%val() )
 
-        write(6,'(A,1x,I6,1x,E24.16)')     'tMnv: this%operation, v', this%operation, v
+        !write(6,'(A,1x,I6,1x,E24.16)')     'tMnv: this%operation, v', this%operation, v
         !!write(6,'(A,1x,I6)')     'tMnv: this%node_count = ', this%node_count
         !!write(6,'(A,1x,E24.16)') 'tMnv: v               = ', v
 
@@ -97,7 +97,7 @@ contains
 
         !write(6,'(A,1x,E24.16)')  'tPnv: this%param = ', this%param
         !write(6,'(A,1x,E24.16)')  'tPnv: parm       = ', v
-        write(6,'(A,2(1x,E24.16))')     'tMnv: this%param, v', this%param, v
+        !write(6,'(A,2(1x,E24.16))')     'tMnv: this%param, v', this%param, v
 
     end function Tree_Parameter_Node_Val
 
@@ -114,8 +114,7 @@ contains
         !write(6,'(A,1x,E24.16)') 'tVnv: this%variable   = ', this%variable
         !!write(6,'(A,1x,I6)')     'tVnv: this%node_count = ', this%node_count
         !write(6,'(A,1x,E24.16)') 'tVnv: variable        = ', v
-        write(6,'(A,1x,I6,1x,E24.16)')     'tVnv: v_index, v', v_index,  v
-        !write(6,'(A,1x,I6,2(1x,E24.16))')     'tVnv: v_index, this%variable, v', v_index, this%variable, v
+        !write(6,'(A,1x,I6,1x,E24.16)')     'tVnv: v_index, v', v_index,  v
         !write(6,'(A,1x,I6)')     'tVnv: v_index  = ', v_index
 
     end function Tree_Variable_Node_Val

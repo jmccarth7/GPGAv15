@@ -99,13 +99,13 @@ CFLAGS = -O
 
 # note: mpif90 is based on gfortran
 FC = /opt/openmpi-1.6.5/bin/mpif90
-FFLAGS =   -g -fbacktrace -ffree-form  #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
+FFLAGS =  -O3 -g -fbacktrace -ffree-form  #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
 #FFLAGS =  -g -fbacktrace -ffree-form  -fcheck=bounds #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
 #FFLAGS =  -O3  -ffree-form #-g -fbacktrace  -fcheck=bounds  # -Wall  # -fdefault-integer-8  # -FR = -free
 
 # note: mpif90 is based on gfortran
 F90 = /opt/openmpi-1.6.5/bin/mpif90
-F90FLAGS =  -g -fbacktrace -ffree-form   #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
+F90FLAGS = -O3 -g -fbacktrace -ffree-form   #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
 #F90FLAGS =  -g -fbacktrace -ffree-form  -fcheck=bounds #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
 #F90FLAGS =  -O3 -ffree-form #-g -fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
 
