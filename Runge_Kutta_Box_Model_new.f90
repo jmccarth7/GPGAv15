@@ -169,7 +169,7 @@ endif ! dt <= 0.0D0
 do  i_Time_Step = 1, n_Time_Steps
 
 
-    if( i_time_step > 5 ) exit  ! debug only 
+    !!!!!!!!!!!!!!!!!!!!!!!!!if( i_time_step > 5 ) exit  ! debug only 
 
 
     !------------------------------------------------------------------------------
@@ -222,9 +222,9 @@ do  i_Time_Step = 1, n_Time_Steps
         !write(6,'(/A, 1x, A)') 'rkbm: call DoForcing model = ', trim(model)
         !flush(6)
 
-        !if( trim(model) == 'fasham' )then
-        !    call DoForcing( btmp, Runge_Kutta_Time_Step(iter), i_Time_Step )
-        !endif ! trim(model) == 'fasham'
+        if( trim(model) == 'fasham' )then
+            call DoForcing( btmp, Runge_Kutta_Time_Step(iter), i_Time_Step )
+        endif ! trim(model) == 'fasham'
 
         !write(6,'(/A, 1x, A)') 'rkbm: aft call DoForcing model = ', trim(model)
         !flush(6)
