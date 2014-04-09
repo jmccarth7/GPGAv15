@@ -23,9 +23,9 @@ integer(kind=4) :: i_parameter
 !integer(kind=4) :: jj
 integer(kind=4) :: i_GA_individual
 
-integer(kind=4) :: inode                 
-integer(kind=4) :: itree               
-integer(kind=4) :: nparm               
+integer(kind=4) :: inode
+integer(kind=4) :: itree
+integer(kind=4) :: nparm
 
 !----------------------------------------------------------------------------
 
@@ -47,7 +47,7 @@ Run_GA_lmdif=.true.
 
 do  i_GA_Individual=1,n_GA_Individuals
 
-    !write(6,'(A,1x, I6)')  'Init: i_GA_Individual ', i_GA_Individual 
+    !write(6,'(A,1x, I6)')  'Init: i_GA_Individual ', i_GA_Individual
 
     do  i_Parameter=1,n_Parameters
 
@@ -68,7 +68,7 @@ do  i_GA_Individual=1,n_GA_Individuals
 
 
     !debug only >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    !  LV model 
+    !  LV model
     !Child_Parameters(1,i_GA_Individual) =  30.0d0    ! debug only
     !Child_Parameters(2,i_GA_Individual) =   2.0d0    ! debug only
     !Child_Parameters(3,i_GA_Individual) =   0.4d0    ! debug only
@@ -80,43 +80,43 @@ do  i_GA_Individual=1,n_GA_Individuals
 
     !debug only >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     ! fasham model
-    !i_parameter = 1
-    !Child_Parameters(i_parameter,i_GA_Individual) = 0.2D+0 ! Nitrate           [mmol N m-3]
-    !i_parameter = i_parameter + 1
-    !Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! Ammonium          [mmol N m-3]
-    !i_parameter = i_parameter + 1
-    !Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! DON               [mmol N m-3]
-    !i_parameter = i_parameter + 1
-    !Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! DET [Detritus]    [mmol N m-3]
-    !i_parameter = i_parameter + 1
-    !Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! Bacteria          [mmol N m-3]
-    !i_parameter = i_parameter + 1
-    !Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! Phytoplankton     [mmol N m-3]
-    !i_parameter = i_parameter + 1
-    !Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! Zooplankton       [mmol N m-3]
-    !------------------------------------------------------------------
-    !do  itree = 1, n_trees 
-    !    do  inode = 1, n_nodes 
-    !        !if( GP_Individual_Node_Type(inode, itree) > -9999 )then 
-    !        !    write(6, '(A,3(1x,I6),1x,E15.7)') &
-    !        !          'Init: itree, inode, GP_Ind_Node_Type,GP_Ind_Node_Par', &              
-    !        !                 itree, inode, GP_Individual_Node_Type(inode, itree), &
-    !        !                               GP_Individual_Node_Parameters(inode,itree)    
-    !        !endif ! GP_Individual_Node_Type(inode, itree) > -9999 
-    !        if( GP_Individual_Node_Type(inode, itree) == 0 )then
-    !            i_parameter = i_parameter + 1
-    !            Child_Parameters(i_parameter,i_GA_Individual) =  &
-    !                   GP_Individual_Node_Parameters(inode,itree)
-    !        endif 
-    !    enddo
-    !enddo
-    !nparm = i_parameter
-    !write(6, '(A,1x,I6)') 'Init: nparm ', nparm
-    !do  i_parameter = 1, nparm
-    !    write(6, '(A,1x,I6,1x,E15.7)') &
-    !          'Init: i_parameter, Child_Parameters(i_parameter,i_GA_Individual)', &
-    !                 i_parameter, Child_Parameters(i_parameter,i_GA_Individual)
-    !enddo
+    i_parameter = 1                                                                                ! debug only
+    Child_Parameters(i_parameter,i_GA_Individual) = 0.2D+0 ! Nitrate           [mmol N m-3]        ! debug only
+    i_parameter = i_parameter + 1                                                                  ! debug only
+    Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! Ammonium          [mmol N m-3]        ! debug only
+    i_parameter = i_parameter + 1                                                                  ! debug only
+    Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! DON               [mmol N m-3]        ! debug only
+    i_parameter = i_parameter + 1                                                                  ! debug only
+    Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! DET [Detritus]    [mmol N m-3]        ! debug only
+    i_parameter = i_parameter + 1                                                                  ! debug only
+    Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! Bacteria          [mmol N m-3]        ! debug only
+    i_parameter = i_parameter + 1                                                                  ! debug only
+    Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! Phytoplankton     [mmol N m-3]        ! debug only
+    i_parameter = i_parameter + 1                                                                  ! debug only
+    Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! Zooplankton       [mmol N m-3]        ! debug only
+    !------------------------------------------------------------------                            ! debug only
+    do  itree = 1, n_trees                                                                         ! debug only
+        do  inode = 1, n_nodes                                                                     ! debug only
+    !        !if( GP_Individual_Node_Type(inode, itree) > -9999 )then                              ! debug only
+    !        !    write(6, '(A,3(1x,I6),1x,E15.7)') &                                              ! debug only
+    !        !          'Init: itree, inode, GP_Ind_Node_Type,GP_Ind_Node_Par', &                  ! debug only
+    !        !                 itree, inode, GP_Individual_Node_Type(inode, itree), &              ! debug only
+    !        !                               GP_Individual_Node_Parameters(inode,itree)            ! debug only
+    !        !endif ! GP_Individual_Node_Type(inode, itree) > -9999                                ! debug only
+            if( GP_Individual_Node_Type(inode, itree) == 0 )then                                   ! debug only
+                i_parameter = i_parameter + 1                                                      ! debug only
+                Child_Parameters(i_parameter,i_GA_Individual) =  &                                 ! debug only
+                       GP_Individual_Node_Parameters(inode,itree)                                  ! debug only
+            endif                                                                                  ! debug only
+        enddo                                                                                      ! debug only
+    enddo                                                                                          ! debug only
+    nparm = i_parameter                                                                            ! debug only
+    write(6, '(A,1x,I6)') 'Init: nparm ', nparm                                                    ! debug only
+    do  i_parameter = 1, nparm                                                                     ! debug only
+        write(6, '(A,1x,I6,1x,E15.7)') &                                                           ! debug only
+              'Init: i_parameter, Child_Parameters(i_parameter,i_GA_Individual)', &                ! debug only
+                     i_parameter, Child_Parameters(i_parameter,i_GA_Individual)                    ! debug only
+    enddo                                                                                          ! debug only
     !debug only <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 

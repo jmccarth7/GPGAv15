@@ -169,7 +169,7 @@ endif ! dt <= 0.0D0
 do  i_Time_Step = 1, n_Time_Steps
 
 
-    !if( i_time_step > 5 ) exit  ! debug only 
+    if( i_time_step > 5 ) exit  ! debug only 
 
 
     !------------------------------------------------------------------------------

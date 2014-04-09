@@ -710,10 +710,10 @@ do  i_GP_Generation=1,n_GP_Generations
             !! debug only <<<<<<<<<<<<<<<<<
 
 
-            !! debug only >>>>>>>>>>>>>>>>
-            !!! fasham model
-            !!call fasham_model_debug()
-            !! debug only <<<<<<<<<<<<<<<<<
+            ! debug only >>>>>>>>>>>>>>>>
+            !! fasham model
+            call fasham_model_debug()   ! debug only 
+            ! debug only <<<<<<<<<<<<<<<<<
 
         endif ! myid == 0
 
@@ -1089,14 +1089,14 @@ do  i_GP_Generation=1,n_GP_Generations
     if( myid == 0 )then
 
         write(GP_print_unit,'(/A,1x,I6/)') &
-              '0: call GP_Clean_Tree_Nodes  Generation =', i_GP_Generation
+              '0: debug only  skip GP_Clean_Tree_Nodes  Generation =', i_GP_Generation
 
         !tree_descrip =  ' trees BEFORE call to GP_Clean_Tree_Nodes'
         !call print_trees( i_GP_generation, 1, n_GP_individuals, &
         !         GP_Adult_Population_Node_Type, trim( tree_descrip )  )
 
 
-        call GP_Clean_Tree_Nodes
+        ! debug only call GP_Clean_Tree_Nodes
 
 
         !tree_descrip =  ' trees after call to GP_Clean_Tree_Nodes'
@@ -1127,24 +1127,21 @@ do  i_GP_Generation=1,n_GP_Generations
 
     ! print trees after call to GP_Clean_Tree_Nodes
 
-    if( myid == 0 )then
+    !if( myid == 0 )then
     !    if( i_GP_generation == 1                                  .or. &
     !        mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
     !        i_GP_generation == n_GP_generations                          )then
-    
-            tree_descrip =  ' trees after call to GP_Clean_Tree_Nodes'
-            call print_trees( i_GP_generation, 1, n_GP_individuals, &
-                       GP_Adult_Population_Node_Type, trim( tree_descrip )  )
-    
-            write(GP_print_unit,'(/A, 1x, I6/)') &
-              '0: after call to GP_Clean_Tree_Nodes i_GP_generation =',i_GP_generation
+    !        tree_descrip =  ' trees after call to GP_Clean_Tree_Nodes'
+    !        call print_trees( i_GP_generation, 1, n_GP_individuals, &
+    !                   GP_Adult_Population_Node_Type, trim( tree_descrip )  )
+    !        write(GP_print_unit,'(/A, 1x, I6/)') &
+    !          '0: after call to GP_Clean_Tree_Nodes i_GP_generation =',i_GP_generation
     !
     !        print node type information for each GP individual
     !        call print_gp_node_type_parm( )
     !
     !    endif ! i_GP_generation == 1 .or. ...
-    
-    endif !  myid == 0
+    !endif !  myid == 0
 
     !-----------------------------------------------------------------------------------------
 
