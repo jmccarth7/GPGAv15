@@ -174,7 +174,10 @@ enddo ! i_parameter
 
 !if( L_ga_print )then
 !    write(GA_print_unit,'(/A/)')'setrf: calculate the individual SSE values '
+    write(6,'(/A/)')'setrf: calculate the individual SSE values '
 !endif ! L_ga_print
+write(6,'(A,2(1x,I6))') 'setrf: i_GA_indiv, individual_quality(i_GA_indiv) ', &
+                                i_GA_indiv, individual_quality(i_GA_indiv) 
 
 individual_SSE(i_GA_indiv)=0.0D+0
 
@@ -205,6 +208,11 @@ if( individual_quality( i_GA_indiv ) > 0 ) then
        !    write(GA_print_unit,'(A,1x,I6,1x,E15.7)' ) &
        !          'setrf: i_time_step, fvec(i_time_step) ', &
        !                  i_time_step, fvec(i_time_step)
+       if( abs( fvec(i_time_step) ) > 0.0d0 )then
+           write(6,'(A,1x,I6,1x,E15.7)' ) &
+                 'setrf: i_time_step, fvec(i_time_step) ', &
+                         i_time_step, fvec(i_time_step)
+       endif ! abs( fvec(i_time_step) ) > 0.0d0 
        !endif ! L_ga_print
 
        individual_SSE(i_GA_indiv) = individual_SSE(i_GA_indiv) + &
@@ -215,11 +223,11 @@ if( individual_quality( i_GA_indiv ) > 0 ) then
 endif !  individual_quality( i_GA_indiv ) > 0
 
 !if( L_ga_print )then
-!    write(6,'(A,3(1x,I6), 1x, E15.7)') &
-!          'setrf: myid, i_GA_indiv, individual_quality, individual_SSE', &
-!                  myid, i_GA_indiv, &
-!                  individual_quality( i_GA_indiv ), &
-!                  individual_SSE(i_GA_indiv)
+    write(6,'(A,3(1x,I6), 1x, E15.7)') &
+          'setrf: myid, i_GA_indiv, individual_quality, individual_SSE', &
+                  myid, i_GA_indiv, &
+                  individual_quality( i_GA_indiv ), &
+                  individual_SSE(i_GA_indiv)
 !endif ! L_ga_print
 
 return

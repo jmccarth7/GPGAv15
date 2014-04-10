@@ -370,6 +370,9 @@ call Runge_Kutta_Box_Model( .FALSE. )
 !              'fcn: time spent in RK Box Model   = ', t2 - t1
 
 
+write(6,'(A,1x,I6,4x,L1)') &
+              'fcn: aft call Runge_Kutta_Box_Model  myid, L_bad_result = ', &
+                                                    myid, L_bad_result
 
 !----------------------------------------------------------------------
 
@@ -409,9 +412,9 @@ endif ! L_bad_result
 ! if the result of the RK process was good,
 ! compute the fvec (and maybe sse_local)
 
-!write(6,'(A,1x,E15.7, 2(1x, F10.2))') &
-!      'fcn: dt, sse_min_time, sse_max_time', &
-!            dt, sse_min_time, sse_max_time
+write(6,'(A,1x,E15.7, 1x, F10.2, 1x, G15.3)') &
+      'fcn: dt, sse_min_time, sse_max_time', &
+            dt, sse_min_time, sse_max_time
 
 sse_local=0.0D0  ! 20131209
 fvec = 0.0D0
@@ -436,8 +439,8 @@ do  i_time_step=1,n_time_steps
 
     !if( L_GP_print .and. GP_para_flag .and. myid == 1 .and. &
     !      i_time_step == n_time_steps                            )then
-    !    write(GP_print_unit,'(/A,1x,I6, 1x,I10)') &
-    !      'fcn: myid, i_time_step', myid, i_time_step
+    !    write(GP_print_unit,'(/A,1x,I6, 1x,I10,1x,E15.7)') &
+    !      'fcn: myid, i_time_step, x_time_step', myid, i_time_step, x_time_step
     !endif ! L_GP_print
     !if( L_ga_print )then
     !    write(GA_print_unit,'(/A,1x,I6, 1x,I10)')&
@@ -487,9 +490,11 @@ do  i_time_step=1,n_time_steps
   
     sse_local = sse_local + fvec(i_time_step)  ! 20131209
   
-    !write(GP_print_unit,'(A,1x,I3, 1x,I6, 3(1x, E15.7))')&
-    !      'fcn:2 myid, i_time_step, fvec_before, fvec(i_time_step),sse_local', &
-    !             myid, i_time_step, fvec_before, fvec(i_time_step),sse_local
+    if( abs(fvec_before) > 0.0d0 )then
+        write(GP_print_unit,'(A,1x,I3, 1x,I6, 4(1x, E15.7))')&
+          'fcn:2 myid, i_time_step, x_time_step, fvec_before, fvec(i_time_step),sse_local', &
+                 myid, i_time_step, x_time_step, fvec_before, fvec(i_time_step),sse_local
+    endif ! abs(fvec_before) > 0.0d0 
 
     !if( L_GP_print .and. GP_para_flag .and. myid == 1 .and. &
     !                              i_time_step == n_time_steps )then
@@ -503,8 +508,8 @@ do  i_time_step=1,n_time_steps
 enddo ! i_time_step
 
 !if( L_GP_print .and. GP_para_flag .and. myid == 3  )then
-!    write(GP_print_unit,'(A,1x,I6,2x,E15.7)') &
-!    'fcn: myid, sse_local = ',myid, sse_local
+    write(GP_print_unit,'(A,1x,I6,2x,E15.7)') &
+    'fcn: at return  myid, sse_local = ',myid, sse_local
 !endif ! L_GP_print
 !if( L_ga_print .and. myid == 1 )then
 !    write(GA_print_unit,'(A,1x,I6,2x,E15.7)') 'fcn: myid, sse_local = ',myid, sse_local

@@ -24,9 +24,6 @@ subroutine GP_calc_fitness( i_GP_generation, output_array, &
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-!use mpi
-!use mpi_module
-
 use GP_Parameters_module
 use GA_Parameters_module
 use GP_Variables_module
@@ -133,11 +130,12 @@ if( i_GP_generation == 1                                 .or. &
     write(GP_print_unit,'(/A,1x,I6)') &
           'gpcf: i_GP_generation ',  i_GP_generation
     write(GP_print_unit,'(A)') &
-              'gpcf: i_GP_Indiv, GP_Child_Indiv_SSE(i_GP_Indiv) '
+              'gpcf: i_GP_Indiv, GP_Child_Indiv_SSE(i_GP_Indiv)  SSE/SSE0 '
 
     do  i_GP_Individual=1,n_GP_Individuals
-        write(GP_print_unit,'(6x,I6,6x,E20.10)') &
-               i_GP_Individual, GP_Child_Individual_SSE(i_GP_Individual)
+        write(GP_print_unit,'(6x,I6,2(6x,E20.10))') &
+           i_GP_Individual, GP_Child_Individual_SSE(i_GP_Individual), &
+           GP_Child_Individual_SSE(i_GP_Individual)/SSE0
     enddo ! i_gp_individual
 
 endif ! i_GP_generation ...
@@ -169,7 +167,7 @@ endif ! L_GPSSE_log
 ! calculate a normalized ranking of the errors
 ! (higher individual SSE == lower value/ranking)
 
-! calculate fitness as 1/(individual sse)
+! calculate fitness as sse0 / (individual sse)
 
 GP_Population_Ranked_Fitness = 0.0d0
 
@@ -313,7 +311,7 @@ write(GP_print_unit,'(/A,2(1x,I6),2(1x,E15.7))') &
              GP_Child_Individual_SSE(i_GP_Best_Parent)
 
 
-!------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 
 ! this prints a summary of the initial conditions,
 ! parameters,  and node types for the i_GP_Best_Parent 
@@ -328,7 +326,7 @@ write(GP_print_unit,'(A,2(1x,I6))') &
 
 call summary_GP_indiv( i_GP_generation, i_GP_Best_Parent, 1 )
 
-!------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 
 
 
@@ -544,6 +542,16 @@ endif ! i_GP_generation == 1 .or. ...
 
 
 !---------------------------------------------------------------------------
+!
+!  compare the current models to the "truth" model 
+
+!  set logical to .TRUE. if all nodes match the nodes in the truth model
+!  record relative differences in the parameters but do not include in the
+!  logical calculation
+
+
+
+!---------------------------------------------------------------------------
 
 GP_Adult_Individual_SSE  =  GP_Child_Individual_SSE
 
@@ -573,8 +581,11 @@ GP_Adult_Population_SSE  =  GP_Child_Individual_SSE
 
 !-------------------------------------------------------------------------------
 
+! the last line of the call disables the sse_min_time, etc. option for this call
+
 call calc_stats( n_GP_individuals, GP_Population_Ranked_Fitness,  &
-                 mean_fit, rms_fit, std_dev_fit )
+                 mean_fit, rms_fit, std_dev_fit, &
+                 1.0d0, 0.0d0, 1.0d99, 1.0d0 )
 
 write(GP_print_unit,'(/A,1x,I5,3(1x,E15.7))') &
    'gpcf: GP_Gen, GP_Pop_Rank_Fit mean, rms, std_dev', &

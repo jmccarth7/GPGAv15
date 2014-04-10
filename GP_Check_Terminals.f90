@@ -117,7 +117,7 @@ do  i_Tree=1,n_Trees
                                     i_Node_Left, i_tree, &
                                temp_Node_Type(i_Node_Left,i_Tree)
 
-                        call print_entire_tree( )
+                        !call print_entire_tree( )
 
                     endif ! myid == 0
 

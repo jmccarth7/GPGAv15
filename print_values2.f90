@@ -50,7 +50,7 @@ write(GP_print_unit,'(A,1x,F10.2)')'pv2: dt (min)            ', dt * 1440.d0
 write(GP_print_unit,'(/A,1x,F10.2)')'pv2: run start time (days)', 0.0d0           
 write(GP_print_unit,'(A,1x,F10.2)') 'pv2: run stop  time (days)', n_time_steps * dt
 write(GP_print_unit,'(A,1x,F10.2)') 'pv2: sse_min_time(days)   ', sse_min_time 
-write(GP_print_unit,'(A,1x,F10.2/)')'pv2: sse_max_time(days)   ', sse_max_time
+write(GP_print_unit,'(A,1x,G10.2/)')'pv2: sse_max_time(days)   ', sse_max_time
 
 !write(GP_print_unit,*) individual_fitness
 !write(GP_print_unit,*) data_array

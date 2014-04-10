@@ -105,8 +105,33 @@ type(Tree_Node), pointer :: parent, root
 
 
 
-do i = 1, Tree_count
+do  i = 1, Tree_count
 
+!!    if( .not. ( &
+!!        i == 1   .or. &
+!!        i == 8   .or. &
+!!        i == 13  .or. &
+!!        i == 15  .or. &
+!!        i == 19  .or. &
+!!        i == 20  .or. &
+!!        i == 22  .or. &
+!!        i == 26  .or. &
+!!        i == 28  .or. &
+!!        i == 29  .or. &
+!!        i == 32  .or. &
+!!        i == 35  .or. &
+!!        i == 36  .or. &
+!!        i == 38  .or. &
+!!        i == 39  .or. &
+!!        i == 42  .or. &
+!!        i == 43  .or. &
+!!        i == 46  .or. &
+!!        i == 47  .or. &
+!!        i == 50  .or. &
+!!        i == 52  .or. &
+!!        i == 53  .or. &
+!!        i == 54     &
+!!                     ) ) cycle  ! debug only 
 
     !if( myid == temp_myid )then
 

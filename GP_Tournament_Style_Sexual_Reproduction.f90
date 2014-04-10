@@ -71,6 +71,9 @@ do
     if( i_GP_crossover > n_GP_crossovers) exit cross_loop
 
     i_GP_Individual = i_GP_Individual+1
+    if( i_GP_Individual >  n_GP_individuals ) exit cross_loop 
+    !i_GP_Individual = min( n_GP_individuals, i_GP_Individual )
+    
     sse_ind = GP_Adult_Population_SSE(i_GP_Individual )
 
     !write(6,'(A,2(1x,I6))') &
@@ -371,9 +374,9 @@ do
 enddo cross_loop
 
 
-!write(GP_print_unit,'(/A,3(1x,I6)/)') &
-!      'gptssr: at RETURN i_GP_Crossover, i_GP_individual', &
-!                         i_GP_Crossover, i_GP_individual
+write(GP_print_unit,'(/A,3(1x,I6)/)') &
+      'gptssr: at RETURN i_GP_Crossover, i_GP_individual', &
+                         i_GP_Crossover, i_GP_individual
 
 return
 

@@ -13,7 +13,7 @@ implicit none
 real(kind=8) :: cff
 
 integer(kind=4),dimension(n_nodes,2)  :: Child_Tree_Swap_Node_Type
-integer(kind=4),dimension(n_nodes,2)  :: Node_Depth
+integer(kind=4),dimension(n_nodes,2)  :: node_depth
 integer(kind=4) :: i_Parent
 integer(kind=4) :: i_Child
 integer(kind=4) :: i_Parent_One
@@ -57,11 +57,15 @@ logical :: NODE_NOT_FOUND
 !--------------------------------------------------------------------------
 
 !write(6,'(/A,1x,I6)') 'gpts: at entry n_nodes = ', n_nodes
+
 !write(6,'(A)') 'gpts: kk, Parent_Tree_Swap_Node_Type(kk,1) '
+
 !do  kk = 1, n_nodes
 !    write(6,'(3(1x,I6))') kk, Parent_Tree_Swap_Node_Type(kk,1)
 !enddo ! kk
+
 !write(6,'(A)') 'gpts: kk, Parent_Tree_Swap_Node_Type(kk,2) '
+
 !do  kk = 1, n_nodes
 !    write(6,'(3(1x,I6))') kk, Parent_Tree_Swap_Node_Type(kk,2)
 !enddo ! kk
@@ -136,13 +140,13 @@ if( MALE_CROSS .and. FEMALE_CROSS) then
             do  i_node_at_level = 1,n_nodes_at_level
 
                 i_node = (n_nodes_at_level-1)+i_node_at_level
-                Node_depth(i_node,i_parent) = 0
+                node_depth(i_node,i_parent) = 0
 
                 if( Parent_Tree_Swap_Node_Type(i_Node,i_parent) .ne. -9999) then
 
                     if( i_level .eq. n_levels) then
 
-                        Node_depth(i_node,i_parent) = 1
+                        node_depth(i_node,i_parent) = 1
 
                     else
 
@@ -150,18 +154,18 @@ if( MALE_CROSS .and. FEMALE_CROSS) then
                         k_node = 1 + i_node*2
 
                         if( node_depth(j_node,i_parent) .ge. 1 .and. &
-                            Node_depth(k_node,i_parent) .ge. 1           ) then
+                            node_depth(k_node,i_parent) .ge. 1           ) then
 
                             if( node_depth(k_node,i_parent) .gt. &
-                                Node_depth(j_node,i_parent)         ) then
+                                node_depth(j_node,i_parent)         ) then
                                 j_node = k_node
                             endif !   node_depth(k_node,i_parent) .gt. node_depth...
 
-                            Node_depth(i_node,i_parent) = Node_depth(j_node,i_parent)+1
+                            node_depth(i_node,i_parent) = node_depth(j_node,i_parent)+1
 
                         else
 
-                            Node_depth(i_node,i_parent) = 1
+                            node_depth(i_node,i_parent) = 1
 
                         endif !   node_depth(j_node,i_parent) .ge. 1 .and. ...
 
@@ -214,7 +218,7 @@ if( MALE_CROSS .and. FEMALE_CROSS) then
 
     enddo ! i_node
 
-    n_parent_one_swap_levels = Node_depth(i_parent_one_swap_node,i_parent_one)
+    n_parent_one_swap_levels = node_depth(i_parent_one_swap_node,i_parent_one)
 
     ! find parent_one's swap level
 
@@ -261,7 +265,7 @@ if( MALE_CROSS .and. FEMALE_CROSS) then
 
 
             if( Parent_Tree_Swap_Node_Type(i_Node,i_Parent_two) .ne. -9999     .and. &
-                Node_depth(i_node,i_parent_two) .le. parent_one_max_swap_level .and. &
+                node_depth(i_node,i_parent_two) .le. parent_one_max_swap_level .and. &
                 n_parent_one_swap_levels        .le. parent_two_max_swap_level         ) then
 
                 icnt_parent_two_nodes = icnt_parent_two_nodes+1
@@ -283,7 +287,7 @@ if( MALE_CROSS .and. FEMALE_CROSS) then
 
     i_parent_two_swap_node = Parent_two_swappable_nodes(icff)
 
-    n_parent_two_swap_levels = Node_depth(i_parent_two_swap_node,i_parent_two)
+    n_parent_two_swap_levels = node_depth(i_parent_two_swap_node,i_parent_two)
 
 
     ! find parent_two's swap level
@@ -427,30 +431,30 @@ elseif( .not. MALE_CROSS .and. FEMALE_CROSS) then  ! the Male tree is empty
         do  i_Node_at_Level = 1,n_Nodes_at_Level
 
             i_Node = (n_Nodes_at_Level-1) + i_Node_at_Level
-            Node_Depth(i_Node,i_Parent) = 0
+            node_depth(i_Node,i_Parent) = 0
 
             if( Parent_Tree_Swap_Node_Type(i_Node,i_Parent) .ne. -9999) then
 
                 if( i_Level .eq. n_Levels) then
-                    Node_Depth(i_Node,i_Parent) = 1
+                    node_depth(i_Node,i_Parent) = 1
                 else
 
                     j_Node =     i_Node*2
                     k_Node = 1 + i_Node*2
 
-                    if( Node_Depth(j_Node,i_Parent) .ge. 1 .and. &
-                        Node_Depth(k_Node,i_Parent) .ge. 1         ) then
+                    if( node_depth(j_Node,i_Parent) .ge. 1 .and. &
+                        node_depth(k_Node,i_Parent) .ge. 1         ) then
 
-                        if( Node_Depth(k_Node,i_Parent) .gt. Node_Depth(j_Node,i_Parent)) then
+                        if( node_depth(k_Node,i_Parent) .gt. node_depth(j_Node,i_Parent)) then
                             j_Node = k_Node
                         endif
-                        Node_Depth(i_Node,i_Parent) = Node_Depth(j_Node,i_Parent)+1
+                        node_depth(i_Node,i_Parent) = node_depth(j_Node,i_Parent)+1
 
                     else
 
-                        Node_Depth(i_Node,i_Parent) = 1
+                        node_depth(i_Node,i_Parent) = 1
 
-                    endif !   Node_Depth(j_Node,i_Parent) .ge. 1 .and. ...
+                    endif !   node_depth(j_Node,i_Parent) .ge. 1 .and. ...
 
                 endif !   i_Level .eq. n_Levels
 
@@ -459,6 +463,7 @@ elseif( .not. MALE_CROSS .and. FEMALE_CROSS) then  ! the Male tree is empty
         enddo !   i_Node_at_Level
 
     enddo ! i_Level
+
 
     i_Parent_One_Swap_Node = 1
 
@@ -491,7 +496,7 @@ elseif( .not. MALE_CROSS .and. FEMALE_CROSS) then  ! the Male tree is empty
 
     i_Parent_Two_Swap_Node = Parent_Two_Swappable_Nodes(icff)
 
-    n_Parent_Two_Swap_Levels = Node_Depth(i_Parent_Two_Swap_Node,i_Parent_Two)
+    n_Parent_Two_Swap_Levels = node_depth(i_Parent_Two_Swap_Node,i_Parent_Two)
 
     ! find parent_two's swap level
 
@@ -561,11 +566,15 @@ Parent_Tree_Swap_Node_Type = Child_Tree_Swap_Node_Type
 
 
 !write(6,'(/A,1x,I6)') 'gpts: at RETURN n_nodes = ', n_nodes
+
 !write(6,'(A)') 'gpts: kk, Parent_Tree_Swap_Node_Type(kk,1) '
+
 !do  kk = 1, n_nodes
 !    write(6,'(3(1x,I6))') kk, Parent_Tree_Swap_Node_Type(kk,1)
 !enddo ! kk
+
 !write(6,'(A)') 'gpts: kk, Parent_Tree_Swap_Node_Type(kk,2) '
+
 !do  kk = 1, n_nodes
 !    write(6,'(3(1x,I6))') kk, Parent_Tree_Swap_Node_Type(kk,2)
 !enddo ! kk
