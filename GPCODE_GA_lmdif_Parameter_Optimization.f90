@@ -832,10 +832,10 @@ do  i_GA_generation = 1, n_GA_Generations
 
                 !if( L_ga_print )then
                 !    write(GA_print_unit,'(A,3(1x,I6))') &
-                !    write(6,'(A,3(1x,I6))') &
-                !      'GP_GA_opt:3 AFTER call setup_run_fcn myid, i_2_individual', &
-                !                                            myid, i_2_individual
-                !    flush(6)
+                    write(6,'(A,3(1x,I6))') &
+                      'GP_GA_opt:3 AFTER call setup_run_fcn myid, i_2_individual', &
+                                                            myid, i_2_individual
+                    flush(6)
                 !endif ! L_ga_print
 
                 !-------------------------------------------------------------------------
@@ -943,10 +943,10 @@ do  i_GA_generation = 1, n_GA_Generations
         !          'GP_GA_opt: GP_Individual_Initial_Conditions ', &
         !                      GP_Individual_Initial_Conditions(1:n_code_equations)
         !endif ! L_ga_print
-        !write(6,'(/A,1x,I6)') &
-        !      'GP_GA_opt: call calc_fitness i_GA_generation ', &
-        !                                    i_GA_generation
-        !flush(6)
+        write(6,'(/A,1x,I6)') &
+              'GP_GA_opt: call calc_fitness i_GA_generation ', &
+                                            i_GA_generation
+        flush(6)
 
         ! uses:
         !  child_parameters
@@ -970,10 +970,10 @@ do  i_GA_generation = 1, n_GA_Generations
         !          'GP_GA_opt: aft call calc_fitness i_GA_generation ', &
         !                                            i_GA_generation
         !endif ! L_ga_print
-        !write(6,'(/A,1x,I6/)') &
-        !       'GP_GA_opt: aft call calc_fitness i_GA_generation ', &
-        !                                         i_GA_generation
-        !flush(6)
+        write(6,'(/A,1x,I6/)') &
+               'GP_GA_opt: aft call calc_fitness i_GA_generation ', &
+                                                 i_GA_generation
+        flush(6)
 
         !---------------------------------------------------------------------
 
@@ -1066,10 +1066,10 @@ call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
 if( myid == 0  )then
 
     !if( L_ga_print )then
-    !    write(6,'(//A/A)') &
-    !      'GP_GA_opt: finished all generations', &
-    !      'GP_GA_opt: call select_best_RK_lmdif_result'
-    !    flush(6)
+        write(6,'(//A/A)') &
+          'GP_GA_opt: finished all generations', &
+          'GP_GA_opt: call select_best_RK_lmdif_result'
+        flush(6)
     !endif ! L_ga_print
 
     ! uses:
@@ -1085,9 +1085,9 @@ if( myid == 0  )then
     !if( L_ga_print )then
     !    write(GA_print_unit,'(/A//)') &
     !      'GP_GA_opt: aft call select_best_RK_lmdif_result '
-    !write(6,'(/A//)') &
-    !     'GP_GA_opt: aft call select_best_RK_lmdif_result '
-    !flush(6)
+    write(6,'(/A//)') &
+         'GP_GA_opt: aft call select_best_RK_lmdif_result '
+    flush(6)
     !endif ! L_ga_print
 
 

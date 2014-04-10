@@ -25,6 +25,9 @@ integer(kind=4) :: Node_Variable
 integer(kind=4) :: test_function_index
 
 
+real(kind=4),parameter :: prob_forcing = 0.05
+real(kind=4),parameter :: prob_choose_forcing_type = 0.25
+integer(kind=4) :: iforce                   
 
 !-----------------------------------------------------------------------------
 
@@ -264,6 +267,34 @@ do  i_GP_Individual=1,n_GP_Individuals
                         GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) = &
                                                                           -Node_Variable
 
+                        !----------------------------------------------------------------------                     
+
+                        !  set some variables to the forcing functions -5001 -> -5004
+
+                        call random_number(cff)
+
+                        if( cff < prob_forcing )then
+
+                            call random_number(cff)
+
+                            node_variable = 0
+                            if( cff < prob_choose_forcing_type ) node_variable = -5001
+
+                            do  iforce=1,3
+
+                                if( prob_choose_forcing_type * float(iforce) < cff .and. &
+                                    prob_choose_forcing_type * float(iforce+1) >= cff  )then
+                                    node_variable = -1 * (5000 + iforce + 1 )
+                                endif ! prob_choose_forcing_type * float(iforce) < cff...
+
+                            enddo ! iforce
+
+                            ! in case cff is very close to 1.0000
+                            if( node_variable == 0 ) node_variable = -5004
+
+                        endif !  cff < prob_forcing 
+
+                        !----------------------------------------------------------------------                     
 
                     else  ! set as a random parameter
 
