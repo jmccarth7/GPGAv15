@@ -1,4 +1,4 @@
-subroutine GP_Tournament_Style_Sexual_Reproduction
+subroutine GP_Tournament_Style_Sexual_Reproduction( i_error )
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ! randomly choose two 'parents' using the Tournament-Style Selection
@@ -45,8 +45,6 @@ character(1) ::  symbol
 
 i_GP_Individual = n_GP_Elitists + n_GP_Asexual_Reproductions
 
-!write(GP_print_unit,'(A,1x,I6)' ) &
-!  'gptssr: n_GP_Crossovers ', n_GP_Crossovers
 write(GP_print_unit,'(A,3(1x,I6))' ) &
   'gptssr: n_GP_Crossovers, n_GP_Elitists, n_GP_Asexual_Reproductions ', &
            n_GP_Crossovers, n_GP_Elitists, n_GP_Asexual_Reproductions
@@ -256,17 +254,14 @@ do
 
     if( i_Error .eq. 1) then
 
-        if( myid == 0 )then
-            write(6,'(/A)')&
-               'gptssr: ERROR: &
-               &Pre-GP_Check_Error [Male] in GP_Tournament_Style_Sexual_Reproduction'
-            write(6,'(A,3(1x,I6)/)') &
-               'gptssr: i_GP_Individual, k_GP_Indiv_Male(1), i_Error  ', &
-                        i_GP_Individual, k_GP_Individual_Male(1), i_Error
-        endif ! myid == 0
+        write(6,'(/A)')&
+           'gptssr: ERROR: &
+           &Pre-GP_Check_Error [Male] in GP_Tournament_Style_Sexual_Reproduction'
+        write(6,'(A,3(1x,I6)/)') &
+           'gptssr: i_GP_Individual, k_GP_Indiv_Male(1), i_Error  ', &
+                    i_GP_Individual, k_GP_Individual_Male(1), i_Error
 
-        !call MPI_FINALIZE(ierr)
-        !stop 'GP_Tou check error'
+        return 
     endif
 
     !-----------------------------------------------------------------------------------------
@@ -275,16 +270,13 @@ do
          GP_Adult_Population_Node_Type(1, 1, k_GP_Individual_Female(1)) , i_Error)
 
     if( i_Error .eq. 1) then
-        if( myid == 0 )then
-            write(6,'(/A)')&
-               'gptssr: ERROR &
-               &Pre-GP_Check_Error [Female] in GP_Tournament_Style_Sexual_Reproduction'
-            write(6,'(A,3(1x,I6)/)') &
-               'gptssr: i_GP_Individual, k_GP_Indiv_Female(1), i_Error  ', &
-                        i_GP_Individual, k_GP_Individual_Female(1), i_Error
-        endif ! myid == 0
-        !call MPI_FINALIZE(ierr)
-        !stop 'GP_Tou stop error 2'
+        write(6,'(/A)')&
+           'gptssr: ERROR &
+           &Pre-GP_Check_Error [Female] in GP_Tournament_Style_Sexual_Reproduction'
+        write(6,'(A,3(1x,I6)/)') &
+           'gptssr: i_GP_Individual, k_GP_Indiv_Female(1), i_Error  ', &
+                    i_GP_Individual, k_GP_Individual_Female(1), i_Error
+        return
     endif
 
     !-----------------------------------------------------------------------------------
@@ -338,15 +330,12 @@ do
          GP_Child_Population_Node_Type(1, 1, i_GP_Individual) , i_Error )
 
     if( i_Error .eq. 1) then
-        if( myid == 0 )then
-            write(6,'(/A)')&
-               'gptssr: ERROR &
-               &Post-GP_Check_Error in GP_Tournament_Style_Sexual_Reproduction'
-            write(6,'(A,3(1x,I6)/)') 'gptssr: i_GP_Indiv, i_Male_Tree, i_Error  ', &
-                                              i_GP_Individual, i_Male_Tree, i_Error
-        endif ! myid == 0
-        !call MPI_FINALIZE(ierr)
-        !stop 'GP_Tou stop error 3'
+        write(6,'(/A)')&
+           'gptssr: ERROR &
+           &Post-GP_Check_Error in GP_Tournament_Style_Sexual_Reproduction'
+        write(6,'(A,3(1x,I6)/)') 'gptssr: i_GP_Indiv, i_Male_Tree, i_Error  ', &
+                                          i_GP_Individual, i_Male_Tree, i_Error
+        return
     endif
 
     !-----------------------------------------------------------------------------------

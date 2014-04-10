@@ -12,7 +12,9 @@ use GA_variables_module
 implicit none
 
 
-real(kind=8) :: fvec(n_time_steps)
+real(kind=8),dimension(n_time_steps) :: fvec
+
+real(kind=8) :: x_time_step                  
 
 integer(kind=4) :: i_CODE_equation
 integer(kind=4) :: i_time_step
@@ -39,15 +41,33 @@ enddo !  i_CODE_equation
 write(GP_print_unit,'(/A/)') 'ssec: using data_variance inv   '
 
 
+write(GP_print_unit,'(/A, 4(1x,E15.7))') &
+    'ssec: dt, sse_min_time, sse_max_time ', &
+           dt, sse_min_time, sse_max_time 
 
+!write(GP_print_unit,'(/A/)') &
+!    'ssec: i_time_step, x_time_step, fvec, SSE0 '
 
 SSE0 = 0.0D+0
+fvec = 0.0d0
 do  i_time_step = 1, n_time_steps
 
-    fvec(i_time_step)=0.
+    x_time_step = real( i_time_step, kind=8 ) * dt 
+
+    fvec(i_time_step)=0.0d0
 
     !write(GP_print_unit,'(/A,1x,I6, 1x,I10)') &
     !'ssec: myid, i_time_step ', myid, i_time_step
+
+    if( x_time_step < sse_min_time ) then 
+        sse_wt = sse_low_wt
+    else
+        sse_wt = 1.0d0         
+    endif ! x_time_step < sse_min_time 
+
+    if( x_time_step > sse_max_time ) exit 
+
+
 
     do  i_CODE_equation=1,n_CODE_equations
 
@@ -64,10 +84,14 @@ do  i_time_step = 1, n_time_steps
 
         fvec(i_time_step) = fvec(i_time_step)  +                   &
              Data_Array(i_time_step,i_CODE_equation)**2  *         &
-                                Data_Variance_inv(i_CODE_equation)
+                                Data_Variance_inv(i_CODE_equation) * &
+                                sse_wt
 
     enddo ! i_CODE_equation
 
+    !write(GP_print_unit,'(1x,I6, 3(1x,E15.7))') &
+    !           i_time_step, x_time_step, &
+    !      fvec(i_time_step), SSE0
 
     SSE0 = SSE0 + fvec(i_time_step)
 

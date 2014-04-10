@@ -1,4 +1,4 @@
-subroutine GP_Mutations
+subroutine GP_Mutations( i_error ) 
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
@@ -42,6 +42,7 @@ integer(kind=4) :: test_function_index
 
 logical Node_Not_Found
 
+character(200) :: tree_descrip
 
 !------------------------------------------------------------------------
 
@@ -51,8 +52,6 @@ i_GP_Individual_Mutation = 0
 
 i_GP_Individual = n_GP_Elitists + n_GP_Asexual_Reproductions + n_GP_Crossovers
 
-!write(GP_print_unit,'(/A,1x,I6)' ) &
-!  'gpmut: n_GP_Mutations ', n_GP_Mutations
 write(GP_print_unit,'(A,4(1x,I6))' ) &
   'gpmut: n_GP_Elitists, n_GP_Asexual_Reproductions, n_GP_Crossovers, n_GP_Mutations ', &
           n_GP_Elitists, n_GP_Asexual_Reproductions, n_GP_Crossovers, n_GP_Mutations
@@ -125,6 +124,10 @@ do  i_GP_Mutation = 1,n_GP_Mutations
     i_GP_Individual_Mutation = 1+int(cff*float(n_GP_Individuals))
     i_GP_Individual_Mutation = min( i_GP_Individual_Mutation , n_GP_Individuals )
 
+    !write(6,'(A,3(1x,I6))') &
+    !      'gpmut: i_GP_Mutation, i_GP_individual, i_GP_Individual_Mutation', &
+    !              i_GP_Mutation, i_GP_individual, i_GP_Individual_Mutation
+
     ! choose sequentially from the best of the population
     !  [SHOWN TO CONVERGE FASTER THAN RANDOMLY CHOSEN]
     !off i_GP_Individual_Mutation=i_GP_Individual_Mutation+1
@@ -135,7 +138,10 @@ do  i_GP_Mutation = 1,n_GP_Mutations
     !orig     GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees, i_GP_Individual_Mutation)
 
     GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees, i_GP_Individual) =  &
-        GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees, i_GP_Individual_Mutation)
+         GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees, i_GP_Individual_Mutation)
+
+    !!nogood GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees, i_GP_Individual) =  &
+    !!nogood     GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees, i_GP_Individual_Mutation)
 
     !write(6,'(A,2(1x,I6))') &
     !      'gpmut: i_GP_Individual_Mutation, i_GP_individual ', &
@@ -147,13 +153,10 @@ do  i_GP_Mutation = 1,n_GP_Mutations
          GP_Child_Population_Node_Type(1, 1, i_GP_Individual) , i_Error)
 
     if( i_Error .eq. 1) then
-        if( myid == 0 )then
-            write(6,'(/A)') 'gpmut: Pre-GP_Check_Error in GP_Mutation'
-            write(6,'(A,2(1x,I6)/)') 'gpmut: i_GP_Individual, i_GP_Mutation, i_Error  ', &
-                                             i_GP_Individual, i_GP_Mutation, i_Error
-        endif ! myid == 0
-        call MPI_FINALIZE(ierr)
-        stop 'GP Mut check error'
+        write(6,'(/A)') 'gpmut: Pre-GP_Check_Error in GP_Mutation'
+        write(6,'(A,2(1x,I6)/)') 'gpmut: i_GP_Individual, i_GP_Mutation, i_Error  ', &
+                                         i_GP_Individual, i_GP_Mutation, i_Error
+        return
     endif
 
     !----------------------------------------------------------------------------------
@@ -316,8 +319,7 @@ do  i_GP_Mutation = 1,n_GP_Mutations
         write(6,'(A,3(1x,I6)/)') 'gpmut: i_GP_Individual, i_GP_Mutation, i_Error  ', &
                                          i_GP_Individual, i_GP_Mutation, i_Error
 
-        call MPI_FINALIZE(ierr)
-        stop 'GP_Mut check error'
+        return
     endif
 
     !----------------------------------------------------------------------------------

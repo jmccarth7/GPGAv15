@@ -19,8 +19,6 @@ integer(kind=4) :: i_GP_individual
 integer(kind=4) :: j_GP_Individual
 integer(kind=4) :: i_GP_Asexual_Reproduction
 
-!integer(kind=4) :: i_parm
-!integer(kind=4) :: iii
 
 real(kind=8) :: sse_ind
 

@@ -25,7 +25,7 @@ use class_Tree_Node
 
 implicit none
 
-character(1000) :: title_string 
+character(1000) :: title_string
 
 integer(kind=4),intent(in) :: i_GP_best_parent
 integer(kind=4),intent(in) :: nop
@@ -35,6 +35,9 @@ integer(kind=4) :: ii
 integer(kind=4) :: i
 integer(kind=4) :: j
 
+
+
+real(kind=8) :: x_time_step
 
 
 !real(kind=8), dimension( n_input_data_points, n_code_equations ) :: resid
@@ -66,8 +69,8 @@ real(kind=8),dimension(n_code_equations)  :: prob_r
 real(kind=8),dimension(n_code_equations)  :: fisher_z
 
 real(kind=8) :: resid_SSE
-real(kind=8) :: y_min    
-real(kind=8) :: y_max        
+real(kind=8) :: y_min
+real(kind=8) :: y_max
 integer, parameter :: plot_unit = 177
 
 !------------------------------------------------------------------------------
@@ -237,26 +240,50 @@ if( myid == 0 )then
     do  j = 2, n_code_equations
         title_string = trim( title_string ) // &
                        '         RK_Soln      input_data  resid'
-    enddo 
+    enddo
 
 
 
-    write(GP_print_unit,'(/A/)')  trim( title_string ) 
-    write(plot_unit,'(A)')        trim( title_string ) 
+    write(GP_print_unit,'(/A/)')  trim( title_string )
+    write(plot_unit,'(A)')        trim( title_string )
 
+
+    !------------------------------------------------------------------------------------
+
+    ! calculate the resid_SSE only for times between sse_min_time and sse_max_time
 
     resid_SSE = 0.0d0
+
     do  i = 1, n_time_steps   !  n_input_data_points
 
-        do  j = 1, n_code_equations 
+        x_time_step = real( i, kind=8 ) * dt
+
+        if( x_time_step < sse_min_time ) then
+            sse_wt = sse_low_wt
+        else
+            sse_wt = 1.0d0      
+        endif ! x_time_step < sse_min_time
+
+        if( x_time_step > sse_max_time ) exit
+
+        do  j = 1, n_code_equations
+            resid_SSE = resid_SSE + &
+                       ( Data_Array(i,j) - Numerical_CODE_Solution(i,j) )**2  * &
+                                                     Data_Variance_inv(j) * &
+                                                     sse_wt
+        enddo ! j
+
+    enddo ! i
+
+    !------------------------------------------------------------------------------------
+
+    do  i = 1, n_time_steps   !  n_input_data_points
+
+        do  j = 1, n_code_equations
 
             resid(i,j) = Data_Array(i,j) -  Numerical_CODE_Solution(i,j)
 
-            resid_SSE = resid_SSE + &
-                       ( Data_Array(i,j) - Numerical_CODE_Solution(i,j) )**2  * &
-                                                     Data_Variance_inv(j)
-        enddo ! j 
-
+        enddo ! j
 
         write(GP_print_unit,'(I6,2x,50(1x,E12.5))') &
               i, ( Numerical_CODE_Solution(i,j),  Data_Array(i,j), &
@@ -274,42 +301,47 @@ if( myid == 0 )then
 
     !--------------------------------------------------------------------------------
 
-    do  j = 1, n_code_equations 
+    do  j = 1, n_code_equations
 
         call calc_stats( n_time_steps,  Numerical_CODE_Solution(1,j), &
-                         RKmean(j), RKrms(j), RKstddev(j) )
-    
-    
-        !temp_data_array = 0.0d0
-        !do  i = 1, n_input_data_points
-        !    temp_data_array(i) = Data_array(i,1) input_data_array(0,i)
-        !enddo
-    
+                         RKmean(j), RKrms(j), RKstddev(j) , &
+                         1.0d0, 0.0d0, 1.0d9, 1.0d0 ) 
+                         !dt, sse_min_time, sse_max_time, sse_low_wt )
+
+
+
         call calc_stats( n_time_steps, Data_Array(1,j), &
-                         data_mean(j), data_rms(j), data_stddev(j) )
-    
-    
+                         data_mean(j), data_rms(j), data_stddev(j), &
+                         1.0d0, 0.0d0, 1.0d9, 1.0d0 ) 
+                         !dt, sse_min_time, sse_max_time, sse_low_wt  )
+
+
         call calc_stats( n_time_steps, resid(1,j) ,              &
-                         resid_mean(j), resid_rms(j), resid_stddev(j) )
-    
-    
+                         resid_mean(j), resid_rms(j), resid_stddev(j), &
+                         1.0d0, 0.0d0, 1.0d9, 1.0d0 ) 
+                         !dt, sse_min_time, sse_max_time, sse_low_wt  )
+
+
         !call pearsn( Numerical_CODE_Solution(1,1), temp_data_array, &
         !             n_input_data_points, r_corr, prob_r, fisher_z )
-    
+
         call corr( Numerical_CODE_Solution(1,j), Data_Array(1,j), &
-                   n_time_steps, 0, r_corr(j)  )
-    
-    
-        RK_min(j)    = minval( Numerical_CODE_Solution(:,j) )
-        RK_max(j)    = maxval( Numerical_CODE_Solution(:,j) )
-    
-        data_min(j)  = minval( Data_Array(:,j) )
-        data_max(j)  = maxval( Data_Array(:,j) )
-    
+                   n_time_steps, 0, r_corr(j) , &
+                   1.0d0, 0.0d0, 1.0d9, 1.0d0 ) 
+                   !dt, sse_min_time, sse_max_time, sse_low_wt  )
+
+
+        RK_min(j) = minval( Numerical_CODE_Solution(:,j) )
+        RK_max(j) = maxval( Numerical_CODE_Solution(:,j) )
+
+
+        data_min(j) = minval( Data_Array(:,j) )
+        data_max(j) = maxval( Data_Array(:,j) )
+
         resid_min(j) = minval( resid(:,j) )
         resid_max(j) = maxval( resid(:,j) )
 
-    enddo ! j 
+    enddo ! j
 
     !--------------------------------------------------------------------------------
 
@@ -318,15 +350,15 @@ if( myid == 0 )then
     y_min =  1.0d99
     y_max = -1.0d99
 
-    do  j = 1, n_code_equations 
+    do  j = 1, n_code_equations
 
         y_min = min( y_min, RK_min(j) )
         y_max = max( y_max, RK_max(j) )
-    
+
         y_min = min( y_min, data_min(j) )
         y_max = max( y_max, data_max(j) )
 
-    enddo ! j 
+    enddo ! j
 
     !--------------------------------------------------------------------------------
 
@@ -342,7 +374,7 @@ if( myid == 0 )then
 
     ! print results
 
-    do  j = 1, n_code_equations 
+    do  j = 1, n_code_equations
 
         write(GP_print_unit, '(/A)') &
               'pts: i_code_eq           mean            rms             &
@@ -359,7 +391,7 @@ if( myid == 0 )then
         write(GP_print_unit, '(A,1x,I2, 5(1x,E15.7))') &
               'pts: corr coef. ', j, r_corr(j)
 
-    enddo ! j 
+    enddo ! j
 
     write(GP_print_unit, '(/A,1x,E15.7)') 'pts: y_min', y_min
     write(GP_print_unit, '(A,1x,E15.7/)') 'pts: y_max', y_max
@@ -376,7 +408,7 @@ if( myid == 0 )then
 
     !  write results to output file
 
-    do  j = 1, n_code_equations 
+    do  j = 1, n_code_equations
 
         write(plot_unit, '(A)') &
               '#pts:  i_code_eq          mean            rms             &
@@ -393,7 +425,7 @@ if( myid == 0 )then
         write(plot_unit, '(A,1x,I2,5(1x,E15.7))') &
               '#pts: corr coef. ', j, r_corr(j)
 
-    enddo ! j 
+    enddo ! j
 
     write(plot_unit, '(A,1x,E15.7)')  '#pts: y_min', y_min
     write(plot_unit, '(A,1x,E15.7)')  '#pts: y_max', y_max
@@ -413,7 +445,7 @@ endif ! myid == 0
 !--------------------------------------------------------------------------------
 
 do  i = 1, n_trees
-    if( associated( GP_Trees(i,1)%n ) ) then 
+    if( associated( GP_Trees(i,1)%n ) ) then
         call GP_Trees(i,1)%n%delete()
         deallocate( GP_Trees(i,1)%n )
     endif !  associated( GP_Trees(i,1)%n )

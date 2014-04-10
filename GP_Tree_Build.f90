@@ -1,4 +1,4 @@
-subroutine GP_Tree_Build
+subroutine GP_Tree_Build( i_Error ) 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 use mpi
@@ -32,12 +32,12 @@ GP_Child_Population_Node_Type=-9999 ! set all to null [-9999]
 
 
 
-write(GP_print_unit,'(/A,1x,I6)')    'gtb: n_GP_Individuals ', n_GP_Individuals
-write(GP_print_unit,'(A,2(1x,I6)/)') 'gtb: n_trees, n_levels', n_trees, n_levels
+!write(GP_print_unit,'(/A,1x,I6)')    'gtb: n_GP_Individuals ', n_GP_Individuals
+!write(GP_print_unit,'(A,2(1x,I6)/)') 'gtb: n_trees, n_levels', n_trees, n_levels
 
-write(GP_print_unit,'(A,1x,E15.7 )') &
-      'gtb: GP_Set_Terminal_to_Parameter_Probability', &
-            GP_Set_Terminal_to_Parameter_Probability
+!write(GP_print_unit,'(A,1x,E15.7 )') &
+!      'gtb: GP_Set_Terminal_to_Parameter_Probability', &
+!            GP_Set_Terminal_to_Parameter_Probability
 
 do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
 
@@ -128,8 +128,8 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
                                 !write(GP_print_unit,'(A,1x,I6,1x,F10.4)') &
                                 !      'gtb:2 n_functions_input, cff ', &
                                 !             n_functions_input, cff
-                                !write(GP_print_unit,'(A,1x,I6)') 'gtb:2 test_function_index', &
-                                !                                        test_function_index
+                                !write(GP_print_unit,'(A,1x,I6)')  &
+                                  !  'gtb:2 test_function_index',  test_function_index
     
                                       
                                 node_function = selected_functions( test_function_index ) 
@@ -307,13 +307,10 @@ do  i_GP_Individual=1,n_GP_Individuals
 
 
     if( i_Error .eq. 1 ) then
-        if( myid == 0 )then
-            write(6,'(/A)') 'gtb: GP_Check_Error in GP_Tree_Build'
-            write(6,'(A,2(1x,I6)/)') 'gtb: i_GP_Individual, i_Error  ', &
-                                           i_GP_Individual, i_Error
-        endif ! myid == 0
-        call MPI_FINALIZE(ierr)
-        stop  'GP Tree Build error'
+        write(6,'(/A)') 'gtb: GP_Check_Error in GP_Tree_Build'
+        write(6,'(A,2(1x,I6)/)') 'gtb: i_GP_Individual, i_Error  ', &
+                                       i_GP_Individual, i_Error
+        return
     endif !   i_Error .eq. 1
 
 enddo !  i_GP_Individual

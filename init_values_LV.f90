@@ -12,7 +12,8 @@ subroutine init_values_LV( icall  )
 
 ! dP/dt = (grow * P)  - (graze * P * Z)
 ! dZ/dt = (graze * P * Z) - ((1 - efficiency) * graze * P *  Z) - (amort * Z)
-! [Note: In this example, the (1-efficiency) parameter is set to a new unique parameter, 'effic']
+! [Note: In this example, the (1-efficiency) parameter 
+!        is set to a new unique parameter, 'effic']
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
@@ -30,7 +31,6 @@ subroutine init_values_LV( icall  )
 use mpi
 use mpi_module
 
-!!!!!!!!!use GP_model_parameters_module
 use GP_parameters_module
 use GP_variables_module
 
@@ -64,7 +64,10 @@ if(  icall  == 0  )then
     !write(6,'(A,2(1x,I6))') 'initlv: int(2**n_levels)-1 , pow2_table( n_levels )   ', &
     !                                 int(2**n_levels)-1 , pow2_table( n_levels )
 
-    n_maximum_number_parameters = n_CODE_equations +  n_nodes
+    !n_maximum_number_parameters = n_CODE_equations +  n_nodes
+
+    !n_maximum_number_parameters = n_trees  * n_nodes
+    n_maximum_number_parameters = n_CODE_equations * n_nodes
 
 
     if( myid == 0 )then
@@ -154,6 +157,13 @@ else
 endif  ! LV_model1
 
 
+!---------------------------------------------------------------                                        
+                                                                                                        
+Truth_Initial_Conditions(1) = 30.0d0
+Truth_Initial_Conditions(2) =  2.0d0 
+                                                                                                        
+!---------------------------------------------------------------                                        
+
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 
@@ -171,6 +181,7 @@ elseif( n_levels == 6 )then
 
 
 elseif( n_levels == 7 )then
+
     !!  n_levels = 7
     Node_Probability = (/0.8d0,0.7d0,6.d0, &
                          0.5d0,0.4d0,0.3d0,0.d0/)  ! NOTE: Last value MUST BE 0.0!!!]
@@ -263,6 +274,56 @@ endif  ! LV_model1
 
 GP_Individual_Node_Type(15,5) = -1 ! Phytoplankton
 
+!-------------------------------------------------
+Truth_Node_Type           = -9999                                                                       
+
+Truth_Node_Type(1,1) = 3   ! '*'
+Truth_Node_Type(2,1) = 0            ! prey growth rate
+Truth_Node_Type(3,1) = -1  ! Phyto
+
+
+Truth_Node_Type(1,4) = 3   ! '*'
+Truth_Node_Type(2,4) = 0            ! predator biomass-specific feeding rate [d-1]
+Truth_Node_Type(3,4) = 3   ! '*'
+Truth_Node_Type(6,4) = -1  ! Phyto
+Truth_Node_Type(7,4) = -2  ! Zoo
+
+Truth_Node_Type(1,5) = 1   ! '+'
+Truth_Node_Type(2,5) = 3   ! '*'
+Truth_Node_Type(3,5) = 3   ! '*'
+Truth_Node_Type(4,5) = 0           ! predator biomass-specific mortality rate [d-1]
+Truth_Node_Type(5,5) = -2  ! Zoo
+Truth_Node_Type(6,5) = 3   ! '*'
+Truth_Node_Type(7,5) = 3   ! '*'
+Truth_Node_Type(12,5) = 0           ! predator assimilation efficiency [fraction 0<==>1]
+Truth_Node_Type(13,5) = -2 ! Zoo
+Truth_Node_Type(14,5) = 0            ! predator biomass-specific feeding rate [d-1]
+Truth_Node_Type(15,5) = -1 ! Phytoplankton
+
+!-------------------------------------------------
+
+Truth_Node_Parameters  = 0.0d0
+
+if( LV_model1 )then
+
+    Truth_Node_Parameters(2,1)  = 0.4d0  ! [0.04, 0.4; prey growth rate [d-1]
+    Truth_Node_Parameters(2,4)  = 0.02d0 ! [0.0005, 0.02; predator biomass-specific feeding rate [d-1]
+    Truth_Node_Parameters(4,5)  = 0.6d0 ! [0.1, 0.6; predator biomass-specific mortality rate [d-1]
+    Truth_Node_Parameters(12,5) = 0.5d0 ! [0.2, 0.5; predator assimilation efficiency [fraction 0<==>1]
+    Truth_Node_Parameters(14,5) = 0.02d0 ! [0.0005, 0.02; predator biomass-specific feeding rate [d-1]
+
+else
+
+    Truth_Node_Parameters(2,1)  = 5.599795d0  ! 0.4    ! [0.04, 0.4; prey growth rate [d-1]
+    Truth_Node_Parameters(2,4)  = 1.56521d0 !0.02! predator biomass-specific feeding rate [d-1]
+    Truth_Node_Parameters(4,5)  = 0.8346865d-06 !0.6![ predator biomass-specific mortality rate [d-1]
+    Truth_Node_Parameters(12,5) = 0.2416847d+01 ! 0.5 predator assimilation efficiency [fraction 0<==>1]
+    Truth_Node_Parameters(14,5) = 0.2585400D+00  ! 0.02  ! predator biomass-specific feeding rate [d-1]
+
+endif  ! LV_model1
+
+
+!-------------------------------------------------
 
 if( myid == 0 )then
     write(GP_print_unit,'(A,1x,I6, 4x,L1)') 'ivLV: myid, LV_model1 ', &

@@ -235,6 +235,19 @@ real(kind=8) :: dt
 
 !------------------------------------------------------------------------------
 
+! sse_min_time and sse_max_time are used for setting start and stop times 
+! for inclusion of data into the SSE value
+
+real(kind=8) :: sse_min_time
+real(kind=8) :: sse_max_time
+
+real(kind=8) :: sse_wt           
+
+real(kind=8) :: sse_low_wt       
+
+!------------------------------------------------------------------------------
+
+
 ! used in random_real
 
 

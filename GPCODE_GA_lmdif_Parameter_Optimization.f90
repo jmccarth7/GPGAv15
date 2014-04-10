@@ -831,12 +831,11 @@ do  i_GA_generation = 1, n_GA_Generations
 
 
                 !if( L_ga_print )then
-                !    !write(GA_print_unit,'(A,3(1x,I6))') &
+                !    write(GA_print_unit,'(A,3(1x,I6))') &
                 !    write(6,'(A,3(1x,I6))') &
                 !      'GP_GA_opt:3 AFTER call setup_run_fcn myid, i_2_individual', &
                 !                                            myid, i_2_individual
                 !    flush(6)
-                !
                 !endif ! L_ga_print
 
                 !-------------------------------------------------------------------------

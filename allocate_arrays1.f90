@@ -99,6 +99,7 @@ allocate( GP_Node_Type_for_Plotting( n_Nodes,n_Trees, n_GP_Individuals ) )
 
 allocate( GP_diversity_index( n_GP_individuals ) )
 
+!---------------------------------------------------------------
 
 
 
@@ -217,6 +218,16 @@ GP_Individual_N_GP_param = 0
 GP_Node_Parameters_Answer = 0.0d0
 GP_Node_Type_Answer = -9999
 GP_Node_Type_for_Plotting = -9999
+
+
+!---------------------------------------------------------------
+
+Truth_Initial_Conditions  = 0.0d0
+Truth_Node_Type           = -9999
+Truth_Node_Parameters     = 0.0d0
+Truth_Model_Match         = .FALSE.
+ 
+!---------------------------------------------------------------
 
 
 GP_Adult_Population_Node_Type = -9999

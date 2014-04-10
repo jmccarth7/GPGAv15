@@ -9,8 +9,6 @@ subroutine print_trees( i_gen, n_indiv_start, n_indiv_stop, &
 ! coupled ordinary differential equations
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-!use mpi
-!use mpi_module
 
 use GP_Parameters_module
 use GA_Parameters_module

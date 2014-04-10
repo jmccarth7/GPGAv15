@@ -12,7 +12,8 @@ subroutine init_values_DATA( icall  )
 
 ! dP/dt = (grow * P)  - (graze * P * Z)
 ! dZ/dt = (graze * P * Z) - ((1 - efficiency) * graze * P *  Z) - (amort * Z)
-! [Note: In this example, the (1-efficiency) parameter is set to a new unique parameter, 'effic']
+! [Note: In this example, the (1-efficiency) parameter 
+!        is set to a new unique parameter, 'effic']
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
@@ -38,7 +39,6 @@ implicit none
 
 integer,intent(in)  :: icall
 
-!logical :: LV_model1 = .TRUE.
 
 integer(kind=4) :: i_Tree
 integer(kind=4) :: i_Node
@@ -74,7 +74,10 @@ if(  icall  == 0  )then
 
     !orig n_maximum_number_parameters = n_CODE_equations +  n_nodes
     !n_maximum_number_parameters       = n_CODE_equations *  n_nodes
-    n_maximum_number_parameters       = n_CODE_equations +  n_nodes
+    !n_maximum_number_parameters       = n_CODE_equations +  n_nodes
+    !n_maximum_number_parameters = n_trees  * n_nodes
+
+    n_maximum_number_parameters = n_CODE_equations * n_nodes    
 
 
     if( myid == 0 )then
@@ -117,46 +120,6 @@ do  i_tree = 1,n_trees
 enddo ! i_tree
 
 !--------------------------------------------------------------------------------------
-
-! Lotka_Volterra_Example_Set_Up
-
-
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-! This is the tree representation of the CODE System
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-! this example is a simple Lotka-Volterra model.
-
-! dP/dt = (grow * P)  - (graze * P * Z)
-! dZ/dt = (graze * P * Z) - ((1 - efficiency) * graze * P *  Z) - (amort * Z)
-! [Note: In this example, the (1-efficiency) parameter is set to a new unique paramater, 'effic']
-
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-! Function types used
-! Type 1: ==> Addition  left + right
-! Type 2: ==> Subtraction  left - right
-! Type 3: ==> Multiply  left * right
-! Type 4: ==> Divide (protected) left / right
-! Type 5: ==> Ivlev Grazing Function ==> (1 - e^-abs(left*right))
-! Type 6: ==> Michaelis-Menton Term (modified for Forward-Backward)
-!                                    (1 / (abs(LHS) + abs(RHS)))
-! Type 7: ==> Mayzaud-Poulet Grazing Function ==>
-!                     abs(left*right)*(1 -e^-abs(left*right))
-
-! Type 8: ==> power  ==>  left ** right
-
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-! 1: [ 3, 0,-1, N, N, N, N, N, N, N, N, N, N, N, N]
-! 2: [ N, N, N, N, N, N, N, N, N, N, N, N, N, N, N]
-! 3: [ N, N, N, N, N, N, N, N, N, N, N, N, N, N, N]
-! 4: [ 3, 0, 3, N, N,-1,-2, N, N, N, N, N, N, N, N]
-! 5: [ 1, 3, 3, 0,-2, 3, 3, N, N, N, N, 0,-2, 0,-1]
-! 6: [ N, N, N, N, N, N, N, N, N, N, N, N, N, N, N]
-!    [01,02,03,04,05,06,07,08,09,10,11,12,13,14,15]
-
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 
 ! Initial Conditions

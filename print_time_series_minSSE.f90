@@ -35,6 +35,8 @@ integer(kind=4) :: j
 !integer(kind=4) :: jj
 
 
+real(kind=8) :: x_time_step
+
 
 !real(kind=8), dimension( n_input_data_points, n_code_equations ) :: resid
 real(kind=8), dimension( n_time_steps, n_code_equations ) :: resid
@@ -247,19 +249,42 @@ if( myid == 0 )then
     write(plotMS_unit,'(A)')      trim( title_string ) 
 
 
-    resid_SSE = 0.0d0
+    !------------------------------------------------------------------------------------
 
-    !do  i = 1, n_input_data_points
-    do  i = 1, n_time_steps  
+    ! calculate the resid_SSE only for times between sse_min_time and sse_max_time
+
+    resid_SSE = 0.0d0
+    do  i = 1, n_time_steps
+
+        x_time_step = real( i, kind=8 ) * dt
+
+        if( x_time_step < sse_min_time ) then 
+            sse_wt = sse_low_wt
+        else
+            sse_wt = 1.0d0      
+        endif ! x_time_step < sse_min_time 
+
+        if( x_time_step > sse_max_time ) exit
+
+        do  j = 1, n_code_equations
+            resid_SSE = resid_SSE + &
+                  ( Data_Array(i,j) - Numerical_CODE_Solution(i,j) )**2  * &
+                                              Data_Variance_inv(j) * &
+                                              sse_wt
+        enddo ! j
+
+    enddo ! i
+
+    !------------------------------------------------------------------------------------
+
+
+    do  i = 1, n_time_steps
 
         do  j = 1, n_code_equations 
 
             resid(i,j) = Data_Array(i,j) -  Numerical_CODE_Solution(i,j)
 
-            resid_SSE = resid_SSE + &
-                       ( Data_Array(i,j) - Numerical_CODE_Solution(i,j) )**2  * &
-                                                     Data_Variance_inv(j)
-        enddo ! j 
+        enddo ! j
 
 
         write(GP_print_unit,'(I6,2x,50(1x,E12.5))') &
@@ -281,35 +306,44 @@ if( myid == 0 )then
     do  j = 1, n_code_equations 
 
         call calc_stats( n_time_steps,  Numerical_CODE_Solution(1,j), &
-                         RKmean(j), RKrms(j), RKstddev(j) )
-    
-    
+                         RKmean(j), RKrms(j), RKstddev(j) , &
+                         1.0d0, 0.0d0, 1.0d9, 1.0d0 ) 
+                         !dt, sse_min_time, sse_max_time, sse_low_wt )
+
+
         !temp_data_array = 0.0d0
         !do  i = 1, n_input_data_points
         !    temp_data_array(i) = Data_array(i,1) input_data_array(0,i)
         !enddo
     
         call calc_stats( n_time_steps, Data_Array(1,j), &
-                         data_mean(j), data_rms(j), data_stddev(j) )
-    
-    
+                         data_mean(j), data_rms(j), data_stddev(j), &
+                         1.0d0, 0.0d0, 1.0d9, 1.0d0 ) 
+                         !dt, sse_min_time, sse_max_time, sse_low_wt  )
+
+
         call calc_stats( n_time_steps, resid(1,j) ,              &
-                         resid_mean(j), resid_rms(j), resid_stddev(j) )
-    
-    
+                         resid_mean(j), resid_rms(j), resid_stddev(j), &
+                         1.0d0, 0.0d0, 1.0d9, 1.0d0 ) 
+                         !dt, sse_min_time, sse_max_time, sse_low_wt  )
+
+
         !call pearsn( Numerical_CODE_Solution(1,1), temp_data_array, &
         !             n_input_data_points, r_corr, prob_r, fisher_z )
     
         call corr( Numerical_CODE_Solution(1,j), Data_Array(1,j), &
-                   n_time_steps, 0, r_corr(j)  )
-    
-    
-        RK_min(j)    = minval( Numerical_CODE_Solution(:,j) )
-        RK_max(j)    = maxval( Numerical_CODE_Solution(:,j) )
-    
-        data_min(j)  = minval( Data_Array(:,j) )
-        data_max(j)  = maxval( Data_Array(:,j) )
-    
+                   n_time_steps, 0, r_corr(j) , &
+                   1.0d0, 0.0d0, 1.0d9, 1.0d0 ) 
+                   !dt, sse_min_time, sse_max_time, sse_low_wt  )
+
+
+        RK_min(j) = minval( Numerical_CODE_Solution(:,j) )
+        RK_max(j) = maxval( Numerical_CODE_Solution(:,j) )
+
+
+        data_min(j) = minval( Data_Array(:,j) )
+        data_max(j) = maxval( Data_Array(:,j) )
+
         resid_min(j) = minval( resid(:,j) )
         resid_max(j) = maxval( resid(:,j) )
 

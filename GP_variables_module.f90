@@ -144,6 +144,16 @@ real(kind=8),allocatable,dimension(:)     :: RK_Initial_Conditions
 !real(kind=8),allocatable, dimension(:,:)   :: Runge_Kutta_Solution
 real(kind=8),allocatable, dimension(:,:)   :: RK_Solution
 
+!---------------------------------------------------------------------------
+
+! store the node types and parameters for the truth model here
+
+real(kind=8),allocatable,dimension(:)          :: Truth_Initial_Conditions
+integer(kind=4),allocatable,dimension(:,:)     :: Truth_Node_Type
+real(kind=8),target,allocatable,dimension(:,:) :: Truth_Node_Parameters
+
+logical,allocatable, dimension(:) :: Truth_Model_Match       
+
 !------------------------------------------------------------------------------
 
 real(kind=8) :: GP_Individual_Lowest_SSE
@@ -218,9 +228,6 @@ integer(kind=4), dimension(:,:), allocatable :: bioflo_map
 
 
 ! must be kept for re-evaluations of next generations <<<
-
-!!!type(Tree_Node_Pointer), dimension(n_Trees,n_ga_individuals, n_Tracked_Resources) :: GP_Trees
-!!type(Tree_Node_Pointer), dimension(:,:,:),allocatable :: GP_Trees
 
 !type(Tree_Node_Pointer), dimension(n_Trees, n_Tracked_Resources) :: GP_Trees
 type(Tree_Node_Pointer), dimension(:,:),allocatable :: GP_Trees

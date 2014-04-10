@@ -36,7 +36,7 @@ if( search_char == ' ' ) then
     !stop 'bad search char'
     n_parens = 0
     return
-endif 
+endif
 
 
 len_work = len( trim( test_string ) )

@@ -76,8 +76,6 @@ do
         write(GP_print_unit,*) &
         'rcntl: ERROR *** Problem reading GPGACODE_cntl &
                              &in subroutine read_cntl_stuff'
-        !call MPI_FINALIZE(ierr)
-        !STOP 'bad read 1 cntl file'
         ierror = 1
         return
    endif
@@ -176,8 +174,12 @@ number_GA_child_prints  = 10
 number_GP_child_prints  = 10
 
 n_input_vars = 0
-n_levels = 6
+n_levels = 0
 
+sse_low_wt   = 1.0d-2
+
+sse_min_time = 0.0d0
+sse_max_time = 5000.0d0
 
 !---------------------------------------------------------------------
 
@@ -199,8 +201,6 @@ do
     if( istat > 0 ) then
         write(GP_print_unit,'(/A/)') &
          'rcntl: ERROR *** Problem reading GPGACODE_cntl.'
-        !call MPI_FINALIZE(ierr)
-        !STOP 'bad read 2 cntl file'
         ierror = 1
         return
     endif
@@ -411,7 +411,60 @@ do
 !--------------------------------------------------------------------
 
 
-!model = LV  or  NPZ  or  data  or  fasham
+! sse_low_wt  -  calculate sse only with data after this time     
+
+    elseif( Aline(1:len('sse_low_wt')) == "sse_low_wt" .or.     &
+            Aline(1:len('sse_low_wt')) == "SSE_LOW_WT" ) then
+
+        READ(Aline(len('sse_low_wt')+1:), * )  sse_low_wt
+
+
+
+        write(6,'(/A,1x,E15.7)') 'rcntl: sse_low_wt',  &
+                                         sse_low_wt
+
+
+
+!--------------------------------------------------------------------
+
+
+! sse_min_time  -  calculate sse only with data after this time     
+
+    elseif( Aline(1:len('sse_min_time')) == "sse_min_time" .or.     &
+            Aline(1:len('sse_min_time')) == "SSE_MIN_TIME" ) then
+
+        READ(Aline(len('sse_min_time')+1:), * )  sse_min_time
+
+
+
+        write(6,'(/A,1x,E15.7)') 'rcntl: sse_min_time',  &
+                                         sse_min_time
+
+
+
+
+!--------------------------------------------------------------------
+
+
+! sse_max_time  -  calculate sse only with data before this time     
+
+    elseif( Aline(1:len('sse_max_time')) == "sse_max_time" .or.     &
+            Aline(1:len('sse_max_time')) == "SSE_MAX_TIME" ) then
+
+        READ(Aline(len('sse_max_time')+1:), * )  sse_max_time
+
+
+
+        write(6,'(/A,1x,E15.7)') 'rcntl: sse_max_time',  &
+                                         sse_max_time
+
+
+
+
+!--------------------------------------------------------------------
+
+
+!model = LV  or  NPZ or data
 
     elseif( Aline(1:len('model')) == "MODEL" .or.     &
             Aline(1:len('model')) == "model" ) then

@@ -22,7 +22,10 @@ integer(kind=4),intent(in)  :: mm  ! n_tsteps
 integer(kind=4),intent(in)  :: nn  ! n_parms
 
 
-real(kind=8) :: fvec(n_time_steps)
+real(kind=8),dimension(n_time_steps) :: fvec
+
+real(kind=8) :: x_time_step 
+real(kind=8) :: fvec_before 
 
 !real(kind=8) :: x(n_maximum_number_parameters)
 real(kind=8) :: x( nn )
@@ -51,6 +54,9 @@ logical,parameter :: L_GP_print = .TRUE.
 !    write(GP_print_unit,'(A,2(1x,I6))') &
 !           'fcn: n_CODE_equations, nn', &
 !                 n_CODE_equations, nn
+!    write(6,'(A, 3(1x,E15.7))') &
+!       'fcn: dt, sse_min_time, sse_max_time', &
+!             dt, sse_min_time, sse_max_time
 !endif ! myid == 1
 
 ! move the values you are trying to fit into
@@ -403,12 +409,30 @@ endif ! L_bad_result
 ! if the result of the RK process was good,
 ! compute the fvec (and maybe sse_local)
 
+!write(6,'(A,1x,E15.7, 2(1x, F10.2))') &
+!      'fcn: dt, sse_min_time, sse_max_time', &
+!            dt, sse_min_time, sse_max_time
+
 sse_local=0.0D0  ! 20131209
 fvec = 0.0D0
 
 do  i_time_step=1,n_time_steps
 
     fvec(i_time_step)=0.0D0
+
+    x_time_step = real( i_time_step, kind=8 ) * dt                                                               
+                                                                                                                 
+
+
+    if( x_time_step < sse_min_time )then
+        sse_wt = sse_low_wt  ! 1.0d-2  
+    else
+        sse_wt = 1.0d0
+    endif  !   x_time_step < sse_min_time 
+
+
+    if( x_time_step > sse_max_time ) exit                                                                        
+                                                                                                                 
 
     !if( L_GP_print .and. GP_para_flag .and. myid == 1 .and. &
     !      i_time_step == n_time_steps                            )then
@@ -455,15 +479,20 @@ do  i_time_step=1,n_time_steps
                                   Data_Variance_inv(i_CODE_equation)
   
     enddo ! i_CODE_equation
-  
+
+
+    fvec_before = fvec(i_time_step)
+
+    fvec(i_time_step) = fvec(i_time_step)  * sse_wt   
   
     sse_local = sse_local + fvec(i_time_step)  ! 20131209
   
+    !write(GP_print_unit,'(A,1x,I3, 1x,I6, 3(1x, E15.7))')&
+    !      'fcn:2 myid, i_time_step, fvec_before, fvec(i_time_step),sse_local', &
+    !             myid, i_time_step, fvec_before, fvec(i_time_step),sse_local
+
     !if( L_GP_print .and. GP_para_flag .and. myid == 1 .and. &
-    !                                  i_time_step == n_time_steps )then
-    !   write(GP_print_unit,'(A,1x,I6, 1x,I6, 1x, E15.7)')&
-    !          'fcn: myid, i_time_step, fvec', &
-    !                myid, i_time_step, fvec(i_time_step)
+    !                              i_time_step == n_time_steps )then
     !endif ! L_GP_print
     !if( L_ga_print )then
     !    write(GA_print_unit,'(A,1x,I6, 1x,I6, 1x, E15.7)')&

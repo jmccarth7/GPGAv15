@@ -34,6 +34,7 @@ module Math_Node_Functions
     !-------------------------------------------------------
 
     ! math_funcs(1)
+
     ! Addition: a + b
 
     real(kind=8) function f_Add(a, b)
@@ -47,7 +48,9 @@ module Math_Node_Functions
     !-------------------------------------------------------
 
     ! math_funcs(2)
+
     ! Subtraction: a - b
+
     real(kind=8) function f_Subtract(a, b)
         implicit none
         real(kind=8), intent(in) :: a,b
@@ -59,7 +62,9 @@ module Math_Node_Functions
     !-------------------------------------------------------
 
     ! math_funcs(3)
+
     ! Multiply: a * b
+
     real(kind=8) function f_Multiply(a, b)
         implicit none
         real(kind=8), intent(in) :: a,b
@@ -79,7 +84,9 @@ module Math_Node_Functions
     !-------------------------------------------------------
 
     ! math_funcs(4)
+
     ! Protected Divide (only if b not equal to zero): a / b
+
     real(kind=8) function f_ProtectedDivide(a, b)
         implicit none
         real(kind=8), intent(in) :: a,b
@@ -96,6 +103,7 @@ module Math_Node_Functions
     !-------------------------------------------------------
 
     ! math_funcs(5)
+
     ! Ivlev Grazing Function: (1 - e^-abs(a*b))
 
     real(kind=8) function f_IvlevGrazingFunction(a, b)
@@ -115,8 +123,10 @@ module Math_Node_Functions
     !-------------------------------------------------------
 
     ! math_funcs(6)
+
     !orig  Michaelis-Menton Term (modified for Forward-Backward): (1 / (abs(a) + abs(b)))
     ! Michaelis-Menton Term (modified for Forward-Backward): (abs(b) / (abs(a) + abs(b)))
+
     real(kind=8) function f_MichealisMenton(a, b)
         implicit none
         real(kind=8), intent(in) :: a,b
@@ -134,7 +144,9 @@ module Math_Node_Functions
     !-------------------------------------------------------
 
     ! math_funcs(7)
+
     ! Mayzaud-Poulet Grazing Function:  abs(a*b)*(1 - e^-abs(a*b))
+
     real(kind=8) function f_MayzaudPouletGrazingFunction(a, b)
         implicit none
         real(kind=8), intent(in) :: a,b
@@ -152,7 +164,9 @@ module Math_Node_Functions
     !-------------------------------------------------------
 
     ! math_funcs(8)
+
     ! Power: a ^ b
+
     real(kind=8) function f_Power(a, b)
         implicit none
         real(kind=8), intent(in) :: a,b
@@ -202,7 +216,9 @@ module Math_Node_Functions
     !-------------------------------------------------------
 
     ! math_funcs(9)
+
     ! EXP: exp(-abs(a*b))
+
     real(kind=8) function f_ExponentialDecay(a, b)
         implicit none
         real(kind=8), intent(in) :: a,b
@@ -227,7 +243,9 @@ module Math_Node_Functions
     !-------------------------------------------------------
 
     ! math_funcs(10)
+
     ! Minimum: a or b, whichever is lower
+
     real(kind=8) function f_Minimize(a, b)
         implicit none
         real(kind=8), intent(in) :: a,b
@@ -239,7 +257,9 @@ module Math_Node_Functions
     !-------------------------------------------------------
 
     ! math_funcs(11)
+
     ! Maximum: a or b, whichever is greater
+
     real(kind=8) function f_Maximize(a, b)
         implicit none
         real(kind=8), intent(in) :: a,b
@@ -290,7 +310,9 @@ module Math_Node_Functions
     !-------------------------------------------------------
 
     ! math_funcs(12)
+
     ! IF a .ne. 0 THEN b ELSE 0
+
     real(kind=8) function f_IfThen(a, b)
         implicit none
         real(kind=8), intent(in) :: a,b
@@ -306,7 +328,9 @@ module Math_Node_Functions
     !-------------------------------------------------------
 
     ! math_funcs(13)
+
     ! IF a .GT. b THEN 1 ELSE 0
+
     real(kind=8) function f_IfGt(a, b)
         implicit none
         real(kind=8), intent(in) :: a,b
@@ -318,9 +342,12 @@ module Math_Node_Functions
         endif
     end function
 
+    !-------------------------------------------------------
 
     ! math_funcs(14)
+
     ! IF a .GE. b THEN 1 ELSE 0
+
     real(kind=8) function f_IfGte(a, b)
         implicit none
         real(kind=8), intent(in) :: a,b
@@ -336,7 +363,9 @@ module Math_Node_Functions
     !-------------------------------------------------------
 
     ! math_funcs(15)
+
     ! IF a .LT. b THEN 1 ELSE 0
+
     real(kind=8) function f_IfLt(a, b)
         implicit none
         real(kind=8), intent(in) :: a,b
@@ -352,7 +381,9 @@ module Math_Node_Functions
     !-------------------------------------------------------
 
     ! math_funcs(16)
+
     ! IF a .LE. b THEN 1 ELSE 0
+
     real(kind=8) function f_IfLte(a, b)
         implicit none
         real(kind=8), intent(in) :: a,b
@@ -367,13 +398,13 @@ module Math_Node_Functions
     !-------------------------------------------------------
 
     ! math_funcs(17)
+
     ! EXP_LP: exp(a)
+
     real(kind=8) function f_ExponentialLeftPlus(a, b)
         implicit none
         real(kind=8), intent(in) :: a,b
-        !real(kind=8) :: cff
 
-        !cff=abs(a)
         f_ExponentialLeftPlus = exp( a )
 
         !f_ExponentialLeftPlus = min( f_ExponentialLeftPlus, 1.0D+99 )
@@ -386,13 +417,13 @@ module Math_Node_Functions
     !-------------------------------------------------------
 
     ! math_funcs(18)
+
     ! EXP_RP: exp(b)
+
     real(kind=8) function f_ExponentialRightPlus(a, b)
         implicit none
         real(kind=8), intent(in) :: a,b
-        !real(kind=8) :: cff
 
-        !cff=abs(a)
         f_ExponentialRightPlus = exp( b )
         !f_ExponentialRightPlus = min( f_ExponentialRightPlus, 1.0D+99 )
         !f_ExponentialRightPlus = max( f_ExponentialRightPlus, 1.0D-99 )
@@ -405,13 +436,13 @@ module Math_Node_Functions
 
 
     ! math_funcs(19)
+
     ! EXP_LM: exp(-a)
+
     real(kind=8) function f_ExponentialLeftMinus(a, b)
         implicit none
         real(kind=8), intent(in) :: a,b
-        !real(kind=8) :: cff
 
-        !cff=abs(a)
         f_ExponentialLeftMinus = exp( -1.0d0 * a )
         !f_ExponentialLeftMinus = min( f_ExponentialLeftMinus, 1.0D+99 )
         !f_ExponentialLeftMinus = max( f_ExponentialLeftMinus, 1.0D-99 )
@@ -423,13 +454,13 @@ module Math_Node_Functions
     !-------------------------------------------------------
 
     ! math_funcs(20)
+
     ! EXP_RM: exp(b)
+
     real(kind=8) function f_ExponentialRightMinus(a, b)
         implicit none
         real(kind=8), intent(in) :: a,b
-        !real(kind=8) :: cff
 
-        !cff=abs(a)
         f_ExponentialRightMinus = exp( -1.0d0 * b )
         !f_ExponentialRightMinus = min( f_ExponentialRightMinus, 1.0D+99 )
         !f_ExponentialRightMinus = max( f_ExponentialRightMinus, 1.0D-99 )
@@ -438,7 +469,7 @@ module Math_Node_Functions
     end function
 
 
-
+    !-------------------------------------------------------
 
 
 

@@ -28,7 +28,10 @@ integer ::  iflag
 ! lmdif arrays and variables
 
 real (kind=8) :: x_LMDIF(n_GP_parameters)
-real (kind=8) :: fvec(n_time_steps)
+
+real(kind=8),dimension(n_time_steps) :: fvec
+
+real(kind=8) :: x_time_step
 
 
 
@@ -182,6 +185,17 @@ if( individual_quality( i_GA_indiv ) > 0 ) then
     !endif ! L_ga_print
 
     do i_time_step=1,n_time_steps
+
+        !x_time_step = real( i_time_step, kind=8 ) * dt
+
+
+        !if( x_time_step < sse_min_time ) cycle
+        if( x_time_step > sse_max_time ) exit
+
+        !old   if( isnan(fvec(i_time_step)) )    fvec(i_time_step) = 0.0d0
+        !old   if( abs(fvec(i_time_step)) >  1.0d20 ) fvec(i_time_step) =  1.0d20
+        !new   if( isnan(fvec(i_time_step))  .or.   &
+        !new         abs(fvec(i_time_step)) >  1.0d20   ) fvec(i_time_step) =  1.0d20
 
        if( isnan(fvec(i_time_step)) )         fvec(i_time_step) =  0.0d0
        if( abs(fvec(i_time_step)) >  1.0d20 ) fvec(i_time_step) =  1.0d20

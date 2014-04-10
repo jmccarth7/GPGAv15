@@ -109,6 +109,15 @@ deallocate( Numerical_CODE_Initial_Conditions )
 deallocate( Numerical_CODE_Forcing_Functions  )
 deallocate( Numerical_CODE_Solution  )
 
+!---------------------------------------------------------------                                        
+                                                                                                        
+deallocate( Truth_Initial_Conditions )
+deallocate( Truth_Node_Type          )
+deallocate( Truth_Node_Parameters    )
+                                                                                                        
+deallocate( Truth_Model_Match  ) 
+!---------------------------------------------------------------                                        
+
 
 
 

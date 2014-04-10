@@ -31,7 +31,6 @@ integer(kind=4) :: i_node
 
 integer(kind=4) :: ierr
 
-!integer(kind=4) :: i_parm
 
 integer(kind=4), dimension( 1:n_Nodes,1:n_Trees, 1:n_GP_individuals ) :: &
                          input_array
@@ -67,7 +66,6 @@ do  i_GP_individual = 1, n_GP_individuals
 enddo ! i_GP_individual
 
 
-!write(iunit,'(/A)') ' '
 
 !-------------------------------------------------------------------------------------------------
 

@@ -21,7 +21,8 @@ subroutine spline ( x, y, n, yp1, ypn, y2 )
         sig = (x(i)-x(i-1)) / (x(i+1)-x(i-1))
         p = sig*y2(i-1) + 2.D+0
         y2(i) = (sig - 1.D+0) / p
-        u(i) = (6.D+0 * ((y(i+1)-y(i))/(x(i+1)-x(i)) - (y(i)-y(i-1))/(x(i)-x(i-1))) / (x(i+1)-x(i-1)) - sig*u(i-1)) / p
+        u(i) = ( 6.D+0 * ((y(i+1)-y(i))/(x(i+1)-x(i)) - &
+                 (y(i)-y(i-1))/(x(i)-x(i-1))) / (x(i+1)-x(i-1)) - sig*u(i-1)) / p
     enddo
 
     if ( ypn .gt. 0.99D+30 ) then

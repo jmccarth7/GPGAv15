@@ -8,9 +8,9 @@ SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 allocate_arrays1.f90 \
 	count_parens.f90 create_equations.f90 create_tree_node_string.f90 \
 	deallocate_arrays1.f90 deserialize_trees.f90 deserialize_trees2.f90 \
 	enorm.f90 erfc.f90 erfcc.f90 Fasham_Forcing.f90 \
-	fasham_model_debug.f90 fasham_tree_functions.f90 \
-	fasham_tree_interfaces.f90 fasham_variables_module.f90 fcn.f90 \
-	fdjac2.f90 fill_string_arrays.f90 \
+	fasham_model_debug.f90 \
+	fasham_tree_functions.f90 fasham_tree_interfaces.f90 \
+	fasham_variables_module.f90 fcn.f90 fdjac2.f90 fill_string_arrays.f90 \
 	GA_Fitness_Proportionate_Asexual_Reproduction.f90 GA_Mutations.f90 \
 	GA_parameters_module.f90 GA_random_replace.f90 \
 	GA_replace_bad_individuals.f90 GA_save_elites.f90 \
@@ -51,10 +51,11 @@ OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o allocate_arrays1.o \
 	combine_tree_strings.o comp_data_variance.o corr.o count_parens.o \
 	create_equations.o create_tree_node_string.o deallocate_arrays1.o \
 	deserialize_trees.o deserialize_trees2.o enorm.o erfc.o erfcc.o \
-	Fasham_Forcing.o fasham_model_debug.o fasham_tree_functions.o \
-	fasham_tree_interfaces.o fasham_variables_module.o fcn.o fdjac2.o \
-	fill_string_arrays.o GA_Fitness_Proportionate_Asexual_Reproduction.o \
-	GA_Mutations.o GA_parameters_module.o GA_random_replace.o \
+	fasham_model_debug.o \
+	Fasham_Forcing.o fasham_tree_functions.o fasham_tree_interfaces.o \
+	fasham_variables_module.o fcn.o fdjac2.o fill_string_arrays.o \
+	GA_Fitness_Proportionate_Asexual_Reproduction.o GA_Mutations.o \
+	GA_parameters_module.o GA_random_replace.o \
 	GA_replace_bad_individuals.o GA_save_elites.o \
 	GA_Tournament_Style_Sexual_Reproduction.o GA_variables_module.o \
 	gammln.o gammp.o gammq.o gcf.o Generate_Dot_Graph.o Global_Setup.o \
@@ -98,13 +99,13 @@ CFLAGS = -O
 
 # note: mpif90 is based on gfortran
 FC = /opt/openmpi-1.6.5/bin/mpif90
-FFLAGS =  -O3 -g -fbacktrace -ffree-form  -fcheck=bounds #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
+FFLAGS =  -O3 -g -fbacktrace -ffree-form  #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
 #FFLAGS =  -g -fbacktrace -ffree-form  -fcheck=bounds #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
 #FFLAGS =  -O3  -ffree-form #-g -fbacktrace  -fcheck=bounds  # -Wall  # -fdefault-integer-8  # -FR = -free
 
 # note: mpif90 is based on gfortran
 F90 = /opt/openmpi-1.6.5/bin/mpif90
-F90FLAGS = -O3 -g -fbacktrace -ffree-form  -fcheck=bounds  #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
+F90FLAGS = -O3 -g -fbacktrace -ffree-form   #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
 #F90FLAGS =  -g -fbacktrace -ffree-form  -fcheck=bounds #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
 #F90FLAGS =  -O3 -ffree-form #-g -fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
 
@@ -123,6 +124,8 @@ LIBS= -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Dev
 #F90FLAGS = -O3   -free # -g -traceback  #-ftrapuv  #-warn all #-C -ftrapuv  # -warn all   #  -ftrace=full    # -fzero -Wall
 #LDFLAGS =
 #################################################################################
+
+
 
 all: $(PROG)
 
@@ -190,10 +193,10 @@ deserialize_trees2.o: GP_variables_module.o Tree_Helper_module.o \
 	class_serialization_visitor.o class_tree_node.o mpi_module.o \
 	tree_node_factory_module.o
 Fasham_Forcing.o: GP_variables_module.o fasham_variables_module.o
-fasham_model_debug.o: GA_parameters_module.o GA_variables_module.o \
-	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
-	class_tree_node.o fasham_variables_module.o mpi_module.o \
-	tree_node_factory_module.o
+fasham_model_debug.o: GA_parameters_module.o \
+	GA_variables_module.o GP_data_module.o GP_parameters_module.o \
+	GP_variables_module.o class_tree_node.o fasham_variables_module.o \
+	mpi_module.o tree_node_factory_module.o
 fasham_tree_functions.o: GP_variables_module.o fasham_tree_interfaces.o \
 	fasham_variables_module.o tree_node_factory_module.o
 fasham_tree_interfaces.o: class_tree_node.o

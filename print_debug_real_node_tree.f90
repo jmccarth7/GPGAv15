@@ -60,7 +60,6 @@ do  i_GP_individual = 1, n_GP_individuals
 enddo ! i_GP_individual
 
 
-!write(iunit,'(/A)') ' '
 
 
 !-------------------------------------------------------------------------------------------------
