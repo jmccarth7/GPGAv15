@@ -435,6 +435,8 @@ enddo ! i_GA_individual
 !          'gacf: i_GA_individual, normalized integrated_ranked_fitness'
 !endif ! L_ga_print
 
+
+
 do  i_GA_individual=1,n_GA_individuals
 
     if( abs( integrated_ranked_fitness(n_GA_individuals) ) > 1.0D-20 )then

@@ -97,12 +97,12 @@ do  i_GA_Individual=1,n_GA_Individuals
     !------------------------------------------------------------------                            ! debug only
     do  itree = 1, n_trees                                                                         ! debug only
         do  inode = 1, n_nodes                                                                     ! debug only
-    !        !if( GP_Individual_Node_Type(inode, itree) > -9999 )then                              ! debug only
-    !        !    write(6, '(A,3(1x,I6),1x,E15.7)') &                                              ! debug only
-    !        !          'Init: itree, inode, GP_Ind_Node_Type,GP_Ind_Node_Par', &                  ! debug only
-    !        !                 itree, inode, GP_Individual_Node_Type(inode, itree), &              ! debug only
-    !        !                               GP_Individual_Node_Parameters(inode,itree)            ! debug only
-    !        !endif ! GP_Individual_Node_Type(inode, itree) > -9999                                ! debug only
+            !if( GP_Individual_Node_Type(inode, itree) > -9999 )then                              ! debug only
+            !    write(6, '(A,3(1x,I6),1x,E15.7)') &                                              ! debug only
+            !          'Init: itree, inode, GP_Ind_Node_Type,GP_Ind_Node_Par', &                  ! debug only
+            !                 itree, inode, GP_Individual_Node_Type(inode, itree), &              ! debug only
+            !                               GP_Individual_Node_Parameters(inode,itree)            ! debug only
+            !endif ! GP_Individual_Node_Type(inode, itree) > -9999                                ! debug only
             if( GP_Individual_Node_Type(inode, itree) == 0 )then                                   ! debug only
                 i_parameter = i_parameter + 1                                                      ! debug only
                 Child_Parameters(i_parameter,i_GA_Individual) =  &                                 ! debug only

@@ -91,7 +91,6 @@ if( i_GP_generation == 1                                 .or. &
     write(GP_print_unit,'(A)') &
           'gpcf: i_GP_Indiv, GP_Indiv_N_GP_param(i_GP_Indiv) '
 
-    !write(GP_print_unit, '(5(1x,I8," :", I3))') &
     write(GP_print_unit, '(10(1x,I6," :", I3))') &
            ( i_GP_Individual, GP_Individual_N_GP_param(i_GP_Individual), &
              i_GP_Individual=1,n_GP_Individuals )
