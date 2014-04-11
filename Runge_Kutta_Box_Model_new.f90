@@ -190,8 +190,8 @@ do  i_Time_Step = 1, n_Time_Steps
 
     if( any( isnan( b_tmp ) ) .or.  any( abs(b_tmp)  > big_real ) ) then
 
-        write(6,'(/A,1x,I6/)') &
-             'rkbm: bad b_tmp  i_time_step', i_time_step
+        !write(6,'(/A,1x,I6/)') &
+        !     'rkbm: bad b_tmp  i_time_step', i_time_step
         !flush(6)
 
         L_bad_result = .TRUE.
@@ -272,9 +272,9 @@ do  i_Time_Step = 1, n_Time_Steps
                         L_bad_result = .TRUE.
 
                         !if( L_ga_print )then
-                            write(6,'(A,1x,I6,1x,I6,1x,E24.16)') &
-                              'rkbm: bad value i_time_step, i_tree, Tree_Value(i_tree)', &
-                                               i_time_step, i_tree, Tree_Value(i_tree)
+                        !    write(6,'(A,1x,I6,1x,I6,1x,E24.16)') &
+                        !      'rkbm: bad value i_time_step, i_tree, Tree_Value(i_tree)', &
+                        !                       i_time_step, i_tree, Tree_Value(i_tree)
                         !    write(GA_print_unit,'(A,1x,I6,1x,I6,1x,E24.16)') &
                         !      'rkbm: bad value i_time_step, i_tree, Tree_Value(i_tree)', &
                         !                       i_time_step, i_tree, Tree_Value(i_tree)
@@ -549,10 +549,10 @@ do  i_Time_Step = 1, n_Time_Steps
     !        write(GA_print_unit,'(A,2(1x,I6),12(1x,E15.7))') &
     !        'rkbm:g myid, i_time_step, RK_Soln ', &
     !                myid, i_time_step, Numerical_CODE_Solution(i_time_step,1:n_CODE_equations)
-    write(6,'(A,2(1x,I6),12(1x,E15.7))') &
-            'rkbm:g myid, i_time_step, RK_Soln ', &
-                    myid, i_time_step, Numerical_CODE_Solution(i_time_step,1:n_CODE_equations)
-    flush(6)
+    !write(6,'(A,2(1x,I6),12(1x,E15.7))') &
+    !        'rkbm:g myid, i_time_step, RK_Soln ', &
+    !                myid, i_time_step, Numerical_CODE_Solution(i_time_step,1:n_CODE_equations)
+    !flush(6)
     !    endif ! L_ga_print
     !!endif !  i_time_step == 250 .or. i_time_step == 1
     !endif ! i_time_step < 251

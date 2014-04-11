@@ -243,6 +243,7 @@ logical, allocatable, dimension(:) :: Run_GP_Calculate_Fitness
 
 integer values(1:8), i_seed
 integer, dimension(:), allocatable :: seed
+integer, dimension(:), allocatable :: current_seed
 real(kind=8) :: rrnd
 integer clock,n_seed
 

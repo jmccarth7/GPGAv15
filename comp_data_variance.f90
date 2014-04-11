@@ -89,11 +89,8 @@ if( n_code_equations > 1 )then
             if( x_time_step < sse_min_time ) then
 
                 sse_wt = sse_low_wt
-
             else 
-            
                 sse_wt = 1.0d0
-
             endif 
 
             if( x_time_step > sse_max_time ) exit
@@ -133,7 +130,7 @@ if( n_code_equations > 1 )then
     
         !write(GP_print_unit,'(/A,2x,E15.7)') 'cdv: original dff ', dff
     
-        write(GP_print_unit,'(A, 2(1x,E15.7) )') 'cdv: dff', dff
+        !write(GP_print_unit,'(A, 2(1x,E15.7) )') 'cdv: dff', dff
     
         !!-------------------------------------------------------------------------------
         !nn = 0

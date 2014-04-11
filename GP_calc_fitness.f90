@@ -303,12 +303,13 @@ do  i_GP_Individual=2,n_GP_individuals
 
 enddo ! i_GP_Individual
 
-write(GP_print_unit,'(/A,2(1x,I6),2(1x,E15.7))') &
-      'gpcf: i_GP_Gen,i_GP_Best_Parent,&
-            &GP_Pop_Ranked_Fit(), GP_Child_Indiv_SSE()', &
+write(GP_print_unit,'(/A,2(1x,I6),3(1x,E15.7))') &
+      'gpcf: i_GP_Gen, Best_Parent, &
+            &Pop_Rank_Fit, GP_Child_SSE, SSE/SSE0', &
              i_GP_Generation, i_GP_Best_Parent, &
              GP_Population_Ranked_Fitness(i_GP_Best_Parent), &
-             GP_Child_Individual_SSE(i_GP_Best_Parent)
+             GP_Child_Individual_SSE(i_GP_Best_Parent),      &
+             GP_Child_Individual_SSE(i_GP_Best_Parent)/sse0
 
 
 !-------------------------------------------------------------------------------

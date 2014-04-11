@@ -178,6 +178,8 @@ enddo ! i_parameter
 !endif ! L_ga_print
 !write(6,'(A,2(1x,I6))') 'setrf: i_GA_indiv, individual_quality(i_GA_indiv) ', &
 !                                i_GA_indiv, individual_quality(i_GA_indiv) 
+!write(6,'(A,3(1x,E15.7))') 'setrf: sse_min_time, sse_max_time, dt ', &
+!                                   sse_min_time, sse_max_time, dt
 
 individual_SSE(i_GA_indiv)=0.0D+0
 
@@ -189,10 +191,7 @@ if( individual_quality( i_GA_indiv ) > 0 ) then
 
     do i_time_step=1,n_time_steps
 
-        !x_time_step = real( i_time_step, kind=8 ) * dt
-
-
-        !if( x_time_step < sse_min_time ) cycle
+        x_time_step = real( i_time_step, kind=8 ) * dt
         if( x_time_step > sse_max_time ) exit
 
         !old   if( isnan(fvec(i_time_step)) )    fvec(i_time_step) = 0.0d0
@@ -223,11 +222,11 @@ if( individual_quality( i_GA_indiv ) > 0 ) then
 endif !  individual_quality( i_GA_indiv ) > 0
 
 !if( L_ga_print )then
-    write(6,'(A,3(1x,I6), 1x, E15.7)') &
-          'setrf: myid, i_GA_indiv, individual_quality, individual_SSE', &
-                  myid, i_GA_indiv, &
-                  individual_quality( i_GA_indiv ), &
-                  individual_SSE(i_GA_indiv)
+!    write(6,'(A,3(1x,I6), 1x, E15.7)') &
+!          'setrf: myid, i_GA_indiv, individual_quality, individual_SSE', &
+!                  myid, i_GA_indiv, &
+!                  individual_quality( i_GA_indiv ), &
+!                  individual_SSE(i_GA_indiv)
 !endif ! L_ga_print
 
 return

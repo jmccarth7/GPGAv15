@@ -77,15 +77,15 @@ integer(kind=4) :: i_GP_individual
 n_parameters = n_GP_parameters
 
 
-if( myid == 0 )then
-    if( L_ga_print )then
-        write(GA_print_unit,'(//A)') 'sbrl: at entry  '
-        write(GA_print_unit,'(A,1x,E15.7)') 'sbrl: dt ', dt
-        write(GA_print_unit,'(A,1x,I6)') &
-              'sbrl: n_parameters    =   ', n_parameters
-        write(GA_print_unit,'(A,1x,I6)') &
-              'sbrl: n_GP_parameters =   ', n_GP_parameters
-    endif ! L_ga_print
+!if( myid == 0 )then
+!    if( L_ga_print )then
+!        write(GA_print_unit,'(//A)') 'sbrl: at entry  '
+!        write(GA_print_unit,'(A,1x,E15.7)') 'sbrl: dt ', dt
+!        write(GA_print_unit,'(A,1x,I6)') &
+!              'sbrl: n_parameters    =   ', n_parameters
+!        write(GA_print_unit,'(A,1x,I6)') &
+!              'sbrl: n_GP_parameters =   ', n_GP_parameters
+!    endif ! L_ga_print
 !
 !        write(6,'(//A)') 'sbrl: at entry  '
 !        write(6,'(A,1x,E15.7)') 'sbrl: dt ', dt
@@ -94,7 +94,7 @@ if( myid == 0 )then
 !        write(6,'(A,1x,I6)') &
 !              'sbrl: n_GP_parameters =   ', n_GP_parameters
 !        flush(6)
-endif ! myid == 0
+!endif ! myid == 0
 
 
 
@@ -118,22 +118,22 @@ enddo ! jj
 
 
 
-if( L_ga_print )then
-    write(GA_print_unit,'(/A,1x,I10, 2(1x,E20.10))') &
-          'sbrl: i_GA_best_parent_1, indiv_SSE_best_1, &
-                         &indiv_ranked_fitness_best_1', &
-                 i_GA_best_parent_1, individual_SSE_best_1, &
-                          individual_ranked_fitness_best_1
-    write(GA_print_unit,'(/A,1x,E20.10/)') &
-          'sbrl: indiv_fitness_best_1 ', individual_fitness_best_1
-
-
-    write(GA_print_unit,'(/A)') 'sbrl: i, parent_parameters_best_1(i) '
-    do  i = 1, n_parameters
-        write(GA_print_unit,'(I6, 1x,E15.7 )') i, parent_parameters_best_1(i)
-    enddo
-
-endif ! L_ga_print
+!if( L_ga_print )then
+!    write(GA_print_unit,'(/A,1x,I10, 2(1x,E20.10))') &
+!          'sbrl: i_GA_best_parent_1, indiv_SSE_best_1, &
+!                         &indiv_ranked_fitness_best_1', &
+!                 i_GA_best_parent_1, individual_SSE_best_1, &
+!                          individual_ranked_fitness_best_1
+!    write(GA_print_unit,'(/A,1x,E20.10/)') &
+!          'sbrl: indiv_fitness_best_1 ', individual_fitness_best_1
+!
+!
+!    write(GA_print_unit,'(/A)') 'sbrl: i, parent_parameters_best_1(i) '
+!    do  i = 1, n_parameters
+!        write(GA_print_unit,'(I6, 1x,E15.7 )') i, parent_parameters_best_1(i)
+!    enddo
+!
+!endif ! L_ga_print
 
 
 

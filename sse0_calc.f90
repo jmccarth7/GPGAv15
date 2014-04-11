@@ -41,9 +41,9 @@ enddo !  i_CODE_equation
 write(GP_print_unit,'(/A/)') 'ssec: using data_variance inv   '
 
 
-write(GP_print_unit,'(/A, 4(1x,E15.7))') &
-    'ssec: dt, sse_min_time, sse_max_time ', &
-           dt, sse_min_time, sse_max_time 
+!write(GP_print_unit,'(/A, 4(1x,E15.7))') &
+!    'ssec: dt, sse_min_time, sse_max_time ', &
+!           dt, sse_min_time, sse_max_time 
 
 !write(GP_print_unit,'(/A/)') &
 !    'ssec: i_time_step, x_time_step, fvec, SSE0 '

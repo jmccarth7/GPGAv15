@@ -47,13 +47,14 @@ character(200) :: tree_descrip
 !------------------------------------------------------------------------
 
 i_Error = 0
+Node_to_Mutate = 0
 
 i_GP_Individual_Mutation = 0
 
 i_GP_Individual = n_GP_Elitists + n_GP_Asexual_Reproductions + n_GP_Crossovers
 
 write(GP_print_unit,'(A,4(1x,I6))' ) &
-  'gpmut: n_GP_Elitists, n_GP_Asexual_Reproductions, n_GP_Crossovers, n_GP_Mutations ', &
+  'gpmut: n_GP_Elites, n_GP_Asexual_Repro, n_GP_Cross, n_GP_Mut', &
           n_GP_Elitists, n_GP_Asexual_Reproductions, n_GP_Crossovers, n_GP_Mutations
 write(GP_print_unit,'(A,1x,I6)' ) &
   'gpmut: start i_GP_individual  =  ', &
@@ -80,9 +81,9 @@ if(  cff <  prob_no_elite * 0.5  ) then
 
 endif !  cff <  prob_no_elite * 0.5
 
-write(6,'(A,1x,I6,2(1x,E15.7))') &
-          'gpmut: i_GP_individual+1, prob_no_elite, cff', &
-                  i_GP_individual+1, prob_no_elite, cff
+!write(6,'(A,1x,I6,2(1x,E15.7))') &
+!          'gpmut: i_GP_individual+1, prob_no_elite, cff', &
+!                  i_GP_individual+1, prob_no_elite, cff
 !--------------------------------------------------------------------------------
 
 
@@ -124,9 +125,9 @@ do  i_GP_Mutation = 1,n_GP_Mutations
     i_GP_Individual_Mutation = 1+int(cff*float(n_GP_Individuals))
     i_GP_Individual_Mutation = min( i_GP_Individual_Mutation , n_GP_Individuals )
 
-    write(6,'(A,3(1x,I6))') &
-          'gpmut: i_GP_Mutation, i_GP_individual, i_GP_Individual_Mutation', &
-                  i_GP_Mutation, i_GP_individual, i_GP_Individual_Mutation
+    !write(6,'(A,3(1x,I6))') &
+    !      'gpmut: i_GP_Mutation, i_GP_individual, i_GP_Individual_Mutation', &
+    !              i_GP_Mutation, i_GP_individual, i_GP_Individual_Mutation
 
     ! choose sequentially from the best of the population
     !  [SHOWN TO CONVERGE FASTER THAN RANDOMLY CHOSEN]
@@ -143,22 +144,23 @@ do  i_GP_Mutation = 1,n_GP_Mutations
     !!nogood GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees, i_GP_Individual) =  &
     !!nogood     GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees, i_GP_Individual_Mutation)
 
-    write(6,'(A,2(1x,I6))') &
-          'gpmut: i_GP_Individual_Mutation, i_GP_individual ', &
-                  i_GP_Individual_Mutation, i_GP_individual
+    !write(6,'(A,2(1x,I6))') &
+    !      'gpmut: i_GP_Individual_Mutation, i_GP_individual ', &
+    !              i_GP_Individual_Mutation, i_GP_individual
 
     !----------------------------------------------------------------------------------
 
     call GP_Check_Terminals( &
          GP_Child_Population_Node_Type(1, 1, i_GP_Individual) , i_Error)
 
-    write(6,'(A,2(1x,I6)/)') 'gpmut: i_GP_Individual, i_GP_Mutation, i_Error  ', &
-                                     i_GP_Individual, i_GP_Mutation, i_Error
-    flush(6)
+    !write(6,'(A,2(1x,I6),1x,I2/)') 'gpmut: i_GP_Individual, i_GP_Mutation, i_Error  ', &
+    !                                       i_GP_Individual, i_GP_Mutation, i_Error
+    !flush(6)
+
     if( i_Error .eq. 1) then
         write(6,'(/A)') 'gpmut: Pre-GP_Check_Error in GP_Mutation'
-        write(6,'(A,2(1x,I6)/)') 'gpmut: i_GP_Individual, i_GP_Mutation, i_Error  ', &
-                                         i_GP_Individual, i_GP_Mutation, i_Error
+        write(6,'(A,2(1x,I6),1x,I2/)') 'gpmut: i_GP_Individual, i_GP_Mutation, i_Error  ', &
+                                               i_GP_Individual, i_GP_Mutation, i_Error
         return
     endif
 
@@ -188,7 +190,7 @@ do  i_GP_Mutation = 1,n_GP_Mutations
 
     enddo ! i_node
 
-    write(6,'(A,2(1x,I6))')  'gpmut: icnt_nodes ', icnt_nodes
+    !write(6,'(A,1x,I6)')  'gpmut: icnt_nodes ', icnt_nodes
 
     ! look to see if there are actually any nodes to mutate
 
@@ -204,7 +206,7 @@ do  i_GP_Mutation = 1,n_GP_Mutations
         Node_to_Mutate = 1+int(cff*float(icnt_Nodes))
         Node_to_Mutate = min( Node_to_Mutate , icnt_Nodes )
 
-        write(6,'(A,2(1x,I6))')  'gpmut: Node_to_Mutate', Node_to_Mutate 
+        !write(6,'(A,1x,I6)')  'gpmut: Node_to_Mutate', Node_to_Mutate 
 
         icnt = 0
         Node_Not_Found = .true.
@@ -246,8 +248,8 @@ do  i_GP_Mutation = 1,n_GP_Mutations
 
             Node_Function = max( Node_Function , -n_CODE_Equations )
 
-            write(GP_print_unit,'(A,1x,I6)') &
-                       'gpmut: VARIABLE   Node_Function', Node_Function
+            !write(GP_print_unit,'(A,1x,I6)') &
+            !           'gpmut: VARIABLE   Node_Function', Node_Function
 
 
 
@@ -269,8 +271,8 @@ do  i_GP_Mutation = 1,n_GP_Mutations
 
                 Node_Function = min( Node_Function, n_Node_Functions )
 
-                write(GP_print_unit,'(A,1x,I6)') &
-                       'gpmut:1 Node_Function', Node_Function
+                !write(GP_print_unit,'(A,1x,I6)') &
+                !       'gpmut:1 Node_Function', Node_Function
 
             else
 
@@ -280,18 +282,18 @@ do  i_GP_Mutation = 1,n_GP_Mutations
                 test_function_index = max( 1,                 test_function_index  )
                 test_function_index = min( n_functions_input, test_function_index  )
 
-                write(GP_print_unit,'(A,1x,I6,1x,F10.4)') &
-                      'gpmut:2 n_functions_input, cff ', n_functions_input, cff
-                write(GP_print_unit,'(A,1x,I6)') 'gpmut:2 test_function_index', &
-                                                          test_function_index
-                write(GP_print_unit,'(A,1x,I6)') 'gpmut:2 selected_functions( test_function_index)', &
-                                                          selected_functions( test_function_index)
+                !write(GP_print_unit,'(A,1x,I6,1x,F10.4)') &
+                !      'gpmut:2 n_functions_input, cff ', n_functions_input, cff
+                !write(GP_print_unit,'(A,1x,I6)') 'gpmut:2 test_function_index', &
+                !                                          test_function_index
+                !write(GP_print_unit,'(A,1x,I6)') 'gpmut:2 selected_functions( test_function_index)', &
+                !                                          selected_functions( test_function_index)
 
 
                 node_function = selected_functions( test_function_index )
 
-                write(GP_print_unit,'(A,1x,I6)') &
-                       'gpmut:2 Node_Function', Node_Function
+                !write(GP_print_unit,'(A,1x,I6)') &
+                !       'gpmut:2 Node_Function', Node_Function
 
             endif ! L_node_functions
 
@@ -305,27 +307,27 @@ do  i_GP_Mutation = 1,n_GP_Mutations
 
     Run_GP_Calculate_Fitness(i_GP_Individual) = .true.
 
-    write(6,'(/A,2(1x,I6),5x,L1/)') &
-          'gpmut: i_GP_Individual, i_GP_Mutation, Run_GP_Calculate_Fitness', &
-                  i_GP_Individual, i_GP_Mutation, Run_GP_Calculate_Fitness(i_GP_Individual)
+    !write(6,'(/A,2(1x,I6),5x,L1/)') &
+    !      'gpmut: i_GP_Individual, i_GP_Mutation, Run_GP_Calculate_Fitness', &
+    !              i_GP_Individual, i_GP_Mutation, Run_GP_Calculate_Fitness(i_GP_Individual)
 
-    write(6,'(A,3(1x,I6)/)') &
-          'gpmut: i_GP_Individual, Node_to_Mutate, i_Tree_Mutation', &
-                  i_GP_Individual, Node_to_Mutate, i_Tree_Mutation
+    !write(6,'(A,3(1x,I6)/)') &
+    !      'gpmut: i_GP_Individual, Node_to_Mutate, i_Tree_Mutation', &
+    !              i_GP_Individual, Node_to_Mutate, i_Tree_Mutation
 
     !----------------------------------------------------------------------------------
 
     call GP_Check_Terminals( &
          GP_Child_Population_Node_Type(1, 1, i_GP_Individual) , i_Error)
 
-    write(6,'(A,3(1x,I6)/)') 'gpmut: i_GP_Individual, i_GP_Mutation, i_Error  ', &
-                                     i_GP_Individual, i_GP_Mutation, i_Error
-    flush(6)
+    !write(6,'(A,2(1x,I6),1x,I2/)') 'gpmut: i_GP_Individual, i_GP_Mutation, i_Error  ', &
+    !                                       i_GP_Individual, i_GP_Mutation, i_Error
+    !flush(6)
+
     if( i_Error .eq. 1) then
         write(6,'(A)') 'gpmut: Post-GP_Check_Error in GP_Mutation'
-        write(6,'(A,3(1x,I6)/)') 'gpmut: i_GP_Individual, i_GP_Mutation, i_Error  ', &
-                                         i_GP_Individual, i_GP_Mutation, i_Error
-
+        write(6,'(A,2(1x,I6),1x,I2/)') 'gpmut: i_GP_Individual, i_GP_Mutation, i_Error  ', &
+                                               i_GP_Individual, i_GP_Mutation, i_Error
         return
     endif
 
@@ -334,8 +336,8 @@ do  i_GP_Mutation = 1,n_GP_Mutations
 
 enddo !  i_GP_Mutation
 
-write(6,'(A)') 'gpmut: GP_Mutation at RETURN '
-flush(6)
+!write(6,'(A)') 'gpmut: GP_Mutation at RETURN '
+!flush(6)
 
 return
 
