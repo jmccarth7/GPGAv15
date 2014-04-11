@@ -271,8 +271,8 @@ else
     increment = 1.0d0 / real( n_levels, kind=8 )
 
     do  i = 1, n_levels-1
-        !orig Node_Probability(i) =  1.0d0 - increment * real(i,kind=8)
-        Node_Probability(i) = ( 1.0d0 - increment * real(i,kind=8) )**2
+        Node_Probability(i) =  1.0d0 - increment * real(i,kind=8)
+        !Node_Probability(i) = ( 1.0d0 - increment * real(i,kind=8) )**2
     enddo
     Node_Probability(n_levels) = 0.0d0
 
@@ -280,6 +280,7 @@ endif ! n_levels == 6
 
 if( myid == 0 )then
     write(GP_print_unit,'(/A,1x,I6)')   'ivFA: n_levels ', n_levels
+    write(GP_print_unit,'(/A/)') 'ivFA: original Node_Probability'
     write(GP_print_unit,'(A/(10(1x,E12.5)))') 'ivFA: Node_Probability', &
                                                      Node_Probability
     write(GP_print_unit,'(A)') ' '
