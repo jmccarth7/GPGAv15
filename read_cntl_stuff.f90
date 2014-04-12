@@ -4,7 +4,6 @@ subroutine read_cntl_stuff( ierror )
 use mpi
 use mpi_module
 
-!!!!!!!!!!!!use GP_model_parameters_module
 
 use GP_Parameters_module
 use GP_variables_module
@@ -180,6 +179,8 @@ sse_low_wt   = 1.0d-2
 
 sse_min_time = 0.0d0
 sse_max_time = 1.0d10
+
+L_restart = .false.
 
 !---------------------------------------------------------------------
 
@@ -1070,6 +1071,30 @@ do
         write(GP_print_unit,'(A,1x,E15.7)') &
               'rcntl: prob_no_elite = ', prob_no_elite
 
+
+
+
+!--------------------------------------------------------------------
+
+
+! restart  =  restart random numbers using the input array of seeds
+
+
+    elseif( Aline(1:len('restart')) == "RESTART" .or.     &
+            Aline(1:len('restart')) == "restart" ) then
+
+        READ(Aline(len('restart')+1:), * ) temp_seed(1:n_seed)
+
+        L_restart = .true.
+
+        write(GP_print_unit,'(A,5x,L1)') &
+              'rcntl: L_restart = ', L_restart
+
+        write(GP_print_unit,'(A,1x,i6)') &
+              'rcntl: n_seed    = ', n_seed    
+
+        write(GP_print_unit,'(A,20(1x,I10))') &
+              'rcntl: temp_seed(1:n_seed)   = ', temp_seed(1:n_seed) 
 
 
 

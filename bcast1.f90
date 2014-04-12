@@ -84,6 +84,20 @@ call MPI_BCAST( number_GP_child_prints, 1,    &
 call MPI_BCAST( n_levels, 1,    &
                 MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
 
+!-----------------------------------------------------------------
+
+!write(6,'(A,2(1x,I6))') 'bc1: myid, n_seed = ', myid, n_seed
+
+!if( myid == 0 )then
+!    write(6,'(A,5x,L1)') 'bc1: L_restart', L_restart
+!endif ! myid == 0 
+
+
+call MPI_BCAST( temp_seed, n_seed,    &
+                MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
+
+call MPI_BCAST( L_restart, 1,    &
+                MPI_LOGICAL,  0, MPI_COMM_WORLD, ierr )
 
 !-----------------------------------------------------------------
 

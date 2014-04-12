@@ -116,8 +116,12 @@ endif ! myid == 0
 GP_para_flag = .FALSE.  ! .True.
 Lprint_lmdif = .TRUE.
 
+
 !------------------------------------------------------------------
 
+CALL RANDOM_SEED(size = n_seed)
+
+!------------------------------------------------------------------
 
 
 if( myid == 0 )then
@@ -277,44 +281,79 @@ endif  !  n_input_vars > 0
 !sum_lmdif = 0.0d0
 
 ! broadcast the values read in by cpu 0 to others
+!if( myid == 0 )then
+!    write(6, '(/A/)') '0: call bcast1 '                      
+!    flush(6)
+!endif !   myid == 0
+
 
 call bcast1()
 
+!if( myid == 0 )then
+!    write(6, '(/A/)') '0: after call bcast1 '                      
+!    flush(6)
+!endif !   myid == 0
 
 !------------------------------------------------------------------
 
+! call to random_seed moved to before read_cntl_stuff
 
-CALL RANDOM_SEED(size = n_seed)
+!! CALL RANDOM_SEED(size = n_seed)
 
 if( .not. allocated( seed ) )then
     ALLOCATE(seed(n_seed))
-    ALLOCATE(current_seed(n_seed))
 endif ! .not. allocated( seed )
 
+if( .not. allocated( current_seed ) )then
+    ALLOCATE(current_seed(n_seed))
+endif ! .not. allocated( current_seed )
 
-if( user_input_random_seed > 0 )then
+!if( myid == 0 )then
+!    write(6, '(/A,1x,I6,5x,L1/)') '0: myid, L_restart ', myid, L_restart             
+!    write(6,'(A,2(1x,I12))') '0: myid, n_seed ', myid, n_seed
+!endif !   myid == 0
 
-    clock = user_input_random_seed
+
+if( L_restart )then
+
+    seed(1:n_seed) = temp_seed(1:n_seed)
 
     if( myid == 0 )then
-        write(6,'(/A,1x,I12)') &
-              '0: user input random seed       clock = ', clock
+        write(6,'(A)') '0: temp_seed array '
+        do  i = 1, n_seed
+            write(6,'(I12,1x,I12)')  i, temp_seed(i)
+        enddo ! i
+        write(6,'(A)') ' '
     endif !   myid == 0
 
-    seed = user_input_random_seed + &
-              37 * (/ (i_seed - 1, i_seed = 1, n_seed) /)
 else
 
-    CALL SYSTEM_CLOCK(COUNT=clock)
+    if( user_input_random_seed > 0 )then
+    
+        clock = user_input_random_seed
+    
+        if( myid == 0 )then
+            write(6,'(/A,1x,I12)') &
+                  '0: user input random seed       clock = ', clock
+        endif !   myid == 0
+    
+        seed = user_input_random_seed + &
+                  37 * (/ (i_seed - 1, i_seed = 1, n_seed) /)
+    else
+    
+        CALL SYSTEM_CLOCK(COUNT=clock)
+    
+        if( myid == 0 )then
+            write(6,'(/A,1x,I12)')&
+                  '0: random seed input clock = ', clock
+        endif !   myid == 0
+    
+        seed = clock + 37 * (/ (i_seed - 1, i_seed = 1, n_seed) /)
+    
+    endif ! user_input_random_seed > 0
 
-    if( myid == 0 )then
-        write(6,'(/A,1x,I12)')&
-              '0: random seed input clock = ', clock
-    endif !   myid == 0
+endif ! L_restart
 
-    seed = clock + 37 * (/ (i_seed - 1, i_seed = 1, n_seed) /)
-
-endif ! user_input_random_seed > 0
 
 CALL RANDOM_SEED(PUT = seed)
 
@@ -331,6 +370,17 @@ if( myid == 0 )then
     write(6,'(A)') ' '
 
 endif ! myid == 0
+
+
+!write(6,'(A,1x,I3,1x,I12)') '0: myid,   n_seed ', myid, n_seed
+!write(6,'(A,1x,I3)') '0: seed array ', myid
+!do  i = 1, n_seed
+!
+!    write(6,'(I3,1x, I12,1x,I12)')  i, seed(i)
+!
+!enddo ! i
+!write(6,'(A)') ' '
+
 
 !------------------------------------------------------------------
 
@@ -352,7 +402,10 @@ call load_pow2_level(  )
 
 call init_values( 0 )
 
+
 n_Variables = n_CODE_equations
+
+!write(6,'(A,1x,I3,2(1x,I12))') '0: myid,   n_seed, n_code_equations ', myid, n_seed, n_code_equations
 
 !---------------------------------------------------------------------
 
@@ -380,16 +433,23 @@ endif ! myid == 0
 ! allocate variable dimension arrays
 
 
-call allocate_arrays1( )
 
 if( myid == 0 )then
-    write(6, '(A,2(1x,I6)/)') '0: after allocate_arrays1 '            
-    !flush(6)
+    write(6, '(A,2(1x,I6)/)') '0: call allocate_arrays1 '            
+    flush(6)
 endif ! myid == 0 
+
+
+call allocate_arrays1( )
+
+!if( myid == 0 )then
+!    write(6, '(A,2(1x,I6)/)') '0: after allocate_arrays1 '            
+!    flush(6)
+!endif ! myid == 0 
+
 
 allocate( answer( n_maximum_number_parameters ) )
 allocate( output_array( n_maximum_number_parameters ) )
-
 
 !------------------------------------------------------------------
 

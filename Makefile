@@ -117,10 +117,10 @@ CFLAGS = -O
 #################################################################################
 FC = mpiifort
 #FFLAGS = -O3  -free   -traceback #-warn all #-C -ftrapuv  # -warn all   # -ftrace=full    # -fzero -Wall
-FFLAGS = -O3   -free   #-g -traceback  #-ftrapuv #-warn all #-C -ftrapuv  # -warn all   # -ftrace=full    # -fzero -Wall
+FFLAGS = -O3  -free   #  -g -traceback  #-ftrapuv #-warn all #-C -ftrapuv  # -warn all   # -ftrace=full    # -fzero -Wall
 F90 = mpiifort
 #F90FLAGS = -O3  -free -traceback #-warn all #-C -ftrapuv  # -warn all   #  -ftrace=full    # -fzero -Wall
-F90FLAGS = -O3   -free # -g -traceback  #-ftrapuv  #-warn all #-C -ftrapuv  # -warn all   #  -ftrace=full    # -fzero -Wall
+F90FLAGS = -O3  -free  #  -g -traceback  #-ftrapuv  #-warn all #-C -ftrapuv  # -warn all   #  -ftrace=full    # -fzero -Wall
 LDFLAGS =
 #################################################################################
 

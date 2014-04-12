@@ -241,11 +241,16 @@ logical, allocatable, dimension(:) :: Run_GP_Calculate_Fitness
 
 ! random number routine variables
 
-integer values(1:8), i_seed
+integer values(1:8), i_seed    ! used?
+
 integer, dimension(:), allocatable :: seed
 integer, dimension(:), allocatable :: current_seed
+integer, dimension(100) :: temp_seed
+logical :: L_restart = .false. 
+
 real(kind=8) :: rrnd
-integer clock,n_seed
+integer :: clock
+integer :: n_seed
 
 
 end module GP_variables_module
