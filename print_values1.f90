@@ -90,7 +90,7 @@ write(GP_print_unit,'(A,1x,I6)') &
 write(GP_print_unit,'(A,1x,E12.5)') &
       'pv1: GA_rand_replace_Probability ', GA_rand_replace_Probability
 
-
+flush(GP_print_unit)
 
 return
 

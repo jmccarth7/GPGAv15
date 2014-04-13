@@ -68,6 +68,8 @@ if( icall  == 0  )then
         write(GP_print_unit,'(A,1x,I6)') 'ivFA: n_nodes            ', n_nodes
         write(GP_print_unit,'(A,1x,I6/)')'ivFA: n_maximum_number_parameters  ', &
                                                 n_maximum_number_parameters
+        flush(GP_print_unit)
+
     endif ! myid == 0
 
     return
@@ -167,6 +169,8 @@ enddo ! i_tree
         write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: akw    ', akw
         write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: am     ', am
 
+        flush(GP_print_unit)
+
     endif ! myid == 0
 !-----------------------------------------------------------------------------------------
 
@@ -241,6 +245,7 @@ if( myid == 0 )then
           'ivFA: Numerical_CODE_Initial_Conditions(1:n_code_equations)', &
                  Numerical_CODE_Initial_Conditions(1:n_code_equations)
     write(GP_print_unit,'(A/)') ' '
+    flush(GP_print_unit)
 endif ! myid == 0
 
 
@@ -271,7 +276,7 @@ else
     increment = 1.0d0 / real( n_levels, kind=8 )
 
     do  i = 1, n_levels-1
-        Node_Probability(i) =  1.0d0 - increment * real(i,kind=8)
+        Node_Probability(i) =  1.0d0 - increment * real(i,kind=8)  ! orig 
         !Node_Probability(i) = ( 1.0d0 - increment * real(i,kind=8) )**2
     enddo
     Node_Probability(n_levels) = 0.0d0
@@ -284,6 +289,7 @@ if( myid == 0 )then
     write(GP_print_unit,'(A/(10(1x,E12.5)))') 'ivFA: Node_Probability', &
                                                      Node_Probability
     write(GP_print_unit,'(A)') ' '
+    flush(GP_print_unit)
 endif ! myid == 0
 
 
