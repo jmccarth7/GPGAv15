@@ -1102,6 +1102,21 @@ do
 !--------------------------------------------------------------------
 
 
+! ignore blank lines
+
+
+    elseif( trim( Aline ) == '' ) then
+
+        write(GP_print_unit,'(A)') &
+              'rcntl: blank line --- ignored '
+        continue
+
+
+
+!--------------------------------------------------------------------
+
+
+
     else
 
         write(GP_print_unit,'(/A)') 'rcntl: WARNING: UNRECOGNIZED OPTION '

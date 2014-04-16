@@ -347,9 +347,11 @@ Numerical_CODE_Initial_Conditions(1:n_CODE_equations) = Numerical_CODE_Solution(
 L_bad_result = .FALSE.
 
 !if( L_GP_print .and. GP_para_flag .and. myid == 1 )then
+!if( L_GP_print  .and. myid == 1 )then
 !    write(GP_print_unit,'(A,1x,I6)') &
 !          'fcn: call Runge_Kutta_Box_Model  myid', &
 !                                            myid
+!    flush(GP_print_unit)
 !endif ! L_GP_print
 !if( L_ga_print )then
 !    write(GA_print_unit,'(A,1x,I6)') &

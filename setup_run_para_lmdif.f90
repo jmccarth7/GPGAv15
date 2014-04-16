@@ -191,7 +191,7 @@ info = 0
 !off      maxfev=100*(n_time_steps+1)*100
 
 !orig  maxfev= 4000 ! 2000 ! 50 ! 10 ! 10000
-maxfev= 1000  ! debug only  ! 4000 ! 2000 ! 50 ! 10 ! 10000
+maxfev= 1000  ! 4000 ! 2000 ! 50 ! 10 ! 10000
 
 ftol=1.0D-10   ! 15  ! 15   ! 10
 xtol=1.0D-10   ! 15  ! 15   ! 10

@@ -68,6 +68,7 @@ real(kind=8), external :: indiv_fitness
 
 logical :: L_stop_run
 
+logical :: L_too_many_iters
 
 !integer(kind=4) :: i_Tree
 !integer(kind=4) :: i_Node
@@ -84,6 +85,7 @@ integer(kind=4) ::      i_code_equation
 !write(6,'(A,1x,I5,4x,L1)') 'GP_GA_opt: myid, L_GA_print   ', myid, L_GA_print
 !write(6,'(A,1x,I5,1x,I5)') 'GP_GA_opt: myid, GA_print_unit', myid, GA_print_unit
 
+L_too_many_iters = .FALSE.
 
 i_dummy = 0
 
@@ -100,14 +102,14 @@ n_parameters = n_GP_parameters
 
 !if( myid == 0 )then
 !    !if( L_ga_print )then
-!        !write(GA_print_unit,'(//A)') 'GP_GA_opt: at entry  '
-!        !write(GA_print_unit,'(A,1x,E24.16)') 'GP_GA_opt: dt ', dt
-!        !write(GA_print_unit,'(/A,1x,I10)') &
-!        !      'GP_GA_opt: numprocs        =   ', numprocs
-!        !write(GA_print_unit,'(A,1x,I10)') &
-!        !      'GP_GA_opt: n_parameters    =   ', n_parameters
-!        !write(GA_print_unit,'(A,1x,I10)') &
-!        !      'GP_GA_opt: n_GP_parameters =   ', n_GP_parameters
+!    !    write(GA_print_unit,'(//A)') 'GP_GA_opt: at entry  '
+!    !    write(GA_print_unit,'(A,1x,E24.16)') 'GP_GA_opt: dt ', dt
+!    !    write(GA_print_unit,'(/A,1x,I10)') &
+!    !          'GP_GA_opt: numprocs        =   ', numprocs
+!    !    write(GA_print_unit,'(A,1x,I10)') &
+!    !          'GP_GA_opt: n_parameters    =   ', n_parameters
+!    !    write(GA_print_unit,'(A,1x,I10)') &
+!    !          'GP_GA_opt: n_GP_parameters =   ', n_GP_parameters
 !        write(6,'(//A)') 'GP_GA_opt: at entry  '
 !        write(6,'(A,1x,E24.16)') 'GP_GA_opt: dt ', dt
 !        write(6,'(A,1x,I10)') &
@@ -230,9 +232,11 @@ do  i_GA_generation = 1, n_GA_Generations
     !    if( L_ga_print )then
     !        write(GA_print_unit,'(/A,1x,I6,1x,A/)') &
     !              'GA Generation ',i_GA_generation,' is underway'
+    !        flush(GA_print_unit)
     !    endif ! L_ga_print
     !    write(6,'(/A,1x,I6,1x,A/)') &
     !              'GA Generation ',i_GA_generation,' is underway'
+    !    flush(6)
     !endif ! myid == 0
 
 
@@ -303,9 +307,10 @@ do  i_GA_generation = 1, n_GA_Generations
             !!  replace the parameters of any individual with quality < 0 with new
             !!  random numbers
 
-            !!if( L_ga_print )then
-            !!    write(GA_print_unit,'(/A)')'GP_GA_opt: call GA_replace_bad_individuals  '
-            !!endif ! L_ga_print
+            !if( L_ga_print )then
+            !    write(GA_print_unit,'(/A)')'GP_GA_opt: call GA_replace_bad_individuals  '
+            !endif ! L_ga_print
+            !    write(6,'(/A)')'GP_GA_opt: call GA_replace_bad_individuals  '
 
             !!call GA_replace_bad_individuals(Child_Parameters, individual_quality )
 
@@ -370,6 +375,7 @@ do  i_GA_generation = 1, n_GA_Generations
             !   select a random individual and put a new random number into one of
             !   its parameters
 
+
             if( n_GA_Mutations .gt. 0) then
 
                 !if( L_ga_print )then
@@ -384,7 +390,7 @@ do  i_GA_generation = 1, n_GA_Generations
                 !  Run_GA_lmdif
                 !  individual_quality
 
-                call GA_Mutations( Child_Parameters, individual_quality )
+                !call GA_Mutations( Child_Parameters, individual_quality )
 
             endif !   n_GA_Mutations .gt. 0
 
@@ -413,7 +419,7 @@ do  i_GA_generation = 1, n_GA_Generations
                 !  individual_quality
 
 
-                call GA_random_replace( Child_Parameters, individual_quality )
+                !call GA_random_replace( Child_Parameters, individual_quality )
 
 
             endif !   n_GA_rand_replaces .gt. 0
@@ -426,7 +432,7 @@ do  i_GA_generation = 1, n_GA_Generations
             !if( i_GA_generation == n_GA_generations               .or.  &
             !    mod( i_GA_generation, GA_child_print_interval ) == 0      )then
 
-            if( i_GA_generation == n_GA_generations  )then
+            !if( i_GA_generation == n_GA_generations  )then
 
                 !if( L_ga_print )then
                 !    write(GA_print_unit,'(/A,1x,I6)') &
@@ -440,7 +446,7 @@ do  i_GA_generation = 1, n_GA_Generations
                 !    enddo ! i_ga_ind
                 !endif ! L_ga_print
 
-            endif ! i_GA_generation == n_GA_generations ...
+            !endif ! i_GA_generation == n_GA_generations ...
 
 
         endif ! i_GA_generation .eq. 1
@@ -635,10 +641,10 @@ do  i_GA_generation = 1, n_GA_Generations
                 !    write(GA_print_unit,'(A,3(1x,I6))') &
                 !     'GP_GA_opt:2 554 myid, n_parameters, i_individual', &
                 !                      myid, n_parameters, i_individual
-                !    write(GA_print_unit,'(A,1x,I6,1x, A/(5(1x,E15.7)))') &
-                !     'GP_GA_opt:2 myid = ',myid, &
-                !     ' child_parameters(1:n_parameters,i_individual)', &
-                !       child_parameters(1:n_parameters,i_individual)
+                !    !write(GA_print_unit,'(A,1x,I6,1x, A/(5(1x,E15.7)))') &
+                !    ! 'GP_GA_opt:2 myid = ',myid, &
+                !    ! ' child_parameters(1:n_parameters,i_individual)', &
+                !    !   child_parameters(1:n_parameters,i_individual)
                 !    write(GA_print_unit,'(A,2(1x,I6),1x,E15.7)') &
                 !     'GP_GA_opt:2 myid, i_individual, individual_SSE(i_individual)', &
                 !                  myid, i_individual, individual_SSE(i_individual)
@@ -832,11 +838,15 @@ do  i_GA_generation = 1, n_GA_Generations
 
                 !if( L_ga_print )then
                 !    write(GA_print_unit,'(A,3(1x,I6))') &
-                !    write(6,'(A,3(1x,I6))') &
                 !      'GP_GA_opt:3 AFTER call setup_run_fcn myid, i_2_individual', &
                 !                                            myid, i_2_individual
-                !    flush(6)
+                !    flush(GA_print_unit)
                 !endif ! L_ga_print
+
+                !write(6,'(A,3(1x,I6))') &
+                !  'GP_GA_opt:3 AFTER call setup_run_fcn myid, i_2_individual', &
+                !                                        myid, i_2_individual
+                !flush(6)
 
                 !-------------------------------------------------------------------------
 
@@ -889,14 +899,20 @@ do  i_GA_generation = 1, n_GA_Generations
             !endif ! L_ga_print
 
             if( nsafe > 100 * n_GA_individuals ) then
+
                 if( L_GA_print )then
                     write(GA_print_unit,'(A,1x,I10)') &
                       'GP_GA_opt: too many iterations  nsafe =', nsafe
+                    flush(GA_print_unit) 
                 endif ! L_GA_print 
+
                 write(6,'(A,1x,I10)') &
                   'GP_GA_opt: too many iterations  nsafe =', nsafe
-                call MPI_FINALIZE(ierr)
-                stop 'bad nsafe'
+                flush(6) 
+
+                L_too_many_iters = .TRUE.  
+                exit recv_loop
+
             endif ! nsafe
 
             !---------------------------------------------------------------
@@ -912,6 +928,10 @@ do  i_GA_generation = 1, n_GA_Generations
     !      'GP_GA_opt: after recv_loop  myid = ', myid
     !endif ! L_ga_print
 
+    if( L_too_many_iters )then
+        call MPI_FINALIZE(ierr)
+        stop 'bad nsafe'
+    endif !  L_too_many_iters 
 
     !-------------------------------------------------------------------
 
@@ -1085,10 +1105,10 @@ if( myid == 0  )then
     !if( L_ga_print )then
     !    write(GA_print_unit,'(/A//)') &
     !      'GP_GA_opt: aft call select_best_RK_lmdif_result '
+    !endif ! L_ga_print
     !write(6,'(/A//)') &
     !     'GP_GA_opt: aft call select_best_RK_lmdif_result '
     !flush(6)
-    !endif ! L_ga_print
 
 
 endif ! myid == 0

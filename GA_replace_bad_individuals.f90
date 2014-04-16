@@ -76,11 +76,11 @@ do  i_GA_Individual = 1, n_GA_Individuals
 
 enddo i_loop  ! i_GA_Individual
 
-if( L_ga_print )then
-    write(GA_print_unit,'(A,1x,I6,1x,i10/)') &
-          'grbi: i_GA_generation, n_replaced ', &
-                 i_GA_generation, n_replaced
-endif ! L_ga_print
+!if( L_ga_print )then
+!    write(GA_print_unit,'(A,1x,I6,1x,i10/)') &
+!          'grbi: i_GA_generation, n_replaced ', &
+!                 i_GA_generation, n_replaced
+!endif ! L_ga_print
 
 return
 

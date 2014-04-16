@@ -21,8 +21,8 @@ logical, intent(in) :: buildtrees
 
 !------------------------------------------------------------------------------------------------
 
-!!write(6,'(A,1x,A /)') 'build_trees: model   ', trim(model) 
-!!write(6,'(A,5x,L1)')  'build_trees: buildtrees ', buildtrees 
+!write(6,'(A,1x,A /)') 'build_trees: model   ', trim(model) 
+!write(6,'(A,5x,L1)')  'build_trees: buildtrees ', buildtrees 
 
 if( buildtrees )then
 

@@ -271,10 +271,10 @@ do  i_Time_Step = 1, n_Time_Steps
 
                         L_bad_result = .TRUE.
 
+                        !write(6,'(A,1x,I6,1x,I6,1x,E24.16)') &
+                        !  'rkbm: bad value i_time_step, i_tree, Tree_Value(i_tree)', &
+                        !                   i_time_step, i_tree, Tree_Value(i_tree)
                         !if( L_ga_print )then
-                        !    write(6,'(A,1x,I6,1x,I6,1x,E24.16)') &
-                        !      'rkbm: bad value i_time_step, i_tree, Tree_Value(i_tree)', &
-                        !                       i_time_step, i_tree, Tree_Value(i_tree)
                         !    write(GA_print_unit,'(A,1x,I6,1x,I6,1x,E24.16)') &
                         !      'rkbm: bad value i_time_step, i_tree, Tree_Value(i_tree)', &
                         !                       i_time_step, i_tree, Tree_Value(i_tree)
@@ -568,6 +568,8 @@ enddo ! End Time step loop
 !    write(GA_print_unit,'(/A/)') 'rkbm: leave Runge_Kutta_Box_Model '
 !endif ! L_ga_print .and. myid == 1
 
+!write(6,'(/A/)') 'rkbm: leave Runge_Kutta_Box_Model '
+!flush(6)
 
 return
 

@@ -193,7 +193,7 @@ do  i_GP_individual = n_indiv_start, n_indiv_stop
             if( nodes_filled > 0 ) then 
 
                 write(GP_print_unit,'(A,1x,I6,1x,A)' )  'pt: i_tree ', i_tree, &
-                       '------------------------------------------------------------------'
+                  '-------------------------------------------------------------------------------------'
 
                 do  i = 1, nodes_filled/nodes_on_line + 1
                     !write(GP_print_unit,'(A, 1x,I6 )')  'pt; i ', i

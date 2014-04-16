@@ -43,6 +43,9 @@ n_GP_Crossovers = nint(GP_Crossover_Probability*n_GP_individuals)
 n_GP_Mutations = n_GP_Individuals - &
                  ( n_GP_Elitists + n_GP_Crossovers + n_GP_Asexual_Reproductions )
 
+
+
+
 !n_GP_Mutations = &
 !min( nint( GP_Mutation_Probability * n_GP_individuals ) , n_GP_Mutations )
 
