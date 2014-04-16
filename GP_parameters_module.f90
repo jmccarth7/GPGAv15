@@ -290,5 +290,9 @@ integer, parameter :: name_len = 20
 real(kind=8),parameter :: big_real = 1.0D100
 
 !----------------------------------------------------------------
+                                                                                                                                
+real(kind=8), allocatable, dimension(:) :: answer                                                                               
+real(kind=8), allocatable, dimension(:) :: output_array                                                                         
+
 
 end module GP_parameters_module

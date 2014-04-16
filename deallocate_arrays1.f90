@@ -144,6 +144,9 @@ deallocate( GP_Adult_Population_SSE )
 
 !deallocate( ppex ) 
 
+deallocate( answer       )
+deallocate( output_array ) 
+ 
 
 return
 

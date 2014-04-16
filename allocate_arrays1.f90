@@ -174,6 +174,10 @@ allocate( GP_Adult_Population_SSE( n_GP_Individuals  )  )
 
 !allocate( ppex(n_Maximum_Number_Parameters,n_GA_individuals )  )
 
+                                                                                                                                
+allocate( answer( n_maximum_number_parameters ) )                                                                               
+allocate( output_array( n_maximum_number_parameters ) )                                                                         
+ 
 
 !>>>>>>>>>>>>>
 
@@ -285,6 +289,9 @@ Node_Probability = 0.0d0
 GP_Adult_Population_SSE = 0.0d0
 !ppex = 0.0d0 
 !!>>>>>>>>>>>>>
+
+answer       = 0.0d0
+output_array = 0.0d0
 
 
 return
