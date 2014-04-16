@@ -285,7 +285,6 @@ endif ! n_levels == 6
 
 if( myid == 0 )then
     write(GP_print_unit,'(/A,1x,I6)')   'ivFA: n_levels ', n_levels
-    write(GP_print_unit,'(/A/)') 'ivFA: original Node_Probability'
     write(GP_print_unit,'(A/(10(1x,E12.5)))') 'ivFA: Node_Probability', &
                                                      Node_Probability
     write(GP_print_unit,'(A)') ' '
