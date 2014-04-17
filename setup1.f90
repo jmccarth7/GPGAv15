@@ -64,8 +64,8 @@ character(200) :: tree_descrip
 !---------------------------------------------------------------------------------------
 
 !------------------------------------------------
-write(6,'(/A/)') &
-       'set1: myid,  call load_pow2_level      '
+!write(6,'(/A/)') &
+!       'set1: myid,  call load_pow2_level      '
 
 ! load table of 2**ilevel - 1  for RK process
 

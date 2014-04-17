@@ -28,6 +28,7 @@ implicit none
 
 
 integer :: i
+
 !integer :: i_diversity
 integer :: message_len
 
@@ -58,9 +59,10 @@ integer(kind=4) :: new_group
 integer(kind=4) :: new_comm
 integer(kind=4) :: new_rank
 integer(kind=4) :: j
+integer :: ierr2
+integer :: i_group_size
 
-!real(kind=8), allocatable, dimension(:) :: answer
-!real(kind=8), allocatable, dimension(:) :: output_array
+integer(kind=4) :: comm_world
 
 !real(kind=8) :: t1
 !real(kind=8) :: t2
@@ -759,7 +761,8 @@ endif ! myid == 0 )then
 
 ! extract original group handle
 
-call MPI_COMM_GROUP( MPI_COMM_WORLD, orig_group, ierr )
+comm_world = MPI_COMM_WORLD
+call MPI_COMM_GROUP( comm_world, orig_group, ierr )
 
 !----------------------------------------------------
 
@@ -774,7 +777,6 @@ endif ! myid == 0 )then
 
 allocate( ranks(      1:numprocs-1, n_partitions ) )
 allocate( ranks_temp( 0: divider -1     ) )
-!allocate( ranks2(     0: numprocs -2, n_partitions ) )
 allocate( ranks2(     0: divider- 1, n_partitions ) )
 
 
@@ -826,40 +828,29 @@ endif ! myid == 0
 
 ! populate new group
 
-!allocate( ranks(      1:numprocs-1, n_partitions ) )
-!allocate( ranks_temp( 0: divider -1     ) )
-!allocate( ranks2(     0: divider- 1, n_partitions ) )
 
 if( myid == 0 ) then
     write(6,'(/A/)')     '0: populate new group'
     write(6,'(A,1x,I3)') '0: n_partitions = ', n_partitions
-    write(6,'(A/)')       '0:  i   j   ranks_temp'
+    write(6,'(A/)')       '0:  i       ranks2    '
 endif ! myid == 0
 
 
 do  i = 1, n_partitions
-
-    !ranks_temp(:) = ranks(:, i )
-
-    !if( myid == 0 ) then
-    !    write(6,'(I5,3x,20(1x,I3)/)') i, ranks_temp
-    !endif ! myid == 0
-
-    !do  j = 1, numprocs-1
-    !    ranks2(j-1, i) = ranks_temp(j)
-    !enddo ! j
 
     ranks2(0:divider-1, i) = ranks( 1+ divider*(i-1): divider * i , i  )
 
     if( myid == 0 ) then
         write(6,'(I5,3x,20(1x,I3)/)') i, ranks2(:, i ) 
     endif ! myid == 0
+
 enddo ! i
 
+
 if( myid == 0 ) then
-    write(6,'(A/)')       '0:  i   ranks2    '
+    write(6,'(//A/)')       '0:  i   ranks2    '
     do  i = 1, n_partitions
-        write(6,'(20(1x,I3)/)') i, ranks2(:, i ) 
+        write(6,'(I3,3x,20(1x,I3)/)') i, ranks2(:, i ) 
     enddo ! i
 endif ! myid == 0
 
@@ -875,11 +866,6 @@ endif ! myid == 0
 
 ! NOTE:  * myid *  used in loop below
 
-!write(6,'(/A,1x,I3/)') '0: do GROUP_INCL         myid = ', myid
-
-!allocate( ranks(      1:numprocs-1, n_partitions ) )
-!allocate( ranks_temp( 0: divider -1     ) )
-!allocate( ranks2(     0: divider- 1, n_partitions ) )
 
 do  i = 1, n_partitions
 
@@ -894,9 +880,6 @@ do  i = 1, n_partitions
 
         write(6,'(/A,2(1x,I3)/)') '0: do GROUP_INCL      i, myid = ', i, myid
 
-
-        !call MPI_GROUP_INCL( orig_group, divider, &
-        !             ranks2(divider*(i-1): divider*i-1, i ), new_group, ierr )
         call MPI_GROUP_INCL( orig_group, divider, &
                              ranks_temp, new_group, ierr )
 
@@ -906,16 +889,22 @@ enddo ! i
 
 !-------------------------------------------------------------
 
-call MPI_FINALIZE( ierr )  ! debug only
-stop                       ! debug only
+!call MPI_FINALIZE( ierr )  ! debug only
+!stop                       ! debug only
 
+call mpi_group_size( new_group, i_group_size, ierr2 ) 
+
+
+if( myid == 0 ) then
+    write(6,'(A,1x, I5)') '0: i_group_size ', i_group_size
+endif ! myid == 0
 !-------------------------------------------------------------
 
 write(6,'(/A,1x,I3/)') '0: before new_comm create myid = ', myid
 
-call MPI_COMM_CREATE( MPI_COMM_WORLD, new_group, new_comm, ierr )
+call MPI_COMM_CREATE( comm_world, new_group, new_comm, ierr2 )
 
-write(6,'(/A,1x,I3/)') '0: after new_comm create myid = ', myid
+write(6,'(/A,2(1x,I3)/)') '0: after new_comm create myid, ierr = ', myid, ierr2
 
 !-------------------------------------------------------------
 
