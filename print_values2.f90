@@ -1,4 +1,4 @@
-subroutine print_values2( answer )
+subroutine print_values2( )  ! answer )
 
 ! program written by: Dr. John R. Moisan [NASA/GSFC] 31 January, 2013
 
@@ -25,7 +25,7 @@ implicit none
 
 
 integer :: i
-real(kind=8), dimension(n_parameters) :: answer
+!!real(kind=8), dimension(n_parameters) :: answer
 
 
 !----------------------------------------------------------------------------------------

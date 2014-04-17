@@ -135,15 +135,16 @@ endif ! dt <= 0.0D0
 
 !write(6,'(A,1x,E20.10/)') 'rkbm: dt', dt
 
+!write(6,'(A,1x,I6)') 'rkbm: n_time_steps ', n_time_steps
 
 !!! debug >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 !
 !do  i_tree = 1, n_trees
 !    do  i_node = 1, n_nodes
 !        if( GP_individual_node_type(i_node, i_tree) > -9999 )then
-!            write(GA_print_unit,'(A,3(1x,I4))')&
+!            write(6,'(A,3(1x,I4))')&
 !                  'rkbm: i_tree, i_node, GP_indiv_node_type', &
-!                          i_tree, i_node, GP_individual_node_type(i_node, i_tree)
+!                         i_tree, i_node, GP_individual_node_type(i_node, i_tree)
 !        endif !  GP_individual_node_type(i_node, i_tree) > -9999
 !    enddo ! i_node
 !enddo ! i_tree
@@ -151,15 +152,15 @@ endif ! dt <= 0.0D0
 !do  i_tree = 1, n_trees
 !    do  i_node = 1, n_nodes
 !        if( GP_individual_node_parameters(i_node, i_tree) > 0.0d0 )then
-!            write(GA_print_unit,'(A,2(1x,I4),1x,E15.7)')&
+!            write(6,'(A,2(1x,I4),1x,E15.7)')&
 !                  'rkbm: i_tree, i_node, GP_indiv_node_parms', &
-!                          i_tree, i_node, GP_individual_node_parameters(i_node, i_tree)
+!                         i_tree, i_node, GP_individual_node_parameters(i_node, i_tree)
 !        endif !  GP_individual_node_parameters(i_node, i_tree) > 0.0d0
 !    enddo ! i_node
 !enddo ! i_tree
 !! debug <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-!flush(6)
+flush(6)
 !flush(GA_print_unit)
 
 
@@ -434,6 +435,8 @@ do  i_Time_Step = 1, n_Time_Steps
         !!!!endif ! trim(model) == 'fasham'
 
         !----------------------------------------------------------------------------------
+
+        !write(6,'(A,1x,E15.7)')  'rkbm: dt  ', dt                  
 
         do  i_Variable=1,n_Variables
 

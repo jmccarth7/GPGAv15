@@ -1,4 +1,4 @@
-subroutine print_time_series( i_GP_best_parent, output_array, nop )
+subroutine print_time_series( i_GP_best_parent,  nop )
 
 ! program written by: Dr. John R. Moisan [NASA/GSFC] 31 January, 2013
 
@@ -46,7 +46,7 @@ real(kind=8), dimension( n_time_steps, n_code_equations ) :: resid
 !real(kind=8), dimension( n_input_data_points ) :: temp_data_array
 
 
-real(kind=8), intent(in),dimension( nop ) :: output_array
+!real(kind=8), intent(in),dimension( nop ) :: output_array
 
 
 real(kind=8),dimension(n_code_equations)  :: RKmean

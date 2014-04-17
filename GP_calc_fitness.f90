@@ -1,4 +1,4 @@
-subroutine GP_calc_fitness( i_GP_generation, output_array, &
+subroutine GP_calc_fitness( i_GP_generation, &
                             i_GP_best_parent, nop )
 
 ! program written by: Dr. John R. Moisan [NASA/GSFC] 31 January, 2013
@@ -48,8 +48,8 @@ integer(kind=4) :: i_Node
 integer(kind=4) :: i_CODE_equation
 integer(kind=4) :: max_n_gp_parameters
 
-real(kind=8), dimension(n_maximum_number_parameters), &
-                              intent(out) :: output_array
+!real(kind=8), dimension(n_maximum_number_parameters), &
+!                              intent(out) :: output_array
 
 real (kind=8) ::  dff
 

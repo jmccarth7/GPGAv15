@@ -162,9 +162,9 @@ do  i = 1, Tree_count
         node_count = counter
 
         !if( myid == temp_myid )then
-            !write(6,'(//A,3(1x,I6))')  'DsT2: tree i, node_count, counter ', &
-            !                                       i, node_count, counter
-            !flush(6)
+            write(6,'(//A,3(1x,I6))')  'DsT2: tree i, node_count, counter ', &
+                                                   i, node_count, counter
+            flush(6)
         !endif !  myid == temp_myid
 
 

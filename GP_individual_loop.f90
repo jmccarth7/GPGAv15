@@ -58,17 +58,13 @@ integer(kind=4),intent(in) :: new_group
 integer(kind=4),intent(in) :: new_comm 
 integer(kind=4) :: new_rank 
 
-!real(kind=8), allocatable, dimension(:) :: answer
-!real(kind=8), allocatable, dimension(:) :: output_array
+integer(kind=4) :: i_part
+integer(kind=4) :: i_gp_1
+integer(kind=4) :: i_gp_2
+
 
 !real(kind=8) :: t1
 !real(kind=8) :: t2
-
-!character(200) :: tree_descrip
-
-!character(15),parameter :: program_version   = '201402.001_v12'
-!character(10),parameter :: modification_date = '20140416'
-!character(50),parameter :: branch  =  'master'
 
 
 !---------------------------------------------------------------------------------------

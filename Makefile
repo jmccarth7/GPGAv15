@@ -222,7 +222,7 @@ GA_variables_module.o: GA_parameters_module.o
 gammp.o: mpi_module.o
 gammq.o: mpi_module.o
 gcf.o: mpi_module.o
-Generate_Dot_Graph.o: Generate_Dot_Graph.o class_tree_node.o
+Generate_Dot_Graph.o: class_tree_node.o
 Global_Setup.o: Math_Node_Functions.o fasham_tree_interfaces.o \
 	tree_node_factory_module.o
 GP_calc_diversity_index.o: GA_parameters_module.o GA_variables_module.o \

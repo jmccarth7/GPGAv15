@@ -1,5 +1,5 @@
 subroutine GP_select_best_RK_lmdif_result( &
-                i_GP_best_parent, output_array, nop )
+                i_GP_best_parent,  nop )
 
 ! written by: Dr. John R. Moisan [NASA/GSFC] 5 December, 2012
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -35,7 +35,7 @@ real(kind=8) :: GP_Individual_Fitness_best_1
 
 real(kind=8),dimension(nop) :: parent_parameters_best_1
 
-real(kind=8), dimension(nop),intent(in) :: output_array
+!real(kind=8), dimension(nop),intent(in) :: output_array
 
 
 

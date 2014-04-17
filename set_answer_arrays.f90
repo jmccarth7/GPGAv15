@@ -41,12 +41,17 @@ logical :: buildTrees
 
 write(6,'(/A/)') 'saa: call Initialize_Model  '
 
-!call Initialize_Model( .true., .true., 6 )    ! for the regular tree, node array model
+if( model == 'fasham' )then
 
-call Initialize_Model( .false., .true., 6 )    ! for built-in Fasham function model
+    call Initialize_Model( .false., .true., 6 )    ! for built-in Fasham function model
+
+else
+    call Initialize_Model( .true., .true., 6 )    ! for the regular tree, node array model
+
+endif ! model == 'fasham'
 
 
-write(6,'(/A/)') 'saa: aft call Initialize_Model  '
+!write(6,'(/A/)') 'saa: aft call Initialize_Model  '
 
 !------------------------------------------------------------------------------
 
@@ -59,7 +64,7 @@ if( myid == 0 )then
 
     call Generate_Dot_Graph( GP_Trees(:,1), n_Trees, output_dir )
 
-    write(6,'(/A/)') 'saa: aft call Generate_Dot_Graph'
+    !write(6,'(/A/)') 'saa: aft call Generate_Dot_Graph'
 
 endif ! myid == 0
 

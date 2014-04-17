@@ -62,7 +62,7 @@ else
         ! Created on June 24, 2013, 11:52 AM
         !-----------------------------------------
 
-        !write(6,'(/A/)') 'build_trees:  set Fasham tree pointers '
+        write(6,'(/A/)') 'build_trees:  set Fasham tree pointers '
         
         !-----------------------------------------------------------------------------
 
