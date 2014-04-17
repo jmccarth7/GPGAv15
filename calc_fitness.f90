@@ -1,6 +1,7 @@
 subroutine calc_fitness( child_parameters, individual_quality, &
                          i_GA_Best_Parent, parent_parameters,  &
-                         L_stop_run,  i_GP_Generation, i_GP_individual  )
+                         L_stop_run,  i_GP_Generation, i_GP_individual, &
+                         new_group, new_comm  )
 
 
 ! written by: Dr. John R. Moisan [NASA/GSFC] 5 December, 2012
@@ -25,12 +26,15 @@ implicit none
 integer,parameter ::  itag = 1
 
 
-real(kind=8),dimension( n_GP_parameters,n_GA_individuals ) :: parent_parameters
-real(kind=8),dimension( n_GP_parameters,n_GA_individuals ) :: child_parameters
+real(kind=8),dimension( n_GP_parameters,divider ) :: parent_parameters
+real(kind=8),dimension( n_GP_parameters,divider ) :: child_parameters
 
 integer (kind=4),intent(in) :: i_GP_Generation
 integer (kind=4),intent(in) :: i_GP_individual
 
+integer (kind=4),intent(in) :: new_group
+integer (kind=4),intent(in) :: new_comm
+integer (kind=4) :: new_rank 
 
 real(kind=8) :: dble_cff
 
@@ -57,7 +61,7 @@ real(kind=8) :: sigma_fitness
 ! if lmdif encounters an error, set individual_quality to -1
 ! if < 0 , reject this individual  ! jjm
 
-integer(kind=4) :: individual_quality(n_GA_individuals)
+integer(kind=4) :: individual_quality(divider)
 
 
 !integer(kind=4) :: n_retry
@@ -80,6 +84,10 @@ integer(kind=4) :: i_GA_individual
 
 !----------------------------------------------------------------------------------
 
+                                                                                                                                
+call MPI_GROUP_RANK( new_group, new_rank, ierr )                                                                                
+
+
 !write(6,'(/A,4x,L1)') 'gacf: L_GA_print      =', L_GA_print  
 L_stop_run = .FALSE.
 
@@ -91,7 +99,7 @@ L_stop_run = .FALSE.
 !write(6,'(A,1x,I6/)') 'gacf: n_GP_parameters =', n_GP_parameters
 
 do  i_parameter=1,n_parameters
-    do  i_GA_individual=1,n_GA_individuals
+    do  i_GA_individual=1,divider
 
         parent_parameters(i_parameter,i_GA_individual) = &
          child_parameters(i_parameter,i_GA_individual)
@@ -106,7 +114,7 @@ enddo ! i_parameter
 !
 !    !write(6,'(/A)') 'gacf: i_GA_individual, parent params'
 !
-!    do  i_GA_individual=1,n_GA_individuals
+!    do  i_GA_individual=1,divider
 !
 !        ppex( 1:n_parameters, i_GA_individual ) = 0.0d0
 !        do  i = 1, n_parameters
@@ -116,7 +124,7 @@ enddo ! i_parameter
 !
 !    enddo !  i_GA_individual
 !
-!    write(444) i_GA_generation, ppex(1:n_parameters, 1:n_GA_individuals)
+!    write(444) i_GA_generation, ppex(1:n_parameters, 1:divider)
 !
 !endif ! L_fort444_output )then
 
@@ -130,13 +138,13 @@ enddo ! i_parameter
 !
 !        write(GA_print_unit,'(/A)') 'gacf: i_GA_individual, parent params'
 !
-!        do  i_GA_individual=1,n_GA_individuals
+!        do  i_GA_individual=1,divider
 !            write(GA_print_unit,'(I6,(10(1x,E12.5)))') i_GA_individual, &
 !                      parent_parameters( 1:n_parameters, i_GA_individual )
 !        enddo !  i_GA_individual
 !
 !        write(GA_print_unit,*) ' '
-!        do  i_GA_individual=1,n_GA_individuals
+!        do  i_GA_individual=1,divider
 !            write(GA_print_unit,'(A,1x,I6,1x,E15.7, 1x, I6)') &
 !                'gacf: i_GA_individual, individual_SSE, individual_quality', &
 !                       i_GA_individual, individual_SSE(i_GA_individual), &
@@ -176,7 +184,7 @@ edit_level = real(n_time_steps,kind=8) * max_err2
 ! edit the individual_SSE by removing values > edit_level
 ! also remove values with sse >= sse0 since these functions are not good either
 
-do  i_GA_individual=1,n_GA_individuals  ! calculate the total populations SSE
+do  i_GA_individual=1,divider  ! calculate the total populations SSE
 
     if( individual_SSE(i_GA_individual) <= 1.0d-20 ) then
         individual_quality( i_GA_individual ) = -1
@@ -224,7 +232,7 @@ enddo ! i_GA_individual
 !    !'gacf: i_GA_ind, ind_SSE, ind_ranked_fitness   ind_quality'
 !endif ! L_ga_print
 
-do  i_GA_individual=1,n_GA_individuals
+do  i_GA_individual=1,divider
 
 
     if( individual_quality( i_GA_individual ) > 0 ) then
@@ -269,7 +277,7 @@ min_sse = 1.0D20
 index_min_sse = 0
 sum_individual_SSE = 0.0D0
 
-do  i_GA_individual=1,n_GA_individuals
+do  i_GA_individual=1,divider
 
     !if( L_ga_print )then
     !    write(GA_print_unit,'(A,2(1x,I6))') &
@@ -366,7 +374,7 @@ sigma_fitness = 0.0d0
 var_fitness = 0.0d0
 icount = 0
 
-do  i_GA_individual=1,n_GA_individuals
+do  i_GA_individual=1,divider
 
     !if( individual_quality( i_GA_individual ) > 0 .and.  &
     !    individual_ranked_fitness(i_GA_individual) > 1.0d0  ) then
@@ -401,8 +409,8 @@ endif
 
 !if( L_ga_print )then
 !    write(GA_print_unit,'(/A,3(1x,I6),2(1x,E15.7))')       &
-!      'gacf: i_GA_generation, n_GA_individuals, icount, mean_fitness, sigma_fitness',&
-!             i_GA_generation, n_GA_individuals, icount, mean_fitness, sigma_fitness
+!      'gacf: i_GA_generation, divider, icount, mean_fitness, sigma_fitness',&
+!             i_GA_generation, divider, icount, mean_fitness, sigma_fitness
 !endif ! L_ga_print
 
 !---------------------------------------------------------------------------------
@@ -413,7 +421,7 @@ endif
 !endif ! L_ga_print
 
 dble_cff=0.0D+0
-do  i_GA_individual=1,n_GA_individuals  ! calculate the sum of the rankings
+do  i_GA_individual=1,divider  ! calculate the sum of the rankings
 
 
     dble_cff = dble_cff + individual_ranked_fitness(i_GA_individual)
@@ -441,18 +449,18 @@ enddo ! i_GA_individual
 
 
 
-do  i_GA_individual=1,n_GA_individuals
+do  i_GA_individual=1,divider
 
-    if( abs( integrated_ranked_fitness(n_GA_individuals) ) > 1.0D-20 )then
+    if( abs( integrated_ranked_fitness(divider) ) > 1.0D-20 )then
 
         integrated_ranked_fitness(i_GA_individual) = &
         integrated_ranked_fitness(i_GA_individual) / &
-                          integrated_ranked_fitness(n_GA_individuals)
+                          integrated_ranked_fitness(divider)
 
     else
         integrated_ranked_fitness(i_GA_individual) = 0.0D0
 
-    endif ! abs( integrated_ranked_fitness(n_GA_individuals) ) > 1.0D-20
+    endif ! abs( integrated_ranked_fitness(divider) ) > 1.0D-20
 
     !if( L_ga_print )then
     !    write(GA_print_unit,'(I6,1x,E15.7)') &
@@ -472,7 +480,7 @@ if( i_GA_generation == n_GA_generations       )then
     !    write(GA_print_unit,'(/A)')&
     !     'i_GA_ind   ind_SSE            ind_ranked_fitness    &
     !     &integ_rank_fitness  ind_quality'
-    !    do  i_GA_individual=1,n_GA_individuals
+    !    do  i_GA_individual=1,divider
     !        write(GA_print_unit,'(I6,3(1x,E20.12),1x,I6)') &
     !              i_GA_individual, individual_SSE(i_GA_individual), &
     !                    individual_ranked_fitness(i_GA_individual), &
@@ -489,7 +497,7 @@ endif !  i_GA_generation == 1 ...
 if( L_fort333_output )then
 
     write(333) i_GP_Generation, i_GP_individual, i_GA_generation, &
-               individual_SSE(1:n_GA_individuals)
+               individual_SSE(1:divider)
 endif !  L_fort333_output
 
 !-------------------------------------------------------------------------------
@@ -510,7 +518,7 @@ dble_cff=individual_ranked_fitness(1)
 !endif ! L_ga_print
 
 
-do  i_GA_individual=2,n_GA_individuals
+do  i_GA_individual=2,divider
 
     if( individual_ranked_fitness(i_GA_individual) .gt. dble_cff) then
 
@@ -561,7 +569,7 @@ if( L_GA_log )then
     ! write information to a GA log file giving:
     ! generation, individual, SSE, individual_fitness
 
-    !do  i_GA_Individual=1,n_GA_individuals
+    !do  i_GA_Individual=1,divider
     !    write(GA_log_unit,'(2(1x,I6),2(1x,E15.7))') &
     !          i_GA_generation, &
     !          i_GA_Individual, &
@@ -571,11 +579,11 @@ if( L_GA_log )then
 
 
     write(GA_log_unit)  &
-          n_GA_individuals, &
+          divider, &
           i_GP_Generation, i_GP_individual, &
           i_GA_generation, &
-          individual_SSE(1:n_GA_individuals), &
-          individual_ranked_fitness(1:n_GA_individuals)
+          individual_SSE(1:divider), &
+          individual_ranked_fitness(1:divider)
 
 endif ! L_GA_log
 

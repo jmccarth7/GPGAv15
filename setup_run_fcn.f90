@@ -1,4 +1,6 @@
-subroutine setup_run_fcn( i_GA_indiv,  child_parameters, individual_quality )
+subroutine setup_run_fcn( i_GA_indiv,  &
+                          child_parameters, individual_quality, &
+                          new_group, new_comm  )
 
 ! written by: Dr. John R. Moisan [NASA/GSFC] 5 December, 2012
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -39,21 +41,26 @@ integer(kind=4) ::   info
 integer(kind=4) :: i_time_step
 integer(kind=4) :: i_parameter
 
+integer(kind=4),intent(in) :: new_group
+integer(kind=4),intent(in) :: new_comm 
+integer(kind=4) :: new_rank       
 
 ! individual_quality contains information on the result of lmdif
 ! if lmdif encounters an error, set individual_quality to -1
 ! if < 0 , reject this individual  ! jjm
 
-integer(kind=4) :: individual_quality(n_GA_individuals)
+integer(kind=4) :: individual_quality(divider)
 
 
-real(kind=8) :: child_parameters(n_GP_parameters, n_GA_individuals)
+real(kind=8) :: child_parameters(n_GP_parameters, divider)
 
 external :: fcn
 
 
 !--------------------------------------------------------------------------------------------
 
+                                                                                                                                
+call MPI_GROUP_RANK( new_group, new_rank, ierr )                                                                                
 
 
 !if( L_ga_print )then

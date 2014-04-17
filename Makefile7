@@ -1,4 +1,4 @@
-PROG =	GP_para_tree
+PROG =	GPCODE_Tree
 
 SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 allocate_arrays1.f90 \
 	bcast1.f90 bcast2.f90 bcast3.f90 betacf.f90 betai.f90 build_trees.f90 \
@@ -18,10 +18,9 @@ SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 allocate_arrays1.f90 \
 	gammln.f90 gammp.f90 gammq.f90 gcf.f90 Generate_Dot_Graph.f90 \
 	Global_Setup.f90 GP_calc_diversity_index.f90 GP_calc_fitness.f90 \
 	GP_Check_Terminals.f90 GP_Clean_Tree_Nodes.f90 GP_data_module.f90 \
-	GP_Fitness_Proportionate_Asexual_Reproduction.f90 \
-	GP_individual_loop.f90 GP_Mutations.f90 GP_para_lmdif_process.f90 \
-	GP_parameters_module.f90 GP_ranking_sort.f90 \
-	GP_select_best_RK_lmdif_result.f90 \
+	GP_Fitness_Proportionate_Asexual_Reproduction.f90 GP_Mutations.f90 \
+	GP_para_lmdif_process.f90 GP_parameters_module.f90 \
+	GP_ranking_sort.f90 GP_select_best_RK_lmdif_result.f90 \
 	GP_Tournament_Style_Sexual_Reproduction.f90 GP_Tree_Build.f90 \
 	GP_Tree_Build_single.f90 GP_Tree_Swap.f90 GP_variables_module.f90 \
 	GPCODE_GA_lmdif_Parameter_Optimization.f90 gser.f90 indiv_fitness.f90 \
@@ -39,9 +38,9 @@ SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 allocate_arrays1.f90 \
 	remove_abs_zero.f90 remove_double_parens.f90 remove_string_blanks.f90 \
 	RKBM.f90 rm_exp_paren.f90 Runge_Kutta_Box_Model_new.f90 \
 	select_best_RK_lmdif_result.f90 serialize_trees.f90 \
-	set_answer_arrays.f90 set_modified_indiv.f90 setup1.f90 \
-	setup_run_fcn.f90 setup_run_lmdif.f90 setup_run_para_lmdif.f90 \
-	sort.f90 sse0_calc.f90 summary_GP_indiv.f90 summary_GP_indiv2.f90 \
+	set_answer_arrays.f90 set_modified_indiv.f90 setup_run_fcn.f90 \
+	setup_run_lmdif.f90 setup_run_para_lmdif.f90 sort.f90 sse0_calc.f90 \
+	summary_GP_indiv.f90 summary_GP_indiv2.f90 \
 	summary_GP_minSSE_indiv.f90 swap_module.f90 Tree_Helper_module.f90 \
 	tree_node_factory_module.f90
 
@@ -61,9 +60,9 @@ OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o allocate_arrays1.o \
 	gammln.o gammp.o gammq.o gcf.o Generate_Dot_Graph.o Global_Setup.o \
 	GP_calc_diversity_index.o GP_calc_fitness.o GP_Check_Terminals.o \
 	GP_Clean_Tree_Nodes.o GP_data_module.o \
-	GP_Fitness_Proportionate_Asexual_Reproduction.o GP_individual_loop.o \
-	GP_Mutations.o GP_para_lmdif_process.o GP_parameters_module.o \
-	GP_ranking_sort.o GP_select_best_RK_lmdif_result.o \
+	GP_Fitness_Proportionate_Asexual_Reproduction.o GP_Mutations.o \
+	GP_para_lmdif_process.o GP_parameters_module.o GP_ranking_sort.o \
+	GP_select_best_RK_lmdif_result.o \
 	GP_Tournament_Style_Sexual_Reproduction.o GP_Tree_Build.o \
 	GP_Tree_Build_single.o GP_Tree_Swap.o GP_variables_module.o \
 	GPCODE_GA_lmdif_Parameter_Optimization.o gser.o indiv_fitness.o \
@@ -80,7 +79,7 @@ OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o allocate_arrays1.o \
 	reduce_expression.o remove_abs_zero.o remove_double_parens.o \
 	remove_string_blanks.o RKBM.o rm_exp_paren.o \
 	Runge_Kutta_Box_Model_new.o select_best_RK_lmdif_result.o \
-	serialize_trees.o set_answer_arrays.o set_modified_indiv.o setup1.o \
+	serialize_trees.o set_answer_arrays.o set_modified_indiv.o \
 	setup_run_fcn.o setup_run_lmdif.o setup_run_para_lmdif.o sort.o \
 	sse0_calc.o summary_GP_indiv.o summary_GP_indiv2.o \
 	summary_GP_minSSE_indiv.o swap_module.o Tree_Helper_module.o \
@@ -124,7 +123,6 @@ LIBS= -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Dev
 #F90FLAGS = -O3  -free  #  -g -traceback  #-ftrapuv  #-warn all #-C -ftrapuv  # -warn all   #  -ftrace=full    # -fzero -Wall
 #LDFLAGS =
 ##################################################################################
-
 
 all: $(PROG)
 
@@ -222,7 +220,7 @@ GA_variables_module.o: GA_parameters_module.o
 gammp.o: mpi_module.o
 gammq.o: mpi_module.o
 gcf.o: mpi_module.o
-Generate_Dot_Graph.o: Generate_Dot_Graph.o class_tree_node.o
+Generate_Dot_Graph.o:  class_tree_node.o
 Global_Setup.o: Math_Node_Functions.o fasham_tree_interfaces.o \
 	tree_node_factory_module.o
 GP_calc_diversity_index.o: GA_parameters_module.o GA_variables_module.o \
@@ -237,10 +235,6 @@ GP_data_module.o: GP_parameters_module.o
 GP_Fitness_Proportionate_Asexual_Reproduction.o: GA_parameters_module.o \
 	GA_variables_module.o GP_parameters_module.o GP_variables_module.o \
 	mpi_module.o
-GP_individual_loop.o: GA_parameters_module.o GA_variables_module.o \
-	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
-	class_tree_node.o fasham_variables_module.o mpi_module.o \
-	tree_node_factory_module.o
 GP_Mutations.o: GA_parameters_module.o GA_variables_module.o \
 	GP_parameters_module.o GP_variables_module.o mpi_module.o
 GP_para_lmdif_process.o: GA_parameters_module.o GA_variables_module.o \
@@ -337,9 +331,6 @@ set_answer_arrays.o: GA_parameters_module.o GA_variables_module.o \
 set_modified_indiv.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
 	mpi_module.o
-setup1.o: GA_parameters_module.o GA_variables_module.o GP_data_module.o \
-	GP_parameters_module.o GP_variables_module.o class_tree_node.o \
-	fasham_variables_module.o mpi_module.o tree_node_factory_module.o
 setup_run_fcn.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
 	mpi_module.o

@@ -182,6 +182,7 @@ sse_max_time = 1.0d10
 
 L_restart = .false.
 
+n_partitions = 1
 !---------------------------------------------------------------------
 
 
@@ -1099,6 +1100,25 @@ do
 
 
 
+
+!--------------------------------------------------------------------
+
+
+! n_partitions = number of partitions to be used to divide processors
+!                into groups, each of which will process one GP individual
+
+
+    elseif( Aline(1:len('n_partitions')) == "N_PARTITIONS" .or.     &
+            Aline(1:len('n_partitions')) == "n_partitions" ) then
+
+        READ(Aline(len('n_partitions')+1:), * )  n_partitions
+
+        write(GP_print_unit,'(A,1x,I6)') &
+              'rcntl: n_partitions = ', n_partitions
+
+
+
+
 !--------------------------------------------------------------------
 
 
@@ -1110,7 +1130,6 @@ do
         write(GP_print_unit,'(A)') &
               'rcntl: blank line --- ignored '
         continue
-
 
 
 !--------------------------------------------------------------------

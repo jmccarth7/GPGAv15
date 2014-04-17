@@ -15,10 +15,10 @@ use GP_Data_module
 
 implicit none
 
-real(kind=8) :: parent_parameters(n_GP_parameters,n_GA_Individuals)
-real(kind=8) ::  child_parameters(n_GP_parameters,n_GA_Individuals)
+real(kind=8) :: parent_parameters(n_GP_parameters,divider)
+real(kind=8) ::  child_parameters(n_GP_parameters,divider)
 
-integer(kind=4) :: individual_quality(n_GA_individuals)
+integer(kind=4) :: individual_quality(divider)
 
 integer(kind=4) :: i_GA_Crossover,i_GA_Crossover_Point
 integer(kind=4) :: k_GA_Individual_Male(2),k_GA_Individual_Female(2)
@@ -96,12 +96,12 @@ do  i_GA_Crossover=1,n_GA_Crossovers
   
     if( k_GA_Individual_Male(2) .eq. k_GA_Individual_Male(1) ) then
   
-        if( k_GA_Individual_Male(1) .ne. N_GA_Individuals) then
+        if( k_GA_Individual_Male(1) .ne. divider) then
             k_GA_Individual_Male(2) =  &
-               min( k_GA_Individual_Male(1) + 1, N_GA_Individuals )
+               min( k_GA_Individual_Male(1) + 1, divider )
         else
             k_GA_Individual_Male(2)= max( k_GA_Individual_Male(1) - 1, 1 )
-        endif !   k_GA_Individual_Male(1) .ne. N_GA_Individuals
+        endif !   k_GA_Individual_Male(1) .ne. divider
   
     endif ! k_GA_Individual_Male(2) .eq. k_GA_Individual_Male(1)
   
@@ -162,12 +162,12 @@ do  i_GA_Crossover=1,n_GA_Crossovers
   
     if( k_GA_Individual_Female(2) .eq. k_GA_Individual_Female(1)) then
   
-        if( k_GA_Individual_Female(1) .ne. N_GA_Individuals ) then
+        if( k_GA_Individual_Female(1) .ne. divider ) then
             k_GA_Individual_Female(2) =  &
-                   min( k_GA_Individual_Female(1) + 1, N_GA_Individuals )
+                   min( k_GA_Individual_Female(1) + 1, divider )
         else
             k_GA_Individual_Female(2) =  max( k_GA_Individual_Female(1) - 1, 1 )
-        endif !   k_GA_Individual_Female(1) .ne. N_GA_Individuals)
+        endif !   k_GA_Individual_Female(1) .ne. divider)
   
     endif !   k_GA_Individual_Female(2) .eq. k_GA_Individual_Female(1)
   

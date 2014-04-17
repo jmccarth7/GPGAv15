@@ -259,7 +259,8 @@ call Initialize_Model( .true., .true. , 6 )   ! call build_trees
 ! Numerical_CODE__Solution set above from the x array
 
 
-Numerical_CODE_Initial_Conditions(1:n_CODE_equations) = Numerical_CODE_Solution(0,1:n_CODE_equations)
+Numerical_CODE_Initial_Conditions(1:n_CODE_equations) = &
+            Numerical_CODE_Solution(0,1:n_CODE_equations)
 
 
 

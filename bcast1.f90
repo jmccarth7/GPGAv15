@@ -84,6 +84,8 @@ call MPI_BCAST( number_GP_child_prints, 1,    &
 call MPI_BCAST( n_levels, 1,    &
                 MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
 
+call MPI_BCAST( n_partitions, 1,    &
+                MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
 !-----------------------------------------------------------------
 
 !write(6,'(A,2(1x,I6))') 'bc1: myid, n_seed = ', myid, n_seed

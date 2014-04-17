@@ -294,5 +294,24 @@ real(kind=8),parameter :: big_real = 1.0D100
 real(kind=8), allocatable, dimension(:) :: answer                                                                               
 real(kind=8), allocatable, dimension(:) :: output_array                                                                         
 
+!----------------------------------------------------------------
+
+integer(kind=4) :: n_partitions
+
+                                                                                                                              
+!!integer :: new_rank   !, sendbuf, recvbuf     
+                                                                                                                              
+                                                                                                                              
+integer,dimension(:,:),allocatable  :: ranks                                                                                  
+integer,dimension(:,:),allocatable  :: ranks2                                                                                 
+integer,dimension(:),allocatable    :: ranks_temp                                                                             
+                                                                                                                              
+integer :: divider                                                                                                            
+integer :: orig_group
+
+!!integer :: new_group                                                                                              
+!!integer :: new_comm                                                                                                           
+                                                                                                                              
+
 
 end module GP_parameters_module

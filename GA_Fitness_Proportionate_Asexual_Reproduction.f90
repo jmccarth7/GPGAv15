@@ -11,9 +11,9 @@ use GP_Data_module
 
 implicit none
 
-real(kind=8)    :: parent_parameters(n_GP_parameters,n_GA_Individuals)
-real(kind=8)    :: child_parameters(n_GP_parameters,n_GA_Individuals)
-integer(kind=4) :: individual_quality(n_GA_individuals)
+real(kind=8)    :: parent_parameters(n_GP_parameters,divider)
+real(kind=8)    :: child_parameters(n_GP_parameters,divider)
+integer(kind=4) :: individual_quality(divider)
 
 real(kind=4) :: cff
 real(kind=8) :: dff
@@ -48,7 +48,7 @@ integer(kind=4) :: i_GA_individual
 
 mean_fit_before = 0.0d0
 icount = 0
-do  i_GA_individual = 1, n_GA_individuals
+do  i_GA_individual = 1, divider
 
     !if( L_ga_print )then
     !    write(GA_print_unit,'(A,1x,I6,1x,E20.10)') &
@@ -79,7 +79,7 @@ n_replaced = 0
 icff = 0
 
 i_loop:&
-do i_GA_Individual=1,n_GA_Individuals
+do i_GA_Individual=1,divider
 
   Run_GA_lmdif(i_GA_Individual)=.false.
 
@@ -117,7 +117,7 @@ do i_GA_Individual=1,n_GA_Individuals
 
 
   j_loop:&
-  do  j_GA_Individual=1,n_GA_Individuals ! normalize to the maximum values
+  do  j_GA_Individual=1,divider ! normalize to the maximum values
                                          ! so that the range is [0. , 1.]
 
       !if( L_ga_print )then
@@ -207,7 +207,7 @@ enddo i_loop  ! i_GA_Individual
 !    write(GA_print_unit,'(/A)') &
 !    'gafp: i_GA_Individual,  Child_Parameters(1:n_Parameters,i_GA_Individual) '
 
-!    do  i_GA_Individual=1,n_GA_Individuals
+!    do  i_GA_Individual=1,divider
 !        write(GA_print_unit,'(I6,12(1x,E15.7))') &
 !             i_GA_Individual,  Child_Parameters(1:n_Parameters,i_GA_Individual)
 !    enddo  ! i_GA_Individual
@@ -218,7 +218,7 @@ enddo i_loop  ! i_GA_Individual
 
 mean_fit_after = 0.0d0
 icount = 0
-do  i_GA_individual = 1, n_GA_individuals
+do  i_GA_individual = 1, divider
 
     !if( L_ga_print )then
     !    write(GA_print_unit,'(A,1x,I6,1x,E20.10)') &

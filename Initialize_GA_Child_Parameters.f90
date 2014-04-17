@@ -15,7 +15,8 @@ use fasham_variables_module
 implicit none
 
 
-real(kind=8) :: Child_Parameters(n_GP_parameters,n_GA_Individuals)
+!real(kind=8) :: Child_Parameters(n_GP_parameters,n_GA_Individuals)
+real(kind=8) :: Child_Parameters(n_GP_parameters, divider )           
 real(kind=4) :: cff
 real(kind=8) :: dff
 
@@ -36,7 +37,7 @@ Run_GA_lmdif=.true.
 !if( L_ga_print )then
 !    write(6,'(/A,1x, I6)')  'Init: n_parameters   ', n_Parameters
 !    write(6,'(A,1x, I6/)')  'Init: n_GP_parameters', n_GP_Parameters
-!    write(6,'(/A,1x, I6/)')  'Init: n_GA_Individuals ', n_GA_Individuals
+!    write(6,'(/A,1x, I6/)')  'Init: divider ', divider
 !    write(6,'(/A/)') &
 !          'Init:  i_GA_individual  child parameters(:,i_GA_individual)  '
 !    write(GA_print_unit,'(/A,1x, I6/)')  'Init: n_parameters ', n_Parameters
@@ -45,7 +46,7 @@ Run_GA_lmdif=.true.
 !endif ! L_ga_print
 
 
-do  i_GA_Individual=1,n_GA_Individuals
+do  i_GA_Individual=1,divider
 
     !write(6,'(A,1x, I6)')  'Init: i_GA_Individual ', i_GA_Individual
 
@@ -138,7 +139,7 @@ enddo ! i_ga_individual
 
 
 !!--------------------------------------------------------------------------------
-!!do  i_GA_Individual=1,n_GA_Individuals                           ! debug_only
+!!do  i_GA_Individual=1,divider                           ! debug_only
 !!    read(5,*) Child_Parameters(1:n_parameters,i_GA_Individual)   ! debug_only
 !!enddo ! i_ga_individual                                          ! debug_only
 !!--------------------------------------------------------------------------------

@@ -2,7 +2,7 @@ subroutine select_best_RK_lmdif_result( &
                 i_GP_Generation,i_GP_individual, &
                 i_GA_best_parent, parent_parameters, &
                 child_parameters, &
-                L_stop_run )
+                L_stop_run, new_group, new_comm )
 
 ! written by: Dr. John R. Moisan [NASA/GSFC] 5 December, 2012
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -24,11 +24,14 @@ use GP_data_module
 implicit none
 
 
+integer(kind=4),intent(in) :: new_group
+integer(kind=4),intent(in) :: new_comm 
+integer(kind=4)            :: new_rank 
 
 real(kind=8),&
- dimension(n_GP_parameters,n_GA_individuals) ::  parent_parameters
+ dimension(n_GP_parameters,divider) ::  parent_parameters
 real(kind=8),&
- dimension(n_GP_parameters,n_GA_individuals) ::  child_parameters
+ dimension(n_GP_parameters,divider) ::  child_parameters
 
 
 real(kind=8) :: individual_SSE_best_1
@@ -38,18 +41,18 @@ real(kind=8) :: Individual_Fitness_best_1
 real(kind=8),dimension(n_GP_parameters) :: parent_parameters_best_1
 
 
-integer (kind=4) ::      i
-integer (kind=4) :: i_GA_Best_Parent
-integer (kind=4) :: i_GA_Best_Parent_1
+integer(kind=4) ::      i
+integer(kind=4) :: i_GA_Best_Parent
+integer(kind=4) :: i_GA_Best_Parent_1
 
-integer (kind=4) :: i_GA_generation_last
+integer(kind=4) :: i_GA_generation_last
 
 
 ! individual_quality contains information on the result of lmdif
 ! if lmdif encounters an error, set individual_quality to -1
 ! if < 0 , reject this individual  ! jjm
 
-!integer(kind=4),intent(in) :: individual_quality(n_GA_individuals)
+!integer(kind=4),intent(in) :: individual_quality(divider)
 
 real(kind=8), external :: indiv_fitness
 
@@ -67,6 +70,9 @@ integer(kind=4) :: i_GP_individual
 
 
 !-------------------------------------------------------------------------------
+
+                                                                                                                                
+call MPI_GROUP_RANK( new_group, new_rank, ierr )                                                                                
 
 
 ! lmdif is NOT called from this routine
