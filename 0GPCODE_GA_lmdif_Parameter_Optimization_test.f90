@@ -58,9 +58,13 @@ integer(kind=4) :: i_start_generation
 integer(kind=4) :: new_group
 integer(kind=4) :: new_comm
 integer(kind=4) :: new_rank
+integer(kind=4) :: my_size 
 integer(kind=4) :: j
 integer :: ierr2
 integer :: i_group_size
+integer :: color
+integer,allocatable,dimension(:) :: color_value
+integer,allocatable,dimension(:) :: key  
 
 integer(kind=4) :: comm_world
 
@@ -863,48 +867,91 @@ endif ! myid == 0
 
 
 !-------------------------------------------------------------
+!
+!! NOTE:  * myid *  used in loop below
+!
+!
+!do  i = 1, n_partitions
+!
+!    ranks_temp = ranks2(:, i )
+!
+!    if( myid == 0 )then
+!        write(6,'(A, 1x, I6, 3x, 20(1x,I3)/)') '0: i, ranks_temp', i, ranks_temp
+!    endif !  myid == 0 
+!
+!    if( myid >   divider * (i-1)  .and. &
+!        myid <=  divider *  i           ) then
+!
+!        write(6,'(/A,2(1x,I3)/)') '0: do GROUP_INCL      i, myid = ', i, myid
+!
+!        call MPI_GROUP_INCL( orig_group, divider, &
+!                             ranks_temp, new_group, ierr )
+!
+!    endif ! myid >=...
+!
+!enddo ! i
+!
 
-! NOTE:  * myid *  used in loop below
+allocate( color_value(1:numprocs-1 ) )
+allocate(  key (0:divider -1 ) )
 
 
-do  i = 1, n_partitions
+do  i = 0, divider-1 
 
-    ranks_temp = ranks2(:, i )
-
-    if( myid == 0 )then
-        write(6,'(A, 1x, I6, 3x, 20(1x,I3)/)') '0: i, ranks_temp', i, ranks_temp
-    endif !  myid == 0 
-
-    if( myid >   divider * (i-1)  .and. &
-        myid <=  divider *  i           ) then
-
-        write(6,'(/A,2(1x,I3)/)') '0: do GROUP_INCL      i, myid = ', i, myid
-
-        call MPI_GROUP_INCL( orig_group, divider, &
-                             ranks_temp, new_group, ierr )
-
-    endif ! myid >=...
+    key(i) = i 
 
 enddo ! i
 
+color_value(0) = 0
+
+do  j = 1, numprocs-1
+
+    do  i = 1, n_partitions
+
+        if( j >  divider*(i-1)  .and. &
+            j <= divider* i   )then              
+
+            color_value(j) = i
+
+        endif  ! j > divider...
+    enddo ! i 
+enddo ! j 
+
+if( myid == 0 )then
+    write(6,'(A,20(1x,I3))') '0: color_value = ', color_value 
+    write(6,'(A,20(1x,I3))') '0: key   = ', key   
+endif ! myid == 0 
+
+
+
+color = color_value( myid ) 
+!-------------------------------------------------------------
+call MPI_COMM_SPLIT( comm_world, color, myid, new_comm, ierr ) 
 !-------------------------------------------------------------
 
 !call MPI_FINALIZE( ierr )  ! debug only
 !stop                       ! debug only
 
-call mpi_group_size( new_group, i_group_size, ierr2 ) 
+!call mpi_group_size( new_group, i_group_size, ierr2 ) 
 
 
-if( myid == 0 ) then
-    write(6,'(A,1x, I5)') '0: i_group_size ', i_group_size
-endif ! myid == 0
+!if( myid == 0 ) then
+!    write(6,'(A,1x, I5)') '0: i_group_size ', i_group_size
+!endif ! myid == 0
 !-------------------------------------------------------------
 
-write(6,'(/A,1x,I3/)') '0: before new_comm create myid = ', myid
+!write(6,'(/A,1x,I3/)') '0: before new_comm create myid = ', myid
 
-call MPI_COMM_CREATE( comm_world, new_group, new_comm, ierr2 )
+!call MPI_COMM_CREATE( comm_world, new_group, new_comm, ierr2 )
 
-write(6,'(/A,2(1x,I3)/)') '0: after new_comm create myid, ierr = ', myid, ierr2
+!write(6,'(/A,2(1x,I3)/)') '0: after new_comm create myid, ierr = ', myid, ierr2
+!-------------------------------------------------------------
+
+call mpi_comm_rank( new_comm, new_rank, ierr )
+call mpi_comm_size( new_comm, my_size , ierr )
+
+write(6,'(/A,4(1x,I3)/)') '0: myid, new_rank, color, my_size ', &
+                              myid, new_rank, color, my_size
 
 !-------------------------------------------------------------
 
