@@ -312,6 +312,7 @@ integer :: orig_group
 !!integer :: new_group                                                                                              
 !!integer :: new_comm                                                                                                           
                                                                                                                               
+real(kind=8) :: sum_if
 
 
 end module GP_parameters_module

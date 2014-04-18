@@ -1,6 +1,6 @@
 subroutine GPCODE_GA_lmdif_Parameter_Optimization( &
                   i_GP_Generation,i_GP_individual, &
-                  new_group, new_comm  )
+                  new_group, new_comm, n_GP_inds  )
 
 ! written by: Dr. John R. Moisan [NASA/GSFC] 5 December, 2012
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -21,9 +21,12 @@ use GP_data_module
 
 implicit none
 
+integer(kind=4),intent(in) :: new_group
+integer(kind=4),intent(in) :: new_comm 
+integer(kind=4),intent(in) :: n_GP_inds            
+
 integer :: i_GP_Generation
 integer :: i_GP_individual
-
 integer :: child_number
 
 integer ::  isource
@@ -39,6 +42,8 @@ integer,parameter ::  itag  = 1
 integer,parameter ::  itag2 = 2
 integer,parameter ::  itag3 = 3
 
+
+!  divider is the number of cpus in the current partition
 
 real(kind=8),&
  dimension(n_GP_parameters,divider) ::  parent_parameters
@@ -74,11 +79,9 @@ logical :: L_too_many_iters
 
 integer(kind=4) :: jj
 integer(kind=4) :: i_ga_ind
-integer(kind=4) ::      i_code_equation
+integer(kind=4) :: i_code_equation
 
 
-integer(kind=4),intent(in) :: new_group
-integer(kind=4),intent(in) :: new_comm 
 integer(kind=4) :: new_rank 
 
 integer(kind=4) :: n_procs   
@@ -89,10 +92,11 @@ integer(kind=4) :: n_procs
 
 
 
-call MPI_GROUP_RANK( new_group, new_rank, ierr )
-call MPI_COMM_SIZE(new_comm, n_procs, ierr)  
+!call MPI_GROUP_RANK( new_group, new_rank, ierr )
+call mpi_comm_rank( new_comm, new_rank, ierr ) 
+call MPI_COMM_SIZE( new_comm, n_procs, ierr)  
 
-write(6,'(A,1x,I5,1x,I5)') 'GP_GA_opt: myid, new_rank ', myid, new_rank
+write(6,'(A,1x,I5,1x,I5)') 'GP_GA_opt:1  myid, new_rank ', myid, new_rank
 
 
 !! debug only  !L_too_many_iters = .FALSE.
@@ -1138,15 +1142,34 @@ write(6,'(A,1x,I5,1x,I5)') 'GP_GA_opt: myid, new_rank ', myid, new_rank
 !    write(GA_print_unit,'(/A,1x,I6)') &
 !     'GP_GA_opt: broadcast individual_fitness myid = ', myid
 !endif ! L_ga_print
+!write(6,'(A,1x,I5,1x,I5)') 'GP_GA_opt:2  myid, new_rank ', myid, new_rank
 
-individual_fitness = real( new_rank, kind=8)  ! debug only
+!individual_fitness = real( i_GP_individual * new_rank, kind=8)  ! debug only
+!individual_fitness = real( new_rank, kind=8)  ! debug only
+individual_fitness = real( myid, kind=8)  ! debug only
+
+write(6,'(/A,2(1x,I6), 1x,F10.2/)') &
+     'GP_GA_opt: broadcast individual_fitness  myid, new_rank, individual_fitness', &
+                                               myid, new_rank, individual_fitness
+
 message_len = 1
-call MPI_BCAST( individual_fitness, message_len,    &
-                MPI_DOUBLE_PRECISION, 0, new_comm, ierr )
+call MPI_REDUCE( individual_fitness, sum_if, message_len,    &
+                 MPI_DOUBLE_PRECISION, MPI_SUM, 0, new_comm, ierr )
+
+
+
+!call MPI_BCAST( individual_fitness, message_len,    &
+!                MPI_DOUBLE_PRECISION, 0, new_comm, ierr )
+!                !MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
 !if( L_ga_print )then
 !    write(GA_print_unit,'(/A,1x,I6)') &
 !     'GP_GA_opt: aft broadcast individual_fitness  ierr = ', ierr
+if( new_rank == 0 )then
+write(6,'(/A,2(1x,I6), 1x,F10.2/)') &
+     'GP_GA_opt: aft REDUCE myid, new_rank, sum_if', &
+                            myid, new_rank, sum_if
+endif 
 !endif ! L_ga_print
 
 

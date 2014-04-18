@@ -85,7 +85,8 @@ integer(kind=4) :: i_GA_individual
 !----------------------------------------------------------------------------------
 
                                                                                                                                 
-call MPI_GROUP_RANK( new_group, new_rank, ierr )                                                                                
+!call MPI_GROUP_RANK( new_group, new_rank, ierr )  
+call mpi_comm_rank( new_comm, new_rank, ierr ) 
 
 
 !write(6,'(/A,4x,L1)') 'gacf: L_GA_print      =', L_GA_print  

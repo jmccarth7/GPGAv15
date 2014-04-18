@@ -892,7 +892,7 @@ endif ! myid == 0
 !enddo ! i
 !
 
-allocate( color_value(1:numprocs-1 ) )
+allocate( color_value(0:numprocs-1 ) )
 allocate(  key (0:divider -1 ) )
 
 
@@ -902,7 +902,7 @@ do  i = 0, divider-1
 
 enddo ! i
 
-color_value(0) = 0
+color_value(0) = 2 * numprocs  ! MPI_UNDEFINED
 
 do  j = 1, numprocs-1
 
@@ -918,19 +918,19 @@ do  j = 1, numprocs-1
 enddo ! j 
 
 if( myid == 0 )then
-    write(6,'(A,20(1x,I3))') '0: color_value = ', color_value 
-    write(6,'(A,20(1x,I3))') '0: key   = ', key   
+    write(6,'(A,10(1x,I10))') '0: color_value = ', color_value 
+    write(6,'(A,20(1x,I3))')  '0: key   = ', key   
 endif ! myid == 0 
 
 
 
 color = color_value( myid ) 
+write(6,'(/A,4(1x,I10)/)') '0: myid, color', myid, color
+
 !-------------------------------------------------------------
 call MPI_COMM_SPLIT( comm_world, color, myid, new_comm, ierr ) 
 !-------------------------------------------------------------
 
-!call MPI_FINALIZE( ierr )  ! debug only
-!stop                       ! debug only
 
 !call mpi_group_size( new_group, i_group_size, ierr2 ) 
 
@@ -950,15 +950,12 @@ call MPI_COMM_SPLIT( comm_world, color, myid, new_comm, ierr )
 call mpi_comm_rank( new_comm, new_rank, ierr )
 call mpi_comm_size( new_comm, my_size , ierr )
 
-write(6,'(/A,4(1x,I3)/)') '0: myid, new_rank, color, my_size ', &
-                              myid, new_rank, color, my_size
-
-!-------------------------------------------------------------
-
-call MPI_FINALIZE( ierr )  ! debug only
-stop                       ! debug only
+write(6,'(/A,4(1x,I10)/)') '0: myid, new_rank, color, my_size ', &
+                               myid, new_rank, color, my_size
 
 !---------------------------------------------------------------------------
+!call MPI_FINALIZE(ierr) ! debug only
+!stop ! debug only
 
 
 ! begin the GP generation loop
@@ -1071,7 +1068,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
         endif ! myid == 0
 
 
-        write(6,'(/A,1x,I3/)') '0: broadcast ierror_tb    myid = ', myid
+        !write(6,'(/A,1x,I3/)') '0: broadcast ierror_tb    myid = ', myid
         message_len =  1
         call MPI_BCAST( ierror_tb, message_len,    &
                         MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
@@ -1080,6 +1077,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
             call MPI_FINALIZE( ierr )
             stop
         endif ! ierror_tb
+
 
         !---------------------------------------------------------------------------------
 
@@ -1560,7 +1558,6 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
         flush(GP_print_unit)
     endif !  myid == 0
 
-
     !-----------------------------------------------------------------------------------
 
     ! exit the generation loop since
@@ -1572,7 +1569,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
     write(6,'(/A,1x,I3/)') '0: call GP_individual_loop myid = ', myid
 
-    call GP_individual_loop( new_group, new_comm )
+    call GP_individual_loop( new_group, new_comm, i_GP_generation )
 
 call MPI_FINALIZE(ierr)  !debug only
 stop                     !debug only

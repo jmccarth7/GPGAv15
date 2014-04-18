@@ -72,7 +72,8 @@ integer(kind=4) :: i_GP_individual
 !-------------------------------------------------------------------------------
 
                                                                                                                                 
-call MPI_GROUP_RANK( new_group, new_rank, ierr )                                                                                
+!call MPI_GROUP_RANK( new_group, new_rank, ierr )
+call mpi_comm_rank( new_comm, new_rank, ierr ) 
 
 
 ! lmdif is NOT called from this routine
