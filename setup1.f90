@@ -133,8 +133,6 @@ if( myid == 0 )then
 endif ! myid == 0 
 
 
-!!allocate( answer( n_maximum_number_parameters ) )
-!!allocate( output_array( n_maximum_number_parameters ) )
 
 !------------------------------------------------------------------
 
@@ -404,6 +402,14 @@ if( myid == 0 )then
 
 
 endif ! myid == 0
+
+!---------------------------------------------------------------------------
+
+! broadcast SSE0
+
+message_len = 1 
+call MPI_BCAST( SSE0, message_len,    &
+                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
 
 !---------------------------------------------------------------------------
