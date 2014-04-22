@@ -95,8 +95,8 @@ L_stop_run = .FALSE.
 !    write(GA_print_unit,'(/A,1x,I6)') 'gacf: n_parameters = ', n_parameters
 !endif ! L_ga_print
 
-write(6,'(/A,2(1x,I6))') 'gacf: new_rank, n_parameters    =', new_rank, n_parameters
-write(6,'(A,2(1x,I6)/)') 'gacf: new_rank, n_GP_parameters =', new_rank, n_GP_parameters
+!write(6,'(/A,2(1x,I6))') 'gacf: new_rank, n_parameters    =', new_rank, n_parameters
+!write(6,'(A,2(1x,I6)/)') 'gacf: new_rank, n_GP_parameters =', new_rank, n_GP_parameters
 
 do  i_parameter=1,n_parameters
     do  i_GA_individual=1,divider
@@ -230,9 +230,10 @@ enddo ! i_GA_individual
 !    write(GA_print_unit,'(A,1x,E15.7)')  'gacf: sse0 ', sse0
 !    !write(GA_print_unit,'(A)')  &
 !    !'gacf: i_GA_ind, ind_SSE, ind_ranked_fitness   ind_quality'
-    write(GA_print_unit,'(A,1x,E15.7)')  'gacf: sse0 ', sse0
-    write(GA_print_unit,'(A)')  &
-    'gacf: i_GA_ind, ind_SSE, ind_ranked_fitness   ind_quality'
+!    write(GA_print_unit,'(A,1x,I3, 1x,E15.7)')  'gacf: new_rank, sse0 ', &
+!                                                       new_rank, sse0
+!    write(GA_print_unit,'(A)')  &
+!    'gacf: i_GA_ind, ind_SSE, ind_ranked_fitness   ind_quality'
 !endif ! L_ga_print
 
 do  i_GA_individual=1,divider
@@ -245,10 +246,10 @@ do  i_GA_individual=1,divider
         !          'gacf: i_GA_individual, SSE , sse0/sse', &
         !                    i_GA_individual, individual_SSE(i_GA_individual), &
         !                                sse0/individual_SSE(i_GA_individual)
-            write(6,'(A,1x,I6,2(1x,E15.7))') &
-                  'gacf: i_GA_individual, SSE , sse0/sse', &
-                         i_GA_individual, individual_SSE(i_GA_individual), &
-                                     sse0/individual_SSE(i_GA_individual)
+        !    write(6,'(A,1x, I3, 1x,I6,2(1x,E15.7))') &
+        !          'gacf: new_rank, i_GA_individual, SSE , sse0/sse', &
+        !                 new_rank, i_GA_individual, individual_SSE(i_GA_individual), &
+        !                             sse0/individual_SSE(i_GA_individual)
         !endif ! L_ga_print
 
         ! indiv_fitness is a function
@@ -352,18 +353,18 @@ endif ! n_counted > 0
 !    write(GA_print_unit,'(A,2(1x,I6)/)')&
 !          'gacf: generation, number good         =', &
 !            i_GA_generation, n_counted
-    write(6,'(/A,1x,I6,1x,E15.7)')&
-          'gacf: generation, sum_individual_fit  =', &
-            i_GA_generation, sum_individual_fit
-    write(6,'(A,1x,I6,1x,E15.7)')&
-          'gacf: generation, mean_individual_fit =', &
-            i_GA_generation, mean_individual_fit
-    write(6,'(A,1x,I6,1x,E15.7, 1x, I6)')&
-          'gacf: generation, min_sse, index      =', &
-            i_GA_generation, min_sse, index_min_sse
-    write(6,'(A,2(1x,I6)/)')&
-          'gacf: generation, number good         =', &
-            i_GA_generation, n_counted
+!    write(6,'(/A,1x,I6,1x,E15.7)')&
+!          'gacf: generation, sum_individual_fit  =', &
+!            i_GA_generation, sum_individual_fit
+!    write(6,'(A,1x,I6,1x,E15.7)')&
+!          'gacf: generation, mean_individual_fit =', &
+!            i_GA_generation, mean_individual_fit
+!    write(6,'(A,1x,I6,1x,E15.7, 1x, I6)')&
+!          'gacf: generation, min_sse, index      =', &
+!            i_GA_generation, min_sse, index_min_sse
+!    write(6,'(A,2(1x,I6)/)')&
+!          'gacf: generation, number good         =', &
+!            i_GA_generation, n_counted
 !endif ! L_ga_print
 
 mean_individual_SSE = 0.0D0
@@ -557,6 +558,12 @@ enddo ! i_GA_individual
 
 !------------------------------------------------------------------------------
 
+write(6,'(/A,1x,I3,2(1x,I6),2(1x,E15.7))') &
+      'gacf: new_rank, Generation, i_GA_Best_Parent, indiv_ranked_fitness, indiv_SSE', &
+             new_rank, i_GA_Generation, i_GA_Best_Parent,   &
+             individual_ranked_fitness( i_GA_Best_Parent ), &
+                        individual_SSE( i_GA_Best_Parent )
+!
 !if( L_ga_print )then
 !    write(GA_print_unit,'(/A,2(1x,I6),2(1x,E15.7))') &
 !          'gacf: Generation, i_GA_Best_Parent, indiv_ranked_fitness, indiv_SSE', &

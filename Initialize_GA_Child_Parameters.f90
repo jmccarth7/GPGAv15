@@ -35,10 +35,10 @@ Run_GA_lmdif=.true.
 
 
 !if( L_ga_print )then
-    write(6,'(/A,3(1x, I6))')  'Init: myid, new_rank, n_parameters', &
-                                      myid, new_rank, n_Parameters
-    write(6,'(A,1x, I6/)')  'Init: n_GP_parameters', n_GP_Parameters
-    write(6,'(/A,1x, I6/)')  'Init: divider ', divider
+!    write(6,'(A,3(1x, I6))')  'Init: myid, new_rank, n_parameters', &
+!                                     myid, new_rank, n_Parameters
+!    write(6,'(A,1x, I6)')  'Init: n_GP_parameters', n_GP_Parameters
+!    write(6,'(A,1x, I6/)') 'Init: divider ', divider
 !    write(6,'(/A/)') &
 !          'Init:  i_GA_individual  child parameters(:,i_GA_individual)  '
 !    write(GA_print_unit,'(/A,1x, I6/)')  'Init: n_parameters ', n_Parameters
@@ -49,22 +49,22 @@ Run_GA_lmdif=.true.
 
 do  i_GA_Individual=1,divider
 
-    write(6,'(A,1x, I6)')  'Init: i_GA_Individual ', i_GA_Individual
+    !write(6,'(A,1x, I6)')  'Init: i_GA_Individual ', i_GA_Individual
 
     do  i_Parameter=1,n_Parameters
 
         call random_real(dff) ! random real number generator
 
-        write(6,'(A,2(1x, I6),1x,E15.7 )') &
-                 'Init: new_rank, i_GA_individual, dff', &
-                        new_rank, i_GA_individual, dff
+        !write(6,'(A,2(1x, I6),1x,E15.7 )') &
+        !         'Init: new_rank, i_GA_individual, dff', &
+        !                new_rank, i_GA_individual, dff
 
         Child_Parameters(i_Parameter,i_GA_Individual) = dff
 
         !if( L_ga_print )then
-            write(6,'(A,2(1x, I6),1x,E15.7 )') &
-                 'Init: ', i_GA_individual, i_Parameter, &
-                           child_parameters(i_parameter, i_GA_individual)
+        !    write(6,'(A,2(1x, I6),1x,E15.7 )') &
+        !         'Init: ', i_GA_individual, i_Parameter, &
+        !                   child_parameters(i_parameter, i_GA_individual)
         !    write(GA_print_unit,'(A,2(1x, I6),1x,E15.7 )') &
         !         'Init: ', i_GA_individual, i_Parameter, &
         !                   child_parameters(i_parameter, i_GA_individual)

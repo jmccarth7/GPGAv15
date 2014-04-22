@@ -63,18 +63,18 @@ external :: fcn
 call mpi_comm_rank( new_comm, new_rank, ierr ) 
 
 
-write(6,'(A,3(1x,I6))') &
-      'setrf:1 new_rank, n_GP_parameters, divider', &                
-               new_rank, n_GP_parameters, divider
+!write(6,'(A,3(1x,I6))') &
+!      'setrf:1 new_rank, n_GP_parameters, divider', &                
+!               new_rank, n_GP_parameters, divider
 
-write(6,'(/A,4(1x,I6)/)') &
-      'setrf: new_rank, i_GA_indiv, n_parameters, n_GP_parameters ', &
-              new_rank, i_GA_indiv, n_parameters, n_GP_parameters
+!write(6,'(A,4(1x,I6))') &
+!      'setrf: new_rank, i_GA_indiv, n_parameters, n_GP_parameters ', &
+!              new_rank, i_GA_indiv, n_parameters, n_GP_parameters
 !if( L_ga_print )then
 !    write(GA_print_unit,'(/A,4(1x,I6)/)') &
-!          'setrf: myid, i_GA_indiv, n_parameters, n_GP_parameters ', &
-!                  myid, i_GA_indiv, n_parameters, n_GP_parameters
-!    flush(GA_print_unit)
+!          'setrf: new_rank, i_GA_indiv, n_parameters, n_GP_parameters ', &
+!                  new_rank, i_GA_indiv, n_parameters, n_GP_parameters
+!    !flush(GA_print_unit)
 !endif ! L_ga_print
 
 x_LMDIF(1:n_GP_parameters) = 0.0D0
@@ -83,17 +83,17 @@ do  i_parameter=1,n_parameters
 
     X_LMDIF(i_parameter) = child_parameters(i_parameter,i_GA_indiv)
 
-    !if( myid == 1 )then
+    !if( new_rank == 1 )then
     !    if( L_ga_print )then
     !        !write(GA_print_unit,'(A,3(1x,I6),1x,E20.10)') &
-    !        !      'setrf:1 myid, i_GA_indiv,i_parameter, child_parameters ', &
-    !        !               myid, i_GA_indiv,i_parameter, &
+    !        !      'setrf:1 new_rank, i_GA_indiv,i_parameter, child_parameters ', &
+    !        !               new_rank, i_GA_indiv,i_parameter, &
     !        !               child_parameters(i_parameter,i_GA_indiv)
-            write(6,'(A,3(1x,I6),1x,E20.10)') &
-                  'setrf:1 new_rank, i_GA_indiv, i_parameter,  X_LMDIF', &
-                           new_rank, i_GA_indiv, i_parameter,  X_LMDIF(i_parameter)
+    !        write(6,'(A,3(1x,I6),1x,E20.10)') &
+    !              'setrf:1 new_rank, i_GA_indiv, i_parameter,  X_LMDIF', &
+    !                       new_rank, i_GA_indiv, i_parameter,  X_LMDIF(i_parameter)
     !    endif ! L_ga_print
-    !endif ! myid == 1
+    !endif ! new_rank == 1
 
 enddo ! i_parameter
 
@@ -103,17 +103,17 @@ enddo ! i_parameter
 ! call fcn
 
 
-!if( myid == 1 )then
+!if( new_rank == 1 )then
 !    if( L_ga_print )then
 !        write(GA_print_unit,'(/A,4(1x,I10))') &
-!              'setrf: call fcn, myid, i_GA_indiv, n_time_steps, n_parameters', &
-!                                myid, i_GA_indiv, n_time_steps, n_parameters
+!              'setrf: call fcn, new_rank, i_GA_indiv, n_time_steps, n_parameters', &
+!                                new_rank, i_GA_indiv, n_time_steps, n_parameters
 !    endif ! L_ga_print
-    write(6,'(/A,4(1x,I10))') &
-          'setrf: call fcn, new_rank, i_GA_indiv, n_time_steps, n_parameters', &
-                            new_rank, i_GA_indiv, n_time_steps, n_parameters
-    flush(6)
-!endif ! myid == 1
+!    write(6,'(/A,4(1x,I10))') &
+!          'setrf: call fcn, new_rank, i_GA_indiv, n_time_steps, n_parameters', &
+!                            new_rank, i_GA_indiv, n_time_steps, n_parameters
+!    !flush(6)
+!endif ! new_rank == 1
 
 !----------------------------------------------------------------------------------------
 
@@ -125,13 +125,13 @@ info = iflag
 
 !----------------------------------------------------------------------------------------
 
-!if( myid == 1 )then
+!if( new_rank == 1 )then
 !    if( L_ga_print )then
-        write(6,'(A,5(1x,I10)/)') &
-         'setrf: aft call fcn new_rank, i_GA_indiv, n_time_steps, n_parameters, info ', &
-                              new_rank, i_GA_indiv, n_time_steps, n_parameters, info
+!        write(6,'(A,5(1x,I6)/)') &
+!         'setrf: aft call fcn new_rank, i_GA_indiv, n_time_steps, n_parameters, info ', &
+!                              new_rank, i_GA_indiv, n_time_steps, n_parameters, info
 !    endif ! L_ga_print
-!endif ! myid == 1
+!endif ! new_rank == 1
 
 !----------------------------------------------------------------------------------------
 
@@ -144,8 +144,8 @@ if( info < 0 ) then
 
     !if( L_ga_print )then
     !    write(6,'(A, 3(1x, I6),  1x,E15.7/)') &
-    !          'setrf:3 myid, i_GA_indiv, quality, SSE ', &
-    !                   myid, i_GA_indiv, &
+    !          'setrf:3 new_rank, i_GA_indiv, quality, SSE ', &
+    !                   new_rank, i_GA_indiv, &
     !                   individual_quality(i_GA_indiv), &
     !                   individual_SSE(i_GA_indiv)
     !endif ! L_ga_print
@@ -162,8 +162,8 @@ if (info .eq. 8) info = 4
 
 !if( L_ga_print )then
 !    write(GA_print_unit,'(/A/ 2(1x, I6), 12( 1x,E12.5))') &
-!          'setrf:3 myid, i_GA_indiv, X_LMDIF', &
-!                   myid, i_GA_indiv, X_LMDIF(1:n_parameters)
+!          'setrf:3 new_rank, i_GA_indiv, X_LMDIF', &
+!                   new_rank, i_GA_indiv, X_LMDIF(1:n_parameters)
 !endif ! L_ga_print
 
 
@@ -174,8 +174,8 @@ do  i_parameter=1,n_parameters
 
     !if( L_ga_print )then
     !    write(6,'(A,3(1x,I6),1x,E20.10)') &
-    !          'setrf:3 aft RK myid, i_GA_indiv, i_parameter,  X_LMDIF', &
-    !                          myid, i_GA_indiv, i_parameter,  X_LMDIF(i_parameter)
+    !          'setrf:3 aft RK new_rank, i_GA_indiv, i_parameter,  X_LMDIF', &
+    !                          new_rank, i_GA_indiv, i_parameter,  X_LMDIF(i_parameter)
     !endif ! L_ga_print
 
 enddo ! i_parameter
@@ -237,8 +237,8 @@ endif !  individual_quality( i_GA_indiv ) > 0
 
 !if( L_ga_print )then
 !    write(6,'(A,3(1x,I6), 1x, E15.7)') &
-!          'setrf: myid, i_GA_indiv, individual_quality, individual_SSE', &
-!                  myid, i_GA_indiv, &
+!          'setrf: new_rank, i_GA_indiv, individual_quality, individual_SSE', &
+!                  new_rank, i_GA_indiv, &
 !                  individual_quality( i_GA_indiv ), &
 !                  individual_SSE(i_GA_indiv)
 !endif ! L_ga_print

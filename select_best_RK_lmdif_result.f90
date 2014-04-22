@@ -457,6 +457,9 @@ else  ! lmdif is best
 
 endif ! individual_ranked_fitness...
 
+write(6,'(A,2(1x,I6),1x,E15.7)') &
+      'sbrl: new_rank, i_GA_best_parent, individual_fitness', &
+             new_rank, i_GA_best_parent, individual_fitness
 
 
 return

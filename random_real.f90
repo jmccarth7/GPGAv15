@@ -42,7 +42,7 @@ call random_number(cff) ! uniform random number generator
 
 cff8 = real( cff, kind=8 )
 
-write(6,'(A,2(1x,E24.16))') 'rr: cff, cff8 ', cff, cff8
+!write(6,'(A,2(1x,E24.16))') 'rr: cff, cff8 ', cff, cff8
 !--------------------------------------
 ! defaults
 
@@ -50,9 +50,9 @@ write(6,'(A,2(1x,E24.16))') 'rr: cff, cff8 ', cff, cff8
 !random_scale_small    =  1.0d0
 !random_scale_fraction =  0.2d0
 
-write(6,'(A,2(1x,E24.16))') 'rr:1  random_scale_large ', random_scale_large
-write(6,'(A,2(1x,E24.16))') 'rr:1  random_scale_small ', random_scale_small
-write(6,'(A,2(1x,E24.16))') 'rr:1  random_scale_fraction ', random_scale_fraction
+!write(6,'(A,2(1x,E24.16))') 'rr:1  random_scale_large ', random_scale_large
+!write(6,'(A,2(1x,E24.16))') 'rr:1  random_scale_small ', random_scale_small
+!write(6,'(A,2(1x,E24.16))') 'rr:1  random_scale_fraction ', random_scale_fraction
 
 !--------------------------------------
 
@@ -62,14 +62,14 @@ if( cff8 <= random_scale_fraction  )then
 
     bff8 = random_scale_small  * real( bff, kind=8 )
 
-    write(6,'(A,2(1x,E24.16))') 'rr:1 bff, bff8 ', bff, bff8
+    !write(6,'(A,2(1x,E24.16))') 'rr:1 bff, bff8 ', bff, bff8
 else
 
     call random_number(bff) ! uniform random number generator
 
     bff8 = random_scale_large  * real( bff, kind=8 )
 
-    write(6,'(A,2(1x,E24.16))') 'rr:2 bff, bff8 ', bff, bff8
+    !write(6,'(A,2(1x,E24.16))') 'rr:2 bff, bff8 ', bff, bff8
 
 endif
 
