@@ -299,7 +299,7 @@ real(kind=8), allocatable, dimension(:) :: output_array
 integer(kind=4) :: n_partitions
 
                                                                                                                               
-!!integer :: new_rank   !, sendbuf, recvbuf     
+integer :: new_rank   !, sendbuf, recvbuf     
                                                                                                                               
                                                                                                                               
 integer,dimension(:,:),allocatable  :: ranks                                                                                  

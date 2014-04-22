@@ -29,20 +29,20 @@ integer,parameter ::  itag = 1
 real(kind=8),dimension( n_GP_parameters,divider ) :: parent_parameters
 real(kind=8),dimension( n_GP_parameters,divider ) :: child_parameters
 
-integer (kind=4),intent(in) :: i_GP_Generation
-integer (kind=4),intent(in) :: i_GP_individual
+integer(kind=4),intent(in) :: i_GP_Generation
+integer(kind=4),intent(in) :: i_GP_individual
 
-integer (kind=4),intent(in) :: new_group
-integer (kind=4),intent(in) :: new_comm
-integer (kind=4) :: new_rank 
+integer(kind=4),intent(in) :: new_group
+integer(kind=4),intent(in) :: new_comm
+!integer(kind=4) :: new_rank 
 
 real(kind=8) :: dble_cff
 
-integer (kind=4) ::    i_GA_Best_Parent
-integer (kind=4) ::    n_counted
-integer (kind=4) ::    index_min_sse
-integer (kind=4) ::    icount
-!integer (kind=4) ::    i
+integer(kind=4) ::    i_GA_Best_Parent
+integer(kind=4) ::    n_counted
+integer(kind=4) ::    index_min_sse
+integer(kind=4) ::    icount
+!integer(kind=4) ::    i
 
 real(kind=8), parameter :: max_err = 1.0d8  !100.0d0
 real(kind=8), parameter :: max_err2 = max_err**2

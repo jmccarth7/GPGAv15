@@ -57,7 +57,7 @@ integer(kind=4) :: ierror_m
 integer(kind=4) :: ierror_tb
 integer(kind=4) :: i_start_generation
 
-integer(kind=4) :: new_rank 
+!integer(kind=4) :: new_rank 
 integer(kind=4) :: n_procs  
 
 integer(kind=4) :: i_part

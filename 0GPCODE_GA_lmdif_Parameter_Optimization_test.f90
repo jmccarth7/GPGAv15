@@ -57,7 +57,7 @@ integer(kind=4) :: i_start_generation
 
 integer(kind=4) :: new_group
 integer(kind=4) :: new_comm
-integer(kind=4) :: new_rank
+!integer(kind=4) :: new_rank
 integer(kind=4) :: my_size
 integer(kind=4) :: j
 integer :: ierr2
@@ -392,6 +392,7 @@ call setup1( )
 
 
 
+
 if( myid == 0 )then
     write(6,'(A,3(1x,I6))') '0: myid, numprocs ', myid, numprocs
 endif ! myid == 0 )then
@@ -412,7 +413,7 @@ call MPI_COMM_GROUP( comm_world, orig_group, ierr )
 divider = ( numprocs -1 ) / n_partitions
 
 if( myid == 0 )then
-    write(6,'(A,3(1x,I6))') '0: n_partitions, numprocs, divider', &
+    write(6,'(A,3(1x,I3))') '0: n_partitions, numprocs, divider', &
                                 n_partitions, numprocs, divider
 endif ! myid == 0 )then
 
@@ -422,7 +423,7 @@ allocate( ranks2(     0: divider- 1, n_partitions ) )
 
 
 if( myid == 0 )then
-    write(6,'(A,3(1x,I6))') '0: ranks( 1:numprocs, n_partitions )', &
+    write(6,'(A,3(1x,I3))') '0: ranks( 1:numprocs, n_partitions )', &
                                          numprocs, n_partitions
 endif ! myid == 0 )then
 
@@ -555,7 +556,7 @@ do  j = 1, numprocs-1
 enddo ! j
 
 if( myid == 0 )then
-    write(6,'(/A,10(1x,I10))') '0: color_value = ', color_value
+    write(6,'(/A,10(1x,I6))') '0: color_value = ', color_value
     write(6,'(A,20(1x,I3)/)')  '0: key   = ', key
 endif ! myid == 0
 
@@ -587,8 +588,8 @@ call MPI_COMM_SPLIT( comm_world, color, myid, new_comm, ierr )
 call mpi_comm_rank( new_comm, new_rank, ierr )
 call mpi_comm_size( new_comm, my_size , ierr )
 
-write(6,'(A,4(1x,I10))') '0: myid, new_rank, color, my_size ', &
-                               myid, new_rank, color, my_size
+write(6,'(A,4(1x,I6))') '0: myid, new_rank, color, my_size ', &
+                             myid, new_rank, color, my_size
 
 !---------------------------------------------------------------------------
 !call MPI_FINALIZE(ierr) ! debug only
@@ -727,7 +728,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
         !endif ! myid == 0
 
 
-        write(6,'(/A,1x,I3/)') '0: broadcast GP_Adult_Population_Node_Type myid = ', myid
+        write(6,'(A,1x,I3)') '0: broadcast GP_Adult_Population_Node_Type myid = ', myid
 
         message_len = n_GP_Individuals * n_Nodes * n_Trees
         call MPI_BCAST( GP_Adult_Population_Node_Type, message_len,    &
@@ -1037,7 +1038,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
         endif ! myid == 0
 
-        write(6,'(/A,1x,I3/)') '0: broadcast ierror_t and ierror_m         myid = ', myid
+        write(6,'(A,1x,I3)') '0: broadcast ierror_t and ierror_m         myid = ', myid
 
         message_len =  1
         call MPI_BCAST( ierror_t, message_len,    &
@@ -1075,7 +1076,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
         !          '0: call bcast2 '
         !    flush(GP_print_unit)
         !endif ! myid == 0
-        write(6,'(/A,1x,I3)') '0: call bcast2    myid = ', myid
+        write(6,'(A,1x,I3)') '0: call bcast2    myid = ', myid
 
         call bcast2()
 
@@ -1088,7 +1089,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
     endif ! i_GP_Generation .eq. 1
 
 
-    write(6,'(A,1x,I6/)') '0: aft i_GP_gen == 1 test myid =', myid
+    write(6,'(A,1x,I3)') '0: aft i_GP_gen == 1 test myid =', myid
 
     !-----------------------------------------------------------------------------------------
 
@@ -1138,7 +1139,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
     ! broadcast GP_Adult_Population_Node_Type changed by GP_Clean_Tree_Nodes
 
 
-    write(6,'(/A,1x,I3/)') '0: aft clean_trees bcast GP_Adult_Population_Node_Type myid = ', myid
+    write(6,'(A,1x,I3)') '0: aft clean_trees bcast GP_Adult_Population_Node_Type myid = ', myid
 
     message_len = n_GP_Individuals * n_Nodes * n_Trees
     call MPI_BCAST( GP_Adult_Population_Node_Type, message_len,    &
@@ -1146,7 +1147,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
 
     if( myid == 0 )then
-        write(GP_print_unit,'(/A,2(1x,I6))') &
+        write(GP_print_unit,'(A,2(1x,I3))') &
           '0: aft broadcast  GP_Adult_Pop_Node_Type  Generation, ierr = ', &
                                                 i_GP_Generation, ierr
         flush(GP_print_unit)
@@ -1159,24 +1160,24 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
     ! print trees after call to GP_Clean_Tree_Nodes
 
-    if( myid == 0 )then
+    !if( myid == 0 )then
     !    if( i_GP_generation == 1                                  .or. &
     !        mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
     !        i_GP_generation == n_GP_generations                          )then
     !
-            tree_descrip =  ' trees after call to GP_Clean_Tree_Nodes'
-            call print_trees( i_GP_generation, 1, n_GP_individuals, &
-                       GP_Adult_Population_Node_Type, trim( tree_descrip )  )
+    !        tree_descrip =  ' trees after call to GP_Clean_Tree_Nodes'
+    !        call print_trees( i_GP_generation, 1, n_GP_individuals, &
+    !                   GP_Adult_Population_Node_Type, trim( tree_descrip )  )
 
-            write(GP_print_unit,'(/A, 1x, I6/)') &
-              '0: after call to GP_Clean_Tree_Nodes i_GP_generation =',i_GP_generation
+    !        write(GP_print_unit,'(/A, 1x, I6/)') &
+    !          '0: after call to GP_Clean_Tree_Nodes i_GP_generation =',i_GP_generation
 
     !        print node type information for each GP individual
     !        call print_gp_node_type_parm( )
     !
     !    endif ! i_GP_generation == 1 .or. ...
     !
-    endif !  myid == 0
+    !endif !  myid == 0
 
     !-----------------------------------------------------------------------------------------
 

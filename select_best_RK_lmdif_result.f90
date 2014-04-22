@@ -26,7 +26,7 @@ implicit none
 
 integer(kind=4),intent(in) :: new_group
 integer(kind=4),intent(in) :: new_comm 
-integer(kind=4)            :: new_rank 
+!integer(kind=4)            :: new_rank 
 
 real(kind=8),&
  dimension(n_GP_parameters,divider) ::  parent_parameters
@@ -72,7 +72,6 @@ integer(kind=4) :: i_GP_individual
 !-------------------------------------------------------------------------------
 
                                                                                                                                 
-!call MPI_GROUP_RANK( new_group, new_rank, ierr )
 call mpi_comm_rank( new_comm, new_rank, ierr ) 
 
 

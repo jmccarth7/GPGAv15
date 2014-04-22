@@ -1,4 +1,4 @@
-subroutine setup1( ) 
+subroutine setup1( )
 
 ! program written by: Dr. John R. Moisan [NASA/GSFC] 31 January, 2013
 
@@ -120,19 +120,21 @@ endif ! myid == 0
 
 
 if( myid == 0 )then
-    write(6, '(A,2(1x,I6)/)') 'set1: call allocate_arrays1 '            
+    write(6, '(A,2(1x,I6)/)') 'set1: call allocate_arrays1 '
     flush(6)
-endif ! myid == 0 
+endif ! myid == 0
 
 
 call allocate_arrays1( )
 
 if( myid == 0 )then
-    write(6, '(A,2(1x,I6)/)') 'set1: after allocate_arrays1 '            
+    write(6, '(A,2(1x,I6)/)') 'set1: after allocate_arrays1 '
     flush(6)
-endif ! myid == 0 
+endif ! myid == 0
 
 
+!!allocate( answer( n_maximum_number_parameters ) )
+!!allocate( output_array( n_maximum_number_parameters ) )
 
 !------------------------------------------------------------------
 
@@ -197,9 +199,9 @@ call create_tree_node_string()
 ! GP_Node_Type_for_Plotting (if L_unit50_output true)
 
 if( myid == 0 )then
-    write(6, '(A,2(1x,I6)/)') 'set1: before set_answer_arrays'            
+    write(6, '(A,2(1x,I6)/)') 'set1: before set_answer_arrays'
     !flush(6)
-endif ! myid == 0 
+endif ! myid == 0
 
 
 if( myid == 0 )then
@@ -210,9 +212,9 @@ endif ! myid == 0
 
 
 if( myid == 0 )then
-    write(6, '(A,2(1x,I6)/)') 'set1: after set_answer_arrays'            
+    write(6, '(A,2(1x,I6)/)') 'set1: after set_answer_arrays'
     flush(6)
-endif ! myid == 0 
+endif ! myid == 0
 !------------------------------------------------------------------------
 
 ! then broadcast the R-K result: Runge_Kutta_Solution
@@ -242,7 +244,7 @@ Data_Array=Numerical_CODE_Solution        ! Matrix Operation
 
 ! zero so that later solutions don't have answer results in array
 
-Numerical_CODE_Solution(1:n_time_steps, 1:n_code_equations) = 0.0d0 
+Numerical_CODE_Solution(1:n_time_steps, 1:n_code_equations) = 0.0d0
 
 message_len = ( n_time_steps + 1 ) * n_CODE_equations
 call MPI_BCAST( Numerical_CODE_Solution, message_len,    &
@@ -258,18 +260,18 @@ call MPI_BCAST( Numerical_CODE_Solution, message_len,    &
 ! Data_Variance
 ! Data_Variance_inv
 if( myid == 0 )then
-    write(6, '(A,2(1x,I6)/)') 'set1: before comp_data_variance'            
+    write(6, '(A,2(1x,I6)/)') 'set1: before comp_data_variance'
     !flush(6)
-endif ! myid == 0 
+endif ! myid == 0
 
 if( myid == 0 )then    ! 20131209
     call comp_data_variance( )
 endif ! myid == 0
 
 !if( myid == 0 )then
-!    write(6, '(A,2(1x,I6)/)') 'set1: after comp_data_variance'            
+!    write(6, '(A,2(1x,I6)/)') 'set1: after comp_data_variance'
 !    !flush(6)
-!endif ! myid == 0 
+!endif ! myid == 0
 
 
 message_len =  n_CODE_equations
@@ -362,7 +364,7 @@ if( myid == 0 )then
     !if( myid == 0 )then
     !    write(6, '(A,2(1x,I6)/)') 'set1: after sse0_calc'
     !    !flush(6)
-    !endif ! myid == 0 
+    !endif ! myid == 0
 
 
     !---------------------------------------------------------------------------
@@ -403,14 +405,14 @@ if( myid == 0 )then
 
 endif ! myid == 0
 
+
 !---------------------------------------------------------------------------
 
 ! broadcast SSE0
 
-message_len = 1 
+message_len = 1
 call MPI_BCAST( SSE0, message_len,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
-
 
 !---------------------------------------------------------------------------
 
@@ -422,12 +424,12 @@ call set_modified_indiv( )
 
 
 !if( myid == 0 )then
-!    write(6, '(A,2(1x,I6)/)') 'set1: after set_modified_indiv'            
+!    write(6, '(A,2(1x,I6)/)') 'set1: after set_modified_indiv'
 !    !flush(6)
-!endif ! myid == 0 
+!endif ! myid == 0
 
 
 
-return 
+return
 
 endsubroutine setup1

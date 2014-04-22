@@ -44,6 +44,7 @@ call MPI_BCAST( GP_Crossover_Probability, 1,    &
 call MPI_BCAST( GP_Mutation_Probability, 1,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
+!-----------------------------------------------------------------
 
 call MPI_BCAST( sse_min_time, 1,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
@@ -52,6 +53,13 @@ call MPI_BCAST( sse_max_time, 1,    &
 call MPI_BCAST( sse_low_wt, 1,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
+!-----------------------------------------------------------------
+call MPI_BCAST( random_scale_large, 1,    &
+                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+call MPI_BCAST( random_scale_small, 1,    &
+                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+call MPI_BCAST( random_scale_fraction, 1,    &
+                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 !-----------------------------------------------------------------
 
 call MPI_BCAST( model, 30,     &

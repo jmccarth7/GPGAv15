@@ -109,10 +109,10 @@ tree_node_count = 0
 
 
 if( dt <= 0.0d0 )then
-    if( myid == 0 .or. myid == 1 )then
+    if( new_rank == 0 .or. new_rank == 1 )then
         write(6,'(/A/)') 'rkbm: BAD VALUE for dt'
         write(6,'(A,1x,E20.10/)') 'rkbm: dt', dt
-    endif ! myid == 0 .or. myid == 1
+    endif ! new_rank == 0 .or. new_rank == 1
     call MPI_FINALIZE(ierr)
     stop 'bad delta_time'
 endif ! dt <= 0.0D0
@@ -130,6 +130,10 @@ endif ! dt <= 0.0D0
 !write(6,'(A,10(1x,E15.7)/ )') &
 !      'rkbm: before loop Numerical_CODE_Solution(0,:)', &
 !                         Numerical_CODE_Solution(0,:)
+
+write(6,'(A,1x,I3, 10(1x,E15.7)/ )') &
+      'rkbm: before loop new_rank, Numerical_CODE_Solution(0,:)', &
+                         new_rank, Numerical_CODE_Solution(0,:)
 !write(6,'(A,10(1x,E15.7)/ )') &
 !      'rkbm: before loop  btmp(:)', btmp(:)
 
@@ -138,27 +142,26 @@ endif ! dt <= 0.0D0
 !write(6,'(A,1x,I6)') 'rkbm: n_time_steps ', n_time_steps
 
 !!! debug >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-!
-!do  i_tree = 1, n_trees
-!    do  i_node = 1, n_nodes
-!        if( GP_individual_node_type(i_node, i_tree) > -9999 )then
-!            write(6,'(A,3(1x,I4))')&
-!                  'rkbm: i_tree, i_node, GP_indiv_node_type', &
-!                         i_tree, i_node, GP_individual_node_type(i_node, i_tree)
-!        endif !  GP_individual_node_type(i_node, i_tree) > -9999
-!    enddo ! i_node
-!enddo ! i_tree
-!
-!do  i_tree = 1, n_trees
-!    do  i_node = 1, n_nodes
-!        if( GP_individual_node_parameters(i_node, i_tree) > 0.0d0 )then
-!            write(6,'(A,2(1x,I4),1x,E15.7)')&
-!                  'rkbm: i_tree, i_node, GP_indiv_node_parms', &
-!                         i_tree, i_node, GP_individual_node_parameters(i_node, i_tree)
-!        endif !  GP_individual_node_parameters(i_node, i_tree) > 0.0d0
-!    enddo ! i_node
-!enddo ! i_tree
-!! debug <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+do  i_tree = 1, n_trees
+    do  i_node = 1, n_nodes
+        if( GP_individual_node_type(i_node, i_tree) > -9999 )then
+            write(6,'(A,4(1x,I4))')&
+                  'rkbm: new_rank, i_tree, i_node, GP_indiv_node_type', &
+                         new_rank, i_tree, i_node, GP_individual_node_type(i_node, i_tree)
+        endif !  GP_individual_node_type(i_node, i_tree) > -9999
+    enddo ! i_node
+enddo ! i_tree
+
+do  i_tree = 1, n_trees
+    do  i_node = 1, n_nodes
+        if( GP_individual_node_parameters(i_node, i_tree) > 0.0d0 )then
+            write(6,'(A,3(1x,I4),1x,E15.7)')&
+                  'rkbm: new_rank, i_tree, i_node, GP_indiv_node_parms', &
+                         new_rank, i_tree, i_node, GP_individual_node_parameters(i_node, i_tree)
+        endif !  GP_individual_node_parameters(i_node, i_tree) > 0.0d0
+    enddo ! i_node
+enddo ! i_tree
+!!! debug <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 flush(6)
 !flush(GA_print_unit)
@@ -170,7 +173,7 @@ flush(6)
 do  i_Time_Step = 1, n_Time_Steps
 
 
-    !if( i_time_step > 5 ) exit  ! debug only 
+    !if( i_time_step > 5 ) exit  ! debug only
 
 
     !------------------------------------------------------------------------------
@@ -186,19 +189,26 @@ do  i_Time_Step = 1, n_Time_Steps
     !write(6,'(/A,1x,I6,10(1x,E15.7)/)') &
     !      'rkbm: i_time_step, b_tmp(1:n_eqs)' , &
     !             i_time_step, b_tmp(1:n_code_equations)
+    write(6,'(/A,1x,I3,1x,I6,10(1x,E15.7))') & 
+          'rkbm: new_rank, i_time_step, Numerical_CODE_Solution(i_Time_Step-1,1:n_eqs)' , &
+                 new_rank, i_time_step, Numerical_CODE_Solution(i_Time_Step-1,1:n_code_equations)
+    write(6,'(A,1x,I3,1x,I6,10(1x,E15.7)/)') & 
+          'rkbm: new_rank, i_time_step, b_tmp(1:n_eqs)' , &
+                 new_rank, i_time_step, b_tmp(1:n_code_equations)
+
     !flush(6)
     !flush(GA_print_unit)
 
     if( any( isnan( b_tmp ) ) .or.  any( abs(b_tmp)  > big_real ) ) then
 
-        !write(6,'(/A,1x,I6/)') &
-        !     'rkbm: bad b_tmp  i_time_step', i_time_step
-        !flush(6)
+        write(6,'(/A,1x,I6/)') &
+             'rkbm: bad b_tmp  i_time_step', i_time_step
+        flush(6)
 
         L_bad_result = .TRUE.
 
         return
-    endif !  any( isnan( b_tmp ) ) .or.  any( abs(b_tmp)  > big_real 
+    endif !  any( isnan( b_tmp ) ) .or.  any( abs(b_tmp)  > big_real
 
 
     btmp = b_tmp
@@ -260,9 +270,9 @@ do  i_Time_Step = 1, n_Time_Steps
                     !if( abs( Tree_Value(i_tree) ) > 0.0d0  )then
                     !if( myid == 1 .and. abs( Tree_Value(i_tree) ) > 0.0d0  )then
                     !!    write(6,'(A,22x,I6,1x,I6,1x,E15.7)') &
-                    !    write(6,'(A,2x,I6,1x,I6,1x,I6,1x,E15.7)') &
-                    !          'rkbm: i_time_step, iter, i_tree, Tree_Value(i_tree)', &
-                    !                 i_time_step, iter, i_tree, Tree_Value(i_tree)
+                        write(6,'(A,1x,I3,2x,I6,1x,I6,1x,I6,1x,E15.7)') &
+                              'rkbm: new_rank,i_time_step, iter, i_tree, Tree_Value(i_tree)', &
+                                     new_rank,i_time_step, iter, i_tree, Tree_Value(i_tree)
                     !endif ! myid == 1 .and. abs( Tree_Value(i_tree) ) > 1.0d10
                     !flush(6)
 
@@ -272,9 +282,9 @@ do  i_Time_Step = 1, n_Time_Steps
 
                         L_bad_result = .TRUE.
 
-                        !write(6,'(A,1x,I6,1x,I6,1x,E24.16)') &
-                        !  'rkbm: bad value i_time_step, i_tree, Tree_Value(i_tree)', &
-                        !                   i_time_step, i_tree, Tree_Value(i_tree)
+                        write(6,'(A,1x,I6,1x,I6,1x,E24.16)') &
+                          'rkbm: bad value i_time_step, i_tree, Tree_Value(i_tree)', &
+                                           i_time_step, i_tree, Tree_Value(i_tree)
                         !if( L_ga_print )then
                         !    write(GA_print_unit,'(A,1x,I6,1x,I6,1x,E24.16)') &
                         !      'rkbm: bad value i_time_step, i_tree, Tree_Value(i_tree)', &
@@ -436,7 +446,7 @@ do  i_Time_Step = 1, n_Time_Steps
 
         !----------------------------------------------------------------------------------
 
-        !write(6,'(A,1x,E15.7)')  'rkbm: dt  ', dt                  
+        !write(6,'(A,1x,E15.7)')  'rkbm: dt  ', dt
 
         do  i_Variable=1,n_Variables
 
@@ -528,7 +538,7 @@ do  i_Time_Step = 1, n_Time_Steps
         !endif ! L_GA_print
         return
 
-    endif !   any( isnan( b_tmp ) ) .or.  any( abs(b_tmp) > big_real 
+    endif !   any( isnan( b_tmp ) ) .or.  any( abs(b_tmp) > big_real
 
     !---------------------------------------------------------------------------
 
@@ -539,10 +549,10 @@ do  i_Time_Step = 1, n_Time_Steps
     !write(GA_print_unit,'(//A,2(1x,I6),12(1x,E15.7))') &
     !      'rkbm: myid, i_time_step, b_tmp ', &
     !             myid, i_time_step, b_tmp(1:n_CODE_equations)
-    !write(6,'(//A,2(1x,I6),12(1x,E15.7))') &
-    !      'rkbm: myid, i_time_step, b_tmp    ', &
-    !             myid, i_time_step, b_tmp(1:n_CODE_equations)
-        !flush(6)
+    write(6,'(//A,2(1x,I6),12(1x,E15.7))') &
+          'rkbm: new_rank, i_time_step, b_tmp    ', &
+                 new_rank, i_time_step, b_tmp(1:n_CODE_equations)
+    flush(6)
     !endif ! L_ga_print
 
 
@@ -552,10 +562,10 @@ do  i_Time_Step = 1, n_Time_Steps
     !        write(GA_print_unit,'(A,2(1x,I6),12(1x,E15.7))') &
     !        'rkbm:g myid, i_time_step, RK_Soln ', &
     !                myid, i_time_step, Numerical_CODE_Solution(i_time_step,1:n_CODE_equations)
-    !write(6,'(A,2(1x,I6),12(1x,E15.7))') &
-    !        'rkbm:g myid, i_time_step, RK_Soln ', &
-    !                myid, i_time_step, Numerical_CODE_Solution(i_time_step,1:n_CODE_equations)
-    !flush(6)
+    write(6,'(A,2(1x,I6),12(1x,E15.7))') &
+            'rkbm:g new_rank, i_time_step, RK_Soln ', &
+                    new_rank, i_time_step, Numerical_CODE_Solution(i_time_step,1:n_CODE_equations)
+    flush(6)
     !    endif ! L_ga_print
     !!endif !  i_time_step == 250 .or. i_time_step == 1
     !endif ! i_time_step < 251
