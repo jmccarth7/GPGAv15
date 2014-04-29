@@ -96,7 +96,8 @@ call mpi_comm_rank( new_comm, new_rank, ierr )
 call MPI_COMM_SIZE( new_comm, n_procs, ierr)  
 
 
-!write(6,'(A,1x,I5,1x,I5)') 'GP_GA_opt: at entry  myid, new_rank ', myid, new_rank
+write(6,'(A,1x,I3,1x,I3,1x,I3)') 'GP_GA_opt: at entry  myid, new_rank, n_procs ', &
+                                                       myid, new_rank, n_procs
 
 
 L_too_many_iters = .FALSE.

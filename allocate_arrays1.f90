@@ -65,7 +65,7 @@ allocate( individual_ranked_fitness( n_GA_individuals )  )
 allocate( GA_Integrated_Ranked_Fitness(n_GA_Individuals) )
 allocate( integrated_ranked_fitness( n_GA_individuals )  )
 
-allocate( GP_Population_Fitness(n_GP_individuals) )
+allocate( GP_Population_Fitness(0:n_GP_individuals) )  !00000000000000000000000000
 allocate( GP_Integrated_Population_Ranked_Fitness( n_GP_Individuals ) )
 
 allocate( GP_Individual_Ranked_Fitness(n_GP_Individuals) )
