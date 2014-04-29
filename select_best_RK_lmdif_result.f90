@@ -191,6 +191,16 @@ if( L_ga_print )then
           'sbrl: lmdif individual_fitness ', individual_fitness
 endif ! L_ga_print
 
+    !write(6,'(/A,1x,I6, 2(1x,E20.10))') &
+    !      'sbrl: lmdif i_GA_best_parent, &
+    !      &indiv_SSE, indiv_ranked_fitness', &
+    !                   i_GA_best_parent, &
+    !                   individual_SSE(i_GA_best_parent), &
+    !                   individual_ranked_fitness(i_GA_best_parent)
+
+    !write(6,'(A,1x,E20.10/)') &
+    !      'sbrl: lmdif individual_fitness ', individual_fitness
+
 
 !------------------------------------------------------------------------------
 
@@ -219,6 +229,19 @@ if( L_ga_print )then
           'sbrl: lmdif individual_ranked_fitness(i_GA_best_parent) ', &
                        individual_ranked_fitness(i_GA_best_parent)
 endif ! L_ga_print
+!    write(6,'(/A, 1x,E15.7)') &
+!          'sbrl: fcn   individual_SSE_best_1                       ', &
+!                       individual_SSE_best_1           
+!    write(6,'(A, 1x,E15.7)') &
+!          'sbrl: lmdif individual_SSE(i_GA_best_parent)            ', &
+!                       individual_SSE(i_GA_best_parent)           
+!
+!    write(6,'(/A, 1x,E15.7)') &
+!          'sbrl: fcn   individual_ranked_fitness_best_1            ', &
+!                       individual_ranked_fitness_best_1
+!    write(6,'(A, 1x,E15.7/)') &
+!          'sbrl: lmdif individual_ranked_fitness(i_GA_best_parent) ', &
+!                       individual_ranked_fitness(i_GA_best_parent)
 
 
 if( individual_ranked_fitness(i_GA_best_parent) <= &
@@ -457,9 +480,9 @@ else  ! lmdif is best
 
 endif ! individual_ranked_fitness...
 
-write(6,'(A,2(1x,I6),1x,E15.7)') &
-      'sbrl: new_rank, i_GA_best_parent, individual_fitness', &
-             new_rank, i_GA_best_parent, individual_fitness
+!write(6,'(A,2(1x,I6),1x,E15.7)') &
+!      'sbrl: new_rank, i_GA_best_parent, individual_fitness', &
+!             new_rank, i_GA_best_parent, individual_fitness
 
 
 return
