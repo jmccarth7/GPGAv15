@@ -72,6 +72,7 @@ integer(kind=4) :: ind2
 
 real(kind=8), dimension(1:n_GP_individuals)  ::  temp_GP_ind_fitness
 real(kind=8) ::   individual_fit_rec
+real(kind=8) ::   individual_SSE_rec
 
 !---------------------------------------------------------------------------------------
 temp_GP_ind_fitness = 0.0d0
@@ -130,14 +131,31 @@ do  i_part = 1,  n_partitions
             if( myid == 0 ) then
 
                     call MPI_RECV( individual_fit_rec, 1, MPI_DOUBLE_PRECISION, &
-                                   i_GP_individual, i_GP_individual, MPI_COMM_WORLD, ierr ) 
+                                   i_GP_individual, 100000 + i_GP_individual, &
+                                   MPI_COMM_WORLD, ierr ) 
                                    !MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, ierr ) 
 
-                    write(GP_print_unit,'(A,3(1x,i3),1x,E15.7)')&
-                     'gil:in loop RECV myid, new_rank, MPI_ANY_TAG, individual_fit_rec ', &
-                                       myid, new_rank, MPI_ANY_TAG, individual_fit_rec
+                    write(GP_print_unit,'(A,2(1x,i3),1x,E15.7)')&
+                     'gil:in loop RECV myid, new_rank, individual_fit_rec ', &
+                                       myid, new_rank, individual_fit_rec
 
-                    GP_population_fitness( i_GP_individual ) = individual_fit_rec
+                    GP_population_fitness( i_GP_individual  ) = individual_fit_rec
+
+
+                    call MPI_RECV( individual_SSE_rec, 1, MPI_DOUBLE_PRECISION, &
+                                   i_GP_individual, 200000 + i_GP_individual, &
+                                   MPI_COMM_WORLD, ierr ) 
+                                   !MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, ierr ) 
+
+                    write(GP_print_unit,'(A,2(1x,i3),1x,E15.7)')&
+                     'gil:in loop RECV myid, new_rank, individual_SSE_rec ', &
+                                       myid, new_rank, individual_SSE_rec
+
+
+                    GP_Child_Individual_SSE(i_GP_Individual) =  individual_SSE_rec
+    
+                    GP_Adult_Individual_SSE(i_GP_Individual) =  individual_SSE_rec
+                    GP_Adult_Population_SSE(i_GP_Individual) =  individual_SSE_rec
 
 
             elseif( i_gp_1 <= myid  .and.   &
@@ -281,10 +299,15 @@ do  i_part = 1,  n_partitions
                         ! set SSE values for this rejected individual so that
                         ! its fitness will be very small
     
+                        Individual_SSE_best_parent = 1.0D13
                         GP_Child_Individual_SSE(i_GP_Individual) = 1.0D13
     
                         GP_Adult_Individual_SSE(i_GP_Individual) = 1.0D13
                         GP_Adult_Population_SSE(i_GP_Individual) = 1.0D13
+    
+    
+                        call MPI_SEND( Individual_SSE_best_parent, 1, MPI_DOUBLE_PRECISION, &
+                                       0, 200000 + i_GP_individual, MPI_COMM_WORLD, ierr ) 
     
     
                         if( new_rank == 0 )then
@@ -360,7 +383,7 @@ do  i_part = 1,  n_partitions
                     if( myid  == i_GP_individual ) temp_GP_ind_fitness(i_GP_individual) = individual_fitness
     
                     call MPI_SEND( individual_fitness, 1, MPI_DOUBLE_PRECISION, &
-                                   0, i_GP_individual, MPI_COMM_WORLD, ierr ) 
+                                   0, 100000 + i_GP_individual, MPI_COMM_WORLD, ierr ) 
     
                     write(GP_print_unit,'(A,3(1x,i3),1x,E15.7)')&
                      'gil:in loop SEND myid, new_rank, i_GP_individual, individual_fitness', &
@@ -387,16 +410,15 @@ do  i_part = 1,  n_partitions
                     GP_Adult_Individual_SSE(i_GP_Individual) = Individual_SSE_best_parent
                     GP_Adult_Population_SSE(i_GP_Individual) = Individual_SSE_best_parent
     
+    
+                    call MPI_SEND( Individual_SSE_best_parent, 1, MPI_DOUBLE_PRECISION, &
+                                   0, 200000 + i_GP_individual, MPI_COMM_WORLD, ierr ) 
+    
                     !-----------------------------------------------------------------------------------
     
                 endif !   Run_GP_Calculate_Fitness(i_GP_Individual)
     
     
-    
-    
-                !message_len =  1                          
-                !call MPI_BCAST( GP_population_fitness(i_GP_individual), message_len,    &  
-                !        MPI_double_precision,  new_rank, new_comm, ierr )                                                                     
             endif ! i_gp_1 <= myid  .and. ...
 
 
@@ -404,30 +426,11 @@ do  i_part = 1,  n_partitions
                                                                                                                             
 
 
-        !call MPI_GATHER( individual_fitness,     1, MPI_DOUBLE_PRECISION,  & 
-        !                 GP_population_fitness,  1, MPI_DOUBLE_PRECISION, &
-        !                 0, MPI_COMM_WORLD, ierr )
 
 
 enddo  part_loop
 
 
-
-                        
-!call MPI_GATHER( temp_GP_ind_fitness,    1, MPI_DOUBLE_PRECISION,  & 
-!                 GP_population_fitness,  1, MPI_DOUBLE_PRECISION, &
-!                 0, MPI_COMM_WORLD, ierr )
-!call MPI_GATHER( individual_fitness,     1, MPI_DOUBLE_PRECISION,  & 
-!                 GP_population_fitness,  1, MPI_DOUBLE_PRECISION, &
-!                 0, MPI_COMM_WORLD, ierr )
-
-
-
-!    call MPI_BARRIER( MPI_COMM_WORLD, ierr )
-
-!    call MPI_GATHER( individual_fitness,  1, MPI_DOUBLE_PRECISION,  & 
-!                     temp_GP_ind_fitness, 1, MPI_DOUBLE_PRECISION, &
-!                     0, MPI_COMM_WORLD, ierr )
 
 write(GP_print_unit,'(/A,7(1x,I3), 1x, E15.7)')&
       'gil: myid, new_rank, i_part, i_gp_1, i_gp_2, i_GP_gen, i_GP_indiv, indiv_fit', &
@@ -458,10 +461,11 @@ write(6,'(/A,4(1x,i3), 1x, E15.7/)')&
 if( myid == 0 )then
 !if( new_rank == 0 )then
     do  i_GP_individual = 1, n_GP_individuals
-        write(GP_print_unit,'(A,4(1x,i3), 1x, E15.7)')&
-              'gil:5 myid, new_rank, i_GP_gen, i_GP_indiv, GP_pop_fit(i_GP_indiv) ', &
+        write(GP_print_unit,'(A,4(1x,i3), 2(1x, E15.7))')&
+              'gil:5 myid, new_rank, i_GP_gen, i_GP_indiv, GP_pop_fit, child_indiv_SSE', &
                      myid, new_rank, i_GP_generation, i_GP_individual, &
-                                GP_population_fitness(i_GP_individual)
+                                GP_population_fitness(i_GP_individual), &
+                              GP_Child_Individual_SSE(i_GP_Individual)
    enddo ! i_GP_individual
 !endif !  new_rank == 0
 endif !  myid == 0
