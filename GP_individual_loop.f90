@@ -83,7 +83,7 @@ divider = ( numprocs - 1 ) / n_partitions
 call mpi_comm_rank( new_comm, new_rank, ierr )
 call mpi_comm_size( new_comm, n_procs,  ierr )
 
-!if( myid == 0 )then
+if( myid == 0 )then
 !if( new_rank == 0 )then
     write(GP_print_unit,'(/A,4(1x,i3))')&
      'gil: before loop myid, new_rank, n_code_equations,  n_GP_params ',&
@@ -94,7 +94,7 @@ call mpi_comm_size( new_comm, n_procs,  ierr )
     write(GP_print_unit,'(A,3(1x,i3))')&
      'gil: before loop myid, new_rank, n_procs                        ', &
                        myid, new_rank, n_procs
-!endif !  myid == 0
+endif !  myid == 0
 
 !!!!!!!!!!!!!!!!!!!!!!!!!if( myid == 0 )return
 
