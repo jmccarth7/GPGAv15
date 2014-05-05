@@ -24,6 +24,8 @@ use GP_data_module
 implicit none
 
 
+integer(kind=4),intent(in) :: i_GP_Generation
+integer(kind=4),intent(in) :: i_GP_individual
 integer(kind=4),intent(in) :: new_group
 integer(kind=4),intent(in) :: new_comm 
 !integer(kind=4)            :: new_rank 
@@ -65,8 +67,6 @@ integer(kind=4) :: i_Node
 integer(kind=4) :: jj
 integer(kind=4) :: i_parameter
 
-integer(kind=4) :: i_GP_Generation
-integer(kind=4) :: i_GP_individual
 
 
 !-------------------------------------------------------------------------------

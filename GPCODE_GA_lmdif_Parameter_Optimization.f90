@@ -21,12 +21,12 @@ use GP_data_module
 
 implicit none
 
+integer(kind=4),intent(in) :: i_GP_Generation
+integer(kind=4),intent(in) :: i_GP_individual
 integer(kind=4),intent(in) :: new_group
 integer(kind=4),intent(in) :: new_comm 
 integer(kind=4),intent(in) :: n_GP_inds            
 
-integer :: i_GP_Generation
-integer :: i_GP_individual
 integer :: child_number
 
 integer ::  isource
