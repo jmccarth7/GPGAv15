@@ -33,8 +33,8 @@ integer(kind=4) :: i_time_step
 write(GP_print_unit,*) ' '
 
 do  i_CODE_equation=1,n_CODE_equations
-    write(GP_print_unit,'(A,1x,I6,2(1x,E15.7))') &
-          'ssec: i_eqn,  data_variance_inv ', &
+    write(GP_print_unit,'(A,1x,I3,2(1x,E15.7))') &
+          'ssec: i_eqn, data_variance_inv', &
                  i_CODE_equation, data_variance_inv(i_CODE_equation)
 enddo !  i_CODE_equation
 
@@ -102,7 +102,7 @@ do  i_time_step = 1, n_time_steps
 enddo ! i_time_step
 
 
-write(GP_print_unit,'(/A,1x,I6,2x,E15.7/)') 'ssec: myid, SSE0 = ',myid, SSE0
+write(GP_print_unit,'(/A,1x,I3,1x,E15.7/)') 'ssec: myid, SSE0 = ',myid, SSE0
 
 return
 end subroutine sse0_calc

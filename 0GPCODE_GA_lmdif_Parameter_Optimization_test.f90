@@ -39,13 +39,13 @@ integer(kind=4) :: GP_minSSE_generation
 integer(kind=4) :: i_Tree
 integer(kind=4) :: i_Node
 
-integer(kind=4) :: jj
+!integer(kind=4) :: jj
 !!integer(kind=4) :: nn
 
-integer(kind=4) :: i_CODE_equation
+!integer(kind=4) :: i_CODE_equation
 integer(kind=4) :: max_n_gp_params
 
-integer(kind=4) :: n_GP_vars
+!integer(kind=4) :: n_GP_vars
 integer(kind=4) :: nop
 
 integer(kind=4) :: i_GP_best_parent
@@ -60,8 +60,8 @@ integer(kind=4) :: new_comm
 !integer(kind=4) :: new_rank
 integer(kind=4) :: my_size
 integer(kind=4) :: j
-integer :: ierr2
-integer :: i_group_size
+!integer :: ierr2
+!integer :: i_group_size
 integer :: color
 integer,allocatable,dimension(:) :: color_value
 integer,allocatable,dimension(:) :: key
@@ -71,7 +71,7 @@ integer(kind=4) :: comm_world
 !real(kind=8) :: t1
 !real(kind=8) :: t2
 
-character(200) :: tree_descrip
+!character(200) :: tree_descrip
 
 character(15),parameter :: program_version   = '201402.001_v12'
 character(10),parameter :: modification_date = '20140422'
@@ -417,6 +417,19 @@ if( myid == 0 )then
                                 n_partitions, numprocs, divider
 endif ! myid == 0 )then
 
+
+!-------------------------------------------------------------------------------
+if( n_partitions < 2  .or. divider < 2 )then
+
+    write(6,'(/A/)') '0: bad values for n_partitions or divider -- stopping'
+    write(6,'(A,3(1x,I3))') '0: n_partitions, numprocs, divider', &
+                                n_partitions, numprocs, divider
+    call MPI_FINALIZE(ierr)
+    stop
+
+endif ! n_partitions < 2....
+!-------------------------------------------------------------------------------
+
 allocate( ranks(      1:numprocs-1, n_partitions ) )
 allocate( ranks_temp( 0: divider -1     ) )
 allocate( ranks2(     0: divider- 1, n_partitions ) )
@@ -427,9 +440,9 @@ if( myid == 0 )then
                                          numprocs, n_partitions
 endif ! myid == 0 )then
 
-ranks      = 0.0d0
-ranks2     = 0.0d0
-ranks_temp = 0.0d0
+ranks      = 0
+ranks2     = 0
+ranks_temp = 0
 
 !-----------------------------------------------------------
 
@@ -535,11 +548,10 @@ allocate(  key (0:divider -1 ) )
 
 
 do  i = 0, divider-1
-
     key(i) = i
-
 enddo ! i
 
+color_value = 0
 color_value(0) = 2 * numprocs  ! MPI_UNDEFINED
 
 do  j = 1, numprocs-1
@@ -556,8 +568,8 @@ do  j = 1, numprocs-1
 enddo ! j
 
 if( myid == 0 )then
-    write(6,'(/A,10(1x,I6))') '0: color_value = ', color_value
-    write(6,'(A,20(1x,I3)/)')  '0: key   = ', key
+    write(6,'(/A,10(1x,I6))') '0: color_value = ', color_value(0:numprocs-1)
+    write(6,'(A,20(1x,I3)/)') '0: key   = ', key(0: divider-1 )
 endif ! myid == 0
 
 

@@ -170,7 +170,7 @@ endif ! L_print_equations
 allocate( Node_Probability( n_levels ) )
 
 
-allocate( GP_Adult_Population_SSE( n_GP_Individuals  )  )
+allocate( GP_Adult_Population_SSE( n_GP_Individuals )  )
 
 !allocate( ppex(n_Maximum_Number_Parameters,n_GA_individuals )  )
 
@@ -262,7 +262,7 @@ RK_Node_Type = -9999
 RK_Initial_Conditions = 0.0d0
 
 bioflo = 0.0d0
-bioflo_map = 0.0d0
+bioflo_map = 0
 b_tmp = 0.0d0
 Numerical_CODE_Initial_Conditions = 0.0d0
 Numerical_CODE_Forcing_Functions = 0.0d0

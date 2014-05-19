@@ -88,9 +88,9 @@ call init_values( 0 )
 
 n_Variables = n_CODE_equations
 
-write(6,'(A,1x,I3,2(1x,I12))') &
-       'set1: myid,   n_seed, n_code_equations ', &
-              myid,   n_seed, n_code_equations
+write(6,'(A,1x,I3,1x,I12, 1x, I6)') &
+       'set1: myid, n_seed, n_code_equations ', &
+              myid, n_seed, n_code_equations
 
 !---------------------------------------------------------------------
 
