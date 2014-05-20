@@ -32,33 +32,16 @@ integer(kind=4),intent(in) :: i_GP_Generation
 
 
 integer :: i
-!integer :: i_diversity
-!integer :: message_len
 
 integer(kind=4) :: i_GP_individual
-!integer(kind=4) :: GP_minSSE_Individual
-!integer(kind=4) :: GP_minSSE_generation
 integer(kind=4) :: i_Tree
 integer(kind=4) :: i_Node
 
 integer(kind=4) :: ii
-!integer(kind=4) :: jj
-!!integer(kind=4) :: nn
 
-!integer(kind=4) :: i_CODE_equation
-!integer(kind=4) :: max_n_gp_params
 
 integer(kind=4) :: n_GP_vars
-!integer(kind=4) :: nop
 
-!integer(kind=4) :: i_GP_best_parent
-!integer(kind=4) :: ierror
-!integer(kind=4) :: ierror_t
-!integer(kind=4) :: ierror_m
-!integer(kind=4) :: ierror_tb
-!integer(kind=4) :: i_start_generation
-
-!integer(kind=4) :: new_rank
 integer(kind=4) :: n_procs
 
 integer(kind=4) :: i_part
@@ -75,17 +58,13 @@ integer(kind=4) :: tag_fit_s
 integer(kind=4) :: tag_sse_r
 integer(kind=4) :: tag_sse_s
 
-!real(kind=8) :: t1
-!real(kind=8) :: t2
 
-!real(kind=8), dimension(1:n_GP_individuals)  ::  temp_GP_ind_fitness
 real(kind=8) ::   individual_fit_rec
 real(kind=8) ::   individual_SSE_rec
 
 !---------------------------------------------------------------------------------------
 
-!temp_GP_ind_fitness = 0.0d0
-individual_fitness = -9999.0d0
+individual_fitness = -7777.0d0
 
 divider = ( numprocs - 1 ) / n_partitions
 
@@ -108,6 +87,7 @@ endif !  myid == 0
 write(GP_print_unit,'(A,3(1x,I3))')&
       'gil:1 myid, new_rank, i_GP_gen', &
              myid, new_rank, i_GP_generation
+
 !!!!!!!!!!!!!!!!!!!!!!!!!if( myid == 0 )return
 
 ! do the loop over the GP individuals in n_partitions chunks

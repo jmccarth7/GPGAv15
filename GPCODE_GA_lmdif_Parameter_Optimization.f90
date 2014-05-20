@@ -1,6 +1,6 @@
 subroutine GPCODE_GA_lmdif_Parameter_Optimization( &
                   i_GP_Generation,i_GP_individual, &
-                  new_group, new_comm ) ! , n_GP_inds  )
+                  new_group, new_comm ) 
 
 ! written by: Dr. John R. Moisan [NASA/GSFC] 5 December, 2012
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -25,7 +25,6 @@ integer(kind=4),intent(in) :: i_GP_Generation
 integer(kind=4),intent(in) :: i_GP_individual
 integer(kind=4),intent(in) :: new_group
 integer(kind=4),intent(in) :: new_comm 
-!!integer(kind=4),intent(in) :: n_GP_inds            
 
 integer :: child_number
 
@@ -79,10 +78,8 @@ logical :: L_too_many_iters
 
 integer(kind=4) :: jj
 integer(kind=4) :: i_ga_ind
-!integer(kind=4) :: i_code_equation
 
 
-!integer(kind=4) :: new_rank 
 
 integer(kind=4) :: n_procs   
 !----------------------------------------------------------------------
