@@ -97,7 +97,6 @@ CFLAGS = -O
 #LDFLAGS = -Wl,-no_pie
 #LIBS= -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/usr/lib  -L/Developer/SDKs/MacOSX10.6.sdk/usr/lib
 
-
 # note: mpif90 is based on gfortran
 FC = /opt/openmpi-1.8.1/bin/mpif90
 #FFLAGS =  -O3 -g -fbacktrace -ffree-form # -fcheck=bounds #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
@@ -116,6 +115,16 @@ LIBS= -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Dev
       -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib \
       -L/Developer/SDKs/MacOSX10.6.sdk/usr/lib
 
+##################################################################################
+#FC = mpiifort
+##FFLAGS = -O3  -free   -traceback #-warn all #-C -ftrapuv  # -warn all   # -ftrace=full    # -fzero -Wall
+#FFLAGS = -O3  -free   #  -g -traceback  #-ftrapuv #-warn all #-C -ftrapuv  # -warn all   # -ftrace=full    # -fzero -Wall
+#F90 = mpiifort
+##F90FLAGS = -O3  -free -traceback #-warn all #-C -ftrapuv  # -warn all   #  -ftrace=full    # -fzero -Wall
+#F90FLAGS = -O3  -free  #  -g -traceback  #-ftrapuv  #-warn all #-C -ftrapuv  # -warn all   #  -ftrace=full    # -fzero -Wall
+#LDFLAGS =
+##################################################################################
+
 
 all: $(PROG)
 
@@ -132,6 +141,11 @@ clean:
 .SUFFIXES: $(SUFFIXES) .f90
 
 .f90.o:
+	$(F90) $(F90FLAGS) -c $<
+
+.SUFFIXES: $(SUFFIXES) .f03
+
+.f03.o:
 	$(F90) $(F90FLAGS) -c $<
 
 0GPCODE_GA_lmdif_Parameter_Optimization_test.o: GA_parameters_module.o \
@@ -208,7 +222,7 @@ GA_variables_module.o: GA_parameters_module.o
 gammp.o: mpi_module.o
 gammq.o: mpi_module.o
 gcf.o: mpi_module.o
-Generate_Dot_Graph.o: Generate_Dot_Graph.o class_tree_node.o
+Generate_Dot_Graph.o: class_tree_node.o
 Global_Setup.o: Math_Node_Functions.o fasham_tree_interfaces.o \
 	tree_node_factory_module.o
 GP_calc_diversity_index.o: GA_parameters_module.o GA_variables_module.o \

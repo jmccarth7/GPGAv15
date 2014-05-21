@@ -1226,7 +1226,9 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
         write(6,'(A,1x,I3)') '0: call GP_individual_loop myid = ', myid
     endif !  myid == 0
 
+
     call GP_individual_loop( new_group, new_comm, i_GP_generation )
+
 
     if( myid == 0 )then
         write(6,'(A,1x,I3)') '0: after call GP_individual_loop myid = ', myid
