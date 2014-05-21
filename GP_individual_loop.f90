@@ -217,12 +217,6 @@ do  i_part = 1,  n_partitions
             ! run GPCODE_... to evaluate this individual  if Run_GP_Calculate_Fitness is true
 
 
-                if( new_rank == 0 )then
-                    write(GP_print_unit,'(/A,4(1x,i3))') &
-                      'gil: i_GP_individual, n_trees, n_nodes, n_GP_parameters ', &
-                            i_GP_individual, n_trees, n_nodes, n_GP_parameters
-                    !flush(GP_print_unit)
-                endif !  new_rank == 0
 
             if( Run_GP_Calculate_Fitness(i_GP_Individual) ) then
 
@@ -501,7 +495,7 @@ if( myid == 0 )then
          '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>'
     do  ii = 1, n_GP_individuals
         write(GP_print_unit,'(A,4(1x,i3), 2(1x, E15.7))')&
-         'gil:5 myid, new_rank, i_GP_gen, ii, GP_pop_fit', &
+         'gil:5 myid, new_rank, i_GP_gen, ii, GP_pop_fit, child_indiv_SSE', &
                 myid, new_rank, i_GP_generation, ii, &
                            GP_population_fitness(ii), &
                          GP_Child_Individual_SSE(ii)
