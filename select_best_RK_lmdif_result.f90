@@ -31,9 +31,9 @@ integer(kind=4),intent(in) :: new_comm
 !integer(kind=4)            :: new_rank 
 
 real(kind=8),&
- dimension(n_GP_parameters,divider) ::  parent_parameters
+ dimension(n_GP_parameters,n_GA_individuals) ::  parent_parameters
 real(kind=8),&
- dimension(n_GP_parameters,divider) ::  child_parameters
+ dimension(n_GP_parameters,n_GA_individuals) ::  child_parameters
 
 
 real(kind=8) :: individual_SSE_best_1
@@ -54,7 +54,7 @@ integer(kind=4) :: i_GA_generation_last
 ! if lmdif encounters an error, set individual_quality to -1
 ! if < 0 , reject this individual  ! jjm
 
-!integer(kind=4),intent(in) :: individual_quality(divider)
+!integer(kind=4),intent(in) :: individual_quality(n_GA_individuals)
 
 real(kind=8), external :: indiv_fitness
 

@@ -16,7 +16,7 @@ implicit none
 
 
 !real(kind=8) :: Child_Parameters(n_GP_parameters,n_GA_Individuals)
-real(kind=8) :: Child_Parameters(n_GP_parameters, divider )           
+real(kind=8) :: Child_Parameters(n_GP_parameters, n_GA_individuals )           
 real(kind=4) :: cff
 real(kind=8) :: dff
 
@@ -38,7 +38,7 @@ Run_GA_lmdif=.true.
 !    write(6,'(A,3(1x, I6))')  'Init: myid, new_rank, n_parameters', &
 !                                     myid, new_rank, n_Parameters
 !    write(6,'(A,1x, I6)')  'Init: n_GP_parameters', n_GP_Parameters
-!    write(6,'(A,1x, I6/)') 'Init: divider ', divider
+!    write(6,'(A,1x, I6/)') 'Init: n_GA_individuals ', n_GA_individuals
 !    write(6,'(/A/)') &
 !          'Init:  i_GA_individual  child parameters(:,i_GA_individual)  '
 !    write(GA_print_unit,'(/A,1x, I6/)')  'Init: n_parameters ', n_Parameters
@@ -47,7 +47,7 @@ Run_GA_lmdif=.true.
 !endif ! L_ga_print
 
 
-do  i_GA_Individual=1,divider
+do  i_GA_Individual=1,n_GA_individuals
 
     !write(6,'(A,1x, I6)')  'Init: i_GA_Individual ', i_GA_Individual
 
@@ -144,7 +144,7 @@ enddo ! i_ga_individual
 
 
 !!--------------------------------------------------------------------------------
-!!do  i_GA_Individual=1,divider                           ! debug_only
+!!do  i_GA_Individual=1,n_GA_individuals                           ! debug_only
 !!    read(5,*) Child_Parameters(1:n_parameters,i_GA_Individual)   ! debug_only
 !!enddo ! i_ga_individual                                          ! debug_only
 !!--------------------------------------------------------------------------------

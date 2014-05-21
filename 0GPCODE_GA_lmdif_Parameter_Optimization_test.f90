@@ -1247,8 +1247,8 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
     endif !  myid == 0
 
 
-call MPI_FINALIZE(ierr)  !debug only
-stop                     !debug only
+!call MPI_FINALIZE(ierr)  !debug only
+!stop                     !debug only
 
     !-------------------------------------------------------------------------------------
 
