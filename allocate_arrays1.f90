@@ -38,8 +38,8 @@ endif ! myid == 0
 
 allocate( ga_individual_elites( n_GA_individuals )  )
 
-!allocate( Run_GA_lmdif( n_GA_individuals )  ) ! orig
-allocate( Run_GA_lmdif( 10 * n_GA_individuals )  ) ! debug only
+allocate( Run_GA_lmdif( n_GA_individuals )  ) ! orig
+!!allocate( Run_GA_lmdif( 10 * n_GA_individuals )  ) ! debug only
 
 allocate( Data_Array( 0:n_time_steps, n_CODE_equations )  )
 

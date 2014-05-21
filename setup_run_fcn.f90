@@ -63,9 +63,9 @@ external :: fcn
 call mpi_comm_rank( new_comm, new_rank, ierr ) 
 
 
-write(6,'(A,4(1x,I6))') &
-      'setrf: new_rank, n_GP_parameters, n_GA_individuals, i_GA_indiv', &                
-              new_rank, n_GP_parameters, n_GA_individuals, i_GA_indiv
+!write(6,'(A,4(1x,I6))') &
+!      'setrf: new_rank, n_GP_parameters, n_GA_individuals, i_GA_indiv', &                
+!              new_rank, n_GP_parameters, n_GA_individuals, i_GA_indiv
 
 !if( L_ga_print )then
 !    write(GA_print_unit,'(/A,4(1x,I6)/)') &

@@ -287,9 +287,9 @@ do  i_Time_Step = 1, n_Time_Steps
 
                         L_bad_result = .TRUE.
 
-                        write(6,'(A,1x,I6,1x,I6,1x,E24.16)') &
-                          'rkbm: bad value i_time_step, i_tree, Tree_Value(i_tree)', &
-                                           i_time_step, i_tree, Tree_Value(i_tree)
+                        !write(6,'(A,1x,I6,1x,I6,1x,E24.16)') &
+                        !  'rkbm: bad value i_time_step, i_tree, Tree_Value(i_tree)', &
+                        !                   i_time_step, i_tree, Tree_Value(i_tree)
                         !if( L_ga_print )then
                         !    write(GA_print_unit,'(A,1x,I6,1x,I6,1x,E24.16)') &
                         !      'rkbm: bad value i_time_step, i_tree, Tree_Value(i_tree)', &

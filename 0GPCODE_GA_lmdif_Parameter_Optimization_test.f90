@@ -576,7 +576,8 @@ endif ! myid == 0
 
 
 color = color_value( myid )
-write(6,'(A,4(1x,I10))') '0: myid, color', myid, color
+
+!write(6,'(A,4(1x,I10))') '0: myid, color', myid, color
 
 !-------------------------------------------------------------
 call MPI_COMM_SPLIT( comm_world, color, myid, new_comm, ierr )
@@ -794,6 +795,9 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
         ! then broadcast the arrays to all processors
 
         if( myid == 0 )then
+
+            ! fill child sse for individuals not  modified in this generation
+            GP_Child_Individual_SSE  = GP_Adult_Population_SSE   
 
             !----------------------------------------------------------------------------------
 
@@ -1238,11 +1242,23 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
     if( myid == 0 )then
         do  ii = 1, n_GP_individuals
-            write(GP_print_unit,'(A,4(1x,i3), 2(1x, E15.7))')&          
-             '0: myid, new_rank, i_GP_gen, i_GP_indiv, GP_pop_fit, GP_child_indiv_SSE', &
-                 myid, new_rank, i_GP_generation, ii, &
-                            GP_population_fitness(ii), &
-                          GP_Child_Individual_SSE(ii)
+            !write(GP_print_unit,'(A,4(1x,i3), 2(1x, E15.7))')&          
+            ! '0: myid, new_rank, i_GP_gen, i_GP_indiv, GP_pop_fit, GP_child_indiv_SSE', &
+            !     myid, new_rank, i_GP_generation, ii, &
+            !                GP_population_fitness(ii), &
+            !              GP_Child_Individual_SSE(ii)
+
+            if( isnan( GP_Child_Individual_SSE(ii) ) )then
+                GP_Child_Individual_SSE(ii) = 1.0D13
+            endif ! isnan( GP_Child_Individual_SSE(ii) )
+            if( isnan( GP_population_fitness(ii) ) )then
+                GP_population_fitness(ii) = 0.0D0 
+            endif ! isnan( GP_population_fitness(ii) )
+
+            write(GP_print_unit,'(A,2(1x,i3), 2(1x, E15.7))')&          
+             '0: i_GP_gen, i_GP_indiv, GP_pop_fit, GP_child_indiv_SSE', &
+                 i_GP_generation, ii, GP_population_fitness(ii), &
+                                    GP_Child_Individual_SSE(ii)
         enddo ! ii
     endif !  myid == 0
 
