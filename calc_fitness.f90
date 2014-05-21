@@ -241,16 +241,16 @@ do  i_GA_individual=1,divider
 
     if( individual_quality( i_GA_individual ) > 0 ) then
 
-        !if( L_ga_print )then
+        if( L_ga_print )then
         !    write(GA_print_unit,'(A,1x,I6,2(1x,E15.7))') &
         !          'gacf: i_GA_individual, SSE , sse0/sse', &
         !                    i_GA_individual, individual_SSE(i_GA_individual), &
         !                                sse0/individual_SSE(i_GA_individual)
-            write(6,'(A,1x, I3, 1x,I6,2(1x,E15.7))') &
+            write(GA_print_unit,'(A,1x, I3, 1x,I6,2(1x,E15.7))') &
                   'gacf: new_rank, i_GA_individual, SSE , sse0/sse', &
                          new_rank, i_GA_individual, individual_SSE(i_GA_individual), &
                                      sse0/individual_SSE(i_GA_individual)
-        !endif ! L_ga_print
+        endif ! L_ga_print
 
         ! indiv_fitness is a function
 
@@ -285,7 +285,7 @@ min_sse = 1.0D20
 index_min_sse = 0
 sum_individual_SSE = 0.0D0
 
-write(6,'(A)') ' '
+!write(6,'(A)') ' '
 do  i_GA_individual=1,divider
 
     !if( L_ga_print )then
@@ -331,8 +331,8 @@ do  i_GA_individual=1,divider
     endif !   individual_quality( i_GA_individual ) > 0
 
 enddo ! i_GA_individual
-write(6,'(A)') ' '
-flush(6)
+!write(6,'(A)') ' '
+!flush(6)
 
 
 ! dble_cff is now the sum of the "good" individual_SSE's
@@ -380,18 +380,18 @@ if( n_counted > 0 )then
 endif ! n_counted > 0
 
 
-!if( L_ga_print )then
-!    !write(GA_print_unit,'(/A,1x,I6,1x,E15.7 )')&
-!    !      'gacf: generation, sum_individual_SSE  =', &
-!    !        i_GA_generation, sum_individual_SSE
-!    write(GA_print_unit,'(A,1x,I6,1x,E15.7 )')&
-!          'gacf: generation, mean_individual_SSE =', &
-!            i_GA_generation, mean_individual_SSE
-!endif ! L_ga_print
-write(6,'(A,1x,I6,1x,E15.7 )')&
-      'gacf: generation, mean_individual_SSE =', &
-        i_GA_generation, mean_individual_SSE
-
+if( L_ga_print )then
+    !write(GA_print_unit,'(/A,1x,I6,1x,E15.7 )')&
+    !      'gacf: generation, sum_individual_SSE  =', &
+    !        i_GA_generation, sum_individual_SSE
+    write(GA_print_unit,'(A,1x,I6,1x,E15.7 )')&
+          'gacf: generation, mean_individual_SSE =', &
+            i_GA_generation, mean_individual_SSE
+endif ! L_ga_print
+!write(6,'(A,1x,I6,1x,E15.7 )')&
+!      'gacf: generation, mean_individual_SSE =', &
+!        i_GA_generation, mean_individual_SSE
+!
 
 !---------------------------------------------------------------------------------
 
@@ -473,12 +473,12 @@ enddo ! i_GA_individual
 ! the ranking integration ranges from [0. to 1.]
 
 
-!if( L_ga_print )then
-!    write(GA_print_unit,'(/A)') &
-!          'gacf: i_GA_individual, normalized integrated_ranked_fitness'
-!endif ! L_ga_print
-write(6,'(/A)') &
-      'gacf: i_GA_individual, normalized integrated_ranked_fitness'
+if( L_ga_print )then
+    write(GA_print_unit,'(/A)') &
+          'gacf: i_GA_individual, normalized integrated_ranked_fitness'
+endif ! L_ga_print
+!write(6,'(/A)') &
+!      'gacf: i_GA_individual, normalized integrated_ranked_fitness'
 
 
 
@@ -495,12 +495,12 @@ do  i_GA_individual=1,divider
 
     endif ! abs( integrated_ranked_fitness(divider) ) > 1.0D-20
 
-    !if( L_ga_print )then
-    !    write(GA_print_unit,'(I6,1x,E15.7)') &
-    !          i_GA_individual, integrated_ranked_fitness(i_GA_individual)
-    !endif ! L_ga_print
-    write(6,'(I6,1x,E15.7)') &
-           i_GA_individual, integrated_ranked_fitness(i_GA_individual)
+    if( L_ga_print )then
+        write(GA_print_unit,'(I6,1x,E15.7)') &
+              i_GA_individual, integrated_ranked_fitness(i_GA_individual)
+    endif ! L_ga_print
+    !write(6,'(I6,1x,E15.7)') &
+    !       i_GA_individual, integrated_ranked_fitness(i_GA_individual)
 
 enddo ! i_GA_individual
 
@@ -526,21 +526,22 @@ if( i_GA_generation == n_GA_generations       )then
 
 endif !  i_GA_generation == 1 ...
 
-write(6,'(/A)')&
- 'i_GA_ind   ind_SSE            ind_ranked_fitness    &
- &integ_rank_fitness  ind_quality'
-do  i_GA_individual=1,divider
-    write(6,'(I6,3(1x,E20.12),1x,I6)') &
-          i_GA_individual, individual_SSE(i_GA_individual), &
-                individual_ranked_fitness(i_GA_individual), &
-                integrated_ranked_fitness(i_GA_individual), &
-                      individual_quality( i_GA_individual )
-enddo ! i_GA_individual
+if( L_ga_print )then
+    write(GA_print_unit,'(/A)')&
+     'i_GA_ind   ind_SSE            ind_ranked_fitness    &
+     &integ_rank_fitness  ind_quality'
+    do  i_GA_individual=1,divider
+        write(GA_print_unit,'(I6,3(1x,E20.12),1x,I6)') &
+              i_GA_individual, individual_SSE(i_GA_individual), &
+                    individual_ranked_fitness(i_GA_individual), &
+                    integrated_ranked_fitness(i_GA_individual), &
+                          individual_quality( i_GA_individual )
+    enddo ! i_GA_individual
+endif ! L_ga_print
 
 !-------------------------------------------------------------------------------
 
 if( L_fort333_output )then
-
     write(333) i_GP_Generation, i_GP_individual, i_GA_generation, &
                individual_SSE(1:divider)
 endif !  L_fort333_output
@@ -583,11 +584,13 @@ enddo ! i_GA_individual
 
 !------------------------------------------------------------------------------
 
-write(6,'(/A,1x,I3,2(1x,I6),2(1x,E15.7))') &
-      'gacf: new_rank, Generation, i_GA_Best_Parent, indiv_ranked_fitness, indiv_SSE', &
-             new_rank, i_GA_Generation, i_GA_Best_Parent,   &
-             individual_ranked_fitness( i_GA_Best_Parent ), &
-                        individual_SSE( i_GA_Best_Parent )
+if( L_ga_print )then
+    write(GA_print_unit,'(/A,1x,I3,2(1x,I6),2(1x,E15.7))') &
+          'gacf: new_rank, Generation, i_GA_Best_Parent, indiv_ranked_fitness, indiv_SSE', &
+                 new_rank, i_GA_Generation, i_GA_Best_Parent,   &
+                 individual_ranked_fitness( i_GA_Best_Parent ), &
+                            individual_SSE( i_GA_Best_Parent )
+endif ! L_ga_print
 !
 !if( L_ga_print )then
 !    write(GA_print_unit,'(/A,2(1x,I6),2(1x,E15.7))') &

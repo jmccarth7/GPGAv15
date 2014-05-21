@@ -28,6 +28,7 @@ implicit none
 
 
 integer :: i
+integer :: ii
 
 !integer :: i_diversity
 integer :: message_len
@@ -1090,7 +1091,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
         !          '0: call bcast2 '
         !    !flush(GP_print_unit)
         !endif ! myid == 0
-        write(6,'(/A,1x,I3)') '0: call bcast2    myid = ', myid
+        !write(6,'(/A,1x,I3)') '0: call bcast2    myid = ', myid
 
         call bcast2()
 
@@ -1103,8 +1104,8 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
     endif ! i_GP_Generation .eq. 1
 
 
-    write(6,'(A,2(1x,I3)/)') &
-          '0: aft i_GP_gen == 1 test i_GP_generation, myid =', i_GP_generation, myid
+    !write(6,'(A,2(1x,I3)/)') &
+    !      '0: aft i_GP_gen == 1 test i_GP_generation, myid =', i_GP_generation, myid
 
     !-----------------------------------------------------------------------------------------
 
@@ -1223,7 +1224,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
     !-----------------------------------------------------------------------------------
 
     if( myid == 0 )then
-        write(6,'(A,1x,I3)') '0: call GP_individual_loop myid = ', myid
+        write(6,'(A,1x,I3/)') '0: call GP_individual_loop myid = ', myid
     endif !  myid == 0
 
 
@@ -1231,17 +1232,18 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
 
     if( myid == 0 )then
-        write(6,'(A,1x,I3)') '0: after call GP_individual_loop myid = ', myid
+        write(6,'(/A,1x,I3/)') '0: after call GP_individual_loop myid = ', myid
     endif !  myid == 0
 
 
     if( myid == 0 )then
-        do  i_GP_individual = 1, n_GP_individuals
-            write(GP_print_unit,'(A,4(1x,I6), 1x, E15.7)')&
-                  '0: myid, new_rank, i_GP_gen, i_GP_indiv, GP_pop_fit(i_GP_indiv) ', &
-                      myid, new_rank, i_GP_generation, i_GP_individual, &
-                                 GP_population_fitness(i_GP_individual)
-        enddo ! i_GP_individual
+        do  ii = 1, n_GP_individuals
+            write(GP_print_unit,'(A,4(1x,i3), 2(1x, E15.7))')&          
+             '0: myid, new_rank, i_GP_gen, i_GP_indiv, GP_pop_fit, GP_child_indiv_SSE', &
+                 myid, new_rank, i_GP_generation, ii, &
+                            GP_population_fitness(ii), &
+                          GP_Child_Individual_SSE(ii)
+        enddo ! ii
     endif !  myid == 0
 
 
