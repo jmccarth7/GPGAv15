@@ -80,10 +80,10 @@ real(kind=8),allocatable,dimension(:)  ::   sse_buffer_recv
 integer,allocatable,dimension(:)       ::   buff_parm_send
 !---------------------------------------------------------------------------------------
 
-GP_population_fitness   = 0.0d0
-GP_Child_Individual_SSE = 1.0d13
-GP_Adult_Individual_SSE = 1.0d13
-GP_Adult_Population_SSE = 1.0d13
+!GP_population_fitness   = 0.0d0
+!GP_Child_Individual_SSE = 1.0d13
+!GP_Adult_Individual_SSE = 1.0d13
+!GP_Adult_Population_SSE = 1.0d13
 
 
 
@@ -116,6 +116,22 @@ if( myid == 0 )then
                        myid, new_rank, n_procs
 endif !  myid == 0
 
+!-------------------------------------------------------------------------------
+
+! initialize the send buffers to values of the GP arrays 
+! this is necessary because if Run_GP_Fitness is .FALSE., for an individual
+! then no value will be put into the place of that individual
+! This code will then retain the existing value for that individual
+
+sse_buffer_send = GP_Child_Individual_SSE
+fit_buffer_send = GP_population_fitness
+buff_parm_send  = GP_Individual_N_GP_param
+init_cond_buff  = GP_Population_Initial_Conditions
+node_parm_buff  = GP_Population_Node_Parameters
+node_type_buff  = GP_Adult_Population_Node_Type
+
+
+!-------------------------------------------------------------------------------
 
 ! do the loop over the GP individuals in n_partitions chunks
 
@@ -152,12 +168,19 @@ do  i_part = 1,  n_partitions
 
         ! receive the number of GP parameters
 
+        !write(GP_print_unit,'(A,5(1x,I7)/)')&
+        !      'gil:30r myid, new_rank, tag_parm, ind1, ind2', &
+        !               myid, new_rank, tag_parm, ind1, ind2
+
 
         n_indiv = ind2 - ind1 + 1
         call MPI_RECV( GP_Individual_N_GP_param(ind1), n_indiv, MPI_INTEGER, &
                        MPI_ANY_SOURCE, tag_parm,                       &
                        MPI_COMM_WORLD, MPI_STAT, ierr )
 
+        !write(GP_print_unit,'(A,4(1x,I7)/(10(1x,i4)))')&
+        !      'gil:30r myid, n_indiv, ind1, ind2, GP_Individual_N_GP_param(ind1:ind2)', &
+        !               myid, n_indiv, ind1, ind2, GP_Individual_N_GP_param(ind1:ind2)
 
         !-------------------------------------------------------------------
 
@@ -166,7 +189,7 @@ do  i_part = 1,  n_partitions
         tag_fit_r =  tag_ind_fit
 
         !write(GP_print_unit,'(A,5(1x,I7)/)')&
-        !      'gil:31t myid, new_rank, tag_fit_r, ind1, ind2', &
+        !      'gil:31r myid, new_rank, tag_fit_r, ind1, ind2', &
         !               myid, new_rank, tag_fit_r, ind1, ind2
 
         n_indiv = ind2 - ind1 + 1
@@ -174,6 +197,10 @@ do  i_part = 1,  n_partitions
         call MPI_RECV( GP_population_fitness(ind1), n_indiv, MPI_DOUBLE_PRECISION, &
                        MPI_ANY_SOURCE, tag_fit_r,                       &
                        MPI_COMM_WORLD, MPI_STAT, ierr )
+
+        !write(GP_print_unit,'(A,4(1x,I7)/(5(1x,E15.7)))')&
+        !      'gil:31r myid, n_indiv, ind1, ind2, GP_population_fitness(ind1:ind2)', &
+        !               myid, n_indiv, ind1, ind2, GP_population_fitness(ind1:ind2)
 
 
         !-------------------------------------------------------------------
@@ -188,12 +215,12 @@ do  i_part = 1,  n_partitions
                        MPI_ANY_SOURCE, tag_sse_r,                       &
                        MPI_COMM_WORLD, MPI_STAT, ierr )
 
-        write(GP_print_unit,'(A,5(1x,I7)/)')&
-              'gil:32r myid, new_rank, tag_sse_r, ind1, ind2', &
-                       myid, new_rank, tag_sse_r, ind1, ind2
-        write(GP_print_unit,'(A,2(1x,I4)/(5(1x,E15.7)))')&
-              'gil:32r myid, new_rank, sse_buffer_recv(ind1:ind2)', &
-                       myid, new_rank, sse_buffer_recv(ind1:ind2)
+        !write(GP_print_unit,'(A,5(1x,I7)/)')&
+        !      'gil:32r myid, new_rank, tag_sse_r, ind1, ind2', &
+        !               myid, new_rank, tag_sse_r, ind1, ind2
+        !write(GP_print_unit,'(A,2(1x,I4)/(5(1x,E15.7)))')&
+        !      'gil:32r myid, new_rank, sse_buffer_recv(ind1:ind2)', &
+        !               myid, new_rank, sse_buffer_recv(ind1:ind2)
 
         GP_Child_Individual_SSE(ind1:ind2) =  sse_buffer_recv(ind1:ind2)
         GP_Adult_Individual_SSE(ind1:ind2) =  sse_buffer_recv(ind1:ind2)
@@ -209,6 +236,23 @@ do  i_part = 1,  n_partitions
                         MPI_INTEGER,  MPI_ANY_SOURCE, tag_node_type, &
                         MPI_COMM_WORLD, MPI_STAT, ierr )
 
+        !write(GP_print_unit,'(A,5(1x,I7)/)')&
+        !      'gil:33r myid, new_rank, tag_node_type, ind1, ind2', &
+        !               myid, new_rank, tag_node_type, ind1, ind2
+        !write(GP_print_unit,'(A)')&
+        !      'gil:33r GP_Adult_Population_Node_Type(:,:,ind1:ind2)'
+
+        !do  ii = ind1, ind2
+        !    do  i_tree = 1, n_trees
+        !        do  i_node = 1, n_nodes
+        !            if( GP_Adult_Population_Node_Type(i_node,i_tree,ii) > -9999 )then
+        !                write(6,'(4(1x,I6))' )&
+        !                ii,i_tree, i_node, GP_Adult_Population_Node_Type(i_node,i_tree,ii)
+        !            endif ! GP_Adult_Population_Node_Type(i_node,i_tree,ii) > -9999 
+        !        enddo !  i_node
+        !    enddo !  i_tree 
+        !enddo ! ii
+
         GP_Child_Population_Node_Type =  GP_Adult_Population_Node_Type
 
         !--------------------------------------------------------------------------------
@@ -220,6 +264,14 @@ do  i_part = 1,  n_partitions
         call MPI_RECV( GP_Population_Initial_Conditions(1,ind1), message_len,    &
                         MPI_double_precision,  MPI_ANY_SOURCE, tag_init_cond, &
                         MPI_COMM_WORLD, MPI_STAT, ierr )
+
+        !write(GP_print_unit,'(A,5(1x,I7)/)')&
+        !      'gil:34r myid, new_rank, tag_init_cond, ind1, ind2', &
+        !               myid, new_rank, tag_init_cond, ind1, ind2
+        !write(GP_print_unit,'(A,4(1x,I7)/(5(1x,E15.7)))')&
+        !      'gil:34r myid, n_indiv, ind1, ind2, GP_Population_Initial_Conditions(:,ind1:ind2)', &
+        !               myid, n_indiv, ind1, ind2, GP_Population_Initial_Conditions(:,ind1:ind2)
+
 
         !--------------------------------------------------------------------------------
 
@@ -233,6 +285,31 @@ do  i_part = 1,  n_partitions
                         MPI_double_precision,  MPI_ANY_SOURCE, tag_node_parm, &
                         MPI_COMM_WORLD, MPI_STAT, ierr )
 
+        !write(GP_print_unit,'(A,5(1x,I7)/)')&
+        !      'gil:35r myid, new_rank, tag_init_cond, ind1, ind2', &
+        !               myid, new_rank, tag_init_cond, ind1, ind2
+        !write(GP_print_unit,'(A)')&
+        !      'gil:35r GP_Population_Node_Parameters(:,:,ind1:ind2)'
+
+        !do  ii = ind1, ind2
+        !    do  i_tree = 1, n_trees
+        !        do  i_node = 1, n_nodes
+
+        !            if( isnan( GP_Population_Node_Parameters(i_node,i_tree,ii) ) )then
+        !                write(GP_print_unit,'(A,5(1x,I7)/)')&
+        !                      'gil:35r  i_tree, i_node, GP_Population_Node_Parameters is NAN', &
+        !                                i_tree, i_node
+        !            endif !  isnan( GP_Population_Node_Parameters(i_node,i_tree,ii) 
+
+        !            if( GP_Population_Node_Parameters(i_node,i_tree,ii) > 0.0d0 )then
+        !                write(6,'(2(1x,I6),1x,E15.7)' )&
+        !                i_tree, i_node, GP_Population_Node_Parameters(i_node,i_tree,ii)            
+        !            endif ! GP_Population_Node_Parameters(i_node,i_tree,ii) > 0.0d0 
+
+        !        enddo !  i_node
+        !    enddo !  i_tree 
+        !enddo ! ii
+
         !--------------------------------------------------------------------------------
 
 
@@ -243,9 +320,9 @@ do  i_part = 1,  n_partitions
         gp_ind_loop:&
         do  i_GP_individual= ind1, ind2    ! 1,n_GP_individuals
 
-            write(GP_print_unit,'(A,8(1x,I4)/)')&
-                  'gil:2 myid, new_rank, i_part, i_gp_1, i_gp_2, ind1, ind2, i_GP_individual', &
-                         myid, new_rank, i_part, i_gp_1, i_gp_2, ind1, ind2, i_GP_individual
+            !write(GP_print_unit,'(A,8(1x,I4)/)')&
+            !      'gil:2 myid, new_rank, i_part, i_gp_1, i_gp_2, ind1, ind2, i_GP_individual', &
+            !             myid, new_rank, i_part, i_gp_1, i_gp_2, ind1, ind2, i_GP_individual
 
 
             !------------------------------------------------------------------------------
@@ -429,9 +506,9 @@ do  i_part = 1,  n_partitions
 
                 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-                write(6,'(A,4(1x,I3))') &
-                      'gil: call GPCODE myid, new_rank, i_GP_individual',&
-                                        myid, new_rank, i_GP_individual
+                !write(6,'(A,4(1x,I3))') &
+                !      'gil: call GPCODE myid, new_rank, i_GP_individual',&
+                !                        myid, new_rank, i_GP_individual
 
                 call GPCODE_GA_lmdif_Parameter_Optimization( &
                                   i_GP_Generation,i_GP_individual, &
@@ -449,12 +526,12 @@ do  i_part = 1,  n_partitions
 
                 fit_buffer_send(i_GP_individual) = individual_fitness
 
-                if( new_rank == 0 )then
-                    write(GP_print_unit,'(/A,3(1x,I7),1x,E15.7/)')&
-                          'gil:9t myid, new_rank, i_GP_individual, fit_buf_send', &
-                                  myid, new_rank, i_GP_individual, &
-                                  fit_buffer_send(i_GP_individual)
-                endif ! new_rank == 0
+                !if( new_rank == 0 )then
+                !    write(GP_print_unit,'(/A,3(1x,I7),1x,E15.7/)')&
+                !          'gil:9t myid, new_rank, i_GP_individual, fit_buf_send', &
+                !                  myid, new_rank, i_GP_individual, &
+                !                  fit_buffer_send(i_GP_individual)
+                !endif ! new_rank == 0
 
 
                 !--------------------------------------------------------------------------------
@@ -462,12 +539,12 @@ do  i_part = 1,  n_partitions
 
                 sse_buffer_send( i_GP_individual ) = Individual_SSE_best_parent
 
-                if( new_rank == 0 )then
-                    write(GP_print_unit,'(/A,3(1x,I7),1x,E15.7/)')&
-                          'gil:9t myid, new_rank, i_GP_individual, sse_buf_send', &
-                                  myid, new_rank, i_GP_individual, &
-                                  sse_buffer_send(i_GP_individual)
-                endif ! new_rank == 0
+                !if( new_rank == 0 )then
+                !    write(GP_print_unit,'(/A,3(1x,I7),1x,E15.7/)')&
+                !          'gil:9t myid, new_rank, i_GP_individual, sse_buf_send', &
+                !                  myid, new_rank, i_GP_individual, &
+                !                  sse_buffer_send(i_GP_individual)
+                !endif ! new_rank == 0
 
 
                 !--------------------------------------------------------------------------------
