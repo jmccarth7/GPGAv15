@@ -705,14 +705,14 @@ message_len =  n_GP_individuals
 call MPI_BCAST( GP_Individual_N_GP_param, message_len,    &
                 MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
 
-!if( myid == 0 )then
-!    do  ii = 1, n_GP_individuals
-!        write(GP_print_unit,'(A,5(1x,i4))')&
-!         'gil:5 myid, new_rank, i_GP_gen, ii, GP_Individual_N_GP_param(ii) ', &
-!                myid, new_rank, i_GP_generation, ii, &
-!                        GP_Individual_N_GP_param(ii)
-!   enddo ! ii
-!endif !  myid == 0
+if( myid == 0 )then
+    do  ii = 1, n_GP_individuals
+        write(GP_print_unit,'(A,5(1x,i4))')&
+         'gil:5 myid, new_rank, i_GP_gen, ii, GP_Individual_N_GP_param(ii) ', &
+                myid, new_rank, i_GP_generation, ii, &
+                        GP_Individual_N_GP_param(ii)
+   enddo ! ii
+endif !  myid == 0
 
 
 !---------------------------------------------------------------------------------

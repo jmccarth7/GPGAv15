@@ -1349,21 +1349,22 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
     max_n_gp_params = maxval( GP_Individual_N_GP_param )
 
+
     if( myid == 0 )then
         if( i_GP_generation == 1                                  .or. &
             mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
             i_GP_generation == n_GP_generations                          )then
 
-            max_n_gp_params = maxval( GP_Individual_N_GP_param )
+            !max_n_gp_params = maxval( GP_Individual_N_GP_param )
 
             write(GP_print_unit,'(/A)')&
             '0:-----------------------------------------------------------------'
-            write(GP_print_unit,'(A,2(1x,I6))') &
-            '0: DO NOT call GP_para_lmdif_process i_GP_generation, max_n_gp_params', &
-                                                  i_GP_Generation, max_n_gp_params
             !write(GP_print_unit,'(A,2(1x,I6))') &
-            !'0: call GP_para_lmdif_process i_GP_generation, max_n_gp_params', &
-            !                               i_GP_Generation, max_n_gp_params
+            !'0: DO NOT call GP_para_lmdif_process i_GP_generation, max_n_gp_params', &
+            !                                      i_GP_Generation, max_n_gp_params
+            write(GP_print_unit,'(A,2(1x,I6))') &
+            '0: call GP_para_lmdif_process i_GP_generation, max_n_gp_params', &
+                                           i_GP_Generation, max_n_gp_params
             write(GP_print_unit,'(A/)')&
             '0:-----------------------------------------------------------------'
 
@@ -1376,7 +1377,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
     !---------------------------------------------------------------
 
-    !call GP_para_lmdif_process( i_GP_generation, max_n_gp_params  )
+    call GP_para_lmdif_process( i_GP_generation, max_n_gp_params  )
 
     !---------------------------------------------------------------
 

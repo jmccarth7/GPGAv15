@@ -339,16 +339,23 @@ call MPI_BCAST( GP_n_parms,  n_GP_individuals,    &
 
 child_number =  n_GP_individuals * max_n_gp_params
 
-!if( myid == 0 )then
-!    if( L_GP_print )then
-!        write(GP_print_unit,'(/A,2(1x,I6))') &
-!        'gplp:  broadcast child parameters myid, i_GP_generation', &
-!                                           myid, i_GP_generation
-!        write(GP_print_unit,'(A,4(1x,I6)/)') &
-!        'gplp: myid, n_GP_individuals, max_n_gp_params, child_number =', &
-!               myid, n_GP_individuals, max_n_gp_params, child_number
-!    endif ! L_GP_print
-!endif ! myid == 0
+!write(GP_print_unit,'(A,4(1x,I6)/)') &
+!      'gplp: myid, n_GP_individuals, max_n_gp_params, child_number =', &
+!             myid, n_GP_individuals, max_n_gp_params, child_number
+
+if( myid == 0 )then
+    if( L_GP_print )then
+        write(GP_print_unit,'(/A,2(1x,I6))') &
+        'gplp:  broadcast child parameters myid, i_GP_generation', &
+                                           myid, i_GP_generation
+        write(GP_print_unit,'(A,3(1x,I6))') &
+          'gplp: myid,  maxval( GP_n_parms ), max_n_gp_params ', &
+                 myid,  maxval( GP_n_parms ), max_n_gp_params
+        !write(GP_print_unit,'(A,4(1x,I6)/)') &
+        !'gplp: myid, n_GP_individuals, max_n_gp_params, child_number =', &
+        !       myid, n_GP_individuals, max_n_gp_params, child_number
+    endif ! L_GP_print
+endif ! myid == 0
 
 
 call MPI_BCAST( Child_Parameters,  child_number,    &
@@ -688,16 +695,25 @@ else  ! not myid == 0
 
         if( Run_GP_Calculate_Fitness(i_2_Individual) )then
 
+            ! save the current SSE in temp_SSE
+            ! after setup_run_para_lmdif, temp_SSE will have the result of lmdif
+
+            ! if info > 0, this is a good result so load temp_SSE into the 
+            ! GP_child_individual_SSE array
+
+            ! if info < 0, this is a bad result so do not replace the value in the
+            ! GP_child_individual_SSE array
+
             temp_SSE = GP_child_individual_SSE(i_2_individual)
 
-            !if( L_GP_print .and. myid == 1 )then
-            !    write(GP_print_unit,'(A,2(1x,I6),1x,E24.16)') &
-            !          'gplp:4 call setup_para  myid, i_2_individual, temp_SSE', &
-            !                                   myid, i_2_individual, temp_SSE
+            if( L_GP_print .and. myid == 1 )then
+                write(GP_print_unit,'(A,2(1x,I6),1x,E24.16)') &
+                      'gplp:4 call setup_para  myid, i_2_individual, temp_SSE', &
+                                               myid, i_2_individual, temp_SSE
             !    write(GP_print_unit,'(A/(4(1x,E24.16)))') &
             !     'gplp:6 child_parameters(1:n_parms,i_2_individual)', &
             !             child_parameters(1:n_parms,i_2_individual)
-            !endif ! L_GP_print .and. myid == 1 
+            endif ! L_GP_print .and. myid == 1 
 
             !flush( GP_print_unit )
 
@@ -713,11 +729,11 @@ else  ! not myid == 0
 
 
 
-            !if( L_GP_print .and. myid == 1 )then
-            !    write(GP_print_unit,'(A,2(1x,I6),1x,E24.16)') &
-            !          'gplp:4 AFT call setup_para  myid, i_2_individual, temp_SSE', &
-            !                                       myid, i_2_individual, temp_SSE
-            !endif ! L_GP_print .and. myid == 1 
+            if( L_GP_print .and. myid == 1 )then
+                write(GP_print_unit,'(A,3(1x,I6),1x,E24.16)') &
+                  'gplp:4 AFT call setup_para  myid, i_2_individual, info, temp_SSE', &
+                                               myid, i_2_individual, info, temp_SSE
+            endif ! L_GP_print .and. myid == 1 
 
             !flush( GP_print_unit )
 
@@ -725,29 +741,29 @@ else  ! not myid == 0
 
             ! don't replace original child SSE if lmdif SSE indicates a bad result
 
-            if( info > 0  )then
+            !if( info > 0  )then
 
                 GP_child_individual_SSE(i_2_individual) = temp_SSE
 
-            endif ! abs(temp_SSE)...
+            !endif ! abs(temp_SSE)...
 
 
             !--------------------------------------------------------------------------
 
-            !if( L_GP_print .and. myid == 1   )then
+            if( L_GP_print .and. myid == 1   )then
             !    write(GP_print_unit,'(A,3(1x,I6))') &
             !     'gplp:7 723 myid, n_parms, i_2_individual  AFTER LMDIF ', &
             !                 myid, n_parms, i_2_individual
             !    write(GP_print_unit,'(A/(5(1x,E15.7)))') &
             !     'gplp:7 child_parameters(1:n_parms,i_2_individual)', &
             !             child_parameters(1:n_parms,i_2_individual)
-            !    write(GP_print_unit,'(A,2(1x,I6),1x,E15.7)') &
-            !     'gplp:7 myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)', &
-            !             myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)
+                write(GP_print_unit,'(A,2(1x,I6),1x,E15.7)') &
+                 'gplp:7 myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)', &
+                         myid, i_2_individual, GP_Child_Individual_SSE(i_2_individual)
             !    write(GP_print_unit,'(A,5x,3(1x,I6))') &
             !     'gplp:7 myid, i_2_individual, individual_quality(i_2_individual)', &
             !             myid, i_2_individual, individual_quality(i_2_individual)
-            !endif ! L_GP_print .and. myid == 1 
+            endif ! L_GP_print .and. myid == 1 
 
             !if( L_GP_print )then
             !    write(GP_print_unit,'(A,3(1x,I6))') &

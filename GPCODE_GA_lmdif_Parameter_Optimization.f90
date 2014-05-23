@@ -50,10 +50,9 @@ integer ::  itag7
 
 real(kind=8),&
   dimension(n_GP_parameters,n_GA_individuals) ::  parent_parameters
- !dimension(n_GP_parameters,10*n_GA_individuals) ::  parent_parameters   ! debug only
+
 real(kind=8),&
   dimension(n_GP_parameters,n_GA_individuals) ::  child_parameters
- !dimension(n_GP_parameters,n_GA_individuals) ::  child_parameters       ! debug only
 
 
 real(kind=8), dimension(n_GP_parameters + 2)  :: buffer
