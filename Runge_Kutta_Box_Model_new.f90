@@ -109,10 +109,10 @@ tree_node_count = 0
 
 
 if( dt <= 0.0d0 )then
-    if( new_rank == 0 .or. new_rank == 1 )then
+    !if( new_rank == 0 .or. new_rank == 1 )then
         write(6,'(/A/)') 'rkbm: BAD VALUE for dt'
         write(6,'(A,1x,E20.10/)') 'rkbm: dt', dt
-    endif ! new_rank == 0 .or. new_rank == 1
+    !endif ! new_rank == 0 .or. new_rank == 1
     call MPI_FINALIZE(ierr)
     stop 'bad delta_time'
 endif ! dt <= 0.0D0
@@ -276,8 +276,8 @@ do  i_Time_Step = 1, n_Time_Steps
                     !if( myid == 1 .and. abs( Tree_Value(i_tree) ) > 0.0d0  )then
                     !!    write(6,'(A,22x,I6,1x,I6,1x,E15.7)') &
                     !    write(6,'(A,1x,I3,2x,I6,1x,I6,1x,I6,1x,E15.7)') &
-                    !          'rkbm: new_rank,i_time_step, iter, i_tree, Tree_Value(i_tree)', &
-                    !                 new_rank,i_time_step, iter, i_tree, Tree_Value(i_tree)
+                    !     'rkbm: new_rank,i_time_step, iter, i_tree, Tree_Value(i_tree)', &
+                    !            new_rank,i_time_step, iter, i_tree, Tree_Value(i_tree)
                     !endif ! myid == 1 .and. abs( Tree_Value(i_tree) ) > 1.0d10
                     !!flush(6)
 
@@ -298,13 +298,13 @@ do  i_Time_Step = 1, n_Time_Steps
                         !endif ! L_ga_print
 
                         return
-                    endif !  isnan( Tree_Value(i_Tree) ) .or. abs(Tree_Value(i_Tree)) > big_real
+                    endif ! isnan( Tree_Value(i_Tree) ) .or. abs(Tree_Value(i_Tree)) > big_real
 
 
-                    !----------------------------------------------------------------------------
+                    !-------------------------------------------------------------------------
                     !tree_node_count = GetNodeCount( GP_Trees( i_Tree, i_Track )%n )
-                    !debug only !if( tree_node_count <= 1 ) Tree_Value(i_Tree) = 0.0d0 !jjm 20131213
-                    !---------------------------------------------------------------------------
+                    !debug only!if(tree_node_count<=1) Tree_Value(i_Tree) = 0.0d0 !jjm 20131213
+                    !-------------------------------------------------------------------------
 
                     !if( L_ga_print )then
                     !    write(GA_print_unit,'(A,22x,I6,1x,E15.7)') &
@@ -324,7 +324,8 @@ do  i_Time_Step = 1, n_Time_Steps
             !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
             !if( myid == 0 )then
-            ! write(6,'(/A/)') 'rkbm: Calculate the flow terms from the determined tree_value terms'
+            ! write(6,'(/A/)') &
+            !  'rkbm: Calculate the flow terms from the determined tree_value terms'
             !endif ! myid == 0
 
 
@@ -374,16 +375,16 @@ do  i_Time_Step = 1, n_Time_Steps
                         if( bioflo_map(i_CODE_Equation,i_Track) .gt. 0 ) then
 
                             !write(GA_print_unit,'(A,1x,I6,1x,E20.10)') &
-                            !      'rkbm: bef i_eq, fbio(bioflo_map(i_eq, 1)) ', &
-                            !                 i_code_equation, fbio(bioflo_map(i_code_equation, 1))
+                            ! 'rkbm: bef i_eq, fbio(bioflo_map(i_eq, 1)) ', &
+                            !            i_code_equation, fbio(bioflo_map(i_code_equation, 1))
 
                             fbio(bioflo_map(i_CODE_Equation,i_Track)) = &
                                 fbio(bioflo_map(i_CODE_Equation,i_Track)) -  &
                                          bioflo(i_CODE_Equation,j_CODE_Equation)
 
                             !write(GA_print_unit,'(A,1x,I6,1x,E20.10)') &
-                            !      'rkbm: aft i_eq, fbio(bioflo_map(i_eq, 1)) ', &
-                            !                 i_code_equation, fbio(bioflo_map(i_code_equation, 1))
+                            !  'rkbm: aft i_eq, fbio(bioflo_map(i_eq, 1)) ', &
+                            !             i_code_equation, fbio(bioflo_map(i_code_equation, 1))
                             !if( abs(bioflo(i_CODE_Equation,j_CODE_Equation)) > 0.0d0 )then
                             !    write(6,'(A,2(1x,I6),1x,E20.10)') &
                             !          'rkbm: i_eq, j_eq, bioflo(i_eq,j_eq) ', &
@@ -404,8 +405,8 @@ do  i_Time_Step = 1, n_Time_Steps
                         if( bioflo_map(j_CODE_Equation,i_Track) .gt. 0 ) then
 
                             !write(GA_print_unit,'(A,1x,I6,1x,E20.10)') &
-                            !      'rkbm: bef j_eq, fbio(bioflo_map(j_eq, 1)) ', &
-                            !                 j_code_equation, fbio(bioflo_map(j_code_equation, 1))
+                            ! 'rkbm: bef j_eq, fbio(bioflo_map(j_eq, 1)) ', &
+                            !            j_code_equation, fbio(bioflo_map(j_code_equation, 1))
 
                             fbio(bioflo_map(j_CODE_Equation,i_Track)) = &
                                  fbio(bioflo_map(j_CODE_Equation,i_Track)) + &
@@ -573,6 +574,12 @@ do  i_Time_Step = 1, n_Time_Steps
     !            'rkbm:g new_rank, i_time_step, RK_Soln ', &
     !                    new_rank, i_time_step, &
     !                    Numerical_CODE_Solution(i_time_step,1:n_CODE_equations)
+    if( L_print_RK )then
+        write(6,'(A,2(1x,I6),12(1x,E15.7))') &
+                'rkbm:g myid, i_time_step, RK_Soln ', &
+                        myid, i_time_step, &
+                        Numerical_CODE_Solution(i_time_step,1:n_CODE_equations)
+    endif ! L_print_RK 
     !endif !  new_rank == 1 
     !!flush(6)
     !    endif ! L_ga_print

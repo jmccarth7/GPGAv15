@@ -191,7 +191,7 @@ info = 0
 !off      maxfev=100*(n_time_steps+1)*100
 
 !orig  maxfev= 4000 ! 2000 ! 50 ! 10 ! 10000
-maxfev= 1000  ! 4000 ! 2000 ! 50 ! 10 ! 10000
+maxfev= 2000  ! 4000 ! 2000 ! 50 ! 10 ! 10000
 
 ftol=1.0D-10   ! 15  ! 15   ! 10
 xtol=1.0D-10   ! 15  ! 15   ! 10
@@ -268,10 +268,10 @@ call lmdif( fcn, n_time_steps, n_parms, x_LMDIF, fvec, &
 
 
 
-!if( L_myprint .and. myid == 1)then
-!    write(myprint_unit,'(A,3(1x,I6))') 'strplm:output info, nfev, ldfjac ', &
-!                                                      info, nfev, ldfjac
-!endif ! myid == 1
+if( L_myprint .and. myid == 1)then
+    write(myprint_unit,'(A,3(1x,I6))') 'strplm:output info, nfev, ldfjac ', &
+                                                      info, nfev, ldfjac
+endif ! myid == 1
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 

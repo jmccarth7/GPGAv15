@@ -168,9 +168,9 @@ do  i_part = 1,  n_partitions
 
         ! receive the number of GP parameters
 
-        !write(GP_print_unit,'(A,5(1x,I7)/)')&
-        !      'gil:30r myid, new_rank, tag_parm, ind1, ind2', &
-        !               myid, new_rank, tag_parm, ind1, ind2
+        write(GP_print_unit,'(A,5(1x,I7)/)')&
+              'gil:30r myid, new_rank, tag_parm, ind1, ind2', &
+                       myid, new_rank, tag_parm, ind1, ind2
 
 
         n_indiv = ind2 - ind1 + 1
@@ -178,9 +178,9 @@ do  i_part = 1,  n_partitions
                        MPI_ANY_SOURCE, tag_parm,                       &
                        MPI_COMM_WORLD, MPI_STAT, ierr )
 
-        !write(GP_print_unit,'(A,4(1x,I7)/(10(1x,i4)))')&
-        !      'gil:30r myid, n_indiv, ind1, ind2, GP_Individual_N_GP_param(ind1:ind2)', &
-        !               myid, n_indiv, ind1, ind2, GP_Individual_N_GP_param(ind1:ind2)
+        write(GP_print_unit,'(A,4(1x,I7)/(10(1x,i4)))')&
+              'gil:30r myid, n_indiv, ind1, ind2, GP_Individual_N_GP_param(ind1:ind2)', &
+                       myid, n_indiv, ind1, ind2, GP_Individual_N_GP_param(ind1:ind2)
 
         !-------------------------------------------------------------------
 
@@ -701,18 +701,18 @@ call MPI_BARRIER( MPI_COMM_WORLD, ierr )
 
 !---------------------------------------------------------------------------------
 
-!!message_len =  n_GP_individuals
-!!call MPI_BCAST( GP_Individual_N_GP_param, message_len,    &
-!!                MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
+message_len =  n_GP_individuals
+call MPI_BCAST( GP_Individual_N_GP_param, message_len,    &
+                MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
 
-!if( myid == 0 )then
-!    do  ii = 1, n_GP_individuals
-!        write(GP_print_unit,'(A,5(1x,i4))')&
-!         'gil:5 myid, new_rank, i_GP_gen, ii, GP_Individual_N_GP_param(ii) ', &
-!                myid, new_rank, i_GP_generation, ii, &
-!                        GP_Individual_N_GP_param(ii)
-!   enddo ! ii
-!endif !  myid == 0
+if( myid == 0 )then
+    do  ii = 1, n_GP_individuals
+        write(GP_print_unit,'(A,5(1x,i4))')&
+         'gil:5 myid, new_rank, i_GP_gen, ii, GP_Individual_N_GP_param(ii) ', &
+                myid, new_rank, i_GP_generation, ii, &
+                        GP_Individual_N_GP_param(ii)
+   enddo ! ii
+endif !  myid == 0
 
 
 !---------------------------------------------------------------------------------
