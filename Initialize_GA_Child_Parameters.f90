@@ -21,7 +21,7 @@ real(kind=4) :: cff
 real(kind=8) :: dff
 
 integer(kind=4) :: i_parameter
-!integer(kind=4) :: jj
+integer(kind=4) :: jj
 integer(kind=4) :: i_GA_individual
 
 integer(kind=4) :: inode
@@ -82,6 +82,10 @@ do  i_GA_Individual=1,n_GA_individuals
     !Child_Parameters(5,i_GA_Individual) =   0.6d0    ! debug only
     !Child_Parameters(6,i_GA_Individual) =   0.5d0    ! debug only
     !Child_Parameters(7,i_GA_Individual) =   0.02d0   ! debug only
+
+    !Child_Parameters(1:7,i_GA_Individual) = 1.05d0 * &
+    !                  Child_Parameters(1:7,i_GA_Individual) ! debug only
+
     !debug only <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 !!    !debug only >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

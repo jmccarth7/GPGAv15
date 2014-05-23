@@ -753,11 +753,11 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
 
 
-        !if( myid == 0 )then
-        !    call print_debug_integer_node_tree( GP_print_unit, &
-        !         'aft bcast 528  GP_Adult_Population_Node_Type ', &
-        !         GP_Adult_Population_Node_Type )
-        !endif ! myid == 0
+        if( myid == 0 )then
+            call print_debug_integer_node_tree( GP_print_unit, &
+                 'aft bcast 528  GP_Adult_Population_Node_Type ', &
+                 GP_Adult_Population_Node_Type )
+        endif ! myid == 0
 
 
         !if( myid == 0 )then
