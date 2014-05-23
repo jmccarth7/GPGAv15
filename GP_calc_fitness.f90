@@ -350,7 +350,7 @@ if( L_GPSSE_log )then
           i_GP_Generation, i_GP_Best_Parent, &
           GP_Child_Individual_SSE(i_GP_Best_Parent)
 
-    !flush( GPSSE_best_log_unit )
+    flush( GPSSE_best_log_unit ) ! DO NOT COMMENT OUT
 
 
 endif ! L_GPSSE_log

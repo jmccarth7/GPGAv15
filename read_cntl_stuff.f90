@@ -175,12 +175,14 @@ number_GP_child_prints  = 10
 n_input_vars = 0
 n_levels = 0
 
-sse_low_wt   = 1.0d-2
-
+sse_low_wt   = 1.0d0 
 sse_min_time = 0.0d0
 sse_max_time = 1.0d10
 
 L_restart = .false.
+
+GP_Set_Terminal_to_Parameter_Probability = 0.6d0
+
 
 n_partitions = 1
 !---------------------------------------------------------------------
@@ -1071,6 +1073,28 @@ do
 
         write(GP_print_unit,'(A,1x,E15.7)') &
               'rcntl: prob_no_elite = ', prob_no_elite
+
+
+
+
+
+!--------------------------------------------------------------------
+
+
+! term_to_parm_prob   = GP_Set_Terminal_to_Parameter_Probability
+
+! if a random number < GP_Set_Terminal_to_Parameter_Probability
+! then the node type  is a variable type,  else a parameter type
+
+    elseif( Aline(1:len('term_to_parm_prob')) == "term_to_parm_prob" .or.     &
+            Aline(1:len('term_to_parm_prob')) == "term_to_parm_prob" ) then
+
+        READ(Aline(len('term_to_parm_prob')+1:), * )  GP_Set_Terminal_to_Parameter_Probability
+
+        write(GP_print_unit,'(A,1x,F12.5)') &
+              'rcntl: GP_Set_Terminal_to_Parameter_Probability =', &
+                      GP_Set_Terminal_to_Parameter_Probability
+
 
 
 

@@ -462,13 +462,13 @@ do  i_time_step=1,n_time_steps
         !                new_rank, i_CODE_equation, data_variance_inv(i_CODE_equation)
         !endif ! L_GP_print
   
-        !if( L_ga_print )then
+        !if( L_ga_print )then   ! .and. new_rank == 1 )then
         !    write(GA_print_unit,'(A,2(1x,I6), 3(1x,E15.7))') &
-        !          'fcn: new_rank, i_eqn, RK_soln, data_array, var ', &
+        !          'fcn: new_rank, i_eqn, RK_soln, data_array, var_inv ', &
         !                new_rank, i_CODE_equation,                   &
-        !                Runge_Kutta_Solution(i_time_step,i_CODE_equation), &
+        !                Numerical_CODE_Solution(i_time_step,i_CODE_equation), &
         !                Data_Array(i_time_step,i_CODE_equation), &
-        !                data_variance(i_CODE_equation)
+        !                data_variance_inv(i_CODE_equation)
   
         !    write(GA_print_unit,'(A,2(1x,I6), 1x,E15.7)') &
         !          'fcn: new_rank, i_eqn, data_variance ', &
@@ -508,7 +508,8 @@ do  i_time_step=1,n_time_steps
 
 enddo ! i_time_step
 
-!if( L_GP_print .and. GP_para_flag .and. new_rank == 3  )then
+!if( L_GP_print .and. GP_para_flag .and. new_rank == 1  )then
+!if( L_GP_print .and.  new_rank == 1  )then
 !    write(GP_print_unit,'(A,1(1x,I6),2x,E15.7)') &
 !    'fcn: at return  new_rank, sse_local = ',new_rank, sse_local
 !endif ! L_GP_print

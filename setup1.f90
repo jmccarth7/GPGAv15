@@ -428,6 +428,24 @@ call set_modified_indiv( )
 !    !flush(6)
 !endif ! myid == 0
 
+!---------------------------------------------------------------------------                                  
+                                                                                                              
+! set L_minSSE to TRUE if there are no elite individuals,                                                     
+!  or prob_no_elite > 0 which means elite individuals might be modified                                       
+                                                                                                              
+L_minSSE = n_GP_Elitists ==  0 .or.   prob_no_elite > 0.0D0                                                   
+                                                                                                              
+if( myid == 0 .and. L_minSSE )then                                                                            
+                                                                                                              
+    open( GP_minSSE_summary_output_unit, file='GP_minSSE_summary_file', &                                     
+          form = 'formatted', access = 'sequential', &                                                        
+          status = 'unknown' )                                                                                
+                                                                                                              
+endif ! myid == 0                                                                                             
+                                                                                                              
+                                                                                                              
+!---------------------------------------------------------------------------                                  
+
 
 
 return

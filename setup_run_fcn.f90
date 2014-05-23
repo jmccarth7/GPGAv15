@@ -232,6 +232,7 @@ if( individual_quality( i_GA_indiv ) > 0 ) then
 
 endif !  individual_quality( i_GA_indiv ) > 0
 
+!if( L_ga_print .and. new_rank == 1 )then
 !if( L_ga_print )then
 !    write(6,'(A,3(1x,I6), 1x, E15.7)') &
 !          'setrf: new_rank, i_GA_indiv, individual_quality, individual_SSE', &

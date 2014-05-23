@@ -252,5 +252,6 @@ real(kind=8) :: rrnd
 integer :: clock
 integer :: n_seed
 
+logical :: L_minSSE  = .false.
 
 end module GP_variables_module
