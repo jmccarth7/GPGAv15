@@ -132,7 +132,7 @@ do  i_part = 1,  n_partitions
 
     if( myid == 0 ) then
 
-        tag_fit_r =  tag_ind_fit !+i_GP_individual
+        tag_fit_r =  tag_ind_fit 
 
         write(GP_print_unit,'(A,5(1x,I7)/)')&
               'gil:31t myid, new_rank, tag_fit_r, ind1, ind2', &
@@ -144,31 +144,23 @@ do  i_part = 1,  n_partitions
                        MPI_ANY_SOURCE, tag_fit_r,                       &
                        MPI_COMM_WORLD, MPI_STAT, ierr )
 
-                       !MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, MPI_STAT, ierr )
-
-        !!write(GP_print_unit,'(A,3(1x,i3),1x,E15.7)')&
-        !!'gil:in loop RECV myid, new_rank, i_GP_individual, individual_fit_rec',&
-        !!                  myid, new_rank, i_GP_individual, individual_fit_rec
 
 
-        !!GP_population_fitness( i_GP_individual  ) = individual_fit_rec
 
+        tag_sse_r = tag_ind_sse   
 
-        tag_sse_r = tag_ind_sse   !+i_GP_individual
-
-        write(GP_print_unit,'(A,4(1x,I7)/)')&
-              'gil:33t myid, new_rank, tag_sse_r, i_GP_individual', &
-                       myid, new_rank, tag_sse_r, i_GP_individual
+        !write(GP_print_unit,'(A,4(1x,I7)/)')&
+        !      'gil:33t myid, new_rank, tag_sse_r, i_GP_individual', &
+        !               myid, new_rank, tag_sse_r, i_GP_individual
 
         n_indiv = ind2 - ind1 + 1
         call MPI_RECV( sse_buffer_recv(ind1), n_indiv, MPI_DOUBLE_PRECISION, &
                        MPI_ANY_SOURCE, tag_sse_r,                       &
                        MPI_COMM_WORLD, MPI_STAT, ierr )
-                       !MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, MPI_STAT, ierr )
 
-        write(GP_print_unit,'(A,3(1x,i3),1x,E15.7)')&
-         'gil:in loop RECV myid, new_rank, i_GP_individual, individual_SSE_rec ', &
-                           myid, new_rank, i_GP_individual, individual_SSE_rec
+        !write(GP_print_unit,'(A,3(1x,i3),1x,E15.7)')&
+        ! 'gil:in loop RECV myid, new_rank, i_GP_individual, individual_SSE_rec ', &
+        !                   myid, new_rank, i_GP_individual, individual_SSE_rec
 
 
         GP_Child_Individual_SSE(ind1:ind2) =  sse_buffer_recv(ind1:ind2)
@@ -182,19 +174,16 @@ do  i_part = 1,  n_partitions
         gp_ind_loop:&
         do  i_GP_individual= ind1, ind2    ! 1,n_GP_individuals
 
-            write(GP_print_unit,'(A,5(1x,I7)/)')&
-                  'gil: myid, new_rank, ind1, ind2, i_GP_individual', &
-                        myid, new_rank, ind1, ind2, i_GP_individual
+            !write(GP_print_unit,'(A,5(1x,I7)/)')&
+            !      'gil: myid, new_rank, ind1, ind2, i_GP_individual', &
+            !            myid, new_rank, ind1, ind2, i_GP_individual
 
 
-            write(GP_print_unit,'(A,5(1x,i3))')&
-             'gil:in loop myid, new_rank, i_part, i_gp_1, i_gp_2 ',&
-                          myid, new_rank, i_part, i_gp_1, i_gp_2
+            !write(GP_print_unit,'(A,5(1x,i3))')&
+            ! 'gil:in loop myid, new_rank, i_part, i_gp_1, i_gp_2 ',&
+            !              myid, new_rank, i_part, i_gp_1, i_gp_2
 
 
-            !write(GP_print_unit,'(A,3(1x,I3))')&
-            !      'gil:4 myid, new_rank, i_GP_gen', &
-            !             myid, new_rank, i_GP_generation
 
             !------------------------------------------------------------------------------
             ! calculate how many parameters total to fit for the specific individual CODE
@@ -202,11 +191,6 @@ do  i_part = 1,  n_partitions
 
             n_GP_Parameters = n_code_equations
 
-            !if( new_rank == 0 )then
-            !    write(GP_print_unit,'(A,2(1x,i3))')&
-            !     'gil: before loop n_code_equations,  n_GP_params',&
-            !                       n_code_equations,  n_GP_parameters
-            !endif !  new_rank == 0
 
             do  i_Tree=1,n_Trees
                 do  i_Node=1,n_Nodes
@@ -419,7 +403,6 @@ do  i_part = 1,  n_partitions
                 endif ! new_rank == 0
 
 
-                !GP_population_fitness(i_GP_individual) = individual_fitness
                 fit_buffer_send(i_GP_individual) = individual_fitness
 
                 if( new_rank == 0 )then
@@ -476,7 +459,6 @@ do  i_part = 1,  n_partitions
 
     endif ! i_gp_1 <= myid  .and. ...
 
-    !call MPI_BARRIER( MPI_COMM_WORLD, ierr )
 
     write(6,'(A,4(1x,i3))')&
           'gil:12 AFT BARRIER myid, new_rank, ind1, ind2 ', &
@@ -524,11 +506,11 @@ deallocate( fit_buffer_send )
 deallocate( sse_buffer_send )
 deallocate( sse_buffer_recv )
 
-call mpi_finalize(ierr)  ! debug only
-stop                     ! debug only
+!call mpi_finalize(ierr)  ! debug only
+!stop                     ! debug only
 
 
-!return
+return
 
 
 

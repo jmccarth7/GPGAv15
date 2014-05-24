@@ -1234,7 +1234,6 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
         write(6,'(A,1x,I3)') '0: after call GP_individual_loop myid = ', myid
     endif !  myid == 0
 
-    !call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
 
     if( myid == 0 )then
         do  i_GP_individual = 1, n_GP_individuals
