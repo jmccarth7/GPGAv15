@@ -54,6 +54,18 @@ call MPI_BCAST( sse_low_wt, 1,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
 !-----------------------------------------------------------------
+
+call MPI_BCAST( GP_Set_Terminal_to_Parameter_Probability, 1,    &
+                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+
+!-----------------------------------------------------------------
+
+call MPI_BCAST( prob_no_elite, 1,    &
+                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+
+
+!-----------------------------------------------------------------
+
 call MPI_BCAST( random_scale_large, 1,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 call MPI_BCAST( random_scale_small, 1,    &

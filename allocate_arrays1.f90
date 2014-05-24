@@ -38,7 +38,8 @@ endif ! myid == 0
 
 allocate( ga_individual_elites( n_GA_individuals )  )
 
-allocate( Run_GA_lmdif( n_GA_individuals )  )
+allocate( Run_GA_lmdif( n_GA_individuals )  ) ! orig
+!!allocate( Run_GA_lmdif( 10 * n_GA_individuals )  ) ! debug only
 
 allocate( Data_Array( 0:n_time_steps, n_CODE_equations )  )
 
@@ -103,10 +104,13 @@ allocate( GP_diversity_index( n_GP_individuals ) )
 !---------------------------------------------------------------
 
 allocate( Truth_Initial_Conditions( 1:n_code_equations )  )
-allocate( Truth_Node_Type( n_nodes, n_trees )  )                                       
-allocate( Truth_Node_Parameters( n_nodes, n_trees )  )                                 
- 
-allocate( Truth_Model_Match( n_gp_individuals ) )                                                   
+allocate( Truth_Node_Type( n_nodes, n_trees )  )
+allocate( Truth_Node_Parameters( n_nodes, n_trees )  )
+
+
+allocate( Truth_Model_Match( n_gp_generations ) )
+
+
 
 !---------------------------------------------------------------
 

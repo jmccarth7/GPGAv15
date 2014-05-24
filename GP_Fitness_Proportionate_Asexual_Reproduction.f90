@@ -13,7 +13,7 @@ implicit none
 
 real(kind=4) :: cff
 
-!integer(kind=4) :: i
+integer(kind=4) :: i
 integer(kind=4) :: icff
 integer(kind=4) :: i_GP_individual
 integer(kind=4) :: j_GP_Individual
@@ -100,6 +100,12 @@ do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
     if( icff < 1 ) cycle
 
     j_GP_Individual=icff
+
+    !----------------------------------------------------------------------------
+    ! don't replace if sse will increase after replacement
+    if( sse_ind < GP_Child_Individual_SSE(j_GP_Individual) ) cycle
+    !----------------------------------------------------------------------------
+
 
     !write(GP_print_unit,'(/A,2(1x,I6)/)' ) 'gpfpar: j_GP_Individual, icff ', &
     !                                                j_GP_Individual, icff

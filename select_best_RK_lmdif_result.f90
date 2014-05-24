@@ -31,9 +31,9 @@ integer(kind=4),intent(in) :: new_comm
 !integer(kind=4)            :: new_rank 
 
 real(kind=8),&
- dimension(n_GP_parameters,divider) ::  parent_parameters
+ dimension(n_GP_parameters,n_GA_individuals) ::  parent_parameters
 real(kind=8),&
- dimension(n_GP_parameters,divider) ::  child_parameters
+ dimension(n_GP_parameters,n_GA_individuals) ::  child_parameters
 
 
 real(kind=8) :: individual_SSE_best_1
@@ -54,7 +54,7 @@ integer(kind=4) :: i_GA_generation_last
 ! if lmdif encounters an error, set individual_quality to -1
 ! if < 0 , reject this individual  ! jjm
 
-!integer(kind=4),intent(in) :: individual_quality(divider)
+!integer(kind=4),intent(in) :: individual_quality(n_GA_individuals)
 
 real(kind=8), external :: indiv_fitness
 
@@ -179,17 +179,17 @@ individual_ranked_fitness(i_GA_best_parent) = &
 Individual_Fitness = Individual_Ranked_Fitness(i_GA_Best_Parent)
 
 
-if( L_ga_print )then
-    write(GA_print_unit,'(/A,1x,I6, 2(1x,E20.10))') &
-          'sbrl: lmdif i_GA_best_parent, &
-          &indiv_SSE, indiv_ranked_fitness', &
-                       i_GA_best_parent, &
-                       individual_SSE(i_GA_best_parent), &
-                       individual_ranked_fitness(i_GA_best_parent)
-
-    write(GA_print_unit,'(A,1x,E20.10/)') &
-          'sbrl: lmdif individual_fitness ', individual_fitness
-endif ! L_ga_print
+!if( L_ga_print )then
+!    write(GA_print_unit,'(/A,1x,I6, 2(1x,E20.10))') &
+!          'sbrl: lmdif i_GA_best_parent, &
+!          &indiv_SSE, indiv_ranked_fitness', &
+!                       i_GA_best_parent, &
+!                       individual_SSE(i_GA_best_parent), &
+!                       individual_ranked_fitness(i_GA_best_parent)
+!
+!    write(GA_print_unit,'(A,1x,E20.10/)') &
+!          'sbrl: lmdif individual_fitness ', individual_fitness
+!endif ! L_ga_print
 
     !write(6,'(/A,1x,I6, 2(1x,E20.10))') &
     !      'sbrl: lmdif i_GA_best_parent, &

@@ -44,7 +44,7 @@ if( n_GA_save_elites < 1 ) return
 
 !-----------------------------------------------------------------------
 
-allocate( temp_fitness( divider ) )
+allocate( temp_fitness( n_GA_individuals ) )
 
 temp_fitness = individual_ranked_fitness
 
@@ -52,12 +52,12 @@ temp_fitness = individual_ranked_fitness
 
 ! sort the individual ranked fitness ( highest to lowest )
 
-call sort( divider, temp_fitness )
+call sort( n_GA_individuals, temp_fitness )
 
 !if( L_ga_print )then
 !    write(GA_print_unit,'(/A/)') &
 !          'gase: i, individual_ranked_fitness(i), temp_fitness(i)'
-!    do  i = 1, divider
+!    do  i = 1, n_GA_individuals
 !        write(GA_print_unit,'(I6,2(1x,E15.7))') &
 !        i, individual_ranked_fitness(i), temp_fitness(i)
 !    enddo
@@ -75,14 +75,14 @@ min_fit = 1.0D20
 
 !if( L_ga_print )then
 !    write(GA_print_unit,'(A,2(1x,I6))') &
-!      'gase: divider, divider - n_GA_save_elites + 1 ',&
-!             divider, divider - n_GA_save_elites + 1
+!      'gase: n_GA_individuals, n_GA_individuals - n_GA_save_elites + 1 ',&
+!             n_GA_individuals, n_GA_individuals - n_GA_save_elites + 1
 !endif ! L_ga_print
 
 ! do the loop this way since temp_fitness
 ! is sorted in ascending order of fitness
 
-do  i = divider, divider - n_GA_save_elites + 1,   -1
+do  i = n_GA_individuals, n_GA_individuals - n_GA_save_elites + 1,   -1
 
     if( temp_fitness(i) < min_fit ) then
         min_fit = temp_fitness(i)
@@ -113,7 +113,7 @@ ga_individual_elites = 0
 ! of the first n_GA_save_elites  individuals
 
 j = 0
-do  i = 1, divider
+do  i = 1, n_GA_individuals
 
     if( individual_ranked_fitness(i) >= min_fit ) then
 

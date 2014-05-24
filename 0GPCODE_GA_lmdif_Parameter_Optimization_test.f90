@@ -28,6 +28,7 @@ implicit none
 
 
 integer :: i
+integer :: ii
 
 !integer :: i_diversity
 integer :: message_len
@@ -73,9 +74,9 @@ integer(kind=4) :: comm_world
 
 !character(200) :: tree_descrip
 
-character(15),parameter :: program_version   = '201402.001_v12'
-character(10),parameter :: modification_date = '20140422'
-character(50),parameter :: branch  =  'master'
+character(15),parameter :: program_version   = '201402.002_v12'
+character(10),parameter :: modification_date = '20140522'
+character(50),parameter :: branch  =  'ver3'
 
 
 !---------------------------------------------------------------------------------------
@@ -419,7 +420,8 @@ endif ! myid == 0 )then
 
 
 !-------------------------------------------------------------------------------
-if( n_partitions < 2  .or. divider < 2 )then
+!if( n_partitions < 2  .or. divider < 2 )then !orig
+if( n_partitions < 1  .or. divider < 2 )then    
 
     write(6,'(/A/)') '0: bad values for n_partitions or divider -- stopping'
     write(6,'(A,3(1x,I3))') '0: n_partitions, numprocs, divider', &
@@ -431,8 +433,8 @@ endif ! n_partitions < 2....
 !-------------------------------------------------------------------------------
 
 allocate( ranks(      1:numprocs-1, n_partitions ) )
-allocate( ranks_temp( 0: divider -1     ) )
-allocate( ranks2(     0: divider- 1, n_partitions ) )
+allocate( ranks_temp( 0: divider-1     ) )
+allocate( ranks2(     0: divider-1, n_partitions ) )
 
 
 if( myid == 0 )then
@@ -510,13 +512,6 @@ if( myid == 0 ) then
 endif ! myid == 0
 
 
-
-
-
-
-
-
-
 !-------------------------------------------------------------
 !
 !! NOTE:  * myid *  used in loop below
@@ -542,6 +537,7 @@ endif ! myid == 0
 !
 !enddo ! i
 !
+!-------------------------------------------------------------
 
 allocate( color_value(0:numprocs-1 ) )
 allocate(  key (0:divider -1 ) )
@@ -575,7 +571,8 @@ endif ! myid == 0
 
 
 color = color_value( myid )
-write(6,'(A,4(1x,I10))') '0: myid, color', myid, color
+
+!write(6,'(A,4(1x,I10))') '0: myid, color', myid, color
 
 !-------------------------------------------------------------
 call MPI_COMM_SPLIT( comm_world, color, myid, new_comm, ierr )
@@ -794,6 +791,10 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
         if( myid == 0 )then
 
+            ! fill child sse for individuals not  modified in this generation
+
+            GP_Child_Individual_SSE  = GP_Adult_Population_SSE   ! needed ??  jjm 20140522
+
             !----------------------------------------------------------------------------------
 
             !tree_descrip =  ' GP_Adult trees before call selection routines '
@@ -804,16 +805,16 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
             !if( i_GP_generation == 1                                  .or. &
             !    mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
             !    i_GP_generation == n_GP_generations                          )then
-            !    write(GP_print_unit,'(//A)') '0:3 before modifications'
-            !    write(GP_print_unit,'(A)')&
-            !          '0:3 i_GP_gen i_GP_indiv    GP_Child_Indiv_SSE&
-            !          &   GP_Child_Indiv_SSE/SSE0'
-            !    do  i_GP_individual = 1, n_GP_individuals
-            !        write(GP_print_unit,'(2(1x,I10), 2(1x, E20.10))') &
-            !                   i_GP_generation, i_GP_individual, &
-            !                   GP_Child_Individual_SSE(i_GP_Individual), &
-            !                   GP_Child_Individual_SSE(i_GP_Individual)/SSE0
-            !    enddo ! i_GP_individual
+                write(GP_print_unit,'(//A)') '0:3 before modifications'
+                write(GP_print_unit,'(A)')&
+                      '0:3 i_GP_gen i_GP_indiv    GP_Child_Indiv_SSE&
+                      &   GP_Child_Indiv_SSE/SSE0'
+                do  i_GP_individual = 1, n_GP_individuals
+                    write(GP_print_unit,'(2(1x,I10), 2(1x, E20.10))') &
+                               i_GP_generation, i_GP_individual, &
+                               GP_Child_Individual_SSE(i_GP_Individual), &
+                               GP_Child_Individual_SSE(i_GP_Individual)/SSE0
+                enddo ! i_GP_individual
             !endif ! i_GP_generation == 1 .or. ...
 
             !----------------------------------------------------------------------------------
@@ -999,8 +1000,8 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
             GP_Adult_Population_SSE       = GP_Child_Individual_SSE
 
 
-            !write(GP_print_unit,'(/A)')&
-            !      '0:aft  move Child_Node_Type and SSE to Adult'
+            write(GP_print_unit,'(/A)')&
+                  '0:aft  move Child_Node_Type and SSE to Adult'
 
             !write(GP_print_unit,'(/A/(10(3x,L1)))')&
             !      '0: Run_GP_Calculate_Fitness ', Run_GP_Calculate_Fitness
@@ -1013,9 +1014,9 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
             !          'aft mutation print GP_population_node_parameters ', &
             !          GP_population_node_parameters )
 
-            if( i_GP_generation == 1                                  .or. &
-                mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
-                i_GP_generation == n_GP_generations                          )then
+            !if( i_GP_generation == 1                                  .or. &
+            !    mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
+            !    i_GP_generation == n_GP_generations                          )then
 
 
                 !write(GP_print_unit,'(A,1x,I6/)') '0: after Mutations ierror_m = ', ierror_m
@@ -1035,7 +1036,8 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
                       '0: Run_GP_Calculate_Fitness ', Run_GP_Calculate_Fitness
                 !!flush(GP_print_unit)
 
-            endif ! i_GP_generation == 1 .or. ...
+            !endif ! i_GP_generation == 1 .or. ...
+
             !---------------------------------------------------------------------------
 
             ! calculate the diversity index for each individual for generations > 1
@@ -1067,7 +1069,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
             write(6,'(A,2(1x,I6))') '0: ierror_t, myid ', ierror_t, myid
             write(6,'(A,2(1x,I6))') '0: ierror_m, myid ', ierror_m, myid
             write(6,'(A,1x,I6)') '0: cycle generation_loop myid =', myid
-            !!flush(6)
+            flush(6)
             ierror_t = 0
             ierror_m = 0
             cycle generation_loop
@@ -1090,7 +1092,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
         !          '0: call bcast2 '
         !    !flush(GP_print_unit)
         !endif ! myid == 0
-        write(6,'(/A,1x,I3)') '0: call bcast2    myid = ', myid
+        !write(6,'(/A,1x,I3)') '0: call bcast2    myid = ', myid
 
         call bcast2()
 
@@ -1103,8 +1105,8 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
     endif ! i_GP_Generation .eq. 1
 
 
-    write(6,'(A,2(1x,I3)/)') &
-          '0: aft i_GP_gen == 1 test i_GP_generation, myid =', i_GP_generation, myid
+    !write(6,'(A,2(1x,I3)/)') &
+    !      '0: aft i_GP_gen == 1 test i_GP_generation, myid =', i_GP_generation, myid
 
     !-----------------------------------------------------------------------------------------
 
@@ -1170,6 +1172,8 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
         !flush(GP_print_unit)
     endif ! myid == 0
 
+
+
     GP_Child_Population_Node_Type =  GP_Adult_Population_Node_Type
 
 
@@ -1223,30 +1227,60 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
     !-----------------------------------------------------------------------------------
 
     if( myid == 0 )then
-        write(6,'(A,1x,I3)') '0: call GP_individual_loop myid = ', myid
+        write(6,'(A,1x,I3/)') '0: call GP_individual_loop myid = ', myid
     endif !  myid == 0
 
+    !if( myid == 0 )then
+    !    do  ii = 1, n_GP_individuals
+    !        if( isnan( GP_Child_Individual_SSE(ii) ) )then
+    !            GP_Child_Individual_SSE(ii) = 1.0D13
+    !        endif ! isnan( GP_Child_Individual_SSE(ii) )
+    !        if( isnan( GP_population_fitness(ii) ) )then
+    !            GP_population_fitness(ii) = 0.0D0 
+    !        endif ! isnan( GP_population_fitness(ii) )
+    !        write(GP_print_unit,'(A,2(1x,i3), 2(1x, E15.7))')&          
+    !         '0: i_GP_gen, i_GP_indiv, GP_pop_fit, GP_child_indiv_SSE', &
+    !             i_GP_generation, ii, GP_population_fitness(ii), &
+    !                                GP_Child_Individual_SSE(ii)
+    !    enddo ! ii
+    !endif !  myid == 0
+
+
+    !---------------------------------------------------------------
 
     call GP_individual_loop( new_group, new_comm, i_GP_generation )
 
+    !---------------------------------------------------------------
+
 
     if( myid == 0 )then
-        write(6,'(A,1x,I3)') '0: after call GP_individual_loop myid = ', myid
+        write(6,'(/A,1x,I3/)') '0: after call GP_individual_loop myid = ', myid
     endif !  myid == 0
 
 
     if( myid == 0 )then
-        do  i_GP_individual = 1, n_GP_individuals
-            write(GP_print_unit,'(A,4(1x,I6), 1x, E15.7)')&
-                  '0: myid, new_rank, i_GP_gen, i_GP_indiv, GP_pop_fit(i_GP_indiv) ', &
-                      myid, new_rank, i_GP_generation, i_GP_individual, &
-                                 GP_population_fitness(i_GP_individual)
-        enddo ! i_GP_individual
+        do  ii = 1, n_GP_individuals
+            !write(GP_print_unit,'(A,4(1x,i3), 2(1x, E15.7))')&          
+            ! '0: myid, new_rank, i_GP_gen, i_GP_indiv, GP_pop_fit, GP_child_indiv_SSE', &
+            !     myid, new_rank, i_GP_generation, ii, &
+            !                GP_population_fitness(ii), &
+            !              GP_Child_Individual_SSE(ii)
+
+            if( isnan( GP_Child_Individual_SSE(ii) ) )then
+                GP_Child_Individual_SSE(ii) = 1.0D13
+            endif ! isnan( GP_Child_Individual_SSE(ii) )
+
+            if( isnan( GP_population_fitness(ii) ) )then
+                GP_population_fitness(ii) = 0.0D0 
+            endif ! isnan( GP_population_fitness(ii) )
+
+            write(GP_print_unit,'(A,2(1x,i3), 2(1x, E15.7))')&          
+             '0: i_GP_gen, i_GP_indiv, GP_pop_fit, GP_child_indiv_SSE', &
+                 i_GP_generation, ii, GP_population_fitness(ii), &
+                                    GP_Child_Individual_SSE(ii)
+        enddo ! ii
     endif !  myid == 0
 
-
-call MPI_FINALIZE(ierr)  !debug only
-stop                     !debug only
 
     !-------------------------------------------------------------------------------------
 
@@ -1268,13 +1302,12 @@ stop                     !debug only
 
 
             write(GP_print_unit, '(A )') &
-                 '0:i_GP_Indiv  GP_Indiv_N_param    GP_Adult_Pop_SSE   &
+                 '0:i_GP_Indiv  GP_Indiv_N_param  &
                   &  GP_Child_Indiv_SSE   GP_Child_Indiv_SSE/SSE0'
 
             do  i_GP_individual = 1, n_GP_individuals
-                write(GP_print_unit, '(5x,I6,6x,I6,6x,3(1x, E20.10) )') &
+                write(GP_print_unit, '(5x,I6,6x,I6,6x,2(1x, E20.10) )') &
                       i_GP_Individual,  GP_Individual_N_GP_param(i_GP_individual), &
-                                        GP_Adult_Population_SSE(i_GP_Individual), &
                                         GP_Child_Individual_SSE(i_GP_Individual), &
                                         GP_Child_Individual_SSE(i_GP_Individual)/SSE0
             enddo
@@ -1309,21 +1342,22 @@ stop                     !debug only
 
     max_n_gp_params = maxval( GP_Individual_N_GP_param )
 
+
     if( myid == 0 )then
         if( i_GP_generation == 1                                  .or. &
             mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
             i_GP_generation == n_GP_generations                          )then
 
-            max_n_gp_params = maxval( GP_Individual_N_GP_param )
+            !max_n_gp_params = maxval( GP_Individual_N_GP_param )
 
             write(GP_print_unit,'(/A)')&
             '0:-----------------------------------------------------------------'
-            write(GP_print_unit,'(A,2(1x,I6))') &
-            '0: DO NOT call GP_para_lmdif_process i_GP_generation, max_n_gp_params', &
-                                                  i_GP_Generation, max_n_gp_params
             !write(GP_print_unit,'(A,2(1x,I6))') &
-            !'0: call GP_para_lmdif_process i_GP_generation, max_n_gp_params', &
-            !                               i_GP_Generation, max_n_gp_params
+            !'0: DO NOT call GP_para_lmdif_process i_GP_generation, max_n_gp_params', &
+            !                                      i_GP_Generation, max_n_gp_params
+            write(GP_print_unit,'(A,2(1x,I6))') &
+            '0: call GP_para_lmdif_process i_GP_generation, max_n_gp_params', &
+                                           i_GP_Generation, max_n_gp_params
             write(GP_print_unit,'(A/)')&
             '0:-----------------------------------------------------------------'
 
@@ -1336,7 +1370,15 @@ stop                     !debug only
 
     !---------------------------------------------------------------
 
-    !call GP_para_lmdif_process( i_GP_generation, max_n_gp_params  )
+    ! call GP_para_lmdif_process only after the 2nd generation
+    ! calling lmdif for really bad sets of parameters does not
+    ! work well, so allow 2 generations to (hopefully) refine the
+    ! parameter values
+
+    if( i_GP_generation > n_GP_generations / 2 )then
+        call GP_para_lmdif_process( i_GP_generation, max_n_gp_params  )
+    endif !  i_GP_generation > n_GP_generations / 2
+
 
     !---------------------------------------------------------------
 
@@ -1362,18 +1404,18 @@ stop                     !debug only
             &============================================='
 
             write(GP_print_unit, '(/A )') &
-                 '0:i_GP_Indiv  GP_Indiv_N_param    GP_Adult_Pop_SSE    &
+                 '0:i_GP_Indiv  GP_Indiv_N_param   &
                   & GP_Child_Indiv_SSE   GP_Child_Indiv_SSE/SSE0'
 
             do  i_GP_individual = 1, n_GP_individuals
-                write(GP_print_unit, '(5x,I6,6x,I6,6x,3(1x, E20.10) )') &
+                write(GP_print_unit, '(5x,I6,6x,I6,6x,2(1x, E20.10) )') &
                  i_GP_Individual,  GP_Individual_N_GP_param(i_GP_individual), &
-                                   GP_Adult_Population_SSE(i_GP_Individual), &
                                    GP_Child_Individual_SSE(i_GP_Individual), &
                                    GP_Child_Individual_SSE(i_GP_Individual)/SSE0
             enddo
 
-            !!flush(GP_print_unit)
+                                   !GP_Adult_Population_SSE(i_GP_Individual), &
+            !flush(GP_print_unit)
 
         endif ! i_GP_generation == 1 .or. ...
 
@@ -1441,46 +1483,49 @@ stop                     !debug only
 
         !----------------------------------------------------------------------------------
 
-        ! whenever the SSE for the best parent is less than GP_minSSE_Individual_SSE,
-        ! load the GP_minSSE* arrays with the corresponding arrays for the best parent
+        if( L_minSSE )then
 
-        ! thus, at the end of the run, the GP_minSSE* arrays will have the values of the
-        ! best individual over all generations
+            ! whenever the SSE for the best parent is less than GP_minSSE_Individual_SSE,
+            ! load the GP_minSSE* arrays with the corresponding arrays for the best parent
 
-        ! this is needed only if the prob_no_elite parameter > 0, so that it is possible that
-        ! the best individual on the final generation is not the best found in the run
+            ! thus, at the end of the run, the GP_minSSE* arrays will have the values of the
+            ! best individual over all generations
+    
+            ! this is needed only if the prob_no_elite parameter > 0, so that it is possible that
+            ! the best individual on the final generation is not the best found in the run
+    
+    
+            if( GP_Child_Individual_SSE(i_GP_best_parent) <  GP_minSSE_Individual_SSE  ) then
+    
+                GP_minSSE_Individual_SSE = GP_Child_Individual_SSE(i_GP_best_parent)
+    
+                GP_minSSE_Individual_Initial_Conditions(1:n_CODE_equations)  = &
+                          GP_Population_Initial_Conditions(1:n_CODE_equations, i_GP_best_parent)
+    
+                do  i_tree=1,n_trees
+                    do  i_node=1,n_nodes
+    
+                        if( GP_Adult_population_Node_Type(i_Node,i_Tree,i_GP_best_parent) == 0 ) then
+    
+                            GP_minSSE_Individual_Node_Parameters(i_node,i_tree) = &
+                                   GP_population_node_parameters(i_node,i_tree,i_GP_best_parent)
+    
+                        endif ! GP_Adult_population_Node_Type(i_Node,i_Tree,i_GP_best_parent) == 0
+    
+                    enddo ! i_node
+                enddo  ! i_tree
+    
+                GP_minSSE_Individual_Node_Type(1:n_nodes,1:n_trees)  = &
+                        GP_Adult_population_Node_Type(1:n_Nodes, 1:n_Trees, i_GP_best_parent)
+    
+                GP_minSSE_Individual_N_GP_param =  GP_Individual_N_GP_param(i_GP_best_parent)
+    
+                GP_minSSE_Individual =  i_GP_best_parent
+                GP_minSSE_generation =  i_GP_generation
+    
+            endif  !  GP_Child_Individual_SSE(i_GP_best_parent) <  GP_minSSE_Individual_SSE
 
-
-        if( GP_Child_Individual_SSE(i_GP_best_parent) <  GP_minSSE_Individual_SSE  ) then
-
-            GP_minSSE_Individual_SSE = GP_Child_Individual_SSE(i_GP_best_parent)
-
-            GP_minSSE_Individual_Initial_Conditions(1:n_CODE_equations)  = &
-                      GP_Population_Initial_Conditions(1:n_CODE_equations, i_GP_best_parent)
-
-            do  i_tree=1,n_trees
-                do  i_node=1,n_nodes
-
-                    if( GP_Adult_population_Node_Type(i_Node,i_Tree,i_GP_best_parent) == 0 ) then
-
-                        GP_minSSE_Individual_Node_Parameters(i_node,i_tree) = &
-                               GP_population_node_parameters(i_node,i_tree,i_GP_best_parent)
-
-                    endif ! GP_Adult_population_Node_Type(i_Node,i_Tree,i_GP_best_parent) == 0
-
-                enddo ! i_node
-            enddo  ! i_tree
-
-            GP_minSSE_Individual_Node_Type(1:n_nodes,1:n_trees)  = &
-                    GP_Adult_population_Node_Type(1:n_Nodes, 1:n_Trees, i_GP_best_parent)
-
-            GP_minSSE_Individual_N_GP_param =  GP_Individual_N_GP_param(i_GP_best_parent)
-
-            GP_minSSE_Individual =  i_GP_best_parent
-            GP_minSSE_generation =  i_GP_generation
-
-        endif  !  GP_Child_Individual_SSE(i_GP_best_parent) <  GP_minSSE_Individual_SSE
-
+        endif ! L_minSSE
 
 
     endif ! myid == 0
@@ -1590,9 +1635,11 @@ if( myid == 0 )then
 
     !------------------------------------------------------------------------------------
 
-    ! this prints a summary of the initial conditions,
-    ! parameters,  and node types for the individual with the minimum SSE
-    ! and writes the tree to the summary file
+    if( L_minSSE )then
+
+        ! this prints a summary of the initial conditions,
+        ! parameters,  and node types for the individual with the minimum SSE
+        ! and writes the tree to the summary file
 
 
         write(GP_print_unit,'(//A)') &
@@ -1602,11 +1649,13 @@ if( myid == 0 )then
         '0: call summary_GP_minSSE_indiv GP_minSSE_generation, GP_minSSE_Individual ', &
                                          GP_minSSE_generation, GP_minSSE_Individual
 
-    call summary_GP_minSSE_indiv( GP_minSSE_generation, GP_minSSE_Individual )
+        call summary_GP_minSSE_indiv( GP_minSSE_generation, GP_minSSE_Individual )
+    
+    
+        write(GP_print_unit,'(//A,3(1x,I5))') '0: call print_time_series_minSSE'
+        call print_time_series_minSSE( )
 
-
-    write(GP_print_unit,'(//A,3(1x,I5))') '0: call print_time_series_minSSE'
-    call print_time_series_minSSE( )
+    endif !  L_minSSE
 
     !------------------------------------------------------------------------------------
 
@@ -1656,8 +1705,10 @@ if( myid == 0 )then
     endif ! L_GP_all_summary
 
     close( GP_best_summary_output_unit )
-    close( GP_minSSE_summary_output_unit )
 
+    if( L_minSSE )then
+        close( GP_minSSE_summary_output_unit )
+    endif ! L_minSSE
 
 endif ! myid == 0
 

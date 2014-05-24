@@ -66,10 +66,11 @@ real(kind=8) :: GA_rand_replace_Probability
 ! the node becomes a function
 ! if greater, then the node becomes a parameter
 
-real(kind=8), parameter :: GP_Set_Terminal_to_Parameter_Probability = 0.6d0
+!real(kind=8), parameter :: GP_Set_Terminal_to_Parameter_Probability = 0.6d0
 
 !real(kind=8), parameter :: GP_Set_Terminal_to_Parameter_Probability = 0.3d0
 
+real(kind=8)            :: GP_Set_Terminal_to_Parameter_Probability 
 !---------------------------------------------------------------------
 
 ! determines how the GA_Tournament subroutine works

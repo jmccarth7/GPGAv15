@@ -88,9 +88,9 @@ call init_values( 0 )
 
 n_Variables = n_CODE_equations
 
-write(6,'(A,1x,I3,1x,I12, 1x, I6)') &
-       'set1: myid, n_seed, n_code_equations ', &
-              myid, n_seed, n_code_equations
+!write(6,'(A,1x,I3,1x,I12, 1x, I6)') &
+!       'set1: myid, n_seed, n_code_equations ', &
+!              myid, n_seed, n_code_equations
 
 !---------------------------------------------------------------------
 
@@ -427,6 +427,24 @@ call set_modified_indiv( )
 !    write(6, '(A,2(1x,I6)/)') 'set1: after set_modified_indiv'
 !    !flush(6)
 !endif ! myid == 0
+
+!---------------------------------------------------------------------------                                  
+                                                                                                              
+! set L_minSSE to TRUE if there are no elite individuals,                                                     
+!  or prob_no_elite > 0 which means elite individuals might be modified                                       
+                                                                                                              
+L_minSSE = n_GP_Elitists ==  0 .or.   prob_no_elite > 0.0D0                                                   
+                                                                                                              
+if( myid == 0 .and. L_minSSE )then                                                                            
+                                                                                                              
+    open( GP_minSSE_summary_output_unit, file='GP_minSSE_summary_file', &                                     
+          form = 'formatted', access = 'sequential', &                                                        
+          status = 'unknown' )                                                                                
+                                                                                                              
+endif ! myid == 0                                                                                             
+                                                                                                              
+                                                                                                              
+!---------------------------------------------------------------------------                                  
 
 
 

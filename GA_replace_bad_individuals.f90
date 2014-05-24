@@ -11,9 +11,9 @@ use GP_Data_module
 implicit none
 
 real(kind=8), &
-dimension( n_GP_parameters, divider ) :: child_parameters
+dimension( n_GP_parameters, n_GA_individuals ) :: child_parameters
 
-integer(kind=4) :: individual_quality(divider)
+integer(kind=4) :: individual_quality(n_GA_individuals)
 
 real(kind=8) :: dff
 
@@ -34,7 +34,7 @@ integer(kind=4) :: i_GA_individual
 n_replaced  = 0
 
 i_loop:&
-do  i_GA_Individual = 1, divider
+do  i_GA_Individual = 1, n_GA_individuals
 
     !if( L_ga_print )then
     !    write(GA_print_unit,'(A,1x,I6,1x,I6)') &

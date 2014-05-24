@@ -49,10 +49,10 @@ integer(kind=4),intent(in) :: new_comm
 ! if lmdif encounters an error, set individual_quality to -1
 ! if < 0 , reject this individual  ! jjm
 
-integer(kind=4) :: individual_quality(divider)
+integer(kind=4) :: individual_quality(n_GA_individuals)
 
 
-real(kind=8) :: child_parameters(n_GP_parameters, divider)
+real(kind=8) :: child_parameters(n_GP_parameters, n_GA_individuals)
 
 external :: fcn
 
@@ -63,13 +63,10 @@ external :: fcn
 call mpi_comm_rank( new_comm, new_rank, ierr ) 
 
 
-write(6,'(A,3(1x,I6))') &
-      'setrf:1 new_rank, n_GP_parameters, divider', &                
-               new_rank, n_GP_parameters, divider
+!write(6,'(A,4(1x,I6))') &
+!      'setrf: new_rank, n_GP_parameters, n_GA_individuals, i_GA_indiv', &                
+!              new_rank, n_GP_parameters, n_GA_individuals, i_GA_indiv
 
-write(6,'(A,4(1x,I6))') &
-      'setrf: new_rank, i_GA_indiv, n_parameters, n_GP_parameters ', &
-              new_rank, i_GA_indiv, n_parameters, n_GP_parameters
 !if( L_ga_print )then
 !    write(GA_print_unit,'(/A,4(1x,I6)/)') &
 !          'setrf: new_rank, i_GA_indiv, n_parameters, n_GP_parameters ', &
@@ -235,6 +232,7 @@ if( individual_quality( i_GA_indiv ) > 0 ) then
 
 endif !  individual_quality( i_GA_indiv ) > 0
 
+!if( L_ga_print .and. new_rank == 1 )then
 !if( L_ga_print )then
 !    write(6,'(A,3(1x,I6), 1x, E15.7)') &
 !          'setrf: new_rank, i_GA_indiv, individual_quality, individual_SSE', &

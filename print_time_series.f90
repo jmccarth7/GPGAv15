@@ -216,8 +216,8 @@ if( myid == 0 )then
     ! RK_Box_Model now puts the time series in Numerical_CODE_Solution
 
 
-    !call Runge_Kutta_Box_Model( .true. )  ! print
-    call Runge_Kutta_Box_Model( .false. )   ! don't print
+    call Runge_Kutta_Box_Model( .true. )  ! print
+    !call Runge_Kutta_Box_Model( .false. )   ! don't print
 
 
 
@@ -271,6 +271,11 @@ if( myid == 0 )then
                        ( Data_Array(i,j) - Numerical_CODE_Solution(i,j) )**2  * &
                                                      Data_Variance_inv(j) * &
                                                      sse_wt
+            !write(GP_print_unit,'(A,1x,I6,1x,I3,1x,4(1x,E15.7))') &
+            !      'pts: i, j, Soln, Data, Data_Var_inv, sse_wt', &
+            !      i, j, Numerical_CODE_Solution(i,j),  Data_Array(i,j), &
+            !           Data_Variance_inv(j), sse_wt
+
         enddo ! j
 
     enddo ! i

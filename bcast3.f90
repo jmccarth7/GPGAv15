@@ -28,6 +28,24 @@ integer :: buffer_length
 
 !-------------------------------------------------------------------------------
 
+! GP_Child_Individual_SSE
+
+!if( myid == 0 )then
+!    write(GP_print_unit,'(/A/(5(1x,E24.16)))') &
+!          'bc3: broadcast GP_Child_Individual_SSE = ',&
+!                          GP_Child_Individual_SSE
+!    write(GP_print_unit,'(/A, 1x, I6)') &
+!          'bc3: n_GP_individuals = ',n_GP_individuals
+!
+!endif ! myid == 0
+
+
+call MPI_BCAST( GP_Child_Individual_SSE, n_GP_individuals,    &
+                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+
+!------------------------------------------------------------------------------
+
+
 ! GP_Adult_Individual_SSE
 
 !if( myid == 0 )then
