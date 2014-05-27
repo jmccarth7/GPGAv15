@@ -27,13 +27,13 @@ implicit none
 ! allocate variable dimension arrays
 
 if( myid == 0 )then
-    write(6,*)'allo: n_code_equations = ', n_code_equations
-    write(6,*)'allo: n_nodes          = ', n_nodes          
-    write(6,*)'allo: n_trees          = ', n_trees          
-    write(6,*)'allo: n_levels         = ', n_levels         
-    write(6,*)'allo: n_Tracked_Resources', n_Tracked_Resources
-    flush(6)
-endif ! myid == 0 
+    write(6,'(A,1x,I6)')'allo: n_code_equations = ', n_code_equations
+    write(6,'(A,1x,I6)')'allo: n_nodes          = ', n_nodes
+    write(6,'(A,1x,I6)')'allo: n_trees          = ', n_trees
+    write(6,'(A,1x,I6)')'allo: n_levels         = ', n_levels
+    write(6,'(A,1x,I6)')'allo: n_Tracked_Resources', n_Tracked_Resources
+    !flush(6)
+endif ! myid == 0
 
 
 allocate( ga_individual_elites( n_GA_individuals )  )
@@ -44,6 +44,7 @@ allocate( Run_GA_lmdif( n_GA_individuals )  ) ! orig
 allocate( Data_Array( 0:n_time_steps, n_CODE_equations )  )
 
 allocate( Data_Variance_inv( n_CODE_equations )  )
+allocate( ratio_Data_Variance_inv( n_CODE_equations )  )
 
 allocate( Parent_Tree_Swap_Node_Type(n_Nodes,2) )
 allocate( Run_GP_Calculate_Fitness(n_GP_Individuals) )
@@ -118,9 +119,9 @@ allocate( Truth_Model_Match( n_gp_generations ) )
 allocate( Node_Values(n_nodes,n_trees) )
 allocate( Tree_Evaluation(n_nodes,n_trees) )
 
-                                                                                                                                     
-!allocate( GP_Trees( n_trees,  1 )  )                                                                                                 
-                                                                                                                                     
+
+!allocate( GP_Trees( n_trees,  1 )  )
+
 
 allocate( Tree_Value(n_trees) )
 
@@ -159,7 +160,7 @@ allocate( fbio( n_CODE_equations) )
 
 if( n_input_vars > 0 )then
     allocate( RK_data_array( 1:n_input_vars ) )
-endif 
+endif
 
 
 if( L_print_equations )then
@@ -168,20 +169,20 @@ if( L_print_equations )then
     allocate( node_parameters_string( n_nodes, n_trees ) )
     allocate( tree_evaluation_string( n_nodes, n_trees ) )
     allocate( tree_value_string( n_trees ) )
-endif ! L_print_equations 
+endif ! L_print_equations
 
 
 allocate( Node_Probability( n_levels ) )
 
 
-allocate( GP_Adult_Population_SSE( n_GP_Individuals )  )
+allocate( GP_Adult_Population_SSE( n_GP_Individuals  )  )
 
 !allocate( ppex(n_Maximum_Number_Parameters,n_GA_individuals )  )
 
-                                                                                                                                
-allocate( answer( n_maximum_number_parameters ) )                                                                               
-allocate( output_array( n_maximum_number_parameters ) )                                                                         
- 
+
+allocate( answer( n_maximum_number_parameters ) )
+allocate( output_array( n_maximum_number_parameters ) )
+
 
 !>>>>>>>>>>>>>
 
@@ -193,6 +194,7 @@ Run_GA_lmdif  = .FALSE.
 
 Data_Array  = 0.0d0
 Data_Variance_inv  = 0.0d0
+ratio_Data_Variance_inv  = 0.0d0
 
 Parent_Tree_Swap_Node_Type = 0
 Run_GP_Calculate_Fitness = .FALSE.
@@ -242,7 +244,7 @@ Truth_Initial_Conditions  = 0.0d0
 Truth_Node_Type           = -9999
 Truth_Node_Parameters     = 0.0d0
 Truth_Model_Match         = .FALSE.
- 
+
 !---------------------------------------------------------------
 
 
@@ -284,19 +286,18 @@ if( L_print_equations )then
     node_parameters_string = ' '
     tree_evaluation_string = ' '
     tree_value_string = ' '
-endif ! L_print_equations 
+endif ! L_print_equations
 
 
 
 Node_Probability = 0.0d0
 !>>>>>>>>>>>>>
 GP_Adult_Population_SSE = 0.0d0
-!ppex = 0.0d0 
+!ppex = 0.0d0
 !!>>>>>>>>>>>>>
 
 answer       = 0.0d0
 output_array = 0.0d0
-
 
 return
 
