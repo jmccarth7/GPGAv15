@@ -29,6 +29,7 @@ integer(kind=4) :: i_time_step
 integer(kind=4) :: n_obs       
 
 real(kind=8) :: x_time_step
+real(kind=8) :: x_obs            
 
 !integer(kind=4) :: nn
 
@@ -58,9 +59,11 @@ endif
 !write(GP_print_unit,'(A,3(1x,I6))') &
 !         'cdv: myid, n_CODE_equations, n_time_steps ', &
 !               myid, n_CODE_equations, n_time_steps
-write(6,'(/A,3(1x,E15.7)/)') &
-         'cdv: dt, sse_min_time, sse_max_time', &
-               dt, sse_min_time, sse_max_time
+if( myid == 0 )then
+    write(6,'(/A,4(1x,E15.7)/)') &
+             'cdv: dt, sse_min_time, sse_max_time, sse_low_wt', &
+                   dt, sse_min_time, sse_max_time, sse_low_wt
+endif ! myid == 0 
 
 if( n_code_equations > 1 )then
 
@@ -95,10 +98,9 @@ if( n_code_equations > 1 )then
 
             if( x_time_step > sse_max_time ) exit
     
-            n_obs = n_obs + 1
+            !n_obs = n_obs + 1
+            x_obs = x_obs + sse_wt
     
-            !ssum  = ssum  +  Data_Array(i_time_step,i_CODE_equation)    * sse_wt
-            !ssum2 = ssum2 +  Data_Array(i_time_step,i_CODE_equation)**2 * sse_wt
 
             ssum  = ssum  +   Data_Array(i_time_step,i_CODE_equation) * sse_wt
             ssum2 = ssum2 +  (Data_Array(i_time_step,i_CODE_equation) * sse_wt )**2
@@ -117,8 +119,10 @@ if( n_code_equations > 1 )then
         !      'cdv: i_CODE_equation, ssum, ssum2', &
         !            i_CODE_equation, ssum, ssum2
     
-        totobs    = dble(n_obs)               
-        totobs_m1 = dble(n_obs-1)               
+        totobs    =  x_obs          ! dble(n_obs)               
+        totobs_m1 =  x_obs - 1.0d0  ! dble(n_obs-1)               
+        !totobs    =  dble(n_obs)               
+        !totobs_m1 =  dble(n_obs-1)               
     
         !write(GP_print_unit,'(A, 2(1x,E15.7) )') &
         !      'cdv: totobs, totobs_m1', &
@@ -250,6 +254,27 @@ if( n_code_equations > 1 )then
 
     enddo !  i_CODE_equation
 
+    !---------------------------------------------------------------------
+
+    write(GP_print_unit,'(A)') ' '
+
+    if( data_variance_inv(1) > 0.0d0 )then
+
+        do  i_CODE_equation=1,n_CODE_equations
+
+            ratio_data_variance_inv(i_code_equation) = &
+                  data_variance_inv(i_code_equation)/ data_variance_inv(1)
+        
+            write(GP_print_unit,'(A,1x,I4,1(1x,G15.7))') &
+                 'cdv: i_CODE_eq, ratio_Data_Variance_inv ', &
+                       i_CODE_equation,  &
+                                  ratio_Data_Variance_inv(i_CODE_equation)
+
+        enddo !  i_CODE_equation
+
+    endif !  data_variance_inv(1) > 0.0d0
+
+    !---------------------------------------------------------------------
 
 else  ! n_code_equations == 1
 

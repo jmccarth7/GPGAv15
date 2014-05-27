@@ -119,7 +119,7 @@ end subroutine Initialize_Model
 
 
 
-subroutine DoForcing(b_tmp_local, time_step_fraction, i_Time_Step)
+subroutine DoForcing(b_tmp_local, time_step_fraction, i_Time_Step, L_bad )
 
 use fasham_variables_module
 use GP_variables_module
@@ -130,11 +130,15 @@ real (kind=8) :: b_tmp_local(n_CODE_Equations)
 real (kind=8) :: time_step_fraction, day, h, hplus, aMLD, aJ
 integer (kind=4) :: i_Time_Step
 
+logical :: L_bad
+
 !------------------------------------------------------------------------------------
 
 !!!date=(i_Time_Step+time_step_fraction)*Delta_Time_in_Days/(365.D+0)  ! number of years
 !!!thour=mod(((i_Time_Step+time_step_fraction)*Delta_Time_in_Days*24),24.D+0) ! time of day in hours
 !!!dayn=(i_Time_Step+time_step_fraction)*Delta_Time_in_Days ! day number
+
+L_bad = .FALSE. 
 
 date=(i_Time_Step+time_step_fraction)* dt /(365.D+0)  ! number of years
 thour=mod(((i_Time_Step+time_step_fraction)* dt *24),24.D+0) ! time of day in hours
@@ -144,9 +148,14 @@ day=mod(dayn,365.D+0) ! year day [0.D+0 to 365.D+0]
 !write(6,'(A,1x,I6,4(1x,E15.7))') 'dof: i_time_step, dt, date, thour, day ', &
 !                                       i_time_step, dt, date, thour, day
 
-call mldforce(day, h, aMLD)
 
-call JQforce(b_tmp_local, day, aMLD, aJ)
+call mldforce(day, h, aMLD, L_bad )
+if( L_bad ) return
+
+
+call JQforce(b_tmp_local, day, aMLD, aJ, L_bad)
+if( L_bad ) return
+
 
 if( h .ge. 0.D+0) then
     hplus=h
@@ -161,6 +170,10 @@ Numerical_CODE_Forcing_Functions(abs(5000 + FORCING_LIGHT_LIMITED_GROWTH_RATE)) 
 
 !write(6,'(A,1x,I6,4(1x,E15.7))') 'dof: i_time_step, h, hplus, aMLD, aJ ', &
 !                                       i_time_step, h, hplus, aMLD, aJ
+
+if( isnan(aJ) .or. isnan(aMLD) )then
+    L_bad = .true.
+endif ! isnan(aJ) ...
 
 return
 

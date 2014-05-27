@@ -27,6 +27,8 @@ integer(kind=4) :: i_function
 integer(kind=4) :: i_Node_left
 integer(kind=4) :: i_Node_right
 
+integer(kind=4),parameter :: max_forcing_index = -5001
+
 integer(kind=4), dimension(1:n_Nodes,1:n_Trees), intent(in) :: temp_Node_Type
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -92,7 +94,9 @@ do  i_Tree=1,n_Trees
                 !            i_Node_Left,  i_tree, temp_Node_Type(i_Node_Left,i_Tree)
 
 
-                if( temp_Node_Type(i_Node_Left,i_Tree) .lt. -n_CODE_Equations ) then
+                if( (temp_Node_Type(i_Node_Left,i_Tree) < -n_CODE_Equations .and.       &
+                     temp_Node_Type(i_Node_Left,i_Tree) > max_forcing_index      ) .or. &
+                     temp_Node_Type(i_Node_Left,i_Tree) == -9999                        ) then
 
                     if( myid == 0 )then
                         write(GP_print_unit,'(/A,6(1x,I10))') &
@@ -133,9 +137,9 @@ do  i_Tree=1,n_Trees
                 !      'gct: i_Node_Right, i_tree, Node_Type(i_Node_Right,i_Tree)',&
                 !            i_Node_Right, i_tree, temp_Node_Type(i_Node_Right,i_Tree)
 
-
-
-                if( temp_Node_Type(i_Node_Right,i_Tree) .lt. -n_CODE_Equations) then
+                if( (temp_Node_Type(i_Node_Right,i_Tree) < -n_CODE_Equations .and.       &
+                     temp_Node_Type(i_Node_Right,i_Tree) > max_forcing_index      ) .or. &
+                     temp_Node_Type(i_Node_Right,i_Tree) == -9999                        ) then
 
                     if( myid == 0 )then
                         write(GP_print_unit,'(/A,6(1x,I10))') &

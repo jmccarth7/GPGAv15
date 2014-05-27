@@ -287,7 +287,7 @@ integer, parameter :: name_len = 20
 !----------------------------------------------------------------
 ! big_real is large number for testing if a result is too big
 
-real(kind=8),parameter :: big_real = 1.0D100
+real(kind=8),parameter :: big_real = 1.0D20 
 
 !----------------------------------------------------------------
                                                                                                                                 

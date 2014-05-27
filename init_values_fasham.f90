@@ -51,8 +51,9 @@ if( icall  == 0  )then
     !n_maximum_number_parameters       = n_CODE_equations *  n_nodes
  
     !n_maximum_number_parameters       = n_CODE_equations +  n_nodes
-    n_maximum_number_parameters       =  n_trees * 2    +  n_nodes   ! jjm 20140307
+    !n_maximum_number_parameters       =  n_trees * 2    +  n_nodes   ! jjm 20140307
 
+    n_maximum_number_parameters = n_CODE_equations +  n_nodes        !orig 
 
     if( myid == 0 )then
         write(GP_print_unit,'(A,1x,I6)') 'ivFA: n_levels           ', n_levels
@@ -68,7 +69,7 @@ if( icall  == 0  )then
         write(GP_print_unit,'(A,1x,I6)') 'ivFA: n_nodes            ', n_nodes
         write(GP_print_unit,'(A,1x,I6/)')'ivFA: n_maximum_number_parameters  ', &
                                                 n_maximum_number_parameters
-        flush(GP_print_unit)
+        !flush(GP_print_unit)
 
     endif ! myid == 0
 
@@ -169,7 +170,7 @@ enddo ! i_tree
         write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: akw    ', akw
         write(GP_print_unit,'(A,1x,E12.5)') 'ivFA: am     ', am
 
-        flush(GP_print_unit)
+        !flush(GP_print_unit)
 
     endif ! myid == 0
 !-----------------------------------------------------------------------------------------
@@ -245,7 +246,7 @@ if( myid == 0 )then
           'ivFA: Numerical_CODE_Initial_Conditions(1:n_code_equations)', &
                  Numerical_CODE_Initial_Conditions(1:n_code_equations)
     write(GP_print_unit,'(A/)') ' '
-    flush(GP_print_unit)
+    !flush(GP_print_unit)
 endif ! myid == 0
 
 
@@ -288,7 +289,7 @@ if( myid == 0 )then
     write(GP_print_unit,'(A/(10(1x,E12.5)))') 'ivFA: Node_Probability', &
                                                      Node_Probability
     write(GP_print_unit,'(A)') ' '
-    flush(GP_print_unit)
+    !flush(GP_print_unit)
 endif ! myid == 0
 
 
@@ -2195,6 +2196,11 @@ endif ! myid == 0
 
     !=============================================================================================
 
+    Truth_Initial_Conditions =  Numerical_CODE_Initial_Conditions
+    Truth_Node_Type          = GP_Individual_Node_Type
+    Truth_Node_Parameters    = GP_Individual_Node_Parameters
+
+    !=============================================================================================
 
 
 return

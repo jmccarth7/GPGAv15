@@ -10,6 +10,7 @@ real(kind=8),allocatable, dimension(:,:) :: Data_Array
 
 real(kind=8),allocatable, dimension( : )  :: Data_Variance_inv
 
+real(kind=8),allocatable, dimension( : )  :: ratio_Data_Variance_inv
 
 
 end module GP_data_module

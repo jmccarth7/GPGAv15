@@ -127,14 +127,19 @@ endif ! dt <= 0.0D0
 !      'rkbm: before loop  btmp(:)', btmp(:)
 !endif ! L_ga_print .and. myid == 1
 
-!write(6,'(A,10(1x,E15.7)/ )') &
-!      'rkbm: before loop Numerical_CODE_Solution(0,:)', &
-!                         Numerical_CODE_Solution(0,:)
-!if( new_rank == 1 ) then
-!    write(6,'(A,1x,I3, 10(1x,E15.7)/ )') &
-!          'rkbm: before loop new_rank, Numerical_CODE_Solution(0,:)', &
-!                             new_rank, Numerical_CODE_Solution(0,:)
-!endif !  new_rank == 1
+if( L_print_RK )then
+    write(6,'(A,10(1x,E15.7)/ )') &
+          'rkbm: before loop Numerical_CODE_Solution(0,:)', &
+                             Numerical_CODE_Solution(0,:)
+    write(6,'(A,1x,E20.10/)') 'rkbm: dt', dt
+endif ! L_print_RK
+
+if( new_rank == 1 ) then
+    write(6,'(A,1x,I3, 10(1x,E15.7)/ )') &
+          'rkbm: before loop new_rank, Numerical_CODE_Solution(0,:)', &
+                             new_rank, Numerical_CODE_Solution(0,:)
+    write(6,'(A,1x,E20.10/)') 'rkbm: dt', dt
+endif !  new_rank == 1
 !write(6,'(A,10(1x,E15.7)/ )') &
 !      'rkbm: before loop  btmp(:)', btmp(:)
 
@@ -192,14 +197,14 @@ do  i_Time_Step = 1, n_Time_Steps
     !write(6,'(/A,1x,I6,10(1x,E15.7)/)') &
     !      'rkbm: i_time_step, b_tmp(1:n_eqs)' , &
     !             i_time_step, b_tmp(1:n_code_equations)
-    !if( i_time_step < 5 )then
-    !    write(6,'(/A,1x,I3,1x,I6,10(1x,E15.7))') & 
-    !          'rkbm: new_rank, i_time_step, Num_CODE_Soln(i_Time_Step-1,1:n_eqs)' , &
-    !                 new_rank, i_time_step, Numerical_CODE_Solution(i_Time_Step-1,1:n_code_equations)
-    !    write(6,'(A,1x,I3,1x,I6,10(1x,E15.7)/)') & 
-    !          'rkbm: new_rank, i_time_step, b_tmp(1:n_eqs)' , &
-    !                 new_rank, i_time_step, b_tmp(1:n_code_equations)
-    !endif ! i_time_step < 5 
+    if( (new_rank == 1 .or. L_print_RK ).and. i_time_step < 5 )then
+        write(6,'(/A,1x,I3,1x,I6,10(1x,E15.7))') & 
+              'rkbm: new_rank, i_time_step, Num_CODE_Soln(i_Time_Step-1,1:n_eqs)' , &
+                     new_rank, i_time_step, Numerical_CODE_Solution(i_Time_Step-1,1:n_code_equations)
+        write(6,'(A,1x,I3,1x,I6,10(1x,E15.7)/)') & 
+              'rkbm: new_rank, i_time_step, b_tmp(1:n_eqs)' , &
+                     new_rank, i_time_step, b_tmp(1:n_code_equations)
+    endif ! i_time_step < 5 
 
     !!flush(6)
     !!flush(GA_print_unit)
@@ -239,7 +244,13 @@ do  i_Time_Step = 1, n_Time_Steps
         !!flush(6)
 
         if( trim(model) == 'fasham' )then
-            call DoForcing( btmp, Runge_Kutta_Time_Step(iter), i_Time_Step )
+            call DoForcing( btmp, Runge_Kutta_Time_Step(iter), i_Time_Step, L_bad_result )
+            if( L_bad_result ) then
+
+                write(6,'(/A)') 'rkbm: bad result from DoForcing '
+                return
+            endif ! L_bad_result 
+         
         endif ! trim(model) == 'fasham'
 
         !write(6,'(/A, 1x, A)') 'rkbm: aft call DoForcing model = ', trim(model)
@@ -529,7 +540,7 @@ do  i_Time_Step = 1, n_Time_Steps
 
     ! if b_tmp is bad on any time step, then return with a bad result
 
-    if( any( isnan( b_tmp ) ) .or.  any( abs(b_tmp)  > big_real  ) ) then
+    if( any( isnan( b_tmp ) ) .or.  any( abs(b_tmp) > big_real  ) ) then
 
         L_bad_result = .TRUE.
 
@@ -570,17 +581,19 @@ do  i_Time_Step = 1, n_Time_Steps
     !                myid, i_time_step, Numerical_CODE_Solution(i_time_step,1:n_CODE_equations)
     !if( new_rank == 1 .and. &
     !    i_time_step <= 5 .or. i_time_step == n_time_steps )then
-    !    write(6,'(A,2(1x,I6),12(1x,E15.7))') &
-    !            'rkbm:g new_rank, i_time_step, RK_Soln ', &
-    !                    new_rank, i_time_step, &
-    !                    Numerical_CODE_Solution(i_time_step,1:n_CODE_equations)
+    if( new_rank == 1 ) then
+        write(6,'(A,2(1x,I6),12(1x,E15.7))') &
+                'rkbm:g new_rank, i_time_step, RK_Soln ', &
+                        new_rank, i_time_step, &
+                        Numerical_CODE_Solution(i_time_step,1:n_CODE_equations)
+    endif !  new_rank == 1 
 
-    !if( L_print_RK )then
-    !    write(6,'(A,2(1x,I6),12(1x,E15.7))') &
-    !            'rkbm:g myid, i_time_step, RK_Soln ', &
-    !                    myid, i_time_step, &
-    !                    Numerical_CODE_Solution(i_time_step,1:n_CODE_equations)
-    !endif ! L_print_RK 
+    if( L_print_RK )then
+        write(6,'(A,2(1x,I6),12(1x,E15.7))') &
+                'rkbm:P myid, i_time_step, RK_Soln ', &
+                        myid, i_time_step, &
+                        Numerical_CODE_Solution(i_time_step,1:n_CODE_equations)
+    endif ! L_print_RK 
 
     !endif !  new_rank == 1 
     !!flush(6)

@@ -130,20 +130,20 @@ enddo ! i
 !-----------------------------------------------------------------------
 
 !if( L_ga_print )then
-
-    !write(GA_print_unit,'(A,1x,1x,I6)') &
-    !      'gase: elites for generation', i_GA_generation
-    !do  i = 1, n_GA_save_elites
-    !    write(GA_print_unit,'(A,1x,I6,2x,2(1x,I6))') &
-    !          'gase: generation, i, ga_individual_elites(i) ', &
-    !            i_GA_generation, i, ga_individual_elites(i)
-    !enddo ! i
-
-
-    !write(GA_print_unit,'(A,1x,1x,I6)') &
-    !      'gase: elites for generation', i_GA_generation
-    !write(GA_print_unit,'(10(1x,I6))')&
-    !       ga_individual_elites(1:n_GA_save_elites)
+!
+!    write(GA_print_unit,'(A,1x,1x,I6)') &
+!          'gase: elites for generation', i_GA_generation
+!    do  i = 1, n_GA_save_elites
+!        write(GA_print_unit,'(A,1x,I6,2x,2(1x,I6))') &
+!              'gase: generation, i, ga_individual_elites(i) ', &
+!                i_GA_generation, i, ga_individual_elites(i)
+!    enddo ! i
+!
+!
+!    write(GA_print_unit,'(A,1x,1x,I6)') &
+!          'gase: elites for generation', i_GA_generation
+!    write(GA_print_unit,'(10(1x,I6))')&
+!           ga_individual_elites(1:n_GA_save_elites)
 !endif ! L_ga_print
 
 

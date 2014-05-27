@@ -139,7 +139,7 @@ do  i_Tree=1,n_Trees
             !          GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv)
             !endif ! Lprint
 
-            write(GP_minSSE_summary_output_unit, '(2x,2(1x,I6),3(1x,I3))') &
+            write(GP_minSSE_summary_output_unit, '(2x,2(1x,I6),3(1x,I6))') &
                   GP_minSSE_generation, GP_minSSE_indiv, i_tree, i_node, &
                   GP_minSSE_individual_Node_Type(i_Node,i_Tree)
 
@@ -201,7 +201,7 @@ do  i_tree=1,n_trees
 
         if( GP_minSSE_individual_Node_Type(i_Node,i_Tree) == 0        ) then
 
-            write(GP_minSSE_summary_output_unit,'(2x,2(1x,I6),2(1x,I3), 1x,E24.16)') &
+            write(GP_minSSE_summary_output_unit,'(2x,2(1x,I6),2(1x,I6), 1x,E24.16)') &
                   GP_minSSE_generation, GP_minSSE_indiv, i_tree, i_node, &
                   GP_minSSE_individual_node_parameters( i_node,i_tree )
 

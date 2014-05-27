@@ -161,17 +161,17 @@ integer :: I
 
       DO 100 I=1,N 
 
-          xi = dt * real(i,kind=8)
-          if( xi < sse_min_time )then
-              sse_wt = sse_low_wt
-          else
-              sse_wt = 1.0d0             
-          endif 
-          if( xi > sse_max_time ) exit
+          !xi = dt * real(i,kind=8)
+          !if( xi < sse_min_time )then
+          !    sse_wt = sse_low_wt
+          !else
+          !    sse_wt = 1.0d0             
+          !endif 
+          !if( xi > sse_max_time ) exit
 
-          XBAR=XBAR+X(I)*sse_wt 
+          XBAR=XBAR+X(I)      !*sse_wt 
 
-          YBAR=YBAR+Y(I)*sse_wt 
+          YBAR=YBAR+Y(I)      !*sse_wt 
   100 ENDDO 
 
       XBAR=XBAR/AN 
@@ -182,21 +182,21 @@ integer :: I
       SUM3=0.0d0 
 
       DO 200  I=1,N 
-          xi = dt * real(i,kind=8)
-          if( xi < sse_min_time )then
-              sse_wt = sse_low_wt
-          else
-              sse_wt = 1.0d0             
-          endif 
-          if( xi > sse_max_time ) exit
+          !xi = dt * real(i,kind=8)
+          !if( xi < sse_min_time )then
+          !    sse_wt = sse_low_wt
+          !else
+          !    sse_wt = 1.0d0             
+          !endif 
+          !if( xi > sse_max_time ) exit
 
-      !orig SUM1=SUM1+(X(I)-XBAR)*(Y(I)-YBAR) 
-      !orig SUM2=SUM2+(X(I)-XBAR)**2 
-      !orig SUM3=SUM3+(Y(I)-YBAR)**2 
+      SUM1=SUM1+(X(I)-XBAR)*(Y(I)-YBAR) !orig 
+      SUM2=SUM2+(X(I)-XBAR)**2 !orig 
+      SUM3=SUM3+(Y(I)-YBAR)**2 !orig 
 
-      SUM1 = SUM1 + ( X(I)*sse_wt -XBAR ) * ( Y(I)*sse_wt -YBAR ) 
-      SUM2 = SUM2 + ( X(I)*sse_wt -XBAR )**2 
-      SUM3 = SUM3 + ( Y(I)*sse_wt -YBAR )**2 
+      !SUM1 = SUM1 + ( X(I)*sse_wt -XBAR ) * ( Y(I)*sse_wt -YBAR ) 
+      !SUM2 = SUM2 + ( X(I)*sse_wt -XBAR )**2 
+      !SUM3 = SUM3 + ( Y(I)*sse_wt -YBAR )**2 
 
   200 ENDDO 
 

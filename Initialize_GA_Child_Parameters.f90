@@ -15,8 +15,7 @@ use fasham_variables_module
 implicit none
 
 
-!real(kind=8) :: Child_Parameters(n_GP_parameters,n_GA_Individuals)
-real(kind=8) :: Child_Parameters(n_GP_parameters, n_GA_individuals )           
+real(kind=8) :: Child_Parameters(n_GP_parameters,n_GA_Individuals)
 real(kind=4) :: cff
 real(kind=8) :: dff
 

@@ -42,6 +42,7 @@ deallocate( Run_GA_lmdif )
 deallocate( Data_Array  )
 
 deallocate( Data_Variance_inv )
+deallocate( ratio_Data_Variance_inv )
 
 deallocate( GP_Population_Node_Parameters )
 deallocate( GP_Individual_Node_Parameters )

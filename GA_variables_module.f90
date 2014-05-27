@@ -3,14 +3,14 @@ module GA_variables_module
 use GA_parameters_module
 implicit none
 
-integer (kind=4) :: n_GA_Elitists
-integer (kind=4) :: n_GA_Asexual_Repoductions
-integer (kind=4) :: n_GA_Crossovers
-integer (kind=4) :: n_GA_Mutations
+integer(kind=4) :: n_GA_Elitists
+integer(kind=4) :: n_GA_Asexual_Repoductions
+integer(kind=4) :: n_GA_Crossovers
+integer(kind=4) :: n_GA_Mutations
 
-integer (kind=4) :: n_GA_rand_replaces
+integer(kind=4) :: n_GA_rand_replaces
 
-integer (kind=4) :: n_GA_save_elites
+integer(kind=4) :: n_GA_save_elites
 
 !integer(kind=4), dimension( n_GA_individuals ) :: ga_individual_elites
 integer(kind=4), allocatable, dimension(:) :: ga_individual_elites

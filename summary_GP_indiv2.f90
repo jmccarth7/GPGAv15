@@ -171,7 +171,7 @@ do  i_Tree=1,n_Trees
                       GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv)
             endif ! Lprint
 
-            write(GP_summary_output_unit, '(2x,2(1x,I6),3(1x,I3))') &
+            write(GP_summary_output_unit, '(2x,2(1x,I6),3(1x,I6))') &
                   i_GP_generation, i_GP_indiv,i_tree, i_node, &
                   GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv)
 
@@ -196,7 +196,7 @@ do  i_tree=1,n_trees
 
         if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv) == 0 ) then
 
-            write(GP_summary_output_unit,'(2x,2(1x,I6),2(1x,I3), 3x,E15.7)') &
+            write(GP_summary_output_unit,'(2x,2(1x,I6),2(1x,I6), 3x,E15.7)') &
                   i_GP_generation, i_GP_indiv,i_tree, i_node, &
                   GP_individual_node_parameters( i_node,i_tree )
 

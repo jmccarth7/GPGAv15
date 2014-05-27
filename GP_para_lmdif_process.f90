@@ -741,11 +741,11 @@ else  ! not myid == 0
 
             ! don't replace original child SSE if lmdif SSE indicates a bad result
 
-            !if( info > 0  )then
+            if( info > 0  )then
 
                 GP_child_individual_SSE(i_2_individual) = temp_SSE
 
-            !endif ! abs(temp_SSE)...
+            endif ! abs(temp_SSE)...
 
 
             !--------------------------------------------------------------------------

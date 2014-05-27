@@ -197,7 +197,7 @@ if( icall == 0 )then
                 !endif ! Lprint
 
     
-                write(GP_summary_output_unit, '(2x,2(1x,I6),3(1x,I3))') &
+                write(GP_summary_output_unit, '(2x,2(1x,I6),3(1x,I6))') &
                       i_GP_generation, i_GP_indiv,i_tree, i_node, &
                       GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv)
     
@@ -217,7 +217,7 @@ else
     
             if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv) .ne. -9999 ) then
     
-                write(GP_best_summary_output_unit, '(2x,2(1x,I6),3(1x,I3))') &
+                write(GP_best_summary_output_unit, '(2x,2(1x,I6),3(1x,I6))') &
                       i_GP_generation, i_GP_indiv,i_tree, i_node, &
                       GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv)
     
@@ -279,7 +279,7 @@ if( icall == 0 )then
     
             if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv) == 0        ) then
     
-                write(GP_summary_output_unit,'(2x,2(1x,I6),2(1x,I3), 1x,E24.16)') &
+                write(GP_summary_output_unit,'(2x,2(1x,I6),2(1x,I6), 1x,E24.16)') &
                       i_GP_generation, i_GP_indiv,i_tree, i_node, &
                       GP_population_node_parameters( i_node,i_tree, i_GP_indiv)
     
@@ -298,7 +298,7 @@ else
     
             if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv) == 0        ) then
     
-                write(GP_best_summary_output_unit,'(2x,2(1x,I6),2(1x,I3), 1x,E24.16)') &
+                write(GP_best_summary_output_unit,'(2x,2(1x,I6),2(1x,I6), 1x,E24.16)') &
                       i_GP_generation, i_GP_indiv,i_tree, i_node, &
                       GP_population_node_parameters( i_node,i_tree, i_GP_indiv)
     

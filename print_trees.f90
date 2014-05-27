@@ -176,8 +176,8 @@ do  i_GP_individual = n_indiv_start, n_indiv_stop
                     !write(node_element_string2, '(I7)') i_node
                     !write(value_element_string2, '(I7)') &
 
-                    write( node_element_string2, element_format ) i_node
-                    write( value_element_string2, element_format ) &
+                    write( node_element_string2,  element_format ) i_node
+                    write( value_element_string2, element_format )          &
                                   Tree_Type( i_node, i_tree, i_GP_individual)
 
                     node_string  = trim(node_string) // node_element_string2

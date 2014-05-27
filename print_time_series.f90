@@ -34,6 +34,7 @@ integer(kind=4) :: i_node
 integer(kind=4) :: ii
 integer(kind=4) :: i
 integer(kind=4) :: j
+integer(kind=4) :: jj
 
 
 
@@ -45,6 +46,7 @@ real(kind=8), dimension( n_time_steps, n_code_equations ) :: resid
 
 !real(kind=8), dimension( n_input_data_points ) :: temp_data_array
 
+real(kind=8), dimension( n_time_steps ) :: temp_data_array
 
 !real(kind=8), intent(in),dimension( nop ) :: output_array
 
@@ -221,12 +223,12 @@ if( myid == 0 )then
 
 
 
-    !write(GP_print_unit,'(/A/)') &
-    ! 'pts: data_point   Numerical_CODE_Solution(data_point,1:n_CODE_equations)'
-    !do  i = 1, n_input_data_points
-    !    write(GP_print_unit,'(I6,2x,10(1x,E14.7))') &
-    !          i, (Numerical_CODE_Solution(i,jj), jj = 1,n_CODE_equations )
-    !enddo ! i
+    write(GP_print_unit,'(/A/)') &
+     'pts: data_point   Numerical_CODE_Solution(data_point,1:n_CODE_equations)'
+    do  i = 1, n_time_steps   !n_input_data_points
+        write(GP_print_unit,'(I6,2x,10(1x,E14.7))') &
+              i, (Numerical_CODE_Solution(i,jj), jj = 1,n_CODE_equations )
+    enddo ! i
 
 
 
@@ -271,10 +273,10 @@ if( myid == 0 )then
                        ( Data_Array(i,j) - Numerical_CODE_Solution(i,j) )**2  * &
                                                      Data_Variance_inv(j) * &
                                                      sse_wt
-            !write(GP_print_unit,'(A,1x,I6,1x,I3,1x,4(1x,E15.7))') &
-            !      'pts: i, j, Soln, Data, Data_Var_inv, sse_wt', &
-            !      i, j, Numerical_CODE_Solution(i,j),  Data_Array(i,j), &
-            !           Data_Variance_inv(j), sse_wt
+            write(GP_print_unit,'(A,1x,I6,1x,I3,1x,5(1x,E15.7))') &
+                  'pts: i, j, Soln, Data, Data_Var_inv, sse_wt, SSE', &
+                  i, j, Numerical_CODE_Solution(i,j),  Data_Array(i,j), &
+                       Data_Variance_inv(j), sse_wt, resid_SSE
 
         enddo ! j
 
@@ -311,20 +313,16 @@ if( myid == 0 )then
         call calc_stats( n_time_steps,  Numerical_CODE_Solution(1,j), &
                          RKmean(j), RKrms(j), RKstddev(j) , &
                          1.0d0, 0.0d0, 1.0d9, 1.0d0 ) 
-                         !dt, sse_min_time, sse_max_time, sse_low_wt )
-
 
 
         call calc_stats( n_time_steps, Data_Array(1,j), &
                          data_mean(j), data_rms(j), data_stddev(j), &
                          1.0d0, 0.0d0, 1.0d9, 1.0d0 ) 
-                         !dt, sse_min_time, sse_max_time, sse_low_wt  )
 
 
         call calc_stats( n_time_steps, resid(1,j) ,              &
                          resid_mean(j), resid_rms(j), resid_stddev(j), &
                          1.0d0, 0.0d0, 1.0d9, 1.0d0 ) 
-                         !dt, sse_min_time, sse_max_time, sse_low_wt  )
 
 
         !call pearsn( Numerical_CODE_Solution(1,1), temp_data_array, &
@@ -333,18 +331,123 @@ if( myid == 0 )then
         call corr( Numerical_CODE_Solution(1,j), Data_Array(1,j), &
                    n_time_steps, 0, r_corr(j) , &
                    1.0d0, 0.0d0, 1.0d9, 1.0d0 ) 
-                   !dt, sse_min_time, sse_max_time, sse_low_wt  )
 
 
-        RK_min(j) = minval( Numerical_CODE_Solution(:,j) )
-        RK_max(j) = maxval( Numerical_CODE_Solution(:,j) )
+        !RK_min(j) = minval( Numerical_CODE_Solution(:,j) )
+        !RK_max(j) = maxval( Numerical_CODE_Solution(:,j) )
 
 
-        data_min(j) = minval( Data_Array(:,j) )
-        data_max(j) = maxval( Data_Array(:,j) )
+        !data_min(j) = minval( Data_Array(:,j) )
+        !data_max(j) = maxval( Data_Array(:,j) )
 
-        resid_min(j) = minval( resid(:,j) )
-        resid_max(j) = maxval( resid(:,j) )
+        !resid_min(j) = minval( resid(:,j) )
+        !resid_max(j) = maxval( resid(:,j) )
+
+        !write(GP_print_unit,'(A,1x,I6,2x,2(1x,E12.5))') &
+        !      'pts: j, RK_min(j), RK_max(j)      ', &
+        !            j, RK_min(j), RK_max(j)
+
+        !write(GP_print_unit,'(A,1x,I6,2x,2(1x,E12.5))') &
+        !      'pts: j, data_min(j), data_max(j)  ', &
+        !            j, data_min(j), data_max(j)
+
+        !write(GP_print_unit,'(A,1x,I6,2x,2(1x,E12.5))') &
+        !      'pts: j, resid_min(j), resid_max(j)', &
+        !            j, resid_min(j), resid_max(j)
+
+    enddo ! j
+
+    !--------------------------------------------------------------------------------
+
+    do  j = 1, n_code_equations
+
+        temp_data_array = 0.0d0
+        do  i = 1, n_time_steps
+            temp_data_array(i) = Numerical_CODE_Solution(i,j)
+        enddo ! i
+
+        rk_min(j) =  minval( temp_data_array )
+        rk_max(j) =  maxval( temp_data_array )
+        write(GP_print_unit,'(A,1x,I3,2x,2(1x,E12.5))') &
+              'pts:2 j, RK_min(j), RK_max(j)      ', &
+                     j, RK_min(j), RK_max(j)
+
+
+        temp_data_array = 0.0d0
+        do  i = 1, n_time_steps
+            temp_data_array(i) = data_array(i,j)
+        enddo ! i
+
+        data_min(j) =  minval( temp_data_array )
+        data_max(j) =  maxval( temp_data_array )
+
+        write(GP_print_unit,'(A,1x,I3,2x,2(1x,E12.5))') &
+              'pts:2 j, data_min(j), data_max(j)  ', &
+                     j, data_min(j), data_max(j)
+
+
+
+        temp_data_array = 0.0d0
+        do  i = 1, n_time_steps
+            temp_data_array(i) = resid(i,j)
+        enddo ! i
+
+        resid_min(j) =  minval( temp_data_array )
+        resid_max(j) =  maxval( temp_data_array )
+
+        write(GP_print_unit,'(A,1x,I3,2x,2(1x,E12.5))') &
+              'pts:2 j, resid_min(j), resid_max(j)', &
+                     j, resid_min(j), resid_max(j)
+
+
+        write(GP_print_unit,'(A,1x,I6,2x,2(1x,E12.5))') &
+              'pts: j, RK_min(j), RK_max(j)      ', &
+                    j, RK_min(j), RK_max(j)
+
+        write(GP_print_unit,'(A,1x,I6,2x,2(1x,E12.5))') &
+              'pts: j, data_min(j), data_max(j)  ', &
+                    j, data_min(j), data_max(j)
+
+        write(GP_print_unit,'(A,1x,I6,2x,2(1x,E12.5))') &
+              'pts: j, resid_min(j), resid_max(j)', &
+                    j, resid_min(j), resid_max(j)
+
+    enddo ! j
+
+    !--------------------------------------------------------------------------------
+
+    do  j = 1, n_code_equations
+
+        temp_data_array = 0.0d0
+        do  i = 1, n_time_steps
+            temp_data_array(i) = Numerical_CODE_Solution(i,j)
+        enddo ! i
+
+        write(GP_print_unit,'(A,1x,I6,2x,2(1x,E12.5))') &
+              'pts:2 j, RK_min(j), RK_max(j)      ', &
+                     j, minval( temp_data_array ), maxval( temp_data_array )
+
+
+        temp_data_array = 0.0d0
+        do  i = 1, n_time_steps
+            temp_data_array(i) = data_array(i,j)
+        enddo ! i
+
+        write(GP_print_unit,'(A,1x,I6,2x,2(1x,E12.5))') &
+              'pts:2 j, data_min(j), data_max(j)      ', &
+                     j, minval( temp_data_array ), maxval( temp_data_array )
+
+
+
+        temp_data_array = 0.0d0
+        do  i = 1, n_time_steps
+            temp_data_array(i) = resid(i,j)
+        enddo ! i
+
+        write(GP_print_unit,'(A,1x,I6,2x,2(1x,E12.5))') &
+              'pts:2 j, resid_min(j), resid_max(j)      ', &
+                     j, minval( temp_data_array ), maxval( temp_data_array )
+
 
     enddo ! j
 

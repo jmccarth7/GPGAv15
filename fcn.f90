@@ -425,8 +425,7 @@ do  i_time_step=1,n_time_steps
 
     fvec(i_time_step)=0.0D0
 
-    x_time_step = real( i_time_step, kind=8 ) * dt                                                               
-                                                                                                                 
+    x_time_step = real( i_time_step, kind=8 ) * dt
 
     if( x_time_step < sse_min_time )then
         sse_wt = sse_low_wt  
@@ -435,8 +434,8 @@ do  i_time_step=1,n_time_steps
     endif  !   x_time_step < sse_min_time 
 
 
-    if( x_time_step > sse_max_time ) exit                                                                        
-                                                                                                                 
+    if( x_time_step > sse_max_time ) exit  
+
 
     !if( L_GP_print .and. GP_para_flag .and. new_rank == 1 .and. &
     !      i_time_step == n_time_steps                            )then

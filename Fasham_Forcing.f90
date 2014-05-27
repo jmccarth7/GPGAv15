@@ -4,7 +4,7 @@
 !
 ! Created on June 26, 2013, 1:37 PM
 !
-subroutine JQforce(species, day, aMLD, aJ)
+subroutine JQforce(species, day, aMLD, aJ, L_bad)
 
 use fasham_variables_module
 use GP_variables_module
@@ -20,6 +20,7 @@ use GP_variables_module
 
     integer (kind=4) :: iz,i
 
+    logical :: L_bad
 
     data daym /0.D+0,16.D+0,46.D+0,75.D+0,105.D+0,136.D+0,166.D+0,&
                197.D+0,228.D+0,258.D+0,289.D+0, 319.D+0, 350.D+0, 365.D+0/
@@ -38,11 +39,16 @@ use GP_variables_module
 
 
     !---------------------------------------------------------------------------------
+ 
+    L_bad = .FALSE.
 
     ! Copy phytoplankton to phyto
 
     phyto = species(max(1,abs(SPECIES_PHYTOPLANKTON)))
 
+    !write(6,'(A,1x,10(1x,E15.7))') 'JQF: species', species
+    !write(6,'(A,1x,2(1x,E15.7))') 'JQF: phyto     ', phyto    
+    !write(6,'(A,1x,2(1x,E15.7))') 'JQF: day, aMLD ', day, aMLD
 
     !pi=acos(-1.D+0)
 
@@ -62,14 +68,25 @@ use GP_variables_module
     albedo=0.04D+0
     trans=1.0D+0
 
+    !write(6,'(A,1x,2(1x,E15.7))') 'JQF: dec, alatr', dec, alatr
+    !write(6,'(A,1x,2(1x,E15.7))') 'JQF: enot, th  ', enot, th  
+    !write(6,'(A,1x,2(1x,E15.7))') 'JQF: cosz, zenith ', cosz, zenith
+    !write(6,'(A,1x,2(1x,E15.7))') 'JQF: saltd, albedo', saltd, albedo
+    !write(6,'(A,1x,2(1x,E15.7))') 'JQF: trans', trans
+
     do  i=1,13
         if( day .ge. daym(i) .and. day .le. daym(i+1) ) then
             ratio=(day-daym(i))/(daym(i+1)-daym(i))
             oktas=coktas(i)+(ratio*(coktas(i+1)-coktas(i)))
+            !write(6,'(A,1x,I3,2(1x,E15.7))') 'JQF: i, ratio, oktas ', &
+            !                                       i, ratio, oktas 
         endif
     enddo ! i
 
     cloud=oktas/8.D+0
+
+    !write(6,'(A,1x,2(1x,E15.7))') 'JQF: cloud, oktas ', cloud, oktas
+
 
 !   cloud corr from Smith and Dobson, [Ecological Modeling, 14, 1-19, 1981]
     if( zenith .le. 1.55D+0 ) then
@@ -78,6 +95,10 @@ use GP_variables_module
         cloudy=0.0375D+0
     endif
 
+    !write(6,'(A,1x,2(1x,E15.7))') 'JQF: zenith, cloudy ', zenith, cloudy
+
+
+
 !   calculate the light value only during the day [night = zenith .ge. pi/2.D+0]
     if( zenith .lt. pi/2.D+0 ) then
         par0=solar*trans*enot*cosz*0.43D+0*(1.D+0-albedo)*cloudy
@@ -85,7 +106,12 @@ use GP_variables_module
         par0=0.D+0
     endif
 
+    !write(6,'(A,1x,2(1x,E15.7))') 'JQF: zenith, par0 ', zenith, par0
+
 !   calculate aJ by integrating (simple trapezoidal) PvsI terms over the aMLD
+
+    !write(6,'(A,1x,2(1x,E15.7))') 'JQF: Vp, alpha', Vp, alpha
+    !write(6,'(A,1x,2(1x,E15.7))') 'JQF: akw, akc ', akw, akc 
 
     aJ=0.D+0
     if( par0 .gt. 0.D+0) then
@@ -93,23 +119,53 @@ use GP_variables_module
         delz=aMLD/100.D+0
         do  iz=0,100
             z=float(iz)*delz
-            parz=par0*exp(-z*(akw+(akc*phyto)))
-            tmp=(Vp*alpha*parz)/(sqrt((Vp*Vp)+(alpha*alpha*parz*parz)))
+
+            !write(6,'(A,1x,i6,3(1x,E15.7))') 'JQF: iz, z ', iz, z                
+
+            !parz=par0*exp(-z*(akw+(akc*phyto)))    ! original 
+            parz = par0 * exp( -z * ( akw +  akc*abs(phyto) ) )
+
+            !write(6,'(A,1x,3(1x,E15.7))') 'JQF: phyto, par0, parz ', &
+            !                                    phyto, par0, parz 
+            if( parz > 1.0D+100 )then
+                L_bad = .true. 
+                return
+            endif ! parz > 1.0D+100
+
+            !tmp=(Vp*alpha*parz)/(sqrt((Vp*Vp)+(alpha*alpha*parz*parz)))    ! original 
+            tmp = (Vp*alpha*parz) / ( sqrt( Vp**2 + (alpha**2 * parz**2) ) )
+
+            !write(6,'(A,1x,3(1x,E15.7))') 'JQF: parz, tmp ', &
+            !                                    parz, tmp 
+
+            if( isnan( tmp ) )then
+                L_bad = .true. 
+                return
+            endif ! isnan( tmp ) 
+
+
             if( iz .eq. 0 .or. iz .eq. 100 ) then
                 aJ=aJ+(0.5D+0*tmp)
             elseif( iz .gt. 0 .and. iz .lt. 100 ) then
                 aJ=aJ+tmp
             endif
         enddo
+
+        !write(6,'(A,1x,3(1x,E15.7))') 'JQF: aJ, delz, aMLD ', &  
+        !                                    aJ, delz, aMLD 
+
         aJ=aJ*delz/aMLD
 
     endif !  par0 .gt. 0.D+0
+
+    !write(6,'(A,1x,3(1x,E15.7))') 'JQF: aJ, aMLD ', &  
+    !                                    aJ, aMLD
 
 end subroutine JQforce
 
 
 
-subroutine mldforce(day, h, aMLD)
+subroutine mldforce(day, h, aMLD, L_bad )
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ! subroutine to determine the aMLD and h(t) terms
@@ -135,7 +191,11 @@ use GP_variables_module
     data cmld /87.0D+0,92.5D+0,100.0D+0,93.5D+0,67.0D+0,45.0D+0,&
                30.0D+0,19.0D+0,22.5D+0,30.0D+0,45.0D+0,65.0D+0,82.0D+0,87.0D+0/
 
+    logical :: L_bad 
+
 !----------------------------------------------------------------------------------
+
+    L_bad = .FALSE.
 
     !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     ! calculate the aMLD and h values
@@ -146,16 +206,19 @@ use GP_variables_module
     nloop=30     ! make the number EVEN to keep it symmetrical
     th=0.D+0
 
+    !write(6,'(A,1x,I6, 1x,E15.7)') 'mdf: nloop, th ', nloop, th
+
     do  iloop=1,nloop+1
 
         tday=day-(nloop/2.D+0)+iloop
 
-        if( tday .lt. 0.D+0 ) tday=tday+365.D+0
+        if( tday .lt.   0.D+0 ) tday=tday+365.D+0
         if( tday .ge. 365.D+0 ) tday=tday-365.D+0
 
         do  i=1,n-1
             if( tday .ge. daym(i) .and. tday .lt. daym(i+1) ) then
                 th=th+((cmld(i+1)-cmld(i))/(daym(i+1)-daym(i)))
+                !write(6,'(A,1x,I6, 2(1x,E15.7))') 'mdf: i, tday, th ', i, tday, th
             endif
         enddo ! i 
 
@@ -163,12 +226,27 @@ use GP_variables_module
 
     h=th/(nloop+1)
 
+    !write(6,'(A,1x,I6, 2(1x,E15.7))') 'mdf: nloop, th, h ', nloop, th, h
+
     do  i=1,n-1
         if( day .ge. daym(i) .and. day .le. daym(i+1) ) then
             ratio=(day-daym(i))/(daym(i+1)-daym(i))
             aMLD=cmld(i)+(ratio*(cmld(i+1)-cmld(i)))
+
+            !write(6,'(A,1x,I6, 3(1x,E15.7))') 'mdf: i, day,ratio, aMLD ', &
+            !                                        i, day,ratio, aMLD 
         endif
     enddo ! i
+
+    if( isnan( h ) .or. abs(h) > 1.0D100 )then
+        L_bad = .true. 
+        return
+    endif ! isnan( h ) 
+
+    if( isnan( aMLD ) .or. abs(aMLD) > 1.0D100 )then
+        L_bad = .true. 
+        return
+    endif ! isnan( aMLD ) 
 
 
     return

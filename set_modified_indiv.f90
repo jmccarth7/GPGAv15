@@ -30,6 +30,10 @@ implicit none
 
 n_GP_Elitists = nint(GP_Elitist_Probability*n_GP_individuals)
 
+! make sure you have at least 1 elite individual 
+n_GP_Elitists = max( 1,  n_GP_Elitists )
+
+
 ! Number of GP Fitness Proportionate Reproduction
 
 n_GP_Asexual_Reproductions = nint(GP_Asexual_Reproduction_Probability*n_GP_individuals)

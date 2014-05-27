@@ -1,4 +1,4 @@
-subroutine GP_Tree_Build( i_Error ) 
+subroutine GP_Tree_Build( i_Error )
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 use mpi
@@ -23,11 +23,13 @@ integer(kind=4) :: i_Level_Node
 integer(kind=4) :: Node_Function
 integer(kind=4) :: Node_Variable
 integer(kind=4) :: test_function_index
+integer(kind=4) :: n_parms
+integer(kind=4) :: n_parms_per_tree
 
 
-real(kind=4),parameter :: prob_forcing = 0.05
+real(kind=4),parameter :: prob_forcing = 0.045
 real(kind=4),parameter :: prob_choose_forcing_type = 0.25
-integer(kind=4) :: iforce                   
+integer(kind=4) :: iforce
 
 !-----------------------------------------------------------------------------
 
@@ -98,7 +100,7 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
                         !            i_Level, cff, Node_Probability(i_Level)
 
 
-                        if( cff .lt. Node_Probability(i_Level) ) then  ! set as a function 
+                        if( cff .lt. Node_Probability(i_Level) ) then  ! set as a function
 
 
                             ! new random number to choose the function
@@ -109,38 +111,38 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
                             if( L_node_functions )then
 
                                 node_function=1+int(cff*float(n_Node_Functions))
-    
+
                                 !write(GP_print_unit,'(A,1x,I6,1x,F10.4)') &
                                 !      'gtb:1 Node_Function, cff ', &
                                 !             Node_Function, cff
                                 !write(GP_print_unit,'(A,1x,I6)') 'gtb:1 n_Node_Functions', &
                                 !                                        n_Node_Functions
-    
+
                                 Node_Function = min( Node_Function, n_Node_Functions )
-    
+
                                 !write(GP_print_unit,'(A,1x,I6)') &
                                 !       'gtb:1 Node_Function', Node_Function
 
-                            else 
+                            else
 
-                                
+
                                 test_function_index = 1+int(cff*float(n_functions_input))
-                                test_function_index = max( 1, test_function_index  ) 
-                                test_function_index = min( n_functions_input, test_function_index  ) 
-    
+                                test_function_index = max( 1, test_function_index  )
+                                test_function_index = min( n_functions_input, test_function_index  )
+
                                 !write(GP_print_unit,'(A,1x,I6,1x,F10.4)') &
                                 !      'gtb:2 n_functions_input, cff ', &
                                 !             n_functions_input, cff
                                 !write(GP_print_unit,'(A,1x,I6)')  &
                                   !  'gtb:2 test_function_index',  test_function_index
-    
-                                      
-                                node_function = selected_functions( test_function_index ) 
-                                       
+
+
+                                node_function = selected_functions( test_function_index )
+
                                 !write(GP_print_unit,'(A,1x,I6)') &
                                 !       'gtb:2 Node_Function', Node_Function
 
-                            endif ! L_node_functions 
+                            endif ! L_node_functions
 
                             !--------------------------------------------------------------------
 
@@ -177,7 +179,11 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
                             endif !   i_Level .lt. N_Levels-1
 
 
-                        else ! set it as a Parameter or Variable at a later point in the code
+
+                        else 
+
+
+                            ! set it as a Parameter or Variable at a later point in the code
 
                             !  cff >=   Node_Probability(i_Level)
                             !  so set a parameter or variable later
@@ -223,7 +229,14 @@ enddo !  i_GP_Individual
 
 do  i_GP_Individual=1,n_GP_Individuals
 
+    !write(GP_print_unit,'(/A,1(1x,I6))') &
+    !             'gtb:2 i_GP_individual ', i_GP_individual
+
+    n_parms = 0
+
     do  i_Tree=1,n_Trees
+
+        n_parms_per_tree = 0
 
         i_Node=0
 
@@ -239,6 +252,7 @@ do  i_GP_Individual=1,n_GP_Individuals
 
                 if( i_node > n_nodes ) exit level_loop2
 
+
                 if( GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) .eq. -1) then
 
                     call random_number(cff)   ! uniform random number generator
@@ -250,7 +264,7 @@ do  i_GP_Individual=1,n_GP_Individuals
                     if( cff .le. GP_Set_Terminal_to_Parameter_Probability ) then
 
 
-                        ! Set the Terminal to a Variable 
+                        ! Set the Terminal to a Variable
 
                         call random_number(cff) ! uniform random number generator
 
@@ -267,40 +281,79 @@ do  i_GP_Individual=1,n_GP_Individuals
                         GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) = &
                                                                           -Node_Variable
 
-                        !----------------------------------------------------------------------                     
+                        !----------------------------------------------------------------------
 
-                        !  set some variables to the forcing functions -5001 -> -5004
+                        if( model == 'fasham' )then 
 
-                        call random_number(cff)
-
-                        if( cff < prob_forcing )then
-
+                            !  set some variables to the forcing functions -5001 -> -5004
+    
                             call random_number(cff)
+    
+                            !write(GP_print_unit,'(A,2(1x,E15.7))') &
+                            !      'gtb:3 cff, prob_forcing', cff, prob_forcing
+    
+                            if( cff < prob_forcing )then
+    
+                                call random_number(cff)
+    
+                                !write(GP_print_unit,'(A,2(1x,E15.7))') &
+                                !      'gtb:4 cff, prob_choose_forcing_type', &
+                                !             cff, prob_choose_forcing_type
 
-                            node_variable = 0
-                            if( cff < prob_choose_forcing_type ) node_variable = -5001
+                                node_variable = 0
+                                if( cff < prob_choose_forcing_type ) node_variable = -5001
+    
+                                do  iforce=1,3
+    
+                                    if( prob_choose_forcing_type * float(iforce) < cff .and. &
+                                        prob_choose_forcing_type * float(iforce+1) >= cff  )then
+                                        node_variable = -1 * (5000 + iforce + 1 )
+                                    endif ! prob_choose_forcing_type * float(iforce) < cff...
+    
+                                enddo ! iforce
+    
+                                ! in case cff is very close to 1.0000
+                                if( node_variable == 0 ) node_variable = -5004
+    
+                                !write(GP_print_unit,'(A,2(1x,I6))') &
+                                !      'gtb:4 node_variable', node_variable
 
-                            do  iforce=1,3
+                                GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) = &
+                                                                                  Node_Variable
+                            endif !  cff < prob_forcing
+    
+                            !----------------------------------------------------------------------
+    
+                            !write(GP_print_unit,'(A,4(1x,I6))') &
+                            !    'gtb:5 i_GP_Individual, i_Tree, i_Node, &
+                            !        &GP_Child_Population_Node_Type', &
+                            !           i_GP_Individual, i_Tree, i_Node, &
+                            !         GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual)
+    
+                            !----------------------------------------------------------------------
 
-                                if( prob_choose_forcing_type * float(iforce) < cff .and. &
-                                    prob_choose_forcing_type * float(iforce+1) >= cff  )then
-                                    node_variable = -1 * (5000 + iforce + 1 )
-                                endif ! prob_choose_forcing_type * float(iforce) < cff...
+                        endif ! model == 'fasham' 
 
-                            enddo ! iforce
+                    else  !   cff > GP_Set_Terminal_to_Parameter_Probability 
 
-                            ! in case cff is very close to 1.0000
-                            if( node_variable == 0 ) node_variable = -5004
 
-                        endif !  cff < prob_forcing 
+                        ! set as a random parameter
 
-                        !----------------------------------------------------------------------                     
 
-                    else  ! set as a random parameter
+                        ! Setting GP_Child_Population_Node_Type to zero 
+                        ! allows the parameters to be set in GA_lmdif
 
-                        ! The setting to zero allows the parameters to be set in GA_lmdif
 
                         GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) = 0
+                        n_parms = n_parms + 1
+                        n_parms_per_tree = n_parms_per_tree + 1
+
+
+                        ! if there are too many parameters, set subsequent parameter nodes to undefined
+
+                        if( n_parms > n_maximum_number_parameters )then
+                            GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) = -9999
+                        endif !   n_parms > n_maximum_number_parameters
 
                     endif !   cff .le. GP_Set_Terminal_to_Parameter_Probability
 
@@ -308,6 +361,11 @@ do  i_GP_Individual=1,n_GP_Individuals
 
             enddo !  i_Level_Node
         enddo level_loop2 !  i_Level
+
+        !write(GP_print_unit,'(A,5(1x,I6))') &
+        !      'gtb:2 i_GP_individual, i_tree, n_parms_per_tree, n_parms, max_parms ',  &
+        !             i_GP_individual, i_tree, n_parms_per_tree, n_parms, n_maximum_number_parameters
+
     enddo !  i_Tree
 
 
