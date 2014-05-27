@@ -80,7 +80,7 @@ real(kind=8),allocatable,dimension(:)  ::   sse_buffer_recv
 integer,allocatable,dimension(:)       ::   buff_parm_send
 !---------------------------------------------------------------------------------------
 
-!GP_population_fitness   = 0.0d0
+!GP_Population_Ranked_Fitness   = 0.0d0
 !GP_Child_Individual_SSE = 1.0d13
 !GP_Adult_Individual_SSE = 1.0d13
 !GP_Adult_Population_SSE = 1.0d13
@@ -124,7 +124,28 @@ endif !  myid == 0
 ! This code will then retain the existing value for that individual
 
 sse_buffer_send = GP_Child_Individual_SSE
-fit_buffer_send = GP_population_fitness
+if( myid == 0 )then                                                                   
+    do  ii = 1, n_GP_individuals
+        write(GP_print_unit,'(A,4(1x,I5), 1x, E15.7)')&                                       
+              'gil: myid, new_rank, &                                      
+              &i_GP_gen, i_GP_indiv, indiv_SSE', &                                           
+              myid, new_rank, i_GP_generation, ii, &                                            
+                              GP_Child_Individual_SSE(ii) 
+    enddo ! ii = 1, n_GP_individuals
+endif !  myid == 0         
+
+fit_buffer_send = GP_Population_Ranked_Fitness
+if( myid == 0 )then                                                                   
+    do  ii = 1, n_GP_individuals
+        write(GP_print_unit,'(A,4(1x,I5), 1x, E15.7)')&                                       
+              'gil: myid, new_rank, &                                      
+              &i_GP_gen, i_GP_indiv, indiv_fit', &                                           
+              myid, new_rank, i_GP_generation, ii, &                                            
+                              GP_Population_Ranked_Fitness(ii) 
+    enddo ! ii = 1, n_GP_individuals
+endif !  myid == 0         
+
+
 buff_parm_send  = GP_Individual_N_GP_param
 init_cond_buff  = GP_Population_Initial_Conditions
 node_parm_buff  = GP_Population_Node_Parameters
@@ -194,13 +215,13 @@ do  i_part = 1,  n_partitions
 
         n_indiv = ind2 - ind1 + 1
 
-        call MPI_RECV( GP_population_fitness(ind1), n_indiv, MPI_DOUBLE_PRECISION, &
+        call MPI_RECV( GP_Population_Ranked_Fitness(ind1), n_indiv, MPI_DOUBLE_PRECISION, &
                        MPI_ANY_SOURCE, tag_fit_r,                       &
                        MPI_COMM_WORLD, MPI_STAT, ierr )
 
         !write(GP_print_unit,'(A,4(1x,I7)/(5(1x,E15.7)))')&
-        !      'gil:31r myid, n_indiv, ind1, ind2, GP_population_fitness(ind1:ind2)', &
-        !               myid, n_indiv, ind1, ind2, GP_population_fitness(ind1:ind2)
+        !      'gil:31r myid, n_indiv, ind1, ind2, GP_Population_Ranked_Fitness(ind1:ind2)', &
+        !               myid, n_indiv, ind1, ind2, GP_Population_Ranked_Fitness(ind1:ind2)
 
 
         !-------------------------------------------------------------------
@@ -585,6 +606,12 @@ do  i_part = 1,  n_partitions
 
             endif !   Run_GP_Calculate_Fitness(i_GP_Individual)
 
+            !write(GP_print_unit,'(A,4(1x,I6))') &
+            !    '0: call summary_GP_indiv myid, new_rank, i_GP_generation, i_GP_individual ', &
+            !                              myid, new_rank, i_GP_generation, i_GP_individual
+            !call summary_GP_indiv( i_GP_generation, i_GP_individual, 0 )
+
+
 
 
 
@@ -718,15 +745,22 @@ call MPI_BCAST( GP_Individual_N_GP_param, message_len,    &
 !---------------------------------------------------------------------------------
 
 !if( myid == 0 )then
+!
 !    write(GP_print_unit,'(//A//)' )&
 !         '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>'
 !    do  ii = 1, n_GP_individuals
 !        write(GP_print_unit,'(A,4(1x,I5), 2(1x, E15.7))')&
 !         'gil:5 myid, new_rank, i_GP_gen, ii, GP_pop_fit, child_indiv_SSE', &
 !                myid, new_rank, i_GP_generation, ii, &
-!                           GP_population_fitness(ii), &
+!                           GP_Population_Ranked_Fitness(ii), &
 !                         GP_Child_Individual_SSE(ii)
+!            write(GP_print_unit,'(A,4(1x,I6))') &
+!                'gil: call summary_GP_indiv myid, new_rank, i_GP_generation, ii', &
+!                                            myid, new_rank, i_GP_generation, ii             
+!            call summary_GP_indiv( i_GP_generation, ii, 0 )
+!
 !   enddo ! i_GP_individual
+!
 !endif !  myid == 0
 
 

@@ -149,25 +149,25 @@ endif ! L_print_RK
 
 !!! debug >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 !if( new_rank == 1 ) then
-!    do  i_tree = 1, n_trees
-!        do  i_node = 1, n_nodes
-!            if( GP_individual_node_type(i_node, i_tree) > -9999 )then
-!                write(6,'(A,4(1x,I4))')&
-!                      'rkbm: new_rank, i_tree, i_node, GP_indiv_node_type', &
-!                             new_rank, i_tree, i_node, GP_individual_node_type(i_node, i_tree)
-!            endif !  GP_individual_node_type(i_node, i_tree) > -9999
-!        enddo ! i_node
-!    enddo ! i_tree
-!    
-!    do  i_tree = 1, n_trees
-!        do  i_node = 1, n_nodes
-!            if( GP_individual_node_parameters(i_node, i_tree) > 0.0d0 )then
-!                write(6,'(A,3(1x,I4),1x,E15.7)')&
-!                      'rkbm: new_rank, i_tree, i_node, GP_indiv_node_parms', &
-!                             new_rank, i_tree, i_node, GP_individual_node_parameters(i_node, i_tree)
-!            endif !  GP_individual_node_parameters(i_node, i_tree) > 0.0d0
-!        enddo ! i_node
-!    enddo ! i_tree
+    do  i_tree = 1, n_trees
+        do  i_node = 1, n_nodes
+            if( GP_individual_node_type(i_node, i_tree) > -9999 )then
+                write(6,'(A,4(1x,I4))')&
+                      'rkbm: new_rank, i_tree, i_node, GP_indiv_node_type', &
+                             new_rank, i_tree, i_node, GP_individual_node_type(i_node, i_tree)
+            endif !  GP_individual_node_type(i_node, i_tree) > -9999
+        enddo ! i_node
+    enddo ! i_tree
+    
+    do  i_tree = 1, n_trees
+        do  i_node = 1, n_nodes
+            if( GP_individual_node_parameters(i_node, i_tree) > 0.0d0 )then
+                write(6,'(A,3(1x,I4),1x,E15.7)')&
+                      'rkbm: new_rank, i_tree, i_node, GP_indiv_node_parms', &
+                             new_rank, i_tree, i_node, GP_individual_node_parameters(i_node, i_tree)
+            endif !  GP_individual_node_parameters(i_node, i_tree) > 0.0d0
+        enddo ! i_node
+    enddo ! i_tree
 !endif !  new_rank == 1
 !!! debug <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 

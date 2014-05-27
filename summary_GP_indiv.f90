@@ -60,7 +60,8 @@ logical :: Lprint
 
 ! set Lprint so printing is done only under the conditions in the if-test
 
-Lprint = .FALSE. 
+!Lprint = .FALSE. 
+Lprint = .TRUE.   ! debug only
 
 if( i_GP_generation == 1                                  .or. &
     mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &

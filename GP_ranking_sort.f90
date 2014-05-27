@@ -205,12 +205,12 @@ enddo ! i_GP_individual
 !-------------------------------------------------------------------------------
 
 
-!write(6,'(/A)') &
-! 'gprs: after applying  sort to GP_Population_Initial_Conditions       '
+write(6,'(/A)') &
+ 'gprs: after applying  sort to GP_Population_Initial_Conditions       '
 
-!call print_debug_real_nparm( 6, &
-!      'from GP_ranking_sort after sort GP_Population_Initial_Conditions ', &
-!      GP_Population_Initial_Conditions )
+call print_debug_real_nparm( 6, &
+      'from GP_ranking_sort after sort GP_Population_Initial_Conditions ', &
+      GP_Population_Initial_Conditions )
 
 
 !-------------------------------------------------------------------------------
