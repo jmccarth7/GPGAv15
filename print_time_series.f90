@@ -368,9 +368,10 @@ if( myid == 0 )then
 
         rk_min(j) =  minval( temp_data_array )
         rk_max(j) =  maxval( temp_data_array )
-        write(GP_print_unit,'(A,1x,I3,2x,2(1x,E12.5))') &
-              'pts:2 j, RK_min(j), RK_max(j)      ', &
-                     j, RK_min(j), RK_max(j)
+
+        !write(GP_print_unit,'(A,1x,I3,2x,2(1x,E12.5))') &
+        !      'pts:2 j, RK_min(j), RK_max(j)      ', &
+        !             j, RK_min(j), RK_max(j)
 
 
         temp_data_array = 0.0d0
@@ -381,9 +382,9 @@ if( myid == 0 )then
         data_min(j) =  minval( temp_data_array )
         data_max(j) =  maxval( temp_data_array )
 
-        write(GP_print_unit,'(A,1x,I3,2x,2(1x,E12.5))') &
-              'pts:2 j, data_min(j), data_max(j)  ', &
-                     j, data_min(j), data_max(j)
+        !write(GP_print_unit,'(A,1x,I3,2x,2(1x,E12.5))') &
+        !      'pts:2 j, data_min(j), data_max(j)  ', &
+        !             j, data_min(j), data_max(j)
 
 
 
@@ -395,22 +396,22 @@ if( myid == 0 )then
         resid_min(j) =  minval( temp_data_array )
         resid_max(j) =  maxval( temp_data_array )
 
-        write(GP_print_unit,'(A,1x,I3,2x,2(1x,E12.5))') &
-              'pts:2 j, resid_min(j), resid_max(j)', &
-                     j, resid_min(j), resid_max(j)
+        !write(GP_print_unit,'(A,1x,I3,2x,2(1x,E12.5))') &
+        !      'pts:2 j, resid_min(j), resid_max(j)', &
+        !             j, resid_min(j), resid_max(j)
 
 
-        write(GP_print_unit,'(A,1x,I6,2x,2(1x,E12.5))') &
-              'pts: j, RK_min(j), RK_max(j)      ', &
-                    j, RK_min(j), RK_max(j)
+        !write(GP_print_unit,'(A,1x,I6,2x,2(1x,E12.5))') &
+        !      'pts: j, RK_min(j), RK_max(j)      ', &
+        !            j, RK_min(j), RK_max(j)
 
-        write(GP_print_unit,'(A,1x,I6,2x,2(1x,E12.5))') &
-              'pts: j, data_min(j), data_max(j)  ', &
-                    j, data_min(j), data_max(j)
+        !write(GP_print_unit,'(A,1x,I6,2x,2(1x,E12.5))') &
+        !      'pts: j, data_min(j), data_max(j)  ', &
+        !            j, data_min(j), data_max(j)
 
-        write(GP_print_unit,'(A,1x,I6,2x,2(1x,E12.5))') &
-              'pts: j, resid_min(j), resid_max(j)', &
-                    j, resid_min(j), resid_max(j)
+        !write(GP_print_unit,'(A,1x,I6,2x,2(1x,E12.5))') &
+        !      'pts: j, resid_min(j), resid_max(j)', &
+        !            j, resid_min(j), resid_max(j)
 
     enddo ! j
 
@@ -423,9 +424,9 @@ if( myid == 0 )then
             temp_data_array(i) = Numerical_CODE_Solution(i,j)
         enddo ! i
 
-        write(GP_print_unit,'(A,1x,I6,2x,2(1x,E12.5))') &
-              'pts:2 j, RK_min(j), RK_max(j)      ', &
-                     j, minval( temp_data_array ), maxval( temp_data_array )
+        !write(GP_print_unit,'(A,1x,I6,2x,2(1x,E12.5))') &
+        !      'pts:2 j, RK_min(j), RK_max(j)      ', &
+        !             j, minval( temp_data_array ), maxval( temp_data_array )
 
 
         temp_data_array = 0.0d0
@@ -433,9 +434,9 @@ if( myid == 0 )then
             temp_data_array(i) = data_array(i,j)
         enddo ! i
 
-        write(GP_print_unit,'(A,1x,I6,2x,2(1x,E12.5))') &
-              'pts:2 j, data_min(j), data_max(j)      ', &
-                     j, minval( temp_data_array ), maxval( temp_data_array )
+        !write(GP_print_unit,'(A,1x,I6,2x,2(1x,E12.5))') &
+        !      'pts:2 j, data_min(j), data_max(j)      ', &
+        !             j, minval( temp_data_array ), maxval( temp_data_array )
 
 
 
@@ -444,9 +445,9 @@ if( myid == 0 )then
             temp_data_array(i) = resid(i,j)
         enddo ! i
 
-        write(GP_print_unit,'(A,1x,I6,2x,2(1x,E12.5))') &
-              'pts:2 j, resid_min(j), resid_max(j)      ', &
-                     j, minval( temp_data_array ), maxval( temp_data_array )
+        !write(GP_print_unit,'(A,1x,I6,2x,2(1x,E12.5))') &
+        !      'pts:2 j, resid_min(j), resid_max(j)      ', &
+        !             j, minval( temp_data_array ), maxval( temp_data_array )
 
 
     enddo ! j

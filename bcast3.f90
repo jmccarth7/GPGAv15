@@ -104,11 +104,11 @@ call MPI_BCAST( GP_population_node_parameters,  buffer_length,    &
 call MPI_BCAST( GP_Population_Ranked_Fitness, n_GP_individuals,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
-if( myid == 0 )then
-    write(GP_print_unit,'(/A/(5(1x,E24.16)))') &
-          'bc3: AFT broadcast GP_Population_Ranked_Fitness ',&
-                              GP_Population_Ranked_Fitness
-endif ! myid == 0
+!if( myid == 0 )then
+!    write(GP_print_unit,'(/A/(5(1x,E15.7)))') &
+!          'bc3: AFT broadcast GP_Population_Ranked_Fitness ',&
+!                              GP_Population_Ranked_Fitness
+!endif ! myid == 0
 
 !------------------------------------------------------------------------------
 
