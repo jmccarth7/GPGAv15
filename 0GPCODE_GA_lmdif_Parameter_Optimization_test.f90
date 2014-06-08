@@ -711,6 +711,26 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
         endif ! myid == 0
 
+        !---------------------------------------------------------------------------------
+
+        !message_len = n_nodes * n_trees * n_GP_individuals                 ! debug only
+        !call MPI_BCAST( GP_Population_Node_Parameters, message_len,    &   ! debug only
+        !                MPI_DOUBLE_PRECISION,  0, MPI_COMM_WORLD, ierr )   ! debug only
+
+
+        !message_len = n_nodes * n_trees                                    ! debug only
+        !call MPI_BCAST( GP_Individual_Node_parameters, message_len,    &   ! debug only
+        !                MPI_DOUBLE_PRECISION,  0, MPI_COMM_WORLD, ierr )   ! debug only
+
+
+        !message_len = n_nodes * n_trees                                    ! debug only
+        !call MPI_BCAST( GP_Individual_Node_Type, message_len,    &         ! debug only
+        !                MPI_INTEGER, 0, MPI_COMM_WORLD, ierr )             ! debug only
+
+
+
+
+        !---------------------------------------------------------------------------------
 
         !write(6,'(/A,1x,I5/)') '0: broadcast ierror_tb    myid = ', myid
         message_len =  1

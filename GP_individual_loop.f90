@@ -427,7 +427,7 @@ do  i_part = 1,  n_partitions
                         GP_Individual_Node_Type(i_Node,i_Tree) = &
                            GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Individual)
 
-                        GP_Individual_Node_Parameters(i_Node,i_Tree) = 0.0d0
+                        !!!!GP_Individual_Node_Parameters(i_Node,i_Tree) = 0.0d0
                     enddo ! i_node
                 enddo ! i_tree
 
