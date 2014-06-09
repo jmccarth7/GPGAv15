@@ -417,18 +417,18 @@ endif ! L_bad_result
 ! result and exit 
 do  i_CODE_equation=1,n_CODE_equations
 
-    min_x = 0.0d0
+    !min_x = 0.0d0
     max_x = 0.0d0
     do  i_time_step=1,n_time_steps
 
-        min_x = min( min_x, Numerical_CODE_Solution(i_time_step,i_CODE_equation)  ) 
+        !min_x = min( min_x, Numerical_CODE_Solution(i_time_step,i_CODE_equation)  ) 
         max_x = max( max_x, Numerical_CODE_Solution(i_time_step,i_CODE_equation)  ) 
 
     enddo ! i_time_step
 
-    write(GP_print_unit,'(A,1x,I6,2(1x,E15.7))') &
-          'fcn: i_code_equation, min_x, max_x',  &
-                i_code_equation, min_x, max_x
+    !write(GP_print_unit,'(A,1x,I6,1x,E15.7)') &
+    !      'fcn: i_code_equation, max_x',  &
+    !            i_code_equation, max_x
 
     if( max_x < 1.0d-6 )then
 

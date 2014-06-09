@@ -268,10 +268,10 @@ call lmdif( fcn, n_time_steps, n_parms, x_LMDIF, fvec, &
 
 
 
-if( L_myprint .and. myid == 1)then
-    write(myprint_unit,'(A,3(1x,I6))') 'strplm:output info, nfev, ldfjac ', &
-                                                      info, nfev, ldfjac
-endif ! myid == 1
+!if( L_myprint .and. myid == 1)then
+!    write(myprint_unit,'(A,3(1x,I6))') 'strplm:output info, nfev, ldfjac ', &
+!                                                      info, nfev, ldfjac
+!endif ! myid == 1
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 

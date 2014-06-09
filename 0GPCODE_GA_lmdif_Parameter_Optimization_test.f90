@@ -81,6 +81,8 @@ character(50),parameter :: branch  =  'ver3'
 
 !---------------------------------------------------------------------------------------
 
+allocated_memory = 0.0d0
+
 ierror_t  = 0
 ierror_m  = 0
 ierror_tb = 0
@@ -257,13 +259,21 @@ if( n_input_vars > 0 )then
     ! allocate input data names
 
     !write(6, '(/A)') '0: allocate input_data_names'
+
     allocate( input_data_names( 0:n_input_vars ) )
+    allocated_memory = allocated_memory + &
+               real( (1+n_input_vars) * name_len * 4, kind=8 )
+
 
 
     ! allocate input data array
 
     !write(6, '(/A)') '0: allocate input_data_array'
+
     allocate( input_data_array( 0:n_input_vars, n_input_data_points) )
+    allocated_memory = allocated_memory + &
+               real( (1+n_input_vars) * n_input_data_points * 8, kind=8 )
+
 
 
     call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
@@ -315,10 +325,16 @@ call bcast1()
 
 if( .not. allocated( seed ) )then
     ALLOCATE(seed(n_seed))
+    allocated_memory = allocated_memory + &
+               real( n_seed * 4, kind=8 )
+
 endif ! .not. allocated( seed )
 
 if( .not. allocated( current_seed ) )then
     ALLOCATE(current_seed(n_seed))
+    allocated_memory = allocated_memory + &
+               real( n_seed * 4, kind=8 )
+
 endif ! .not. allocated( current_seed )
 
 !if( myid == 0 )then
@@ -421,7 +437,7 @@ endif ! myid == 0 )then
 
 !-------------------------------------------------------------------------------
 !if( n_partitions < 2  .or. divider < 2 )then !orig
-if( n_partitions < 1  .or. divider < 2 )then    
+if( n_partitions < 1  .or. divider < 2 )then
 
     write(6,'(/A/)') '0: bad values for n_partitions or divider -- stopping'
     write(6,'(A,3(1x,I4))') '0: n_partitions, numprocs, divider', &
@@ -433,8 +449,17 @@ endif ! n_partitions < 2....
 !-------------------------------------------------------------------------------
 
 allocate( ranks(      1:numprocs-1, n_partitions ) )
+allocated_memory = allocated_memory + &
+               real( (numprocs-1) * n_partitions * 4, kind=8 )
+
 allocate( ranks_temp( 0: divider-1     ) )
+allocated_memory = allocated_memory + &
+               real( divider * 4, kind=8 )
+
 allocate( ranks2(     0: divider-1, n_partitions ) )
+allocated_memory = allocated_memory + &
+               real( divider * n_partitions * 4, kind=8 )
+
 
 
 if( myid == 0 )then
@@ -534,7 +559,13 @@ enddo ! i
 !-------------------------------------------------------------
 
 allocate( color_value(0:numprocs-1 ) )
+allocated_memory = allocated_memory + &
+               real( numprocs     * 4, kind=8 )
+
 allocate(  key (0:divider -1 ) )
+allocated_memory = allocated_memory + &
+               real( divider * 4, kind=8 )
+
 
 
 do  i = 0, divider-1
@@ -614,8 +645,10 @@ if( L_restart )then
 endif ! L_restart
 
 if( myid == 0 )then
-    write(6,'(/A,1x,I5)') '0: start generation loop  myid = ', myid
-endif ! myid == 0 
+    write(6,'(/A,1x,I5)')     '0: start generation loop  myid = ', myid
+    write(6,'(/A,1x,E15.7/)') '0: allocated_memory (bytes) = ', &
+                                  allocated_memory
+endif ! myid == 0
 
 generation_loop:&
 do  i_GP_Generation= i_start_generation, n_GP_Generations
@@ -633,14 +666,14 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
         ! at each generation, get the value of the current seed
         ! this may be useful to re-start the program from intermediate results
 
-        CALL RANDOM_SEED(GET = current_seed)
+        !CALL RANDOM_SEED(GET = current_seed)
 
-        write(6,'(/A,1x,I12)') '0: n_seed ', n_seed
-        write(6,'(A)') '0: current seed array '
-        do  i = 1, n_seed
-            write(6,'(I12,1x,I12)')  i, current_seed(i)
-        enddo ! i
-        write(6,'(A)') ' '
+        !write(6,'(/A,1x,I12)') '0: n_seed ', n_seed
+        !write(6,'(A)') '0: current seed array '
+        !do  i = 1, n_seed
+        !    write(6,'(I12,1x,I12)')  i, current_seed(i)
+        !enddo ! i
+        !write(6,'(A)') ' '
 
         !--------------------------------------------------------------------------------
 
@@ -1253,10 +1286,10 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 !!            endif ! isnan( GP_Child_Individual_SSE(ii) )
 !!
 !!            if( isnan( GP_population_ranked_fitness(ii) ) )then
-!!                GP_population_ranked_fitness(ii) = 0.0D0 
+!!                GP_population_ranked_fitness(ii) = 0.0D0
 !!            endif ! isnan( GP_population_ranked_fitness(ii) )
 !!
-!!            write(GP_print_unit,'(A,2(1x,I5), 2(1x, E15.7))')&          
+!!            write(GP_print_unit,'(A,2(1x,I5), 2(1x, E15.7))')&
 !!             '0: i_GP_gen, i_GP_indiv, GP_pop_rank_fit, GP_child_indiv_SSE', &
 !!                 i_GP_generation, ii, GP_population_ranked_fitness(ii), &
 !!                                    GP_Child_Individual_SSE(ii)
@@ -1278,7 +1311,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 !!
 !!    if( myid == 0 )then
 !!        do  ii = 1, n_GP_individuals
-!!            !write(GP_print_unit,'(A,4(1x,I5), 2(1x, E15.7))')&          
+!!            !write(GP_print_unit,'(A,4(1x,I5), 2(1x, E15.7))')&
 !!            ! '0: myid, new_rank, i_GP_gen, i_GP_indiv, GP_pop_fit, GP_child_indiv_SSE', &
 !!            !     myid, new_rank, i_GP_generation, ii, &
 !!            !                GP_population_fitness(ii), &
@@ -1289,10 +1322,10 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 !!            endif ! isnan( GP_Child_Individual_SSE(ii) )
 !!
 !!            if( isnan( GP_population_ranked_fitness(ii) ) )then
-!!                GP_population_ranked_fitness(ii) = 0.0D0 
+!!                GP_population_ranked_fitness(ii) = 0.0D0
 !!            endif ! isnan( GP_population_fitness(ii) )
 !!
-!!            write(GP_print_unit,'(A,2(1x,I5), 2(1x, E15.7))')&          
+!!            write(GP_print_unit,'(A,2(1x,I5), 2(1x, E15.7))')&
 !!             '0: i_GP_gen, i_GP_indiv, GP_pop_rank_fit, GP_child_indiv_SSE', &
 !!                 i_GP_generation, ii, GP_population_ranked_fitness(ii), &
 !!                                           GP_Child_Individual_SSE(ii)
@@ -1405,7 +1438,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
             write(GP_print_unit,'(A,2(1x,I6))') &
                 '0: call GP_para_lmdif_process i_GP_generation', &
                                                i_GP_Generation
-        endif ! myid == 0 
+        endif ! myid == 0
 
         call GP_para_lmdif_process( i_GP_generation, max_n_gp_params  )
 
@@ -1517,15 +1550,15 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
         if( L_minSSE )then
 
-            ! whenever the SSE for the best parent is less than 
-            ! GP_minSSE_Individual_SSE, load the GP_minSSE* arrays with 
+            ! whenever the SSE for the best parent is less than
+            ! GP_minSSE_Individual_SSE, load the GP_minSSE* arrays with
             ! the corresponding arrays for the best parent
 
-            ! thus, at the end of the run, the GP_minSSE* arrays will have 
+            ! thus, at the end of the run, the GP_minSSE* arrays will have
             ! the values of the best individual over all generations
 
-            ! this is needed only if the prob_no_elite parameter > 0, 
-            ! so that it is possible that the best individual on the 
+            ! this is needed only if the prob_no_elite parameter > 0,
+            ! so that it is possible that the best individual on the
             ! final generation is not the best found in the run
 
 
