@@ -85,23 +85,23 @@ output_array = 0.0d0
 !-------------------------------------------------------------------------------
 
 
-if( i_GP_generation == 1                                 .or. &
-    mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
-    i_GP_generation == n_GP_generations                          ) then
-
-    write(GP_print_unit,'(/A,1x,I6/)') &
-          'gpcf: i_GP_generation ',  i_GP_generation
-
-    write(GP_print_unit,'(A)') &
-          'gpcf: i_GP_Indiv, GP_Indiv_N_GP_param(i_GP_Indiv) '
-
-    write(GP_print_unit, '(10(1x,I6," :", I3))') &
-           ( i_GP_Individual, GP_Individual_N_GP_param(i_GP_Individual), &
-             i_GP_Individual=1,n_GP_Individuals )
-
-    write(GP_print_unit,'(/A)')' '
-
-endif ! i_GP_generation ...
+!if( i_GP_generation == 1                                 .or. &
+!    mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
+!    i_GP_generation == n_GP_generations                          ) then
+!
+!    write(GP_print_unit,'(/A,1x,I6/)') &
+!          'gpcf: i_GP_generation ',  i_GP_generation
+!
+!    write(GP_print_unit,'(A)') &
+!          'gpcf: i_GP_Indiv, GP_Indiv_N_GP_param(i_GP_Indiv) '
+!
+!    write(GP_print_unit, '(10(1x,I6," :", I3))') &
+!           ( i_GP_Individual, GP_Individual_N_GP_param(i_GP_Individual), &
+!             i_GP_Individual=1,n_GP_Individuals )
+!
+!    write(GP_print_unit,'(/A)')' '
+!
+!endif ! i_GP_generation ...
 
 !-------------------------------------------------------------------------------
 

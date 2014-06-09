@@ -70,9 +70,9 @@ real(kind=8) ::   individual_fit_rec
 real(kind=8) ::   individual_SSE_rec
 
 
-real(kind=8),allocatable,dimension(:,:)    ::   init_cond_buff 
-real(kind=8),allocatable,dimension(:,:,:)  ::   node_parm_buff 
-integer,allocatable,dimension(:,:,:)       ::   node_type_buff 
+real(kind=8),allocatable,dimension(:,:)    ::   init_cond_buff
+real(kind=8),allocatable,dimension(:,:,:)  ::   node_parm_buff
+integer,allocatable,dimension(:,:,:)       ::   node_type_buff
 
 real(kind=8),allocatable,dimension(:)  ::   fit_buffer_send
 real(kind=8),allocatable,dimension(:)  ::   sse_buffer_send
@@ -118,32 +118,34 @@ endif !  myid == 0
 
 !-------------------------------------------------------------------------------
 
-! initialize the send buffers to values of the GP arrays 
+! initialize the send buffers to values of the GP arrays
 ! this is necessary because if Run_GP_Fitness is .FALSE., for an individual
 ! then no value will be put into the place of that individual
 ! This code will then retain the existing value for that individual
 
 sse_buffer_send = GP_Child_Individual_SSE
-if( myid == 0 )then                                                                   
-    do  ii = 1, n_GP_individuals
-        write(GP_print_unit,'(A,4(1x,I5), 1x, E15.7)')&                                       
-              'gil: myid, new_rank, &                                      
-              &i_GP_gen, i_GP_indiv, indiv_SSE', &                                           
-              myid, new_rank, i_GP_generation, ii, &                                            
-                              GP_Child_Individual_SSE(ii) 
-    enddo ! ii = 1, n_GP_individuals
-endif !  myid == 0         
+
+!if( myid == 0 )then
+!    do  ii = 1, n_GP_individuals
+!        write(GP_print_unit,'(A,4(1x,I5), 1x, E15.7)')&
+!              'gil: myid, new_rank, &
+!              &i_GP_gen, i_GP_indiv, indiv_SSE', &
+!              myid, new_rank, i_GP_generation, ii, &
+!                              GP_Child_Individual_SSE(ii)
+!    enddo ! ii = 1, n_GP_individuals
+!endif !  myid == 0
 
 fit_buffer_send = GP_Population_Ranked_Fitness
-if( myid == 0 )then                                                                   
-    do  ii = 1, n_GP_individuals
-        write(GP_print_unit,'(A,4(1x,I5), 1x, E15.7)')&                                       
-              'gil: myid, new_rank, &                                      
-              &i_GP_gen, i_GP_indiv, indiv_fit', &                                           
-              myid, new_rank, i_GP_generation, ii, &                                            
-                              GP_Population_Ranked_Fitness(ii) 
-    enddo ! ii = 1, n_GP_individuals
-endif !  myid == 0         
+
+!if( myid == 0 )then
+!    do  ii = 1, n_GP_individuals
+!        write(GP_print_unit,'(A,4(1x,I5), 1x, E15.7)')&
+!              'gil: myid, new_rank, &
+!              &i_GP_gen, i_GP_indiv, indiv_fit', &
+!              myid, new_rank, i_GP_generation, ii, &
+!                              GP_Population_Ranked_Fitness(ii)
+!    enddo ! ii = 1, n_GP_individuals
+!endif !  myid == 0
 
 
 buff_parm_send  = GP_Individual_N_GP_param
@@ -269,9 +271,9 @@ do  i_part = 1,  n_partitions
         !            if( GP_Adult_Population_Node_Type(i_node,i_tree,ii) > -9999 )then
         !                write(6,'(4(1x,I6))' )&
         !                ii,i_tree, i_node, GP_Adult_Population_Node_Type(i_node,i_tree,ii)
-        !            endif ! GP_Adult_Population_Node_Type(i_node,i_tree,ii) > -9999 
+        !            endif ! GP_Adult_Population_Node_Type(i_node,i_tree,ii) > -9999
         !        enddo !  i_node
-        !    enddo !  i_tree 
+        !    enddo !  i_tree
         !enddo ! ii
 
         GP_Child_Population_Node_Type =  GP_Adult_Population_Node_Type
@@ -320,15 +322,15 @@ do  i_part = 1,  n_partitions
         !                write(GP_print_unit,'(A,5(1x,I7)/)')&
         !                  'gil:35r  i_tree, i_node, GP_Population_Node_Parameters is NAN', &
         !                            i_tree, i_node
-        !            endif !  isnan( GP_Population_Node_Parameters(i_node,i_tree,ii) 
+        !            endif !  isnan( GP_Population_Node_Parameters(i_node,i_tree,ii)
 
         !            if( GP_Population_Node_Parameters(i_node,i_tree,ii) > 0.0d0 )then
         !                write(6,'(2(1x,I6),1x,E15.7)' )&
-        !                i_tree, i_node, GP_Population_Node_Parameters(i_node,i_tree,ii)            
-        !            endif ! GP_Population_Node_Parameters(i_node,i_tree,ii) > 0.0d0 
+        !                i_tree, i_node, GP_Population_Node_Parameters(i_node,i_tree,ii)
+        !            endif ! GP_Population_Node_Parameters(i_node,i_tree,ii) > 0.0d0
 
         !        enddo !  i_node
-        !    enddo !  i_tree 
+        !    enddo !  i_tree
         !enddo ! ii
 
         !--------------------------------------------------------------------------------
@@ -396,26 +398,26 @@ do  i_part = 1,  n_partitions
 
                 !-----------------------------------------------------------------------------------
 
-                if( new_rank == 0 )then
-                    write(GP_print_unit,'(/A)')&
-                    'gil:----------------------------------------------------------------------'
-                    write(GP_print_unit,'(A,2(1x,i5),3x,L1)') &
-                          'gil: i_GP_Gen, i_GP_indiv, Run_GP_Calculate_Fitness', &
-                                i_GP_Generation, i_GP_individual, &
-                                       Run_GP_Calculate_Fitness(i_GP_Individual)
-                    write(GP_print_unit,'(A)')&
-                    'gil:----------------------------------------------------------------------'
-                    !!flush(GP_print_unit)
-                endif !  new_rank == 0
+                !if( new_rank == 0 )then
+                !    write(GP_print_unit,'(/A)')&
+                !    'gil:----------------------------------------------------------------------'
+                !    write(GP_print_unit,'(A,2(1x,i5),3x,L1)') &
+                !          'gil: i_GP_Gen, i_GP_indiv, Run_GP_Calculate_Fitness', &
+                !                i_GP_Generation, i_GP_individual, &
+                !                       Run_GP_Calculate_Fitness(i_GP_Individual)
+                !    write(GP_print_unit,'(A)')&
+                !    'gil:----------------------------------------------------------------------'
+                !    !!flush(GP_print_unit)
+                !endif !  new_rank == 0
 
                 !-----------------------------------------------------------------------------------
 
-                if( new_rank == 0 )then
-                    write(GP_print_unit,'(/A,4(1x,i6))') &
-                      'gil: i_GP_individual, n_trees, n_nodes, n_GP_parameters ', &
-                            i_GP_individual, n_trees, n_nodes, n_GP_parameters
-                    !flush(GP_print_unit)
-                endif !  new_rank == 0
+                !if( new_rank == 0 )then
+                !    write(GP_print_unit,'(/A,4(1x,i6))') &
+                !      'gil: i_GP_individual, n_trees, n_nodes, n_GP_parameters ', &
+                !            i_GP_individual, n_trees, n_nodes, n_GP_parameters
+                !    !flush(GP_print_unit)
+                !endif !  new_rank == 0
 
                 !-----------------------------------------------------------------------------------
 
@@ -425,7 +427,7 @@ do  i_part = 1,  n_partitions
                         GP_Individual_Node_Type(i_Node,i_Tree) = &
                            GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Individual)
 
-                        GP_Individual_Node_Parameters(i_Node,i_Tree) = 0.0d0
+                        !!!!GP_Individual_Node_Parameters(i_Node,i_Tree) = 0.0d0
                     enddo ! i_node
                 enddo ! i_tree
 
@@ -447,13 +449,13 @@ do  i_part = 1,  n_partitions
 
                 !------------------------------------------------------------------------------
 
-                if( new_rank == 0 )then
-                    write(GP_print_unit,'(A,1x,i5,5x,A,2(1x,i5))')&
-                          'gil: for i_GP_Individual', i_GP_Individual, &
-                          'number of parameters, variables =', &
-                                n_GP_parameters, n_GP_vars
-                    !flush(GP_print_unit)
-                endif !  new_rank == 0
+                !if( new_rank == 0 )then
+                !    write(GP_print_unit,'(A,1x,i5,5x,A,2(1x,i5))')&
+                !          'gil: for i_GP_Individual', i_GP_Individual, &
+                !          'number of parameters, variables =', &
+                !                n_GP_parameters, n_GP_vars
+                !    !flush(GP_print_unit)
+                !endif !  new_rank == 0
 
 
                 !-------------------------------------------------------------------
@@ -475,14 +477,14 @@ do  i_part = 1,  n_partitions
 
                     individual_fitness = 0.0d0
 
-                    if( new_rank == 0 )then
-                        write(GP_print_unit,'(A,7(1x,I5), 1x, E15.7)')&
-                         'gil: myid, new_rank, i_part, i_gp_1, i_gp_2, &
-                               &i_GP_gen, i_GP_indiv, indiv_fit', &
-                               myid, new_rank, i_part, i_gp_1, i_gp_2, &
-                               i_GP_generation, i_GP_individual, &
-                               individual_fitness
-                    endif !  new_rank == 0
+                    !if( new_rank == 0 )then
+                    !    write(GP_print_unit,'(A,7(1x,I5), 1x, E15.7)')&
+                    !     'gil: myid, new_rank, i_part, i_gp_1, i_gp_2, &
+                    !           &i_GP_gen, i_GP_indiv, indiv_fit', &
+                    !           myid, new_rank, i_part, i_gp_1, i_gp_2, &
+                    !           i_GP_generation, i_GP_individual, &
+                    !           individual_fitness
+                    !endif !  new_rank == 0
 
                     cycle gp_ind_loop
 
@@ -491,24 +493,24 @@ do  i_part = 1,  n_partitions
                 !-------------------------------------------------------------------
 
 
-                if( new_rank == 0 )then
+                !if( new_rank == 0 )then
 
                     !write(GP_print_unit,'(/A,2(1x,I5))') &
                     ! 'gil: call GPCODE_GA_lmdif_Param_Opt         i_GP_Gen, i_GP_indiv', &
                     !                           i_GP_Generation, i_GP_individual
                     !flush(GP_print_unit)
 
-                    if( L_ga_print )then
-                        write(GA_print_unit,'(//A/A)') &
-                         '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>&
-                         &>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',&
-                         'gil: call GPCODE_GA_lmdif_Parameter_Optimization routine'
-                        write(GA_print_unit,'(A,2(1x,I5))') &
-                         'gil: i_GP_Generation, i_GP_individual',&
-                               i_GP_Generation, i_GP_individual
-                    endif ! L_ga_print
+                    !if( L_ga_print )then
+                    !    write(GA_print_unit,'(//A/A)') &
+                    !     '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>&
+                    !     &>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',&
+                    !     'gil: call GPCODE_GA_lmdif_Parameter_Optimization routine'
+                    !    write(GA_print_unit,'(A,2(1x,I5))') &
+                    !     'gil: i_GP_Generation, i_GP_individual',&
+                    !           i_GP_Generation, i_GP_individual
+                    !endif ! L_ga_print
 
-                endif ! new_rank == 0
+                !endif ! new_rank == 0
 
 
                 !----------------------------------------------------------------------------
@@ -756,7 +758,7 @@ call MPI_BCAST( GP_Individual_N_GP_param, message_len,    &
 !                         GP_Child_Individual_SSE(ii)
 !            write(GP_print_unit,'(A,4(1x,I6))') &
 !                'gil: call summary_GP_indiv myid, new_rank, i_GP_generation, ii', &
-!                                            myid, new_rank, i_GP_generation, ii             
+!                                            myid, new_rank, i_GP_generation, ii
 !            call summary_GP_indiv( i_GP_generation, ii, 0 )
 !
 !   enddo ! i_GP_individual
