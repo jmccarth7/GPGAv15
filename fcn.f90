@@ -32,6 +32,9 @@ real(kind=8) :: x( nn )
 
 real(kind=8) :: sse_local
 
+real(kind=8) :: min_x
+real(kind=8) :: max_x
+
 integer(kind=4) :: iflag
 
 integer(kind=4) :: i_Tree
@@ -407,8 +410,43 @@ if( L_bad_result ) then
 
 endif ! L_bad_result
 
+!---------------------------------------------------------------------
 
+! in this section, check each time function's minimum and maximum
+! if max of function is zero for any function, flag this as a bad
+! result and exit 
+do  i_CODE_equation=1,n_CODE_equations
 
+    min_x = 0.0d0
+    max_x = 0.0d0
+    do  i_time_step=1,n_time_steps
+
+        min_x = min( min_x, Numerical_CODE_Solution(i_time_step,i_CODE_equation)  ) 
+        max_x = max( max_x, Numerical_CODE_Solution(i_time_step,i_CODE_equation)  ) 
+
+    enddo ! i_time_step
+
+    write(GP_print_unit,'(A,1x,I6,2(1x,E15.7))') &
+          'fcn: i_code_equation, min_x, max_x',  &
+                i_code_equation, min_x, max_x
+
+    if( max_x < 1.0d-6 )then
+
+        L_bad_result = .TRUE.
+        iflag = -1
+
+        do  i = 1, n_trees
+            if( associated( GP_Trees(i,1)%n )  )then
+                call GP_Trees(i,1)%n%delete()
+                deallocate( GP_Trees(i,1)%n )
+            endif
+        enddo
+
+        return
+
+    endif !  max_x < 1.0d-6
+
+enddo ! i_CODE_equation
 !---------------------------------------------------------------------
 
 ! if the result of the RK process was good,
