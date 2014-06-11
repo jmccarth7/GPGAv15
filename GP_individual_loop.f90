@@ -39,6 +39,10 @@ integer(kind=4) :: i_Node
 integer(kind=4) :: i_code_equation
 
 integer(kind=4) :: ii
+integer(kind=4) :: ii2
+integer(kind=4) :: ii3
+integer(kind=4) :: jj
+integer(kind=4) :: jj2
 
 integer(kind=4) :: message_len
 
@@ -70,42 +74,19 @@ real(kind=8) ::   individual_fit_rec
 real(kind=8) ::   individual_SSE_rec
 
 
-real(kind=8),allocatable,dimension(:,:)    ::   init_cond_buff
+real(kind=8),allocatable,dimension(:)    ::   init_cond_buff
 
-!real(kind=8),allocatable,dimension(:,:,:)  ::   node_parm_buff
-real(kind=8),allocatable,dimension(:,:)    ::   node_parm_buff2
+real(kind=8),allocatable,dimension(:,:)  ::   node_parm_buff2
 
-!integer,allocatable,dimension(:,:,:)       ::   node_type_buff
-integer,allocatable,dimension(:,:)         ::   node_type_buff2
+integer,allocatable,dimension(:,:)       ::   node_type_buff2
 
 real(kind=8),allocatable,dimension(:)  ::   fit_buffer_send
 real(kind=8),allocatable,dimension(:)  ::   sse_buffer_send
-!real(kind=8),allocatable,dimension(:)  ::   sse_buffer_recv
 integer,allocatable,dimension(:)       ::   buff_parm_send
+
+
 !---------------------------------------------------------------------------------------
 
-!GP_Population_Ranked_Fitness   = 0.0d0
-!GP_Child_Individual_SSE = 1.0d13
-!GP_Adult_Individual_SSE = 1.0d13
-!GP_Adult_Population_SSE = 1.0d13
-
-
-
-!allocate( fit_buffer_send( n_GP_individuals ) )
-!allocated_memory = allocated_memory + &
-!                   real( n_GP_Individuals * 8, kind=8 )
-!
-!allocate( sse_buffer_send( n_GP_individuals ) )
-!allocated_memory = allocated_memory + &
-!                   real( n_GP_Individuals * 8, kind=8 )
-!
-!allocate( sse_buffer_recv( n_GP_individuals ) )
-!allocated_memory = allocated_memory + &
-!                   real( n_GP_Individuals * 8, kind=8 )
-!
-!allocate( buff_parm_send(  n_GP_individuals ) )
-!allocated_memory = allocated_memory + &
-!                   real( n_GP_Individuals * 8, kind=8 )
 
 if( myid /= 0 )then
     allocate( fit_buffer_send( n_GP_individuals / n_partitions ) )
@@ -118,53 +99,21 @@ if( myid /= 0 )then
     
     allocate( buff_parm_send(  n_GP_individuals / n_partitions ) )
     allocated_memory = allocated_memory + &
-                       real( n_GP_Individuals / n_partitions * 8, kind=8 )
+                       real( n_GP_Individuals / n_partitions * 4, kind=8 )
 endif ! myid /= 0
 
 
-!if( myid == 0 )then
-!    allocate( sse_buffer_recv( n_GP_individuals / n_partitions ) )
-!    allocated_memory = allocated_memory + &
-!                       real( n_GP_Individuals  / n_partitions* 8, kind=8 )
-!endif ! myid == 0
 
-
-
-allocate( init_cond_buff(  n_code_equations, (n_GP_individuals / n_partitions) ) )
-allocated_memory = allocated_memory + &
-          real( n_code_equations * (n_GP_Individuals / n_partitions) * 8, kind=8 )
-
-!allocate( node_parm_buff(  n_nodes, n_trees, (n_GP_individuals / n_partitions) ) )
-!allocated_memory = allocated_memory + &
-!          real( n_nodes * n_trees * (n_GP_Individuals / n_partitions) * 8, kind=8 )
+allocate( init_cond_buff(  n_code_equations ) ) 
+allocated_memory = allocated_memory + real( n_code_equations * 8, kind=8 )
 
 
 allocate( node_parm_buff2(  n_nodes, n_trees ) )
 allocated_memory = allocated_memory + real( n_nodes * n_trees  * 8, kind=8 )
 
-!allocate( node_type_buff(  n_nodes, n_trees, (n_GP_individuals / n_partitions) ) )
-!allocated_memory = allocated_memory + &
-!          real( n_nodes * n_trees * (n_GP_Individuals / n_partitions) * 8, kind=8 )
-
-!allocate( node_type_buff(  n_nodes, n_trees, (n_GP_individuals / n_partitions) ) )
-!allocated_memory = allocated_memory + &
-!          real( n_nodes * n_trees * (n_GP_Individuals / n_partitions) * 8, kind=8 )
-
-!allocate( node_type_buff2(  n_nodes, (n_GP_individuals / n_partitions) ) )
-!allocated_memory = allocated_memory + &
-!          real( n_nodes * (n_GP_Individuals / n_partitions) * 8, kind=8 )
 
 allocate( node_type_buff2(  n_nodes, n_trees ) )
-allocated_memory = allocated_memory + &
-          real( n_nodes * n_trees * 8, kind=8 )
-
-!allocate( init_cond_buff(  n_code_equations, (n_GP_individuals / n_partitions) + 1 ) )
-!allocate( node_parm_buff(  n_nodes, n_trees, (n_GP_individuals / n_partitions) + 1 ) )
-!allocate( node_type_buff(  n_nodes, n_trees, (n_GP_individuals / n_partitions) + 1 ) )
-
-!allocate( init_cond_buff(  n_code_equations, n_GP_individuals ) )
-!allocate( node_parm_buff(  n_nodes, n_trees, n_GP_individuals ) )
-!allocate( node_type_buff(  n_nodes, n_trees, n_GP_individuals ) )
+allocated_memory = allocated_memory + real( n_nodes * n_trees * 4, kind=8 )
 
 
 
@@ -173,8 +122,8 @@ divider = ( numprocs - 1 ) / n_partitions
 call mpi_comm_rank( new_comm, new_rank, ierr )
 call mpi_comm_size( new_comm, n_procs,  ierr )
 
+
 if( myid == 0 )then
-!if( new_rank == 0 )then
     write(GP_print_unit,'(/A,4(1x,i4))')&
      'gil: before loop myid, new_rank, n_code_equations,  n_GP_params ',&
                        myid, new_rank, n_code_equations,  n_GP_parameters
@@ -191,44 +140,6 @@ endif !  myid == 0
 
 !-------------------------------------------------------------------------------
 
-! initialize the send buffers to values of the GP arrays
-! this is necessary because if Run_GP_Fitness is .FALSE., for an individual
-! then no value will be put into the place of that individual
-! This code will then retain the existing value for that individual
-
-!sse_buffer_send = GP_Child_Individual_SSE
-
-!if( myid == 0 )then
-!    do  ii = 1, n_GP_individuals
-!        write(GP_print_unit,'(A,4(1x,I5), 1x, E15.7)')&
-!              'gil: myid, new_rank, &
-!              &i_GP_gen, i_GP_indiv, indiv_SSE', &
-!              myid, new_rank, i_GP_generation, ii, &
-!                              GP_Child_Individual_SSE(ii)
-!    enddo ! ii = 1, n_GP_individuals
-!endif !  myid == 0
-
-!fit_buffer_send = GP_Population_Ranked_Fitness
-
-!if( myid == 0 )then
-!    do  ii = 1, n_GP_individuals
-!        write(GP_print_unit,'(A,4(1x,I5), 1x, E15.7)')&
-!              'gil: myid, new_rank, &
-!              &i_GP_gen, i_GP_indiv, indiv_fit', &
-!              myid, new_rank, i_GP_generation, ii, &
-!                              GP_Population_Ranked_Fitness(ii)
-!    enddo ! ii = 1, n_GP_individuals
-!endif !  myid == 0
-
-
-!buff_parm_send  = GP_Individual_N_GP_param
-
-!init_cond_buff  = GP_Population_Initial_Conditions
-!node_parm_buff  = GP_Population_Node_Parameters
-!node_type_buff  = GP_Adult_Population_Node_Type
-
-
-!-------------------------------------------------------------------------------
 
 ! do the loop over the GP individuals in n_partitions chunks
 
@@ -261,11 +172,10 @@ do  i_part = 1,  n_partitions
     ! initialize the send buffers to values of the GP arrays
     ! this is necessary because if Run_GP_Fitness is .FALSE., for an individual
     ! then no value will be put into the place of that individual
-    ! This code will then retain the existing value for that individual
+    ! This code will then retain the value for that individual from the previous
+    ! generation.
 
-    init_cond_buff  = GP_Population_Initial_Conditions(:, ind1:ind2 )
-    !node_parm_buff  = GP_Population_Node_Parameters(:,:, ind1:ind2 )
-    !node_type_buff  = GP_Adult_Population_Node_Type(:,:, ind1:ind2 )
+    !init_cond_buff  = GP_Population_Initial_Conditions(:, ind1:ind2 )
 
     if( myid /= 0 )then
         fit_buffer_send(1:ind2-ind1+1)  = GP_Population_Ranked_Fitness(ind1:ind2)
@@ -349,13 +259,15 @@ do  i_part = 1,  n_partitions
         !--------------------------------------------------------------------------------
 
         n_indiv = ind2 - ind1 + 1
-        message_len = n_indiv * n_Nodes ! * n_Trees
+        message_len = n_Nodes  * n_Trees
+
         write(GP_print_unit,'(A,7(1x,I7)/)')&
               'gil:33r myid,new_rank,tag_node_type,ind1,ind2,n_indiv,message_len', &
                        myid,new_rank,tag_node_type,ind1,ind2,n_indiv,message_len
 
-        do  jj = 1, n_trees
-            call MPI_RECV( GP_Adult_Population_Node_Type(1,jj,ind1), message_len,    &
+        do  jj = ind1, ind2 
+
+            call MPI_RECV( GP_Adult_Population_Node_Type(:,:,jj), message_len,    &
                            MPI_INTEGER,  MPI_ANY_SOURCE, tag_node_type+jj, &
                            MPI_COMM_WORLD, MPI_STAT, ierr )
         enddo
@@ -380,14 +292,19 @@ do  i_part = 1,  n_partitions
 
 
         n_indiv = ind2 - ind1 + 1
-        message_len = n_indiv * n_code_equations
+        message_len = n_code_equations
+
         write(GP_print_unit,'(A,7(1x,I7)/)')&
           'gil:34r myid,new_rank,tag_init_cond,ind1,ind2,n_indiv, message_len', &
                    myid,new_rank,tag_init_cond,ind1,ind2,n_indiv, message_len
 
-        call MPI_RECV( GP_Population_Initial_Conditions(1,ind1), message_len,    &
-                        MPI_double_precision,  MPI_ANY_SOURCE, tag_init_cond, &
-                        MPI_COMM_WORLD, MPI_STAT, ierr )
+        do  ii = ind1, ind2 
+
+            call MPI_RECV( GP_Population_Initial_Conditions(1,ii), message_len,    &
+                           MPI_double_precision,  MPI_ANY_SOURCE, tag_init_cond+ii, &
+                           MPI_COMM_WORLD, MPI_STAT, ierr )
+
+        enddo ! ii
 
         write(GP_print_unit,'(A,4(1x,I7)/(5(1x,E15.7)))')&
           'gil:34r myid, n_indiv, ind1, ind2, GP_Population_Initial_Conditions(:,ind1:ind2)', &
@@ -395,24 +312,6 @@ do  i_part = 1,  n_partitions
 
 
         !--------------------------------------------------------------------------------
-
-!        n_indiv = ind2 - ind1 + 1
-!        message_len = n_indiv * n_Nodes !* n_Trees
-!
-!        write(GP_print_unit,'(A,4(1x,I7)/)')&
-!              'gil:35r myid, new_rank, n_nodes, n_trees', &
-!                       myid, new_rank, n_nodes, n_trees
-!
-!        write(GP_print_unit,'(A,7(1x,I7)/)')&
-!              'gil:35r myid, new_rank, tag_init_cond, ind1, ind2, n_indiv, message_len', &
-!                       myid, new_rank, tag_init_cond, ind1, ind2, n_indiv, message_len
-!
-!        do  jj2 = 1, n_trees
-!            call MPI_RECV( GP_Population_Node_Parameters(1,jj2,ind1), message_len,    &
-!                        MPI_double_precision,  MPI_ANY_SOURCE, tag_node_parm+jj2, &
-!                        MPI_COMM_WORLD, MPI_STAT, ierr )
-!
-!        enddo ! jj2 
 
 
         n_indiv = ind2 - ind1 + 1
@@ -428,7 +327,7 @@ do  i_part = 1,  n_partitions
 
         do  jj2 = ind1, ind2 
 
-            call MPI_RECV( GP_Population_Node_Parameters(1,1,jj2), message_len,    &
+            call MPI_RECV( GP_Population_Node_Parameters(1,1,jj2), message_len,   &
                         MPI_double_precision,  MPI_ANY_SOURCE, tag_node_parm+jj2, &
                         MPI_COMM_WORLD, MPI_STAT, ierr )
         enddo ! jj2 
@@ -758,8 +657,8 @@ do  i_part = 1,  n_partitions
             !  send the number of parameters for the GP individual
 
             n_indiv = ind2 - ind1 + 1
-            call MPI_SEND( buff_parm_send(1), n_indiv, MPI_INTEGER,        &
-                          0,  tag_parm, MPI_COMM_WORLD, ierr )
+            call MPI_SEND( buff_parm_send, n_indiv, MPI_INTEGER,        &
+                           0,  tag_parm, MPI_COMM_WORLD, ierr )
 
             !--------------------------------------------------------------------------------
 
@@ -772,8 +671,8 @@ do  i_part = 1,  n_partitions
             !              myid, new_rank, tag_fit_s, ind1, ind2
 
             n_indiv = ind2 - ind1 + 1
-            call MPI_SEND( fit_buffer_send(1), n_indiv, MPI_DOUBLE_PRECISION, &
-                          0,  tag_fit_s, MPI_COMM_WORLD, ierr )
+            call MPI_SEND( fit_buffer_send, n_indiv, MPI_DOUBLE_PRECISION, &
+                           0,  tag_fit_s, MPI_COMM_WORLD, ierr )
 
 
             !--------------------------------------------------------------------------------
@@ -787,14 +686,16 @@ do  i_part = 1,  n_partitions
             !               myid, new_rank, tag_sse_s, i_GP_individual
 
             n_indiv = ind2 - ind1 + 1
-            call MPI_SEND( sse_buffer_send(1), n_indiv, MPI_DOUBLE_PRECISION, &
+            call MPI_SEND( sse_buffer_send, n_indiv, MPI_DOUBLE_PRECISION, &
                            0, tag_sse_s, MPI_COMM_WORLD, ierr )
 
             !--------------------------------------------------------------------------------
 
             n_indiv = ind2 - ind1 + 1
-            message_len = n_indiv * n_Trees
+            message_len = n_nodes * n_Trees
+
             do  ii = ind1 , ind2 
+
                 node_type_buff2(:,:) = GP_Adult_Population_Node_Type(:,:,ii)
 
                 call MPI_SEND( node_type_buff2, message_len,    &
@@ -805,39 +706,34 @@ do  i_part = 1,  n_partitions
 
 
             n_indiv = ind2 - ind1 + 1
-            message_len = n_indiv * n_code_equations
+            message_len = n_code_equations
 
             write(GP_print_unit,'(/A,6(1x,I7)/)')&
                   'gil: myid, new_rank, ind1, ind2, n_indiv, message_len', &
                         myid, new_rank, ind1, ind2, n_indiv, message_len
 
+            do  ii3 = ind1, ind2
 
-            init_cond_buff( :, ind1:ind2) = GP_Population_Initial_Conditions(:,ind1:ind2)
+                init_cond_buff(:) = GP_Population_Initial_Conditions(:, ii3)
 
-            call MPI_SEND( init_cond_buff(1,ind1), message_len,    &
-                            MPI_double_precision,  0, tag_init_cond, MPI_COMM_WORLD, ierr )
+                call MPI_SEND( init_cond_buff, message_len,    &
+                               MPI_double_precision,  0, tag_init_cond+ii3, &
+                               MPI_COMM_WORLD, ierr )
 
+            enddo  ! ii3 
             !--------------------------------------------------------------------------------
-
-
-!            n_indiv = ind2 - ind1 + 1
-!            message_len = n_indiv * n_Nodes ! * n_Trees
-!            do  ii2 = 1, n_trees
-!                node_parm_buff2(:, ind1:ind2) = GP_Population_Node_Parameters(:,:,ind1:ind2)
-!
-!            call MPI_SEND( node_parm_buff2(1,ind1), message_len,    &
-!                            MPI_double_precision,  0, tag_node_parm+ii2, MPI_COMM_WORLD, ierr )
-!
-!            enddo
 
 
             n_indiv = ind2 - ind1 + 1
             message_len = n_Nodes * n_Trees
+
             do  ii2 = ind1, ind2
+
                 node_parm_buff2(:, :) = GP_Population_Node_Parameters(:,:,ii2)
 
-                call MPI_SEND( node_parm_buff2, message_len,    &
-                            MPI_double_precision,  0, tag_node_parm+ii2, MPI_COMM_WORLD, ierr )
+                call MPI_SEND( node_parm_buff2, message_len,                &
+                               MPI_double_precision,  0, tag_node_parm+ii2, &
+                               MPI_COMM_WORLD, ierr )
 
             enddo ! ii2
 
@@ -918,10 +814,6 @@ deallocate( sse_buffer_send )
 allocated_memory = allocated_memory - &
                    real( n_GP_Individuals / n_partitions * 8, kind=8 )
 
-!deallocate( sse_buffer_recv )
-!allocated_memory = allocated_memory - &
-!                   real( n_GP_Individuals / n_partitions * 8, kind=8 )
-
 deallocate( buff_parm_send  )
 allocated_memory = allocated_memory - &
                    real( n_GP_Individuals / n_partitions * 8, kind=8 )
@@ -930,21 +822,11 @@ deallocate( init_cond_buff  )
 allocated_memory = allocated_memory - &
    real( n_code_equations * (n_GP_Individuals / n_partitions) * 8, kind=8 )
 
-!deallocate( node_parm_buff  )
-!allocated_memory = allocated_memory - &
-!   real( n_nodes * n_trees * (n_GP_Individuals / n_partitions) * 8, kind=8 )
-
 deallocate( node_parm_buff2  )
 allocated_memory = allocated_memory - real( n_nodes * n_trees * 8, kind=8 )
 
-!deallocate( node_type_buff  )
-!allocated_memory = allocated_memory - &
-!   real( n_nodes * n_trees * (n_GP_Individuals / n_partitions) * 8, kind=8 )
-
 deallocate( node_type_buff2  )
 allocated_memory = allocated_memory -  real( n_nodes * n_trees * 4, kind=8 )
-
-
 
 
 return
