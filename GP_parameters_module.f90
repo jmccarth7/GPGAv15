@@ -314,5 +314,6 @@ integer :: orig_group
                                                                                                                               
 real(kind=8) :: sum_if
 
+real(kind=8) :: allocated_memory 
 
 end module GP_parameters_module

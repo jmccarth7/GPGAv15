@@ -148,11 +148,11 @@ endif ! L_print_RK
 !write(6,'(A,1x,I6)') 'rkbm: n_time_steps ', n_time_steps
 
 !!! debug >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-!if( new_rank == 1 ) then
+!!if( new_rank == 1 ) then
 !    do  i_tree = 1, n_trees
 !        do  i_node = 1, n_nodes
 !            if( GP_individual_node_type(i_node, i_tree) > -9999 )then
-!                write(6,'(A,4(1x,I4))')&
+!                write(6,'(A,4(1x,I6))')&
 !                      'rkbm: new_rank, i_tree, i_node, GP_indiv_node_type', &
 !                             new_rank, i_tree, i_node, GP_individual_node_type(i_node, i_tree)
 !            endif !  GP_individual_node_type(i_node, i_tree) > -9999
@@ -162,13 +162,13 @@ endif ! L_print_RK
 !    do  i_tree = 1, n_trees
 !        do  i_node = 1, n_nodes
 !            if( GP_individual_node_parameters(i_node, i_tree) > 0.0d0 )then
-!                write(6,'(A,3(1x,I4),1x,E15.7)')&
+!                write(6,'(A,3(1x,I6),1x,E15.7)')&
 !                      'rkbm: new_rank, i_tree, i_node, GP_indiv_node_parms', &
 !                             new_rank, i_tree, i_node, GP_individual_node_parameters(i_node, i_tree)
 !            endif !  GP_individual_node_parameters(i_node, i_tree) > 0.0d0
 !        enddo ! i_node
 !    enddo ! i_tree
-!endif !  new_rank == 1
+!!endif !  new_rank == 1
 !!! debug <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 !flush(6)
@@ -588,12 +588,12 @@ do  i_Time_Step = 1, n_Time_Steps
     !                    Numerical_CODE_Solution(i_time_step,1:n_CODE_equations)
     !endif !  new_rank == 1 
 
-    if( L_print_RK )then
-        write(6,'(A,2(1x,I6),12(1x,E15.7))') &
-                'rkbm:P myid, i_time_step, RK_Soln ', &
-                        myid, i_time_step, &
-                        Numerical_CODE_Solution(i_time_step,1:n_CODE_equations)
-    endif ! L_print_RK 
+    !if( L_print_RK )then
+    !    write(6,'(A,2(1x,I6),12(1x,E15.7))') &
+    !            'rkbm:P myid, i_time_step, RK_Soln ', &
+    !                    myid, i_time_step, &
+    !                    Numerical_CODE_Solution(i_time_step,1:n_CODE_equations)
+    !endif ! L_print_RK 
 
     !endif !  new_rank == 1 
     !!flush(6)

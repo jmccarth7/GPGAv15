@@ -50,7 +50,7 @@ do  i_GP_individual = 1, n_GP_individuals
                   i_GP_Individual, i_parm, &
                     input_array(i_parm, i_GP_individual )
             if( ierr /= 0 )then
-                write(iunit,*) 'pd3: write error  ierr = ', ierr
+                write(iunit,*) 'pd2: write error  ierr = ', ierr
             endif ! ierr /= 0
 
         endif ! abs( input_array(i_parm, i_GP_individual ) ) > 0.0d0

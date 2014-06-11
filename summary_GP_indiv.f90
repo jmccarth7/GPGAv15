@@ -60,8 +60,8 @@ logical :: Lprint
 
 ! set Lprint so printing is done only under the conditions in the if-test
 
-!Lprint = .FALSE. 
-Lprint = .TRUE.   ! debug only
+!!Lprint = .TRUE.   ! debug only
+Lprint = .FALSE. 
 
 if( i_GP_generation == 1                                  .or. &
     mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
@@ -232,7 +232,7 @@ else
 
 endif ! icall == 0 
 
-!!---------------------------------------------------------------------------------
+!!------------------------------------------------------------------------------
 !
 !
 !! print the node parameters (if there are any)
@@ -260,7 +260,7 @@ endif ! icall == 0
 !endif ! Lprint
 
 
-!---------------------------------------------------------------------------------
+!------------------------------------------------------------------------------
 
 if( Lprint )then
     call print_trees( i_GP_generation, i_GP_indiv, i_GP_indiv, &
@@ -268,7 +268,7 @@ if( Lprint )then
 endif ! Lprint
 
 
-!---------------------------------------------------------------------------------
+!------------------------------------------------------------------------------
 
 
 ! write all non-zero parameters to output file
@@ -278,7 +278,7 @@ if( icall == 0 )then
     do  i_tree=1,n_trees
         do  i_node=1,n_nodes
     
-            if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv) == 0        ) then
+            if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv) == 0 ) then
     
                 write(GP_summary_output_unit,'(2x,2(1x,I6),2(1x,I6), 1x,E24.16)') &
                       i_GP_generation, i_GP_indiv,i_tree, i_node, &
