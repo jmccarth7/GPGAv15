@@ -89,6 +89,11 @@ integer,allocatable,dimension(:)       ::   buff_parm_send
 
 
 if( myid /= 0 )then
+
+    !write(GP_print_unit,'(A,1x,i4, 1x,I6)')&
+    ! 'gil: before allocate myid, (n_GP_individuals / n_partitions)', &
+    !                       myid, (n_GP_individuals / n_partitions)
+
     allocate( fit_buffer_send( n_GP_individuals / n_partitions ) )
     allocated_memory = allocated_memory + &
                        real( n_GP_Individuals / n_partitions * 8, kind=8 )
@@ -245,17 +250,17 @@ do  i_part = 1,  n_partitions
 
         n_indiv = ind2 - ind1 + 1
 
-        !write(GP_print_unit,'(A,6(1x,I7)/)')&
-        !      'gil:32r myid, new_rank, tag_sse_r, ind1, ind2, n_indiv', &
-        !               myid, new_rank, tag_sse_r, ind1, ind2, n_indiv
+        !write(GP_print_unit,'(/A,7(1x,I7))')&
+        !      'gil:32r myid, new_rank, i_part, tag_sse_r, ind1, ind2, n_indiv', &
+        !               myid, new_rank, i_part, tag_sse_r, ind1, ind2, n_indiv
 
         call MPI_RECV( GP_Child_Individual_SSE(ind1), n_indiv, MPI_DOUBLE_PRECISION, &
                        MPI_ANY_SOURCE, tag_sse_r,                       &
                        MPI_COMM_WORLD, MPI_STAT, ierr )
 
-        !write(GP_print_unit,'(A,2(1x,I4)/(5(1x,E15.7)))')&
-        !      'gil:32r myid, new_rank, GP_Child_Individual_SSE(ind1:ind2)', &
-        !               myid, new_rank, GP_Child_Individual_SSE(ind1:ind2)
+        !write(GP_print_unit,'(A,3(1x,I4)/(5(1x,E15.7)))')&
+        !      'gil:32r myid, new_rank, i_part, GP_Child_Individual_SSE(ind1:ind2)', &
+        !               myid, new_rank, i_part, GP_Child_Individual_SSE(ind1:ind2)
 
         !GP_Child_Individual_SSE(ind1:ind2) =  sse_buffer_recv(1:n_indiv)
         GP_Adult_Individual_SSE(ind1:ind2) =  GP_Child_Individual_SSE(ind1:ind2)
@@ -588,10 +593,10 @@ do  i_part = 1,  n_partitions
                 sse_buffer_send( i_GP_individual-ind1+1 ) = Individual_SSE_best_parent
 
                 !if( new_rank == 0 )then
-                !    write(GP_print_unit,'(/A,3(1x,I7),1x,E15.7/)')&
-                !          'gil:9t myid, new_rank, i_GP_individual, sse_buf_send', &
-                !                  myid, new_rank, i_GP_individual, &
-                !                  sse_buffer_send(i_GP_individual-ind1+1)
+                !    write(GP_print_unit,'(A,3(1x,I7),1x,E15.7)')&
+                !     'gil:9t myid, new_rank, i_GP_indiv, sse_buf_send(i_GP_indiv-ind1+1)', &
+                !             myid, new_rank, i_GP_individual, &
+                !             sse_buffer_send(i_GP_individual-ind1+1)
                 !endif ! new_rank == 0
 
 
@@ -687,6 +692,10 @@ do  i_part = 1,  n_partitions
             !write(GP_print_unit,'(/A,4(1x,I7)/)')&
             !      'gil:10t myid, new_rank, tag_sse_s, i_GP_individual', &
             !               myid, new_rank, tag_sse_s, i_GP_individual
+
+            !write(GP_print_unit,'(/A,5(1x,I7)/(5(1x,E15.7)))')&
+            !      'gil:10t myid, new_rank, i_part, tag_sse_s, n_indiv, sse_buffer_send ', &
+            !               myid, new_rank, i_part, tag_sse_s, n_indiv, sse_buffer_send 
 
             n_indiv = ind2 - ind1 + 1
             call MPI_SEND( sse_buffer_send, n_indiv, MPI_DOUBLE_PRECISION, &
