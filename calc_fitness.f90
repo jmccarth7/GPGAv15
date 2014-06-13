@@ -199,7 +199,7 @@ do  i_GA_individual=1,n_GA_individuals  ! calculate the total populations SSE
         !orig     individual_quality( i_GA_individual ) = -1
         !orig endif !   individual_SSE(i_GA_individual) >  edit_level
 
-        if( individual_SSE(i_GA_individual) > 1.0d13      ) then
+        if( individual_SSE(i_GA_individual) > 1.0d12      ) then
             individual_quality( i_GA_individual ) = -1
         endif !   individual_SSE(i_GA_individual) >  edit_level
 
@@ -528,10 +528,10 @@ endif !  i_GA_generation == 1 ...
 
 if( L_ga_print )then
     write(GA_print_unit,'(/A)')&
-     'i_GA_ind   ind_SSE            ind_ranked_fitness    &
+     'gacf:i_GA_ind   ind_SSE            ind_ranked_fitness    &
      &integ_rank_fitness  ind_quality'
     do  i_GA_individual=1,n_GA_individuals
-        write(GA_print_unit,'(I6,3(1x,E20.12),1x,I6)') &
+        write(GA_print_unit,'(6x,I6,3(1x,E20.12),1x,I6)') &
               i_GA_individual, individual_SSE(i_GA_individual), &
                     individual_ranked_fitness(i_GA_individual), &
                     integrated_ranked_fitness(i_GA_individual), &

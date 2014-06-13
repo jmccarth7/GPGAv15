@@ -27,8 +27,25 @@ integer(kind=4) :: n_parms
 integer(kind=4) :: n_parms_per_tree
 
 
-real(kind=4),parameter :: prob_forcing = 0.045
-real(kind=4),parameter :: prob_choose_forcing_type = 0.25
+real(kind=4),parameter :: prob_forcing = 0.20   ! 0.045
+real(kind=4),parameter :: prob_choose_forcing_type = 0.25  ! DO NOT CHANGE
+!real(kind=4),dimension(4), parameter :: frac_forcing_type = &
+!                                 (/ 0.421d0, 0.368d0, 0.053d0, 0.158d0 /)
+
+real(kind=4),dimension(2,4) :: frac_forcing_type
+
+data frac_forcing_type(1,1) / 0.578947 /
+data frac_forcing_type(2,1) / 1.00000  /
+
+data frac_forcing_type(1,2) / 0.210526 /
+data frac_forcing_type(2,2) / 0.578947 /
+
+data frac_forcing_type(1,3) / 0.0      /
+data frac_forcing_type(2,3) / 0.052632 /
+
+data frac_forcing_type(1,4) / 0.052632 /
+data frac_forcing_type(2,4) / 0.210526 /
+
 integer(kind=4) :: iforce
 
 !-----------------------------------------------------------------------------
@@ -180,7 +197,7 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
 
 
 
-                        else 
+                        else
 
 
                             ! set it as a Parameter or Variable at a later point in the code
@@ -283,64 +300,98 @@ do  i_GP_Individual=1,n_GP_Individuals
 
                         !----------------------------------------------------------------------
 
-                        if( model == 'fasham' )then 
+                        if( model == 'fasham' )then
 
                             !  set some variables to the forcing functions -5001 -> -5004
-    
+
                             call random_number(cff)
-    
+
                             !write(GP_print_unit,'(A,2(1x,E15.7))') &
                             !      'gtb:3 cff, prob_forcing', cff, prob_forcing
-    
+
                             if( cff < prob_forcing )then
-    
+
                                 call random_number(cff)
-    
+
                                 !write(GP_print_unit,'(A,2(1x,E15.7))') &
                                 !      'gtb:4 cff, prob_choose_forcing_type', &
                                 !             cff, prob_choose_forcing_type
 
+
                                 node_variable = 0
-                                if( cff < prob_choose_forcing_type ) node_variable = -5001
-    
-                                do  iforce=1,3
-    
-                                    if( prob_choose_forcing_type * float(iforce) < cff .and. &
-                                        prob_choose_forcing_type * float(iforce+1) >= cff  )then
-                                        node_variable = -1 * (5000 + iforce + 1 )
-                                    endif ! prob_choose_forcing_type * float(iforce) < cff...
-    
-                                enddo ! iforce
-    
-                                ! in case cff is very close to 1.0000
-                                if( node_variable == 0 ) node_variable = -5004
-    
+                                !if( cff < prob_choose_forcing_type ) node_variable = -5001
+                                !
+                                !do  iforce=1,3
+                                !
+                                !if( prob_choose_forcing_type * float(iforce) < cff .and. &
+                                !prob_choose_forcing_type * float(iforce+1) >= cff  )then
+                                !node_variable = -1 * (5000 + iforce + 1 )
+                                !endif ! prob_choose_forcing_type * float(iforce) < cff...
+                                !
+                                !enddo ! iforce
+                                !
+                                !! in case cff is very close to 1.0000
+                                !if( node_variable == 0 ) node_variable = -5004
+
+                                !if( cff < frac_forcing_type(3) )then
+                                !    node_variable = -5003
+                                !elseif( cff < frac_forcing_type(4) ) then
+                                !    node_variable = -5004
+                                !elseif( cff < frac_forcing_type(2) ) then
+                                !    node_variable = -5002
+                                !else
+                                !    node_variable = -5001
+                                !endif ! cff < frac_forcing_type(3)
+
+                                if( cff >  frac_forcing_type(1, 3) .and.  &
+                                    cff <= frac_forcing_type(2, 3)         )then
+
+                                    node_variable = -5003
+
+                                elseif( cff >  frac_forcing_type(1, 4) .and.  &
+                                        cff <= frac_forcing_type(2, 4)         )then
+
+                                    node_variable = -5004
+
+                                elseif( cff >  frac_forcing_type(1, 2) .and.  &
+                                        cff <= frac_forcing_type(2, 2)         )then
+
+                                    node_variable = -5002
+
+                                elseif( cff >  frac_forcing_type(1, 1) .and.  &
+                                        cff <= frac_forcing_type(2, 1)         )then
+
+                                    node_variable = -5001
+
+                                endif ! cff < frac_forcing_type(1,3) ...
+
+
                                 !write(GP_print_unit,'(A,2(1x,I6))') &
                                 !      'gtb:4 node_variable', node_variable
 
                                 GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) = &
                                                                                   Node_Variable
                             endif !  cff < prob_forcing
-    
+
                             !----------------------------------------------------------------------
-    
+
                             !write(GP_print_unit,'(A,4(1x,I6))') &
                             !    'gtb:5 i_GP_Individual, i_Tree, i_Node, &
                             !        &GP_Child_Population_Node_Type', &
                             !           i_GP_Individual, i_Tree, i_Node, &
                             !         GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual)
-    
+
                             !----------------------------------------------------------------------
 
-                        endif ! model == 'fasham' 
+                        endif ! model == 'fasham'
 
-                    else  !   cff > GP_Set_Terminal_to_Parameter_Probability 
+                    else  !   cff > GP_Set_Terminal_to_Parameter_Probability
 
 
                         ! set as a random parameter
 
 
-                        ! Setting GP_Child_Population_Node_Type to zero 
+                        ! Setting GP_Child_Population_Node_Type to zero
                         ! allows the parameters to be set in GA_lmdif
 
 
