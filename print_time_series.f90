@@ -40,6 +40,7 @@ integer(kind=4) :: jj
 
 real(kind=8) :: x_time_step
 
+real(kind=8) :: xtime
 
 !real(kind=8), dimension( n_input_data_points, n_code_equations ) :: resid
 real(kind=8), dimension( n_time_steps, n_code_equations ) :: resid
@@ -236,7 +237,7 @@ if( myid == 0 )then
           form = 'formatted', access = 'sequential' )
 
 
-    title_string = '#pts: pt'
+    title_string = '#pts: time       pt'
     title_string = trim( title_string ) // &
                        '   RK_Soln      input_data  resid'
     do  j = 2, n_code_equations
@@ -292,13 +293,15 @@ if( myid == 0 )then
 
         enddo ! j
 
-        write(GP_print_unit,'(I6,2x,50(1x,E12.5))') &
-              i, ( Numerical_CODE_Solution(i,j),  Data_Array(i,j), &
+        xtime = dt * real(i,kind=8) 
+
+        write(GP_print_unit,'(F12.5,1x,I6,2x,50(1x,E12.5))') &
+              xtime, i, ( Numerical_CODE_Solution(i,j),  Data_Array(i,j), &
                    Data_Array(i,j) - Numerical_CODE_Solution(i,j), &
                                                   j = 1, n_code_equations )
 
-        write(plot_unit, '(I6,2x,50(1x,E12.5))') &
-              i, ( Numerical_CODE_Solution(i,j),  Data_Array(i,j), &
+        write(plot_unit, '(F12.5,1x,I6,2x,50(1x,E12.5))') &
+              xtime, i, ( Numerical_CODE_Solution(i,j),  Data_Array(i,j), &
                    Data_Array(i,j) - Numerical_CODE_Solution(i,j), &
                                                   j = 1, n_code_equations )
 
@@ -475,9 +478,9 @@ if( myid == 0 )then
     !     'pts: n_input_data_points, resid_SSE', &
     !           n_input_data_points, resid_SSE
 
-    write(GP_print_unit, '(//A,1x, I6,1x,E24.16/)') &
-         'pts: n_time_steps, resid_SSE', &
-               n_time_steps, resid_SSE
+    write(GP_print_unit, '(//A,1x, I6,1x,E15.7, 1x,E24.16/)') &
+         'pts: n_time_steps, dt, resid_SSE', &
+               n_time_steps, dt, resid_SSE
 
     !--------------------------------------------------------------------------------
 
@@ -538,6 +541,11 @@ if( myid == 0 )then
 
     write(plot_unit, '(A,1x,E15.7)')  '#pts: y_min', y_min
     write(plot_unit, '(A,1x,E15.7)')  '#pts: y_max', y_max
+
+
+    write(plot_unit, '(A,1x, I6,1x,E15.7, 1x,E24.16)') &
+         '#pts: n_time_steps, dt, resid_SSE', &
+                n_time_steps, dt, resid_SSE
 
     !write(plot_unit, '(A,1x,5(1x,E15.7))') &
     !      '#pts: R probability     ', prob_r
