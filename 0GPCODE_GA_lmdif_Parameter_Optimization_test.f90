@@ -1274,27 +1274,27 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
     !-----------------------------------------------------------------------------------
 
-    if( myid == 0 )then
-        write(6,'(A,1x,I5/)') '0: call GP_individual_loop myid = ', myid
-    endif !  myid == 0
-
-    if( myid == 0 )then
-        do  ii = 1, n_GP_individuals
-
-            if( isnan( GP_Child_Individual_SSE(ii) ) )then
-                GP_Child_Individual_SSE(ii) = 1.0D13
-            endif ! isnan( GP_Child_Individual_SSE(ii) )
-
-            if( isnan( GP_population_ranked_fitness(ii) ) )then
-                GP_population_ranked_fitness(ii) = 0.0D0
-            endif ! isnan( GP_population_ranked_fitness(ii) )
-
-            write(GP_print_unit,'(A,2(1x,I5), 2(1x, E15.7))')&
-             '0: i_GP_gen, i_GP_indiv, GP_pop_rank_fit, GP_child_indiv_SSE', &
-                 i_GP_generation, ii, GP_population_ranked_fitness(ii), &
-                                    GP_Child_Individual_SSE(ii)
-        enddo ! ii
-    endif !  myid == 0
+!!    if( myid == 0 )then
+!!        write(6,'(A,1x,I5/)') '0: call GP_individual_loop myid = ', myid
+!!    endif !  myid == 0
+!!
+!!    if( myid == 0 )then
+!!        do  ii = 1, n_GP_individuals
+!!
+!!            if( isnan( GP_Child_Individual_SSE(ii) ) )then
+!!                GP_Child_Individual_SSE(ii) = 1.0D13
+!!            endif ! isnan( GP_Child_Individual_SSE(ii) )
+!!
+!!            if( isnan( GP_population_ranked_fitness(ii) ) )then
+!!                GP_population_ranked_fitness(ii) = 0.0D0
+!!            endif ! isnan( GP_population_ranked_fitness(ii) )
+!!
+!!            write(GP_print_unit,'(A,2(1x,I5), 2(1x, E15.7))')&
+!!             '0: i_GP_gen, i_GP_indiv, GP_pop_rank_fit, GP_child_indiv_SSE', &
+!!                 i_GP_generation, ii, GP_population_ranked_fitness(ii), &
+!!                                    GP_Child_Individual_SSE(ii)
+!!        enddo ! ii
+!!    endif !  myid == 0
 
 
     !---------------------------------------------------------------
@@ -1304,33 +1304,33 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
     !---------------------------------------------------------------
 
 
-    if( myid == 0 )then
-        write(6,'(/A,1x,I5/)') '0: after call GP_individual_loop myid = ', myid
-    endif !  myid == 0
-
-
-    if( myid == 0 )then
-        do  ii = 1, n_GP_individuals
-            !write(GP_print_unit,'(A,4(1x,I5), 2(1x, E15.7))')&
-            ! '0: myid, new_rank, i_GP_gen, i_GP_indiv, GP_pop_fit, GP_child_indiv_SSE', &
-            !     myid, new_rank, i_GP_generation, ii, &
-            !                GP_population_fitness(ii), &
-            !              GP_Child_Individual_SSE(ii)
-
-            if( isnan( GP_Child_Individual_SSE(ii) ) )then
-                GP_Child_Individual_SSE(ii) = 1.0D13
-            endif ! isnan( GP_Child_Individual_SSE(ii) )
-
-            if( isnan( GP_population_ranked_fitness(ii) ) )then
-                GP_population_ranked_fitness(ii) = 0.0D0
-            endif ! isnan( GP_population_fitness(ii) )
-
-            write(GP_print_unit,'(A,2(1x,I5), 2(1x, E15.7))')&
-             '0: i_GP_gen, i_GP_indiv, GP_pop_rank_fit, GP_child_indiv_SSE', &
-                 i_GP_generation, ii, GP_population_ranked_fitness(ii), &
-                                           GP_Child_Individual_SSE(ii)
-        enddo ! ii
-    endif !  myid == 0
+!!    if( myid == 0 )then
+!!        write(6,'(/A,1x,I5/)') '0: after call GP_individual_loop myid = ', myid
+!!    endif !  myid == 0
+!!
+!!
+!!    if( myid == 0 )then
+!!        do  ii = 1, n_GP_individuals
+!!            !write(GP_print_unit,'(A,4(1x,I5), 2(1x, E15.7))')&
+!!            ! '0: myid, new_rank, i_GP_gen, i_GP_indiv, GP_pop_fit, GP_child_indiv_SSE', &
+!!            !     myid, new_rank, i_GP_generation, ii, &
+!!            !                GP_population_fitness(ii), &
+!!            !              GP_Child_Individual_SSE(ii)
+!!
+!!            if( isnan( GP_Child_Individual_SSE(ii) ) )then
+!!                GP_Child_Individual_SSE(ii) = 1.0D13
+!!            endif ! isnan( GP_Child_Individual_SSE(ii) )
+!!
+!!            if( isnan( GP_population_ranked_fitness(ii) ) )then
+!!                GP_population_ranked_fitness(ii) = 0.0D0
+!!            endif ! isnan( GP_population_fitness(ii) )
+!!
+!!            write(GP_print_unit,'(A,2(1x,I5), 2(1x, E15.7))')&
+!!             '0: i_GP_gen, i_GP_indiv, GP_pop_rank_fit, GP_child_indiv_SSE', &
+!!                 i_GP_generation, ii, GP_population_ranked_fitness(ii), &
+!!                                           GP_Child_Individual_SSE(ii)
+!!        enddo ! ii
+!!    endif !  myid == 0
 
 
     !-------------------------------------------------------------------------------------
