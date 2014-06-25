@@ -89,86 +89,84 @@ integer,allocatable,dimension(:)       ::   buff_parm_send
 !---------------------------------------------------------------------------------------
 
 
-!if( myid /= 0 )then
 
-    if( myid == 1 )then
-        write(GP_print_unit,'(A,1x,i4, 1x,I6)')&
-         'gil: before allocate myid, (n_GP_individuals / n_partitions + 1)', &
-                               myid, (n_GP_individuals / n_partitions + 1)
-    endif !  myid == 1
+!if( myid == 1 )then
+!    write(GP_print_unit,'(A,1x,i4, 1x,I6)')&
+!     'gil: before allocate myid, (n_GP_individuals / n_partitions + 1)', &
+!                           myid, (n_GP_individuals / n_partitions + 1)
+!endif !  myid == 1
 
-    if( .not. allocated( fit_buffer_send ) )then
-        allocate( fit_buffer_send( n_GP_individuals / n_partitions + 1 ) )
-        allocated_memory = allocated_memory + &
-                           real( (n_GP_Individuals / n_partitions + 1 ) * 8, kind=8 )
+if( .not. allocated( fit_buffer_send ) )then
+    allocate( fit_buffer_send( n_GP_individuals / n_partitions + 1 ) )
+    allocated_memory = allocated_memory + &
+                       real( (n_GP_Individuals / n_partitions + 1 ) * 8, kind=8 )
 
-    else
+else
 
-        isize = size( fit_buffer_send )
-        deallocate( fit_buffer_send )
-        allocated_memory = allocated_memory -  real( isize * 8, kind = 8 )
+    isize = size( fit_buffer_send )
+    deallocate( fit_buffer_send )
+    allocated_memory = allocated_memory -  real( isize * 8, kind = 8 )
 
-        allocate( fit_buffer_send( n_GP_individuals / n_partitions + 1 ) )
-        allocated_memory = allocated_memory + &
-                           real( (n_GP_Individuals / n_partitions + 1 ) * 8, kind=8 )
-
-
-    endif ! .not. allocated( fit_buffer_send )
-    
-    if( myid == 1 )then
-        write(GP_print_unit,'(A,1x,i4, 1x,I6)')&
-         'gil: aft allocate  fit_buf_send  myid (n_GP_Individuals / n_partitions +1 )* 8 ', &
-                               myid,  (n_GP_Individuals / n_partitions+1 ) * 8
-    endif !  myid == 1
+    allocate( fit_buffer_send( n_GP_individuals / n_partitions + 1 ) )
+    allocated_memory = allocated_memory + &
+                       real( (n_GP_Individuals / n_partitions + 1 ) * 8, kind=8 )
 
 
-    if( .not. allocated( sse_buffer_send ) )then
-        allocate( sse_buffer_send( n_GP_individuals / n_partitions  + 1) )
-        allocated_memory = allocated_memory + &
-                           real( ( n_GP_Individuals / n_partitions + 1) * 8, kind=8 )
-    else
+endif ! .not. allocated( fit_buffer_send )
+
+!if( myid == 0 )then
+!    write(GP_print_unit,'(A,1x,i4, 1x,I6)')&
+!     'gil: aft allocate  fit_buf_send  myid (n_GP_Individuals / n_partitions +1 )* 8 ', &
+!                           myid,  (n_GP_Individuals / n_partitions+1 ) * 8
+!endif !  myid == 0
 
 
-        isize = size( sse_buffer_send )
-        deallocate( sse_buffer_send )
-        allocated_memory = allocated_memory -  real( isize * 8, kind = 8 )
-
-        allocate( sse_buffer_send( n_GP_individuals / n_partitions  + 1) )
-        allocated_memory = allocated_memory + &
-                           real( ( n_GP_Individuals / n_partitions + 1) * 8, kind=8 )
+if( .not. allocated( sse_buffer_send ) )then
+    allocate( sse_buffer_send( n_GP_individuals / n_partitions  + 1) )
+    allocated_memory = allocated_memory + &
+                       real( ( n_GP_Individuals / n_partitions + 1) * 8, kind=8 )
+else
 
 
-    endif ! .not. allocated( sse_buffer_send )
+    isize = size( sse_buffer_send )
+    deallocate( sse_buffer_send )
+    allocated_memory = allocated_memory -  real( isize * 8, kind = 8 )
 
-!    if( myid == 1 )then
-!        write(GP_print_unit,'(A,1x,i4, 1x,I6)')&
-!         'gil: aft allocate  sse_buf_send  myid n_GP_Individuals / n_partitions * 8 ', &
-!                               myid, n_GP_Individuals / n_partitions * 8
-!    endif !  myid == 1
-    
-    if( .not. allocated( buff_parm_send ) )then
-        allocate( buff_parm_send(  n_GP_individuals / n_partitions  + 1 ) )
-        allocated_memory = allocated_memory + &
-                           real( (n_GP_Individuals / n_partitions + 1)  * 4, kind=8 )
-    else
+    allocate( sse_buffer_send( n_GP_individuals / n_partitions  + 1) )
+    allocated_memory = allocated_memory + &
+                       real( ( n_GP_Individuals / n_partitions + 1) * 8, kind=8 )
 
-        isize = size( buff_parm_send )
-        deallocate( buff_parm_send )
-        allocated_memory = allocated_memory -  real( isize * 4, kind = 8 )
 
-        allocate( buff_parm_send(  n_GP_individuals / n_partitions  + 1 ) )
-        allocated_memory = allocated_memory + &
-                           real( (n_GP_Individuals / n_partitions + 1)  * 4, kind=8 )
+endif ! .not. allocated( sse_buffer_send )
 
-    endif ! .not. allocated( buff_parm_send ) 
+!if( myid == 0 )then
+!    write(GP_print_unit,'(A,1x,i4, 1x,I6)')&
+!     'gil: aft allocate  sse_buf_send  myid n_GP_Individuals / n_partitions * 8 ', &
+!                           myid, n_GP_Individuals / n_partitions * 8
+!endif !  myid == 0
 
-!    if( myid == 1 )then
-!        write(GP_print_unit,'(A,1x,i4, 1x,I6)')&
-!         'gil: aft allocate  buff_parm_send  myid n_GP_Individuals / n_partitions * 4 ', &
-!                               myid, n_GP_Individuals / n_partitions * 4
-!    endif !  myid == 1
+if( .not. allocated( buff_parm_send ) )then
+    allocate( buff_parm_send(  n_GP_individuals / n_partitions  + 1 ) )
+    allocated_memory = allocated_memory + &
+                       real( (n_GP_Individuals / n_partitions + 1)  * 4, kind=8 )
+else
 
-!endif ! myid /= 0
+    isize = size( buff_parm_send )
+    deallocate( buff_parm_send )
+    allocated_memory = allocated_memory -  real( isize * 4, kind = 8 )
+
+    allocate( buff_parm_send(  n_GP_individuals / n_partitions  + 1 ) )
+    allocated_memory = allocated_memory + &
+                       real( (n_GP_Individuals / n_partitions + 1)  * 4, kind=8 )
+
+endif ! .not. allocated( buff_parm_send ) 
+
+!if( myid == 0 )then
+!    write(GP_print_unit,'(A,1x,i4, 1x,I6)')&
+!     'gil: aft allocate  buff_parm_send  myid n_GP_Individuals / n_partitions * 4 ', &
+!                           myid, n_GP_Individuals / n_partitions * 4
+!endif !  myid == 0
+
 
 
 if( .not. allocated( init_cond_buff ) )then 
@@ -230,33 +228,33 @@ else
 endif ! .not. allocated( node_type_buff2 ) 
 
 
-if( myid == 0 )then
-
-    write(GP_print_unit,'(A,1x,i4, 1x,I6)')&
-     'gil: aft allocate  myid, size( node_type_buff2 )  ', &
-                         myid, size( node_type_buff2 )
-
-    write(GP_print_unit,'(A,1x,i4, 1x,I6)')&
-     'gil: aft allocate  myid, size( fit_buffer_send )  ', &
-                         myid, size( fit_buffer_send )
-
-    write(GP_print_unit,'(A,1x,i4, 1x,I6)')&
-     'gil: aft allocate  myid, size( sse_buffer_send )  ', &
-                         myid, size( sse_buffer_send )
-
-    write(GP_print_unit,'(A,1x,i4, 1x,I6)')&
-     'gil: aft allocate  myid, size( buff_parm_send )  ', &
-                         myid, size( buff_parm_send )
-
-    write(GP_print_unit,'(A,1x,i4, 1x,I6)')&
-     'gil: aft allocate  myid, size( node_parm_buff2 )  ', &
-                         myid, size( node_parm_buff2)
-
-    write(GP_print_unit,'(A,1x,i4, 1x,I6)')&
-     'gil: aft allocate  myid, size( init_cond_buff)  ', &
-                         myid, size( init_cond_buff)
-
-endif !  myid == 0
+!if( myid == 0 )then
+!
+!    write(GP_print_unit,'(A,1x,i4, 1x,I6)')&
+!     'gil: aft allocate  myid, size( node_type_buff2 )  ', &
+!                         myid, size( node_type_buff2 )
+!
+!    write(GP_print_unit,'(A,1x,i4, 1x,I6)')&
+!     'gil: aft allocate  myid, size( fit_buffer_send )  ', &
+!                         myid, size( fit_buffer_send )
+!
+!    write(GP_print_unit,'(A,1x,i4, 1x,I6)')&
+!     'gil: aft allocate  myid, size( sse_buffer_send )  ', &
+!                         myid, size( sse_buffer_send )
+!
+!    write(GP_print_unit,'(A,1x,i4, 1x,I6)')&
+!     'gil: aft allocate  myid, size( buff_parm_send )   ', &
+!                         myid, size( buff_parm_send )
+!
+!    write(GP_print_unit,'(A,1x,i4, 1x,I6)')&
+!     'gil: aft allocate  myid, size( node_parm_buff2 )  ', &
+!                         myid, size( node_parm_buff2)
+!
+!    write(GP_print_unit,'(A,1x,i4, 1x,I6)')&
+!     'gil: aft allocate  myid, size( init_cond_buff)    ', &
+!                         myid, size( init_cond_buff)
+!
+!endif !  myid == 0
 
 
 
@@ -266,35 +264,35 @@ call mpi_comm_rank( new_comm, new_rank, ierr )
 call mpi_comm_size( new_comm, n_procs,  ierr )
 
 
-if( myid == 0 )then
-    write(GP_print_unit,'(/A,4(1x,i4))')&
-     'gil: before loop myid, new_rank, n_code_equations,  n_GP_params ',&
-                       myid, new_rank, n_code_equations,  n_GP_parameters
-    write(GP_print_unit,'(A,5(1x,i4))')&
-     'gil: before loop myid, new_rank, numprocs, divider, n_partitions', &
-                       myid, new_rank, numprocs, divider, n_partitions
-    write(GP_print_unit,'(A,3(1x,i4))')&
-     'gil: before loop myid, new_rank, n_procs                        ', &
-                       myid, new_rank, n_procs
-    write(GP_print_unit,'(A,1x,i4, 1x,I6)')&
-     'gil: before loop myid, (n_GP_individuals / n_partitions) + 1 ', &
-                       myid, (n_GP_individuals / n_partitions) + 1 
-endif !  myid == 0
+!if( myid == 0 )then
+!    write(GP_print_unit,'(/A,4(1x,i4))')&
+!     'gil: before loop myid, new_rank, n_code_equations,  n_GP_params ',&
+!                       myid, new_rank, n_code_equations,  n_GP_parameters
+!    write(GP_print_unit,'(A,5(1x,i4))')&
+!     'gil: before loop myid, new_rank, numprocs, divider, n_partitions', &
+!                       myid, new_rank, numprocs, divider, n_partitions
+!    write(GP_print_unit,'(A,3(1x,i4))')&
+!     'gil: before loop myid, new_rank, n_procs                        ', &
+!                       myid, new_rank, n_procs
+!    write(GP_print_unit,'(A,1x,i4, 1x,I6)')&
+!     'gil: before loop myid, (n_GP_individuals / n_partitions) + 1 ', &
+!                       myid, (n_GP_individuals / n_partitions) + 1 
+!endif !  myid == 0
 
-if( new_rank == 0 )then
-    write(GP_print_unit,'(/A,4(1x,i4))')&
-     'gil: before loop myid, new_rank, n_code_equations,  n_GP_params ',&
-                       myid, new_rank, n_code_equations,  n_GP_parameters
-    write(GP_print_unit,'(A,5(1x,i4))')&
-     'gil: before loop myid, new_rank, numprocs, divider, n_partitions', &
-                       myid, new_rank, numprocs, divider, n_partitions
-    write(GP_print_unit,'(A,3(1x,i4))')&
-     'gil: before loop myid, new_rank, n_procs                        ', &
-                       myid, new_rank, n_procs
-    write(GP_print_unit,'(A,1x,i4, 1x,I6)')&
-     'gil: before loop myid, (n_GP_individuals / n_partitions) + 1', &
-                       myid, (n_GP_individuals / n_partitions) + 1
-endif !  new_rank == 0
+!if( new_rank == 0 )then
+!    write(GP_print_unit,'(/A,4(1x,i4))')&
+!     'gil: before loop myid, new_rank, n_code_equations,  n_GP_params ',&
+!                       myid, new_rank, n_code_equations,  n_GP_parameters
+!    write(GP_print_unit,'(A,5(1x,i4))')&
+!     'gil: before loop myid, new_rank, numprocs, divider, n_partitions', &
+!                       myid, new_rank, numprocs, divider, n_partitions
+!    write(GP_print_unit,'(A,3(1x,i4))')&
+!     'gil: before loop myid, new_rank, n_procs                        ', &
+!                       myid, new_rank, n_procs
+!    write(GP_print_unit,'(A,1x,i4, 1x,I6)')&
+!     'gil: before loop myid, (n_GP_individuals / n_partitions) + 1', &
+!                       myid, (n_GP_individuals / n_partitions) + 1
+!endif !  new_rank == 0
 
 
 if( myid == 0 )then
@@ -304,11 +302,11 @@ if( myid == 0 )then
 endif !  myid == 0
 
 
-if( myid == 1 )then
-    write(GP_print_unit,'(A,1x,i4, 1x,E15.7)')&
-     'gil: before loop myid, allocated_memory ', myid, allocated_memory
-    flush(GP_print_unit)
-endif !  myid == 1
+!if( myid == 1 )then
+!    write(GP_print_unit,'(A,1x,i4, 1x,E15.7)')&
+!     'gil: before loop myid, allocated_memory ', myid, allocated_memory
+!    flush(GP_print_unit)
+!endif !  myid == 1
 
 !-------------------------------------------------------------------------------
 
@@ -339,11 +337,11 @@ do  i_part = 1,  n_partitions
 
 
 
-    if( myid == 0 )then
-        write(GP_print_unit,'(A,7(1x,I5))')&
-            'gil:in loop myid, new_rank, i_part, ind1, ind2, i_gp_1, i_gp_2',&
-                         myid, new_rank, i_part, ind1, ind2, i_gp_1, i_gp_2
-    endif ! myid == 0 
+    !if( myid == 0 )then
+    !    write(GP_print_unit,'(A,7(1x,I5))')&
+    !        'gil:in loop myid, new_rank, i_part, ind1, ind2, i_gp_1, i_gp_2',&
+    !                     myid, new_rank, i_part, ind1, ind2, i_gp_1, i_gp_2
+    !endif ! myid == 0 
 
     !---------------------------------------------------------------------------------
 
@@ -373,9 +371,9 @@ do  i_part = 1,  n_partitions
 
         ! receive the number of GP parameters
 
-        write(GP_print_unit,'(A,5(1x,I7)/)')&
-              'gil:30r myid, new_rank, tag_parm, ind1, ind2', &
-                       myid, new_rank, tag_parm, ind1, ind2
+        !write(GP_print_unit,'(A,5(1x,I7)/)')&
+        !      'gil:30r myid, new_rank, tag_parm, ind1, ind2', &
+        !               myid, new_rank, tag_parm, ind1, ind2
 
 
         n_indiv = ind2 - ind1 + 1
@@ -383,9 +381,9 @@ do  i_part = 1,  n_partitions
                        MPI_ANY_SOURCE, tag_parm,                       &
                        MPI_COMM_WORLD, MPI_STAT, ierr )
 
-        write(GP_print_unit,'(A,4(1x,I7)/(10(1x,i4)))')&
-              'gil:30r myid, n_indiv, ind1, ind2, GP_Individual_N_GP_param(ind1:ind2)', &
-                       myid, n_indiv, ind1, ind2, GP_Individual_N_GP_param(ind1:ind2)
+        !write(GP_print_unit,'(A,4(1x,I7)/(10(1x,i4)))')&
+        !      'gil:30r myid, n_indiv, ind1, ind2, GP_Individual_N_GP_param(ind1:ind2)', &
+        !               myid, n_indiv, ind1, ind2, GP_Individual_N_GP_param(ind1:ind2)
 
         !-------------------------------------------------------------------
 
@@ -417,17 +415,17 @@ do  i_part = 1,  n_partitions
 
         n_indiv = ind2 - ind1 + 1
 
-        write(GP_print_unit,'(/A,7(1x,I7))')&
-              'gil:32r myid, new_rank, i_part, tag_sse_r, ind1, ind2, n_indiv', &
-                       myid, new_rank, i_part, tag_sse_r, ind1, ind2, n_indiv
+        !write(GP_print_unit,'(/A,7(1x,I7))')&
+        !      'gil:32r myid, new_rank, i_part, tag_sse_r, ind1, ind2, n_indiv', &
+        !               myid, new_rank, i_part, tag_sse_r, ind1, ind2, n_indiv
 
         call MPI_RECV( GP_Child_Individual_SSE(ind1), n_indiv, MPI_DOUBLE_PRECISION, &
                        MPI_ANY_SOURCE, tag_sse_r,                       &
                        MPI_COMM_WORLD, MPI_STAT, ierr )
 
-        write(GP_print_unit,'(A,3(1x,I4)/(5(1x,E15.7)))')&
-              'gil:32r myid, new_rank, i_part, GP_Child_Individual_SSE(ind1:ind2)', &
-                       myid, new_rank, i_part, GP_Child_Individual_SSE(ind1:ind2)
+        !write(GP_print_unit,'(A,3(1x,I4)/(5(1x,E15.7)))')&
+        !      'gil:32r myid, new_rank, i_part, GP_Child_Individual_SSE(ind1:ind2)', &
+        !               myid, new_rank, i_part, GP_Child_Individual_SSE(ind1:ind2)
 
         !GP_Child_Individual_SSE(ind1:ind2) =  sse_buffer_recv(1:n_indiv)
         GP_Adult_Individual_SSE(ind1:ind2) =  GP_Child_Individual_SSE(ind1:ind2)
@@ -573,12 +571,12 @@ do  i_part = 1,  n_partitions
 
             GP_Individual_N_GP_param(i_GP_individual) = n_GP_parameters
 
-            write(GP_print_unit,'(A,8(1x,I4))')&
-               'gil: buff_parm_send  myid, new_rank, i_part, i_gp_1, i_gp_2, ind1, ind2, i_GP_individual ', &
-                                     myid, new_rank, i_part, i_gp_1, i_gp_2, ind1, ind2, i_GP_individual
-            write(GP_print_unit,'(A,8(1x,I4))')&
-               'gil: buff_parm_send  myid, new_rank, i_part, i_GP_individual - ind1 + 1 ', &
-                                     myid, new_rank, i_part, i_GP_individual - ind1 + 1
+            !write(GP_print_unit,'(A,8(1x,I4))')&
+            !   'gil: buff_parm_send  myid, new_rank, i_part, i_gp_1, i_gp_2, ind1, ind2, i_GP_individual ', &
+            !                         myid, new_rank, i_part, i_gp_1, i_gp_2, ind1, ind2, i_GP_individual
+            !write(GP_print_unit,'(A,8(1x,I4))')&
+            !   'gil: buff_parm_send  myid, new_rank, i_part, i_GP_individual - ind1 + 1 ', &
+            !                         myid, new_rank, i_part, i_GP_individual - ind1 + 1
 
             buff_parm_send(i_GP_individual-ind1+1) = n_GP_parameters
 
@@ -753,12 +751,12 @@ do  i_part = 1,  n_partitions
 
                 fit_buffer_send(i_GP_individual - ind1 + 1) = individual_fitness
 
-                if( new_rank == 0 )then
-                    write(GP_print_unit,'(/A,3(1x,I7),1x,E15.7/)')&
-                          'gil:9t myid, new_rank, i_GP_individual, fit_buf_send', &
-                                  myid, new_rank, i_GP_individual, &
-                                  fit_buffer_send(i_GP_individual - ind1 + 1)
-                endif ! new_rank == 0
+                !if( new_rank == 0 )then
+                !    write(GP_print_unit,'(/A,3(1x,I7),1x,E15.7/)')&
+                !          'gil:9t myid, new_rank, i_GP_individual, fit_buf_send', &
+                !                  myid, new_rank, i_GP_individual, &
+                !                  fit_buffer_send(i_GP_individual - ind1 + 1)
+                !endif ! new_rank == 0
 
 
                 !--------------------------------------------------------------------------------
