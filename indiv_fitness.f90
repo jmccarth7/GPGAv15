@@ -6,6 +6,7 @@ double precision function indiv_fitness( individual  )
 ! a finding the optimum parameter set for a coupled set of equations
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+use kinds_mod 
 
 use GP_parameters_module
 use GA_parameters_module

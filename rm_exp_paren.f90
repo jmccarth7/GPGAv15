@@ -1,6 +1,8 @@
 subroutine  rm_exp_paren( work_string )
 
 
+use kinds_mod
+
 use GP_Parameters_module
 use GP_Variables_module
 use GP_variables_module
@@ -11,10 +13,10 @@ implicit none
 character(4),parameter  ::  op_string = '+-/*'
 
 
-integer :: j
-integer :: j1
-integer :: j2
-integer :: len_work
+integer(kind=i4b) :: j
+integer(kind=i4b) :: j1
+integer(kind=i4b) :: j2
+integer(kind=i4b) :: len_work
 
 
 

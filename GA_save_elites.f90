@@ -1,6 +1,6 @@
 subroutine GA_save_elites( )
 
-
+use kinds_mod 
 use GP_Parameters_module
 use GA_Parameters_module
 use GP_Variables_module
@@ -10,12 +10,12 @@ use GP_Data_module
 implicit none
 
 
-integer(kind=4) :: i
-integer(kind=4) :: j
+integer(kind=i4b) :: i
+integer(kind=i4b) :: j
 
-real(kind=8), allocatable, dimension(:)  :: temp_fitness
+real(kind=r8b), allocatable, dimension(:)  :: temp_fitness
 
-real(kind=8) :: min_fit
+real(kind=r8b) :: min_fit
 
 
 !----------------------------------------------------------------------

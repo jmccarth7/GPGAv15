@@ -15,6 +15,8 @@ subroutine summary_GP_indiv2( i_GP_generation, i_GP_indiv )
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+use kinds_mod
+
 use mpi
 use mpi_module
 
@@ -30,14 +32,14 @@ implicit none
 
 
 
-integer :: i_code_eq
+integer(kind=i4b) :: i_code_eq
 
 
-integer(kind=4),intent(in)  :: i_GP_Generation
-integer(kind=4),intent(in)  :: i_GP_indiv
+integer(kind=i4b),intent(in)  :: i_GP_Generation
+integer(kind=i4b),intent(in)  :: i_GP_indiv
 
-integer(kind=4) :: i_Tree
-integer(kind=4) :: i_Node
+integer(kind=i4b) :: i_Tree
+integer(kind=i4b) :: i_Node
 
 logical :: Lprint
 

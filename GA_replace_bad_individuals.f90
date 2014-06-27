@@ -1,7 +1,7 @@
 subroutine GA_replace_bad_individuals( Child_Parameters, &
                                        individual_quality  )
 
-
+use kinds_mod 
 use GP_Parameters_module
 use GA_Parameters_module
 use GP_Variables_module
@@ -10,16 +10,16 @@ use GP_Data_module
 
 implicit none
 
-real(kind=8), &
+real(kind=r8b), &
 dimension( n_GP_parameters, n_GA_individuals ) :: child_parameters
 
-integer(kind=4) :: individual_quality(n_GA_individuals)
+integer(kind=i4b) :: individual_quality(n_GA_individuals)
 
-real(kind=8) :: dff
+real(kind=r8b) :: dff
 
-integer(kind=4) :: n_replaced
-integer(kind=4) :: i_parameter
-integer(kind=4) :: i_GA_individual
+integer(kind=i4b) :: n_replaced
+integer(kind=i4b) :: i_parameter
+integer(kind=i4b) :: i_GA_individual
 
 
 !----------------------------------------------------------------------------

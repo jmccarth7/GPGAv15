@@ -4,11 +4,11 @@
 ! and use the dot executable to create PDF files.
 
 module class_Dot_Graph_Visitor
-
+    use kinds_mod 
     use class_Tree_Node
 
     type, public, extends(Tree_Node_Visitor) :: Dot_Graph_Visitor
-        integer(kind=4) :: funit, node_id
+        integer(kind=i4b) :: funit, node_id
         contains
         procedure :: Visit_Tree_Node => Dot_Visit_Tree_Node
         procedure :: Visit_Tree_Math_Node => Dot_Visit_Math_Node
@@ -40,9 +40,10 @@ contains
 
     subroutine Dot_Visit_Math_Node(this, node)
 
+        use kinds_mod 
         class(Dot_Graph_Visitor), intent(inout) :: this
         class(Tree_Node), intent(in) :: node
-        integer(kind=4) :: myid
+        integer(kind=i4b) :: myid
 
         myid = this%node_id
 
@@ -66,6 +67,7 @@ contains
 
 
     subroutine Dot_Visit_Parameter_Node(this, node)
+        use kinds_mod 
         class(Dot_Graph_Visitor), intent(inout) :: this
         class(Tree_Node), intent(in) :: node
 
@@ -104,18 +106,19 @@ end module class_Dot_Graph_Visitor
 
 
 subroutine Generate_Dot_Graph( Trees, Tree_count, output_dir )
+    use kinds_mod 
     use class_Tree_Node
     use class_Dot_Graph_Visitor
     implicit none
 
     ! Input
     character(len=*), intent(in) :: output_dir
-    integer(kind=4), intent(in) :: Tree_count
+    integer(kind=i4b), intent(in) :: Tree_count
     type(Tree_Node_Pointer), dimension(Tree_count), intent(in) :: Trees ! The array of trees
     type(Dot_Graph_Visitor) :: grapher
 
     ! Local variables
-    integer(kind=4) :: i, gFile
+    integer(kind=i4b) :: i, gFile
     character(len=80) :: Graph_File
 
 !------------------------------------------------------------------------------------------------
@@ -150,10 +153,11 @@ end subroutine Generate_Dot_Graph
 
 
 subroutine Dot_Graph_Function( File, Function_Index)
+    use kinds_mod 
     implicit none
 
     ! Input
-    integer(kind=4), intent(in) :: File, Function_Index
+    integer(kind=i4b), intent(in) :: File, Function_Index
 
     select case (Function_Index)
         case (1)
@@ -206,13 +210,14 @@ end subroutine Dot_Graph_Function
 
 
 subroutine Dot_Graph_Hierarchy( File, Node_Index )
+    use kinds_mod 
     implicit none
 
     ! Input
-    integer(kind=4), intent(in) :: File, Node_Index
+    integer(kind=i4b), intent(in) :: File, Node_Index
 
     ! Locals
-    integer(kind=4) :: parent_Node
+    integer(kind=i4b) :: parent_Node
 
     parent_Node = Node_Index / 2
     if( parent_Node .gt. 0) then

@@ -5,7 +5,7 @@ subroutine RKBM( i_gen, i_indiv )
 ! using the GP architecture to solve a coupled system of equations
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-
+use kinds_mod 
 use mpi                                                                                                   
 use mpi_module
 
@@ -15,7 +15,7 @@ use GP_variables_module
 
 implicit none
 
-real(kind=8) :: cff
+real(kind=r8b) :: cff
 
 
 
@@ -24,26 +24,26 @@ character(str_len) ::  right_node_value_string
 character(str_len) ::  cff_string
 
 !character(str_len),  allocatable, dimension( : )    ::  tree_value_string
-integer ::  i_function
-integer ::  i_level
-integer ::  i_node
-integer ::  i_node_left
-integer ::  i_node_right
+integer(kind=i4b) ::  i_function
+integer(kind=i4b) ::  i_level
+integer(kind=i4b) ::  i_node
+integer(kind=i4b) ::  i_node_left
+integer(kind=i4b) ::  i_node_right
 
-integer ::  i_time_step
-integer ::  i_tree
+integer(kind=i4b) ::  i_time_step
+integer(kind=i4b) ::  i_tree
 
-integer ::  i_gen
-integer ::  i_indiv
+integer(kind=i4b) ::  i_gen
+integer(kind=i4b) ::  i_indiv
 
-integer ::  icff
+integer(kind=i4b) ::  icff
 
-integer ::  iter
-!real(kind=8) :: left_node_value
-real(kind=8) :: right_node_value
+integer(kind=i4b) ::  iter
+!real(kind=r8b) :: left_node_value
+real(kind=r8b) :: right_node_value
 
-real(kind=8) :: aaa
-real(kind=8) :: bbb
+real(kind=r8b) :: aaa
+real(kind=r8b) :: bbb
 
 !-------------------------------------------------------------------------------
 

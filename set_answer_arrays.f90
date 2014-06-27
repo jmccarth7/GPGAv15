@@ -8,6 +8,8 @@ subroutine set_answer_arrays( buildTrees )
 ! coupled ordinary differential equations
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+use kinds_mod
+
 use mpi
 use mpi_module
 
@@ -26,10 +28,10 @@ use class_Tree_Node
 implicit none
 
 
-integer(kind=4) :: i_GP_individual
-integer(kind=4) :: i_tree
-integer(kind=4) :: i_node
-integer(kind=4) :: ii
+integer(kind=i4b) :: i_GP_individual
+integer(kind=i4b) :: i_tree
+integer(kind=i4b) :: i_node
+integer(kind=i4b) :: ii
 
 logical :: buildTrees
 

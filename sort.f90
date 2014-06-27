@@ -1,5 +1,7 @@
 SUBROUTINE sort(n, arr)
 
+use kinds_mod
+
 use mpi                                                                                                   
 use mpi_module
 
@@ -11,16 +13,16 @@ use swap_module
 
 IMPLICIT NONE
 
-integer(kind=4),intent(in) :: n
-real(kind=8), DIMENSION(n), INTENT(INOUT) :: arr
+integer(kind=i4b),intent(in) :: n
+real(kind=r8b), DIMENSION(n), INTENT(INOUT) :: arr
 
-integer(kind=4), PARAMETER :: NN=15, NSTACK=50
+integer(kind=i4b), PARAMETER :: NN=15, NSTACK=50
 
-real(kind=8) :: a
+real(kind=r8b) :: a
 
-integer(kind=4) :: k,i,j,jstack,l,r
+integer(kind=i4b) :: k,i,j,jstack,l,r
 
-integer(kind=4), DIMENSION(NSTACK) :: istack
+integer(kind=i4b), DIMENSION(NSTACK) :: istack
 
 !----------------------------------------------------------------
 
@@ -90,17 +92,17 @@ enddo
 !    MODULE PROCEDURE swap_r, masked_swap_rs
 !END INTERFACE                                                                                                                           
 !SUBROUTINE swap_r(a,b)                                                                                                                  
-!real(kind=8), INTENT(INOUT) :: a,b                                                                                                          
-!real(kind=8) :: dum                                                                                                                         
+!real(kind=r8b), INTENT(INOUT) :: a,b                                                                                                          
+!real(kind=r8b) :: dum                                                                                                                         
 !dum=a                                                                                                                                   
 !a=b                                                                                                                                     
 !b=dum                                                                                                                                   
 !END SUBROUTINE swap_r                                                                                                                  
 !
 !SUBROUTINE masked_swap_rs(a,b,mask)                                                                                                     
-!real(kind=8), INTENT(INOUT) :: a,b                                                                                                          
+!real(kind=r8b), INTENT(INOUT) :: a,b                                                                                                          
 !LOGICAL, INTENT(IN) :: mask                                                                                                        
-!real(kind=8) :: swp                                                                                                                         
+!real(kind=r8b) :: swp                                                                                                                         
 !if( mask ) then                                                                                                                          
 !    swp=a                                                                                                                               
 !    a=b                                                                                                                                 

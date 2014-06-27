@@ -1,6 +1,8 @@
 subroutine  parse_fbio_strings( fbio_string, len_fbio_string )
 
 
+use kinds_mod 
+
 use GP_Parameters_module
 use GP_Variables_module
 use GP_variables_module
@@ -13,15 +15,15 @@ character(4),parameter  ::  op_string = '+-/*'
 
 
 integer, intent(in)  :: len_fbio_string
-integer :: j
-integer :: j1
-integer :: j2
-integer :: indx
-integer :: ksafe
-integer :: len_work
-integer :: n_left_paren
-integer :: n_right_paren
-integer :: i_code_equation
+integer(kind=i4b) :: j
+integer(kind=i4b) :: j1
+integer(kind=i4b) :: j2
+integer(kind=i4b) :: indx
+integer(kind=i4b) :: ksafe
+integer(kind=i4b) :: len_work
+integer(kind=i4b) :: n_left_paren
+integer(kind=i4b) :: n_right_paren
+integer(kind=i4b) :: i_code_equation
 
 integer,parameter :: ksafe_max = 50
 

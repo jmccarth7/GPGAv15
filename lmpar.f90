@@ -64,69 +64,72 @@ subroutine lmpar ( n, r, ldr, ipvt, diag, qtb, delta, par, x, sdiag )
 !
 !  Parameters:
 !
-!    Input, integer ( kind = 4 ) N, the order of R.
+!    Input, integer(kind=i4b) N, the order of R.
 !
-!    Input/output, real ( kind = 8 ) R(LDR,N),the N by N matrix.  The full
+!    Input/output, real(kind=r8b) R(LDR,N),the N by N matrix.  The full
 !    upper triangle must contain the full upper triangle of the matrix R.
 !    On output the full upper triangle is unaltered, and the strict lower
 !    triangle contains the strict upper triangle (transposed) of the upper
 !    triangular matrix S.
 !
-!    Input, integer ( kind = 4 ) LDR, the leading dimension of R.  LDR must be
+!    Input, integer(kind=i4b) LDR, the leading dimension of R.  LDR must be
 !    no less than N.
 !
-!    Input, integer ( kind = 4 ) IPVT(N), defines the permutation matrix P such that
+!    Input, integer(kind=i4b) IPVT(N), defines the permutation matrix P such that
 !    A*P = Q*R.  Column J of P is column IPVT(J) of the identity matrix.
 !
-!    Input, real ( kind = 8 ) DIAG(N), the diagonal elements of the matrix D.
+!    Input, real(kind=r8b) DIAG(N), the diagonal elements of the matrix D.
 !
-!    Input, real ( kind = 8 ) QTB(N), the first N elements of the vector Q'*B.
+!    Input, real(kind=r8b) QTB(N), the first N elements of the vector Q'*B.
 !
-!    Input, real ( kind = 8 ) DELTA, an upper bound on the euclidean norm of D*X.
+!    Input, real(kind=r8b) DELTA, an upper bound on the euclidean norm of D*X.
 !    DELTA should be positive.
 !
-!    Input/output, real ( kind = 8 ) PAR.  On input an initial estimate of the
+!    Input/output, real(kind=r8b) PAR.  On input an initial estimate of the
 !    Levenberg-Marquardt parameter.  On output the final estimate.
 !    PAR should be nonnegative.
 !
-!    Output, real ( kind = 8 ) X(N), the least squares solution of the system
+!    Output, real(kind=r8b) X(N), the least squares solution of the system
 !    A*X = B, sqrt(PAR)*D*X = 0, for the output value of PAR.
 !
-!    Output, real ( kind = 8 ) SDIAG(N), the diagonal elements of the upper
+!    Output, real(kind=r8b) SDIAG(N), the diagonal elements of the upper
 !    triangular matrix S.
 !
+
+use kinds_mod 
+
   implicit none
 
-  integer ( kind = 4 ) ldr
-  integer ( kind = 4 ) n
+  integer(kind=i4b) ldr
+  integer(kind=i4b) n
 
-  real ( kind = 8 ) delta
-  real ( kind = 8 ) diag(n)
-  real ( kind = 8 ) dwarf
-  real ( kind = 8 ) dxnorm
-  real ( kind = 8 ) enorm
-  real ( kind = 8 ) gnorm
-  real ( kind = 8 ) fp
-  integer ( kind = 4 ) i
-  integer ( kind = 4 ) ipvt(n)
-  integer ( kind = 4 ) iter
-  integer ( kind = 4 ) j
-  integer ( kind = 4 ) k
-  integer ( kind = 4 ) l
-  integer ( kind = 4 ) nsing
-  real ( kind = 8 ) par
-  real ( kind = 8 ) parc
-  real ( kind = 8 ) parl
-  real ( kind = 8 ) paru
-  real ( kind = 8 ) qnorm
-  real ( kind = 8 ) qtb(n)
-  real ( kind = 8 ) r(ldr,n)
-  real ( kind = 8 ) sdiag(n)
-  real ( kind = 8 ) sum2
-  real ( kind = 8 ) temp
-  real ( kind = 8 ) wa1(n)
-  real ( kind = 8 ) wa2(n)
-  real ( kind = 8 ) x(n)
+  real(kind=r8b) delta
+  real(kind=r8b) diag(n)
+  real(kind=r8b) dwarf
+  real(kind=r8b) dxnorm
+  real(kind=r8b) enorm
+  real(kind=r8b) gnorm
+  real(kind=r8b) fp
+  integer(kind=i4b) i
+  integer(kind=i4b) ipvt(n)
+  integer(kind=i4b) iter
+  integer(kind=i4b) j
+  integer(kind=i4b) k
+  integer(kind=i4b) l
+  integer(kind=i4b) nsing
+  real(kind=r8b) par
+  real(kind=r8b) parc
+  real(kind=r8b) parl
+  real(kind=r8b) paru
+  real(kind=r8b) qnorm
+  real(kind=r8b) qtb(n)
+  real(kind=r8b) r(ldr,n)
+  real(kind=r8b) sdiag(n)
+  real(kind=r8b) sum2
+  real(kind=r8b) temp
+  real(kind=r8b) wa1(n)
+  real(kind=r8b) wa2(n)
+  real(kind=r8b) x(n)
 !
 !  DWARF is the smallest positive magnitude.
 !

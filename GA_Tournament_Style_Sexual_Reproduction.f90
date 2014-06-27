@@ -7,6 +7,7 @@ subroutine GA_Tournament_Style_Sexual_Reproduction(&
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 
+use kinds_mod
 use GP_Parameters_module
 use GA_Parameters_module
 use GP_Variables_module
@@ -15,33 +16,33 @@ use GP_Data_module
 
 implicit none
 
-real(kind=8) :: parent_parameters(n_GP_parameters,n_GA_individuals)
-real(kind=8) ::  child_parameters(n_GP_parameters,n_GA_individuals)
+real(kind=r8b) :: parent_parameters(n_GP_parameters,n_GA_individuals)
+real(kind=r8b) ::  child_parameters(n_GP_parameters,n_GA_individuals)
 
-integer(kind=4) :: individual_quality(n_GA_individuals)
+integer(kind=i4b) :: individual_quality(n_GA_individuals)
 
-integer(kind=4) :: i_GA_Crossover,i_GA_Crossover_Point
-integer(kind=4) :: k_GA_Individual_Male(2),k_GA_Individual_Female(2)
+integer(kind=i4b) :: i_GA_Crossover,i_GA_Crossover_Point
+integer(kind=i4b) :: k_GA_Individual_Male(2),k_GA_Individual_Female(2)
 
-real(kind=8) :: child_one_parameters(n_parameters)
-real(kind=8) :: child_two_parameters(n_parameters)
+real(kind=r8b) :: child_one_parameters(n_parameters)
+real(kind=r8b) :: child_two_parameters(n_parameters)
 
-real(kind=8) :: temp_male_parameters(n_parameters)
-real(kind=8) :: temp_female_parameters(n_parameters)
+real(kind=r8b) :: temp_male_parameters(n_parameters)
+real(kind=r8b) :: temp_female_parameters(n_parameters)
 
 real(kind=4) :: cff
-real(kind=8) :: dff
+real(kind=r8b) :: dff
 
-real(kind=8) :: old_male
-real(kind=8) :: old_female
-real(kind=8) :: mean_parm
-real(kind=8) :: std_dev_parm
-real(kind=8) :: cff_1
-real(kind=8) :: cff_2
+real(kind=r8b) :: old_male
+real(kind=r8b) :: old_female
+real(kind=r8b) :: mean_parm
+real(kind=r8b) :: std_dev_parm
+real(kind=r8b) :: cff_1
+real(kind=r8b) :: cff_2
 
 
-integer(kind=4) :: n_replaced
-integer(kind=4) :: i_parameter
+integer(kind=i4b) :: n_replaced
+integer(kind=i4b) :: i_parameter
 
 !---------------------------------------------------------------------------
 

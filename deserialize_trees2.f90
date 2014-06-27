@@ -1,5 +1,8 @@
 subroutine Deserialize_Trees2( Trees, num_Tracked_resources, Tree_count )
 
+
+use kinds_mod 
+
 use mpi
 use mpi_module
 
@@ -14,7 +17,7 @@ use Tree_Node_Factory_module
 implicit none
 
 ! Input
-integer(kind=4):: Tree_count, num_Tracked_resources
+integer(kind=i4b):: Tree_count, num_Tracked_resources
 
 ! Input/Output
 type(Tree_Node_Pointer), &
@@ -22,28 +25,28 @@ type(Tree_Node_Pointer), &
 
 ! Local variables
 
-integer(kind=4):: node_count, left, right, node_type
-integer(kind=4):: node_id, node_operation, variable_index
-integer(kind=4):: i, j, k, l
-integer(kind=4):: inode
-integer(kind=4):: inodec
-integer(kind=4):: counter
-integer(kind=4):: parm_counter
-integer(kind=4):: n_inode
+integer(kind=i4b):: node_count, left, right, node_type
+integer(kind=i4b):: node_id, node_operation, variable_index
+integer(kind=i4b):: i, j, k, l
+integer(kind=i4b):: inode
+integer(kind=i4b):: inodec
+integer(kind=i4b):: counter
+integer(kind=i4b):: parm_counter
+integer(kind=i4b):: n_inode
 
-!integer(kind=4):: i_node
-!integer(kind=4):: i_tree
+!integer(kind=i4b):: i_node
+!integer(kind=i4b):: i_tree
 
-real(kind=8) :: parameter_value
+real(kind=r8b) :: parameter_value
 
 type(Tree_Node_Pointer), dimension(:), allocatable :: Nodes
-integer(kind=4), dimension(:), allocatable :: Node_IDs
+integer(kind=i4b), dimension(:), allocatable :: Node_IDs
 
 
 type(Tree_Node), pointer :: parent, root
 
 !logical,save :: first  = .TRUE.
-!integer(kind=4):: temp_myid
+!integer(kind=i4b):: temp_myid
 
 !------------------------------------------------------------------------------------
 

@@ -8,7 +8,7 @@ subroutine GP_Check_Terminals( temp_Node_Type, i_Error)
 ! else i_Error=0
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
+use kinds_mod 
 use mpi
 use mpi_module
 use GP_Parameters_module
@@ -18,18 +18,18 @@ use GA_Variables_module
 
 implicit none
 
-integer(kind=4) :: i_Error
+integer(kind=i4b) :: i_Error
 
-integer(kind=4) :: i_Tree
-integer(kind=4) :: i_Node
-integer(kind=4) :: i_level
-integer(kind=4) :: i_function
-integer(kind=4) :: i_Node_left
-integer(kind=4) :: i_Node_right
+integer(kind=i4b) :: i_Tree
+integer(kind=i4b) :: i_Node
+integer(kind=i4b) :: i_level
+integer(kind=i4b) :: i_function
+integer(kind=i4b) :: i_Node_left
+integer(kind=i4b) :: i_Node_right
 
-integer(kind=4),parameter :: max_forcing_index = -5001
+integer(kind=i4b),parameter :: max_forcing_index = -5001
 
-integer(kind=4), dimension(1:n_Nodes,1:n_Trees), intent(in) :: temp_Node_Type
+integer(kind=i4b), dimension(1:n_Nodes,1:n_Trees), intent(in) :: temp_Node_Type
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 

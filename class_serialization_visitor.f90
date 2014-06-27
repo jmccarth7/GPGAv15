@@ -2,7 +2,7 @@
 ! Written by Dave Coulter
 
 module class_Serialization_Visitor
-
+use kinds_mod 
 use mpi                                                                                                   
 use mpi_module
 

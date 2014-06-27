@@ -1,6 +1,6 @@
 subroutine GP_Tree_Build( i_Error )
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
+use kinds_mod 
 use mpi
 use mpi_module
 
@@ -13,18 +13,18 @@ implicit none
 
 real(kind=4) :: cff
 
-integer(kind=4) :: i_GP_individual
-integer(kind=4) :: i_Error
-integer(kind=4) :: i_Node
-integer(kind=4) :: i_Tree
-integer(kind=4) :: i_Level
-integer(kind=4) :: n_Nodes_at_Level
-integer(kind=4) :: i_Level_Node
-integer(kind=4) :: Node_Function
-integer(kind=4) :: Node_Variable
-integer(kind=4) :: test_function_index
-integer(kind=4) :: n_parms
-integer(kind=4) :: n_parms_per_tree
+integer(kind=i4b) :: i_GP_individual
+integer(kind=i4b) :: i_Error
+integer(kind=i4b) :: i_Node
+integer(kind=i4b) :: i_Tree
+integer(kind=i4b) :: i_Level
+integer(kind=i4b) :: n_Nodes_at_Level
+integer(kind=i4b) :: i_Level_Node
+integer(kind=i4b) :: Node_Function
+integer(kind=i4b) :: Node_Variable
+integer(kind=i4b) :: test_function_index
+integer(kind=i4b) :: n_parms
+integer(kind=i4b) :: n_parms_per_tree
 
 
 real(kind=4),parameter :: prob_forcing = 0.20   ! 0.045
@@ -46,7 +46,7 @@ data frac_forcing_type(2,3) / 0.052632 /
 data frac_forcing_type(1,4) / 0.052632 /
 data frac_forcing_type(2,4) / 0.210526 /
 
-integer(kind=4) :: iforce
+integer(kind=i4b) :: iforce
 
 !-----------------------------------------------------------------------------
 

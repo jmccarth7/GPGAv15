@@ -1,6 +1,8 @@
 subroutine sse0_calc()
 
 
+use kinds_mod
+
 use mpi
 use mpi_module
 
@@ -12,12 +14,12 @@ use GA_variables_module
 implicit none
 
 
-real(kind=8),dimension(n_time_steps) :: fvec
+real(kind=r8b),dimension(n_time_steps) :: fvec
 
-real(kind=8) :: x_time_step                  
+real(kind=r8b) :: x_time_step                  
 
-integer(kind=4) :: i_CODE_equation
-integer(kind=4) :: i_time_step
+integer(kind=i4b) :: i_CODE_equation
+integer(kind=i4b) :: i_time_step
 
 !-------------------------------------------------------------------------------
 

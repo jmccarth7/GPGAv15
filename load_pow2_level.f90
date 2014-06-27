@@ -1,5 +1,7 @@
 subroutine load_pow2_level(  )
 
+use kinds_mod 
+
 use GP_Parameters_module
 use GA_Parameters_module
 use GP_Variables_module
@@ -10,7 +12,7 @@ use GP_variables_module
 
 implicit none
 
-integer ::  i_level
+integer(kind=i4b) ::  i_level
 
 
 !---------------------------------------------------------------------------

@@ -8,7 +8,7 @@ subroutine GP_Mutations( i_error )
 ! Modifies  GP_Child_Population_Node_Type
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
+use kinds_mod 
 use mpi
 use mpi_module
 
@@ -21,21 +21,21 @@ implicit none
 
 real(kind=4) :: cff
 
-integer(kind=4) :: i_GP_Mutation
-integer(kind=4) :: i_GP_Individual_Mutation
-integer(kind=4) :: i_Tree_Mutation
-!integer(kind=4) :: i_Tree
-integer(kind=4) :: i_Node
-integer(kind=4) :: icnt_Nodes
-integer(kind=4) :: icnt
+integer(kind=i4b) :: i_GP_Mutation
+integer(kind=i4b) :: i_GP_Individual_Mutation
+integer(kind=i4b) :: i_Tree_Mutation
+!integer(kind=i4b) :: i_Tree
+integer(kind=i4b) :: i_Node
+integer(kind=i4b) :: icnt_Nodes
+integer(kind=i4b) :: icnt
 
 
-integer(kind=4) :: Node_to_Mutate
-integer(kind=4) :: Node_Function
-integer(kind=4) :: Node_Variable
-integer(kind=4) :: i_GP_individual
-integer(kind=4) :: i_Error
-integer(kind=4) :: test_function_index
+integer(kind=i4b) :: Node_to_Mutate
+integer(kind=i4b) :: Node_Function
+integer(kind=i4b) :: Node_Variable
+integer(kind=i4b) :: i_GP_individual
+integer(kind=i4b) :: i_Error
+integer(kind=i4b) :: test_function_index
 
 !real(kind=4),parameter :: prob_no_elite = -0.05     ! off
 !real(kind=4),parameter :: prob_no_elite = 0.05     ! on 
@@ -48,7 +48,7 @@ character(200) :: tree_descrip
 
 real(kind=4),parameter :: prob_forcing = 0.025
 real(kind=4),parameter :: prob_choose_forcing_type = 0.25
-integer(kind=4) :: iforce                   
+integer(kind=i4b) :: iforce                   
 
 !------------------------------------------------------------------------
 

@@ -36,59 +36,61 @@ subroutine fdjac2 ( fcn, m, n, x, fvec, fjac, ldfjac, iflag, epsfcn )
 !    calculates the functions.  The routine should have the form:
 !
 !      subroutine fcn ( m, n, x, fvec, iflag )
-!      integer ( kind = 4 ) n
+!      integer(kind=i4b) n
 !      real fvec(m)
-!      integer ( kind = 4 ) iflag
+!      integer(kind=i4b) iflag
 !      real x(n)
 !
 !    The value of IFLAG should not be changed by FCN unless
 !    the user wants to terminate execution of the routine.
 !    In this case set IFLAG to a negative integer.
 !
-!    Input, integer ( kind = 4 ) M, is the number of functions.
+!    Input, integer(kind=i4b) M, is the number of functions.
 !
-!    Input, integer ( kind = 4 ) N, is the number of variables.  N must not exceed M.
+!    Input, integer(kind=i4b) N, is the number of variables.  N must not exceed M.
 !
-!    Input, real ( kind = 8 ) X(N), the point where the jacobian is evaluated.
+!    Input, real(kind=r8b) X(N), the point where the jacobian is evaluated.
 !
-!    Input, real ( kind = 8 ) FVEC(M), the functions evaluated at X.
+!    Input, real(kind=r8b) FVEC(M), the functions evaluated at X.
 !
-!    Output, real ( kind = 8 ) FJAC(LDFJAC,N), the M by N approximate
+!    Output, real(kind=r8b) FJAC(LDFJAC,N), the M by N approximate
 !    jacobian matrix.
 !
-!    Input, integer ( kind = 4 ) LDFJAC, the leading dimension of FJAC, which must
+!    Input, integer(kind=i4b) LDFJAC, the leading dimension of FJAC, which must
 !    not be less than M.
 !
-!    Output, integer ( kind = 4 ) IFLAG, is an error flag returned by FCN.  If FCN
+!    Output, integer(kind=i4b) IFLAG, is an error flag returned by FCN.  If FCN
 !    returns a nonzero value of IFLAG, then this routine returns immediately
 !    to the calling program, with the value of IFLAG.
 !
-!    Input, real ( kind = 8 ) EPSFCN, is used in determining a suitable
+!    Input, real(kind=r8b) EPSFCN, is used in determining a suitable
 !    step length for the forward-difference approximation.  This approximation
 !    assumes that the relative errors in the functions are of the order of
 !    EPSFCN.  If EPSFCN is less than the machine precision, it is assumed that
 !    the relative errors in the functions are of the order of the machine
 !    precision.
 !
+use kinds_mod 
+
   implicit none
 
-  integer ( kind = 4 ) ldfjac
-  integer ( kind = 4 ) m
-  integer ( kind = 4 ) n
+  integer(kind=i4b) ldfjac
+  integer(kind=i4b) m
+  integer(kind=i4b) n
 
-  real ( kind = 8 ) eps
-  real ( kind = 8 ) epsfcn
-  real ( kind = 8 ) epsmch
+  real(kind=r8b) eps
+  real(kind=r8b) epsfcn
+  real(kind=r8b) epsmch
   external fcn
-  real ( kind = 8 ) fjac(ldfjac,n)
-  real ( kind = 8 ) fvec(m)
-  real ( kind = 8 ) h
-  integer ( kind = 4 ) i
-  integer ( kind = 4 ) iflag
-  integer ( kind = 4 ) j
-  real ( kind = 8 ) temp
-  real ( kind = 8 ) wa(m)
-  real ( kind = 8 ) x(n)
+  real(kind=r8b) fjac(ldfjac,n)
+  real(kind=r8b) fvec(m)
+  real(kind=r8b) h
+  integer(kind=i4b) i
+  integer(kind=i4b) iflag
+  integer(kind=i4b) j
+  real(kind=r8b) temp
+  real(kind=r8b) wa(m)
+  real(kind=r8b) x(n)
 
   epsmch = epsilon ( epsmch )
 

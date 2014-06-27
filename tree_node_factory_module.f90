@@ -7,40 +7,43 @@ module Tree_Node_Factory_module
 ! Created on August 5, 2013, 11:18 AM
 !
 
-    use mpi
+
+use kinds_mod
+
+   use mpi
     use mpi_module
 
     use class_Tree_Node
 
-    integer(kind=4), parameter :: Add = 1
-    integer(kind=4), parameter :: Subtract = 2
-    integer(kind=4), parameter :: Multiply = 3
-    integer(kind=4), parameter :: ProtectedDivide = 4
-    integer(kind=4), parameter :: IvlevGrazingFunction = 5
-    integer(kind=4), parameter :: MichealisMenton = 6
-    integer(kind=4), parameter :: MayzaudPouletGrazingFunction = 7
-    integer(kind=4), parameter :: Power = 8
-    integer(kind=4), parameter :: ExponentialDecay = 9
-    integer(kind=4), parameter :: Minimize = 10
-    integer(kind=4), parameter :: Maximize = 11
-!orig    integer(kind=4), parameter :: Minimize = 9
-!orig    integer(kind=4), parameter :: Maximize = 10
-!orig    integer(kind=4), parameter :: ExponentialDecay = 11
-    integer(kind=4), parameter :: IfThen = 12
-    integer(kind=4), parameter :: IfGt = 13
-    integer(kind=4), parameter :: IfGte = 14
-    integer(kind=4), parameter :: IfLt = 15
-    integer(kind=4), parameter :: IfLte = 16
-    integer(kind=4), parameter :: ExponentialLeftPlus  = 17
-    integer(kind=4), parameter :: ExponentialRightPlus = 18
-    integer(kind=4), parameter :: ExponentialLeftMinus  = 19
-    integer(kind=4), parameter :: ExponentialRightMinus = 20
+    integer(kind=i4b), parameter :: Add = 1
+    integer(kind=i4b), parameter :: Subtract = 2
+    integer(kind=i4b), parameter :: Multiply = 3
+    integer(kind=i4b), parameter :: ProtectedDivide = 4
+    integer(kind=i4b), parameter :: IvlevGrazingFunction = 5
+    integer(kind=i4b), parameter :: MichealisMenton = 6
+    integer(kind=i4b), parameter :: MayzaudPouletGrazingFunction = 7
+    integer(kind=i4b), parameter :: Power = 8
+    integer(kind=i4b), parameter :: ExponentialDecay = 9
+    integer(kind=i4b), parameter :: Minimize = 10
+    integer(kind=i4b), parameter :: Maximize = 11
+!orig    integer(kind=i4b), parameter :: Minimize = 9
+!orig    integer(kind=i4b), parameter :: Maximize = 10
+!orig    integer(kind=i4b), parameter :: ExponentialDecay = 11
+    integer(kind=i4b), parameter :: IfThen = 12
+    integer(kind=i4b), parameter :: IfGt = 13
+    integer(kind=i4b), parameter :: IfGte = 14
+    integer(kind=i4b), parameter :: IfLt = 15
+    integer(kind=i4b), parameter :: IfLte = 16
+    integer(kind=i4b), parameter :: ExponentialLeftPlus  = 17
+    integer(kind=i4b), parameter :: ExponentialRightPlus = 18
+    integer(kind=i4b), parameter :: ExponentialLeftMinus  = 19
+    integer(kind=i4b), parameter :: ExponentialRightMinus = 20
 
 
 
-    integer(kind=4), parameter :: MathNodeType      = 1
-    integer(kind=4), parameter :: VariableNodeType  = 2
-    integer(kind=4), parameter :: ParameterNodeType = 3
+    integer(kind=i4b), parameter :: MathNodeType      = 1
+    integer(kind=i4b), parameter :: VariableNodeType  = 2
+    integer(kind=i4b), parameter :: ParameterNodeType = 3
 
     contains
 
@@ -51,7 +54,7 @@ module Tree_Node_Factory_module
         implicit none
         type(Tree_Node), pointer :: node
         type(Tree_Node), pointer :: Left, Right
-        integer(kind=4) :: OperationIndex
+        integer(kind=i4b) :: OperationIndex
 
         !--------------------------------------------------------------------
 
@@ -101,8 +104,8 @@ module Tree_Node_Factory_module
 
         implicit none
         type(Tree_Node), pointer :: node
-        real(kind=8), target:: VariableValue
-        integer(kind=4) :: Variable_Index
+        real(kind=r8b), target:: VariableValue
+        integer(kind=i4b) :: Variable_Index
 
         !--------------------------------------------------------------------------
 
@@ -135,7 +138,7 @@ module Tree_Node_Factory_module
 
         implicit none
         type(Tree_Node), pointer :: node
-        real(kind=8) :: ParameterValue
+        real(kind=r8b) :: ParameterValue
 
         !----------------------------------------------------------------
 
@@ -168,8 +171,8 @@ module Tree_Node_Factory_module
                               variable_index, parameter_value)     result(node)
         implicit none
         type(Tree_Node), pointer :: node
-        integer(kind=4) :: node_type, node_operation, variable_index
-        real(kind=8) :: parameter_value
+        integer(kind=i4b) :: node_type, node_operation, variable_index
+        real(kind=r8b) :: parameter_value
 
         allocate(node)
 

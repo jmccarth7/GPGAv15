@@ -5,7 +5,7 @@ subroutine GP_calc_diversity_index( n_indiv, indiv_node_type, &
 ! Mutations in this subroutine are targeted to the nodes only.
 ! The terminals are optimized later on using GA_lmdif.
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
+use kinds_mod 
 use GP_Parameters_module
 use GA_Parameters_module
 use GP_Variables_module
@@ -14,21 +14,21 @@ use GA_Variables_module
 implicit none
 
 
-integer(kind=4), intent(in)  :: n_indiv
-integer(kind=4), intent(in), dimension( n_Nodes, n_Trees, n_indiv ) :: indiv_node_type
+integer(kind=i4b), intent(in)  :: n_indiv
+integer(kind=i4b), intent(in), dimension( n_Nodes, n_Trees, n_indiv ) :: indiv_node_type
 
-integer(kind=4) :: i_indiv
-integer(kind=4) :: i_diversity
-integer(kind=4) :: icnt_Nodes
-integer(kind=4) :: icnt_parms
-integer(kind=4) :: icnt_vars
-integer(kind=4) :: icnt_ops
-integer(kind=4) :: max_number_nodes
-real(kind=8)    :: xmax_number_nodes
+integer(kind=i4b) :: i_indiv
+integer(kind=i4b) :: i_diversity
+integer(kind=i4b) :: icnt_Nodes
+integer(kind=i4b) :: icnt_parms
+integer(kind=i4b) :: icnt_vars
+integer(kind=i4b) :: icnt_ops
+integer(kind=i4b) :: max_number_nodes
+real(kind=r8b)    :: xmax_number_nodes
 
-integer(kind=4),intent(in)  :: i_GP_Generation
-integer(kind=4) :: i_Tree
-integer(kind=4) :: i_Node
+integer(kind=i4b),intent(in)  :: i_GP_Generation
+integer(kind=i4b) :: i_Tree
+integer(kind=i4b) :: i_Node
 
 !---------------------------------------------------------------------------
 

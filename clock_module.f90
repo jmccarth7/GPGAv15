@@ -1,10 +1,10 @@
 MODULE clock_MODULE
 
-
+use kinds_mod 
 implicit none
 
 
-integer(kind=4) :: clock1, clock2, ratec, maxclk
+integer(kind=i4b) :: clock1, clock2, ratec, maxclk
 
 
 !----------------------------------------------------------

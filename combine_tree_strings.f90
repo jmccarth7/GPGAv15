@@ -4,7 +4,7 @@ subroutine combine_tree_strings( tree_string, i_gen, i_indiv )
 ! using the GP architecture to solve a coupled system of equations
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-
+use kinds_mod 
 !use mpi
 !use mpi_module
 
@@ -15,7 +15,7 @@ use GP_variables_module
 
 implicit none
 
-!real(kind=8) :: cff
+!real(kind=r8b) :: cff
 
 
 
@@ -25,14 +25,14 @@ character(str_len) ::  cff_string
 character(str_len) ::  out_string
 !character(str_len) ::  temp_string
 
-integer :: indx
-integer :: ksafe
-integer :: i_code_equation
-integer :: j_code_equation
-integer :: i_tree
+integer(kind=i4b) :: indx
+integer(kind=i4b) :: ksafe
+integer(kind=i4b) :: i_code_equation
+integer(kind=i4b) :: j_code_equation
+integer(kind=i4b) :: i_tree
 
-integer :: i_gen
-integer :: i_indiv
+integer(kind=i4b) :: i_gen
+integer(kind=i4b) :: i_indiv
 
 character(str_len),  dimension( n_trees )    ::  tree_string
 

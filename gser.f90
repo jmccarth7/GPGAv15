@@ -1,5 +1,7 @@
 SUBROUTINE gser(gamser,a,x,gln) 
 
+use kinds_mod 
+
 use mpi                                                                                                   
 use mpi_module
 

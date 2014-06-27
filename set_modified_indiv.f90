@@ -8,6 +8,8 @@ subroutine set_modified_indiv( )
 ! coupled ordinary differential equations
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+use kinds_mod
+
 use mpi
 use mpi_module
 

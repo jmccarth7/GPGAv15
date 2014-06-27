@@ -1,6 +1,6 @@
 subroutine GP_Tree_Swap
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
+use kinds_mod 
 use mpi
 use mpi_module
 use GP_Parameters_module
@@ -10,44 +10,44 @@ use GA_Variables_module
 
 implicit none
 
-real(kind=8) :: cff
+real(kind=r8b) :: cff
 
-integer(kind=4),dimension(n_nodes,2)  :: Child_Tree_Swap_Node_Type
-integer(kind=4),dimension(n_nodes,2)  :: node_depth
-integer(kind=4) :: i_Parent
-integer(kind=4) :: i_Child
-integer(kind=4) :: i_Parent_One
-integer(kind=4) :: i_Parent_Two
-integer(kind=4) :: i_level
-integer(kind=4) :: i_Levels
-integer(kind=4) :: i_Parent_Level
-integer(kind=4) :: i_Child_Level
-integer(kind=4) :: i_Node_at_Level
-integer(kind=4) :: n_Nodes_at_Level
-integer(kind=4) :: i_Node
-integer(kind=4) :: j_Node
-integer(kind=4) :: k_Node
-integer(kind=4) :: i_Node_Count
-integer(kind=4) :: i
-integer(kind=4) :: kk
-integer(kind=4) :: icnt
-integer(kind=4) :: icff
-integer(kind=4) :: icnt_parent_one_nodes
-integer(kind=4) :: icnt_parent_two_nodes
-integer(kind=4) :: i_parent_one_swap_node
-integer(kind=4) :: i_parent_two_swap_node
-integer(kind=4) :: i_parent_swap_node
-integer(kind=4) :: i_child_swap_node
-integer(kind=4) :: parent_max_swap_level
-integer(kind=4) :: child_max_swap_level
-integer(kind=4) :: i_parent_node_Point
-integer(kind=4) :: i_child_node_Point
-integer(kind=4) :: i_level_node
-integer(kind=4) :: n_parent_one_swap_levels
-integer(kind=4) :: n_parent_two_swap_levels
-integer(kind=4) :: parent_one_max_swap_level
-integer(kind=4) :: parent_two_max_swap_level
-integer(kind=4),dimension(n_nodes) :: parent_two_swappable_nodes
+integer(kind=i4b),dimension(n_nodes,2)  :: Child_Tree_Swap_Node_Type
+integer(kind=i4b),dimension(n_nodes,2)  :: node_depth
+integer(kind=i4b) :: i_Parent
+integer(kind=i4b) :: i_Child
+integer(kind=i4b) :: i_Parent_One
+integer(kind=i4b) :: i_Parent_Two
+integer(kind=i4b) :: i_level
+integer(kind=i4b) :: i_Levels
+integer(kind=i4b) :: i_Parent_Level
+integer(kind=i4b) :: i_Child_Level
+integer(kind=i4b) :: i_Node_at_Level
+integer(kind=i4b) :: n_Nodes_at_Level
+integer(kind=i4b) :: i_Node
+integer(kind=i4b) :: j_Node
+integer(kind=i4b) :: k_Node
+integer(kind=i4b) :: i_Node_Count
+integer(kind=i4b) :: i
+integer(kind=i4b) :: kk
+integer(kind=i4b) :: icnt
+integer(kind=i4b) :: icff
+integer(kind=i4b) :: icnt_parent_one_nodes
+integer(kind=i4b) :: icnt_parent_two_nodes
+integer(kind=i4b) :: i_parent_one_swap_node
+integer(kind=i4b) :: i_parent_two_swap_node
+integer(kind=i4b) :: i_parent_swap_node
+integer(kind=i4b) :: i_child_swap_node
+integer(kind=i4b) :: parent_max_swap_level
+integer(kind=i4b) :: child_max_swap_level
+integer(kind=i4b) :: i_parent_node_Point
+integer(kind=i4b) :: i_child_node_Point
+integer(kind=i4b) :: i_level_node
+integer(kind=i4b) :: n_parent_one_swap_levels
+integer(kind=i4b) :: n_parent_two_swap_levels
+integer(kind=i4b) :: parent_one_max_swap_level
+integer(kind=i4b) :: parent_two_max_swap_level
+integer(kind=i4b),dimension(n_nodes) :: parent_two_swappable_nodes
 
 logical :: MALE_CROSS
 logical :: FEMALE_CROSS

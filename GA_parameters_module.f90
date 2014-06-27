@@ -2,14 +2,15 @@ module GA_parameters_module
 
 ! set the GA related parameters
 
+use kinds_mod
 implicit none
 
 ! set the integer parameters
 
-integer(kind=4),parameter :: GA_output_unit = 20
-integer(kind=4),parameter :: GA_print_unit  = 60
-integer(kind=4),parameter :: GA_log_unit    = 70
-integer(kind=4),parameter :: data_unitnum   = 77
+integer(kind=i4b),parameter :: GA_output_unit = 20
+integer(kind=i4b),parameter :: GA_print_unit  = 60
+integer(kind=i4b),parameter :: GA_log_unit    = 70
+integer(kind=i4b),parameter :: data_unitnum   = 77
 
 logical :: L_GA_output_parameters
 logical :: L_GA_print
@@ -43,13 +44,13 @@ logical :: Lprint_lmdif
 
 
 
-real(kind=8) :: GA_Crossover_Probability
-real(kind=8) :: GA_Mutation_Probability
-real(kind=8) :: GA_save_elites_Probability
-real(kind=8) :: GA_Elitist_Probability
-real(kind=8) :: GA_Asexual_Reproduction_Probability
+real(kind=r8b) :: GA_Crossover_Probability
+real(kind=r8b) :: GA_Mutation_Probability
+real(kind=r8b) :: GA_save_elites_Probability
+real(kind=r8b) :: GA_Elitist_Probability
+real(kind=r8b) :: GA_Asexual_Reproduction_Probability
 
-real(kind=8) :: GA_rand_replace_Probability
+real(kind=r8b) :: GA_rand_replace_Probability
 
 
 !---------------------------------------------------------------------
@@ -66,10 +67,10 @@ real(kind=8) :: GA_rand_replace_Probability
 ! the node becomes a function
 ! if greater, then the node becomes a parameter
 
-!real(kind=8), parameter :: GP_Set_Terminal_to_Parameter_Probability = 0.6d0
-!real(kind=8), parameter :: GP_Set_Terminal_to_Parameter_Probability = 0.3d0
+!real(kind=r8b), parameter :: GP_Set_Terminal_to_Parameter_Probability = 0.6d0
+!real(kind=r8b), parameter :: GP_Set_Terminal_to_Parameter_Probability = 0.3d0
 
-real(kind=8)            :: GP_Set_Terminal_to_Parameter_Probability 
+real(kind=r8b)            :: GP_Set_Terminal_to_Parameter_Probability 
 !---------------------------------------------------------------------
 
 ! determines how the GA_Tournament subroutine works
@@ -79,18 +80,18 @@ real(kind=8)            :: GP_Set_Terminal_to_Parameter_Probability
 ! = 2  - swap segments of parents and reset node at segment boundaries using JM
 !        formula involving the mean and std. dev
 
-integer(kind=4) :: ga_tournament_style
+integer(kind=i4b) :: ga_tournament_style
 
-real(kind=8), parameter :: PI = 3.141592653589793D0
+real(kind=r8b), parameter :: PI = 3.141592653589793D0
 
 ! GA routine-specific variables that can be modified
 
-integer(kind=4) :: n_GA_Generations
-integer(kind=4) :: i_GA_Generation
-integer(kind=4) :: n_GA_Individuals
-!!!!integer(kind=4) :: i_GA_individual
-integer(kind=4) :: j_GA_individual
+integer(kind=i4b) :: n_GA_Generations
+integer(kind=i4b) :: i_GA_Generation
+integer(kind=i4b) :: n_GA_Individuals
+!!!!integer(kind=i4b) :: i_GA_individual
+integer(kind=i4b) :: j_GA_individual
 
-real(kind=8) ::  min_sse
+real(kind=r8b) ::  min_sse
 
 end module GA_parameters_module

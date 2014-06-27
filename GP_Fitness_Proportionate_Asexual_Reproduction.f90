@@ -1,7 +1,7 @@
 subroutine GP_Fitness_Proportionate_Asexual_Reproduction
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
+use kinds_mod 
 use mpi
 use mpi_module
 use GP_Parameters_module
@@ -13,14 +13,14 @@ implicit none
 
 real(kind=4) :: cff
 
-integer(kind=4) :: i
-integer(kind=4) :: icff
-integer(kind=4) :: i_GP_individual
-integer(kind=4) :: j_GP_Individual
-integer(kind=4) :: i_GP_Asexual_Reproduction
+integer(kind=i4b) :: i
+integer(kind=i4b) :: icff
+integer(kind=i4b) :: i_GP_individual
+integer(kind=i4b) :: j_GP_Individual
+integer(kind=i4b) :: i_GP_Asexual_Reproduction
 
 
-real(kind=8) :: sse_ind
+real(kind=r8b) :: sse_ind
 
 !-----------------------------------------------------------------------------
 

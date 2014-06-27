@@ -23,6 +23,9 @@ subroutine GP_calc_fitness( i_GP_generation, &
 
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+use kinds_mod 
+!use mpi
+!use mpi_module
 
 use GP_Parameters_module
 use GA_Parameters_module
@@ -36,19 +39,19 @@ implicit none
 
 
 
-integer :: nop
+integer(kind=i4b) :: nop
 
-integer(kind=4) :: i_GP_individual
-integer(kind=4) :: i_GP_Best_Parent
-integer(kind=4),intent(in) :: i_GP_Generation
-integer(kind=4) :: i_Tree
-integer(kind=4) :: i_Node
+integer(kind=i4b) :: i_GP_individual
+integer(kind=i4b) :: i_GP_Best_Parent
+integer(kind=i4b),intent(in) :: i_GP_Generation
+integer(kind=i4b) :: i_Tree
+integer(kind=i4b) :: i_Node
 
 
-integer(kind=4) :: i_CODE_equation
-integer(kind=4) :: max_n_gp_parameters
+integer(kind=i4b) :: i_CODE_equation
+integer(kind=i4b) :: max_n_gp_parameters
 
-!real(kind=8), dimension(n_maximum_number_parameters), &
+!real(kind=r8b), dimension(n_maximum_number_parameters), &
 !                              intent(out) :: output_array
 
 real (kind=8) ::  dff
@@ -59,8 +62,8 @@ real (kind=8) ::  std_dev_fit
 
 
 logical :: L_node_match
-integer(kind=4) :: node_match_count
-integer(kind=4) :: undefined_node_count
+integer(kind=i4b) :: node_match_count
+integer(kind=i4b) :: undefined_node_count
 
 character(15) :: flag_string
 

@@ -1,5 +1,5 @@
 FUNCTION betacf(a,b,x) 
-
+use kinds_mod 
 use mpi                                                                                                   
 use mpi_module
 

@@ -1,6 +1,8 @@
 subroutine read_cntl_stuff( ierror )
 
 
+use kinds_mod
+
 use mpi
 use mpi_module
 
@@ -15,32 +17,32 @@ use GP_Data_module
 IMPLICIT NONE
 
 
-integer(kind=4) :: istat
+integer(kind=i4b) :: istat
 
-integer(kind=4), parameter :: cntl_unitnum  = 501
-integer(kind=4), parameter :: line_length   = 150
+integer(kind=i4b), parameter :: cntl_unitnum  = 501
+integer(kind=i4b), parameter :: line_length   = 150
 
 CHARACTER(line_length) :: Aline
 
-integer(kind=4) :: GA_output_parameters_flag
-integer(kind=4) :: GP_output_parameters_flag
-integer(kind=4) :: GA_print_flag
-integer(kind=4) :: GA_log_flag
-integer(kind=4) :: GP_log_flag
-integer(kind=4) :: GPSSE_log_flag
-integer(kind=4) :: fort333_output_flag
-integer(kind=4) :: fort444_output_flag
-integer(kind=4) ::  unit50_output_flag
-integer(kind=4) ::  GP_all_summary_flag 
+integer(kind=i4b) :: GA_output_parameters_flag
+integer(kind=i4b) :: GP_output_parameters_flag
+integer(kind=i4b) :: GA_print_flag
+integer(kind=i4b) :: GA_log_flag
+integer(kind=i4b) :: GP_log_flag
+integer(kind=i4b) :: GPSSE_log_flag
+integer(kind=i4b) :: fort333_output_flag
+integer(kind=i4b) :: fort444_output_flag
+integer(kind=i4b) ::  unit50_output_flag
+integer(kind=i4b) ::  GP_all_summary_flag 
 
-integer(kind=4) :: print_equations_flag
+integer(kind=i4b) :: print_equations_flag
 
-integer(kind=4) :: i_function_index
-integer(kind=4) :: selected_function
-integer(kind=4) :: i                    
-integer(kind=4) :: ierror                    
+integer(kind=i4b) :: i_function_index
+integer(kind=i4b) :: selected_function
+integer(kind=i4b) :: i                    
+integer(kind=i4b) :: ierror                    
 
-real(kind=8) :: dt_min
+real(kind=r8b) :: dt_min
 
 !----------------------------------------------------------------------
 ierror = 0

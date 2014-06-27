@@ -9,6 +9,10 @@ subroutine print_trees( i_gen, n_indiv_start, n_indiv_stop, &
 ! coupled ordinary differential equations
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+use kinds_mod 
+
+!use mpi
+!use mpi_module
 
 use GP_Parameters_module
 use GA_Parameters_module
@@ -27,8 +31,8 @@ character(*),intent(in) :: tree_descrip
 
 character(2),dimension( 1:n_nodes ) :: tree_type_string
 
-integer(kind=4), parameter :: string_length  = 1000
-integer(kind=4), parameter :: element_length = 5   ! 7
+integer(kind=i4b), parameter :: string_length  = 1000
+integer(kind=i4b), parameter :: element_length = 5   ! 7
 
 character(1)  ::  element_fmt2     
 character(4)  ::  element_format   
@@ -43,21 +47,21 @@ character(2)  :: tree_type_fmt2
 character(7)  :: tree_type_fmt3 
 
 character(16)  :: tree_type_fmt
-integer(kind=4), intent(in), &
+integer(kind=i4b), intent(in), &
         dimension( 1:n_nodes, 1:n_trees, n_GP_individuals) :: tree_type
 
-integer(kind=4) :: i_GP_individual
-integer(kind=4) :: i_Tree
-integer(kind=4) :: i_node
-integer(kind=4) :: i_gen
-integer(kind=4) :: i
-integer(kind=4) :: jj
+integer(kind=i4b) :: i_GP_individual
+integer(kind=i4b) :: i_Tree
+integer(kind=i4b) :: i_node
+integer(kind=i4b) :: i_gen
+integer(kind=i4b) :: i
+integer(kind=i4b) :: jj
 
-integer(kind=4) :: nodes_filled
-integer(kind=4) :: isub1         
-integer(kind=4) :: isub2         
-integer(kind=4),parameter :: node_boundary = 32
-integer(kind=4),parameter :: nodes_on_line = 20  ! 15
+integer(kind=i4b) :: nodes_filled
+integer(kind=i4b) :: isub1         
+integer(kind=i4b) :: isub2         
+integer(kind=i4b),parameter :: node_boundary = 32
+integer(kind=i4b),parameter :: nodes_on_line = 20  ! 15
 !----------------------------------------------------------------------------------------
 
 write( element_fmt2, '(I1)') element_length

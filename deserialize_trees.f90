@@ -1,5 +1,8 @@
 subroutine Deserialize_Trees( Trees, num_Tracked_resources, Tree_count, io_dir )
 
+
+use kinds_mod 
+
     use GP_variables_module
     use class_Tree_Node
     use Tree_Helper_module
@@ -20,9 +23,9 @@ subroutine Deserialize_Trees( Trees, num_Tracked_resources, Tree_count, io_dir )
     integer (kind=4):: node_id, node_operation, variable_index
     integer (kind=4):: i, j, k, l
 
-    real(kind=8) :: parameter_value
+    real(kind=r8b) :: parameter_value
     type(Tree_Node_Pointer), dimension(:), allocatable :: Nodes
-    integer(kind=4), dimension(:), allocatable :: Node_IDs
+    integer(kind=i4b), dimension(:), allocatable :: Node_IDs
     character (len=80) :: file_name
     logical :: file_exists
     type(Tree_Node), pointer :: parent, root

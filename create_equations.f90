@@ -2,6 +2,9 @@ subroutine create_equations( i_gen, i_GP_individual,  tree_type )
 
 
 
+
+use kinds_mod 
+
 use GP_Parameters_module
 use GA_Parameters_module
 use GP_Variables_module
@@ -12,15 +15,15 @@ use GP_variables_module
 
 implicit none
 
-integer :: i_gen
+integer(kind=i4b) :: i_gen
 
 
 
-integer(kind=4), intent(in), &
+integer(kind=i4b), intent(in), &
         dimension( 1:n_nodes, 1:n_trees, n_GP_individuals) :: tree_type
 
-integer(kind=4), intent(in) :: i_GP_individual
-integer :: n_levels_file
+integer(kind=i4b), intent(in) :: i_GP_individual
+integer(kind=i4b) :: n_levels_file
 
 !----------------------------------------------------------------------------------------
 

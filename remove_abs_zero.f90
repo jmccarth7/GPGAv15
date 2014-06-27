@@ -1,5 +1,7 @@
 subroutine remove_abs_zero( in_string, work_string )
 
+use kinds_mod
+
 use GP_Parameters_module
 
 implicit none
@@ -9,11 +11,11 @@ character(str_len) :: temp_string
 character(str_len) :: work_string
 character(str_len) :: work_string2
 
-integer :: len_in_string
-integer :: ksafe
-integer :: index1
-integer :: index2
-integer :: index_absz
+integer(kind=i4b) :: len_in_string
+integer(kind=i4b) :: ksafe
+integer(kind=i4b) :: index1
+integer(kind=i4b) :: index2
+integer(kind=i4b) :: index_absz
 
 !-------------------------------------------------------------------------
 

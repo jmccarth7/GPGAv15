@@ -1,4 +1,7 @@
 FUNCTION erfcc(x) 
+
+use kinds_mod 
+
 implicit none
 
 REAL(kind=8) ::  erfcc,x 

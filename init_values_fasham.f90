@@ -21,11 +21,11 @@ implicit none
 integer,intent(in)  :: icall
 
 
-integer(kind=4) :: i_Tree
-integer(kind=4) :: i_Node
+integer(kind=i4b) :: i_Tree
+integer(kind=i4b) :: i_Node
 
-integer(kind=4) :: i
-real(kind=8) :: increment
+integer(kind=i4b) :: i
+real(kind=r8b) :: increment
 
 
 !-------------------------------------------------------------------------

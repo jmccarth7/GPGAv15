@@ -8,6 +8,8 @@ subroutine setup_run_fcn( i_GA_indiv,  &
 ! a finding the optimum parameter set for a coupled set of equations
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+use kinds_mod
+
 use mpi
 use mpi_module
 
@@ -24,35 +26,35 @@ implicit none
 
 integer, intent(in)  ::  i_GA_indiv
 
-integer ::  iflag
+integer(kind=i4b) ::  iflag
 
 
 ! lmdif arrays and variables
 
 real (kind=8) :: x_LMDIF(n_GP_parameters)
 
-real(kind=8),dimension(n_time_steps) :: fvec
+real(kind=r8b),dimension(n_time_steps) :: fvec
 
-real(kind=8) :: x_time_step
+real(kind=r8b) :: x_time_step
 
 
 
-integer(kind=4) ::   info
-integer(kind=4) :: i_time_step
-integer(kind=4) :: i_parameter
+integer(kind=i4b) ::   info
+integer(kind=i4b) :: i_time_step
+integer(kind=i4b) :: i_parameter
 
-integer(kind=4),intent(in) :: new_group
-integer(kind=4),intent(in) :: new_comm 
-!integer(kind=4) :: new_rank       
+integer(kind=i4b),intent(in) :: new_group
+integer(kind=i4b),intent(in) :: new_comm 
+!integer(kind=i4b) :: new_rank       
 
 ! individual_quality contains information on the result of lmdif
 ! if lmdif encounters an error, set individual_quality to -1
 ! if < 0 , reject this individual  ! jjm
 
-integer(kind=4) :: individual_quality(n_GA_individuals)
+integer(kind=i4b) :: individual_quality(n_GA_individuals)
 
 
-real(kind=8) :: child_parameters(n_GP_parameters, n_GA_individuals)
+real(kind=r8b) :: child_parameters(n_GP_parameters, n_GA_individuals)
 
 external :: fcn
 

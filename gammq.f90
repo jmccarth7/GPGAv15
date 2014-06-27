@@ -1,5 +1,7 @@
 FUNCTION gammq(a,x) 
 
+use kinds_mod 
+
 use mpi                                                                                                   
 use mpi_module
 

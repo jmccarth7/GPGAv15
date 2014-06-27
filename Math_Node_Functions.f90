@@ -7,10 +7,13 @@
 
 module Math_Node_Functions
 
+use kinds_mod 
+
     interface
         function Compute(a,b)
-            real(kind=8) :: Compute
-            real(kind=8), intent(in) :: a,b
+            use kinds_mod 
+            real(kind=r8b) :: Compute
+            real(kind=r8b), intent(in) :: a,b
         end function
     end interface
 
@@ -37,9 +40,10 @@ module Math_Node_Functions
 
     ! Addition: a + b
 
-    real(kind=8) function f_Add(a, b)
+    real(kind=r8b) function f_Add(a, b)
+        use kinds_mod
         implicit none
-        real(kind=8), intent(in) :: a,b
+        real(kind=r8b), intent(in) :: a,b
 
         f_Add = a + b
     end function
@@ -51,9 +55,10 @@ module Math_Node_Functions
 
     ! Subtraction: a - b
 
-    real(kind=8) function f_Subtract(a, b)
+    real(kind=r8b) function f_Subtract(a, b)
+        use kinds_mod
         implicit none
-        real(kind=8), intent(in) :: a,b
+        real(kind=r8b), intent(in) :: a,b
 
         f_Subtract = a - b
     end function
@@ -65,9 +70,10 @@ module Math_Node_Functions
 
     ! Multiply: a * b
 
-    real(kind=8) function f_Multiply(a, b)
+    real(kind=r8b) function f_Multiply(a, b)
+        use kinds_mod
         implicit none
-        real(kind=8), intent(in) :: a,b
+        real(kind=r8b), intent(in) :: a,b
 
         !write(*,*)'f3:  a, b ', a, b                                                                           
         if( isnan(a) .or. isnan(b) ) then                                                                           
@@ -87,9 +93,10 @@ module Math_Node_Functions
 
     ! Protected Divide (only if b not equal to zero): a / b
 
-    real(kind=8) function f_ProtectedDivide(a, b)
+    real(kind=r8b) function f_ProtectedDivide(a, b)
+        use kinds_mod
         implicit none
-        real(kind=8), intent(in) :: a,b
+        real(kind=r8b), intent(in) :: a,b
 
         !if( b .ne. 0.0D+0) then
         if( abs(b) >  0.0D+0) then
@@ -106,10 +113,11 @@ module Math_Node_Functions
 
     ! Ivlev Grazing Function: (1 - e^-abs(a*b))
 
-    real(kind=8) function f_IvlevGrazingFunction(a, b)
+    real(kind=r8b) function f_IvlevGrazingFunction(a, b)
+        use kinds_mod
         implicit none
-        real(kind=8), intent(in) :: a,b
-        real(kind=8) :: cff
+        real(kind=r8b), intent(in) :: a,b
+        real(kind=r8b) :: cff
 
         cff=abs(a*b)
         if( cff < 100.0d0 ) then
@@ -127,10 +135,11 @@ module Math_Node_Functions
     !orig  Michaelis-Menton Term (modified for Forward-Backward): (1 / (abs(a) + abs(b)))
     ! Michaelis-Menton Term (modified for Forward-Backward): (abs(b) / (abs(a) + abs(b)))
 
-    real(kind=8) function f_MichealisMenton(a, b)
+    real(kind=r8b) function f_MichealisMenton(a, b)
+        use kinds_mod
         implicit none
-        real(kind=8), intent(in) :: a,b
-        real(kind=8) :: cff
+        real(kind=r8b), intent(in) :: a,b
+        real(kind=r8b) :: cff
 
         cff=abs(a)+abs(b)
         if( cff .gt. 0.0D+0) then
@@ -147,10 +156,11 @@ module Math_Node_Functions
 
     ! Mayzaud-Poulet Grazing Function:  abs(a*b)*(1 - e^-abs(a*b))
 
-    real(kind=8) function f_MayzaudPouletGrazingFunction(a, b)
+    real(kind=r8b) function f_MayzaudPouletGrazingFunction(a, b)
+        use kinds_mod
         implicit none
-        real(kind=8), intent(in) :: a,b
-        real(kind=8) :: cff
+        real(kind=r8b), intent(in) :: a,b
+        real(kind=r8b) :: cff
 
         cff=abs(a*b)
         if( cff < 100.0d0 ) then
@@ -167,9 +177,10 @@ module Math_Node_Functions
 
     ! Power: a ^ b
 
-    real(kind=8) function f_Power(a, b)
+    real(kind=r8b) function f_Power(a, b)
+        use kinds_mod
         implicit none
-        real(kind=8), intent(in) :: a,b
+        real(kind=r8b), intent(in) :: a,b
 
         if( isnan(a) .or. isnan(b) ) then
             !write(*,*)'f8:  a, b ', a, b
@@ -219,10 +230,11 @@ module Math_Node_Functions
 
     ! EXP: exp(-abs(a*b))
 
-    real(kind=8) function f_ExponentialDecay(a, b)
+    real(kind=r8b) function f_ExponentialDecay(a, b)
+        use kinds_mod
         implicit none
-        real(kind=8), intent(in) :: a,b
-        real(kind=8) :: cff
+        real(kind=r8b), intent(in) :: a,b
+        real(kind=r8b) :: cff
 
         if( isnan(a) .or. isnan(b) ) then
             !write(*,*)'f9:  a, b ', a, b
@@ -246,9 +258,10 @@ module Math_Node_Functions
 
     ! Minimum: a or b, whichever is lower
 
-    real(kind=8) function f_Minimize(a, b)
+    real(kind=r8b) function f_Minimize(a, b)
+        use kinds_mod
         implicit none
-        real(kind=8), intent(in) :: a,b
+        real(kind=r8b), intent(in) :: a,b
 
         f_Minimize = min(a,b)
     end function
@@ -260,9 +273,10 @@ module Math_Node_Functions
 
     ! Maximum: a or b, whichever is greater
 
-    real(kind=8) function f_Maximize(a, b)
+    real(kind=r8b) function f_Maximize(a, b)
+        use kinds_mod
         implicit none
-        real(kind=8), intent(in) :: a,b
+        real(kind=r8b), intent(in) :: a,b
 
         f_Maximize = max(a,b)
     end function
@@ -273,9 +287,9 @@ module Math_Node_Functions
 
 !orig     ! math_funcs(9)
 !orig     ! Minimum: a or b, whichever is lower
-!orig     real(kind=8) function f_Minimize(a, b)
+!orig     real(kind=r8b) function f_Minimize(a, b)
 !orig         implicit none
-!orig         real(kind=8), intent(in) :: a,b
+!orig         real(kind=r8b), intent(in) :: a,b
 !orig 
 !orig         f_Minimize = min(a,b)
 !orig     end function
@@ -285,9 +299,9 @@ module Math_Node_Functions
 
 !orig     ! math_funcs(10)
 !orig     ! Maximum: a or b, whichever is greater
-!orig     real(kind=8) function f_Maximize(a, b)
+!orig     real(kind=r8b) function f_Maximize(a, b)
 !orig         implicit none
-!orig         real(kind=8), intent(in) :: a,b
+!orig         real(kind=r8b), intent(in) :: a,b
 !orig 
 !orig         f_Maximize = max(a,b)
 !orig     end function
@@ -297,10 +311,10 @@ module Math_Node_Functions
 
 !orig     ! math_funcs(11)
 !orig     ! EXP: exp(-*a*b)
-!orig     real(kind=8) function f_ExponentialDecay(a, b)
+!orig     real(kind=r8b) function f_ExponentialDecay(a, b)
 !orig         implicit none
-!orig         real(kind=8), intent(in) :: a,b
-!orig         real(kind=8) :: cff
+!orig         real(kind=r8b), intent(in) :: a,b
+!orig         real(kind=r8b) :: cff
 !orig 
 !orig         cff=abs(a*b)
 !orig         f_ExponentialDecay = exp(-1.0D+0*cff)
@@ -313,9 +327,10 @@ module Math_Node_Functions
 
     ! IF a .ne. 0 THEN b ELSE 0
 
-    real(kind=8) function f_IfThen(a, b)
+    real(kind=r8b) function f_IfThen(a, b)
+        use kinds_mod
         implicit none
-        real(kind=8), intent(in) :: a,b
+        real(kind=r8b), intent(in) :: a,b
 
         if( a .ne. 0.D+0) then
             f_IfThen = b
@@ -331,9 +346,10 @@ module Math_Node_Functions
 
     ! IF a .GT. b THEN 1 ELSE 0
 
-    real(kind=8) function f_IfGt(a, b)
+    real(kind=r8b) function f_IfGt(a, b)
+        use kinds_mod
         implicit none
-        real(kind=8), intent(in) :: a,b
+        real(kind=r8b), intent(in) :: a,b
 
         if( a .GT. b) then
             f_IfGt = 1.D+0
@@ -348,9 +364,10 @@ module Math_Node_Functions
 
     ! IF a .GE. b THEN 1 ELSE 0
 
-    real(kind=8) function f_IfGte(a, b)
+    real(kind=r8b) function f_IfGte(a, b)
+        use kinds_mod
         implicit none
-        real(kind=8), intent(in) :: a,b
+        real(kind=r8b), intent(in) :: a,b
 
         if( a .GE. b) then
             f_IfGte = 1.D+0
@@ -366,9 +383,10 @@ module Math_Node_Functions
 
     ! IF a .LT. b THEN 1 ELSE 0
 
-    real(kind=8) function f_IfLt(a, b)
+    real(kind=r8b) function f_IfLt(a, b)
+        use kinds_mod
         implicit none
-        real(kind=8), intent(in) :: a,b
+        real(kind=r8b), intent(in) :: a,b
 
         if( a .LT. b) then
             f_IfLt = 1.D+0
@@ -384,9 +402,10 @@ module Math_Node_Functions
 
     ! IF a .LE. b THEN 1 ELSE 0
 
-    real(kind=8) function f_IfLte(a, b)
+    real(kind=r8b) function f_IfLte(a, b)
+        use kinds_mod
         implicit none
-        real(kind=8), intent(in) :: a,b
+        real(kind=r8b), intent(in) :: a,b
 
         if( a .LE. b) then
             f_IfLte = 1.D+0
@@ -401,9 +420,10 @@ module Math_Node_Functions
 
     ! EXP_LP: exp(a)
 
-    real(kind=8) function f_ExponentialLeftPlus(a, b)
+    real(kind=r8b) function f_ExponentialLeftPlus(a, b)
+        use kinds_mod
         implicit none
-        real(kind=8), intent(in) :: a,b
+        real(kind=r8b), intent(in) :: a,b
 
         f_ExponentialLeftPlus = exp( a )
 
@@ -420,9 +440,10 @@ module Math_Node_Functions
 
     ! EXP_RP: exp(b)
 
-    real(kind=8) function f_ExponentialRightPlus(a, b)
+    real(kind=r8b) function f_ExponentialRightPlus(a, b)
+        use kinds_mod
         implicit none
-        real(kind=8), intent(in) :: a,b
+        real(kind=r8b), intent(in) :: a,b
 
         f_ExponentialRightPlus = exp( b )
         !f_ExponentialRightPlus = min( f_ExponentialRightPlus, 1.0D+99 )
@@ -439,9 +460,10 @@ module Math_Node_Functions
 
     ! EXP_LM: exp(-a)
 
-    real(kind=8) function f_ExponentialLeftMinus(a, b)
+    real(kind=r8b) function f_ExponentialLeftMinus(a, b)
+        use kinds_mod
         implicit none
-        real(kind=8), intent(in) :: a,b
+        real(kind=r8b), intent(in) :: a,b
 
         f_ExponentialLeftMinus = exp( -1.0d0 * a )
         !f_ExponentialLeftMinus = min( f_ExponentialLeftMinus, 1.0D+99 )
@@ -457,9 +479,10 @@ module Math_Node_Functions
 
     ! EXP_RM: exp(b)
 
-    real(kind=8) function f_ExponentialRightMinus(a, b)
+    real(kind=r8b) function f_ExponentialRightMinus(a, b)
+        use kinds_mod
         implicit none
-        real(kind=8), intent(in) :: a,b
+        real(kind=r8b), intent(in) :: a,b
 
         f_ExponentialRightMinus = exp( -1.0d0 * b )
         !f_ExponentialRightMinus = min( f_ExponentialRightMinus, 1.0D+99 )

@@ -2,6 +2,8 @@ subroutine fill_string_arrays()
 
 
 
+use kinds_mod 
+
 use GP_Parameters_module
 use GP_Variables_module
 use GP_variables_module
@@ -11,10 +13,10 @@ implicit none
 
 character(4) ::  parm_string
 
-integer ::  j
-integer ::  k
-integer ::  i_node
-integer ::  i_tree
+integer(kind=i4b) ::  j
+integer(kind=i4b) ::  k
+integer(kind=i4b) ::  i_node
+integer(kind=i4b) ::  i_tree
 
 !-------------------------------------------------------------------------------
 

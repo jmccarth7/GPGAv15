@@ -9,7 +9,7 @@ subroutine calc_fitness( child_parameters, individual_quality, &
 ! program to use a twin experiment to test the effectiveness of
 ! a finding the optimum parameter set for a coupled set of equations
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
+use kinds_mod 
 use mpi
 use mpi_module
 
@@ -26,58 +26,58 @@ implicit none
 integer,parameter ::  itag = 1
 
 
-real(kind=8),dimension( n_GP_parameters,n_GA_individuals ) :: parent_parameters
-real(kind=8),dimension( n_GP_parameters,n_GA_individuals ) :: child_parameters
+real(kind=r8b),dimension( n_GP_parameters,n_GA_individuals ) :: parent_parameters
+real(kind=r8b),dimension( n_GP_parameters,n_GA_individuals ) :: child_parameters
 
-integer(kind=4),intent(in) :: i_GP_Generation
-integer(kind=4),intent(in) :: i_GP_individual
+integer(kind=i4b),intent(in) :: i_GP_Generation
+integer(kind=i4b),intent(in) :: i_GP_individual
 
-integer(kind=4),intent(in) :: new_group
-integer(kind=4),intent(in) :: new_comm
-!integer(kind=4) :: new_rank 
+integer(kind=i4b),intent(in) :: new_group
+integer(kind=i4b),intent(in) :: new_comm
+!integer(kind=i4b) :: new_rank 
 
-real(kind=8) :: dble_cff
+real(kind=r8b) :: dble_cff
 
-integer(kind=4) ::    i_GA_Best_Parent
-integer(kind=4) ::    n_counted
-integer(kind=4) ::    index_min_sse
-integer(kind=4) ::    icount
-!integer(kind=4) ::    i
+integer(kind=i4b) ::    i_GA_Best_Parent
+integer(kind=i4b) ::    n_counted
+integer(kind=i4b) ::    index_min_sse
+integer(kind=i4b) ::    icount
+!integer(kind=i4b) ::    i
 
-real(kind=8), parameter :: max_err = 1.0d8  !100.0d0
-real(kind=8), parameter :: max_err2 = max_err**2
+real(kind=r8b), parameter :: max_err = 1.0d8  !100.0d0
+real(kind=r8b), parameter :: max_err2 = max_err**2
 
-real(kind=8) :: edit_level
-real(kind=8) :: mean_individual_fit
-real(kind=8) :: mean_individual_SSE
-real(kind=8) :: mean_fitness
+real(kind=r8b) :: edit_level
+real(kind=r8b) :: mean_individual_fit
+real(kind=r8b) :: mean_individual_SSE
+real(kind=r8b) :: mean_fitness
 
-real(kind=8) :: xn
-real(kind=8) :: var_fitness
-real(kind=8) :: sigma_fitness
+real(kind=r8b) :: xn
+real(kind=r8b) :: var_fitness
+real(kind=r8b) :: sigma_fitness
 
 
 ! individual_quality contains information on the result of lmdif
 ! if lmdif encounters an error, set individual_quality to -1
 ! if < 0 , reject this individual  ! jjm
 
-integer(kind=4) :: individual_quality(n_GA_individuals)
+integer(kind=i4b) :: individual_quality(n_GA_individuals)
 
 
-!integer(kind=4) :: n_retry
+!integer(kind=i4b) :: n_retry
 
 external :: fcn
 
-real(kind=8), external :: indiv_fitness
+real(kind=r8b), external :: indiv_fitness
 
 logical :: L_stop_run
 
-integer(kind=4) :: jj
-integer(kind=4) :: i_parameter
-integer(kind=4) :: i_GA_individual
+integer(kind=i4b) :: jj
+integer(kind=i4b) :: i_parameter
+integer(kind=i4b) :: i_GA_individual
 
 
-!real(kind=8),dimension(17),parameter :: answerLV = &
+!real(kind=r8b),dimension(17),parameter :: answerLV = &
 ! (/ 30.0d0, 2.0d0, 0.4d0  , 0.02d0 , 0.6d0  , 0.5d0 , 0.02d0, &
 !    0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0, &
 !    0.0d0, 0.0d0, 0.0d0, 0.0d0, 0.0d0   /)

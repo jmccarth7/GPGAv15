@@ -8,6 +8,8 @@ subroutine setup_run_lmdif( i_G_indiv,  child_parameters, individual_quality, &
 ! a finding the optimum parameter set for a coupled set of equations
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+use kinds_mod
+
 use mpi
 use mpi_module
 
@@ -25,46 +27,46 @@ implicit none
 integer, intent(in)  ::  i_G_indiv
 integer, intent(in)  ::  n_indiv
 
-real(kind=8),dimension(n_indiv)  ::  my_indiv_SSE
+real(kind=r8b),dimension(n_indiv)  ::  my_indiv_SSE
 
 logical, intent(in)  ::  L_myprint
 integer, intent(in)  ::  myprint_unit
 
 ! lmdif arrays and variables
 
-real(kind=8) :: x_LMDIF(n_GP_parameters)
-real(kind=8) :: fvec(n_time_steps)
-real(kind=8) :: ftol,xtol,gtol
+real(kind=r8b) :: x_LMDIF(n_GP_parameters)
+real(kind=r8b) :: fvec(n_time_steps)
+real(kind=r8b) :: ftol,xtol,gtol
 
 
-real(kind=8), parameter :: epsfcn = 1.0d-6    ! original
+real(kind=r8b), parameter :: epsfcn = 1.0d-6    ! original
 
-real(kind=8), parameter :: factor=1.0D+0
-real(kind=8), parameter :: zero = 0.0d0
+real(kind=r8b), parameter :: factor=1.0D+0
+real(kind=r8b), parameter :: zero = 0.0d0
 
-real(kind=8) :: diag(n_GP_parameters)
-real(kind=8) :: fjac(n_time_steps,n_GP_parameters)
-real(kind=8) :: qtf(n_GP_parameters)
-integer(kind=4) :: maxfev,ldfjac,mode,nprint,info,nfev
-integer(kind=4) :: ipvt(n_GP_parameters)
+real(kind=r8b) :: diag(n_GP_parameters)
+real(kind=r8b) :: fjac(n_time_steps,n_GP_parameters)
+real(kind=r8b) :: qtf(n_GP_parameters)
+integer(kind=i4b) :: maxfev,ldfjac,mode,nprint,info,nfev
+integer(kind=i4b) :: ipvt(n_GP_parameters)
 
 
 ! individual_quality contains information on the result of lmdif
 ! if lmdif encounters an error, set individual_quality to -1
 ! if < 0 , reject this individual  ! jjm
 
-integer(kind=4) :: individual_quality(n_indiv)
+integer(kind=i4b) :: individual_quality(n_indiv)
 
-integer(kind=4) :: i_time_step
-integer(kind=4) :: i_parameter
+integer(kind=i4b) :: i_time_step
+integer(kind=i4b) :: i_parameter
 
-real(kind=8) :: child_parameters(n_GP_parameters,n_indiv)
+real(kind=r8b) :: child_parameters(n_GP_parameters,n_indiv)
 
 external :: fcn
 
-!real(kind=8) :: t1
-!real(kind=8) :: t2
-!real(kind=8) :: delta_wt
+!real(kind=r8b) :: t1
+!real(kind=r8b) :: t2
+!real(kind=r8b) :: delta_wt
 
 !--------------------------------------------------------------------------------------------
 

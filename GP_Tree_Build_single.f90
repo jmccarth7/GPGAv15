@@ -1,6 +1,6 @@
 subroutine GP_Tree_Build_single( i_GP_individual )
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
+use kinds_mod 
 use mpi
 use mpi_module
 use GP_Parameters_module
@@ -13,15 +13,15 @@ implicit none
 
 real(kind=4) :: cff
 
-integer(kind=4) :: i_GP_individual
-integer(kind=4) :: i_Error
-integer(kind=4) :: i_Node
-integer(kind=4) :: i_Tree
-integer(kind=4) :: i_Level
-integer(kind=4) :: n_Nodes_at_Level
-integer(kind=4) :: i_Level_Node
-integer(kind=4) :: Node_Function
-integer(kind=4) :: Node_Variable
+integer(kind=i4b) :: i_GP_individual
+integer(kind=i4b) :: i_Error
+integer(kind=i4b) :: i_Node
+integer(kind=i4b) :: i_Tree
+integer(kind=i4b) :: i_Level
+integer(kind=i4b) :: n_Nodes_at_Level
+integer(kind=i4b) :: i_Level_Node
+integer(kind=i4b) :: Node_Function
+integer(kind=i4b) :: Node_Variable
 
 
 !-----------------------------------------------------------------------------

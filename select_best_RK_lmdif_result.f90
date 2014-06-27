@@ -10,6 +10,8 @@ subroutine select_best_RK_lmdif_result( &
 ! a finding the optimum parameter set for a coupled set of equations
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+use kinds_mod
+
 use mpi
 use mpi_module
 use clock_module
@@ -24,48 +26,48 @@ use GP_data_module
 implicit none
 
 
-integer(kind=4),intent(in) :: i_GP_Generation
-integer(kind=4),intent(in) :: i_GP_individual
-integer(kind=4),intent(in) :: new_group
-integer(kind=4),intent(in) :: new_comm 
-!integer(kind=4)            :: new_rank 
+integer(kind=i4b),intent(in) :: i_GP_Generation
+integer(kind=i4b),intent(in) :: i_GP_individual
+integer(kind=i4b),intent(in) :: new_group
+integer(kind=i4b),intent(in) :: new_comm 
+!integer(kind=i4b)            :: new_rank 
 
-real(kind=8),&
+real(kind=r8b),&
  dimension(n_GP_parameters,n_GA_individuals) ::  parent_parameters
-real(kind=8),&
+real(kind=r8b),&
  dimension(n_GP_parameters,n_GA_individuals) ::  child_parameters
 
 
-real(kind=8) :: individual_SSE_best_1
-real(kind=8) :: individual_ranked_fitness_best_1
-real(kind=8) :: Individual_Fitness_best_1
+real(kind=r8b) :: individual_SSE_best_1
+real(kind=r8b) :: individual_ranked_fitness_best_1
+real(kind=r8b) :: Individual_Fitness_best_1
 
-real(kind=8),dimension(n_GP_parameters) :: parent_parameters_best_1
+real(kind=r8b),dimension(n_GP_parameters) :: parent_parameters_best_1
 
 
-integer(kind=4) ::      i
-integer(kind=4) :: i_GA_Best_Parent
-integer(kind=4) :: i_GA_Best_Parent_1
+integer(kind=i4b) ::      i
+integer(kind=i4b) :: i_GA_Best_Parent
+integer(kind=i4b) :: i_GA_Best_Parent_1
 
-integer(kind=4) :: i_GA_generation_last
+integer(kind=i4b) :: i_GA_generation_last
 
 
 ! individual_quality contains information on the result of lmdif
 ! if lmdif encounters an error, set individual_quality to -1
 ! if < 0 , reject this individual  ! jjm
 
-!integer(kind=4),intent(in) :: individual_quality(n_GA_individuals)
+!integer(kind=i4b),intent(in) :: individual_quality(n_GA_individuals)
 
-real(kind=8), external :: indiv_fitness
+real(kind=r8b), external :: indiv_fitness
 
 logical :: L_stop_run
 
 
-integer(kind=4) :: i_Tree
-integer(kind=4) :: i_Node
+integer(kind=i4b) :: i_Tree
+integer(kind=i4b) :: i_Node
 
-integer(kind=4) :: jj
-integer(kind=4) :: i_parameter
+integer(kind=i4b) :: jj
+integer(kind=i4b) :: i_parameter
 
 
 

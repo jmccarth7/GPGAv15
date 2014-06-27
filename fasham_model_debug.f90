@@ -17,9 +17,9 @@ use class_Tree_Node
 implicit none             
                          
                         
-integer :: i         
+integer(kind=i4b) :: i         
 
-integer :: i_gp_individual 
+integer(kind=i4b) :: i_gp_individual 
 
 !-------------------------------------------------------------------------------------------------------
 

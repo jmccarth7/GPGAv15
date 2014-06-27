@@ -1,5 +1,5 @@
 subroutine Build_Trees( treeSlice, buildtrees ) 
-
+use kinds_mod 
 use mpi
 use mpi_module
 
@@ -15,8 +15,8 @@ type(Tree_Node_Pointer), dimension(n_Trees) :: treeSlice
     
 logical, intent(in) :: buildtrees
 
-!integer :: itree
-!integer :: inode
+!integer(kind=i4b) :: itree
+!integer(kind=i4b) :: inode
 
 
 !------------------------------------------------------------------------------------------------

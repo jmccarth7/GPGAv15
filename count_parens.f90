@@ -2,6 +2,9 @@ subroutine  count_parens( test_string, paren_type, n_parens )
 
 
 
+
+use kinds_mod 
+
 use GP_Parameters_module
 use GP_Variables_module
 use GP_variables_module
@@ -19,10 +22,10 @@ character(1),parameter  ::  left_paren  = '('
 character(1),parameter  ::  right_paren = ')'
 character(1)  ::  search_char
 
-integer :: n_parens
+integer(kind=i4b) :: n_parens
 
-integer :: i
-integer :: len_work
+integer(kind=i4b) :: i
+integer(kind=i4b) :: len_work
 
 character(*), intent(in) ::  test_string
 

@@ -31,17 +31,20 @@ function enorm ( n, x )
 !
 !  Parameters:
 !
-!    Input, integer ( kind = 4 ) N, is the length of the vector.
+!    Input, integer(kind=i4b) N, is the length of the vector.
 !
-!    Input, real ( kind = 8 ) X(N), the vector whose norm is desired.
+!    Input, real(kind=r8b) X(N), the vector whose norm is desired.
 !
-!    Output, real ( kind = 8 ) ENORM, the Euclidean norm of the vector.
+!    Output, real(kind=r8b) ENORM, the Euclidean norm of the vector.
 !
+
+use kinds_mod 
+
   implicit none
 
-  integer ( kind = 4 ) n
-  real ( kind = 8 ) x(n)
-  real ( kind = 8 ) enorm
+  integer(kind=i4b) n
+  real(kind=r8b) x(n)
+  real(kind=r8b) enorm
 
   enorm = sqrt ( sum ( x(1:n)**2 ))
 

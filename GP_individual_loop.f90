@@ -26,62 +26,62 @@ implicit none
 
 
 
-integer(kind=4),intent(in) :: new_group
-integer(kind=4),intent(in) :: new_comm
-integer(kind=4),intent(in) :: i_GP_Generation
+integer(kind=i4b),intent(in) :: new_group
+integer(kind=i4b),intent(in) :: new_comm
+integer(kind=i4b),intent(in) :: i_GP_Generation
 
 
-integer :: i
+integer(kind=i4b) :: i
 
-integer(kind=4) :: i_GP_individual
-integer(kind=4) :: i_Tree
-integer(kind=4) :: i_Node
-integer(kind=4) :: i_code_equation
+integer(kind=i4b) :: i_GP_individual
+integer(kind=i4b) :: i_Tree
+integer(kind=i4b) :: i_Node
+integer(kind=i4b) :: i_code_equation
 
-integer(kind=4) :: ii
-integer(kind=4) :: ii2
-integer(kind=4) :: ii3
-integer(kind=4) :: jj
-integer(kind=4) :: jj2
+integer(kind=i4b) :: ii
+integer(kind=i4b) :: ii2
+integer(kind=i4b) :: ii3
+integer(kind=i4b) :: jj
+integer(kind=i4b) :: jj2
 
-integer(kind=4) :: message_len
+integer(kind=i4b) :: message_len
 
-integer(kind=4) :: n_GP_vars
+integer(kind=i4b) :: n_GP_vars
 
-integer(kind=4) :: n_procs
+integer(kind=i4b) :: n_procs
 
-integer(kind=4) :: i_part
-integer(kind=4) :: i_gp_1
-integer(kind=4) :: i_gp_2
-integer(kind=4) :: ind1
-integer(kind=4) :: ind2
-integer(kind=4) :: n_indiv
+integer(kind=i4b) :: i_part
+integer(kind=i4b) :: i_gp_1
+integer(kind=i4b) :: i_gp_2
+integer(kind=i4b) :: ind1
+integer(kind=i4b) :: ind2
+integer(kind=i4b) :: n_indiv
 
-integer(kind=4),parameter :: tag_ind_sse = 200000
-integer(kind=4),parameter :: tag_ind_fit = 100000
-integer(kind=4),parameter :: tag_parm    = 500000
-integer(kind=4),parameter :: tag_node_type    = 600000
-integer(kind=4),parameter :: tag_init_cond    = 700000
-integer(kind=4),parameter :: tag_node_parm    = 800000
-
-
-integer(kind=4) :: tag_fit_r
-integer(kind=4) :: tag_fit_s
-integer(kind=4) :: tag_sse_r
-integer(kind=4) :: tag_sse_s
-
-real(kind=8) ::   individual_fit_rec
-real(kind=8) ::   individual_SSE_rec
+integer(kind=i4b),parameter :: tag_ind_sse = 200000
+integer(kind=i4b),parameter :: tag_ind_fit = 100000
+integer(kind=i4b),parameter :: tag_parm    = 500000
+integer(kind=i4b),parameter :: tag_node_type    = 600000
+integer(kind=i4b),parameter :: tag_init_cond    = 700000
+integer(kind=i4b),parameter :: tag_node_parm    = 800000
 
 
-real(kind=8),allocatable,dimension(:)    ::   init_cond_buff
+integer(kind=i4b) :: tag_fit_r
+integer(kind=i4b) :: tag_fit_s
+integer(kind=i4b) :: tag_sse_r
+integer(kind=i4b) :: tag_sse_s
 
-real(kind=8),allocatable,dimension(:,:)  ::   node_parm_buff2
+real(kind=r8b) ::   individual_fit_rec
+real(kind=r8b) ::   individual_SSE_rec
+
+
+real(kind=r8b),allocatable,dimension(:)    ::   init_cond_buff
+
+real(kind=r8b),allocatable,dimension(:,:)  ::   node_parm_buff2
 
 integer,allocatable,dimension(:,:)       ::   node_type_buff2
 
-real(kind=8),allocatable,dimension(:)  ::   fit_buffer_send
-real(kind=8),allocatable,dimension(:)  ::   sse_buffer_send
+real(kind=r8b),allocatable,dimension(:)  ::   fit_buffer_send
+real(kind=r8b),allocatable,dimension(:)  ::   sse_buffer_send
 integer,allocatable,dimension(:)       ::   buff_parm_send
 
 

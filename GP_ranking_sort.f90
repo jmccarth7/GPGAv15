@@ -1,6 +1,6 @@
 subroutine GP_ranking_sort
 
-
+use kinds_mod 
 use GP_Parameters_module
 use GA_Parameters_module
 use GP_Variables_module
@@ -10,24 +10,24 @@ use GP_variables_module
 
 implicit none
 
-real(kind=8) :: cff
+real(kind=r8b) :: cff
 
-integer(kind=4),dimension(n_GP_Individuals)  :: Ranked_Fitness_Index
+integer(kind=i4b),dimension(n_GP_Individuals)  :: Ranked_Fitness_Index
 
-integer(kind=4) :: i_GP_Individual
-integer(kind=4) :: j_GP_Individual
+integer(kind=i4b) :: i_GP_Individual
+integer(kind=i4b) :: j_GP_Individual
 
-integer(kind=4) :: icff
-integer(kind=4) :: i_tree
-integer(kind=4) :: i_node
+integer(kind=i4b) :: icff
+integer(kind=i4b) :: i_tree
+integer(kind=i4b) :: i_node
 
-!integer(kind=4) :: i_parm
-integer(kind=4) :: jj
+!integer(kind=i4b) :: i_parm
+integer(kind=i4b) :: jj
 
-real(kind=8), dimension( 1:n_Nodes,1:n_Trees, 1:n_GP_individuals ) :: &
+real(kind=r8b), dimension( 1:n_Nodes,1:n_Trees, 1:n_GP_individuals ) :: &
                          GP_population_node_parameters_temp
 
-real(kind=8), dimension( 1:n_CODE_equations, 1:n_GP_individuals ) :: &
+real(kind=r8b), dimension( 1:n_CODE_equations, 1:n_GP_individuals ) :: &
                          GP_Population_Initial_Conditions_temp
 
 

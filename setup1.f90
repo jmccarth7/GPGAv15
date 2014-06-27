@@ -27,36 +27,36 @@ implicit none
 
 
 
-integer :: i
-!integer :: i_diversity
-integer :: message_len
+integer(kind=i4b) :: i
+!integer(kind=i4b) :: i_diversity
+integer(kind=i4b) :: message_len
 
-integer(kind=4) :: i_GP_individual
-integer(kind=4) :: i_GP_Generation
-integer(kind=4) :: GP_minSSE_Individual
-integer(kind=4) :: GP_minSSE_generation
-integer(kind=4) :: i_Tree
-integer(kind=4) :: i_Node
+integer(kind=i4b) :: i_GP_individual
+integer(kind=i4b) :: i_GP_Generation
+integer(kind=i4b) :: GP_minSSE_Individual
+integer(kind=i4b) :: GP_minSSE_generation
+integer(kind=i4b) :: i_Tree
+integer(kind=i4b) :: i_Node
 
-integer(kind=4) :: jj
-!!integer(kind=4) :: nn
+integer(kind=i4b) :: jj
+!!integer(kind=i4b) :: nn
 
-integer(kind=4) :: i_CODE_equation
-integer(kind=4) :: max_n_gp_params
+integer(kind=i4b) :: i_CODE_equation
+integer(kind=i4b) :: max_n_gp_params
 
-integer(kind=4) :: n_GP_vars
-integer(kind=4) :: nop
+integer(kind=i4b) :: n_GP_vars
+integer(kind=i4b) :: nop
 
-integer(kind=4) :: i_GP_best_parent
-integer(kind=4) :: ierror
-integer(kind=4) :: ierror_t
-integer(kind=4) :: ierror_m
-integer(kind=4) :: ierror_tb
-integer(kind=4) :: i_start_generation
+integer(kind=i4b) :: i_GP_best_parent
+integer(kind=i4b) :: ierror
+integer(kind=i4b) :: ierror_t
+integer(kind=i4b) :: ierror_m
+integer(kind=i4b) :: ierror_tb
+integer(kind=i4b) :: i_start_generation
 
 
-!real(kind=8) :: t1
-!real(kind=8) :: t2
+!real(kind=r8b) :: t1
+!real(kind=r8b) :: t2
 
 character(200) :: tree_descrip
 

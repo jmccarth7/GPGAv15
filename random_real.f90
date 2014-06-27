@@ -5,6 +5,8 @@ subroutine random_real(bff8)
 ! are generated "uniformly over a log10 scale"
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+use kinds_mod
+
 use GP_parameters_module
 
 implicit none

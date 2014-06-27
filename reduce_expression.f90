@@ -1,6 +1,8 @@
 subroutine  reduce_expression( work_string )
 
 
+use kinds_mod
+
 use GP_Parameters_module
 use GP_Variables_module
 use GP_variables_module
@@ -16,13 +18,13 @@ character(6),dimension(3) ::  abs_array
 data abs_array / 'abs(P)', 'abs(u)', 'abs(E)' /
 
 
-integer :: i
-integer :: j
-integer :: j1
-integer :: j2
-integer :: indx
-integer :: ksafe
-integer :: len_work
+integer(kind=i4b) :: i
+integer(kind=i4b) :: j
+integer(kind=i4b) :: j1
+integer(kind=i4b) :: j2
+integer(kind=i4b) :: indx
+integer(kind=i4b) :: ksafe
+integer(kind=i4b) :: len_work
 
 integer,parameter :: ksafe_max = 50
 

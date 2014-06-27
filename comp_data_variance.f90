@@ -7,7 +7,7 @@ subroutine comp_data_variance()
 ! a finding the optimum equation and parameter sets for a system of
 ! coupled ordinary differential equations
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
+use kinds_mod 
 use mpi
 use mpi_module
 
@@ -21,23 +21,23 @@ use GP_variables_module
 
 implicit none
 
-real(kind=8) :: ssum, ssum2, totobs, dff
-real(kind=8) :: totobs_m1
+real(kind=r8b) :: ssum, ssum2, totobs, dff
+real(kind=r8b) :: totobs_m1
 
-integer(kind=4) :: i_CODE_equation
-integer(kind=4) :: i_time_step
-integer(kind=4) :: n_obs       
+integer(kind=i4b) :: i_CODE_equation
+integer(kind=i4b) :: i_time_step
+integer(kind=i4b) :: n_obs       
 
-real(kind=8) :: x_time_step
-real(kind=8) :: x_obs            
+real(kind=r8b) :: x_time_step
+real(kind=r8b) :: x_obs            
 
-!integer(kind=4) :: nn
+!integer(kind=i4b) :: nn
 
-!real(kind=8) :: sum1, sum2, sum3, mean, variance
-!real(kind=8) :: variance2
-!real(kind=8) :: M2, delta
+!real(kind=r8b) :: sum1, sum2, sum3, mean, variance
+!real(kind=r8b) :: variance2
+!real(kind=r8b) :: M2, delta
 
-real(kind=8), dimension(1:n_code_equations )  :: Data_Variance
+real(kind=r8b), dimension(1:n_code_equations )  :: Data_Variance
 
 !----------------------------------------------------------------------------------------
 

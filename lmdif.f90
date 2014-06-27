@@ -38,74 +38,74 @@ subroutine lmdif ( fcn, m, n, x, fvec, ftol, xtol, gtol, maxfev, epsfcn, &
 !    calculates the functions.  The routine should have the form:
 !
 !      subroutine fcn ( m, n, x, fvec, iflag )
-!      integer ( kind = 4 ) m
-!      integer ( kind = 4 ) n
+!      integer(kind=i4b) m
+!      integer(kind=i4b) n
 !
 !      real fvec(m)
-!      integer ( kind = 4 ) iflag
+!      integer(kind=i4b) iflag
 !      real x(n)
 !
 !    The value of IFLAG should not be changed by FCN unless
 !    the user wants to terminate execution of the routine.
 !    In this case set IFLAG to a negative integer.
 !
-!    Input, integer ( kind = 4 ) M, the number of functions.
+!    Input, integer(kind=i4b) M, the number of functions.
 !
-!    Input, integer ( kind = 4 ) N, the number of variables.  N must not exceed M.
+!    Input, integer(kind=i4b) N, the number of variables.  N must not exceed M.
 !
-!    Input/output, real ( kind = 8 ) X(N).  On input, X must contain an initial
+!    Input/output, real(kind=r8b) X(N).  On input, X must contain an initial
 !    estimate of the solution vector.  On output X contains the final
 !    estimate of the solution vector.
 !
-!    Output, real ( kind = 8 ) FVEC(M), the functions evaluated at the output X.
+!    Output, real(kind=r8b) FVEC(M), the functions evaluated at the output X.
 !
-!    Input, real ( kind = 8 ) FTOL.  Termination occurs when both the actual
+!    Input, real(kind=r8b) FTOL.  Termination occurs when both the actual
 !    and predicted relative reductions in the sum of squares are at most FTOL.
 !    Therefore, FTOL measures the relative error desired in the sum of
 !    squares.  FTOL should be nonnegative.
 !
-!    Input, real ( kind = 8 ) XTOL.  Termination occurs when the relative error
+!    Input, real(kind=r8b) XTOL.  Termination occurs when the relative error
 !    between two consecutive iterates is at most XTOL.  Therefore, XTOL
 !    measures the relative error desired in the approximate solution.  XTOL
 !    should be nonnegative.
 !
-!    Input, real ( kind = 8 ) GTOL. termination occurs when the cosine of the
+!    Input, real(kind=r8b) GTOL. termination occurs when the cosine of the
 !    angle between FVEC and any column of the jacobian is at most GTOL in
 !    absolute value.  Therefore, GTOL measures the orthogonality desired
 !    between the function vector and the columns of the jacobian.  GTOL should
 !    be nonnegative.
 !
-!    Input, integer ( kind = 4 ) MAXFEV.  Termination occurs when the number of
+!    Input, integer(kind=i4b) MAXFEV.  Termination occurs when the number of
 !    calls to FCN is at least MAXFEV by the end of an iteration.
 !
-!    Input, real ( kind = 8 ) EPSFCN, is used in determining a suitable step length for
+!    Input, real(kind=r8b) EPSFCN, is used in determining a suitable step length for
 !    the forward-difference approximation.  This approximation assumes that
 !    the relative errors in the functions are of the order of EPSFCN.
 !    If EPSFCN is less than the machine precision, it is assumed that the
 !    relative errors in the functions are of the order of the machine
 !    precision.
 !
-!    Input/output, real ( kind = 8 ) DIAG(N).  If MODE = 1, then DIAG is set
+!    Input/output, real(kind=r8b) DIAG(N).  If MODE = 1, then DIAG is set
 !    internally.  If MODE = 2, then DIAG must contain positive entries that
 !    serve as multiplicative scale factors for the variables.
 !
-!    Input, integer ( kind = 4 ) MODE, scaling option.
+!    Input, integer(kind=i4b) MODE, scaling option.
 !    1, variables will be scaled internally.
 !    2, scaling is specified by the input DIAG vector.
 !
-!    Input, real ( kind = 8 ) FACTOR, determines the initial step bound.  This bound is
+!    Input, real(kind=r8b) FACTOR, determines the initial step bound.  This bound is
 !    set to the product of FACTOR and the euclidean norm of DIAG*X if
 !    nonzero, or else to FACTOR itself.  In most cases, FACTOR should lie
 !    in the interval (0.1, 100) with 100 the recommended value.
 !
-!    Input, integer ( kind = 4 ) NPRINT, enables controlled printing of iterates if it
+!    Input, integer(kind=i4b) NPRINT, enables controlled printing of iterates if it
 !    is positive.  In this case, FCN is called with IFLAG = 0 at the
 !    beginning of the first iteration and every NPRINT iterations thereafter
 !    and immediately prior to return, with X and FVEC available
 !    for printing.  If NPRINT is not positive, no special calls
 !    of FCN with IFLAG = 0 are made.
 !
-!    Output, integer ( kind = 4 ) INFO, error flag.  If the user has terminated
+!    Output, integer(kind=i4b) INFO, error flag.  If the user has terminated
 !    execution, INFO is set to the (negative) value of IFLAG. See the description
 !    of FCN.  Otherwise, INFO is set as follows:
 !    0, improper input parameters.
@@ -123,9 +123,9 @@ subroutine lmdif ( fcn, m, n, x, fvec, ftol, xtol, gtol, maxfev, epsfcn, &
 !    8, GTOL is too small.  FVEC is orthogonal to the columns of the
 !       jacobian to machine precision.
 !
-!    Output, integer ( kind = 4 ) NFEV, the number of calls to FCN.
+!    Output, integer(kind=i4b) NFEV, the number of calls to FCN.
 !
-!    Output, real ( kind = 8 ) FJAC(LDFJAC,N), an M by N array.  The upper
+!    Output, real(kind=r8b) FJAC(LDFJAC,N), an M by N array.  The upper
 !    N by N submatrix of FJAC contains an upper triangular matrix R with
 !    diagonal elements of nonincreasing magnitude such that
 !
@@ -136,70 +136,72 @@ subroutine lmdif ( fcn, m, n, x, fvec, ftol, xtol, gtol, maxfev, epsfcn, &
 !    trapezoidal part of FJAC contains information generated during
 !    the computation of R.
 !
-!    Input, integer ( kind = 4 ) LDFJAC, the leading dimension of the array FJAC.
+!    Input, integer(kind=i4b) LDFJAC, the leading dimension of the array FJAC.
 !    LDFJAC must be at least M.
 !
-!    Output, integer ( kind = 4 ) IPVT(N), defines a permutation matrix P such that
+!    Output, integer(kind=i4b) IPVT(N), defines a permutation matrix P such that
 !    JAC * P = Q * R, where JAC is the final calculated jacobian, Q is
 !    orthogonal (not stored), and R is upper triangular with diagonal
 !    elements of nonincreasing magnitude.  Column J of P is column IPVT(J)
 !    of the identity matrix.
 !
-!    Output, real ( kind = 8 ) QTF(N), the first N elements of Q'*FVEC.
+!    Output, real(kind=r8b) QTF(N), the first N elements of Q'*FVEC.
 !
+use kinds_mod 
+
   implicit none
 
-  !integer(kind=4),intent(in) ::  iunit   ! jjm
+  !integer(kind=i4b),intent(in) ::  iunit   ! jjm
 
-  integer ( kind = 4 ) ldfjac
-  integer ( kind = 4 ) m
-  integer ( kind = 4 ) n
+  integer(kind=i4b) ldfjac
+  integer(kind=i4b) m
+  integer(kind=i4b) n
 
-  real ( kind = 8 ) actred
-  real ( kind = 8 ) delta
-  real ( kind = 8 ) diag(n)
-  real ( kind = 8 ) dirder
-  real ( kind = 8 ) enorm
-  real ( kind = 8 ) epsfcn
-  real ( kind = 8 ) epsmch
-  real ( kind = 8 ) factor
+  real(kind=r8b) actred
+  real(kind=r8b) delta
+  real(kind=r8b) diag(n)
+  real(kind=r8b) dirder
+  real(kind=r8b) enorm
+  real(kind=r8b) epsfcn
+  real(kind=r8b) epsmch
+  real(kind=r8b) factor
   external fcn
-  real ( kind = 8 ) fjac(ldfjac,n)
-  real ( kind = 8 ) fnorm
-  real ( kind = 8 ) fnorm1
-  real ( kind = 8 ) ftol
-  real ( kind = 8 ) fvec(m)
-  real ( kind = 8 ) gnorm
-  real ( kind = 8 ) gtol
-  integer ( kind = 4 ) i
-  integer ( kind = 4 ) iflag
-  integer ( kind = 4 ) iter
-  integer ( kind = 4 ) info
-  integer ( kind = 4 ) ipvt(n)
-  integer ( kind = 4 ) j
-  integer ( kind = 4 ) l
-  integer ( kind = 4 ) maxfev
-  integer ( kind = 4 ) mode
-  integer ( kind = 4 ) nfev
-  integer ( kind = 4 ) nprint
-  real ( kind = 8 ) par
-  real ( kind = 8 ) pnorm
-  real ( kind = 8 ) prered
-  real ( kind = 8 ) qtf(n)
-  real ( kind = 8 ) ratio
-  real ( kind = 8 ) sum2
-  real ( kind = 8 ) temp
-  real ( kind = 8 ) temp1
-  real ( kind = 8 ) temp2
-  real ( kind = 8 ) wa1(n)
-  real ( kind = 8 ) wa2(n)
-  real ( kind = 8 ) wa3(n)
-  real ( kind = 8 ) wa4(m)
+  real(kind=r8b) fjac(ldfjac,n)
+  real(kind=r8b) fnorm
+  real(kind=r8b) fnorm1
+  real(kind=r8b) ftol
+  real(kind=r8b) fvec(m)
+  real(kind=r8b) gnorm
+  real(kind=r8b) gtol
+  integer(kind=i4b) i
+  integer(kind=i4b) iflag
+  integer(kind=i4b) iter
+  integer(kind=i4b) info
+  integer(kind=i4b) ipvt(n)
+  integer(kind=i4b) j
+  integer(kind=i4b) l
+  integer(kind=i4b) maxfev
+  integer(kind=i4b) mode
+  integer(kind=i4b) nfev
+  integer(kind=i4b) nprint
+  real(kind=r8b) par
+  real(kind=r8b) pnorm
+  real(kind=r8b) prered
+  real(kind=r8b) qtf(n)
+  real(kind=r8b) ratio
+  real(kind=r8b) sum2
+  real(kind=r8b) temp
+  real(kind=r8b) temp1
+  real(kind=r8b) temp2
+  real(kind=r8b) wa1(n)
+  real(kind=r8b) wa2(n)
+  real(kind=r8b) wa3(n)
+  real(kind=r8b) wa4(m)
 
-  real ( kind = 8 ) x(n)
+  real(kind=r8b) x(n)
 
-  real ( kind = 8 ) xnorm
-  real ( kind = 8 ) xtol
+  real(kind=r8b) xnorm
+  real(kind=r8b) xtol
 
   epsmch = epsilon ( epsmch )
 

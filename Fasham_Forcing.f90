@@ -5,6 +5,7 @@
 ! Created on June 26, 2013, 1:37 PM
 !
 subroutine JQforce(species, day, aMLD, aJ, L_bad)
+use kinds_mod
 
 use fasham_variables_module
 use GP_variables_module

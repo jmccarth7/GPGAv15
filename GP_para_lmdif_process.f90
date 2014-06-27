@@ -5,7 +5,7 @@ subroutine GP_para_lmdif_process( i_GP_Generation, max_n_gp_params  )
 ! program to use a twin experiment to test the effectiveness of
 ! a finding the optimum parameter set for a coupled set of equations
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
+use kinds_mod 
 use mpi
 use mpi_module
 use clock_module
@@ -19,61 +19,61 @@ use GP_data_module
 
 implicit none
 
-integer :: i_GP_Generation
-integer :: i_GP_individual
-integer(kind=4), intent(in)  :: max_n_gp_params
+integer(kind=i4b) :: i_GP_Generation
+integer(kind=i4b) :: i_GP_individual
+integer(kind=i4b), intent(in)  :: max_n_gp_params
 
-integer :: child_number
+integer(kind=i4b) :: child_number
 
-integer ::  isource
-integer ::  message_len
-integer ::  numsent
-integer ::  sender
-integer ::  nsafe
-integer ::  i_dummy
-integer ::  i_individual
-integer ::  i_2_individual
+integer(kind=i4b) ::  isource
+integer(kind=i4b) ::  message_len
+integer(kind=i4b) ::  numsent
+integer(kind=i4b) ::  sender
+integer(kind=i4b) ::  nsafe
+integer(kind=i4b) ::  i_dummy
+integer(kind=i4b) ::  i_individual
+integer(kind=i4b) ::  i_2_individual
 
 integer,parameter ::  itag  = 1
 integer,parameter ::  itag2 = 2
 integer,parameter ::  itag3 = 3
 
 
-real(kind=8),&
+real(kind=r8b),&
  dimension(max_n_gp_params,n_GP_individuals) ::  child_parameters
 
 
-real(kind=8) :: buffer2(max_n_gp_params+ 2)
-real(kind=8) :: buffer2_recv(max_n_gp_params + 2)
+real(kind=r8b) :: buffer2(max_n_gp_params+ 2)
+real(kind=r8b) :: buffer2_recv(max_n_gp_params + 2)
 
 
-integer(kind=4) :: i
-!integer(kind=4) :: ii
-integer(kind=4) :: jj
+integer(kind=i4b) :: i
+!integer(kind=i4b) :: ii
+integer(kind=i4b) :: jj
 
-!integer(kind=4) :: nparms_i
-integer(kind=4) :: n_parms
-integer(kind=4) :: n_parms_dim
-integer(kind=4) :: nn
-integer(kind=4) :: i_CODE_equation
+!integer(kind=i4b) :: nparms_i
+integer(kind=i4b) :: n_parms
+integer(kind=i4b) :: n_parms_dim
+integer(kind=i4b) :: nn
+integer(kind=i4b) :: i_CODE_equation
 
 
 ! individual_quality contains information on the result of lmdif
 ! if lmdif encounters an error, set individual_quality to -1
 ! if < 0 , reject this individual  ! jjm
 
-integer(kind=4), dimension( n_GP_individuals ) :: individual_quality
+integer(kind=i4b), dimension( n_GP_individuals ) :: individual_quality
 
-real(kind=8), external :: indiv_fitness
+real(kind=r8b), external :: indiv_fitness
 
-integer(kind=4) :: info
+integer(kind=i4b) :: info
 
-integer(kind=4) :: i_Tree
-integer(kind=4) :: i_Node
+integer(kind=i4b) :: i_Tree
+integer(kind=i4b) :: i_Node
 
 logical :: L_GP_print
 
-real(kind=8) ::  temp_SSE
+real(kind=r8b) ::  temp_SSE
 
 !----------------------------------------------------------------------
 

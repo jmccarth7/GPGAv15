@@ -2,6 +2,8 @@ subroutine fcn(mm,nn,x,fvec,iflag)
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 
+use kinds_mod 
+
 use mpi
 use mpi_module
 
@@ -18,34 +20,34 @@ use GP_data_module
 
 implicit none
 
-integer(kind=4),intent(in)  :: mm  ! n_tsteps
-integer(kind=4),intent(in)  :: nn  ! n_parms
+integer(kind=i4b),intent(in)  :: mm  ! n_tsteps
+integer(kind=i4b),intent(in)  :: nn  ! n_parms
 
 
-real(kind=8),dimension(n_time_steps) :: fvec
+real(kind=r8b),dimension(n_time_steps) :: fvec
 
-real(kind=8) :: x_time_step 
-real(kind=8) :: fvec_before 
+real(kind=r8b) :: x_time_step 
+real(kind=r8b) :: fvec_before 
 
-!real(kind=8) :: x(n_maximum_number_parameters)
-real(kind=8) :: x( nn )
+!real(kind=r8b) :: x(n_maximum_number_parameters)
+real(kind=r8b) :: x( nn )
 
-real(kind=8) :: sse_local
+real(kind=r8b) :: sse_local
 
-real(kind=8) :: min_x
-real(kind=8) :: max_x
+real(kind=r8b) :: min_x
+real(kind=r8b) :: max_x
 
-integer(kind=4) :: iflag
+integer(kind=i4b) :: iflag
 
-integer(kind=4) :: i_Tree
-integer(kind=4) :: i_Node
-integer(kind=4) :: ii
-integer(kind=4) :: i
-integer(kind=4) :: tree_node_count
+integer(kind=i4b) :: i_Tree
+integer(kind=i4b) :: i_Node
+integer(kind=i4b) :: ii
+integer(kind=i4b) :: i
+integer(kind=i4b) :: tree_node_count
 
-integer(kind=4) :: i_CODE_equation
-integer(kind=4) :: i_time_step
-integer(kind=4) :: i_parameter
+integer(kind=i4b) :: i_CODE_equation
+integer(kind=i4b) :: i_time_step
+integer(kind=i4b) :: i_parameter
 
 logical,parameter :: L_GP_print = .TRUE.
 

@@ -8,6 +8,8 @@ subroutine print_values2( )  ! answer )
 ! coupled ordinary differential equations
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+use kinds_mod 
+
 use mpi
 use mpi_module
 
@@ -24,8 +26,8 @@ implicit none
 
 
 
-integer :: i
-!!real(kind=8), dimension(n_parameters) :: answer
+integer(kind=i4b) :: i
+!!real(kind=r8b), dimension(n_parameters) :: answer
 
 
 !----------------------------------------------------------------------------------------

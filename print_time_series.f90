@@ -8,6 +8,8 @@ subroutine print_time_series( i_GP_best_parent,  nop )
 ! coupled ordinary differential equations
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+use kinds_mod 
+
 use mpi
 use mpi_module
 
@@ -27,53 +29,53 @@ implicit none
 
 character(1000) :: title_string
 
-integer(kind=4),intent(in) :: i_GP_best_parent
-integer(kind=4),intent(in) :: nop
-integer(kind=4) :: i_tree
-integer(kind=4) :: i_node
-integer(kind=4) :: ii
-integer(kind=4) :: i
-integer(kind=4) :: j
-integer(kind=4) :: jj
+integer(kind=i4b),intent(in) :: i_GP_best_parent
+integer(kind=i4b),intent(in) :: nop
+integer(kind=i4b) :: i_tree
+integer(kind=i4b) :: i_node
+integer(kind=i4b) :: ii
+integer(kind=i4b) :: i
+integer(kind=i4b) :: j
+integer(kind=i4b) :: jj
 
 
 
-real(kind=8) :: x_time_step
+real(kind=r8b) :: x_time_step
 
-real(kind=8) :: xtime
+real(kind=r8b) :: xtime
 
-!real(kind=8), dimension( n_input_data_points, n_code_equations ) :: resid
-real(kind=8), dimension( n_time_steps, n_code_equations ) :: resid
+!real(kind=r8b), dimension( n_input_data_points, n_code_equations ) :: resid
+real(kind=r8b), dimension( n_time_steps, n_code_equations ) :: resid
 
-!real(kind=8), dimension( n_input_data_points ) :: temp_data_array
+!real(kind=r8b), dimension( n_input_data_points ) :: temp_data_array
 
-real(kind=8), dimension( n_time_steps ) :: temp_data_array
+real(kind=r8b), dimension( n_time_steps ) :: temp_data_array
 
-!real(kind=8), intent(in),dimension( nop ) :: output_array
+!real(kind=r8b), intent(in),dimension( nop ) :: output_array
 
 
-real(kind=8),dimension(n_code_equations)  :: RKmean
-real(kind=8),dimension(n_code_equations)  :: RKrms
-real(kind=8),dimension(n_code_equations)  :: RKstddev
-real(kind=8),dimension(n_code_equations)  :: data_mean
-real(kind=8),dimension(n_code_equations)  :: data_rms
-real(kind=8),dimension(n_code_equations)  :: data_stddev
-real(kind=8),dimension(n_code_equations)  :: resid_mean
-real(kind=8),dimension(n_code_equations)  :: resid_rms
-real(kind=8),dimension(n_code_equations)  :: resid_stddev
-real(kind=8),dimension(n_code_equations)  :: RK_min
-real(kind=8),dimension(n_code_equations)  :: data_min
-real(kind=8),dimension(n_code_equations)  :: resid_min
-real(kind=8),dimension(n_code_equations)  :: RK_max
-real(kind=8),dimension(n_code_equations)  :: data_max
-real(kind=8),dimension(n_code_equations)  :: resid_max
-real(kind=8),dimension(n_code_equations)  :: r_corr
-real(kind=8),dimension(n_code_equations)  :: prob_r
-real(kind=8),dimension(n_code_equations)  :: fisher_z
+real(kind=r8b),dimension(n_code_equations)  :: RKmean
+real(kind=r8b),dimension(n_code_equations)  :: RKrms
+real(kind=r8b),dimension(n_code_equations)  :: RKstddev
+real(kind=r8b),dimension(n_code_equations)  :: data_mean
+real(kind=r8b),dimension(n_code_equations)  :: data_rms
+real(kind=r8b),dimension(n_code_equations)  :: data_stddev
+real(kind=r8b),dimension(n_code_equations)  :: resid_mean
+real(kind=r8b),dimension(n_code_equations)  :: resid_rms
+real(kind=r8b),dimension(n_code_equations)  :: resid_stddev
+real(kind=r8b),dimension(n_code_equations)  :: RK_min
+real(kind=r8b),dimension(n_code_equations)  :: data_min
+real(kind=r8b),dimension(n_code_equations)  :: resid_min
+real(kind=r8b),dimension(n_code_equations)  :: RK_max
+real(kind=r8b),dimension(n_code_equations)  :: data_max
+real(kind=r8b),dimension(n_code_equations)  :: resid_max
+real(kind=r8b),dimension(n_code_equations)  :: r_corr
+real(kind=r8b),dimension(n_code_equations)  :: prob_r
+real(kind=r8b),dimension(n_code_equations)  :: fisher_z
 
-real(kind=8) :: resid_SSE
-real(kind=8) :: y_min
-real(kind=8) :: y_max
+real(kind=r8b) :: resid_SSE
+real(kind=r8b) :: y_min
+real(kind=r8b) :: y_max
 integer, parameter :: plot_unit = 177
 
 !------------------------------------------------------------------------------

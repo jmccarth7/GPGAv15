@@ -1,6 +1,8 @@
 subroutine  reduce_constant( work_string )
 
 
+use kinds_mod
+
 use GP_Parameters_module
 use GP_Variables_module
 use GP_variables_module
@@ -21,10 +23,10 @@ data three_char_array / '1.0',  '0.0' /
 
 
 
-integer :: i
-integer :: indx
-integer :: ksafe
-integer :: len_work
+integer(kind=i4b) :: i
+integer(kind=i4b) :: indx
+integer(kind=i4b) :: ksafe
+integer(kind=i4b) :: len_work
 
 integer,parameter :: ksafe_max = 50
 

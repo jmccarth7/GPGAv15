@@ -8,6 +8,9 @@ subroutine deallocate_arrays1( )
 ! coupled ordinary differential equations
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+
+use kinds_mod 
+
 use mpi
 use mpi_module
 

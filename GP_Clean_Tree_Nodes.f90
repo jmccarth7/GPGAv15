@@ -10,7 +10,7 @@ subroutine GP_Clean_Tree_Nodes
 
 ! So the Run_GP_Calculate_Fitness array is not changed
 
-
+use kinds_mod 
 use GP_Parameters_module
 use GA_Parameters_module
 use GP_Variables_module
@@ -18,13 +18,13 @@ use GA_Variables_module
 
 implicit none
 
-integer(kind=4) :: i_GP_individual
-integer(kind=4) :: i_Tree
-integer(kind=4) :: i_level
-integer(kind=4) :: i_function
-integer(kind=4) :: i_Node
-integer(kind=4) :: i_Node_Left
-integer(kind=4) :: i_Node_Right
+integer(kind=i4b) :: i_GP_individual
+integer(kind=i4b) :: i_Tree
+integer(kind=i4b) :: i_level
+integer(kind=i4b) :: i_function
+integer(kind=i4b) :: i_Node
+integer(kind=i4b) :: i_Node_Left
+integer(kind=i4b) :: i_Node_Right
 
 !---------------------------------------------------------------------------
 

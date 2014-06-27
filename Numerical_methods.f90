@@ -1,5 +1,9 @@
-
 subroutine spline ( x, y, n, yp1, ypn, y2 )
+
+
+
+    use kinds_mod 
+
     implicit none
 
     integer (kind=4), intent(in) :: n

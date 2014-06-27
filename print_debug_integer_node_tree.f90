@@ -8,6 +8,8 @@ subroutine print_debug_integer_node_tree( iunit, label, input_array  )
 !  input_array(1:n_Nodes,1:n_Trees, 1:n_GP_individuals )
 
 
+use kinds_mod 
+
 use GP_Parameters_module
 use GA_Parameters_module
 use GP_Variables_module
@@ -21,18 +23,18 @@ implicit none
 character(*) :: label
 
 
-integer(kind=4),intent(in) :: iunit
+integer(kind=i4b),intent(in) :: iunit
 
-integer(kind=4) :: i_GP_Individual
+integer(kind=i4b) :: i_GP_Individual
 
-integer(kind=4) :: i_tree
-integer(kind=4) :: i_node
-
-
-integer(kind=4) :: ierr
+integer(kind=i4b) :: i_tree
+integer(kind=i4b) :: i_node
 
 
-integer(kind=4), dimension( 1:n_Nodes,1:n_Trees, 1:n_GP_individuals ) :: &
+integer(kind=i4b) :: ierr
+
+
+integer(kind=i4b), dimension( 1:n_Nodes,1:n_Trees, 1:n_GP_individuals ) :: &
                          input_array
 
 !--------------------------------------------------------------------------------

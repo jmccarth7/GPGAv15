@@ -1,5 +1,7 @@
 MODULE mpi_MODULE
 
+use kinds_mod 
+
 use mpi
 
 implicit none
@@ -18,11 +20,11 @@ implicit none
 !!!for debug <<<<
 
 
-integer(kind=4)::  myid, total_proc, MPI_err
-integer(kind=4)::  ierr
-integer(kind=4)::  numprocs
-integer(kind=4)::  MPI_stat(MPI_STATUS_SIZE)
-integer(kind=4)::  MPI_COMM_WORKERS,MPI_colors,MPI_keys
+integer(kind=i4b)::  myid, total_proc, MPI_err
+integer(kind=i4b)::  ierr
+integer(kind=i4b)::  numprocs
+integer(kind=i4b)::  MPI_stat(MPI_STATUS_SIZE)
+integer(kind=i4b)::  MPI_COMM_WORKERS,MPI_colors,MPI_keys
 
 
 

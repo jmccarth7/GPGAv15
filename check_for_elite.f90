@@ -1,5 +1,5 @@
 subroutine GA_check_for_elite( index0  )
-
+use kinds_mod 
 use mpi                                                                                                   
 use mpi_module
 
@@ -11,11 +11,11 @@ use GP_Data_module
 
 implicit none
 
-integer(kind=4) :: index0
-integer(kind=4) :: ksafe
+integer(kind=i4b) :: index0
+integer(kind=i4b) :: ksafe
 
 real(kind=4) :: cff
-real(kind=8) :: dff
+real(kind=r8b) :: dff
 
 
 !---------------------------------------------------------------------------

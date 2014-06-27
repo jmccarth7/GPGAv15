@@ -1,5 +1,6 @@
 subroutine init_values( icall  )
 
+use kinds_mod 
 
 use mpi
 use mpi_module

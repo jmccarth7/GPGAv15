@@ -14,7 +14,7 @@ module Fasham_Tree_Interfaces
 
         function GetNonMotileDilution(species) result(n1)
             use class_Tree_Node
-            integer(kind=4), intent(in) :: species
+            integer(kind=i4b), intent(in) :: species
             type(Tree_Node), pointer :: n1
         end function GetNonMotileDilution
 

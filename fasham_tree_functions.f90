@@ -177,7 +177,7 @@ function GetNonMotileDilution(species) result(n1)
     use Tree_Node_Factory_module
     
     implicit none
-    integer(kind=4), intent(in) :: species
+    integer(kind=i4b), intent(in) :: species
     type(Tree_Node), pointer :: n1, n2, n3, n4, n5, n8, n9
 
     !write(6,'(A,1x,I6)') 'in GetNonMotileDilution   species = ', &

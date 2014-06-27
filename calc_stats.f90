@@ -1,28 +1,28 @@
 subroutine calc_stats( n_array, array, mean, rms, std_dev, &
                        dt, sse_min_time, sse_max_time, sse_low_wt  )
-
+use kinds_mod 
 implicit none
 
 integer, intent(in)   :: n_array
-real(kind=8),intent(in), dimension( n_array ) :: array
+real(kind=r8b),intent(in), dimension( n_array ) :: array
 
-real(kind=8) :: mean
-real(kind=8) :: rms
-real(kind=8) :: std_dev
-real(kind=8) :: sum1
-real(kind=8) :: sum2
-real(kind=8) :: arr 
-real(kind=8),intent(in) :: dt
-real(kind=8),intent(in) :: sse_min_time
-real(kind=8),intent(in) :: sse_max_time
-real(kind=8),intent(in) :: sse_low_wt   
+real(kind=r8b) :: mean
+real(kind=r8b) :: rms
+real(kind=r8b) :: std_dev
+real(kind=r8b) :: sum1
+real(kind=r8b) :: sum2
+real(kind=r8b) :: arr 
+real(kind=r8b),intent(in) :: dt
+real(kind=r8b),intent(in) :: sse_min_time
+real(kind=r8b),intent(in) :: sse_max_time
+real(kind=r8b),intent(in) :: sse_low_wt   
 
-integer :: i
-integer :: icount
+integer(kind=i4b) :: i
+integer(kind=i4b) :: icount
 
-real(kind=8) :: xcount
+real(kind=r8b) :: xcount
 
-real(kind=8) :: xi       
+real(kind=r8b) :: xi       
 
 !-------------------------------------------------------------------
 

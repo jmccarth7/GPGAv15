@@ -7,7 +7,7 @@ subroutine GP_Tournament_Style_Sexual_Reproduction( i_error )
 ! modifies    GP_Child_Population_Node_Type
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
+use kinds_mod 
 use mpi
 use mpi_module
 use GP_Parameters_module
@@ -18,25 +18,25 @@ use GA_Variables_module
 implicit none
 
 real(kind=4) :: cff
-real(kind=8) :: sse_ind
+real(kind=r8b) :: sse_ind
 
-integer(kind=4) :: i_GP_Crossover
-integer(kind=4),dimension(2) :: k_GP_Individual_Male
-integer(kind=4),dimension(2) :: k_GP_Individual_Female
+integer(kind=i4b) :: i_GP_Crossover
+integer(kind=i4b),dimension(2) :: k_GP_Individual_Male
+integer(kind=i4b),dimension(2) :: k_GP_Individual_Female
 
 
-integer(kind=4) :: i_Male_Tree
-integer(kind=4) :: i_Female_Tree
-integer(kind=4) :: i_Error
+integer(kind=i4b) :: i_Male_Tree
+integer(kind=i4b) :: i_Female_Tree
+integer(kind=i4b) :: i_Error
 
-integer(kind=4) :: i_GP_individual
-!integer(kind=4) :: i_tree
-!integer(kind=4) :: i_node
+integer(kind=i4b) :: i_GP_individual
+!integer(kind=i4b) :: i_tree
+!integer(kind=i4b) :: i_node
 
-integer(kind=4) :: i_safe
-integer(kind=4) :: i_safe_max
+integer(kind=i4b) :: i_safe
+integer(kind=i4b) :: i_safe_max
 
-!integer(kind=4) :: kk
+!integer(kind=i4b) :: kk
 !character(6) ::  flag
 
 character(1) ::  symbol

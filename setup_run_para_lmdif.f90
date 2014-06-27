@@ -14,6 +14,8 @@ subroutine setup_run_para_lmdif( i_G_indiv,  &
 ! a finding the optimum parameter set for a coupled set of equations
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+use kinds_mod
+
 use mpi
 use mpi_module
 
@@ -34,9 +36,9 @@ integer, intent(in)  ::  n_parms
 integer, intent(in)  ::  n_parms_dim
 integer, intent(in)  ::  i_GP_gen
 
-integer  ::  iunit
+integer(kind=i4b) ::  iunit
 
-real(kind=8)  ::  my_indiv_SSE
+real(kind=r8b)  ::  my_indiv_SSE
 
 logical, intent(in)  ::  L_myprint
 integer, intent(in)  ::  myprint_unit
@@ -44,40 +46,40 @@ integer, intent(in)  ::  max_n_gp_params
 
 ! lmdif arrays and variables
 
-real(kind=8) :: x_LMDIF(n_parms_dim)                        
-!real(kind=8) :: x_LMDIF(n_maximum_number_parameters)
+real(kind=r8b) :: x_LMDIF(n_parms_dim)                        
+!real(kind=r8b) :: x_LMDIF(n_maximum_number_parameters)
 
-real(kind=8) :: fvec(n_time_steps)
-real(kind=8) :: ftol,xtol,gtol
+real(kind=r8b) :: fvec(n_time_steps)
+real(kind=r8b) :: ftol,xtol,gtol
 
 
-real(kind=8), parameter :: epsfcn = 1.0d-9  ! -6  !-15   ! 1.0d-6    ! original
-real(kind=8), parameter :: factor=1.0D+0
-real(kind=8), parameter :: zero = 0.0d0
+real(kind=r8b), parameter :: epsfcn = 1.0d-9  ! -6  !-15   ! 1.0d-6    ! original
+real(kind=r8b), parameter :: factor=1.0D+0
+real(kind=r8b), parameter :: zero = 0.0d0
 
-real(kind=8) :: diag(n_parms_dim)
-real(kind=8) :: fjac( n_time_steps , n_parms_dim )
-real(kind=8) :: qtf(n_parms_dim)
+real(kind=r8b) :: diag(n_parms_dim)
+real(kind=r8b) :: fjac( n_time_steps , n_parms_dim )
+real(kind=r8b) :: qtf(n_parms_dim)
 
-integer(kind=4) :: maxfev, ldfjac, mode, nprint, nfev
-integer(kind=4) :: info
+integer(kind=i4b) :: maxfev, ldfjac, mode, nprint, nfev
+integer(kind=i4b) :: info
 
-integer(kind=4) :: ipvt(n_parms_dim)
+integer(kind=i4b) :: ipvt(n_parms_dim)
 
 
 ! individual_quality contains information on the result of lmdif
 ! if lmdif encounters an error, set individual_quality to -1
 ! if < 0 , reject this individual  ! jjm
 
-integer(kind=4) :: individual_quality
+integer(kind=i4b) :: individual_quality
 
-integer(kind=4) :: i_time_step
-integer(kind=4) :: i_parameter
+integer(kind=i4b) :: i_time_step
+integer(kind=i4b) :: i_parameter
 
-integer(kind=4) :: i_tree
-integer(kind=4) :: i_node
+integer(kind=i4b) :: i_tree
+integer(kind=i4b) :: i_node
 
-real(kind=8) :: child_parameters( n_parms_dim )
+real(kind=r8b) :: child_parameters( n_parms_dim )
 
 external :: fcn
 

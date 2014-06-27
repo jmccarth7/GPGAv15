@@ -14,6 +14,8 @@ subroutine summary_GP_minSSE_indiv( GP_minSSE_generation, GP_minSSE_indiv )
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+use kinds_mod
+
 use mpi
 use mpi_module
 
@@ -29,15 +31,15 @@ implicit none
 
 
 
-integer :: i_code_eq
+integer(kind=i4b) :: i_code_eq
 
 
-integer(kind=4),intent(in)  :: GP_minSSE_generation
-integer(kind=4),intent(in)  :: GP_minSSE_indiv
+integer(kind=i4b),intent(in)  :: GP_minSSE_generation
+integer(kind=i4b),intent(in)  :: GP_minSSE_indiv
 
-integer(kind=4) :: i_Tree
-integer(kind=4) :: i_Node
-!integer(kind=4) :: nparm_temp
+integer(kind=i4b) :: i_Tree
+integer(kind=i4b) :: i_Node
+!integer(kind=i4b) :: nparm_temp
 
 logical :: Lprint
 

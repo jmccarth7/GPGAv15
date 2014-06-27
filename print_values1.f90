@@ -8,6 +8,8 @@ subroutine print_values1( )
 ! coupled ordinary differential equations
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+use kinds_mod 
+
 use mpi
 use mpi_module
 

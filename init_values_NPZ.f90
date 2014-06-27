@@ -27,6 +27,7 @@ subroutine init_values_NPZ( icall  )
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+use kinds_mod 
 
 use mpi
 use mpi_module
@@ -46,22 +47,22 @@ integer, parameter :: izoo   = 3
 
 !     set the model coefficients
 
-real(kind=8), parameter :: phyto_growth_maximum = 2.0d0 ! Ranges between 0.20 < =  = > 3.0 [d-1]
-real(kind=8), parameter :: zoo_grazing_maximum  = 1.5d0 ! Ranges between 0.16 < =  = > 1.5 [d-1]
-real(kind=8), parameter :: grazing_Control      = 1.0d0 ! Ranges between 0.10 < =  = > 2.0 [d-1]
-real(kind=8), parameter :: K_NO3                = 1.0d0 ! [ug-at N l-1]
-real(kind=8), parameter :: phyto_mortality      = 0.1d0 ! [d-1]
-real(kind=8), parameter :: zoo_death_rate       = 0.2d0 ! [d-1]
-real(kind=8), parameter :: assim                = 0.3d0 ! [d-1]
+real(kind=r8b), parameter :: phyto_growth_maximum = 2.0d0 ! Ranges between 0.20 < =  = > 3.0 [d-1]
+real(kind=r8b), parameter :: zoo_grazing_maximum  = 1.5d0 ! Ranges between 0.16 < =  = > 1.5 [d-1]
+real(kind=r8b), parameter :: grazing_Control      = 1.0d0 ! Ranges between 0.10 < =  = > 2.0 [d-1]
+real(kind=r8b), parameter :: K_NO3                = 1.0d0 ! [ug-at N l-1]
+real(kind=r8b), parameter :: phyto_mortality      = 0.1d0 ! [d-1]
+real(kind=r8b), parameter :: zoo_death_rate       = 0.2d0 ! [d-1]
+real(kind=r8b), parameter :: assim                = 0.3d0 ! [d-1]
 
 
 logical Ivlev
 
-integer(kind=4) :: i_Tree
-integer(kind=4) :: i_Node
+integer(kind=i4b) :: i_Tree
+integer(kind=i4b) :: i_Node
 
-real(kind=8) :: increment 
-integer(kind=4) :: i
+real(kind=r8b) :: increment 
+integer(kind=i4b) :: i
 
 !-------------------------------------------------------------------------
 

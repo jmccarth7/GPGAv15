@@ -3,6 +3,8 @@ subroutine print_entire_tree( )
 ! This subroutine prints a node_type array
 
 
+use kinds_mod 
+
 use mpi
 use mpi_module
 use GP_Parameters_module
@@ -12,12 +14,12 @@ use GA_Variables_module
 
 implicit none
 
-integer(kind=4) :: i_Error
+integer(kind=i4b) :: i_Error
 
-integer(kind=4) :: i_Tree
-integer(kind=4) :: i_Node
-integer(kind=4) :: i_level
-integer(kind=4) :: i_function
+integer(kind=i4b) :: i_Tree
+integer(kind=i4b) :: i_Node
+integer(kind=i4b) :: i_level
+integer(kind=i4b) :: i_function
 
 !----------------------------------------------------------------------------------
 

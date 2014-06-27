@@ -27,6 +27,7 @@ subroutine init_values_LV( icall  )
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+use kinds_mod 
 
 use mpi
 use mpi_module
@@ -41,10 +42,10 @@ integer,intent(in)  :: icall
 
 logical :: LV_model1 = .TRUE.
 
-integer(kind=4) :: i_Tree
-integer(kind=4) :: i_Node
-real(kind=8) :: increment
-integer(kind=4) :: i
+integer(kind=i4b) :: i_Tree
+integer(kind=i4b) :: i_Node
+real(kind=r8b) :: increment
+integer(kind=i4b) :: i
 
 !-------------------------------------------------------------------------
 

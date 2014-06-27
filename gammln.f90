@@ -1,9 +1,13 @@
 FUNCTION gammln(xx) 
+
+use kinds_mod 
+
 implicit none
+
 
 REAL(kind=8) ::  gammln,xx 
 INTEGER j 
-real(kind=8) :: ser,stp,tmp,x,y,cof(6) 
+real(kind=r8b) :: ser,stp,tmp,x,y,cof(6) 
 SAVE cof,stp 
 DATA cof,stp/76.18009172947146d0,-86.50532032941677d0,            &
      &24.01409824083091d0,-1.231739572450155d0,.1208650973866179d-2,    &

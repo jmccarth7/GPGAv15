@@ -1,4 +1,6 @@
 SUBROUTINE pearsn(x,y,n,r,prob,z) 
+use kinds_mod 
+
 implicit none
 
 !U    USES betai                                                        

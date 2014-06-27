@@ -1,6 +1,6 @@
 subroutine GA_random_replace(Child_Parameters, individual_quality )
 
-
+use kinds_mod 
 use GP_Parameters_module
 use GA_Parameters_module
 use GP_Variables_module
@@ -9,16 +9,16 @@ use GP_Data_module
 
 implicit none
 
-real(kind=8) :: child_parameters(n_GP_parameters,n_GA_individuals)
-real(kind=8) :: dff
+real(kind=r8b) :: child_parameters(n_GP_parameters,n_GA_individuals)
+real(kind=r8b) :: dff
 
 integer (kind=4) :: i_GA_replace
 integer (kind=4) :: i_GA_Individual_replace, i_Parameter_replace
 
-integer(kind=4) :: individual_quality(n_GA_individuals)
+integer(kind=i4b) :: individual_quality(n_GA_individuals)
 
 integer (kind=4) :: n_replaced
-integer(kind=4) :: i_GA_individual
+integer(kind=i4b) :: i_GA_individual
 
 !---------------------------------------------------------------------
 

@@ -59,53 +59,56 @@ subroutine qrsolv ( n, r, ldr, ipvt, diag, qtb, x, sdiag )
 !
 !  Parameters:
 !
-!    Input, integer ( kind = 4 ) N, the order of R.
+!    Input, integer(kind=i4b) N, the order of R.
 !
-!    Input/output, real ( kind = 8 ) R(LDR,N), the N by N matrix.
+!    Input/output, real(kind=r8b) R(LDR,N), the N by N matrix.
 !    On input the full upper triangle must contain the full upper triangle
 !    of the matrix R.  On output the full upper triangle is unaltered, and
 !    the strict lower triangle contains the strict upper triangle
 !    (transposed) of the upper triangular matrix S.
 !
-!    Input, integer ( kind = 4 ) LDR, the leading dimension of R, which must be
+!    Input, integer(kind=i4b) LDR, the leading dimension of R, which must be
 !    at least N.
 !
-!    Input, integer ( kind = 4 ) IPVT(N), defines the permutation matrix P such that
+!    Input, integer(kind=i4b) IPVT(N), defines the permutation matrix P such that
 !    A*P = Q*R.  Column J of P is column IPVT(J) of the identity matrix.
 !
-!    Input, real ( kind = 8 ) DIAG(N), the diagonal elements of the matrix D.
+!    Input, real(kind=r8b) DIAG(N), the diagonal elements of the matrix D.
 !
-!    Input, real ( kind = 8 ) QTB(N), the first N elements of the vector Q'*B.
+!    Input, real(kind=r8b) QTB(N), the first N elements of the vector Q'*B.
 !
-!    Output, real ( kind = 8 ) X(N), the least squares solution.
+!    Output, real(kind=r8b) X(N), the least squares solution.
 !
-!    Output, real ( kind = 8 ) SDIAG(N), the diagonal elements of the upper
+!    Output, real(kind=r8b) SDIAG(N), the diagonal elements of the upper
 !    triangular matrix S.
 !
+
+use kinds_mod 
+
   implicit none
 
-  integer ( kind = 4 ) ldr
-  integer ( kind = 4 ) n
+  integer(kind=i4b) ldr
+  integer(kind=i4b) n
 
-  real ( kind = 8 ) c
-  real ( kind = 8 ) cotan
-  real ( kind = 8 ) diag(n)
-  integer ( kind = 4 ) i
-  integer ( kind = 4 ) ipvt(n)
-  integer ( kind = 4 ) j
-  integer ( kind = 4 ) k
-  integer ( kind = 4 ) l
-  integer ( kind = 4 ) nsing
-  real ( kind = 8 ) qtb(n)
-  real ( kind = 8 ) qtbpj
-  real ( kind = 8 ) r(ldr,n)
-  real ( kind = 8 ) s
-  real ( kind = 8 ) sdiag(n)
-  real ( kind = 8 ) sum2
-  real ( kind = 8 ) t
-  real ( kind = 8 ) temp
-  real ( kind = 8 ) wa(n)
-  real ( kind = 8 ) x(n)
+  real(kind=r8b) c
+  real(kind=r8b) cotan
+  real(kind=r8b) diag(n)
+  integer(kind=i4b) i
+  integer(kind=i4b) ipvt(n)
+  integer(kind=i4b) j
+  integer(kind=i4b) k
+  integer(kind=i4b) l
+  integer(kind=i4b) nsing
+  real(kind=r8b) qtb(n)
+  real(kind=r8b) qtbpj
+  real(kind=r8b) r(ldr,n)
+  real(kind=r8b) s
+  real(kind=r8b) sdiag(n)
+  real(kind=r8b) sum2
+  real(kind=r8b) t
+  real(kind=r8b) temp
+  real(kind=r8b) wa(n)
+  real(kind=r8b) x(n)
 !
 !  Copy R and Q'*B to preserve input and initialize S.
 !

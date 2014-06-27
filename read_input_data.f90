@@ -1,6 +1,8 @@
 subroutine read_input_data( )
 
 
+use kinds_mod
+
 use mpi
 use mpi_module
 
@@ -15,20 +17,20 @@ use GP_Data_module
 IMPLICIT NONE
 
 
-integer(kind=4) :: istat
+integer(kind=i4b) :: istat
 
-!integer(kind=4), parameter :: data_unitnum  = 501
-integer(kind=4), parameter :: line_length   = 250
+!integer(kind=i4b), parameter :: data_unitnum  = 501
+integer(kind=i4b), parameter :: line_length   = 250
 
 !CHARACTER(line_length) :: Aline
 
 
-integer(kind=4) ::  ncount               
-integer(kind=4) ::  i                    
-integer(kind=4) ::  j                    
+integer(kind=i4b) ::  ncount               
+integer(kind=i4b) ::  i                    
+integer(kind=i4b) ::  j                    
 
 
-real(kind=8), allocatable, dimension(:) ::  temp_array
+real(kind=r8b), allocatable, dimension(:) ::  temp_array
 
 
 !----------------------------------------------------------------------

@@ -3,15 +3,17 @@ subroutine print4( it, icff, &
                    right_node_value, right_node_value_string, &
                    i_tree, i_function, tree_evaluation )
 
+use kinds_mod 
+
 use GA_parameters_module
 use GP_parameters_module
 
 implicit none
 
-real(kind=8) ::  tree_evaluation(n_nodes,n_trees)
+real(kind=r8b) ::  tree_evaluation(n_nodes,n_trees)
 
-real(kind=8) ::  left_node_value
-real(kind=8) ::  right_node_value
+real(kind=r8b) ::  left_node_value
+real(kind=r8b) ::  right_node_value
 
 character(str_len) ::  left_node_value_string
 character(str_len) ::  right_node_value_string
@@ -20,8 +22,8 @@ integer icff
 
 integer it
 
-integer(kind=4) :: i_Tree
-integer(kind=4) :: i_function
+integer(kind=i4b) :: i_Tree
+integer(kind=i4b) :: i_function
 
 !------------------------------------------------------------------------
 

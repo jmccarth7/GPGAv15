@@ -42,59 +42,62 @@ subroutine qrfac ( m, n, a, lda, pivot, ipvt, lipvt, rdiag, acnorm )
 !
 !  Parameters:
 !
-!    Input, integer ( kind = 4 ) M, the number of rows of A.
+!    Input, integer(kind=i4b) M, the number of rows of A.
 !
-!    Input, integer ( kind = 4 ) N, the number of columns of A.
+!    Input, integer(kind=i4b) N, the number of columns of A.
 !
-!    Input/output, real ( kind = 8 ) A(LDA,N), the M by N array.
+!    Input/output, real(kind=r8b) A(LDA,N), the M by N array.
 !    On input, A contains the matrix for which the QR factorization is to
 !    be computed.  On output, the strict upper trapezoidal part of A contains
 !    the strict upper trapezoidal part of R, and the lower trapezoidal
 !    part of A contains a factored form of Q (the non-trivial elements of
 !    the U vectors described above).
 !
-!    Input, integer ( kind = 4 ) LDA, the leading dimension of A, which must
+!    Input, integer(kind=i4b) LDA, the leading dimension of A, which must
 !    be no less than M.
 !
 !    Input, logical PIVOT, is TRUE if column pivoting is to be carried out.
 !
-!    Output, integer ( kind = 4 ) IPVT(LIPVT), defines the permutation matrix P such
+!    Output, integer(kind=i4b) IPVT(LIPVT), defines the permutation matrix P such
 !    that A*P = Q*R.  Column J of P is column IPVT(J) of the identity matrix.
 !    If PIVOT is false, IPVT is not referenced.
 !
-!    Input, integer ( kind = 4 ) LIPVT, the dimension of IPVT, which should be N if
+!    Input, integer(kind=i4b) LIPVT, the dimension of IPVT, which should be N if
 !    pivoting is used.
 !
-!    Output, real ( kind = 8 ) RDIAG(N), contains the diagonal elements of R.
+!    Output, real(kind=r8b) RDIAG(N), contains the diagonal elements of R.
 !
-!    Output, real ( kind = 8 ) ACNORM(N), the norms of the corresponding
+!    Output, real(kind=r8b) ACNORM(N), the norms of the corresponding
 !    columns of the input matrix A.  If this information is not needed,
 !    then ACNORM can coincide with RDIAG.
 !
+
+use kinds_mod 
+
   implicit none
 
-  integer ( kind = 4 ) lda
-  integer ( kind = 4 ) lipvt
-  integer ( kind = 4 ) m
-  integer ( kind = 4 ) n
+  integer(kind=i4b) lda
+  integer(kind=i4b) lipvt
+  integer(kind=i4b) m
+  integer(kind=i4b) n
 
-  real ( kind = 8 ) a(lda,n)
-  real ( kind = 8 ) acnorm(n)
-  real ( kind = 8 ) ajnorm
-  real ( kind = 8 ) enorm
-  real ( kind = 8 ) epsmch
-  integer ( kind = 4 ) i
-  integer ( kind = 4 ) i4_temp
-  integer ( kind = 4 ) ipvt(lipvt)
-  integer ( kind = 4 ) j
-  integer ( kind = 4 ) k
-  integer ( kind = 4 ) kmax
-  integer ( kind = 4 ) minmn
+  real(kind=r8b) a(lda,n)
+  real(kind=r8b) acnorm(n)
+  real(kind=r8b) ajnorm
+  real(kind=r8b) enorm
+  real(kind=r8b) epsmch
+  integer(kind=i4b) i
+  integer(kind=i4b) i4_temp
+  integer(kind=i4b) ipvt(lipvt)
+  integer(kind=i4b) j
+  integer(kind=i4b) k
+  integer(kind=i4b) kmax
+  integer(kind=i4b) minmn
   logical pivot
-  real ( kind = 8 ) r8_temp(m)
-  real ( kind = 8 ) rdiag(n)
-  real ( kind = 8 ) temp
-  real ( kind = 8 ) wa(n)
+  real(kind=r8b) r8_temp(m)
+  real(kind=r8b) rdiag(n)
+  real(kind=r8b) temp
+  real(kind=r8b) wa(n)
 
   epsmch = epsilon ( epsmch )
 !

@@ -2,18 +2,19 @@ module class_Tree_Node
 
     use Math_Node_Functions
 
+    use kinds_mod 
     implicit none
 
     type, public :: Tree_Node
-        integer(kind=4) :: node_type
-        integer(kind=4) :: node_count
+        integer(kind=i4b) :: node_type
+        integer(kind=i4b) :: node_count
         type(Tree_Node), pointer :: parent => null()
         type(Tree_Node), pointer :: left   => null()
         type(Tree_Node), pointer :: right  => null()
-        integer(kind=4) :: operation
-        integer(kind=4):: variable_index
-        real(kind=8), pointer :: variable
-        real(kind=8) :: param
+        integer(kind=i4b) :: operation
+        integer(kind=i4b):: variable_index
+        real(kind=r8b), pointer :: variable
+        real(kind=r8b) :: param
         procedure(Tree_Node_Val), pointer :: val
         procedure(Tree_Node_Delete), pointer :: delete
         procedure(Tree_Node_Accept_Visitor), pointer :: accept
@@ -65,6 +66,7 @@ contains
     !---------------------------------------------------------------------
 
     function Tree_Node_Val(this) result(v)
+        use kinds_mod
         class(Tree_Node), intent(in) :: this
         real (kind=8) :: v
         v = 0.D+0
@@ -72,8 +74,7 @@ contains
 
 
     function Tree_Math_Node_Val(this) result(v)
-
-
+        use kinds_mod
         class(Tree_Node), intent(in) :: this
         real (kind=8) :: v
 
@@ -87,6 +88,7 @@ contains
 
 
     function Tree_Parameter_Node_Val(this) result(v)
+        use kinds_mod
         class(Tree_Node), intent(in) :: this
         real (kind=8) :: v
 
@@ -98,9 +100,10 @@ contains
 
 
     function Tree_Variable_Node_Val(this) result(v)
+        use kinds_mod
         class(Tree_Node), intent(in) :: this
         real (kind=8) :: v
-        integer(kind=4) :: v_index
+        integer(kind=i4b) :: v_index
 
         v = this%variable
 
@@ -154,6 +157,7 @@ contains
     !---------------------------------------------------------------------
 
     subroutine Tree_Node_Get_Pointers(this, pointers, pointer_count, index)
+        use kinds_mod
        !class(Tree_Node), intent(inout)        :: this   ! orig 
         class(Tree_Node), intent(inout),target :: this   ! jjm
         integer (kind=4), intent(in) :: pointer_count
@@ -171,6 +175,7 @@ contains
 
 
     subroutine Tree_Math_Node_Get_Pointers(this, pointers, pointer_count, index)
+        use kinds_mod
        !class(Tree_Node), intent(inout)        :: this  ! orig 
         class(Tree_Node), intent(inout),target :: this  ! jjm
         integer (kind=4), intent(in) :: pointer_count
@@ -207,6 +212,7 @@ contains
     end subroutine Tree_Math_Node_Randomize
 
     subroutine Tree_Parameter_Node_Randomize(this)
+        use kinds_mod
         class(Tree_Node), intent(inout) :: this
         real (kind=8) :: rrnd
 
@@ -215,6 +221,7 @@ contains
     end subroutine Tree_Parameter_Node_Randomize
 
     subroutine Tree_Variable_Node_Randomize(this)
+        use kinds_mod
         class(Tree_Node), intent(inout) :: this
         real (kind=8) :: rrnd
 
@@ -231,6 +238,7 @@ contains
     !---------------------------------------------------------------------
 
     subroutine Tree_Node_Swap(this, node)
+        use kinds_mod
         !orig class(Tree_Node), intent(inout) :: this, node
         class(Tree_Node), intent(inout),target :: this, node   ! jjm
         type(Tree_Node), pointer :: tmp

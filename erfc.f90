@@ -1,4 +1,7 @@
 FUNCTION erfc1(x) 
+
+use kinds_mod 
+
 implicit none
 
 !U    USES gammp,gammq                                                  

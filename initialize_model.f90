@@ -1,5 +1,6 @@
 subroutine Initialize_Model( buildTrees, L_myprint, myprint_unit )
 
+use kinds_mod 
 
 use mpi
 use mpi_module
@@ -15,7 +16,7 @@ implicit none
 
 logical :: buildTrees
 
-integer :: i
+integer(kind=i4b) :: i
 
 logical, intent(in)  ::  L_myprint
 integer, intent(in)  ::  myprint_unit

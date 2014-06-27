@@ -1,6 +1,6 @@
 subroutine bcast1()
 
-
+use kinds_mod 
 use mpi
 use mpi_module
 
@@ -14,8 +14,8 @@ use GP_variables_module
 
 implicit none
 
-integer :: array_len
-!integer :: i
+integer(kind=i4b) :: array_len
+!integer(kind=i4b) :: i
 
 !----------------------------------------------------------------------------------------
 

@@ -7,7 +7,7 @@ subroutine GPCODE_GA_lmdif_Parameter_Optimization( &
 ! program to use a twin experiment to test the effectiveness of
 ! a finding the optimum parameter set for a coupled set of equations
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
+use kinds_mod 
 use mpi
 use mpi_module
 use clock_module
@@ -21,21 +21,21 @@ use GP_data_module
 
 implicit none
 
-integer(kind=4),intent(in) :: i_GP_Generation
-integer(kind=4),intent(in) :: i_GP_individual
-integer(kind=4),intent(in) :: new_group
-integer(kind=4),intent(in) :: new_comm 
+integer(kind=i4b),intent(in) :: i_GP_Generation
+integer(kind=i4b),intent(in) :: i_GP_individual
+integer(kind=i4b),intent(in) :: new_group
+integer(kind=i4b),intent(in) :: new_comm 
 
-integer :: child_number
+integer(kind=i4b) :: child_number
 
-integer ::  isource
-integer ::  message_len
-integer ::  numsent
-integer ::  sender
-integer ::  nsafe
-integer ::  i_dummy
-integer ::  i_individual
-integer ::  i_2_individual
+integer(kind=i4b) ::  isource
+integer(kind=i4b) ::  message_len
+integer(kind=i4b) ::  numsent
+integer(kind=i4b) ::  sender
+integer(kind=i4b) ::  nsafe
+integer(kind=i4b) ::  i_dummy
+integer(kind=i4b) ::  i_individual
+integer(kind=i4b) ::  i_2_individual
 
 integer,parameter ::  itag  = 1
 integer,parameter ::  itag2 = 2
@@ -43,50 +43,50 @@ integer,parameter ::  itag3 = 3
 
 integer,parameter ::  itag4 = 50000
 
-integer ::  itag7
+integer(kind=i4b) ::  itag7
 
 
 !  divider is the number of cpus in the current partition
 
-real(kind=8),&
+real(kind=r8b),&
   dimension(n_GP_parameters,n_GA_individuals) ::  parent_parameters
 
-real(kind=8),&
+real(kind=r8b),&
   dimension(n_GP_parameters,n_GA_individuals) ::  child_parameters
 
 
-real(kind=8), dimension(n_GP_parameters + 2)  :: buffer
-real(kind=8), dimension(n_GP_parameters + 2)  :: buffer_recv
+real(kind=r8b), dimension(n_GP_parameters + 2)  :: buffer
+real(kind=r8b), dimension(n_GP_parameters + 2)  :: buffer_recv
 
 
-integer(kind=4) ::      i
-integer(kind=4) :: i_GA_Best_Parent
+integer(kind=i4b) ::      i
+integer(kind=i4b) :: i_GA_Best_Parent
 
-integer(kind=4) :: i_GA_generation_last
+integer(kind=i4b) :: i_GA_generation_last
 
 
-real(kind=8),parameter :: zero = 0.0d0
+real(kind=r8b),parameter :: zero = 0.0d0
 
 
 ! individual_quality contains information on the result of lmdif
 ! if lmdif encounters an error, set individual_quality to -1
 ! if < 0 , reject this individual  ! jjm
 
-integer(kind=4) :: individual_quality(n_GA_individuals)
+integer(kind=i4b) :: individual_quality(n_GA_individuals)
 
-real(kind=8), external :: indiv_fitness
+real(kind=r8b), external :: indiv_fitness
 
 logical :: L_stop_run
 
 logical :: L_too_many_iters
 
 
-integer(kind=4) :: jj
-integer(kind=4) :: i_ga_ind
-integer(kind=4) :: i_code_equation
+integer(kind=i4b) :: jj
+integer(kind=i4b) :: i_ga_ind
+integer(kind=i4b) :: i_code_equation
 
 
-integer(kind=4) :: n_procs   
+integer(kind=i4b) :: n_procs   
 !----------------------------------------------------------------------
 
 !write(6,'(A,1x,I5,4x,L1)') 'GP_GA_opt: myid, L_GA_print   ', myid, L_GA_print

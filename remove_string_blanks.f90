@@ -1,5 +1,7 @@
 subroutine remove_string_blanks( in_string, work_string )
 
+use kinds_mod
+
 use GP_Parameters_module
 
 implicit none
@@ -8,8 +10,8 @@ character(*), intent(in) :: in_string
 character(str_len) :: temp_string
 character(str_len) :: work_string
 
-integer :: len_in_string
-integer :: i
+integer(kind=i4b) :: len_in_string
+integer(kind=i4b) :: i
 
 !-------------------------------------------------------------------------
 

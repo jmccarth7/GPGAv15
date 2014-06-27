@@ -6,7 +6,7 @@ subroutine GP_select_best_RK_lmdif_result( &
 ! program to use a twin experiment to test the effectiveness of
 ! a finding the optimum parameter set for a coupled set of equations
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
+use kinds_mod 
 use mpi
 use mpi_module
 use clock_module
@@ -21,62 +21,62 @@ use GP_data_module
 implicit none
 
 
-real(kind=8),&
+real(kind=r8b),&
  dimension(nop,n_GP_individuals) ::  parent_parameters
-real(kind=8),&
+real(kind=r8b),&
  dimension(nop,n_GP_individuals) ::  child_parameters
 
-real(kind=8) :: GP_individual_fitness
-real(kind=8) :: GP_individual_SSE_best_parent
+real(kind=r8b) :: GP_individual_fitness
+real(kind=r8b) :: GP_individual_SSE_best_parent
 
-real(kind=8) :: GP_individual_SSE_best_1
-real(kind=8) :: GP_individual_ranked_fitness_best_1
-real(kind=8) :: GP_Individual_Fitness_best_1
+real(kind=r8b) :: GP_individual_SSE_best_1
+real(kind=r8b) :: GP_individual_ranked_fitness_best_1
+real(kind=r8b) :: GP_Individual_Fitness_best_1
 
-real(kind=8),dimension(nop) :: parent_parameters_best_1
+real(kind=r8b),dimension(nop) :: parent_parameters_best_1
 
-!real(kind=8), dimension(nop),intent(in) :: output_array
+!real(kind=r8b), dimension(nop),intent(in) :: output_array
 
 
 
-integer(kind=4) :: nop
-integer(kind=4) :: i
-integer(kind=4) :: i_GP_best_Parent
-integer(kind=4) :: i_GP_best_Parent_1
+integer(kind=i4b) :: nop
+integer(kind=i4b) :: i
+integer(kind=i4b) :: i_GP_best_Parent
+integer(kind=i4b) :: i_GP_best_Parent_1
 
-!integer(kind=4) :: i_GP_generation_last
+!integer(kind=i4b) :: i_GP_generation_last
 
-real(kind=8), parameter :: tol = 1.0d-30
+real(kind=r8b), parameter :: tol = 1.0d-30
 
-real(kind=8),parameter :: zero = 0.0d0
+real(kind=r8b),parameter :: zero = 0.0d0
 
 
 ! individual_quality contains information on the result of lmdif
 ! if lmdif encounters an error, set individual_quality to -1
 ! if < 0 , reject this individual  ! jjm
 
-integer(kind=4) :: individual_quality(n_GP_individuals)
+integer(kind=i4b) :: individual_quality(n_GP_individuals)
 
-real(kind=8), external :: indiv_fitness
+real(kind=r8b), external :: indiv_fitness
 
 !logical :: L_stop_run
 
 
-integer(kind=4) :: i_Tree
-integer(kind=4) :: i_Node
+integer(kind=i4b) :: i_Tree
+integer(kind=i4b) :: i_Node
 
-integer(kind=4) :: ii
-integer(kind=4) :: jj
-integer(kind=4) :: i_parameter
+integer(kind=i4b) :: ii
+integer(kind=i4b) :: jj
+integer(kind=i4b) :: i_parameter
 
-integer(kind=4) :: i_GP_Generation
+integer(kind=i4b) :: i_GP_Generation
 
-!integer(kind=4) :: i_GP_individual
+!integer(kind=i4b) :: i_GP_individual
 
-!real(kind=8) :: t3
-!real(kind=8) :: t4
+!real(kind=r8b) :: t3
+!real(kind=r8b) :: t4
 
-real(kind=8) :: before_SSE
+real(kind=r8b) :: before_SSE
 
 logical :: L_GP_print
 

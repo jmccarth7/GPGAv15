@@ -1,5 +1,5 @@
 module Tree_Helper_module
-
+use kinds_mod 
 use class_Tree_Node
 
 
@@ -10,7 +10,7 @@ contains
 recursive function GetNodeCount(node) result(count)
 
 implicit none
-integer(kind=4) :: count
+integer(kind=i4b) :: count
 
 type(Tree_Node), pointer :: node
 
@@ -36,7 +36,7 @@ end function
 function GetMaxHeight(Trees, Tree_count)  result(maxHeight)
 
 implicit none
-integer(kind=4) :: Tree_count, currentHeight, maxHeight, i
+integer(kind=i4b) :: Tree_count, currentHeight, maxHeight, i
 type(Tree_Node_Pointer), dimension(Tree_count), intent(in) :: Trees ! The array of trees
 
 !--------------------------------------------
@@ -61,7 +61,7 @@ recursive function GetTreeHeight(node) result(height)
 
 implicit none
 type(Tree_Node), pointer :: node
-integer(kind=4) :: height
+integer(kind=i4b) :: height
 
 !--------------------------------------------
 

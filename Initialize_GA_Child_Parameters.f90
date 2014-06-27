@@ -1,6 +1,6 @@
 subroutine Initialize_GA_Child_Parameters(Child_Parameters)
 
-
+use kinds_mod 
 use mpi
 use mpi_module
 
@@ -15,18 +15,18 @@ use fasham_variables_module
 implicit none
 
 
-real(kind=8) :: Child_Parameters(n_GP_parameters,n_GA_Individuals)
+real(kind=r8b) :: Child_Parameters(n_GP_parameters,n_GA_Individuals)
 real(kind=4) :: cff
-real(kind=8) :: dff
+real(kind=r8b) :: dff
 
-integer(kind=4) :: i_parameter
-integer(kind=4) :: jj
-integer(kind=4) :: i_GA_individual
+integer(kind=i4b) :: i_parameter
+integer(kind=i4b) :: jj
+integer(kind=i4b) :: i_GA_individual
 
-integer(kind=4) :: inode
-integer(kind=4) :: itree
-integer(kind=4) :: nparm
-integer(kind=4) :: ii    
+integer(kind=i4b) :: inode
+integer(kind=i4b) :: itree
+integer(kind=i4b) :: nparm
+integer(kind=i4b) :: ii    
 
 !----------------------------------------------------------------------------
 

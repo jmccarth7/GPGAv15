@@ -64,36 +64,39 @@
 !     UPDATED         --NOVEMBER  1975.                                 
 !                                                                       
 !---------------------------------------------------------------------  
+
+use kinds_mod 
+
 implicit none
 
 integer, intent(in) :: n
 integer, intent(in) :: iwrite
 
-real(kind=8),intent(in)    ::  dt
-real(kind=8),intent(in)    ::  sse_min_time
-real(kind=8),intent(in)    ::  sse_max_time
-real(kind=8),intent(in)    ::  sse_low_wt
+real(kind=r8b),intent(in)    ::  dt
+real(kind=r8b),intent(in)    ::  sse_min_time
+real(kind=r8b),intent(in)    ::  sse_max_time
+real(kind=r8b),intent(in)    ::  sse_low_wt
 
-real(kind=8)  ::  xi  
-real(kind=8)  ::  sse_wt
+real(kind=r8b)  ::  xi  
+real(kind=r8b)  ::  sse_wt
 
 
-real(kind=8), dimension(n) ::     X
-real(kind=8), dimension(n) ::     Y
+real(kind=r8b), dimension(n) ::     X
+real(kind=r8b), dimension(n) ::     Y
 
-real(kind=8)               ::     C
+real(kind=r8b)               ::     C
 
-real(kind=8)  :: AN 
-real(kind=8)  ::  HOLD
-real(kind=8)  ::  XBAR
-real(kind=8)  ::  YBAR
+real(kind=r8b)  :: AN 
+real(kind=r8b)  ::  HOLD
+real(kind=r8b)  ::  XBAR
+real(kind=r8b)  ::  YBAR
 !                                                                       
-real(kind=8)  ::  SUM1
-real(kind=8)  ::  SUM2
-real(kind=8)  ::  SUM3
-integer :: ipr    
-integer :: IFLAG
-integer :: I
+real(kind=r8b)  ::  SUM1
+real(kind=r8b)  ::  SUM2
+real(kind=r8b)  ::  SUM3
+integer(kind=i4b) :: ipr    
+integer(kind=i4b) :: IFLAG
+integer(kind=i4b) :: I
 
 !---------------------------------------------------------------------  
 
