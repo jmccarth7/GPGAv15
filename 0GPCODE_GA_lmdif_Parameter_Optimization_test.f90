@@ -159,6 +159,7 @@ if( myid == 0 )then
     '  Last modified on:', trim( modification_date )
     !------------------------------------------------------
 
+    write(6,'(A)')'0: set GP_rank and GP_Fit* to original versions' 
 
     ! read the control input from file  "GPCODE_cntl"
 
