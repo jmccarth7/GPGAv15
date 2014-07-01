@@ -161,6 +161,7 @@ if( myid == 0 )then
     '  Last modified on:', trim( modification_date )
     !------------------------------------------------------
 
+    write(6,'(A)')'0: set GP_rank and GP_Fit* to original versions' 
 
     ! read the control input from file  "GPCODE_cntl"
 
@@ -1425,16 +1426,17 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
     !---------------------------------------------------------------
 
-    ! call GP_para_lmdif_process only after the 2nd generation
+    ! call GP_para_lmdif_process only for the last 20  generations
     ! calling lmdif for really bad sets of parameters does not
-    ! work well, so allow 2 generations to (hopefully) refine the
+    ! work well, so allow lots of generations to (hopefully) refine the
     ! parameter values
 
     !if( i_GP_generation > n_GP_generations / 2 )then
     !    call GP_para_lmdif_process( i_GP_generation, max_n_gp_params  )
     !endif !  i_GP_generation > n_GP_generations / 2
 
-    if( i_GP_generation > min( 20, n_GP_generations / 2 )    )then
+    !if( i_GP_generation > min( 20, n_GP_generations / 2 )    )then
+    if( i_GP_generation > n_GP_generations - 20 )then
 
         if( myid == 0 )then
             write(GP_print_unit,'(A,2(1x,I6))') &
@@ -1444,7 +1446,8 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
         call GP_para_lmdif_process( i_GP_generation, max_n_gp_params  )
 
-    endif !  i_GP_generation > n_GP_generations / 2
+    endif !  i_GP_generation > n_GP_generations - 20 
+    !endif !  i_GP_generation > n_GP_generations / 2
 
     !---------------------------------------------------------------
 
