@@ -97,6 +97,7 @@ integer,allocatable,dimension(:)       ::   buff_parm_send
 !endif !  myid == 1
 
 if( .not. allocated( fit_buffer_send ) )then
+
     allocate( fit_buffer_send( n_GP_individuals / n_partitions + 1 ) )
     allocated_memory = allocated_memory + &
                        real( (n_GP_Individuals / n_partitions + 1 ) * 8, kind=8 )
@@ -990,27 +991,25 @@ call MPI_BCAST( GP_Individual_N_GP_param, message_len,    &
 !endif !  myid == 0
 
 
-!if( myid /= 0 )then
 
-    if( allocated( fit_buffer_send ) )then 
-        deallocate( fit_buffer_send )
-        allocated_memory = allocated_memory - &
-                           real( ( n_GP_Individuals / n_partitions + 1 )  * 8, kind=8 )
-    endif ! allocated( fit_buffer_send ) 
+if( allocated( fit_buffer_send ) )then 
+    deallocate( fit_buffer_send )
+    allocated_memory = allocated_memory - &
+                       real( ( n_GP_Individuals / n_partitions + 1 )  * 8, kind=8 )
+endif ! allocated( fit_buffer_send ) 
 
-    if( allocated( sse_buffer_send ) )then 
-        deallocate( sse_buffer_send )
-        allocated_memory = allocated_memory - &
-                           real( ( n_GP_Individuals / n_partitions  + 1 ) * 8, kind=8 )
-    endif ! allocated( sse_buffer_send )
+if( allocated( sse_buffer_send ) )then 
+    deallocate( sse_buffer_send )
+    allocated_memory = allocated_memory - &
+                       real( ( n_GP_Individuals / n_partitions  + 1 ) * 8, kind=8 )
+endif ! allocated( sse_buffer_send )
+
+if( allocated( buff_parm_send ) )then 
+    deallocate( buff_parm_send  )
+    allocated_memory = allocated_memory - &
+                       real( ( n_GP_Individuals / n_partitions + 1 )  * 4, kind=8 )
+endif ! allocated( buff_parm_send ) 
     
-    if( allocated( buff_parm_send ) )then 
-        deallocate( buff_parm_send  )
-        allocated_memory = allocated_memory - &
-                           real( ( n_GP_Individuals / n_partitions + 1 )  * 4, kind=8 )
-    endif ! allocated( buff_parm_send ) 
-    
-!endif ! myid /= 0 
 
 if( allocated( init_cond_buff ) )then 
     deallocate( init_cond_buff  )
