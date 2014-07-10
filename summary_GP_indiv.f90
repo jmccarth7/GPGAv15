@@ -59,6 +59,14 @@ logical :: Lprint
 
 
 !--------------------------------------------------------------------------------
+                                                                                                                
+!if( icall == 0 .and. L_GP_all_summary  )then                                                                                
+!    open( GP_summary_output_unit, file='GP_ALL_summary_file', &                                            
+!          form = 'formatted', access = 'sequential', &                                                     
+!          status = 'unknown' )                                                                             
+!endif ! icall == 0 .and. L_GP_all_summary                                                                                   
+                                                                                                                
+
 
 open( GP_best_summary_output_unit, file='GP_summary_file', &                                        
       form = 'formatted', access = 'sequential', &                                                  
@@ -328,6 +336,10 @@ endif ! icall == 0
 !---------------------------------------------------------------------------------
 
 close( GP_best_summary_output_unit )  
+
+!if( L_GP_all_summary )then                                                                                  
+!    close( GP_summary_output_unit )                                                                         
+!endif ! L_GP_all_summary            
 
 return
 

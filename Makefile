@@ -36,6 +36,7 @@ SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 allocate_arrays1.f90 \
 	print_time_series_minSSE.f90 print_trees.f90 print_values1.f90 \
 	print_values2.f90 qrfac.f90 qrsolv.f90 random_real.f90 \
 	read_cntl_stuff.f90 read_input_data.f90 read_input_data_size.f90 \
+	read_all_summary_file.f90 \
 	reduce_constant.f90 reduce_expression.f90 remove_abs_zero.f90 \
 	remove_double_parens.f90 remove_string_blanks.f90 RKBM.f90 \
 	rm_exp_paren.f90 Runge_Kutta_Box_Model_new.f90 \
@@ -78,6 +79,7 @@ OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o allocate_arrays1.o \
 	print_time_series_minSSE.o print_trees.o print_values1.o \
 	print_values2.o qrfac.o qrsolv.o random_real.o read_cntl_stuff.o \
 	read_input_data.o read_input_data_size.o reduce_constant.o \
+	read_all_summary_file.o \
 	reduce_expression.o remove_abs_zero.o remove_double_parens.o \
 	remove_string_blanks.o RKBM.o rm_exp_paren.o \
 	Runge_Kutta_Box_Model_new.o select_best_RK_lmdif_result.o \
@@ -351,6 +353,9 @@ read_input_data.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
 	kinds_mod.o mpi_module.o
 read_input_data_size.o: GA_parameters_module.o GA_variables_module.o \
+	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
+	kinds_mod.o mpi_module.o
+read_all_summary_file.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
 	kinds_mod.o mpi_module.o
 reduce_constant.o: GP_parameters_module.o GP_variables_module.o kinds_mod.o

@@ -387,18 +387,12 @@ if( myid == 0 )then
     endif ! L_GP_output_parameters
 
 
-    if( L_GP_all_summary  )then
+    !if( L_GP_all_summary  )then
+    !    open( GP_summary_output_unit, file='GP_ALL_summary_file', &
+    !          form = 'formatted', access = 'sequential', &
+    !          status = 'unknown' )
+    !endif ! L_GP_all_summary
 
-        open( GP_summary_output_unit, file='GP_ALL_summary_file', &
-              form = 'formatted', access = 'sequential', &
-              status = 'unknown' )
-
-    endif ! L_GP_all_summary
-
-
-    !open( GP_best_summary_output_unit, file='GP_summary_file', &
-    !      form = 'formatted', access = 'sequential', &
-    !      status = 'unknown' )
 
     open( GP_minSSE_summary_output_unit, file='GP_minSSE_summary_file', &
           form = 'formatted', access = 'sequential', &

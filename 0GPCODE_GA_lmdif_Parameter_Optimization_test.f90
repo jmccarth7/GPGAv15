@@ -162,7 +162,7 @@ if( myid == 0 )then
     '  Last modified on:', trim( modification_date )
     !------------------------------------------------------
 
-    write(6,'(A)')'0: set GP_rank and GP_Fit* to original versions' 
+    write(6,'(A)')'0: set GP_rank and GP_Fit* to original versions'
 
     ! read the control input from file  "GPCODE_cntl"
 
@@ -347,19 +347,19 @@ endif ! .not. allocated( current_seed )
 !endif !   myid == 0
 
 
-if( L_restart )then
-
-    seed(1:n_seed) = temp_seed(1:n_seed)
-
-    if( myid == 0 )then
-        write(6,'(A)') '0: temp_seed array '
-        do  i = 1, n_seed
-            write(6,'(I12,1x,I12)')  i, temp_seed(i)
-        enddo ! i
-        write(6,'(A)') ' '
-    endif !   myid == 0
-
-else
+!if( L_restart )then
+!
+!    seed(1:n_seed) = temp_seed(1:n_seed)
+!
+!    if( myid == 0 )then
+!        write(6,'(A)') '0: temp_seed array '
+!        do  i = 1, n_seed
+!            write(6,'(I12,1x,I12)')  i, temp_seed(i)
+!        enddo ! i
+!        write(6,'(A)') ' '
+!    endif !   myid == 0
+!
+!else
 
     if( user_input_random_seed > 0 )then
 
@@ -385,7 +385,7 @@ else
 
     endif ! user_input_random_seed > 0
 
-endif ! L_restart
+!endif ! L_restart
 
 
 CALL RANDOM_SEED(PUT = seed)
@@ -657,6 +657,12 @@ endif ! myid == 0
 generation_loop:&
 do  i_GP_Generation= i_start_generation, n_GP_Generations
 
+    if( L_GP_all_summary  )then
+        open( GP_summary_output_unit, file='GP_ALL_summary_file', &
+              form = 'formatted', access = 'sequential', &
+              status = 'unknown' )
+    endif ! L_GP_all_summary
+
 
     if( myid == 0 )then
         write(GP_print_unit,'(/A/A,1x,I6,1x,A,1x,I6/A/)') &
@@ -670,14 +676,12 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
         ! at each generation, get the value of the current seed
         ! this may be useful to re-start the program from intermediate results
 
-        !CALL RANDOM_SEED(GET = current_seed)
+        CALL RANDOM_SEED(GET = current_seed)
 
-        !write(6,'(/A,1x,I12)') '0: n_seed ', n_seed
-        !write(6,'(A)') '0: current seed array '
-        !do  i = 1, n_seed
-        !    write(6,'(I12,1x,I12)')  i, current_seed(i)
-        !enddo ! i
-        !write(6,'(A)') ' '
+        write(6,'(/A,1x,I12)') '0: n_seed ', n_seed
+        write(6,'(A)') '0: current seed array '
+        write(6,'(15(1x,I12))')  current_seed(1:n_seed)
+        write(6,'(A)') ' '
 
         !--------------------------------------------------------------------------------
 
@@ -746,9 +750,9 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
             !call fasham_model_debug()   ! debug only
             !! debug only <<<<<<<<<<<<<<<<<
 
-            if( L_restart  )
+            if( L_restart  )then
 
-                call read_all_summary_file(  ) 
+                call read_all_summary_file( i_GP_generation,  zero )
 
             endif ! L_restart
 
@@ -1342,7 +1346,11 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 !!        enddo ! ii
 !!    endif !  myid == 0
 
+    do  i= 1, n_GP_individuals
 
+        call summary_GP_indiv(  i_GP_generation, i, zero )
+
+    enddo ! i                     
     !-------------------------------------------------------------------------------------
 
     if( myid == 0 )then
@@ -1453,7 +1461,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
         call GP_para_lmdif_process( i_GP_generation, max_n_gp_params  )
 
-    endif !  i_GP_generation > n_GP_generations - 20 
+    endif !  i_GP_generation > n_GP_generations - 20
 
     !---------------------------------------------------------------
 
@@ -1625,21 +1633,27 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
 
     if( myid == 0 )then
-    
+
         !------------------------------------------------------------------------------------
-    
+
         max_n_gp_params = maxval( GP_Individual_N_GP_param )
-    
+
         write(GP_print_unit,'(/A,3(1x,I5))') &
         '0: call print_time_series  i_GP_best_parent, max_n_gp_params, nop ', &
                                     i_GP_best_parent, max_n_gp_params, nop
-    
+
         call print_time_series( i_GP_best_parent, nop, i_GP_generation )
-    
+
         !------------------------------------------------------------------------------------
 
-        call summary_GP_indiv(  i_GP_generation, i_GP_indiv, zero )
-    
+
+
+        if( L_GP_all_summary )then
+            close( GP_summary_output_unit )
+        endif ! L_GP_all_summary
+
+
+
     endif ! myid == 0
 
 
@@ -1798,9 +1812,9 @@ if( myid == 0 )then
     endif ! L_GP_output_parameters
 
 
-    !if( L_GP_all_summary )then
-    !    close( GP_summary_output_unit )
-    !endif ! L_GP_all_summary
+!    if( L_GP_all_summary )then
+!        close( GP_summary_output_unit )
+!    endif ! L_GP_all_summary
 
     !close( GP_best_summary_output_unit )
 
