@@ -76,10 +76,11 @@ integer(kind=i4b) :: comm_world
 
 !character(200) :: tree_descrip
 
-character(15),parameter :: program_version   = '201402.002_v12'
-character(10),parameter :: modification_date = '20140603'
-character(50),parameter :: branch  =  'ver3'
+character(15),parameter :: program_version   = '201402.003_v13'
+character(10),parameter :: modification_date = '20140710'
+character(50),parameter :: branch  =  'sel_real_kind'
 
+integer(kind=i4b), parameter ::  zero = 0
 
 !---------------------------------------------------------------------------------------
 
@@ -643,9 +644,9 @@ call mpi_comm_size( new_comm, my_size , ierr )
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 i_start_generation = 1
-if( L_restart )then
-    i_start_generation = 2
-endif ! L_restart
+!if( L_restart )then
+!    i_start_generation = 2
+!endif ! L_restart
 
 if( myid == 0 )then
     write(6,'(/A,1x,I5)')     '0: start generation loop  myid = ', myid
@@ -744,6 +745,12 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
             !!! fasham model
             !call fasham_model_debug()   ! debug only
             !! debug only <<<<<<<<<<<<<<<<<
+
+            if( L_restart  )
+
+                call read_all_summary_file(  ) 
+
+            endif ! L_restart
 
         endif ! myid == 0
 
@@ -1435,8 +1442,8 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
     !    call GP_para_lmdif_process( i_GP_generation, max_n_gp_params  )
     !endif !  i_GP_generation > n_GP_generations / 2
 
-    !if( i_GP_generation > min( 20, n_GP_generations / 2 )    )then
-    if( i_GP_generation > n_GP_generations - 20 )then
+    if( L_run_GP_para_lmdif .and. i_GP_generation > n_GP_generations - 20 )then
+
 
         if( myid == 0 )then
             write(GP_print_unit,'(A,2(1x,I6))') &
@@ -1447,7 +1454,6 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
         call GP_para_lmdif_process( i_GP_generation, max_n_gp_params  )
 
     endif !  i_GP_generation > n_GP_generations - 20 
-    !endif !  i_GP_generation > n_GP_generations / 2
 
     !---------------------------------------------------------------
 
@@ -1617,6 +1623,26 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
     call bcast3( )
 
 
+
+    if( myid == 0 )then
+    
+        !------------------------------------------------------------------------------------
+    
+        max_n_gp_params = maxval( GP_Individual_N_GP_param )
+    
+        write(GP_print_unit,'(/A,3(1x,I5))') &
+        '0: call print_time_series  i_GP_best_parent, max_n_gp_params, nop ', &
+                                    i_GP_best_parent, max_n_gp_params, nop
+    
+        call print_time_series( i_GP_best_parent, nop, i_GP_generation )
+    
+        !------------------------------------------------------------------------------------
+
+        call summary_GP_indiv(  i_GP_generation, i_GP_indiv, zero )
+    
+    endif ! myid == 0
+
+
 enddo generation_loop !  i_GP_Generation
 
 
@@ -1699,10 +1725,10 @@ if( myid == 0 )then
     max_n_gp_params = maxval( GP_Individual_N_GP_param )
 
     write(GP_print_unit,'(/A,3(1x,I5))') &
-    '0: call print_time_series  i_GP_best_parent, max_n_gp_params, nop ', &
-        i_GP_best_parent, max_n_gp_params, nop
+    '0:2 call print_time_series  i_GP_best_parent, max_n_gp_params, nop ', &
+                                 i_GP_best_parent, max_n_gp_params, nop
 
-    call print_time_series( i_GP_best_parent, nop )
+    call print_time_series( i_GP_best_parent, nop, zero )
 
 
     !------------------------------------------------------------------------------------
@@ -1772,11 +1798,11 @@ if( myid == 0 )then
     endif ! L_GP_output_parameters
 
 
-    if( L_GP_all_summary )then
-        close( GP_summary_output_unit )
-    endif ! L_GP_all_summary
+    !if( L_GP_all_summary )then
+    !    close( GP_summary_output_unit )
+    !endif ! L_GP_all_summary
 
-    close( GP_best_summary_output_unit )
+    !close( GP_best_summary_output_unit )
 
     if( L_minSSE )then
         close( GP_minSSE_summary_output_unit )

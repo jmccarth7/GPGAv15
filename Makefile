@@ -98,16 +98,17 @@ CFLAGS = -O
 #LDFLAGS = -Wl,-no_pie
 #LIBS= -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib  -L/Developer/SDKs/MacOSX10.6.sdk/usr/lib
 
+
 # note: mpif90 is based on gfortran
 FC = /opt/openmpi-1.8.1/bin/mpif90
 #FFLAGS =  -O3 -g -fbacktrace -ffree-form # -fcheck=bounds #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
-FFLAGS =   -O3  -ffree-form #-g  -fbacktrace -ffree-form -fcheck=bounds #-ffpe-trap='denormal'# -Wall  #-fdefault-integer-8  # -FR = -free
+FFLAGS =   -O3  -ffree-form  #-ffpe-trap='overflow,underflow,denormal' #-g  -fbacktrace -ffree-form -fcheck=bounds # -Wall  #-fdefault-integer-8  # -FR = -free
 #FFLAGS =  -O3  -ffree-form #-g -fbacktrace  -fcheck=bounds  # -Wall  # -fdefault-integer-8  # -FR = -free
 
 # note: mpif90 is based on gfortran
 F90 = /opt/openmpi-1.8.1/bin/mpif90
 #F90FLAGS = -O3 -g -fbacktrace -ffree-form  # -fcheck=bounds  #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
-F90FLAGS =  -O3  -ffree-form #-g  -fbacktrace -ffree-form -fcheck=bounds #-ffpe-trap='denormal'# -Wall  #-fdefault-integer-8  # -FR = -free
+F90FLAGS =  -O3  -ffree-form # -ffpe-trap='overflow,underflow,denormal' #-g  -fbacktrace -ffree-form -fcheck=bounds # -Wall  #-fdefault-integer-8  # -FR = -free
 #F90FLAGS =  -O3 -ffree-form #-g -fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
 
 LDFLAGS = -L/opt/openmpi-1.8.1/lib \
@@ -115,6 +116,17 @@ LDFLAGS = -L/opt/openmpi-1.8.1/lib \
 LIBS= -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib \
       -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib \
       -L/Developer/SDKs/MacOSX10.6.sdk/usr/lib
+
+
+##################################################################################
+#FC = mpiifort
+##FFLAGS = -O3  -free   -traceback #-warn all #-C -ftrapuv  # -warn all   # -ftrace=full    # -fzero -Wall
+#FFLAGS = -O3  -free #-check bounds   #  -g -traceback  #-ftrapuv #-warn all #-C -ftrapuv  # -warn all   # -ftrace=full    # -fzero -Wall
+#F90 = mpiifort
+##F90FLAGS = -O3  -free -traceback #-warn all #-C -ftrapuv  # -warn all   #  -ftrace=full    # -fzero -Wall 
+#F90FLAGS = -O3  -free #-check bounds  #  -g -traceback  #-ftrapuv  #-warn all #-C -ftrapuv  # -warn all   #  -ftrace=full    # -fzero -Wall
+#LDFLAGS =
+####################################################################################
 
 
 
@@ -190,11 +202,11 @@ erfcc.o: kinds_mod.o
 Fasham_Forcing.o: GP_variables_module.o fasham_variables_module.o kinds_mod.o
 fasham_model_debug.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
-	class_tree_node.o fasham_variables_module.o mpi_module.o \
+	class_tree_node.o fasham_variables_module.o kinds_mod.o mpi_module.o \
 	tree_node_factory_module.o
 fasham_tree_functions.o: GP_variables_module.o fasham_tree_interfaces.o \
 	fasham_variables_module.o tree_node_factory_module.o
-fasham_tree_interfaces.o: class_tree_node.o
+fasham_tree_interfaces.o: class_tree_node.o kinds_mod.o
 fasham_variables_module.o: kinds_mod.o
 fcn.o: GA_parameters_module.o GP_data_module.o GP_parameters_module.o \
 	GP_variables_module.o Tree_Helper_module.o \
@@ -226,7 +238,7 @@ gammln.o: kinds_mod.o
 gammp.o: kinds_mod.o mpi_module.o
 gammq.o: kinds_mod.o mpi_module.o
 gcf.o: kinds_mod.o mpi_module.o
-Generate_Dot_Graph.o: Generate_Dot_Graph.o class_tree_node.o kinds_mod.o
+Generate_Dot_Graph.o: class_tree_node.o kinds_mod.o
 Global_Setup.o: Math_Node_Functions.o fasham_tree_interfaces.o kinds_mod.o \
 	tree_node_factory_module.o
 GP_calc_diversity_index.o: GA_parameters_module.o GA_variables_module.o \
@@ -244,7 +256,7 @@ GP_Fitness_Proportionate_Asexual_Reproduction.o: GA_parameters_module.o \
 	kinds_mod.o mpi_module.o
 GP_individual_loop.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
-	class_tree_node.o fasham_variables_module.o mpi_module.o \
+	class_tree_node.o fasham_variables_module.o kinds_mod.o mpi_module.o \
 	tree_node_factory_module.o
 GP_Mutations.o: GA_parameters_module.o GA_variables_module.o \
 	GP_parameters_module.o GP_variables_module.o kinds_mod.o mpi_module.o
@@ -279,7 +291,8 @@ init_values.o: GP_parameters_module.o GP_variables_module.o kinds_mod.o \
 init_values_data.o: GP_parameters_module.o GP_variables_module.o kinds_mod.o \
 	mpi_module.o
 init_values_fasham.o: GP_parameters_module.o GP_variables_module.o \
-	fasham_tree_interfaces.o fasham_variables_module.o mpi_module.o
+	fasham_tree_interfaces.o fasham_variables_module.o kinds_mod.o \
+	mpi_module.o
 init_values_LV.o: GP_parameters_module.o GP_variables_module.o kinds_mod.o \
 	mpi_module.o
 init_values_NPZ.o: GP_parameters_module.o GP_variables_module.o kinds_mod.o \
@@ -364,7 +377,8 @@ set_modified_indiv.o: GA_parameters_module.o GA_variables_module.o \
 	kinds_mod.o mpi_module.o
 setup1.o: GA_parameters_module.o GA_variables_module.o GP_data_module.o \
 	GP_parameters_module.o GP_variables_module.o class_tree_node.o \
-	fasham_variables_module.o mpi_module.o tree_node_factory_module.o
+	fasham_variables_module.o kinds_mod.o mpi_module.o \
+	tree_node_factory_module.o
 setup_run_fcn.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
 	kinds_mod.o mpi_module.o

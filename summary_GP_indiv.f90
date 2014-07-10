@@ -60,6 +60,10 @@ logical :: Lprint
 
 !--------------------------------------------------------------------------------
 
+open( GP_best_summary_output_unit, file='GP_summary_file', &                                        
+      form = 'formatted', access = 'sequential', &                                                  
+      status = 'unknown' )                                 
+
 ! set Lprint so printing is done only under the conditions in the if-test
 
 !!Lprint = .TRUE.   ! debug only
@@ -323,6 +327,7 @@ endif ! icall == 0
 
 !---------------------------------------------------------------------------------
 
+close( GP_best_summary_output_unit )  
 
 return
 
