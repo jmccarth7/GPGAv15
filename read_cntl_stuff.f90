@@ -33,14 +33,15 @@ integer(kind=i4b) :: GPSSE_log_flag
 integer(kind=i4b) :: fort333_output_flag
 integer(kind=i4b) :: fort444_output_flag
 integer(kind=i4b) ::  unit50_output_flag
-integer(kind=i4b) ::  GP_all_summary_flag 
+integer(kind=i4b) ::  GP_all_summary_flag
 
 integer(kind=i4b) :: print_equations_flag
+integer(kind=i4b) :: run_GP_para_lmdif_flag 
 
 integer(kind=i4b) :: i_function_index
 integer(kind=i4b) :: selected_function
-integer(kind=i4b) :: i                    
-integer(kind=i4b) :: ierror                    
+integer(kind=i4b) :: i
+integer(kind=i4b) :: ierror
 
 real(kind=r8b) :: dt_min
 
@@ -163,7 +164,7 @@ GP_log_flag  = 0
 L_GP_log = .FALSE.
 
 GPSSE_log_flag  = 1
-L_GPSSE_log = .TRUE. 
+L_GPSSE_log = .TRUE.
 
 unit50_output_flag  = 0
 L_unit50_output = .FALSE.
@@ -171,13 +172,17 @@ L_unit50_output = .FALSE.
 print_equations_flag = 0
 L_print_equations = .FALSE.
 
+L_run_GP_para_lmdif = .FALSE.
+
+
+
 number_GA_child_prints  = 10
 number_GP_child_prints  = 10
 
 n_input_vars = 0
 n_levels = 0
 
-sse_low_wt   = 1.0d0 
+sse_low_wt   = 1.0d0
 sse_min_time = 0.0d0
 sse_max_time = 1.0d10
 
@@ -190,7 +195,7 @@ n_partitions = 1
 !---------------------------------------------------------------------
 
 
-i_function_index = 0 
+i_function_index = 0
 
 
 rewind(cntl_unitnum)
@@ -417,7 +422,7 @@ do
 !--------------------------------------------------------------------
 
 
-! sse_low_wt  -  calculate sse only with data after this time     
+! sse_low_wt  -  calculate sse only with data after this time
 
     elseif( Aline(1:len('sse_low_wt')) == "sse_low_wt" .or.     &
             Aline(1:len('sse_low_wt')) == "SSE_LOW_WT" ) then
@@ -434,7 +439,7 @@ do
 !--------------------------------------------------------------------
 
 
-! sse_min_time  -  calculate sse only with data after this time     
+! sse_min_time  -  calculate sse only with data after this time
 
     elseif( Aline(1:len('sse_min_time')) == "sse_min_time" .or.     &
             Aline(1:len('sse_min_time')) == "SSE_MIN_TIME" ) then
@@ -452,7 +457,7 @@ do
 !--------------------------------------------------------------------
 
 
-! sse_max_time  -  calculate sse only with data before this time     
+! sse_max_time  -  calculate sse only with data before this time
 
     elseif( Aline(1:len('sse_max_time')) == "sse_max_time" .or.     &
             Aline(1:len('sse_max_time')) == "SSE_MAX_TIME" ) then
@@ -549,13 +554,13 @@ do
 
         !write(GP_print_unit,'(A,1x,I6)') 'rcntl: i_function_index', i_function_index
 
-        if( i_function_index <= n_functions_max ) then 
+        if( i_function_index <= n_functions_max ) then
 
             selected_functions( i_function_index ) = selected_function
 
             n_functions_input = max( n_functions_input, i_function_index )
 
-        endif ! i_function_index <= n_functions_max 
+        endif ! i_function_index <= n_functions_max
 
 
 !--------------------------------------------------------------------
@@ -1118,10 +1123,10 @@ do
               'rcntl: L_restart = ', L_restart
 
         write(GP_print_unit,'(A,1x,i6)') &
-              'rcntl: n_seed    = ', n_seed    
+              'rcntl: n_seed    = ', n_seed
 
         write(GP_print_unit,'(A,20(1x,I10))') &
-              'rcntl: temp_seed(1:n_seed)   = ', temp_seed(1:n_seed) 
+              'rcntl: temp_seed(1:n_seed)   = ', temp_seed(1:n_seed)
 
 
 
@@ -1141,6 +1146,40 @@ do
 
         write(GP_print_unit,'(A,1x,I6)') &
               'rcntl: n_partitions = ', n_partitions
+
+
+!--------------------------------------------------------------------
+
+
+! run_GP_para_lmdif_flag
+
+
+! if run_GP_para_lmdif_flag >  0 - call subroutine GP_para_lmdif
+! if run_GP_para_lmdif_flag <= 0 - do not call subroutine GP_para_lmdif
+
+!  DEFAULT =   run_GP_para_lmdif_flag ==  0
+!              - do not write printout to run_GP_para_lmdif_unit
+
+
+
+    elseif( Aline(1:len('run_GP_para_lmdif')) == "run_GP_para_lmdif" .or.  &
+            Aline(1:len('run_GP_para_lmdif')) == "RUN_GP_PARA_LMDIF" .or.  &
+            Aline(1:len('run_GP_para_lmdif')) == "run_gp_para_lmdif"      ) then
+
+                                                                                                                 
+        READ(Aline(len('run_GP_para_lmdif')+1:), * )  run_GP_para_lmdif_flag
+
+        if( run_GP_para_lmdif_flag > 0 )then
+            L_run_GP_para_lmdif = .TRUE.
+        else
+            L_run_GP_para_lmdif = .FALSE.
+        endif ! run_GP_para_lmdif_flag > 0
+                                                                                                                 
+        write(GP_print_unit,'(A,1x,I12)') 'rcntl: run_GP_para_lmdif_flag =', &
+                                                  run_GP_para_lmdif_flag
+        write(GP_print_unit,'(A,4x,L1 )') 'rcntl: L_run_GP_para_lmdif =', &
+                                                  L_run_GP_para_lmdif
+
 
 
 
@@ -1187,7 +1226,7 @@ if( L_node_functions .and. n_node_functions <=0 )then
     ierror = 1
     return
 
-endif ! .not. L_node_functions 
+endif ! .not. L_node_functions
 
 
 if( .not. L_node_functions )then
@@ -1196,9 +1235,9 @@ if( .not. L_node_functions )then
     do  i = 1, n_functions_input
         write(GP_print_unit,'(A,2(1x,I6))') 'rcntl: i, selected_functions(i)', &
                                                     i, selected_functions(i)
-    enddo !i 
+    enddo !i
 
-endif ! .not. L_node_functions 
+endif ! .not. L_node_functions
 
 write(GP_print_unit,'(//A)') ' '
 

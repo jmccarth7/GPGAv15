@@ -8,6 +8,7 @@ subroutine setup1( )
 ! coupled ordinary differential equations
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+use kinds_mod
 use mpi
 use mpi_module
 
@@ -395,9 +396,9 @@ if( myid == 0 )then
     endif ! L_GP_all_summary
 
 
-    open( GP_best_summary_output_unit, file='GP_summary_file', &
-          form = 'formatted', access = 'sequential', &
-          status = 'unknown' )
+    !open( GP_best_summary_output_unit, file='GP_summary_file', &
+    !      form = 'formatted', access = 'sequential', &
+    !      status = 'unknown' )
 
     open( GP_minSSE_summary_output_unit, file='GP_minSSE_summary_file', &
           form = 'formatted', access = 'sequential', &

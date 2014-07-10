@@ -100,6 +100,8 @@ logical ::   L_GPSSE_log
 logical ::   L_GP_output_parameters
 logical ::   L_print_equations
 
+logical ::   L_run_GP_para_lmdif
+
 integer(kind=i4b) :: n_GP_individuals
 
 integer(kind=i4b) :: n_GP_Generations
