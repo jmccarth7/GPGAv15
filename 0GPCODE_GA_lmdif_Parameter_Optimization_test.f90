@@ -657,14 +657,15 @@ endif ! myid == 0
 generation_loop:&
 do  i_GP_Generation= i_start_generation, n_GP_Generations
 
-    if( L_GP_all_summary  )then
-        open( GP_summary_output_unit, file='GP_ALL_summary_file', &
-              form = 'formatted', access = 'sequential', &
-              status = 'unknown' )
-    endif ! L_GP_all_summary
-
-
     if( myid == 0 )then
+
+        if( L_GP_all_summary  )then
+            open( GP_summary_output_unit, file='GP_ALL_summary_file', &
+                  form = 'formatted', access = 'sequential', &
+                  status = 'unknown' )
+        endif ! L_GP_all_summary
+
+
         write(GP_print_unit,'(/A/A,1x,I6,1x,A,1x,I6/A/)') &
           '===============================================================================', &
           '0: GP Generation # ',i_GP_Generation,&
