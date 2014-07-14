@@ -77,7 +77,7 @@ integer(kind=i4b) :: comm_world
 !character(200) :: tree_descrip
 
 character(15),parameter :: program_version   = '201402.003_v13'
-character(10),parameter :: modification_date = '20140710'
+character(10),parameter :: modification_date = '20140714'
 character(50),parameter :: branch  =  'sel_real_kind'
 
 integer(kind=i4b), parameter ::  zero = 0
@@ -751,11 +751,16 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
             !call fasham_model_debug()   ! debug only
             !! debug only <<<<<<<<<<<<<<<<<
 
+            ! if L_restart is true, 
+            ! read the trees from the old summary file
+
+            !---------------------------------------------------------------------------------
             if( L_restart  )then
 
                 call read_all_summary_file( i_GP_generation,  zero )
 
             endif ! L_restart
+            !---------------------------------------------------------------------------------
 
         endif ! myid == 0
 
@@ -1347,11 +1352,12 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 !!        enddo ! ii
 !!    endif !  myid == 0
 
-    do  i= 1, n_GP_individuals
+    !do  i= 1, n_GP_individuals
+    !    call summary_GP_indiv(  i_GP_generation, i, zero )
+    !enddo ! i                     
 
-        call summary_GP_indiv(  i_GP_generation, i, zero )
+    call summary_GP_all(  i_GP_generation, zero )
 
-    enddo ! i                     
     !-------------------------------------------------------------------------------------
 
     if( myid == 0 )then

@@ -44,6 +44,7 @@ SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 allocate_arrays1.f90 \
 	set_answer_arrays.f90 set_modified_indiv.f90 setup1.f90 \
 	setup_run_fcn.f90 setup_run_lmdif.f90 setup_run_para_lmdif.f90 \
 	sort.f90 sse0_calc.f90 summary_GP_indiv.f90 summary_GP_indiv2.f90 \
+	summary_GP_all.f90 \
 	summary_GP_minSSE_indiv.f90 swap_module.f90 Tree_Helper_module.f90 \
 	tree_node_factory_module.f90
 
@@ -86,6 +87,7 @@ OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o allocate_arrays1.o \
 	serialize_trees.o set_answer_arrays.o set_modified_indiv.o setup1.o \
 	setup_run_fcn.o setup_run_lmdif.o setup_run_para_lmdif.o sort.o \
 	sse0_calc.o summary_GP_indiv.o summary_GP_indiv2.o \
+	summary_GP_all.o \
 	summary_GP_minSSE_indiv.o swap_module.o Tree_Helper_module.o \
 	tree_node_factory_module.o
 
@@ -101,34 +103,34 @@ CFLAGS = -O
 #LIBS= -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib  -L/Developer/SDKs/MacOSX10.6.sdk/usr/lib
 
 
-## note: mpif90 is based on gfortran
-#FC = /opt/openmpi-1.8.1/bin/mpif90
-##FFLAGS =  -O3 -g -fbacktrace -ffree-form # -fcheck=bounds #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
-#FFLAGS =   -O3  -ffree-form  #-ffpe-trap='overflow,underflow,denormal' #-g  -fbacktrace -ffree-form -fcheck=bounds # -Wall  #-fdefault-integer-8  # -FR = -free
-##FFLAGS =  -O3  -ffree-form #-g -fbacktrace  -fcheck=bounds  # -Wall  # -fdefault-integer-8  # -FR = -free
-#
-## note: mpif90 is based on gfortran
-#F90 = /opt/openmpi-1.8.1/bin/mpif90
-##F90FLAGS = -O3 -g -fbacktrace -ffree-form  # -fcheck=bounds  #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
-#F90FLAGS =  -O3  -ffree-form # -ffpe-trap='overflow,underflow,denormal' #-g  -fbacktrace -ffree-form -fcheck=bounds # -Wall  #-fdefault-integer-8  # -FR = -free
-##F90FLAGS =  -O3 -ffree-form #-g -fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
-#
-#LDFLAGS = -L/opt/openmpi-1.8.1/lib \
-#          -I/Developer/SDKs/MacOSX10.6.sdk/usr/include
-#LIBS= -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib \
-#      -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib \
-#      -L/Developer/SDKs/MacOSX10.6.sdk/usr/lib
+# note: mpif90 is based on gfortran
+FC = /opt/openmpi-1.8.1/bin/mpif90
+#FFLAGS =  -O3 -g -fbacktrace -ffree-form # -fcheck=bounds #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
+FFLAGS =   -O3  -ffree-form  #-ffpe-trap='overflow,underflow,denormal' #-g  -fbacktrace -ffree-form -fcheck=bounds # -Wall  #-fdefault-integer-8  # -FR = -free
+#FFLAGS =  -O3  -ffree-form #-g -fbacktrace  -fcheck=bounds  # -Wall  # -fdefault-integer-8  # -FR = -free
+
+# note: mpif90 is based on gfortran
+F90 = /opt/openmpi-1.8.1/bin/mpif90
+#F90FLAGS = -O3 -g -fbacktrace -ffree-form  # -fcheck=bounds  #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
+F90FLAGS =  -O3  -ffree-form # -ffpe-trap='overflow,underflow,denormal' #-g  -fbacktrace -ffree-form -fcheck=bounds # -Wall  #-fdefault-integer-8  # -FR = -free
+#F90FLAGS =  -O3 -ffree-form #-g -fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
+
+LDFLAGS = -L/opt/openmpi-1.8.1/lib \
+          -I/Developer/SDKs/MacOSX10.6.sdk/usr/include
+LIBS= -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib \
+      -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib \
+      -L/Developer/SDKs/MacOSX10.6.sdk/usr/lib
 
 
-#################################################################################
-FC = mpiifort
-#FFLAGS = -O3  -free   -traceback #-warn all #-C -ftrapuv  # -warn all   # -ftrace=full    # -fzero -Wall
-FFLAGS = -O3  -free #-check bounds   #  -g -traceback  #-ftrapuv #-warn all #-C -ftrapuv  # -warn all   # -ftrace=full    # -fzero -Wall
-F90 = mpiifort
-#F90FLAGS = -O3  -free -traceback #-warn all #-C -ftrapuv  # -warn all   #  -ftrace=full    # -fzero -Wall 
-F90FLAGS = -O3  -free #-check bounds  #  -g -traceback  #-ftrapuv  #-warn all #-C -ftrapuv  # -warn all   #  -ftrace=full    # -fzero -Wall
-LDFLAGS =
-###################################################################################
+##################################################################################
+#FC = mpiifort
+##FFLAGS = -O3  -free   -traceback #-warn all #-C -ftrapuv  # -warn all   # -ftrace=full    # -fzero -Wall
+#FFLAGS = -O3  -free #-check bounds   #  -g -traceback  #-ftrapuv #-warn all #-C -ftrapuv  # -warn all   # -ftrace=full    # -fzero -Wall
+#F90 = mpiifort
+##F90FLAGS = -O3  -free -traceback #-warn all #-C -ftrapuv  # -warn all   #  -ftrace=full    # -fzero -Wall 
+#F90FLAGS = -O3  -free #-check bounds  #  -g -traceback  #-ftrapuv  #-warn all #-C -ftrapuv  # -warn all   #  -ftrace=full    # -fzero -Wall
+#LDFLAGS =
+####################################################################################
 
 
 
@@ -400,6 +402,9 @@ sort.o: GA_parameters_module.o GP_parameters_module.o kinds_mod.o \
 sse0_calc.o: GA_variables_module.o GP_data_module.o GP_parameters_module.o \
 	GP_variables_module.o kinds_mod.o mpi_module.o
 summary_GP_indiv.o: GA_parameters_module.o GA_variables_module.o \
+	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
+	kinds_mod.o mpi_module.o
+summary_GP_all.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
 	kinds_mod.o mpi_module.o
 summary_GP_indiv2.o: GA_parameters_module.o GA_variables_module.o \
