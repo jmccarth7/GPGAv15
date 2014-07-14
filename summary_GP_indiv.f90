@@ -68,9 +68,9 @@ logical :: Lprint
                                                                                                                 
 
 
-open( GP_best_summary_output_unit, file='GP_summary_file', &                                        
-      form = 'formatted', access = 'sequential', &                                                  
-      status = 'unknown' )                                 
+!open( GP_best_summary_output_unit, file='GP_summary_file', &                                        
+!      form = 'formatted', access = 'sequential', &                                                  
+!      status = 'unknown' )                                 
 
 open( GP_best_summary_output_unit, file='GP_summary_file', &                                        
       form = 'formatted', access = 'sequential', &                                                  
