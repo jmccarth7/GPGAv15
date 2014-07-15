@@ -187,7 +187,7 @@ do
         write(6,'(A,1x,A)')'rasf: Aline: ', trim(Aline)
     
         if( Aline(1:2) == '> ' ) exit
-        if( Aline(1:2) == '>>' ) exit readloop
+        if( Aline(1:2) == '>>' ) cycle readloop
            
     
     
