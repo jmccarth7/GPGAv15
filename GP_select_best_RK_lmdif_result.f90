@@ -474,7 +474,7 @@ if( GP_individual_ranked_fitness(i_GP_best_parent) <= &
 
         ! sets:
 
-        call summary_GP_indiv2( i_GP_generation, i_GP_best_parent )
+        !!call summary_GP_indiv2( i_GP_generation, i_GP_best_parent )
 
         !write(GP_print_unit,'(/A//)') 'gpsbrl:1 after  call summary_GP_indiv2'
         !write(GP_print_unit,'(A,2(1x,I6))') &
@@ -634,7 +634,7 @@ else  ! lmdif is best
         !              i_GP_generation, i_GP_best_parent
         write(GP_print_unit, '(/A)')  ' '
 
-        call summary_GP_indiv2( i_GP_generation, i_GP_best_parent )
+        !!call summary_GP_indiv2( i_GP_generation, i_GP_best_parent )
 
 
         !write(GP_print_unit,'(//A)') 'gpsbrl:2 after call summary_GP_indiv2'

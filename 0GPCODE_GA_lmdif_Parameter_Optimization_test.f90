@@ -28,6 +28,7 @@ implicit none
 
 
 
+logical :: op                   
 
 integer(kind=i4b) :: i
 integer(kind=i4b) :: ii
@@ -341,51 +342,31 @@ if( .not. allocated( current_seed ) )then
 
 endif ! .not. allocated( current_seed )
 
-!if( myid == 0 )then
-!    write(6, '(/A,1x,I6,5x,L1/)') '0: myid, L_restart ', myid, L_restart
-!    write(6,'(A,2(1x,I12))') '0: myid, n_seed ', myid, n_seed
-!endif !   myid == 0
 
+if( user_input_random_seed > 0 )then
 
-!if( L_restart )then
-!
-!    seed(1:n_seed) = temp_seed(1:n_seed)
-!
-!    if( myid == 0 )then
-!        write(6,'(A)') '0: temp_seed array '
-!        do  i = 1, n_seed
-!            write(6,'(I12,1x,I12)')  i, temp_seed(i)
-!        enddo ! i
-!        write(6,'(A)') ' '
-!    endif !   myid == 0
-!
-!else
+    clock = user_input_random_seed
 
-    if( user_input_random_seed > 0 )then
+    if( myid == 0 )then
+        write(6,'(/A,1x,I12)') &
+              '0: user input random seed       clock = ', clock
+    endif !   myid == 0
 
-        clock = user_input_random_seed
+    seed = user_input_random_seed + &
+              37 * (/ (i_seed - 1, i_seed = 1, n_seed) /)
+else
 
-        if( myid == 0 )then
-            write(6,'(/A,1x,I12)') &
-                  '0: user input random seed       clock = ', clock
-        endif !   myid == 0
+    CALL SYSTEM_CLOCK(COUNT=clock)
 
-        seed = user_input_random_seed + &
-                  37 * (/ (i_seed - 1, i_seed = 1, n_seed) /)
-    else
+    if( myid == 0 )then
+        write(6,'(/A,1x,I12)')&
+              '0: random seed input clock = ', clock
+    endif !   myid == 0
 
-        CALL SYSTEM_CLOCK(COUNT=clock)
+    seed = clock + 37 * (/ (i_seed - 1, i_seed = 1, n_seed) /)
 
-        if( myid == 0 )then
-            write(6,'(/A,1x,I12)')&
-                  '0: random seed input clock = ', clock
-        endif !   myid == 0
+endif ! user_input_random_seed > 0
 
-        seed = clock + 37 * (/ (i_seed - 1, i_seed = 1, n_seed) /)
-
-    endif ! user_input_random_seed > 0
-
-!endif ! L_restart
 
 
 CALL RANDOM_SEED(PUT = seed)
@@ -660,9 +641,13 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
     if( myid == 0 )then
 
         if( L_GP_all_summary  )then
+
+            inquire( GP_summary_output_unit, opened = op ) 
+            if( op ) close( GP_summary_output_unit ) 
             open( GP_summary_output_unit, file='GP_ALL_summary_file', &
                   form = 'formatted', access = 'sequential', &
                   status = 'unknown' )
+
         endif ! L_GP_all_summary
 
 
@@ -755,11 +740,13 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
             ! read the trees from the old summary file
 
             !---------------------------------------------------------------------------------
+
             if( L_restart  )then
 
                 call read_all_summary_file( i_GP_generation,  zero )
 
             endif ! L_restart
+
             !---------------------------------------------------------------------------------
 
         endif ! myid == 0
@@ -1356,7 +1343,10 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
     !    call summary_GP_indiv(  i_GP_generation, i, zero )
     !enddo ! i                     
 
-    call summary_GP_all(  i_GP_generation, zero )
+    if( L_GP_all_summary .and. myid == 0 )then
+        call summary_GP_all(  i_GP_generation, zero )
+    endif ! myid == 0 
+
 
     !-------------------------------------------------------------------------------------
 
@@ -1656,7 +1646,8 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
 
         if( L_GP_all_summary )then
-            close( GP_summary_output_unit )
+            inquire( GP_summary_output_unit, opened = op ) 
+            if( op ) close( GP_summary_output_unit ) 
         endif ! L_GP_all_summary
 
 
@@ -1754,27 +1745,27 @@ if( myid == 0 )then
 
     !------------------------------------------------------------------------------------
 
-    if( L_minSSE )then
-
-        ! this prints a summary of the initial conditions,
-        ! parameters,  and node types for the individual with the minimum SSE
-        ! and writes the tree to the summary file
-
-
-        write(GP_print_unit,'(//A)') &
-          '0:------------------------------------------&
-           &-----------------------------'
-        write(GP_print_unit,'(A,2(1x,I6))') &
-        '0: call summary_GP_minSSE_indiv GP_minSSE_generation, GP_minSSE_Individual ', &
-                                         GP_minSSE_generation, GP_minSSE_Individual
-
-        call summary_GP_minSSE_indiv( GP_minSSE_generation, GP_minSSE_Individual )
-
-
-        write(GP_print_unit,'(//A,3(1x,I5))') '0: call print_time_series_minSSE'
-        call print_time_series_minSSE( )
-
-    endif !  L_minSSE
+!!    if( L_minSSE )then
+!!
+!!        ! this prints a summary of the initial conditions,
+!!        ! parameters,  and node types for the individual with the minimum SSE
+!!        ! and writes the tree to the summary file
+!!
+!!
+!!        write(GP_print_unit,'(//A)') &
+!!          '0:------------------------------------------&
+!!           &-----------------------------'
+!!        write(GP_print_unit,'(A,2(1x,I6))') &
+!!        '0: call summary_GP_minSSE_indiv GP_minSSE_generation, GP_minSSE_Individual ', &
+!!                                         GP_minSSE_generation, GP_minSSE_Individual
+!!
+!!        call summary_GP_minSSE_indiv( GP_minSSE_generation, GP_minSSE_Individual )
+!!
+!!
+!!        write(GP_print_unit,'(//A,3(1x,I5))') '0: call print_time_series_minSSE'
+!!        call print_time_series_minSSE( )
+!!
+!!    endif !  L_minSSE
 
     !------------------------------------------------------------------------------------
 

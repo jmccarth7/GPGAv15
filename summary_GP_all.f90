@@ -100,9 +100,9 @@ endif ! Lprint
 
 !if( icall == 0 )then
 
-    write(GP_summary_output_unit, '(2x,6(1x,I6))') &
+    write(GP_summary_output_unit, '(2x,6(1x,I6),5x,A3)') &
              i_GP_generation, i_GP_indiv, &
-             n_code_equations, n_trees, n_nodes, n_levels
+             n_code_equations, n_trees, n_nodes, n_levels, 'xxx'
 
 !else
 !
