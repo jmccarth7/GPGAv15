@@ -742,8 +742,13 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
             !---------------------------------------------------------------------------------
 
             if( L_restart  )then
+                write(GP_print_unit,'(/A/)') &
+                  '0: call read_all_summary_file '                         
 
                 call read_all_summary_file( i_GP_generation,  zero )
+
+                GP_Child_Population_Node_Type =  GP_Adult_Population_Node_Type
+
 
             endif ! L_restart
 
@@ -1194,7 +1199,9 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
         !         GP_Adult_Population_Node_Type, trim( tree_descrip )  )
 
 
-        call GP_Clean_Tree_Nodes
+        if( .not. L_restart )then 
+            call GP_Clean_Tree_Nodes
+        endif ! .not. L_restart
 
 
         !tree_descrip =  ' trees after call to GP_Clean_Tree_Nodes'
