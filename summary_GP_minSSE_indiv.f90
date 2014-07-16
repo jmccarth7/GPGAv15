@@ -164,7 +164,7 @@ write(GP_minSSE_summary_output_unit, '(A,2(1x,I6))') '> ',GP_minSSE_generation, 
 
 if( Lprint )then
     write(GP_print_unit,'(/A/)') &
-    'sgpi: i_GP_gen i_GP_indiv     tree        node   &
+    'sgpMSi: i_GP_gen i_GP_indiv     tree        node   &
     &GP_population_node_parameters'
 
     do  i_tree=1,n_trees

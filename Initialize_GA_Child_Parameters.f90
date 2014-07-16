@@ -142,17 +142,17 @@ do  i_GA_Individual=1,n_GA_individuals
 !!                endif ! new_rank == 0.and. i_GA_individual == 1  
 !!
 !!            endif ! GP_Individual_Node_Type(inode, itree) == 0                              ! debug only
-!!        enddo                                                                                ! debug only
-!!    enddo                                                                                    ! debug only
+!!        enddo                                                                               ! debug only
+!!    enddo                                                                                   ! debug only
 !!    nparm = i_parameter
-!!    if( new_rank == 0 )then                                                                      ! debug only
-!!    write(6, '(A,1x,I6)') 'Init: nparm ', nparm                                              ! debug only
+!!    if( new_rank == 0 )then                                                                 ! debug only
+!!    write(6, '(A,1x,I6)') 'Init: nparm ', nparm                                             ! debug only
 !!       if( i_GA_individual == 1 )then
-!!    do  i_parameter = 1, nparm                                                               ! debug only
-!!        write(6, '(A,1x,I6,1x,E15.7)') &                                                     ! debug only
-!!              'Init: i_parameter, Child_Parameters(i_parameter,i_GA_Individual)', &          ! debug only
-!!                     i_parameter, Child_Parameters(i_parameter,i_GA_Individual)              ! debug only
-!!    enddo                                                                                    ! debug only
+!!    do  i_parameter = 1, nparm                                                              ! debug only
+!!        write(6, '(A,1x,I6,1x,E15.7)') &                                                    ! debug only
+!!              'Init: i_parameter, Child_Parameters(i_parameter,i_GA_Individual)', &         ! debug only
+!!                     i_parameter, Child_Parameters(i_parameter,i_GA_Individual)             ! debug only
+!!    enddo                                                                                   ! debug only
 !!        endif !  i_GA_individual == 1 
 !!    endif ! new_rank == 0 
 !!

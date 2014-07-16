@@ -97,6 +97,20 @@ call MPI_BCAST( Run_GP_Calculate_Fitness , n_GP_Individuals,    &
 
 !---------------------------------------------------------------------
 
+! GP_Population_Node_Parameters
+
+message_len = n_nodes * n_trees * n_GP_individuals                 
+call MPI_BCAST( GP_Population_Node_Parameters, message_len,    &  
+                MPI_DOUBLE_PRECISION,  0, MPI_COMM_WORLD, ierr ) 
+
+!---------------------------------------------------------------------
+
+! GP_Population_Initial_Conditions
+
+message_len = n_code_equations * n_GP_individuals                 
+call MPI_BCAST( GP_Population_Initial_Conditions, message_len,    &  
+                MPI_DOUBLE_PRECISION,  0, MPI_COMM_WORLD, ierr ) 
+
 
 return
 
