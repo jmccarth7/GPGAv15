@@ -27,10 +27,8 @@ integer(kind=i4b) :: n_parms
 integer(kind=i4b) :: n_parms_per_tree
 
 
-real(kind=4),parameter :: prob_forcing = 0.20   ! 0.045
+real(kind=4),parameter :: prob_forcing = 0.10  ! 0.20   ! 0.045
 real(kind=4),parameter :: prob_choose_forcing_type = 0.25  ! DO NOT CHANGE
-!real(kind=4),dimension(4), parameter :: frac_forcing_type = &
-!                                 (/ 0.421d0, 0.368d0, 0.053d0, 0.158d0 /)
 
 real(kind=4),dimension(2,4) :: frac_forcing_type
 
