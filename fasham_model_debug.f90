@@ -1,5 +1,6 @@
 subroutine fasham_model_debug()
                     
+use kinds_mod
 use mpi   
 use mpi_module                      
                                    

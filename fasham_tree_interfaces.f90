@@ -1,5 +1,6 @@
 module Fasham_Tree_Interfaces
 
+       use kinds_mod
        use class_Tree_Node
 
 !-------------------------------------------

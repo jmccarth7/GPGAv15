@@ -5,7 +5,7 @@ subroutine init_values_fasham( icall  )
 !     for GPCODE testing/developing
 
 
-
+use kinds_mod
 use mpi
 use mpi_module
 

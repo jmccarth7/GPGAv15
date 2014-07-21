@@ -76,10 +76,11 @@ integer(kind=i4b) :: comm_world
 
 !character(200) :: tree_descrip
 
-character(15),parameter :: program_version   = '201402.002_v12'
-character(10),parameter :: modification_date = '20140603'
+character(15),parameter :: program_version   = '201402.003_v13'
+character(10),parameter :: modification_date = '20140707'
 character(50),parameter :: branch  =  'ver3'
 
+integer(kind=i4b), parameter ::  zero = 0
 
 !---------------------------------------------------------------------------------------
 
@@ -1435,8 +1436,8 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
     !    call GP_para_lmdif_process( i_GP_generation, max_n_gp_params  )
     !endif !  i_GP_generation > n_GP_generations / 2
 
-    !if( i_GP_generation > min( 20, n_GP_generations / 2 )    )then
-    if( i_GP_generation > n_GP_generations - 20 )then
+    if( L_run_GP_para_lmdif .and. i_GP_generation > n_GP_generations - 20 )then
+
 
         if( myid == 0 )then
             write(GP_print_unit,'(A,2(1x,I6))') &
@@ -1447,7 +1448,6 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
         call GP_para_lmdif_process( i_GP_generation, max_n_gp_params  )
 
     endif !  i_GP_generation > n_GP_generations - 20 
-    !endif !  i_GP_generation > n_GP_generations / 2
 
     !---------------------------------------------------------------
 
@@ -1617,6 +1617,23 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
     call bcast3( )
 
 
+
+    if( myid == 0 )then
+    
+        !------------------------------------------------------------------------------------
+    
+        max_n_gp_params = maxval( GP_Individual_N_GP_param )
+    
+        write(GP_print_unit,'(/A,3(1x,I5))') &
+        '0: call print_time_series  i_GP_best_parent, max_n_gp_params, nop ', &
+                                    i_GP_best_parent, max_n_gp_params, nop
+    
+        call print_time_series( i_GP_best_parent, nop, i_GP_generation )
+    
+    
+    endif ! myid == 0
+
+
 enddo generation_loop !  i_GP_Generation
 
 
@@ -1699,10 +1716,10 @@ if( myid == 0 )then
     max_n_gp_params = maxval( GP_Individual_N_GP_param )
 
     write(GP_print_unit,'(/A,3(1x,I5))') &
-    '0: call print_time_series  i_GP_best_parent, max_n_gp_params, nop ', &
-        i_GP_best_parent, max_n_gp_params, nop
+    '0:2 call print_time_series  i_GP_best_parent, max_n_gp_params, nop ', &
+                                 i_GP_best_parent, max_n_gp_params, nop
 
-    call print_time_series( i_GP_best_parent, nop )
+    call print_time_series( i_GP_best_parent, nop, zero )
 
 
     !------------------------------------------------------------------------------------
@@ -1776,7 +1793,7 @@ if( myid == 0 )then
         close( GP_summary_output_unit )
     endif ! L_GP_all_summary
 
-    close( GP_best_summary_output_unit )
+    !close( GP_best_summary_output_unit )
 
     if( L_minSSE )then
         close( GP_minSSE_summary_output_unit )

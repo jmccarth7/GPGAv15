@@ -8,6 +8,8 @@ subroutine GP_individual_loop( new_group, new_comm, i_GP_generation )
 ! coupled ordinary differential equations
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+use kinds_mod
+
 use mpi
 use mpi_module
 
@@ -811,13 +813,6 @@ do  i_part = 1,  n_partitions
 
             endif !   Run_GP_Calculate_Fitness(i_GP_Individual)
 
-            !write(GP_print_unit,'(A,4(1x,I6))') &
-            !    '0: call summary_GP_indiv myid, new_rank, i_GP_generation, i_GP_individual ', &
-            !                              myid, new_rank, i_GP_generation, i_GP_individual
-            !call summary_GP_indiv( i_GP_generation, i_GP_individual, 0 )
-
-
-
 
 
         enddo  gp_ind_loop    !   i_GP_individual
@@ -981,11 +976,6 @@ call MPI_BCAST( GP_Individual_N_GP_param, message_len,    &
 !                myid, new_rank, i_GP_generation, ii, &
 !                           GP_Population_Ranked_Fitness(ii), &
 !                         GP_Child_Individual_SSE(ii)
-!            !write(GP_print_unit,'(A,4(1x,I6))') &
-!            !    'gil: call summary_GP_indiv myid, new_rank, i_GP_generation, ii', &
-!            !                                myid, new_rank, i_GP_generation, ii
-!            !call summary_GP_indiv( i_GP_generation, ii, 0 )
-!
 !   enddo ! i_GP_individual
 !
 !endif !  myid == 0

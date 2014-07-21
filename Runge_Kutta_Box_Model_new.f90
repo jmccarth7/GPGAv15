@@ -305,7 +305,7 @@ do  i_Time_Step = 1, n_Time_Steps
                         !    write(GA_print_unit,'(A,1x,I6,1x,I6,1x,E24.16)') &
                         !      'rkbm: bad value i_time_step, i_tree, Tree_Value(i_tree)', &
                         !                       i_time_step, i_tree, Tree_Value(i_tree)
-                        !    !flush(GA_print_unit)
+                        !    flush(GA_print_unit)
                         !endif ! L_ga_print
 
                         return
@@ -579,6 +579,7 @@ do  i_Time_Step = 1, n_Time_Steps
     !        write(GA_print_unit,'(A,2(1x,I6),12(1x,E15.7))') &
     !        'rkbm:g myid, i_time_step, RK_Soln ', &
     !                myid, i_time_step, Numerical_CODE_Solution(i_time_step,1:n_CODE_equations)
+    !    endif ! L_GA_print 
     !if( new_rank == 1 .and. &
     !    i_time_step <= 5 .or. i_time_step == n_time_steps )then
     !if( new_rank == 1 ) then
