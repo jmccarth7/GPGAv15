@@ -47,6 +47,9 @@ contains
 
         myid = this%node_id
 
+        !write(6,*) 'dot_visit_math_node: this%funit ', this%funit
+
+
         write(this%funit,'(I0.0,A,I0.0,A)',advance='no') &
                                this%node_id, '[label="[', this%node_id, '] '
         call Dot_Graph_Function(this%funit, node%operation)
@@ -71,6 +74,8 @@ contains
         class(Dot_Graph_Visitor), intent(inout) :: this
         class(Tree_Node), intent(in) :: node
 
+        !write(6,*) 'dot_visit_parameter_node: this%funit ', this%funit
+
         write(this%funit,'(I0.0,A,I0.0,A)',advance='no') &
                             this%node_id, '[label="[', this%node_id, '] '
         write(this%funit,'(A,E12.5)',advance='no') '(P) ', node%val()
@@ -87,6 +92,8 @@ contains
     subroutine Dot_Visit_Variable_Node(this, node)
         class(Dot_Graph_Visitor), intent(inout) :: this
         class(Tree_Node), intent(in) :: node
+
+        !write(6,*) 'dot_visit_variable_node: this%funit ', this%funit
 
         write(this%funit,'(I0.0,A,I0.0,A)',advance='no') &
                          this%node_id, '[label="[', this%node_id, '] '

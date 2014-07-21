@@ -232,8 +232,8 @@ if( myid == 0 )then
     ! RK_Box_Model now puts the time series in Numerical_CODE_Solution
 
 
-    call Runge_Kutta_Box_Model( .true. )  ! print
-    !call Runge_Kutta_Box_Model( .false. )   ! don't print
+    !call Runge_Kutta_Box_Model( .true. )  ! print
+    call Runge_Kutta_Box_Model( .false. )   ! don't print
 
 
 

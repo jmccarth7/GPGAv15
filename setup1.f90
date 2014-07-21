@@ -135,8 +135,6 @@ if( myid == 0 )then
 endif ! myid == 0
 
 
-!!allocate( answer( n_maximum_number_parameters ) )
-!!allocate( output_array( n_maximum_number_parameters ) )
 
 !------------------------------------------------------------------
 
@@ -261,6 +259,7 @@ call MPI_BCAST( Numerical_CODE_Solution, message_len,    &
 ! sets:
 ! Data_Variance
 ! Data_Variance_inv
+
 if( myid == 0 )then
     write(6, '(A,2(1x,I6)/)') 'set1: before comp_data_variance'
     !flush(6)
@@ -386,19 +385,6 @@ if( myid == 0 )then
               status = 'unknown' )
     endif ! L_GP_output_parameters
 
-
-    if( L_GP_all_summary  )then
-
-        open( GP_summary_output_unit, file='GP_ALL_summary_file', &
-              form = 'formatted', access = 'sequential', &
-              status = 'unknown' )
-
-    endif ! L_GP_all_summary
-
-
-    !open( GP_best_summary_output_unit, file='GP_summary_file', &
-    !      form = 'formatted', access = 'sequential', &
-    !      status = 'unknown' )
 
     open( GP_minSSE_summary_output_unit, file='GP_minSSE_summary_file', &
           form = 'formatted', access = 'sequential', &

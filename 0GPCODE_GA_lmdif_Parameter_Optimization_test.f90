@@ -28,6 +28,7 @@ implicit none
 
 
 
+logical :: op                   
 
 integer(kind=i4b) :: i
 integer(kind=i4b) :: ii
@@ -77,8 +78,8 @@ integer(kind=i4b) :: comm_world
 !character(200) :: tree_descrip
 
 character(15),parameter :: program_version   = '201402.003_v13'
-character(10),parameter :: modification_date = '20140707'
-character(50),parameter :: branch  =  'ver3'
+character(10),parameter :: modification_date = '20140721'
+character(50),parameter :: branch  =  'restart2'         
 
 integer(kind=i4b), parameter ::  zero = 0
 
@@ -162,7 +163,7 @@ if( myid == 0 )then
     '  Last modified on:', trim( modification_date )
     !------------------------------------------------------
 
-    write(6,'(A)')'0: set GP_rank and GP_Fit* to original versions' 
+    write(6,'(A)')'0: set GP_rank and GP_Fit* to original versions'
 
     ! read the control input from file  "GPCODE_cntl"
 
@@ -341,51 +342,31 @@ if( .not. allocated( current_seed ) )then
 
 endif ! .not. allocated( current_seed )
 
-!if( myid == 0 )then
-!    write(6, '(/A,1x,I6,5x,L1/)') '0: myid, L_restart ', myid, L_restart
-!    write(6,'(A,2(1x,I12))') '0: myid, n_seed ', myid, n_seed
-!endif !   myid == 0
 
+if( user_input_random_seed > 0 )then
 
-if( L_restart )then
-
-    seed(1:n_seed) = temp_seed(1:n_seed)
+    clock = user_input_random_seed
 
     if( myid == 0 )then
-        write(6,'(A)') '0: temp_seed array '
-        do  i = 1, n_seed
-            write(6,'(I12,1x,I12)')  i, temp_seed(i)
-        enddo ! i
-        write(6,'(A)') ' '
+        write(6,'(/A,1x,I12)') &
+              '0: user input random seed       clock = ', clock
     endif !   myid == 0
 
+    seed = user_input_random_seed + &
+              37 * (/ (i_seed - 1, i_seed = 1, n_seed) /)
 else
 
-    if( user_input_random_seed > 0 )then
+    CALL SYSTEM_CLOCK(COUNT=clock)
 
-        clock = user_input_random_seed
+    if( myid == 0 )then
+        write(6,'(/A,1x,I12)')&
+              '0: random seed input clock = ', clock
+    endif !   myid == 0
 
-        if( myid == 0 )then
-            write(6,'(/A,1x,I12)') &
-                  '0: user input random seed       clock = ', clock
-        endif !   myid == 0
+    seed = clock + 37 * (/ (i_seed - 1, i_seed = 1, n_seed) /)
 
-        seed = user_input_random_seed + &
-                  37 * (/ (i_seed - 1, i_seed = 1, n_seed) /)
-    else
+endif ! user_input_random_seed > 0
 
-        CALL SYSTEM_CLOCK(COUNT=clock)
-
-        if( myid == 0 )then
-            write(6,'(/A,1x,I12)')&
-                  '0: random seed input clock = ', clock
-        endif !   myid == 0
-
-        seed = clock + 37 * (/ (i_seed - 1, i_seed = 1, n_seed) /)
-
-    endif ! user_input_random_seed > 0
-
-endif ! L_restart
 
 
 CALL RANDOM_SEED(PUT = seed)
@@ -644,9 +625,9 @@ call mpi_comm_size( new_comm, my_size , ierr )
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 i_start_generation = 1
-if( L_restart )then
-    i_start_generation = 2
-endif ! L_restart
+!if( L_restart )then
+!    i_start_generation = 2
+!endif ! L_restart
 
 if( myid == 0 )then
     write(6,'(/A,1x,I5)')     '0: start generation loop  myid = ', myid
@@ -657,8 +638,19 @@ endif ! myid == 0
 generation_loop:&
 do  i_GP_Generation= i_start_generation, n_GP_Generations
 
-
     if( myid == 0 )then
+
+        if( L_GP_all_summary  )then
+
+            inquire( GP_summary_output_unit, opened = op ) 
+            if( op ) close( GP_summary_output_unit ) 
+            open( GP_summary_output_unit, file='GP_ALL_summary_file', &
+                  form = 'formatted', access = 'sequential', &
+                  status = 'unknown' )
+
+        endif ! L_GP_all_summary
+
+
         write(GP_print_unit,'(/A/A,1x,I6,1x,A,1x,I6/A/)') &
           '===============================================================================', &
           '0: GP Generation # ',i_GP_Generation,&
@@ -670,14 +662,12 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
         ! at each generation, get the value of the current seed
         ! this may be useful to re-start the program from intermediate results
 
-        !CALL RANDOM_SEED(GET = current_seed)
+        CALL RANDOM_SEED(GET = current_seed)
 
-        !write(6,'(/A,1x,I12)') '0: n_seed ', n_seed
-        !write(6,'(A)') '0: current seed array '
-        !do  i = 1, n_seed
-        !    write(6,'(I12,1x,I12)')  i, current_seed(i)
-        !enddo ! i
-        !write(6,'(A)') ' '
+        write(6,'(/A,1x,I12)') '0: n_seed ', n_seed
+        write(6,'(A)') '0: current seed array '
+        write(6,'(15(1x,I12))')  current_seed(1:n_seed)
+        write(6,'(A)') ' '
 
         !--------------------------------------------------------------------------------
 
@@ -745,6 +735,24 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
             !!! fasham model
             !call fasham_model_debug()   ! debug only
             !! debug only <<<<<<<<<<<<<<<<<
+
+            ! if L_restart is true, 
+            ! read the trees from the old summary file
+
+            !---------------------------------------------------------------------------------
+
+            if( L_restart  )then
+                write(GP_print_unit,'(/A/)') &
+                  '0: call read_all_summary_file '                         
+
+                call read_all_summary_file( i_GP_generation,  zero )
+
+                GP_Child_Population_Node_Type =  GP_Adult_Population_Node_Type
+
+
+            endif ! L_restart
+
+            !---------------------------------------------------------------------------------
 
         endif ! myid == 0
 
@@ -832,6 +840,18 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
 
     else !  i_GP_Generation > 1
+
+
+            !if( L_restart .and. i_start_generation == i_GP_generation )then
+            !    write(GP_print_unit,'(/A/)') &
+            !      '0: call read_all_summary_file '                         
+
+            !    call read_all_summary_file( i_GP_generation,  zero )
+
+            !    GP_Child_Population_Node_Type =  GP_Adult_Population_Node_Type
+
+
+            !endif ! L_restart
 
         ! create the next 'generation' of tree structures using either:
 
@@ -1191,7 +1211,9 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
         !         GP_Adult_Population_Node_Type, trim( tree_descrip )  )
 
 
-        call GP_Clean_Tree_Nodes
+        if( .not. L_restart )then 
+            call GP_Clean_Tree_Nodes
+        endif ! .not. L_restart
 
 
         !tree_descrip =  ' trees after call to GP_Clean_Tree_Nodes'
@@ -1336,6 +1358,14 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 !!        enddo ! ii
 !!    endif !  myid == 0
 
+    !do  i= 1, n_GP_individuals
+    !    call summary_GP_indiv(  i_GP_generation, i, zero )
+    !enddo ! i                     
+
+    if( L_GP_all_summary .and. myid == 0 )then
+        call summary_GP_all(  i_GP_generation, zero )
+    endif ! myid == 0 
+
 
     !-------------------------------------------------------------------------------------
 
@@ -1447,7 +1477,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
         call GP_para_lmdif_process( i_GP_generation, max_n_gp_params  )
 
-    endif !  i_GP_generation > n_GP_generations - 20 
+    endif !  i_GP_generation > n_GP_generations - 20
 
     !---------------------------------------------------------------
 
@@ -1619,18 +1649,28 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
 
     if( myid == 0 )then
-    
+
         !------------------------------------------------------------------------------------
-    
+
         max_n_gp_params = maxval( GP_Individual_N_GP_param )
-    
+
         write(GP_print_unit,'(/A,3(1x,I5))') &
         '0: call print_time_series  i_GP_best_parent, max_n_gp_params, nop ', &
                                     i_GP_best_parent, max_n_gp_params, nop
-    
+
         call print_time_series( i_GP_best_parent, nop, i_GP_generation )
-    
-    
+
+        !------------------------------------------------------------------------------------
+
+
+
+        if( L_GP_all_summary )then
+            inquire( GP_summary_output_unit, opened = op ) 
+            if( op ) close( GP_summary_output_unit ) 
+        endif ! L_GP_all_summary
+
+
+
     endif ! myid == 0
 
 
@@ -1724,27 +1764,27 @@ if( myid == 0 )then
 
     !------------------------------------------------------------------------------------
 
-    if( L_minSSE )then
-
-        ! this prints a summary of the initial conditions,
-        ! parameters,  and node types for the individual with the minimum SSE
-        ! and writes the tree to the summary file
-
-
-        write(GP_print_unit,'(//A)') &
-          '0:------------------------------------------&
-           &-----------------------------'
-        write(GP_print_unit,'(A,2(1x,I6))') &
-        '0: call summary_GP_minSSE_indiv GP_minSSE_generation, GP_minSSE_Individual ', &
-                                         GP_minSSE_generation, GP_minSSE_Individual
-
-        call summary_GP_minSSE_indiv( GP_minSSE_generation, GP_minSSE_Individual )
-
-
-        write(GP_print_unit,'(//A,3(1x,I5))') '0: call print_time_series_minSSE'
-        call print_time_series_minSSE( )
-
-    endif !  L_minSSE
+!!    if( L_minSSE )then
+!!
+!!        ! this prints a summary of the initial conditions,
+!!        ! parameters,  and node types for the individual with the minimum SSE
+!!        ! and writes the tree to the summary file
+!!
+!!
+!!        write(GP_print_unit,'(//A)') &
+!!          '0:------------------------------------------&
+!!           &-----------------------------'
+!!        write(GP_print_unit,'(A,2(1x,I6))') &
+!!        '0: call summary_GP_minSSE_indiv GP_minSSE_generation, GP_minSSE_Individual ', &
+!!                                         GP_minSSE_generation, GP_minSSE_Individual
+!!
+!!        call summary_GP_minSSE_indiv( GP_minSSE_generation, GP_minSSE_Individual )
+!!
+!!
+!!        write(GP_print_unit,'(//A,3(1x,I5))') '0: call print_time_series_minSSE'
+!!        call print_time_series_minSSE( )
+!!
+!!    endif !  L_minSSE
 
     !------------------------------------------------------------------------------------
 
@@ -1789,9 +1829,9 @@ if( myid == 0 )then
     endif ! L_GP_output_parameters
 
 
-    if( L_GP_all_summary )then
-        close( GP_summary_output_unit )
-    endif ! L_GP_all_summary
+!    if( L_GP_all_summary )then
+!        close( GP_summary_output_unit )
+!    endif ! L_GP_all_summary
 
     !close( GP_best_summary_output_unit )
 

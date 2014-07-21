@@ -20,7 +20,7 @@ IMPLICIT NONE
 integer(kind=i4b) :: istat
 
 integer(kind=i4b), parameter :: cntl_unitnum  = 501
-integer(kind=i4b), parameter :: line_length   = 150
+integer(kind=i4b), parameter :: line_length   = 250
 
 CHARACTER(line_length) :: Aline
 
@@ -1115,7 +1115,13 @@ do
     elseif( Aline(1:len('restart')) == "RESTART" .or.     &
             Aline(1:len('restart')) == "restart" ) then
 
-        READ(Aline(len('restart')+1:), * ) temp_seed(1:n_seed)
+        write(GP_print_unit,'(A,1x,i6)') &
+              'rcntl: n_seed    = ', n_seed
+        flush( GP_print_unit )
+
+
+        READ(Aline(len('restart')+1:), * ) !temp_seed(1:n_seed)
+
 
         L_restart = .true.
 
@@ -1125,8 +1131,8 @@ do
         write(GP_print_unit,'(A,1x,i6)') &
               'rcntl: n_seed    = ', n_seed
 
-        write(GP_print_unit,'(A,20(1x,I10))') &
-              'rcntl: temp_seed(1:n_seed)   = ', temp_seed(1:n_seed)
+        !write(GP_print_unit,'(A,20(1x,I10))') &
+        !      'rcntl: temp_seed(1:n_seed)   = ', temp_seed(1:n_seed)
 
 
 

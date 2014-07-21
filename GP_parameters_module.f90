@@ -82,15 +82,16 @@ integer(kind=i4b) :: user_input_random_seed
 integer(kind=i4b),parameter :: min_N_param = 2
 
 
-integer(kind=i4b),parameter :: GP_print_unit          =  6
-integer(kind=i4b),parameter :: GP_summary_output_unit = 40
+integer(kind=i4b),parameter :: GP_print_unit                 =  6
+integer(kind=i4b),parameter :: GP_output_unit                = 30
+integer(kind=i4b),parameter :: GP_summary_output_unit        = 40
 integer(kind=i4b),parameter :: GP_minSSE_summary_output_unit = 41
-integer(kind=i4b),parameter :: GP_best_summary_output_unit = 42
-integer(kind=i4b),parameter :: unit_gp_out            = 50
-integer(kind=i4b),parameter :: GP_log_unit            = 80
-integer(kind=i4b),parameter :: GPSSE_log_unit         = 90
-integer(kind=i4b),parameter :: GPSSE_best_log_unit    = 91
-integer(kind=i4b),parameter :: GP_output_unit         = 30
+integer(kind=i4b),parameter :: GP_best_summary_output_unit   = 42
+integer(kind=i4b),parameter :: GP_restart_file_input_unit    = 45
+integer(kind=i4b),parameter :: unit_gp_out                   = 50
+integer(kind=i4b),parameter :: GP_log_unit                   = 80
+integer(kind=i4b),parameter :: GPSSE_log_unit                = 90
+integer(kind=i4b),parameter :: GPSSE_best_log_unit           = 91
 
 logical ::   L_GP_all_summary
 
