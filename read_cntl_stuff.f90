@@ -38,6 +38,8 @@ integer(kind=i4b) ::  GP_all_summary_flag
 integer(kind=i4b) :: print_equations_flag
 integer(kind=i4b) :: run_GP_para_lmdif_flag 
 
+integer(kind=i4b) :: no_forcing_flag
+
 integer(kind=i4b) :: i_function_index
 integer(kind=i4b) :: selected_function
 integer(kind=i4b) :: i
@@ -175,6 +177,7 @@ L_print_equations = .FALSE.
 L_run_GP_para_lmdif = .FALSE.
 
 
+L_no_forcing = .FALSE.            
 
 number_GA_child_prints  = 10
 number_GP_child_prints  = 10
@@ -1191,6 +1194,32 @@ do
 
 
 !--------------------------------------------------------------------
+
+
+    elseif( Aline(1:len('no_forcing')) == "no_forcing" .or.  &
+            Aline(1:len('no_forcing')) == "NO_FORCING" .or.  &
+            Aline(1:len('no_forcing')) == "No_Forcing"      ) then
+
+                                                                                                                 
+        READ(Aline(len('no_forcing')+1:), * )  no_forcing_flag
+
+        if( no_forcing_flag > 0 )then
+            L_no_forcing = .TRUE.
+        else
+            L_no_forcing = .FALSE.
+        endif ! no_forcing_flag > 0
+                                                                                                                 
+        write(GP_print_unit,'(A,1x,I12)') 'rcntl: no_forcing_flag =', &
+                                                  no_forcing_flag
+        write(GP_print_unit,'(A,4x,L1 )') 'rcntl: L_no_forcing =', &
+                                                  L_no_forcing
+
+
+
+
+
+!--------------------------------------------------------------------
+
 
 
 ! ignore blank lines

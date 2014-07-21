@@ -103,6 +103,9 @@ logical ::   L_print_equations
 
 logical ::   L_run_GP_para_lmdif
 
+logical ::   L_no_forcing           
+
+
 integer(kind=i4b) :: n_GP_individuals
 
 integer(kind=i4b) :: n_GP_Generations

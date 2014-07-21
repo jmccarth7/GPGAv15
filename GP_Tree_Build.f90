@@ -27,10 +27,11 @@ integer(kind=i4b) :: n_parms
 integer(kind=i4b) :: n_parms_per_tree
 
 
-real(kind=4),parameter :: prob_forcing = 0.10  ! 0.20   ! 0.045
-real(kind=4),parameter :: prob_choose_forcing_type = 0.25  ! DO NOT CHANGE
+!real(kind=i4b),parameter :: prob_forcing = 0.10  ! 0.20   ! 0.045
+real(kind=i4b) :: prob_forcing = 0.10  ! 0.20   ! 0.045
+real(kind=i4b),parameter :: prob_choose_forcing_type = 0.25  ! DO NOT CHANGE
 
-real(kind=4),dimension(2,4) :: frac_forcing_type
+real(kind=i4b),dimension(2,4) :: frac_forcing_type
 
 data frac_forcing_type(1,1) / 0.578947 /
 data frac_forcing_type(2,1) / 1.00000  /
@@ -47,6 +48,23 @@ data frac_forcing_type(2,4) / 0.210526 /
 integer(kind=i4b) :: iforce
 
 !-----------------------------------------------------------------------------
+
+
+
+! allow user to turn off forcing with input card "no_forcing"
+
+prob_forcing = 0.10
+
+if( L_no_forcing ) then
+
+    prob_forcing = 0.00
+
+endif !  L_no_forcing 
+
+
+write(GP_print_unit,'(A,1x,E15.7 )') 'gtb: prob_forcing ', prob_forcing
+
+
 
 GP_Child_Population_Node_Type=-9999 ! set all to null [-9999]
 

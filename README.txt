@@ -15,7 +15,7 @@ GA_Crossover_Probability  =   probability of sexual crossing of
 
 
 
-col 1-24	GA_Crossover_Probability  ( ga_crossover_probability ) 
+col 1-24	GA_Crossover_Probability  ( ga_crossover_probability )
 col 26-80	value of the GA crossover probability
 Example:
 
@@ -32,7 +32,7 @@ GA_Mutation_Probability  = probability of mutation in a parameter
 
 
 
-col 1-23	GA_Mutation_Probability  (ga_mutation_probability) 
+col 1-23	GA_Mutation_Probability  (ga_mutation_probability)
 col 25-80	value of the GA mutation probability
 Example:
 
@@ -46,17 +46,17 @@ Note:  default value = 0.2
 
 
 GA_Rand_Replace_Probability = probability of replacing all the parameters
-                              in a non-elite individual with random 
-                              numbers 
+                              in a non-elite individual with random
+                              numbers
 
 
-col 1-27	GA_Rand_Replace_Probability ( ga_rand_replace_probability ) 
+col 1-27	GA_Rand_Replace_Probability ( ga_rand_replace_probability )
 col 29-80	value of the GA random replace probability
 Example:
 
 GA_Rand_Replace_Probability 0.2
 
-Note:  default value = 0.01 
+Note:  default value = 0.01
 
 !--------------------------------------------------------------------
 
@@ -153,7 +153,7 @@ GP_Mutation_Probability  =  probability of mutation in a GP string
 
 
 
-col 1-23	GP_Mutation_Probability  ( gp_mutation_probability ) 
+col 1-23	GP_Mutation_Probability  ( gp_mutation_probability )
 col 25-80	value of the GP mutation probability
 
 Example:
@@ -171,7 +171,7 @@ n_GA_Generations  = number of generations of the GA_lmdif process
 
 
 
-col 1-16	n_GA_Generations  ( n_ga_generations ) 
+col 1-16	n_GA_Generations  ( n_ga_generations )
 col 18-80	number of generations of the GA_lmdif process
 
 Example:
@@ -203,7 +203,7 @@ N_Time_Steps = number of time steps of length "dt" used to integrate
 
 
 
-col 1-12	N_Time_Steps  ( n_time_steps ) 
+col 1-12	N_Time_Steps  ( n_time_steps )
 col 14-80	number of n_time_steps in the Runge-Kutta integration
 
 Example:
@@ -221,7 +221,7 @@ DT = length of the time step for the Runge-Kutta integration (unit = minute**-1)
 
 
 
-col 1-2		DT ( dt ) 
+col 1-2		DT ( dt )
 col 4-80	length of the Runge-Kutta time step in MINUTES
 
 Example:
@@ -240,7 +240,7 @@ MODEL = name of the model used to generate the truth data
         Currently, only the values "LV"  or  "NPZ"  are allowed
 
 
-col 1-5		MODEL ( model ) 
+col 1-5		MODEL ( model )
 col 7-80	name of the model used to generate the truth data
                 Allowed values:  "LV"  and "NPZ"
 
@@ -248,7 +248,7 @@ Example:
 
 model  LV
 
-Note:	default value = LV 
+Note:	default value = LV
 
 
 !--------------------------------------------------------------------
@@ -257,7 +257,7 @@ Note:	default value = LV
 N_GP_INDIVIDUALS  = number of GP individuals used in the GP process
 
 
-col 1-16	N_GP_INDIVIDUALS ( n_gp_individuals ) 
+col 1-16	N_GP_INDIVIDUALS ( n_gp_individuals )
 col 18-80	number of GP individuals used in the GP process
 
 Example:
@@ -273,7 +273,7 @@ Note:	default value = 1
 N_GP_GENERATIONS  = number of GP generations used in the GP process
 
 
-col 1-16	N_GP_GENERATIONS ( n_gp_generations ) 
+col 1-16	N_GP_GENERATIONS ( n_gp_generations )
 col 18-80	number of GP generations used in the GP process
 
 Example:
@@ -314,7 +314,7 @@ Example:
 
 RANDOM_SCALE_SMALL 3.0
 
-Note:	default value = 1.0  
+Note:	default value = 1.0
 
 
 !--------------------------------------------------------------------
@@ -405,7 +405,7 @@ GA_TOURNAMENT_STYLE  -  chooses the method used in the
                                involving the mean and std. dev
 
 
-col 1-19	GA_TOURNAMENT_STYLE  ( GA_tournament_style or ga_tournament_style ) 
+col 1-19	GA_TOURNAMENT_STYLE  ( GA_tournament_style or ga_tournament_style )
 col 21-80	flag to select the method used in the
                 GA_Tournament_Style_Sexual_Reproduction subroutine
 
@@ -444,7 +444,7 @@ Note:	default value = 0 -- i.e. system clock value is used
 GA_print - determines if the GA_print file is generated.
 
 
-col 1-8		GA_print                                              
+col 1-8		GA_print
 col 10-80	GA_print_flag
 
 
@@ -455,7 +455,7 @@ col 10-80	GA_print_flag
 
 Example:
 
-GA_print  1                      
+GA_print  1
 
 
 --------------------------------------------------------------------------------
@@ -465,7 +465,7 @@ GA_print  1
 GA_output_parameters - determines if the GA_output_parameters file is generated.
 
 
-col 1-20	GA_output_parameters                                              
+col 1-20	GA_output_parameters
 col 21-80	GA_output_parameters_flag
 
 
@@ -476,7 +476,7 @@ col 21-80	GA_output_parameters_flag
 
 Example:
 
-GA_output_parameters  1                      
+GA_output_parameters  1
 
 
 --------------------------------------------------------------------------------
@@ -486,7 +486,7 @@ GA_output_parameters  1
 GP_output_parameters - determines if the GP_output_parameters file is generated.
 
 
-col 1-20	GP_output_parameters                                              
+col 1-20	GP_output_parameters
 col 21-80	GP_output_parameters_flag
 
 
@@ -497,7 +497,7 @@ col 21-80	GP_output_parameters_flag
 
 Example:
 
-GP_output_parameters  1                      
+GP_output_parameters  1
 
 
 --------------------------------------------------------------------------------
@@ -507,7 +507,7 @@ GP_output_parameters  1
 fort333 - determines if the fort333 file is generated.
 
 
-col 1-7		fort333                                              
+col 1-7		fort333
 col 9-80	fort333_flag
 
 
@@ -518,7 +518,7 @@ col 9-80	fort333_flag
 
 Example:
 
-fort333  1                      
+fort333  1
 
 
 --------------------------------------------------------------------------------
@@ -528,7 +528,7 @@ fort333  1
 fort444 - determines if the fort444 file is generated.
 
 
-col 1-7		fort444                                              
+col 1-7		fort444
 col 9-80	fort444_flag
 
 
@@ -539,7 +539,7 @@ col 9-80	fort444_flag
 
 Example:
 
-fort444  1                      
+fort444  1
 
 
 --------------------------------------------------------------------------------
@@ -549,7 +549,7 @@ fort444  1
 GA_log - determines if the GA_log file is generated.
 
 
-col 1-6		GA_log                                              
+col 1-6		GA_log
 col 8-80	GA_log_flag
 
 
@@ -560,7 +560,7 @@ col 8-80	GA_log_flag
 
 Example:
 
-GA_log  1                      
+GA_log  1
 
 
 --------------------------------------------------------------------------------
@@ -570,7 +570,7 @@ GA_log  1
 GP_log - determines if the GP_log file is generated.
 
 
-col 1-6		GP_log                                              
+col 1-6		GP_log
 col 8-80	GP_log_flag
 
 
@@ -581,7 +581,7 @@ col 8-80	GP_log_flag
 
 Example:
 
-GP_log  1                      
+GP_log  1
 
 
 --------------------------------------------------------------------------------
@@ -592,7 +592,7 @@ GP_log  1
 unit50_output- determines if the unit50_output file is generated.
 
 
-col 1-13	unit50_output                                             
+col 1-13	unit50_output
 col 15-80	unit50_output_flag
 
 
@@ -603,7 +603,7 @@ col 15-80	unit50_output_flag
 
 Example:
 
-unit50_output 1                      
+unit50_output 1
 
 
 --------------------------------------------------------------------------------
@@ -614,19 +614,61 @@ print_equations - determines if equations are printed together with the tree
                   structures in print_trees
 
 
-col 1-8		print_equations                                              
+col 1-8		print_equations
 col 10-80	print_equations_flag
 
 
-	if print_equations_flag >  0 - write equations 
+	if print_equations_flag >  0 - write equations
 	if print_equations_flag <= 0 - do not write equations
 	
 	DEFAULT =   print_equations_flag = 0
 
 Example:
 
-print_equations  1                      
+print_equations  1
 
+
+--------------------------------------------------------------------------------
+
+
+run_GP_para_lmdif_flag - determines if GP_para_lmdif should be called
+
+
+col 1-17	run_GP_para_lmdif
+col 19-80	run_GP_para_lmdif_flag
+
+
+	if run_GP_para_lmdif_flag >  0 - call GP_para_lmdif
+	if run_GP_para_lmdif_flag <= 0 - do not call GP_para_lmdif
+	
+	DEFAULT =   run_GP_para_lmdif_flag = 0
+
+Example:
+
+run_GP_para_lmdif   1
+
+
+
+
+
+!--------------------------------------------------------------------
+
+
+no_forcing - determines if trees will contain forcing functions
+
+
+col 1-10	no_forcing
+col 12-80	no_forcing_flag
+
+
+	if no_forcing_flag >  0 - do not use forcing functions 
+	if no_forcing_flag <= 0 -        use forcing functions 
+	
+	DEFAULT =   no_forcing_flag = 0
+
+Example:
+
+no_forcing  1
 
 
 
@@ -645,19 +687,19 @@ output_parameters -
      i_GA_Generation_last
      i_GA_best_parent
      individual_ranked_fitness_best
-     (parent_parameters_best_1(jj),jj = 1,n_parameters)         
+     (parent_parameters_best_1(jj),jj = 1,n_parameters)
 
 
 ---------------------------------------------------------------
 
 
-GP_output_parameters - 
+GP_output_parameters -
 
        i_GP_Generation
        i_GP_best_parent
        GP_Population_Ranked_Fitness(i_GP_Best_Parent)
-       nop 
-       output_array(1:nop)                              
+       nop
+       output_array(1:nop)
 
 
 
@@ -668,7 +710,7 @@ fort333 - binary
 i_GP_Generation
 i_GP_individual
 i_GA_generation
-individual_SSE(1:n_GA_individuals)                    
+individual_SSE(1:n_GA_individuals)
 
 
 ---------------------------------------------------------------
@@ -692,7 +734,7 @@ i_GP_Generation
 i_GP_individual
 i_GA_generation
 individual_SSE(1:n_GA_individuals)
-individual_ranked_fitness(1:n_GA_individuals) 
+individual_ranked_fitness(1:n_GA_individuals)
 
 
 ---------------------------------------------------------------
@@ -702,7 +744,7 @@ GP_log - binary
 i_GP_generation
 i_GP_Individual
 GP_Adult_Individual_SSE(i_GP_Individual)
-GP_Population_Ranked_Fitness(i_GP_Individual)        
+GP_Population_Ranked_Fitness(i_GP_Individual)
 
 
 ---------------------------------------------------------------
