@@ -87,13 +87,14 @@ do
     
     read(GP_restart_file_input_unit, *, iostat=istat) &
              i_GP_Gen, i_GP_indiv, &
-             n_code_equations, n_trees, n_nodes, n_levels  ! , &
-             !GP_Adult_Population_SSE(i_GP_indiv)
+             n_code_equations, n_trees, n_nodes, n_levels,  &
+             GP_Adult_Population_SSE(i_GP_indiv)
              
     if( istat /= 0 ) exit readloop
     
-    !write(6,'(A,6(1x,I6))') 'rasf: i_GP_Gen, i_GP_indiv, n_code_equations, n_trees, n_nodes, n_levels', &
-    !                               i_GP_Gen, i_GP_indiv, n_code_equations, n_trees, n_nodes, n_levels
+    !write(6,'(A,6(1x,I6))') &
+    !'rasf: i_GP_Gen, i_GP_indiv, n_code_equations, n_trees, n_nodes, n_levels', &
+    !       i_GP_Gen, i_GP_indiv, n_code_equations, n_trees, n_nodes, n_levels
     
     !--------------------------------------------------------------------------------
     
@@ -131,8 +132,10 @@ do
     
     
         !write(6,'(A,3(1x,I6),1x,E15.7)') &
-        !'rasf: i_GP_Gen, i_GP_indiv, i_code_eq, GP_Population_Initial_Conditions(i_code_eq,i_GP_indiv)', &
-        !       i_GP_Gen, i_GP_indiv, i_code_eq, GP_Population_Initial_Conditions(i_code_eq,i_GP_indiv)
+        !'rasf: i_GP_Gen, i_GP_indiv, i_code_eq, &
+        ! &GP_Population_Initial_Conditions(i_code_eq,i_GP_indiv)', &
+        !       i_GP_Gen, i_GP_indiv, i_code_eq, &
+        !  GP_Population_Initial_Conditions(i_code_eq,i_GP_indiv)
     
     
     enddo  ! i
@@ -165,8 +168,10 @@ do
              GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv)
     
         !write(6,'(A,5(1x,I6))') &
-        !'rasf:i_GP_Gen,i_GP_indiv,i_tree,i_node,GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv)',&
-        !      i_GP_Gen,i_GP_indiv,i_tree,i_node,GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv) 
+        !'rasf:i_GP_Gen,i_GP_indiv,i_tree,i_node,&
+        ! &GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv)',&
+        !      i_GP_Gen,i_GP_indiv,i_tree,i_node,&
+        !  GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv) 
     
     enddo 
     
