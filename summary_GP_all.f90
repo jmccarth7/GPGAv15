@@ -88,9 +88,10 @@ do  i_GP_indiv = 1, n_GP_individuals
 
 
 
-    write(GP_summary_output_unit, '(2x,6(1x,I6),5x,A3)') &
+    write(GP_summary_output_unit, '(2x,6(1x,I6),1x,E20.10)') &
              i_GP_generation, i_GP_indiv, &
-             n_code_equations, n_trees, n_nodes, n_levels, 'xxx'
+             n_code_equations, n_trees, n_nodes, n_levels, &
+             GP_Child_Individual_SSE(i_GP_indiv)
 
 
     !--------------------------------------------------------------------------------

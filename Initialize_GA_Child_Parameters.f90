@@ -93,68 +93,68 @@ do  i_GA_Individual=1,n_GA_individuals
 
 !!    !debug only >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 !!    ! fasham model
-!!    i_parameter = 1                                                                          ! debug only
-!!    Child_Parameters(i_parameter,i_GA_Individual) = 0.2D+0 ! Nitrate           [mmol N m-3]  ! debug only
-!!    i_parameter = i_parameter + 1                                                            ! debug only
-!!    Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! Ammonium          [mmol N m-3]  ! debug only
-!!    i_parameter = i_parameter + 1                                                            ! debug only
-!!    Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! DON               [mmol N m-3]  ! debug only
-!!    i_parameter = i_parameter + 1                                                            ! debug only
-!!    Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! DET [Detritus]    [mmol N m-3]  ! debug only
-!!    i_parameter = i_parameter + 1                                                            ! debug only
-!!    Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! Bacteria          [mmol N m-3]  ! debug only
-!!    i_parameter = i_parameter + 1                                                            ! debug only
-!!    Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! Phytoplankton     [mmol N m-3]  ! debug only
-!!    i_parameter = i_parameter + 1                                                            ! debug only
-!!    Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! Zooplankton       [mmol N m-3]  ! debug only
+!!    i_parameter = 1                                                                         ! debug only
+!!    Child_Parameters(i_parameter,i_GA_Individual) = 0.2D+0 ! Nitrate           [mmol N m-3] ! debug only
+!!    i_parameter = i_parameter + 1                                                           ! debug only
+!!    Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! Ammonium          [mmol N m-3] ! debug only
+!!    i_parameter = i_parameter + 1                                                           ! debug only
+!!    Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! DON               [mmol N m-3] ! debug only
+!!    i_parameter = i_parameter + 1                                                           ! debug only
+!!    Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! DET [Detritus]    [mmol N m-3] ! debug only
+!!    i_parameter = i_parameter + 1                                                           ! debug only
+!!    Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! Bacteria          [mmol N m-3] ! debug only
+!!    i_parameter = i_parameter + 1                                                           ! debug only
+!!    Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! Phytoplankton     [mmol N m-3] ! debug only
+!!    i_parameter = i_parameter + 1                                                           ! debug only
+!!    Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! Zooplankton       [mmol N m-3] ! debug only
 !!
 !!
-!!    do  ii = 1, 7                                                            ! debug only
-!!        Child_Parameters(ii,i_GA_Individual) = &                             ! debug only
-!!                 Child_Parameters(ii,i_GA_Individual) * (1.0d0 + 1.0d-6)     ! debug only
-!!    enddo ! i_parameter                                                      ! debug only
+!!    do  ii = 1, 7                                                                           ! debug only
+!!        Child_Parameters(ii,i_GA_Individual) = &                                            ! debug only
+!!                 Child_Parameters(ii,i_GA_Individual) * (1.0d0 + 1.0d-6)                    ! debug only
+!!    enddo ! i_parameter                                                                     ! debug only
 !!
 !!
 !!
-!!    !------------------------------------------------------------------                      ! debug only
-!!    do  itree = 1, n_trees                                                                   ! debug only
-!!        do  inode = 1, n_nodes                                                               ! debug only
-!!            !if( GP_Individual_Node_Type(inode, itree) > -9999 )then                         ! debug only
-!!            !    write(6, '(A,3(1x,I6),1x,E15.7)') &                                         ! debug only
-!!            !          'Init: itree, inode, GP_Ind_Node_Type,GP_Ind_Node_Par', &             ! debug only
-!!            !                 itree, inode, GP_Individual_Node_Type(inode, itree), &         ! debug only
-!!            !                               GP_Individual_Node_Parameters(inode,itree)       ! debug only
-!!            !endif ! GP_Individual_Node_Type(inode, itree) > -9999                           ! debug only
-!!            if( GP_Individual_Node_Type(inode, itree) == 0 )then                             ! debug only
-!!                i_parameter = i_parameter + 1                                                ! debug only
-!!                Child_Parameters(i_parameter,i_GA_Individual) =  &                           ! debug only
-!!                       GP_Individual_Node_Parameters(inode,itree)                            ! debug only
+!!    !------------------------------------------------------------------                     ! debug only
+!!    do  itree = 1, n_trees                                                                  ! debug only
+!!        do  inode = 1, n_nodes                                                              ! debug only
+!!            !if( GP_Individual_Node_Type(inode, itree) > -9999 )then                        ! debug only
+!!            !    write(6, '(A,3(1x,I6),1x,E15.7)') &                                        ! debug only
+!!            !          'Init: itree, inode, GP_Ind_Node_Type,GP_Ind_Node_Par', &            ! debug only
+!!            !                 itree, inode, GP_Individual_Node_Type(inode, itree), &        ! debug only
+!!            !                               GP_Individual_Node_Parameters(inode,itree)      ! debug only
+!!            !endif ! GP_Individual_Node_Type(inode, itree) > -9999                          ! debug only
+!!            if( GP_Individual_Node_Type(inode, itree) == 0 )then                            ! debug only
+!!                i_parameter = i_parameter + 1                                               ! debug only
+!!                Child_Parameters(i_parameter,i_GA_Individual) =  &                          ! debug only
+!!                       GP_Individual_Node_Parameters(inode,itree)                           ! debug only
 !!
-!!                if( new_rank == 0 .and. i_GA_individual == 1 )then
+!!                if( new_rank == 0 .and. i_GA_individual == 1 )then                          ! debug only
 !!                write(6, '(A,3(1x,I6),1x,E15.7)') &                                         ! debug only
 !!                      'Init: itree, inode, GP_Ind_Node_Type,GP_Ind_Node_Par', &             ! debug only
 !!                             itree, inode, GP_Individual_Node_Type(inode, itree), &         ! debug only
 !!                                           GP_Individual_Node_Parameters(inode,itree)       ! debug only
 !!                write(6, '(A,3(1x,I6),2(1x,E15.7))') &                                      ! debug only
-!!                      'Init: i_param, itree, inode, GP_Ind_Node_Par, Child_parameters', &   ! debug only
-!!                       i_parameter, itree, inode, GP_Individual_Node_Parameters(inode, itree), &
-!!                      Child_parameters(i_parameter, i_GA_individual) 
-!!                endif ! new_rank == 0.and. i_GA_individual == 1  
+!!                 'Init: i_param, itree, inode, GP_Ind_Node_Par, Child_parameters', &        ! debug only
+!!                 i_parameter, itree, inode, GP_Individual_Node_Parameters(inode, itree), &  ! debug only
+!!                 Child_parameters(i_parameter, i_GA_individual)                             ! debug only
+!!                endif ! new_rank == 0.and. i_GA_individual == 1                             ! debug only
 !!
 !!            endif ! GP_Individual_Node_Type(inode, itree) == 0                              ! debug only
 !!        enddo                                                                               ! debug only
 !!    enddo                                                                                   ! debug only
-!!    nparm = i_parameter
+!!    nparm = i_parameter                                                                     ! debug only 
 !!    if( new_rank == 0 )then                                                                 ! debug only
 !!    write(6, '(A,1x,I6)') 'Init: nparm ', nparm                                             ! debug only
-!!       if( i_GA_individual == 1 )then
+!!       if( i_GA_individual == 1 )then                                                       ! debug only 
 !!    do  i_parameter = 1, nparm                                                              ! debug only
 !!        write(6, '(A,1x,I6,1x,E15.7)') &                                                    ! debug only
 !!              'Init: i_parameter, Child_Parameters(i_parameter,i_GA_Individual)', &         ! debug only
 !!                     i_parameter, Child_Parameters(i_parameter,i_GA_Individual)             ! debug only
 !!    enddo                                                                                   ! debug only
-!!        endif !  i_GA_individual == 1 
-!!    endif ! new_rank == 0 
+!!        endif !  i_GA_individual == 1                                                       ! debug only
+!!    endif ! new_rank == 0                                                                   ! debug only
 !!
 !!    !debug only <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 

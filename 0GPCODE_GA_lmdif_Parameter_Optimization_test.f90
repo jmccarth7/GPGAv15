@@ -625,9 +625,9 @@ call mpi_comm_size( new_comm, my_size , ierr )
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 i_start_generation = 1
-!if( L_restart )then
-!    i_start_generation = 2
-!endif ! L_restart
+if( L_restart )then
+    i_start_generation = 2
+endif ! L_restart
 
 if( myid == 0 )then
     write(6,'(/A,1x,I5)')     '0: start generation loop  myid = ', myid
@@ -741,16 +741,16 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
             !---------------------------------------------------------------------------------
 
-            if( L_restart  )then
-                write(GP_print_unit,'(/A/)') &
-                  '0: call read_all_summary_file '                         
-
-                call read_all_summary_file( i_GP_generation,  zero )
-
-                GP_Child_Population_Node_Type =  GP_Adult_Population_Node_Type
-
-
-            endif ! L_restart
+!!            if( L_restart  )then
+!!                write(GP_print_unit,'(/A/)') &
+!!                  '0: call read_all_summary_file '                         
+!!
+!!                call read_all_summary_file( i_GP_generation,  zero )
+!!
+!!                GP_Child_Population_Node_Type =  GP_Adult_Population_Node_Type
+!!
+!!
+!!            endif ! L_restart
 
             !---------------------------------------------------------------------------------
 
@@ -840,6 +840,28 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
 
     else !  i_GP_Generation > 1
+
+
+            if( L_restart  .and. &
+                i_start_generation == i_GP_generation )then
+
+                if(  myid == 0 ) then
+                    write(GP_print_unit,'(/A/)') &
+                      '0: call read_all_summary_file '                         
+
+                    call read_all_summary_file( i_GP_generation,  zero )
+
+                endif ! myid == 0 
+
+                message_len = n_GP_Individuals * n_Nodes * n_Trees
+                call MPI_BCAST( GP_Adult_Population_Node_Type, message_len,    &
+                                MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
+
+                GP_Child_Population_Node_Type =  GP_Adult_Population_Node_Type
+                GP_Child_Individual_SSE       = GP_Adult_Population_SSE   ! needed ??  jjm 20140721
+
+
+            endif ! L_restart
 
         ! create the next 'generation' of tree structures using either:
 
@@ -992,6 +1014,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
                 !         GP_population_node_parameters )
 
             endif !  n_GP_Crossovers .gt. 0
+
 
             !if( i_GP_generation == 1                                  .or. &
             !    mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
@@ -1199,9 +1222,12 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
         !         GP_Adult_Population_Node_Type, trim( tree_descrip )  )
 
 
-        if( .not. L_restart )then 
+        !if( .not. L_restart .or.   &
+        !    ( L_restart .and. i_GP_generation > i_start_generation )  )then
+
             call GP_Clean_Tree_Nodes
-        endif ! .not. L_restart
+
+        !endif ! .not. L_restart
 
 
         !tree_descrip =  ' trees after call to GP_Clean_Tree_Nodes'
