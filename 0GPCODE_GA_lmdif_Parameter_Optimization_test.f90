@@ -841,6 +841,18 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
     else !  i_GP_Generation > 1
 
+
+            !if( L_restart .and. i_start_generation == i_GP_generation )then
+            !    write(GP_print_unit,'(/A/)') &
+            !      '0: call read_all_summary_file '                         
+
+            !    call read_all_summary_file( i_GP_generation,  zero )
+
+            !    GP_Child_Population_Node_Type =  GP_Adult_Population_Node_Type
+
+
+            !endif ! L_restart
+
         ! create the next 'generation' of tree structures using either:
 
         !    i)  GP Fitness-Proportionate Asexual Reproduction;
