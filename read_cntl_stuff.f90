@@ -179,6 +179,8 @@ L_run_GP_para_lmdif = .FALSE.
 
 L_no_forcing = .FALSE.            
 
+prob_forcing = 0.20
+
 number_GA_child_prints  = 10
 number_GP_child_prints  = 10
 
@@ -1196,9 +1198,16 @@ do
 !--------------------------------------------------------------------
 
 
+!  if L_no_forcing is .TRUE. , 
+!  set the forcing function node value -5004 to zero
+
+
     elseif( Aline(1:len('no_forcing')) == "no_forcing" .or.  &
             Aline(1:len('no_forcing')) == "NO_FORCING" .or.  &
             Aline(1:len('no_forcing')) == "No_Forcing"      ) then
+
+
+        ! this now applies only to the daily forcing -5004
 
                                                                                                                  
         READ(Aline(len('no_forcing')+1:), * )  no_forcing_flag
@@ -1214,8 +1223,24 @@ do
         write(GP_print_unit,'(A,4x,L1 )') 'rcntl: L_no_forcing =', &
                                                   L_no_forcing
 
-
-
+                                                                                                                       
+!--------------------------------------------------------------------                                                  
+                                                                                                                       
+                                                                                                                       
+! prob_forcing      = probability that a variable node will be a 
+!                     forcing function node          
+                                                                                                                       
+                                                                                                                       
+    elseif( Aline(1:len('prob_forcing')) == "PROB_FORCING" .or.     &                                                
+            Aline(1:len('prob_forcing')) == "prob_forcing" ) then                                                    
+                                                                                                                       
+        READ(Aline(len('prob_forcing')+1:), * )  prob_forcing                                                        
+                                                                                                                       
+        write(GP_print_unit,'(A,1x,E15.7)') &                                                                          
+              'rcntl: prob_forcing = ', prob_forcing                                                                 
+                                                                                                                       
+                                                                                                                       
+                                                                                                                       
 
 
 !--------------------------------------------------------------------

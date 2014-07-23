@@ -46,7 +46,7 @@ logical Node_Not_Found
 character(200) :: tree_descrip
 
 
-real(kind=4),parameter :: prob_forcing = 0.025
+!real(kind=4),parameter :: prob_forcing = 0.025
 real(kind=4),parameter :: prob_choose_forcing_type = 0.25
 integer(kind=i4b) :: iforce                   
 

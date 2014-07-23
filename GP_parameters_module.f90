@@ -322,4 +322,6 @@ real(kind=r8b) :: sum_if
 
 real(kind=r8b) :: allocated_memory 
 
+real(kind=i4b) :: prob_forcing
+
 end module GP_parameters_module

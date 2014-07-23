@@ -28,7 +28,7 @@ integer(kind=i4b) :: n_parms_per_tree
 
 
 !real(kind=i4b),parameter :: prob_forcing = 0.10  ! 0.20   ! 0.045
-real(kind=i4b) :: prob_forcing = 0.10  ! 0.20   ! 0.045
+!real(kind=i4b) :: prob_forcing = 0.10  ! 0.20   ! 0.045
 real(kind=i4b),parameter :: prob_choose_forcing_type = 0.25  ! DO NOT CHANGE
 
 real(kind=i4b),dimension(2,4) :: frac_forcing_type
@@ -51,15 +51,11 @@ integer(kind=i4b) :: iforce
 
 
 
-! allow user to turn off forcing with input card "no_forcing"
-
-prob_forcing = 0.10
-
-if( L_no_forcing ) then
-
-    prob_forcing = 0.00
-
-endif !  L_no_forcing 
+! allow user to turn off forcing with input card "no_forcing"   ! OLD VERSION
+!prob_forcing = 0.10
+!if( L_no_forcing ) then
+!    prob_forcing = 0.00
+!endif !  L_no_forcing 
 
 
 write(GP_print_unit,'(A,1x,E15.7 )') 'gtb: prob_forcing ', prob_forcing
@@ -369,6 +365,11 @@ do  i_GP_Individual=1,n_GP_Individuals
 
                                     node_variable = -5004
 
+                                    ! turn off the daily forcing only
+                                    if( L_no_forcing ) then
+                                        node_variable = 0
+                                    endif ! L_no_forcing 
+
                                 elseif( cff >  frac_forcing_type(1, 2) .and.  &
                                         cff <= frac_forcing_type(2, 2)         )then
 
@@ -380,6 +381,7 @@ do  i_GP_Individual=1,n_GP_Individuals
                                     node_variable = -5001
 
                                 endif ! cff < frac_forcing_type(1,3) ...
+
 
 
                                 !write(GP_print_unit,'(A,2(1x,I6))') &
