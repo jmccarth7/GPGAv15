@@ -316,81 +316,84 @@ do  i_GP_Individual=1,n_GP_Individuals
 
                             !  set some variables to the forcing functions -5001 -> -5004
 
-                            call random_number(cff)
+                            node_variable = 0
+                            call set_forcing_node( node_variable )
 
-                            !write(GP_print_unit,'(A,2(1x,E15.7))') &
-                            !      'gtb:3 cff, prob_forcing', cff, prob_forcing
+                            !    call random_number(cff)
 
-                            if( cff < prob_forcing )then
+                            !!write(GP_print_unit,'(A,2(1x,E15.7))') &
+                            !!      'gtb:3 cff, prob_forcing', cff, prob_forcing
 
-                                call random_number(cff)
+                            !if( cff < prob_forcing )then
 
-                                !write(GP_print_unit,'(A,2(1x,E15.7))') &
-                                !      'gtb:4 cff, prob_choose_forcing_type', &
-                                !             cff, prob_choose_forcing_type
+                                !call random_number(cff)
+
+                                !!write(GP_print_unit,'(A,2(1x,E15.7))') &
+                                !!      'gtb:4 cff, prob_choose_forcing_type', &
+                                !!             cff, prob_choose_forcing_type
 
 
-                                node_variable = 0
-                                !if( cff < prob_choose_forcing_type ) node_variable = -5001
-                                !
-                                !do  iforce=1,3
-                                !
-                                !if( prob_choose_forcing_type * float(iforce) < cff .and. &
-                                !prob_choose_forcing_type * float(iforce+1) >= cff  )then
-                                !node_variable = -1 * (5000 + iforce + 1 )
-                                !endif ! prob_choose_forcing_type * float(iforce) < cff...
-                                !
-                                !enddo ! iforce
-                                !
-                                !! in case cff is very close to 1.0000
-                                !if( node_variable == 0 ) node_variable = -5004
+                                !node_variable = 0
+                                !!if( cff < prob_choose_forcing_type ) node_variable = -5001
+                                !!
+                                !!do  iforce=1,3
+                                !!
+                                !!if( prob_choose_forcing_type * float(iforce) < cff .and. &
+                                !!prob_choose_forcing_type * float(iforce+1) >= cff  )then
+                                !!node_variable = -1 * (5000 + iforce + 1 )
+                                !!endif ! prob_choose_forcing_type * float(iforce) < cff...
+                                !!
+                                !!enddo ! iforce
+                                !!
+                                !!! in case cff is very close to 1.0000
+                                !!if( node_variable == 0 ) node_variable = -5004
 
-                                !if( cff < frac_forcing_type(3) )then
+                                !!if( cff < frac_forcing_type(3) )then
+                                !!    node_variable = -5003
+                                !!elseif( cff < frac_forcing_type(4) ) then
+                                !!    node_variable = -5004
+                                !!elseif( cff < frac_forcing_type(2) ) then
+                                !!    node_variable = -5002
+                                !!else
+                                !!    node_variable = -5001
+                                !!endif ! cff < frac_forcing_type(3)
+
+                                !if( cff >  frac_forcing_type(1, 3) .and.  &
+                                !    cff <= frac_forcing_type(2, 3)         )then
+
                                 !    node_variable = -5003
-                                !elseif( cff < frac_forcing_type(4) ) then
+
+                                !elseif( cff >  frac_forcing_type(1, 4) .and.  &
+                                !        cff <= frac_forcing_type(2, 4)         )then
+
                                 !    node_variable = -5004
-                                !elseif( cff < frac_forcing_type(2) ) then
+
+                                !    ! turn off the daily forcing only
+                                !    if( L_no_forcing ) then
+                                !        node_variable = 0
+                                !    endif ! L_no_forcing 
+
+                                !elseif( cff >  frac_forcing_type(1, 2) .and.  &
+                                !        cff <= frac_forcing_type(2, 2)         )then
+
                                 !    node_variable = -5002
-                                !else
+
+                                !elseif( cff >  frac_forcing_type(1, 1) .and.  &
+                                !        cff <= frac_forcing_type(2, 1)         )then
+
                                 !    node_variable = -5001
-                                !endif ! cff < frac_forcing_type(3)
 
-                                if( cff >  frac_forcing_type(1, 3) .and.  &
-                                    cff <= frac_forcing_type(2, 3)         )then
-
-                                    node_variable = -5003
-
-                                elseif( cff >  frac_forcing_type(1, 4) .and.  &
-                                        cff <= frac_forcing_type(2, 4)         )then
-
-                                    node_variable = -5004
-
-                                    ! turn off the daily forcing only
-                                    if( L_no_forcing ) then
-                                        node_variable = 0
-                                    endif ! L_no_forcing 
-
-                                elseif( cff >  frac_forcing_type(1, 2) .and.  &
-                                        cff <= frac_forcing_type(2, 2)         )then
-
-                                    node_variable = -5002
-
-                                elseif( cff >  frac_forcing_type(1, 1) .and.  &
-                                        cff <= frac_forcing_type(2, 1)         )then
-
-                                    node_variable = -5001
-
-                                endif ! cff < frac_forcing_type(1,3) ...
+                                !endif ! cff < frac_forcing_type(1,3) ...
 
 
 
                                 !write(GP_print_unit,'(A,2(1x,I6))') &
                                 !      'gtb:4 node_variable', node_variable
 
-                                GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) = &
-                                                                                  Node_Variable
-                            endif !  cff < prob_forcing
+                            !endif !  cff < prob_forcing
 
+                            GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) = &
+                                                                               Node_Variable
                             !----------------------------------------------------------------------
 
                             !write(GP_print_unit,'(A,4(1x,I6))') &

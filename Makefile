@@ -42,6 +42,7 @@ SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 allocate_arrays1.f90 \
 	rm_exp_paren.f90 Runge_Kutta_Box_Model_new.f90 \
 	select_best_RK_lmdif_result.f90 serialize_trees.f90 \
 	set_answer_arrays.f90 set_modified_indiv.f90 setup1.f90 \
+	set_forcing_node.f90 \
 	setup_run_fcn.f90 setup_run_lmdif.f90 setup_run_para_lmdif.f90 \
 	sort.f90 sse0_calc.f90 summary_GP_indiv.f90 summary_GP_indiv2.f90 \
 	summary_GP_all.f90 \
@@ -86,6 +87,7 @@ OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o allocate_arrays1.o \
 	Runge_Kutta_Box_Model_new.o select_best_RK_lmdif_result.o \
 	serialize_trees.o set_answer_arrays.o set_modified_indiv.o setup1.o \
 	setup_run_fcn.o setup_run_lmdif.o setup_run_para_lmdif.o sort.o \
+	set_forcing_node.o   \
 	sse0_calc.o summary_GP_indiv.o summary_GP_indiv2.o \
 	summary_GP_all.o \
 	summary_GP_minSSE_indiv.o swap_module.o Tree_Helper_module.o \
@@ -384,6 +386,8 @@ set_answer_arrays.o: GA_parameters_module.o GA_variables_module.o \
 set_modified_indiv.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
 	kinds_mod.o mpi_module.o
+set_forcing_node.o: GA_parameters_module.o GA_variables_module.o \
+	GP_parameters_module.o GP_variables_module.o kinds_mod.o mpi_module.o
 setup1.o: GA_parameters_module.o GA_variables_module.o GP_data_module.o \
 	GP_parameters_module.o GP_variables_module.o class_tree_node.o \
 	fasham_variables_module.o kinds_mod.o mpi_module.o \

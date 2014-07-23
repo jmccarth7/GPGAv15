@@ -267,40 +267,43 @@ do  i_GP_Mutation = 1,n_GP_Mutations
 
                 !  set some variables to the forcing functions -5001 -> -5004
     
-                call random_number(cff)
-    
-                !write(GP_print_unit,'(A,2(1x,E15.7))') &
-                !      'gpmut:3 cff, prob_forcing', cff, prob_forcing
-    
-                if( cff < prob_forcing )then
-    
-                    call random_number(cff)
-    
-                    !write(GP_print_unit,'(A,2(1x,E15.7))') &
-                    !      'gpmut:4 cff, prob_choose_forcing_type', &
-                    !               cff, prob_choose_forcing_type
+                node_variable = 0
+                call set_forcing_node( node_variable )
 
-                    node_variable = 0
-                    if( cff < prob_choose_forcing_type ) node_variable = -5001
+                !call random_number(cff)
     
-                    do  iforce=1,3
+                !!write(GP_print_unit,'(A,2(1x,E15.7))') &
+                !!      'gpmut:3 cff, prob_forcing', cff, prob_forcing
     
-                        if( prob_choose_forcing_type * float(iforce) < cff .and. &
-                            prob_choose_forcing_type * float(iforce+1) >= cff  )then
-                            node_variable = -1 * (5000 + iforce + 1 )
-                        endif ! prob_choose_forcing_type * float(iforce) < cff...
+                !if( cff < prob_forcing )then
     
-                    enddo ! iforce
+                !    call random_number(cff)
     
-                    ! in case cff is very close to 1.0000
-                    if( node_variable == 0 ) node_variable = -5004
+                !    !write(GP_print_unit,'(A,2(1x,E15.7))') &
+                !    !      'gpmut:4 cff, prob_choose_forcing_type', &
+                !    !               cff, prob_choose_forcing_type
+
+                !    node_variable = 0
+                !    if( cff < prob_choose_forcing_type ) node_variable = -5001
     
-                    !write(GP_print_unit,'(A,2(1x,I6))') &
-                    !      'gpmut:4 node_variable', node_variable
-                    GP_Child_Population_Node_Type(&
-                       Node_to_Mutate,i_Tree_Mutation,i_GP_Individual) = Node_Variable
-                endif !  cff < prob_forcing 
+                !    do  iforce=1,3
     
+                !        if( prob_choose_forcing_type * float(iforce) < cff .and. &
+                !            prob_choose_forcing_type * float(iforce+1) >= cff  )then
+                !            node_variable = -1 * (5000 + iforce + 1 )
+                !        endif ! prob_choose_forcing_type * float(iforce) < cff...
+    
+                !    enddo ! iforce
+    
+                !    ! in case cff is very close to 1.0000
+                !    if( node_variable == 0 ) node_variable = -5004
+    
+                !    !write(GP_print_unit,'(A,2(1x,I6))') &
+                !    !      'gpmut:4 node_variable', node_variable
+                !endif !  cff < prob_forcing 
+    
+                GP_Child_Population_Node_Type(Node_to_Mutate,i_Tree_Mutation,i_GP_Individual) = &
+                                              Node_Variable
     
                 !----------------------------------------------------------------------                     
                 !write(GP_print_unit,'(A,4(1x,I6))') &
