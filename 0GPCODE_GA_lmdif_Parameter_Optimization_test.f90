@@ -842,26 +842,26 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
     else !  i_GP_Generation > 1
 
 
-            if( L_restart  .and. &
-                i_start_generation == i_GP_generation )then
+        if( L_restart  .and. &
+            i_start_generation == i_GP_generation )then
 
-                if(  myid == 0 ) then
-                    write(GP_print_unit,'(/A/)') &
+            if( myid == 0 ) then
+                write(GP_print_unit,'(/A/)') &
                       '0: call read_all_summary_file '                         
 
-                    call read_all_summary_file( i_GP_generation,  zero )
+                call read_all_summary_file( i_GP_generation,  zero )
 
-                endif ! myid == 0 
+            endif ! myid == 0 
 
-                message_len = n_GP_Individuals * n_Nodes * n_Trees
-                call MPI_BCAST( GP_Adult_Population_Node_Type, message_len,    &
+            message_len = n_GP_Individuals * n_Nodes * n_Trees
+            call MPI_BCAST( GP_Adult_Population_Node_Type, message_len,    &
                                 MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
 
-                GP_Child_Population_Node_Type =  GP_Adult_Population_Node_Type
-                GP_Child_Individual_SSE       = GP_Adult_Population_SSE   ! needed ??  jjm 20140721
+            GP_Child_Population_Node_Type =  GP_Adult_Population_Node_Type
+            GP_Child_Individual_SSE       = GP_Adult_Population_SSE   ! needed ??  jjm 20140721
 
 
-            endif ! L_restart
+        endif ! L_restart
 
         ! create the next 'generation' of tree structures using either:
 
@@ -1222,12 +1222,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
         !         GP_Adult_Population_Node_Type, trim( tree_descrip )  )
 
 
-        !if( .not. L_restart .or.   &
-        !    ( L_restart .and. i_GP_generation > i_start_generation )  )then
-
-            call GP_Clean_Tree_Nodes
-
-        !endif ! .not. L_restart
+        call GP_Clean_Tree_Nodes
 
 
         !tree_descrip =  ' trees after call to GP_Clean_Tree_Nodes'
