@@ -254,12 +254,6 @@ do  i_GA_generation = 1, n_GA_Generations
             !   do initial "GA Fitness-Proportionate Reproduction"
             !   to create a new population of children for all n_GA_individual
 
-            !if( L_ga_print )then
-                !write(6,'(A)')&
-                !      'GP_GA_opt: call GA_Fitness_Proportionate_Reproduction '
-            !endif ! L_ga_print
-
-
             ! uses:
             !  individual_quality
             !  Individual_Ranked_Fitness
@@ -282,12 +276,6 @@ do  i_GA_generation = 1, n_GA_Generations
             !   and randomly use it to replace the parents with the new children
 
             if( n_GA_Crossovers .gt. 0) then
-
-                !if( L_ga_print )then
-                !    write(6,'(A,1x,I6)')&
-                !      'GP_GA_opt: call GA_Tournament_Style_Sexual_Repro  &
-                !      &n_GA_Crossovers',  n_GA_Crossovers
-                !endif ! L_ga_print
 
                 ! uses:
                 !  Individual_Ranked_Fitness
@@ -313,11 +301,6 @@ do  i_GA_generation = 1, n_GA_Generations
 
             if( n_GA_Mutations .gt. 0) then
 
-                !if( L_ga_print )then
-                !    write(6,'(A,1x,I6)')&
-                !      'GP_GA_opt: call GA_Mutations  n_GA_Mutations',  n_GA_Mutations
-                !endif ! L_ga_print
-
                 ! uses:
 
                 ! sets:
@@ -338,12 +321,6 @@ do  i_GA_generation = 1, n_GA_Generations
             !   its parameters
 
             if( n_GA_rand_replaces > 0) then
-
-                !if( L_ga_print )then
-                !    !write(6,'(A,1x,I6)')&
-                !      'GP_GA_opt: call GA_rand_replace  n_GA_rand_replaces',  &
-                !                                        n_GA_rand_replaces
-                !endif ! L_ga_print
 
 
                 ! uses:
@@ -397,15 +374,6 @@ do  i_GA_generation = 1, n_GA_Generations
     !  broadcast child parameters
 
 
-    !if( L_ga_print )then
-    !    write(GA_print_unit,'(/A,2(1x,I6))') &
-    !    'GP_GA_opt:  broadcast child parameters new_rank, i_GA_generation ', &
-    !                                            new_rank, i_GA_generation
-    !    write(6,'(A,2(1x,I3))') &
-    !    'GP_GA_opt:  broadcast child parameters new_rank, i_GA_generation ', &
-    !                                            new_rank, i_GA_generation
-    !endif ! L_ga_print
-
     child_number =  n_GA_individuals * n_GP_parameters
 
     !if( L_ga_print )then
@@ -422,72 +390,20 @@ do  i_GA_generation = 1, n_GA_Generations
                     MPI_DOUBLE_PRECISION, 0, new_comm, ierr )
 
 
-    !if( new_rank == 0 )then
-    !    if( L_ga_print )then
-    !        write(6,'(/A,1x,I3,1x,I6/)') &
-    !         'GP_GA_opt: child  broadcast new_rank, ierr = ', new_rank, ierr
-    !        write(6,'(/A,2(1x,I3)/)') &
-    !         'GP_GA_opt: new_rank, n_GA_individuals = ', new_rank, n_GA_individuals
-    !        do  i_ga_ind = 1, n_GA_individuals
-    !            write(6,'(I3,1x,I3,1x,12(1x,E15.7))') &
-    !                  new_rank, i_ga_ind, &
-    !                  ( child_parameters(jj,i_ga_ind), jj = 1,n_parameters )
-    !        enddo ! i_ga_ind
-    !    endif ! L_ga_print
-    !endif ! new_rank == 0
-
-
-
 
     !------------------------------------------------------------------------
 
     ! broadcast Run_GA_lmdif
 
-    !if( new_rank == 0 )then
-    !    if( L_ga_print )then
-    !        write(6,'(/A,2(1x,I6))') &
-    !          'GP_GA_opt:  broadcast Run_GA_lmdif new_rank,i_GA_generation ', &
-    !                                              new_rank,i_GA_generation
-    !    endif ! L_ga_print
-    !endif ! new_rank == 0
-
 
     call MPI_BCAST( Run_GA_lmdif,  n_GA_individuals,    &
                         MPI_LOGICAL, 0, new_comm, ierr )
-
-    !if( new_rank == 0 )then
-    !    if( L_ga_print )then
-    !        write(GA_print_unit,'(A,1x,I10/)') &
-    !         'GP_GA_opt: Run_GA_lmdif  broadcast ierr = ', ierr
-    !        write(GA_print_unit,'(/A,1x,I6,/(10(2x,L1)))') &
-    !         'GP_GA_opt: new_rank, Run_GA_lmdif  ', new_rank, Run_GA_lmdif
-    !        write(6,'(A,1x,I3,1x,I10/)') &
-    !         'GP_GA_opt: Run_GA_lmdif  broadcast new_rank,  ierr = ', ierr
-    !        write(6,'(A,1x,I6,10(2x,L1))') &
-    !         'GP_GA_opt: new_rank, Run_GA_lmdif  ', new_rank, Run_GA_lmdif
-    !    endif ! L_ga_print
-    !endif ! new_rank == 0
 
 
     !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     !   begin RK fcn integration segment
     !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-
-    !if( new_rank == 0 )then
-    !    if( L_ga_print )then
-    !        write(GA_print_unit,'(/A,1x,I4,1x,A,1x,I6/)') &
-    !          'GP_GA_opt: begin RK fcn integration   i_GA_generation =', &
-    !                                                 i_GA_generation,    &
-    !                                         '       n_GA_individuals =', &
-    !                                                 n_GA_individuals
-    !        write(6,'(/A,1x,I4,1x,A,2(1x,I6))') &
-    !          'GP_GA_opt: begin RK fcn integration   i_GA_generation =', &
-    !                                                 i_GA_generation,    &
-    !                                         '       n_GA_individuals, myid =', &
-    !                                                 n_GA_individuals, myid
-    !    endif ! L_ga_print
-    !endif !  new_rank == 0
 
 
     individual_quality( 1: n_GA_individuals ) = 1
@@ -510,26 +426,12 @@ do  i_GA_generation = 1, n_GA_Generations
 
             i_ga_ind = i_ga_ind + 1
 
-            !if( L_ga_print )then
-            !    write(GA_print_unit,'(A,1x,I6, 4x, L1)') &
-            !     'GP_GA_opt:1 494 i_ga_ind, Run_GA_lmdif(i_ga_ind)  ', &
-            !                      i_ga_ind, Run_GA_lmdif(i_ga_ind)
-            !endif ! L_ga_print
-
 
             call MPI_SEND( i_dummy,  1, MPI_INTEGER,    &
                            isource, isource,  new_comm, ierr )
 
             numsent = numsent + 1
 
-            !if( L_ga_print )then
-            !    write(GA_print_unit,'(A,4(1x,I6))') &
-            !     'GP_GA_opt:1 504 new_rank, isource, i_ga_ind, numsent ', &
-            !                      new_rank, isource, i_ga_ind, numsent
-            !    write(6,'(A,4(1x,I3))') &
-            !     'GP_GA_opt:1 504 new_rank, isource, i_ga_ind, numsent ', &
-            !                      new_rank, isource, i_ga_ind, numsent
-            !endif ! L_ga_print
 
         enddo ! isource
 
@@ -537,27 +439,12 @@ do  i_GA_generation = 1, n_GA_Generations
         ! at this point i_ga_ind = numsent
 
 
-        !if( L_ga_print )then
-        !    write(GA_print_unit,'(A,4(1x,I6))') &
-        !         'GP_GA_opt: aft source loop 1 new_rank, i_ga_ind, numsent ', &
-        !                                       new_rank, i_ga_ind, numsent
-        !    write(6,'(A,4(1x,I3))') &
-        !         'GP_GA_opt: aft source loop 1 new_rank, i_ga_ind, numsent ', &
-        !                                       new_rank, i_ga_ind, numsent
-        !endif ! L_ga_print
-
         !-------------------------------------------------------------------------------------
 
         ! processor 0 loops over the number of individuals and waits for a message
         ! from the other processors
 
         do  isource = 1, n_GA_individuals
-
-            !if( L_ga_print )then
-            !    write(GA_print_unit,'(A,3(1x,I6))') &
-            !     'GP_GA_opt:2 521 new_rank, isource, numsent ', &
-            !                      new_rank, isource, numsent
-            !endif ! L_ga_print
 
 
             buffer_recv = 0.0d0
@@ -575,19 +462,6 @@ do  i_GA_generation = 1, n_GA_Generations
             ! individual "i_individual"
 
 
-            !if( L_ga_print )then
-            !    write(GA_print_unit,'(A,5(1x,I6))') &
-            !     'GP_GA_opt:2 529 new_rank, MPI_STAT( MPI_SOURCE ), MPI_STAT( MPI_TAG )', &
-            !                      new_rank, MPI_STAT( MPI_SOURCE ), MPI_STAT( MPI_TAG )
-            !    write(GA_print_unit,'(A,5(1x,I6))') &
-            !     'GP_GA_opt:2 529 new_rank, isource, numsent, sender, i_individual ', &
-            !                      new_rank, isource, numsent, sender, i_individual
-            !    write(GA_print_unit,'(A,2(1x,I6),4x,L1)') &
-            !      'GP_GA_opt:2 new_rank, i_individual, Run_GA_lmdif(i_individual)', &
-            !                   new_rank, i_individual, Run_GA_lmdif(i_individual)
-            !endif ! L_ga_print
-
-
             ! store the information received in the above message
 
             if( Run_GA_lmdif(i_individual) ) then
@@ -601,26 +475,10 @@ do  i_GA_generation = 1, n_GA_Generations
                 individual_quality(i_individual) = nint( buffer_recv( n_GP_parameters+2) )
 
                 !if( L_ga_print )then
-                !    write(GA_print_unit,'(A,3(1x,I6))') &
-                !     'GP_GA_opt:2 554 new_rank, n_parameters, i_individual', &
-                !                      new_rank, n_parameters, i_individual
-                !    !write(GA_print_unit,'(A,1x,I6,1x, A/(5(1x,E15.7)))') &
-                !    ! 'GP_GA_opt:2 new_rank = ',new_rank, &
-                !    ! ' child_parameters(1:n_parameters,i_individual)', &
-                !    !   child_parameters(1:n_parameters,i_individual)
-                !    write(GA_print_unit,'(A,2(1x,I6),1x,E15.7)') &
-                !     'GP_GA_opt:2 new_rank, i_individual, individual_SSE(i_individual)', &
-                !                  new_rank, i_individual, individual_SSE(i_individual)
-                !    write(GA_print_unit,'(A,3(1x,I6))') &
-                !     'GP_GA_opt:2 new_rank, i_individual, individual_quality(i_individual)', &
-                !                  new_rank, i_individual, individual_quality(i_individual)
-                !    write(6,'(A,2(1x,I3),1x,E15.7, 1x,I3)') &
+                !    write(GA_print_unit,'(A,2(1x,I3),1x,E15.7, 1x,I3)') &
                 !     'GP_GA_opt:2 new_rank, i_indiv, indiv_SSE, indiv_quality', &
                 !                  new_rank, i_individual, individual_SSE(i_individual), &
                 !                                          individual_quality(i_individual)
-                !    !write(6,'(A,3(1x,I6))') &
-                !    ! 'GP_GA_opt:2 new_rank, i_individual, individual_quality(i_individual)', &
-                !    !              new_rank, i_individual, individual_quality(i_individual)
                 !endif ! L_ga_print
 
             endif ! Run_GA_lmdif(i_individual)
@@ -652,13 +510,6 @@ do  i_GA_generation = 1, n_GA_Generations
 
                 call MPI_SEND( i_ga_ind, 1, MPI_INTEGER,    &
                                sender, numsent+1,  new_comm, ierr )
-
-                !if( L_ga_print )then
-                !    write(GA_print_unit,'(A,4(1x,I6))') &
-                !      'GP_GA_opt:2 554 send new_rank, sender, numsent, i_ga_ind', &
-                !                            new_rank, sender, numsent, i_ga_ind
-                !endif ! L_ga_print
-
 
                 ! just sent a new task, so increment the number sent
 
@@ -736,12 +587,6 @@ do  i_GA_generation = 1, n_GA_Generations
         recv_loop:&
         do
 
-            !if( new_rank == 1 )then
-            !    !write(GA_print_unit,'(A,1x,I6)') &
-                !write(6,'(A,1x,I3)') &
-                !      'GP_GA_opt: new_rank  proc1 in recv_loop', new_rank
-            !endif
-
 
             call MPI_RECV( i_dummy, 1, MPI_INTEGER,    &
                            0, MPI_ANY_TAG,  new_comm , MPI_STAT, ierr )
@@ -770,10 +615,7 @@ do  i_GA_generation = 1, n_GA_Generations
             buffer = 0.0D0
 
             !if( L_ga_print )then
-            !    write(6,'(A,4(1x,I6))') &
-            !    'GP_GA_opt:3 new_rank, i_dummy, MPI_STAT( MPI_TAG ), i_2_individual', &
-            !                 new_rank, i_dummy, MPI_STAT( MPI_TAG ), i_2_individual
-            !    write(6,'(A,4(1x,I3))') &
+            !    write(GA_print_unit,'(A,4(1x,I6))') &
             !    'GP_GA_opt:3 new_rank, i_dummy, MPI_STAT( MPI_TAG ), i_2_individual', &
             !                 new_rank, i_dummy, MPI_STAT( MPI_TAG ), i_2_individual
             !    write(GA_print_unit,'(A,2(1x,I6),4x,L1)') &
@@ -788,6 +630,7 @@ do  i_GA_generation = 1, n_GA_Generations
                 !      'GP_GA_opt:3 call setup_run_fcn  new_rank, i_2_individual', &
                 !                                       new_rank, i_2_individual
                 !endif ! L_ga_print
+
                 !write(6,'(A,2(1x,I3))') &
                 !      'GP_GA_opt:3 call setup_run_fcn  new_rank, i_2_individual', &
                 !                                       new_rank, i_2_individual
@@ -810,15 +653,8 @@ do  i_GA_generation = 1, n_GA_Generations
                                     child_parameters,individual_quality, &
                                     new_group, new_comm )
 
-                !debug only individual_SSE( i_2_individual )   = &         !debug only 
-                !debug only       real( new_rank,kind=8) * 1000.0d0 + &    !debug only
-                !debug only       real( i_2_individual ,kind=8) * 100.0d0  !debug only
-                !debug only individual_quality(i_2_individual) = 1         !debug only
 
                 !if( L_ga_print )then
-                !    write(GA_print_unit,'(A,3(1x,I6))') &
-                !      'GP_GA_opt:3 AFTER call setup_run_fcn new_rank, i_2_individual', &
-                !                                            new_rank, i_2_individual
                 !write(GA_print_unit,'(A,2(1x,I3),1x,E15.7,1x,I4)') &
                 !      'GP_GA_opt:3 AFTER call setup new_rank, i_2_individual, indiv_SSE, indiv_qual', &
                 !                                    new_rank, i_2_individual, &
@@ -826,6 +662,7 @@ do  i_GA_generation = 1, n_GA_Generations
                 !                                    individual_quality(i_2_individual) 
                 !    !flush(GA_print_unit)
                 !endif ! L_ga_print
+
                 !write(6,'(A,2(1x,I3),1x,E15.7,1x,I4)') &
                 !  'GP_GA_opt:3 AFTER call setup new_rank, i_2_individual, indiv_SSE, indiv_qual', &
                 !                                new_rank, i_2_individual, &
@@ -848,12 +685,6 @@ do  i_GA_generation = 1, n_GA_Generations
 
             !if( L_ga_print )then
             !    write(GA_print_unit,'(A,3(1x,I6))') &
-            !    'GP_GA_opt:3 705 new_rank, n_GP_parameters, i_2_individual', &
-            !                     new_rank, n_GP_parameters, i_2_individual
-            !    write(GA_print_unit,'(A/(5(1x,E15.7)))') &
-            !    'GP_GA_opt:3 child_parameters(1:n_parameters,i_2_individual)', &
-            !                 child_parameters(1:n_parameters,i_2_individual)
-            !    write(GA_print_unit,'(A,3(1x,I6))') &
             !    'GP_GA_opt:3 new_rank, i_2_individual, individual_quality(i_2_individual)', &
             !                 new_rank, i_2_individual, individual_quality(i_2_individual)
             !    write(GA_print_unit,'(A,2(1x,I6), 1x, E15.7)') &
@@ -868,6 +699,7 @@ do  i_GA_generation = 1, n_GA_Generations
             ! for individual i_2_individual to processor 0
 
             itag7 = i_2_individual ! + itag4
+
             call MPI_SEND( buffer, n_GP_parameters+2,  &
                            MPI_DOUBLE_PRECISION, 0, &
                            itag7, new_comm, ierr )
@@ -879,11 +711,6 @@ do  i_GA_generation = 1, n_GA_Generations
             ! code to ensure that an error does not allow this loop to run forever
 
             nsafe = nsafe + 1
-
-            !if( L_ga_print )then
-            !    write(GA_print_unit,'(A,2(1x,I10))') &
-            !      'GP_GA_opt: new_rank, nsafe =', new_rank, nsafe
-            !endif ! L_ga_print
 
             if( nsafe > 100 * n_GA_individuals ) then
 
@@ -928,15 +755,6 @@ do  i_GA_generation = 1, n_GA_Generations
 
     call MPI_BARRIER( new_comm, ierr )
 
-    !if( L_ga_print )then
-    !    write(GA_print_unit,'(A,2(1x,I6))') &
-    !      'GP_GA_opt: after barrier 2 i_GA_generation, new_rank = ', &
-    !                                  i_GA_generation, new_rank
-    !    write(6,'(A,2(1x,I3))') &
-    !      'GP_GA_opt: after barrier 2 i_GA_generation, new_rank = ', &
-    !                                  i_GA_generation, new_rank
-    !endif ! L_ga_print
-
     !-------------------------------------------------------------------
 
 
@@ -955,6 +773,7 @@ do  i_GA_generation = 1, n_GA_Generations
         !          'GP_GA_opt: GP_Individual_Initial_Conditions ', &
         !                      GP_Individual_Initial_Conditions(1:n_code_equations)
         !endif ! L_ga_print
+
         !write(6,'(/A,1x,I3)') &
         !      'GP_GA_opt: call calc_fitness i_GA_generation ', &
         !                                    i_GA_generation
@@ -977,45 +796,11 @@ do  i_GA_generation = 1, n_GA_Generations
                            i_GP_Generation, i_GP_individual, &
                            new_group, new_comm  )
 
-
-        !if( L_ga_print )then
-        !    write(GA_print_unit,'(/A,1x,I6/)') &
-        !          'GP_GA_opt: aft call calc_fitness i_GA_generation ', &
-        !                                            i_GA_generation
-        !endif ! L_ga_print
-        !write(6,'(A,1x,I3/)') &
-        !       'GP_GA_opt: aft call calc_fitness i_GA_generation ', &
-        !                                         i_GA_generation
-        !flush(6)
-
-        !---------------------------------------------------------------------
-
-        ! this subroutine, if called, will run lmdif on the best individual
-        ! for this generation, instead of waiting to run lmdif after the
-        ! generation loop
-
-        !    call select_best_RK_lmdif_result( &
-        !                i_GP_Generation,i_GP_individual, &
-        !                i_GA_best_parent, parent_parameters, &
-        !                child_parameters, &
-        !                L_stop_run  )
-        !                !individual_quality, L_stop_run  )
-
         !---------------------------------------------------------------------
 
 
 
     endif ! new_rank == 0
-
-    !if( i_GA_generation > 1 )then
-    !    if( L_ga_print )then
-    !        write(GA_print_unit,'(A,2(1x,I6))') &
-    !          'GP_GA_opt: at stop  i_GA_generation, new_rank = ', &
-    !                               i_GA_generation, new_rank
-    !        call MPI_FINALIZE(ierr) ! debug only
-    !        stop ! debug only
-    !    endif ! L_ga_print
-    !endif ! i_GA_generation > 1
 
     !-------------------------------------------------------------------
 
@@ -1061,12 +846,6 @@ enddo  ! i_generation
 
 call MPI_BARRIER( new_comm, ierr )    ! necessary?
 
-!if( L_ga_print )then
-!    write(GA_print_unit,'(A,1x,I6)') &
-!          'GP_GA_opt: after barrier 3 new_rank = ', new_rank
-    !write(6,'(A,1x,I3)') &
-    !      'GP_GA_opt: after barrier 3 new_rank = ', new_rank
-!endif ! L_ga_print
 
 !----------------------------------------------------------------------
 
@@ -1105,6 +884,7 @@ if( new_rank == 0  )then
     !    write(GA_print_unit,'(/A//)') &
     !      'GP_GA_opt: aft call select_best_RK_lmdif_result '
     !endif ! L_ga_print
+
     !write(6,'(A/)') &
     !     'GP_GA_opt: aft call select_best_RK_lmdif_result '
     !write(6,'(A,3(1x,I3),1x,E15.7)') &
@@ -1121,12 +901,6 @@ endif ! new_rank == 0
 ! broadcast individual_fitness
 
 
-!if( L_ga_print )then
-    !write(6,'(/A,2(1x,I6))') &
-    ! 'GP_GA_opt: broadcast individual_fitness myid, new_rank  = ', myid, new_rank
-!endif ! L_ga_print
-!write(6,'(A,1x,I5,1x,I5)') 'GP_GA_opt:2  myid, new_rank ', myid, new_rank
-
 
 message_len = 1
 call MPI_BCAST( individual_fitness, message_len,    &
@@ -1140,11 +914,11 @@ call MPI_BCAST( individual_fitness, message_len,    &
 !if( L_ga_print )then
 !    write(GA_print_unit,'(/A,1x,I6)') &
 !     'GP_GA_opt: aft broadcast individual_fitness  ierr = ', ierr
-!if( new_rank == 0 )then
-!write(6,'(/A,2(1x,I6), 1x,F10.2/)') &
-!     'GP_GA_opt: aft REDUCE myid, new_rank, sum_if', &
-!                            myid, new_rank, sum_if
-!endif 
+!    if( new_rank == 0 )then
+!        write(6,'(/A,2(1x,I6), 1x,F10.2/)') &
+!         'GP_GA_opt: aft REDUCE myid, new_rank, sum_if', &
+!                                myid, new_rank, sum_if
+!    endif 
 !endif ! L_ga_print
 
 
@@ -1153,14 +927,6 @@ call MPI_BCAST( individual_fitness, message_len,    &
 ! broadcast Individual_SSE_best_parent
 
 
-!if( L_ga_print )then
-!    write(6,'(A,1x,I3)') &
-!     'GP_GA_opt: broadcast Individual_SSE_best_parent new_rank = ', new_rank
-!write(6,'(A,3(1x,I6),1x,E15.7)') &
-!    'GP_GA_opt: bef broadcast myid, new_rank, ierr, Individual_SSE_best_parent = ', &
-!                              myid, new_rank, ierr, Individual_SSE_best_parent
-
-!endif ! L_ga_print
 
 message_len = 1
 call MPI_BCAST( Individual_SSE_best_parent, message_len,    &
@@ -1182,21 +948,10 @@ call MPI_BCAST( Individual_SSE_best_parent, message_len,    &
 ! broadcast GP_Individual_Node_Parameters
 
 
-!if( L_ga_print )then
-!    write(6,'(A,1x,I3)') &
-!     'GP_GA_opt: broadcast GP_Individual_Node_Parameters  new_rank = ', new_rank
-!endif ! L_ga_print
-
 message_len = n_trees * n_nodes
 
 call MPI_BCAST( GP_Individual_Node_Parameters, message_len,    &
                 MPI_DOUBLE_PRECISION, 0, new_comm, ierr )
-                !MPI_DOUBLE_PRECISION, myid, MPI_COMM_WORLD, ierr )
-
-!if( L_ga_print )then
-!    write(GA_print_unit,'(/A,1x,I6)') &
-!     'GP_GA_opt: aft broadcast GP_Individual_Node_Parameters  ierr = ', ierr
-!endif ! L_ga_print
 
 
 !------------------------------------------------------------------------
@@ -1204,22 +959,11 @@ call MPI_BCAST( GP_Individual_Node_Parameters, message_len,    &
 ! broadcast GP_Individual_Initial_Conditions
 
 
-!if( L_ga_print )then
-!    write(6,'(A,1x,I3)') &
-!     'GP_GA_opt: broadcast GP_Individual_Initial_Conditions new_rank = ', new_rank
-!endif ! L_ga_print
 
 message_len = n_CODE_equations
 
 call MPI_BCAST( GP_Individual_Initial_Conditions, message_len,    &
                 MPI_DOUBLE_PRECISION, 0, new_comm, ierr )
-                !MPI_DOUBLE_PRECISION, myid, MPI_COMM_WORLD, ierr )
-
-!if( L_ga_print )then
-!    write(GA_print_unit,'(/A,1x,I6)') &
-!     'GP_GA_opt: aft broadcast GP_Individual_Initial_Conditions ierr = ', ierr
-!endif ! L_ga_print
-
 
 !------------------------------------------------------------------------
 
