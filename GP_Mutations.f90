@@ -47,7 +47,7 @@ character(200) :: tree_descrip
 
 
 !real(kind=4),parameter :: prob_forcing = 0.025
-real(kind=4),parameter :: prob_choose_forcing_type = 0.25
+!real(kind=4),parameter :: prob_choose_forcing_type = 0.25
 integer(kind=i4b) :: iforce                   
 
 !------------------------------------------------------------------------
@@ -105,21 +105,6 @@ do  i_GP_Mutation = 1,n_GP_Mutations
 
     !--------------------------------------------------------------------------
 
-    ! fill in the chosen Child with the Parent's tree information
-
-    !do  i_Node = 1,n_Nodes
-    !    do  i_Tree = 1,n_Trees
-    !        GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual)  =  &
-    !        GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_Individual)
-    !    enddo ! i_tree
-    !enddo ! i_node
-
-    !write(6,'(A,2(1x,I6))') &
-    !      'gpmut: i_GP_Mutation, i_GP_individual ', &
-    !              i_GP_Mutation, i_GP_individual
-
-    !--------------------------------------------------------------------------
-
     ! randomly pick one of the n_GP_Individuals to mutate
 
     call Random_Number(cff) ! uniform random number generator
@@ -146,9 +131,6 @@ do  i_GP_Mutation = 1,n_GP_Mutations
 
     GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees, i_GP_Individual) =  &
          GP_Adult_Population_Node_Type(1:n_Nodes,1:n_Trees, i_GP_Individual_Mutation)
-
-    !!nogood GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees, i_GP_Individual) =  &
-    !!nogood     GP_Child_Population_Node_Type(1:n_Nodes,1:n_Trees, i_GP_Individual_Mutation)
 
     !write(6,'(A,2(1x,I6))') &
     !      'gpmut: i_GP_Individual_Mutation, i_GP_individual ', &
@@ -226,13 +208,16 @@ do  i_GP_Mutation = 1,n_GP_Mutations
                     icnt = icnt+1
 
                     if( icnt .eq. Node_to_Mutate) then
-                        !write(6,'(A,2(1x,I6))')  &
-                        !      'gpmut:BEF Node_to_Mutate', Node_to_Mutate 
+
+                        !write(6,'(A,2(1x,I6))')'gpmut:BEF Node_to_Mutate', Node_to_Mutate 
+
                         Node_to_Mutate = i_Node
                         Node_Not_Found=.false.
-                        !write(6,'(A,2(1x,I6))')  &
-                        !      'gpmut:AFT Node_to_Mutate', Node_to_Mutate 
+
+                        !write(6,'(A,2(1x,I6))') 'gpmut:AFT Node_to_Mutate', Node_to_Mutate 
+
                         exit
+
                     endif !   icnt .eq. Node_to_Mutate
 
                 endif !   GP_Adult_Population_Node_Type...
@@ -257,7 +242,7 @@ do  i_GP_Mutation = 1,n_GP_Mutations
 
             !write(GP_print_unit,'(A,1x,E15.7, 2(1x,I6))') &
             !      'gpmut:2 cff, Node_Variable, n_CODE_Equations', &
-            !             cff, Node_Variable, n_CODE_Equations
+            !               cff, Node_Variable, n_CODE_Equations
 
             GP_Child_Population_Node_Type(Node_to_Mutate,i_Tree_Mutation,i_GP_Individual) = &
                                                                                 -Node_Variable
@@ -270,37 +255,6 @@ do  i_GP_Mutation = 1,n_GP_Mutations
                 node_variable = 0
                 call set_forcing_node( node_variable )
 
-                !call random_number(cff)
-    
-                !!write(GP_print_unit,'(A,2(1x,E15.7))') &
-                !!      'gpmut:3 cff, prob_forcing', cff, prob_forcing
-    
-                !if( cff < prob_forcing )then
-    
-                !    call random_number(cff)
-    
-                !    !write(GP_print_unit,'(A,2(1x,E15.7))') &
-                !    !      'gpmut:4 cff, prob_choose_forcing_type', &
-                !    !               cff, prob_choose_forcing_type
-
-                !    node_variable = 0
-                !    if( cff < prob_choose_forcing_type ) node_variable = -5001
-    
-                !    do  iforce=1,3
-    
-                !        if( prob_choose_forcing_type * float(iforce) < cff .and. &
-                !            prob_choose_forcing_type * float(iforce+1) >= cff  )then
-                !            node_variable = -1 * (5000 + iforce + 1 )
-                !        endif ! prob_choose_forcing_type * float(iforce) < cff...
-    
-                !    enddo ! iforce
-    
-                !    ! in case cff is very close to 1.0000
-                !    if( node_variable == 0 ) node_variable = -5004
-    
-                !    !write(GP_print_unit,'(A,2(1x,I6))') &
-                !    !      'gpmut:4 node_variable', node_variable
-                !endif !  cff < prob_forcing 
     
                 GP_Child_Population_Node_Type(Node_to_Mutate,i_Tree_Mutation,i_GP_Individual) = &
                                               Node_Variable
@@ -312,6 +266,7 @@ do  i_GP_Mutation = 1,n_GP_Mutations
                 !           i_GP_Individual, i_Tree_Mutation, Node_to_Mutate,  &
                 !   GP_Child_Population_Node_Type(Node_to_Mutate,i_Tree_Mutation,i_GP_Individual)
                 !----------------------------------------------------------------------                     
+
             endif !  model == 'fasham'
 
 

@@ -236,16 +236,16 @@ Note:	dt is converted internally to units of days**-1
 
 !--------------------------------------------------------------------
 
-! sse_low_wt    -  weight for data before sse_min_time             
+! sse_low_wt    -  weight for data before sse_min_time
 
 
 
-col 1-12	sse_low_wt     
-col 14-80	value of sse_low_wt                                 
+col 1-12	sse_low_wt
+col 14-80	value of sse_low_wt
 
 Example:
 
-sse_low_wt    0.01 
+sse_low_wt    0.01
 
 Note:	default value = 1.0d0
 
@@ -259,11 +259,11 @@ Note:	default value = 1.0d0
 
 
 col 1-12	sse_min_time
-col 14-80	value of sse_min_time in days                       
+col 14-80	value of sse_min_time in days
 
 Example:
 
-sse_min_time  100. 
+sse_min_time  100.
 
 Note:	default value = 0.0d0
 
@@ -276,11 +276,11 @@ Note:	default value = 0.0d0
 
 
 col 1-12	sse_max_time
-col 14-80	value of sse_max_time in days                       
+col 14-80	value of sse_max_time in days
 
 Example:
 
-sse_max_time  100. 
+sse_max_time  100.
 
 Note:	default value = 50000.0d0
 
@@ -371,7 +371,7 @@ selected_function  3
 
 
 
-Note:	no default 
+Note:	no default
 
 !--------------------------------------------------------------------
 
@@ -729,7 +729,6 @@ GP_all_summary 1
 --------------------------------------------------------------------------------
 
 
-
 print_equations - determines if equations are printed together with the tree
                   structures in print_trees
 
@@ -751,21 +750,25 @@ print_equations  1
 !--------------------------------------------------------------------
 
 
+
 ! number_ga_child_prints
 !    = number of times in GA process where special printout is printed
 
 
-    elseif( Aline(1:len('number_ga_child_prints')) == "number_ga_child_prints" .or.     &
-            Aline(1:len('number_ga_child_prints')) == "NUMBER_GA_CHILD_PRINTS" ) then
+col 1-22	number_ga_child_prints
+col 24-80	number of GA generations where child printout is printed
 
-        READ(Aline(len('number_ga_child_prints')+1:), * )  number_ga_child_prints
 
-        write(GP_print_unit,'(A,1x,I6)') &
-              'rcntl: number_ga_child_prints = ', number_ga_child_prints
+	
+	DEFAULT =   number_ga_child_prints = 2
 
+Example:
+
+number_ga_child_prints  2
 
 
 !--------------------------------------------------------------------
+
 
 
 
@@ -773,29 +776,39 @@ print_equations  1
 !    = number of times in GP process where special printout is printed
 
 
-    elseif( Aline(1:len('number_GP_child_prints')) == "number_gp_child_prints" .or.     &
-            Aline(1:len('number_GP_child_prints')) == "NUMBER_GP_CHILD_PRINTS" ) then
+col 1-22	number_GP_child_prints
+col 24-80	number of GP generations where child printout is printed
 
-        READ(Aline(len('number_GP_child_prints')+1:), * )  number_GP_child_prints
 
-        write(GP_print_unit,'(A,1x,I6)') &
-              'rcntl: number_GP_child_prints = ', number_GP_child_prints
+	
+	DEFAULT =   number_GP_child_prints = 2
 
+Example:
+
+number_GP_child_prints  2
 
 
 !--------------------------------------------------------------------
 
 
+
+
+
 ! n_input_vars  = number of input variables
 
 
-    elseif( Aline(1:len('n_input_vars')) == "N_INPUT_VARS" .or.     &
-            Aline(1:len('n_input_vars')) == "n_input_vars" ) then
+col 1-12	n_input_vars
+col 14-80	number of input variables
 
-        READ(Aline(len('n_input_vars')+1:), * )  n_input_vars
+		if number of input variables > 0, this is a data processing run
+		if number of input variables = 0, this is a model integration run 
+	
+	DEFAULT =   n_input_vars = 0
 
-        write(GP_print_unit,'(A,1x,I6)') &
-              'rcntl: n_input_vars = ', n_input_vars
+Example:
+
+n_input_vars 6
+
 
 
 !--------------------------------------------------------------------
@@ -804,30 +817,38 @@ print_equations  1
 ! n_levels      = number of levels used in constructing trees
 
 
-    elseif( Aline(1:len('n_levels')) == "N_LEVELS" .or.     &
-            Aline(1:len('n_levels')) == "n_levels" ) then
+col 1-8		n_levels
+col 10-80	number of tree levels            
 
-        READ(Aline(len('n_levels')+1:), * )  n_levels
+	
+	DEFAULT =   n_levels = 4
 
-        write(GP_print_unit,'(A,1x,I6)') &
-              'rcntl: n_levels = ', n_levels
+Example:
+
+n_levels 10
 
 
 !--------------------------------------------------------------------
 
 
-! prob_no_elite      = number of levels used in constructing trees
+
+! prob_no_elite      = sets a probability for modifying elite individuals
 
 
-    elseif( Aline(1:len('prob_no_elite')) == "PROB_NO_ELITE" .or.     &
-            Aline(1:len('prob_no_elite')) == "prob_no_elite" ) then
+col 1-13	prob_no_elite
+col 15-80	probability that allows elite individuals to be modified
 
-        READ(Aline(len('prob_no_elite')+1:), * )  prob_no_elite
+	
+	DEFAULT =   prob_no_elite = 0.0
 
-        write(GP_print_unit,'(A,1x,E15.7)') &
-              'rcntl: prob_no_elite = ', prob_no_elite
+Example:
 
+prob_no_elite 0.01
 
+  prob_no_elite should be set to a small number, e.g. 0.01.  A random number in 
+the range [0,1] is chosen, and if it is less than prob_no_elite, then the elite individual
+(or individuals) may be modified by the mutation, etc. routines, depending on the random
+numbers chosen in these routines.
 
 
 
@@ -839,50 +860,40 @@ print_equations  1
 ! if a random number < GP_Set_Terminal_to_Parameter_Probability
 ! then the node type  is a variable type,  else a parameter type
 
-    elseif( Aline(1:len('term_to_parm_prob')) == "term_to_parm_prob" .or.     &
-            Aline(1:len('term_to_parm_prob')) == "term_to_parm_prob" ) then
 
-        READ(Aline(len('term_to_parm_prob')+1:), * )  GP_Set_Terminal_to_Parameter_Probability
+col 1-17	term_to_parm_prob
+col 19-80	probability that determines if a node is a variable or parameter
 
-        write(GP_print_unit,'(A,1x,F12.5)') &
-              'rcntl: GP_Set_Terminal_to_Parameter_Probability =', &
-                      GP_Set_Terminal_to_Parameter_Probability
+	
+	DEFAULT =   term_to_parm_prob = 0.3
 
+Example:
 
-
-
+term_to_parm_prob 0.4 
 
 !--------------------------------------------------------------------
 
 
-! restart  =  restart random numbers using the input array of seeds
+
+! restart  =  restart the run by using the GP_ALL_summary file from a previous run
 
 
-    elseif( Aline(1:len('restart')) == "RESTART" .or.     &
-            Aline(1:len('restart')) == "restart" ) then
+col 1-7		restart
 
-        write(GP_print_unit,'(A,1x,i6)') &
-              'rcntl: n_seed    = ', n_seed
-        flush( GP_print_unit )
+	
+	DEFAULT =   restart = .FALSE.
 
+Example:
 
-        READ(Aline(len('restart')+1:), * ) !temp_seed(1:n_seed)
-
-
-        L_restart = .true.
-
-        write(GP_print_unit,'(A,5x,L1)') &
-              'rcntl: L_restart = ', L_restart
-
-        write(GP_print_unit,'(A,1x,i6)') &
-              'rcntl: n_seed    = ', n_seed
-
-        !write(GP_print_unit,'(A,20(1x,I10))') &
-        !      'rcntl: temp_seed(1:n_seed)   = ', temp_seed(1:n_seed)
+restart 
 
 
+   If the restart card is present, the program will look for the file GP_restart_file, and
+will skip the first generation code, and read the tree values for the second generation from 
+this file.
 
 
+!--------------------------------------------------------------------
 
 !--------------------------------------------------------------------
 
@@ -918,7 +929,7 @@ print_equations  1
             Aline(1:len('run_GP_para_lmdif')) == "RUN_GP_PARA_LMDIF" .or.  &
             Aline(1:len('run_GP_para_lmdif')) == "run_gp_para_lmdif"      ) then
 
-                                                                                                                 
+
         READ(Aline(len('run_GP_para_lmdif')+1:), * )  run_GP_para_lmdif_flag
 
         if( run_GP_para_lmdif_flag > 0 )then
@@ -926,7 +937,7 @@ print_equations  1
         else
             L_run_GP_para_lmdif = .FALSE.
         endif ! run_GP_para_lmdif_flag > 0
-                                                                                                                 
+
         write(GP_print_unit,'(A,1x,I12)') 'rcntl: run_GP_para_lmdif_flag =', &
                                                   run_GP_para_lmdif_flag
         write(GP_print_unit,'(A,4x,L1 )') 'rcntl: L_run_GP_para_lmdif =', &
@@ -939,7 +950,7 @@ print_equations  1
 !--------------------------------------------------------------------
 
 
-!  if L_no_forcing is .TRUE. , 
+!  if L_no_forcing is .TRUE. ,
 !  set the forcing function node value -5004 to zero
 
 
@@ -950,7 +961,7 @@ print_equations  1
 
         ! this now applies only to the daily forcing -5004
 
-                                                                                                                 
+
         READ(Aline(len('no_forcing')+1:), * )  no_forcing_flag
 
         if( no_forcing_flag > 0 )then
@@ -958,30 +969,30 @@ print_equations  1
         else
             L_no_forcing = .FALSE.
         endif ! no_forcing_flag > 0
-                                                                                                                 
+
         write(GP_print_unit,'(A,1x,I12)') 'rcntl: no_forcing_flag =', &
                                                   no_forcing_flag
         write(GP_print_unit,'(A,4x,L1 )') 'rcntl: L_no_forcing =', &
                                                   L_no_forcing
 
-                                                                                                                       
-!--------------------------------------------------------------------                                                  
-                                                                                                                       
-                                                                                                                       
-! prob_forcing      = probability that a variable node will be a 
-!                     forcing function node          
-                                                                                                                       
-                                                                                                                       
-    elseif( Aline(1:len('prob_forcing')) == "PROB_FORCING" .or.     &                                                
-            Aline(1:len('prob_forcing')) == "prob_forcing" ) then                                                    
-                                                                                                                       
-        READ(Aline(len('prob_forcing')+1:), * )  prob_forcing                                                        
-                                                                                                                       
-        write(GP_print_unit,'(A,1x,E15.7)') &                                                                          
-              'rcntl: prob_forcing = ', prob_forcing                                                                 
-                                                                                                                       
-                                                                                                                       
-                                                                                                                       
+
+!--------------------------------------------------------------------
+
+
+! prob_forcing      = probability that a variable node will be a
+!                     forcing function node
+
+
+    elseif( Aline(1:len('prob_forcing')) == "PROB_FORCING" .or.     &
+            Aline(1:len('prob_forcing')) == "prob_forcing" ) then
+
+        READ(Aline(len('prob_forcing')+1:), * )  prob_forcing
+
+        write(GP_print_unit,'(A,1x,E15.7)') &
+              'rcntl: prob_forcing = ', prob_forcing
+
+
+
 
 
 !--------------------------------------------------------------------
@@ -1022,8 +1033,8 @@ col 1-10	no_forcing
 col 12-80	no_forcing_flag
 
 
-	if no_forcing_flag >  0 - do not use forcing functions 
-	if no_forcing_flag <= 0 -        use forcing functions 
+	if no_forcing_flag >  0 - do not use forcing functions
+	if no_forcing_flag <= 0 -        use forcing functions
 	
 	DEFAULT =   no_forcing_flag = 0
 
