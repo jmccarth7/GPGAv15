@@ -62,9 +62,9 @@ logical :: Lprint
                                                                                                                 
 
 
-open( GP_best_summary_output_unit, file='GP_summary_file', &                                        
-      form = 'formatted', access = 'sequential', &                                                  
-      status = 'unknown' )                                 
+!open( GP_best_summary_output_unit, file='GP_summary_file', &                                        
+!      form = 'formatted', access = 'sequential', &                                                  
+!      status = 'unknown' )                                 
 
 open( GP_best_summary_output_unit, file='GP_summary_file', &                                        
       form = 'formatted', access = 'sequential', &                                                  
@@ -181,7 +181,7 @@ endif ! Lprint
 do  i_tree=1,n_trees
     do  i_node=1,n_nodes
 
-        if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv) == 0        ) then
+        if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv) == 0 ) then
 
             write(GP_best_summary_output_unit,'(2x,2(1x,I6),2(1x,I6), 1x,E24.16)') &
                   i_GP_generation, i_GP_indiv,i_tree, i_node, &

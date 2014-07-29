@@ -54,11 +54,11 @@ integer(kind=i4b) :: max_n_gp_parameters
 !real(kind=r8b), dimension(n_maximum_number_parameters), &
 !                              intent(out) :: output_array
 
-real (kind=8) ::  dff
+real(kind=r8b) ::  dff
 
-real (kind=8) ::  mean_fit
-real (kind=8) ::  rms_fit
-real (kind=8) ::  std_dev_fit
+real(kind=r8b) ::  mean_fit
+real(kind=r8b) ::  rms_fit
+real(kind=r8b) ::  std_dev_fit
 
 
 logical :: L_node_match
@@ -388,15 +388,37 @@ output_array = 0.0d0
 !
 !enddo ! i_CODE_equation
 
+
+!------------------------------------------------------------------------------------
+
+!write(GP_print_unit,'(/A)') &
+!          'gpcf: i_CODE_eq  Numer_Init_Cond(i_CODE_eq)  &
+!          &GP_Pop_init_cond(i_CODE_eq,i_GP_Best_Parent)'
+!
+!do  i_CODE_equation=1,n_CODE_equations
+!
+!    write(GP_print_unit,'(6x,I6,7x, E20.10, 10x, E20.10)') &
+!          i_CODE_equation, &
+!          Numerical_CODE_Initial_Conditions(i_CODE_equation),  &
+!          GP_Population_Initial_Conditions( i_CODE_equation, i_GP_Best_Parent )
+!
+!    output_array( i_CODE_equation ) = &
+!            GP_Population_Initial_Conditions( i_CODE_equation,i_GP_Best_Parent )
+!
+!
+!enddo ! i_CODE_equation
+
+!------------------------------------------------------------------------------------
+
+
 write(GP_print_unit,'(/A)') &
-          'gpcf: i_CODE_eq  Numer_Init_Cond(i_CODE_eq)  &
+          'gpcf: i_CODE_eq  &
           &GP_Pop_init_cond(i_CODE_eq,i_GP_Best_Parent)'
 
 do  i_CODE_equation=1,n_CODE_equations
 
-    write(GP_print_unit,'(6x,I6,7x, E20.10, 10x, E20.10)') &
+    write(GP_print_unit,'(6x,I6, 10x, E20.10)') &
           i_CODE_equation, &
-          Numerical_CODE_Initial_Conditions(i_CODE_equation),  &
           GP_Population_Initial_Conditions( i_CODE_equation, i_GP_Best_Parent )
 
     output_array( i_CODE_equation ) = &
@@ -405,6 +427,7 @@ do  i_CODE_equation=1,n_CODE_equations
 
 enddo ! i_CODE_equation
 
+!------------------------------------------------------------------------------------
 
 nop = n_CODE_equations
 
@@ -650,7 +673,7 @@ endif ! i_GP_generation == 1 .or. ...
 GP_Adult_Individual_SSE  =  GP_Child_Individual_SSE
 
 GP_Adult_Population_SSE  =  GP_Child_Individual_SSE
-!GP_Child_Population_SSE  =  GP_Child_Individual_SSE
+
 !---------------------------------------------------------------------------
 
 !if( i_GP_generation == 1                                 .or. &
