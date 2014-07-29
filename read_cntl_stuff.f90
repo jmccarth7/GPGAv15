@@ -427,7 +427,7 @@ do
 !--------------------------------------------------------------------
 
 
-! sse_low_wt  -  calculate sse only with data after this time
+! sse_low_wt  -  weight for data before sse_min_time
 
     elseif( Aline(1:len('sse_low_wt')) == "sse_low_wt" .or.     &
             Aline(1:len('sse_low_wt')) == "SSE_LOW_WT" ) then

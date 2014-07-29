@@ -233,6 +233,59 @@ Note:	dt is converted internally to units of days**-1
 	default value = 10 minutes
 
 
+
+!--------------------------------------------------------------------
+
+! sse_low_wt    -  weight for data before sse_min_time             
+
+
+
+col 1-12	sse_low_wt     
+col 14-80	value of sse_low_wt                                 
+
+Example:
+
+sse_low_wt    0.01 
+
+Note:	default value = 1.0d0
+
+
+!--------------------------------------------------------------------
+
+
+
+! sse_min_time  -  calculate sse only with data after this time
+
+
+
+col 1-12	sse_min_time
+col 14-80	value of sse_min_time in days                       
+
+Example:
+
+sse_min_time  100. 
+
+Note:	default value = 0.0d0
+
+
+!--------------------------------------------------------------------
+
+
+! sse_max_time  -  calculate sse only with data before this time
+
+
+
+col 1-12	sse_max_time
+col 14-80	value of sse_max_time in days                       
+
+Example:
+
+sse_max_time  100. 
+
+Note:	default value = 50000.0d0
+
+
+
 !--------------------------------------------------------------------
 
 
@@ -299,6 +352,26 @@ n_Node_Functions  7
 
 Note:	default value = 7
 
+
+
+!--------------------------------------------------------------------
+
+
+selected_function
+
+
+col 1-17	selected_function
+col 19-80	index number of a node function to include in run
+
+Example:
+
+selected_function  1
+selected_function  2
+selected_function  3
+
+
+
+Note:	no default 
 
 !--------------------------------------------------------------------
 
@@ -504,11 +577,11 @@ GP_output_parameters  1
 
 
 
-fort333 - determines if the fort333 file is generated.
+fort333_output - determines if the fort333 file is generated.
 
 
-col 1-7		fort333
-col 9-80	fort333_flag
+col 1-14	fort333_output
+col 16-80	fort333_flag
 
 
 	if fort333_flag >  0 - write printout to fort333_unit
@@ -518,18 +591,18 @@ col 9-80	fort333_flag
 
 Example:
 
-fort333  1
+fort333_output  1
 
 
 --------------------------------------------------------------------------------
 
 
 
-fort444 - determines if the fort444 file is generated.
+fort444_output - determines if the fort444 file is generated.
 
 
-col 1-7		fort444
-col 9-80	fort444_flag
+col 1-14	fort444_output
+col 16-80	fort444_flag
 
 
 	if fort444_flag >  0 - write printout to fort444_unit
@@ -539,7 +612,7 @@ col 9-80	fort444_flag
 
 Example:
 
-fort444  1
+fort444_output  1
 
 
 --------------------------------------------------------------------------------
@@ -584,6 +657,31 @@ Example:
 GP_log  1
 
 
+
+
+--------------------------------------------------------------------------------
+
+
+
+GPSSE_log - determines if the GPSSE_log file is generated.
+
+
+col 1-6		GPSSE_log
+col 8-80	GPSSE_log_flag
+
+
+	if GPSSE_log_flag >  0 - write printout to GPSSE_log_unit
+	if GPSSE_log_flag <= 0 - do not write printout to GPSSE_log_unit
+	
+	DEFAULT =   GPSSE_log_flag = 0
+             - do not write printout to GPSSE_log_unit
+
+
+Example:
+
+GPSSE_log  1
+
+
 --------------------------------------------------------------------------------
 
 
@@ -610,6 +708,28 @@ unit50_output 1
 
 
 
+
+GP_all_summary - determines if the GP_all_summary file is generated.
+
+
+col 1-13	GP_all_summary
+col 15-80	GP_all_summary_flag
+
+
+	if GP_all_summary_flag >  0 - write printout to GP_all_summary_unit
+	if GP_all_summary_flag <= 0 - do not write printout to GP_all_summary_unit
+	
+	DEFAULT =   GP_all_summary_flag = 0
+
+Example:
+
+GP_all_summary 1
+
+
+--------------------------------------------------------------------------------
+
+
+
 print_equations - determines if equations are printed together with the tree
                   structures in print_trees
 
@@ -626,6 +746,247 @@ col 10-80	print_equations_flag
 Example:
 
 print_equations  1
+
+
+!--------------------------------------------------------------------
+
+
+! number_ga_child_prints
+!    = number of times in GA process where special printout is printed
+
+
+    elseif( Aline(1:len('number_ga_child_prints')) == "number_ga_child_prints" .or.     &
+            Aline(1:len('number_ga_child_prints')) == "NUMBER_GA_CHILD_PRINTS" ) then
+
+        READ(Aline(len('number_ga_child_prints')+1:), * )  number_ga_child_prints
+
+        write(GP_print_unit,'(A,1x,I6)') &
+              'rcntl: number_ga_child_prints = ', number_ga_child_prints
+
+
+
+!--------------------------------------------------------------------
+
+
+
+! number_GP_child_prints
+!    = number of times in GP process where special printout is printed
+
+
+    elseif( Aline(1:len('number_GP_child_prints')) == "number_gp_child_prints" .or.     &
+            Aline(1:len('number_GP_child_prints')) == "NUMBER_GP_CHILD_PRINTS" ) then
+
+        READ(Aline(len('number_GP_child_prints')+1:), * )  number_GP_child_prints
+
+        write(GP_print_unit,'(A,1x,I6)') &
+              'rcntl: number_GP_child_prints = ', number_GP_child_prints
+
+
+
+!--------------------------------------------------------------------
+
+
+! n_input_vars  = number of input variables
+
+
+    elseif( Aline(1:len('n_input_vars')) == "N_INPUT_VARS" .or.     &
+            Aline(1:len('n_input_vars')) == "n_input_vars" ) then
+
+        READ(Aline(len('n_input_vars')+1:), * )  n_input_vars
+
+        write(GP_print_unit,'(A,1x,I6)') &
+              'rcntl: n_input_vars = ', n_input_vars
+
+
+!--------------------------------------------------------------------
+
+
+! n_levels      = number of levels used in constructing trees
+
+
+    elseif( Aline(1:len('n_levels')) == "N_LEVELS" .or.     &
+            Aline(1:len('n_levels')) == "n_levels" ) then
+
+        READ(Aline(len('n_levels')+1:), * )  n_levels
+
+        write(GP_print_unit,'(A,1x,I6)') &
+              'rcntl: n_levels = ', n_levels
+
+
+!--------------------------------------------------------------------
+
+
+! prob_no_elite      = number of levels used in constructing trees
+
+
+    elseif( Aline(1:len('prob_no_elite')) == "PROB_NO_ELITE" .or.     &
+            Aline(1:len('prob_no_elite')) == "prob_no_elite" ) then
+
+        READ(Aline(len('prob_no_elite')+1:), * )  prob_no_elite
+
+        write(GP_print_unit,'(A,1x,E15.7)') &
+              'rcntl: prob_no_elite = ', prob_no_elite
+
+
+
+
+
+!--------------------------------------------------------------------
+
+
+! term_to_parm_prob   = GP_Set_Terminal_to_Parameter_Probability
+
+! if a random number < GP_Set_Terminal_to_Parameter_Probability
+! then the node type  is a variable type,  else a parameter type
+
+    elseif( Aline(1:len('term_to_parm_prob')) == "term_to_parm_prob" .or.     &
+            Aline(1:len('term_to_parm_prob')) == "term_to_parm_prob" ) then
+
+        READ(Aline(len('term_to_parm_prob')+1:), * )  GP_Set_Terminal_to_Parameter_Probability
+
+        write(GP_print_unit,'(A,1x,F12.5)') &
+              'rcntl: GP_Set_Terminal_to_Parameter_Probability =', &
+                      GP_Set_Terminal_to_Parameter_Probability
+
+
+
+
+
+!--------------------------------------------------------------------
+
+
+! restart  =  restart random numbers using the input array of seeds
+
+
+    elseif( Aline(1:len('restart')) == "RESTART" .or.     &
+            Aline(1:len('restart')) == "restart" ) then
+
+        write(GP_print_unit,'(A,1x,i6)') &
+              'rcntl: n_seed    = ', n_seed
+        flush( GP_print_unit )
+
+
+        READ(Aline(len('restart')+1:), * ) !temp_seed(1:n_seed)
+
+
+        L_restart = .true.
+
+        write(GP_print_unit,'(A,5x,L1)') &
+              'rcntl: L_restart = ', L_restart
+
+        write(GP_print_unit,'(A,1x,i6)') &
+              'rcntl: n_seed    = ', n_seed
+
+        !write(GP_print_unit,'(A,20(1x,I10))') &
+        !      'rcntl: temp_seed(1:n_seed)   = ', temp_seed(1:n_seed)
+
+
+
+
+
+!--------------------------------------------------------------------
+
+
+! n_partitions = number of partitions to be used to divide processors
+!                into groups, each of which will process one GP individual
+
+
+    elseif( Aline(1:len('n_partitions')) == "N_PARTITIONS" .or.     &
+            Aline(1:len('n_partitions')) == "n_partitions" ) then
+
+        READ(Aline(len('n_partitions')+1:), * )  n_partitions
+
+        write(GP_print_unit,'(A,1x,I6)') &
+              'rcntl: n_partitions = ', n_partitions
+
+
+!--------------------------------------------------------------------
+
+
+! run_GP_para_lmdif_flag
+
+
+! if run_GP_para_lmdif_flag >  0 - call subroutine GP_para_lmdif
+! if run_GP_para_lmdif_flag <= 0 - do not call subroutine GP_para_lmdif
+
+!  DEFAULT =   run_GP_para_lmdif_flag ==  0
+!              - do not write printout to run_GP_para_lmdif_unit
+
+
+
+    elseif( Aline(1:len('run_GP_para_lmdif')) == "run_GP_para_lmdif" .or.  &
+            Aline(1:len('run_GP_para_lmdif')) == "RUN_GP_PARA_LMDIF" .or.  &
+            Aline(1:len('run_GP_para_lmdif')) == "run_gp_para_lmdif"      ) then
+
+                                                                                                                 
+        READ(Aline(len('run_GP_para_lmdif')+1:), * )  run_GP_para_lmdif_flag
+
+        if( run_GP_para_lmdif_flag > 0 )then
+            L_run_GP_para_lmdif = .TRUE.
+        else
+            L_run_GP_para_lmdif = .FALSE.
+        endif ! run_GP_para_lmdif_flag > 0
+                                                                                                                 
+        write(GP_print_unit,'(A,1x,I12)') 'rcntl: run_GP_para_lmdif_flag =', &
+                                                  run_GP_para_lmdif_flag
+        write(GP_print_unit,'(A,4x,L1 )') 'rcntl: L_run_GP_para_lmdif =', &
+                                                  L_run_GP_para_lmdif
+
+
+
+
+
+!--------------------------------------------------------------------
+
+
+!  if L_no_forcing is .TRUE. , 
+!  set the forcing function node value -5004 to zero
+
+
+    elseif( Aline(1:len('no_forcing')) == "no_forcing" .or.  &
+            Aline(1:len('no_forcing')) == "NO_FORCING" .or.  &
+            Aline(1:len('no_forcing')) == "No_Forcing"      ) then
+
+
+        ! this now applies only to the daily forcing -5004
+
+                                                                                                                 
+        READ(Aline(len('no_forcing')+1:), * )  no_forcing_flag
+
+        if( no_forcing_flag > 0 )then
+            L_no_forcing = .TRUE.
+        else
+            L_no_forcing = .FALSE.
+        endif ! no_forcing_flag > 0
+                                                                                                                 
+        write(GP_print_unit,'(A,1x,I12)') 'rcntl: no_forcing_flag =', &
+                                                  no_forcing_flag
+        write(GP_print_unit,'(A,4x,L1 )') 'rcntl: L_no_forcing =', &
+                                                  L_no_forcing
+
+                                                                                                                       
+!--------------------------------------------------------------------                                                  
+                                                                                                                       
+                                                                                                                       
+! prob_forcing      = probability that a variable node will be a 
+!                     forcing function node          
+                                                                                                                       
+                                                                                                                       
+    elseif( Aline(1:len('prob_forcing')) == "PROB_FORCING" .or.     &                                                
+            Aline(1:len('prob_forcing')) == "prob_forcing" ) then                                                    
+                                                                                                                       
+        READ(Aline(len('prob_forcing')+1:), * )  prob_forcing                                                        
+                                                                                                                       
+        write(GP_print_unit,'(A,1x,E15.7)') &                                                                          
+              'rcntl: prob_forcing = ', prob_forcing                                                                 
+                                                                                                                       
+                                                                                                                       
+                                                                                                                       
+
+
+!--------------------------------------------------------------------
+
+
 
 
 --------------------------------------------------------------------------------
