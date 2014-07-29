@@ -139,10 +139,10 @@ if( i_GP_generation == 1                                 .or. &
     write(GP_print_unit,'(/A,1x,I6)') &
           'gpcf: i_GP_generation ',  i_GP_generation
     write(GP_print_unit,'(A)') &
-              'gpcf: i_GP_Indiv      GP_Child_Indiv_SSE        SSE/SSE0'
+              'gpcf: i_GP_Indiv          GP_Child_Indiv_SSE            SSE/SSE0'
 
     do  i_GP_Individual=1,n_GP_Individuals
-        write(GP_print_unit,'(6x,I6,2(6x,E20.10))') &
+        write(GP_print_unit,'(6x,I6,2(6x,E24.16))') &
            i_GP_Individual, GP_Child_Individual_SSE(i_GP_Individual), &
            GP_Child_Individual_SSE(i_GP_Individual)/SSE0
     enddo ! i_gp_individual
@@ -313,7 +313,7 @@ do  i_GP_Individual=2,n_GP_individuals
 
 enddo ! i_GP_Individual
 
-write(GP_print_unit,'(/A,2(1x,I6),3(1x,E15.7))') &
+write(GP_print_unit,'(/A,2(1x,I6),3(1x,E24.16))') &
       'gpcf: i_GP_Gen, Best_Parent, &
             &Pop_Rank_Fit, GP_Child_SSE, SSE/SSE0', &
              i_GP_Generation, i_GP_Best_Parent, &
@@ -356,7 +356,7 @@ if( L_GPSSE_log )then
     !                         GP_Child_Individual_SSE(i_GP_Best_Parent)
 
 
-    write(GPSSE_best_log_unit,'(I6,1x,I6,2(1x,E20.10))') &
+    write(GPSSE_best_log_unit,'(I6,1x,I6,2(1x,E24.16))') &
           i_GP_Generation, i_GP_Best_Parent, &
           GP_Child_Individual_SSE(i_GP_Best_Parent), &
           GP_Child_Individual_SSE(i_GP_Best_Parent)/ SSE0

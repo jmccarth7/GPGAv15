@@ -376,7 +376,13 @@ do  i_GP_Individual=1,n_GP_Individuals
                                 !elseif( cff >  frac_forcing_type(1, 2) .and.  &
                                 !        cff <= frac_forcing_type(2, 2)         )then
 
-                                !    node_variable = -5002
+                                    ! turn off the daily forcing only
+                                    if( L_no_forcing ) then
+                                        node_variable = 0
+                                    endif ! L_no_forcing 
+
+                                elseif( cff >  frac_forcing_type(1, 2) .and.  &
+                                        cff <= frac_forcing_type(2, 2)         )then
 
                                 !elseif( cff >  frac_forcing_type(1, 1) .and.  &
                                 !        cff <= frac_forcing_type(2, 1)         )then
@@ -384,6 +390,7 @@ do  i_GP_Individual=1,n_GP_Individuals
                                 !    node_variable = -5001
 
                                 !endif ! cff < frac_forcing_type(1,3) ...
+
 
 
 
