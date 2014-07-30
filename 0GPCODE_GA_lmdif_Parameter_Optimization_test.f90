@@ -627,6 +627,7 @@ call mpi_comm_size( new_comm, my_size , ierr )
 i_start_generation = 1
 if( L_restart )then
     i_start_generation = 2
+    Run_GP_Calculate_Fitness=.true.
 endif ! L_restart
 
 if( myid == 0 )then
@@ -736,23 +737,6 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
             !call fasham_model_debug()   ! debug only
             !! debug only <<<<<<<<<<<<<<<<<
 
-            ! if L_restart is true, 
-            ! read the trees from the old summary file
-
-            !---------------------------------------------------------------------------------
-
-!!            if( L_restart  )then
-!!                write(GP_print_unit,'(/A/)') &
-!!                  '0: call read_all_summary_file '                         
-!!
-!!                call read_all_summary_file( i_GP_generation,  zero )
-!!
-!!                GP_Child_Population_Node_Type =  GP_Adult_Population_Node_Type
-!!
-!!
-!!            endif ! L_restart
-
-            !---------------------------------------------------------------------------------
 
         endif ! myid == 0
 
@@ -858,8 +842,27 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
                                 MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
 
             GP_Child_Population_Node_Type =  GP_Adult_Population_Node_Type
-            GP_Child_Individual_SSE       = GP_Adult_Population_SSE   ! needed ??  jjm 20140721
 
+            !---------------------------------------------------------------------------------
+    
+            message_len = n_nodes * n_trees * n_GP_individuals                 ! debug only
+            call MPI_BCAST( GP_Population_Node_Parameters, message_len,    &   ! debug only
+                            MPI_DOUBLE_PRECISION,  0, MPI_COMM_WORLD, ierr )   ! debug only
+    
+            message_len = n_code_equations * n_GP_individuals                  ! debug only
+            call MPI_BCAST( GP_Population_Initial_Conditions, message_len, &   ! debug only
+                            MPI_DOUBLE_PRECISION,  0, MPI_COMM_WORLD, ierr )   ! debug only
+    
+    
+            message_len = n_GP_individuals                                     ! debug only
+            call MPI_BCAST( GP_Adult_Population_SSE, message_len,    &         ! debug only
+                            MPI_DOUBLE_PRECISION,  0, MPI_COMM_WORLD, ierr )   ! debug only
+    
+            GP_Child_Individual_SSE       = GP_Adult_Population_SSE   ! needed ??  
+
+            !---------------------------------------------------------------------------------
+
+            L_restart = .FALSE.
 
         endif ! L_restart
 
@@ -887,16 +890,16 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
             !if( i_GP_generation == 1                                  .or. &
             !    mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
             !    i_GP_generation == n_GP_generations                          )then
-            !    write(GP_print_unit,'(//A)') '0:3 before modifications'
-            !    write(GP_print_unit,'(A)')&
-            !          '0:3 i_GP_gen i_GP_indiv    GP_Child_Indiv_SSE&
-            !          &   GP_Child_Indiv_SSE/SSE0'
-            !    do  i_GP_individual = 1, n_GP_individuals
-            !        write(GP_print_unit,'(2(1x,I10), 2(1x, E20.10))') &
-            !                   i_GP_generation, i_GP_individual, &
-            !                   GP_Child_Individual_SSE(i_GP_Individual), &
-            !                   GP_Child_Individual_SSE(i_GP_Individual)/SSE0
-            !    enddo ! i_GP_individual
+                write(GP_print_unit,'(//A)') '0:3 before modifications'
+                write(GP_print_unit,'(A)')&
+                      '0:3 i_GP_gen i_GP_indiv    GP_Child_Indiv_SSE&
+                      &   GP_Child_Indiv_SSE/SSE0'
+                do  i_GP_individual = 1, n_GP_individuals
+                    write(GP_print_unit,'(2(1x,I10), 2(1x, E20.10))') &
+                               i_GP_generation, i_GP_individual, &
+                               GP_Child_Individual_SSE(i_GP_Individual), &
+                               GP_Child_Individual_SSE(i_GP_Individual)/SSE0
+                enddo ! i_GP_individual
             !endif ! i_GP_generation == 1 .or. ...
 
             !----------------------------------------------------------------------------------
@@ -1102,21 +1105,21 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
             !    i_GP_generation == n_GP_generations                          )then
 
 
-                !write(GP_print_unit,'(A,1x,I6/)') '0: after Mutations ierror_m = ', ierror_m
+                write(GP_print_unit,'(A,1x,I6/)') '0: after Mutations ierror_m = ', ierror_m
 
-                !write(GP_print_unit,'(A)')&
-                !      '0: i_GP_gen i_GP_indiv    GP_Child_Indiv_SSE&
-                !      &   GP_Child_Indiv_SSE/SSE0'
+                write(GP_print_unit,'(A)')&
+                      '0: i_GP_gen i_GP_indiv    GP_Child_Indiv_SSE&
+                      &   GP_Child_Indiv_SSE/SSE0'
 
-                !do  i_GP_individual = 1, n_GP_individuals
-                !    write(GP_print_unit,'(2(1x,I10), 2(1x, E20.10))') &
-                !               i_GP_generation, i_GP_individual, &
-                !               GP_Child_Individual_SSE(i_GP_Individual), &
-                !               GP_Child_Individual_SSE(i_GP_Individual)/SSE0
-                !enddo ! i_GP_individual
+                do  i_GP_individual = 1, n_GP_individuals
+                    write(GP_print_unit,'(2(1x,I10), 2(1x, E20.10))') &
+                               i_GP_generation, i_GP_individual, &
+                               GP_Child_Individual_SSE(i_GP_Individual), &
+                               GP_Child_Individual_SSE(i_GP_Individual)/SSE0
+                enddo ! i_GP_individual
 
-                !write(GP_print_unit,'(/A/(10(3x,L1)))')&
-                !      '0: Run_GP_Calculate_Fitness ', Run_GP_Calculate_Fitness
+                write(GP_print_unit,'(/A/(10(3x,L1)))')&
+                      '0: Run_GP_Calculate_Fitness ', Run_GP_Calculate_Fitness
                 !!flush(GP_print_unit)
 
             !endif ! i_GP_generation == 1 .or. ...
