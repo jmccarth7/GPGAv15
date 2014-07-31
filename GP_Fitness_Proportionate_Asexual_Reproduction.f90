@@ -103,7 +103,7 @@ do  i_GP_Asexual_Reproduction=1,n_GP_Asexual_Reproductions
 
     !----------------------------------------------------------------------------
     ! don't replace if sse will increase after replacement
-    if( sse_ind < GP_Child_Individual_SSE(j_GP_Individual) ) cycle
+    !if( sse_ind < GP_Child_Individual_SSE(j_GP_Individual) ) cycle
     !----------------------------------------------------------------------------
 
 

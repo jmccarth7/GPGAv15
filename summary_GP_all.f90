@@ -56,7 +56,7 @@ logical :: Lprint
 
 ! set Lprint so printing is done only under the conditions in the if-test
 
-!!Lprint = .TRUE.   ! debug only
+!Lprint = .TRUE.   ! debug only
 Lprint = .FALSE.
 
 if( i_GP_generation == 1                                  .or. &
@@ -75,12 +75,12 @@ do  i_GP_indiv = 1, n_GP_individuals
 
     !if( Lprint )then
 
-        !write(GP_print_unit, '(/A/7(1x,I10))') &
-        !  'sgpa: i_GP_gen i_GP_indiv   n_code_eq  &
-        !         &n_trees    n_nodes  n_levels    n_parms', &
-        !         i_GP_generation, i_GP_indiv, &
-        !         n_code_equations, n_trees, n_nodes, n_levels, &
-        !         GP_Individual_N_GP_param(i_GP_indiv)
+    !    write(GP_print_unit, '(/A/7(1x,I10))') &
+    !      'sgpa: i_GP_gen i_GP_indiv   n_code_eq  &
+    !             &n_trees    n_nodes  n_levels    n_parms', &
+    !             i_GP_generation, i_GP_indiv, &
+    !             n_code_equations, n_trees, n_nodes, n_levels, &
+    !             GP_Individual_N_GP_param(i_GP_indiv)
 
     !endif ! Lprint
 
@@ -195,10 +195,10 @@ do  i_GP_indiv = 1, n_GP_individuals
 
     !------------------------------------------------------------------------------
 
-    if( Lprint )then
-        call print_trees( i_GP_generation, i_GP_indiv, i_GP_indiv, &
-                          GP_Adult_Population_Node_Type, ' ' )
-    endif ! Lprint
+    !if( Lprint )then
+    !    call print_trees( i_GP_generation, i_GP_indiv, i_GP_indiv, &
+    !                      GP_Adult_Population_Node_Type, ' ' )
+    !endif ! Lprint
 
 
     !------------------------------------------------------------------------------
