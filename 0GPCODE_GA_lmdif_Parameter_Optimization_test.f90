@@ -547,7 +547,6 @@ call mpi_comm_size( new_comm, my_size , ierr )
 
 i_start_generation = 1
 if( L_restart )then
-    i_start_generation = 2
     Run_GP_Calculate_Fitness=.true.
 endif ! L_restart
 
@@ -556,7 +555,6 @@ if( myid == 0 )then
     write(6,'(/A,1x,E15.7/)') '0: allocated_memory (bytes) = ', &
                                   allocated_memory
 endif ! myid == 0
-
 
 generation_loop:&
 do  i_GP_Generation= i_start_generation, n_GP_Generations
@@ -625,82 +623,6 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
         Run_GP_Calculate_Fitness=.true.
 
         !---------------------------------------------------------------------------------
-
-        if( myid == 0 )then
-
-            write(GP_print_unit,'(/A,1x,I6)') &
-              '0: call GP_Tree_Build        Generation =',i_GP_Generation
-
-            ! initialize the GP_Adult_Population_Node_Type array with random trees
-
-            !t1 = MPI_Wtime()
-
-            ierror_tb = 0
-            call GP_Tree_Build( ierror_tb )
-
-
-            !t2 = MPI_Wtime()
-
-
-            !write(GP_print_unit,'(A,1x,E15.7)') &
-            !  '0: time spent in GP_Tree_Build  = ', t2 - t1
-
-            !! debug only >>>>>>>>>>>>>>>>
-            !! set all GP tree models to the "truth" model
-            !do  i_GP_individual = 1, n_GP_Individuals
-            !    GP_Adult_Population_Node_Type(:,:,i_GP_individual) = &
-            !    GP_Node_Type_Answer(:,:) ! debug only
-            !enddo
-            !! debug only <<<<<<<<<<<<<<<<<
-
-
-            !! debug only >>>>>>>>>>>>>>>>
-            !!! fasham model
-            !call fasham_model_debug()   ! debug only
-            !! debug only <<<<<<<<<<<<<<<<<
-
-            !---------------------------------------------------------------------------------
-
-        endif ! myid == 0
-
-
-        !---------------------------------------------------------------------------------
-
-        !write(6,'(/A,1x,I5/)') '0: broadcast ierror_tb    myid = ', myid
-        message_len =  1
-        call MPI_BCAST( ierror_tb, message_len,    &
-                        MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
-
-        if( ierror_tb > 0 )then
-            call MPI_FINALIZE( ierr )
-            stop
-        endif ! ierror_tb
-
-
-        !---------------------------------------------------------------------------------
-
-        ! broadcast GP_Adult_Population_Node_Type
-
-        if( myid == 0 )then
-            write(GP_print_unit,'(A,1x,I6)') &
-              '0: broadcast  GP_Adult_Population_Node_Type Generation = ',i_GP_Generation
-            !flush(GP_print_unit)
-        endif ! myid == 0
-
-
-        !write(6,'(A,1x,I5)') '0: broadcast GP_Adult_Population_Node_Type myid = ', myid
-
-        message_len = n_GP_Individuals * n_Nodes * n_Trees
-        call MPI_BCAST( GP_Adult_Population_Node_Type, message_len,    &
-                        MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
-
-        !-----------------------------------------------------------------------------
-
-
-    else !  i_GP_Generation > 1
-
-        !-----------------------------------------------------------------------------
-
         if( L_restart  .and. &
             i_start_generation == i_GP_generation )then
 
@@ -717,12 +639,153 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
                                 MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
 
             GP_Child_Population_Node_Type =  GP_Adult_Population_Node_Type
-            GP_Child_Individual_SSE       = GP_Adult_Population_SSE   ! needed ??  jjm 20140721
 
+            !---------------------------------------------------------------------------------
+    
+            message_len = n_nodes * n_trees * n_GP_individuals                 ! debug only
+            call MPI_BCAST( GP_Population_Node_Parameters, message_len,    &   ! debug only
+                            MPI_DOUBLE_PRECISION,  0, MPI_COMM_WORLD, ierr )   ! debug only
+    
+            message_len = n_code_equations * n_GP_individuals                  ! debug only
+            call MPI_BCAST( GP_Population_Initial_Conditions, message_len, &   ! debug only
+                            MPI_DOUBLE_PRECISION,  0, MPI_COMM_WORLD, ierr )   ! debug only
+    
+    
+            message_len = n_GP_individuals                                     ! debug only
+            call MPI_BCAST( GP_Adult_Population_SSE, message_len,    &         ! debug only
+                            MPI_DOUBLE_PRECISION,  0, MPI_COMM_WORLD, ierr )   ! debug only
+    
+            GP_Child_Individual_SSE       = GP_Adult_Population_SSE   ! needed ??  
 
+            !---------------------------------------------------------------------------------
+
+            L_restart = .FALSE.
+
+        else
+
+            if( myid == 0 )then
+    
+                write(GP_print_unit,'(/A,1x,I6)') &
+                  '0: call GP_Tree_Build        Generation =',i_GP_Generation
+    
+                ! initialize the GP_Adult_Population_Node_Type array with random trees
+    
+                !t1 = MPI_Wtime()
+    
+                ierror_tb = 0
+                call GP_Tree_Build( ierror_tb )
+    
+    
+                !t2 = MPI_Wtime()
+    
+    
+                !write(GP_print_unit,'(A,1x,E15.7)') &
+                !  '0: time spent in GP_Tree_Build  = ', t2 - t1
+    
+                !! debug only >>>>>>>>>>>>>>>>
+                !! set all GP tree models to the "truth" model
+                !do  i_GP_individual = 1, n_GP_Individuals
+                !    GP_Adult_Population_Node_Type(:,:,i_GP_individual) = &
+                !    GP_Node_Type_Answer(:,:) ! debug only
+                !enddo
+                !! debug only <<<<<<<<<<<<<<<<<
+    
+    
+                !! debug only >>>>>>>>>>>>>>>>
+                !!! fasham model
+                !call fasham_model_debug()   ! debug only
+                !! debug only <<<<<<<<<<<<<<<<<
+    
+    
+            endif ! myid == 0
+    
+            !---------------------------------------------------------------------------------
+    
+            !message_len = n_nodes * n_trees * n_GP_individuals                 ! debug only
+            !call MPI_BCAST( GP_Population_Node_Parameters, message_len,    &   ! debug only
+            !                MPI_DOUBLE_PRECISION,  0, MPI_COMM_WORLD, ierr )   ! debug only
+    
+    
+            !message_len = n_nodes * n_trees                                    ! debug only
+            !call MPI_BCAST( GP_Individual_Node_parameters, message_len,    &   ! debug only
+            !                MPI_DOUBLE_PRECISION,  0, MPI_COMM_WORLD, ierr )   ! debug only
+    
+    
+            !message_len = n_nodes * n_trees                                    ! debug only
+            !call MPI_BCAST( GP_Individual_Node_Type, message_len,    &         ! debug only
+            !                MPI_INTEGER, 0, MPI_COMM_WORLD, ierr )             ! debug only
+    
+    
+    
+    
+            !---------------------------------------------------------------------------------
+    
+            !write(6,'(/A,1x,I5/)') '0: broadcast ierror_tb    myid = ', myid
+            message_len =  1
+            call MPI_BCAST( ierror_tb, message_len,    &
+                            MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
+    
+            if( ierror_tb > 0 )then
+                call MPI_FINALIZE( ierr )
+                stop
+            endif ! ierror_tb
+    
+    
+            !---------------------------------------------------------------------------------
+    
+            ! broadcast GP_Adult_Population_Node_Type
+    
+            if( myid == 0 )then
+                write(GP_print_unit,'(A,1x,I6)') &
+                  '0: broadcast  GP_Adult_Population_Node_Type Generation = ',i_GP_Generation
+                !flush(GP_print_unit)
+            endif ! myid == 0
+    
+    
+            !write(6,'(A,1x,I5)') '0: broadcast GP_Adult_Population_Node_Type myid = ', myid
+    
+            message_len = n_GP_Individuals * n_Nodes * n_Trees
+            call MPI_BCAST( GP_Adult_Population_Node_Type, message_len,    &
+                            MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
+    
+    
+            !if( myid == 0 )then
+            !    write(GP_print_unit,'(A,1x,I6)') &
+            !      '0: aft broadcast  GP_Adult_Population_Node_Type  ierr = ',ierr
+            !endif ! myid == 0
+    
+    
+    
+            !if( myid == 0 )then
+            !    call print_debug_integer_node_tree( GP_print_unit, &
+            !         'aft bcast 528  GP_Adult_Population_Node_Type ', &
+            !         GP_Adult_Population_Node_Type )
+            !endif ! myid == 0
+    
+    
+            !if( myid == 0 )then
+            !    write(GP_print_unit,'(A,1x,E15.7)') &
+            !      '0: time spent in bcast GP_Adult_Pop_Node_Type 2 = ', t2 - t1
+            !endif ! myid == 0
+    
+            !---------------------------------------------------------------------------------
+    
+            ! compute a "diversity index" which characterizes each individual with a
+            ! number derived from the number of nodes, etc.
+    
+            !if( myid == 0 )then
+            !    call GP_calc_diversity_index( n_GP_individuals,  &
+            !                                  GP_Adult_Population_Node_Type, &
+            !                                  i_diversity, i_gp_generation )
+            !endif ! myid == 0
+    
+            !-----------------------------------------------------------------------------
         endif ! L_restart
 
-        !-----------------------------------------------------------------------------
+
+    else !  i_GP_Generation > 1
+
+
 
 
         ! create the next 'generation' of tree structures using either:
@@ -735,6 +798,31 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
         if( myid == 0 )then
 
+            ! fill child sse for individuals not  modified in this generation
+
+            !!!GP_Child_Individual_SSE  = GP_Adult_Population_SSE   ! needed ??  jjm 20140522
+
+            !----------------------------------------------------------------------------------
+
+            !tree_descrip =  ' GP_Adult trees before call selection routines '
+            !call print_trees( i_GP_generation, 1, n_GP_individuals, &
+            !                  GP_Adult_Population_Node_Type, &
+            !                  trim( tree_descrip )  )
+
+            !if( i_GP_generation == 1                                  .or. &
+            !    mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
+            !    i_GP_generation == n_GP_generations                          )then
+                write(GP_print_unit,'(//A)') '0:3 before modifications'
+                write(GP_print_unit,'(A)')&
+                      '0:3 i_GP_gen i_GP_indiv    GP_Child_Indiv_SSE&
+                      &   GP_Child_Indiv_SSE/SSE0'
+                do  i_GP_individual = 1, n_GP_individuals
+                    write(GP_print_unit,'(2(1x,I10), 2(1x, E20.10))') &
+                               i_GP_generation, i_GP_individual, &
+                               GP_Child_Individual_SSE(i_GP_Individual), &
+                               GP_Child_Individual_SSE(i_GP_Individual)/SSE0
+                enddo ! i_GP_individual
+            !endif ! i_GP_generation == 1 .or. ...
 
             !----------------------------------------------------------------------------------
 
@@ -769,6 +857,21 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
             endif !  n_GP_Asexual_Reproductions .gt. 0
 
+            !if( i_GP_generation == 1                                  .or. &
+            !    mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
+            !    i_GP_generation == n_GP_generations                          )then
+            !    write(GP_print_unit,'(//A)') '0:3 after Asexual_Reproduction'
+            !    write(GP_print_unit,'(A)')&
+            !          '0:3 i_GP_gen i_GP_indiv    GP_Child_Indiv_SSE&
+            !          &   GP_Child_Indiv_SSE/SSE0'
+            !    do  i_GP_individual = 1, n_GP_individuals
+            !        write(GP_print_unit,'(2(1x,I10), 2(1x, E20.10))') &
+            !                   i_GP_generation, i_GP_individual, &
+            !                   GP_Child_Individual_SSE(i_GP_Individual), &
+            !                   GP_Child_Individual_SSE(i_GP_Individual)/SSE0
+            !    enddo ! i_GP_individual
+            !endif ! i_GP_generation == 1 .or. ...
+
             !----------------------------------------------------------------------------------
 
             !  ii) Carry out "GP Tree Crossover" Operations
@@ -794,6 +897,23 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
                 call GP_Tournament_Style_Sexual_Reproduction( ierror_t )
 
             endif !  n_GP_Crossovers .gt. 0
+
+
+            !if( i_GP_generation == 1                                  .or. &
+            !    mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
+            !    i_GP_generation == n_GP_generations                          )then
+            !    write(GP_print_unit,'(//A)') '0:3 after Crossover '
+            !    write(GP_print_unit,'(A)')&
+            !          '0:3 i_GP_gen i_GP_indiv    GP_Child_Indiv_SSE&
+            !          &   GP_Child_Indiv_SSE/SSE0'
+            !    do  i_GP_individual = 1, n_GP_individuals
+            !        write(GP_print_unit,'(2(1x,I10), 2(1x, E20.10))') &
+            !                   i_GP_generation, i_GP_individual, &
+            !                   GP_Child_Individual_SSE(i_GP_Individual), &
+            !                   GP_Child_Individual_SSE(i_GP_Individual)/SSE0
+            !    enddo ! i_GP_individual
+            !endif ! i_GP_generation == 1 .or. ...
+
 
             !----------------------------------------------------------------------------------
 
@@ -827,6 +947,27 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
             GP_Adult_Population_Node_Type = GP_Child_Population_Node_Type
             GP_Adult_Population_SSE       = GP_Child_Individual_SSE
+
+
+
+                write(GP_print_unit,'(A,1x,I6/)') '0: after Mutations ierror_m = ', ierror_m
+
+                write(GP_print_unit,'(A)')&
+                      '0: i_GP_gen i_GP_indiv    GP_Child_Indiv_SSE&
+                      &   GP_Child_Indiv_SSE/SSE0'
+
+                do  i_GP_individual = 1, n_GP_individuals
+                    write(GP_print_unit,'(2(1x,I10), 2(1x, E20.10))') &
+                               i_GP_generation, i_GP_individual, &
+                               GP_Child_Individual_SSE(i_GP_Individual), &
+                               GP_Child_Individual_SSE(i_GP_Individual)/SSE0
+                enddo ! i_GP_individual
+
+                write(GP_print_unit,'(/A/(10(3x,L1)))')&
+                      '0: Run_GP_Calculate_Fitness ', Run_GP_Calculate_Fitness
+                !!flush(GP_print_unit)
+
+            !endif ! i_GP_generation == 1 .or. ...
 
             !---------------------------------------------------------------------------
 
@@ -1194,9 +1335,9 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
     call MPI_BARRIER( MPI_COMM_WORLD, ierr )
 
+
     call bcast3( )
 
-    !---------------------------------------------------------------------------
 
 
     if( myid == 0 )then

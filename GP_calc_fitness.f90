@@ -412,13 +412,14 @@ output_array = 0.0d0
 
 
 write(GP_print_unit,'(/A)') &
-          'gpcf: i_CODE_eq  &
+          'gpcf: i_CODE_eq  Truth_Init_Cond(i_CODE_eq)  &
           &GP_Pop_init_cond(i_CODE_eq,i_GP_Best_Parent)'
 
 do  i_CODE_equation=1,n_CODE_equations
 
-    write(GP_print_unit,'(6x,I6, 10x, E20.10)') &
+    write(GP_print_unit,'(6x,I6,7x, E24.16, 10x, E24.16)') &
           i_CODE_equation, &
+          data_array(0,i_code_equation), &
           GP_Population_Initial_Conditions( i_CODE_equation, i_GP_Best_Parent )
 
     output_array( i_CODE_equation ) = &
@@ -427,7 +428,6 @@ do  i_CODE_equation=1,n_CODE_equations
 
 enddo ! i_CODE_equation
 
-!------------------------------------------------------------------------------------
 
 nop = n_CODE_equations
 
@@ -671,7 +671,6 @@ endif ! i_GP_generation == 1 .or. ...
 !---------------------------------------------------------------------------
 
 GP_Adult_Individual_SSE  =  GP_Child_Individual_SSE
-
 GP_Adult_Population_SSE  =  GP_Child_Individual_SSE
 
 !---------------------------------------------------------------------------
