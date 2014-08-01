@@ -35,13 +35,11 @@ integer(kind=i4b) :: i_code_eq
 
 
 integer(kind=i4b),intent(in)  :: i_GP_Generation
-!integer(kind=i4b),intent(in)  :: i_GP_indiv
 integer(kind=i4b),intent(in)  :: icall
 
 integer(kind=i4b) :: i_GP_indiv
 integer(kind=i4b) :: i_Tree
 integer(kind=i4b) :: i_Node
-!integer(kind=i4b) :: nparm_temp
 
 logical :: Lprint
 
@@ -58,7 +56,7 @@ logical :: Lprint
 
 ! set Lprint so printing is done only under the conditions in the if-test
 
-!!Lprint = .TRUE.   ! debug only
+!Lprint = .TRUE.   ! debug only
 Lprint = .FALSE.
 
 if( i_GP_generation == 1                                  .or. &
@@ -75,16 +73,16 @@ endif ! i_GP_generation == 1 .or. ...
 
 do  i_GP_indiv = 1, n_GP_individuals
 
-    if( Lprint )then
+    !if( Lprint )then
 
-        write(GP_print_unit, '(/A/7(1x,I10))') &
-          'sgpa: i_GP_gen i_GP_indiv   n_code_eq  &
-                 &n_trees    n_nodes  n_levels    n_parms', &
-                 i_GP_generation, i_GP_indiv, &
-                 n_code_equations, n_trees, n_nodes, n_levels, &
-                 GP_Individual_N_GP_param(i_GP_indiv)
+    !    write(GP_print_unit, '(/A/7(1x,I10))') &
+    !      'sgpa: i_GP_gen i_GP_indiv   n_code_eq  &
+    !             &n_trees    n_nodes  n_levels    n_parms', &
+    !             i_GP_generation, i_GP_indiv, &
+    !             n_code_equations, n_trees, n_nodes, n_levels, &
+    !             GP_Individual_N_GP_param(i_GP_indiv)
 
-    endif ! Lprint
+    !endif ! Lprint
 
 
 
@@ -99,19 +97,19 @@ do  i_GP_indiv = 1, n_GP_individuals
     ! initial conditions
 
 
-    if( Lprint )then
-        write(GP_print_unit,'(/A)')&
-          'sgpa: i_GP_gen  i_GP_indiv  i_code_eq  &
-                &GP_Pop_Init_Cond(i_code_eq, i_GP_Indiv) '
-    endif ! Lprint
+    !if( Lprint )then
+    !    write(GP_print_unit,'(/A)')&
+    !      'sgpa: i_GP_gen  i_GP_indiv  i_code_eq  &
+    !            &GP_Pop_Init_Cond(i_code_eq, i_GP_Indiv) '
+    !endif ! Lprint
 
     do  i_code_eq = 1, n_CODE_Equations
 
-        if( Lprint )then
-            write(GP_print_unit,'(3(1x,I10), 7x, E24.16)')&
-            i_GP_generation, i_GP_indiv, i_code_eq, &
-            GP_Population_Initial_Conditions( i_code_eq, i_GP_indiv )
-        endif ! Lprint
+        !if( Lprint )then
+        !    write(GP_print_unit,'(3(1x,I10), 7x, E24.16)')&
+        !    i_GP_generation, i_GP_indiv, i_code_eq, &
+        !    GP_Population_Initial_Conditions( i_code_eq, i_GP_indiv )
+        !endif ! Lprint
 
         write(GP_summary_output_unit, '(2x,2(1x,I6),1x,I3, 1x, E24.16,2x,A)')&
               i_GP_generation, i_GP_indiv, i_code_eq, &
@@ -132,10 +130,10 @@ do  i_GP_indiv = 1, n_GP_individuals
     ! print the node types if node /= -9999
 
 
-    !!if( Lprint )then
+    !if( Lprint )then
     !    write(GP_print_unit,'(A)')  &
-    !          'sgpa: i_GP_gen  i_GP_indiv   i_tree     i_node    GP_Indiv_Node_Type'
-    !!endif ! Lprint
+    !          'sgpa: i_GP_gen  i_GP_indiv   i_tree     i_node    GP_Adult_Pop_Node_Type'
+    !endif ! Lprint
 
 
 
@@ -149,7 +147,7 @@ do  i_GP_indiv = 1, n_GP_individuals
                 !if( Lprint )then
                 !    write(GP_print_unit,'(2(1x,I10),3(1x,I10))') &
                 !          i_GP_generation, i_GP_indiv,i_tree, i_node, &
-                !          GP_Individual_Node_Type(i_Node,i_Tree)
+                !          GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv)
                 !endif ! Lprint
 
 
@@ -177,21 +175,21 @@ do  i_GP_indiv = 1, n_GP_individuals
     !    write(GP_print_unit,'(/A/)') &
     !    'sgpa: i_GP_gen i_GP_indiv     tree        node   &
     !    &GP_population_node_parameters'
-    !
+    
     !    do  i_tree=1,n_trees
     !        do  i_node=1,n_nodes
-    !
+    
     !            if( GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv ) == 0  ) then
-    !
+    
     !                write(GP_print_unit,'(2(1x,I10), 2(1x,I10),2x, E15.7)') &
     !                      i_GP_generation, i_GP_indiv,i_tree, i_node, &
     !                      GP_population_node_parameters(i_node,i_tree,i_GP_indiv)
-    !
+    
     !            endif  ! GP_Adult_Population_Node_Type(i_Node,i_Tree,i_GP_indiv) == 0
-    !
+    
     !        enddo ! i_node
     !    enddo  ! i_tree
-    !
+    
     !endif ! Lprint
 
 

@@ -306,16 +306,16 @@ Numerical_CODE_Initial_Conditions(1:n_CODE_equations) = &
 !
 !endif ! new_rank == 1
 
-if( new_rank == 1 )then
-    write(6,'(A)') ' '
-
-    do  ii = 1, n_CODE_equations
-        write(6,'(A,1x,I6,1x,E15.7)') &
-              'fcn: ii, Numerical_CODE_Initial_Conditions(ii)', &
-                    ii, Numerical_CODE_Initial_Conditions(ii)
-    enddo ! ii
-
-    write(6,'(A)') ' '
+!if( new_rank == 1 )then
+!    write(6,'(A)') ' '
+!
+!    do  ii = 1, n_CODE_equations
+!        write(6,'(A,1x,I6,1x,E15.7)') &
+!              'fcn: ii, Numerical_CODE_Initial_Conditions(ii)', &
+!                    ii, Numerical_CODE_Initial_Conditions(ii)
+!    enddo ! ii
+!
+!    write(6,'(A)') ' '
 !
 !    do  ii = 1, n_CODE_equations
 !        write(6,'(A,1x,I6,1x,E15.7)') &
@@ -340,7 +340,7 @@ if( new_rank == 1 )then
 !
 !    write(6,'(A)') ' '
 !
-endif ! new_rank == 1
+!endif ! new_rank == 1
 
 
 

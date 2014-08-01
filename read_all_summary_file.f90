@@ -205,13 +205,14 @@ do
     
     
     
-        !write(6,'(A,3(1x,I6),1x,E15.7)') &
-        !  'rasf: i_GP_Gen, i_GP_indiv, i_node, &
+        !write(6,'(A,4(1x,I4),1x,E15.7)') &
+        !  'rasf: i_GP_Gen, i_GP_indiv, i_tree, i_node, &
         !         &GP_population_node_parameters( i_node,i_tree, i_GP_indiv)', &
-        !         i_GP_Gen, i_GP_indiv, i_node, &
+        !         i_GP_Gen, i_GP_indiv, i_tree, i_node, &
         !          GP_population_node_parameters( i_node,i_tree, i_GP_indiv)
     
     enddo  
+
 
 enddo readloop 
 
