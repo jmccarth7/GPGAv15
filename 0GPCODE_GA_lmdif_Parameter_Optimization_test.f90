@@ -717,8 +717,27 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
                                 MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
 
             GP_Child_Population_Node_Type =  GP_Adult_Population_Node_Type
-            GP_Child_Individual_SSE       = GP_Adult_Population_SSE   ! needed ??  jjm 20140721
 
+            !---------------------------------------------------------------------------------
+    
+            message_len = n_nodes * n_trees * n_GP_individuals                 ! debug only
+            call MPI_BCAST( GP_Population_Node_Parameters, message_len,    &   ! debug only
+                            MPI_DOUBLE_PRECISION,  0, MPI_COMM_WORLD, ierr )   ! debug only
+    
+            message_len = n_code_equations * n_GP_individuals                  ! debug only
+            call MPI_BCAST( GP_Population_Initial_Conditions, message_len, &   ! debug only
+                            MPI_DOUBLE_PRECISION,  0, MPI_COMM_WORLD, ierr )   ! debug only
+    
+    
+            message_len = n_GP_individuals                                     ! debug only
+            call MPI_BCAST( GP_Adult_Population_SSE, message_len,    &         ! debug only
+                            MPI_DOUBLE_PRECISION,  0, MPI_COMM_WORLD, ierr )   ! debug only
+    
+            GP_Child_Individual_SSE       = GP_Adult_Population_SSE   ! needed ??  
+
+            !---------------------------------------------------------------------------------
+
+            L_restart = .FALSE.
 
         endif ! L_restart
 
@@ -735,6 +754,31 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
         if( myid == 0 )then
 
+            ! fill child sse for individuals not  modified in this generation
+
+            !!!GP_Child_Individual_SSE  = GP_Adult_Population_SSE   ! needed ??  jjm 20140522
+
+            !----------------------------------------------------------------------------------
+
+            !tree_descrip =  ' GP_Adult trees before call selection routines '
+            !call print_trees( i_GP_generation, 1, n_GP_individuals, &
+            !                  GP_Adult_Population_Node_Type, &
+            !                  trim( tree_descrip )  )
+
+            !if( i_GP_generation == 1                                  .or. &
+            !    mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
+            !    i_GP_generation == n_GP_generations                          )then
+                write(GP_print_unit,'(//A)') '0:3 before modifications'
+                write(GP_print_unit,'(A)')&
+                      '0:3 i_GP_gen i_GP_indiv    GP_Child_Indiv_SSE&
+                      &   GP_Child_Indiv_SSE/SSE0'
+                do  i_GP_individual = 1, n_GP_individuals
+                    write(GP_print_unit,'(2(1x,I10), 2(1x, E20.10))') &
+                               i_GP_generation, i_GP_individual, &
+                               GP_Child_Individual_SSE(i_GP_Individual), &
+                               GP_Child_Individual_SSE(i_GP_Individual)/SSE0
+                enddo ! i_GP_individual
+            !endif ! i_GP_generation == 1 .or. ...
 
             !----------------------------------------------------------------------------------
 
@@ -827,6 +871,57 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
             GP_Adult_Population_Node_Type = GP_Child_Population_Node_Type
             GP_Adult_Population_SSE       = GP_Child_Individual_SSE
+
+
+            !write(GP_print_unit,'(/A)')&
+            !      '0:aft  move Child_Node_Type and SSE to Adult'
+
+            !write(GP_print_unit,'(/A/(10(3x,L1)))')&
+            !      '0: Run_GP_Calculate_Fitness ', Run_GP_Calculate_Fitness
+
+            !call print_debug_integer_node_tree( GP_print_unit, &
+            !         'aft mutation print GP_Adult_Population_Node_Type ', &
+            !         GP_Adult_Population_Node_Type )
+
+            ! call print_debug_real_node_tree( GP_print_unit, &
+            !          'aft mutation print GP_population_node_parameters ', &
+            !          GP_population_node_parameters )
+
+            !if( i_GP_generation == 1                                  .or. &
+            !    mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
+            !    i_GP_generation == n_GP_generations                          )then
+
+
+                write(GP_print_unit,'(A,1x,I6/)') '0: after Mutations ierror_m = ', ierror_m
+
+                write(GP_print_unit,'(A)')&
+                      '0: i_GP_gen i_GP_indiv    GP_Child_Indiv_SSE&
+                      &   GP_Child_Indiv_SSE/SSE0'
+
+                do  i_GP_individual = 1, n_GP_individuals
+                    write(GP_print_unit,'(2(1x,I10), 2(1x, E20.10))') &
+                               i_GP_generation, i_GP_individual, &
+                               GP_Child_Individual_SSE(i_GP_Individual), &
+                               GP_Child_Individual_SSE(i_GP_Individual)/SSE0
+                enddo ! i_GP_individual
+
+                write(GP_print_unit,'(/A/(10(3x,L1)))')&
+                      '0: Run_GP_Calculate_Fitness ', Run_GP_Calculate_Fitness
+                !!flush(GP_print_unit)
+
+            !endif ! i_GP_generation == 1 .or. ...
+
+            !---------------------------------------------------------------------------
+
+            ! calculate the diversity index for each individual for generations > 1
+
+            !write(GP_print_unit,'(/A)') '0: call GP_calc_diversity_index '
+
+            !call GP_calc_diversity_index( n_GP_individuals, &
+            !                              GP_Child_Population_Node_Type, &
+            !                              i_diversity, i_gp_generation )
+
+            !write(GP_print_unit,'(/A)') '0: aft call GP_calc_diversity_index '
 
             !---------------------------------------------------------------------------
 

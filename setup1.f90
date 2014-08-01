@@ -223,7 +223,7 @@ endif ! myid == 0
 if( myid == 0 )then    ! 20131209
     write(GP_print_unit,'(/A/)') &
           'set1: time_step   Numerical_Code_Solution(time_step,1:n_CODE_equations)'
-    do  i = 1, n_time_steps
+    do  i = 0, n_time_steps
         write(GP_print_unit,'(I6,2x,10(1x,E14.7))') &
               i, (Numerical_Code_Solution(i,jj), jj = 1,n_CODE_equations )
     enddo ! i

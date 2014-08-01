@@ -77,15 +77,14 @@ real(kind=r8b) ::   individual_fit_rec
 real(kind=r8b) ::   individual_SSE_rec
 
 
-real(kind=r8b),allocatable,dimension(:)    ::   init_cond_buff
+real(kind=r8b),allocatable,dimension(:)      ::   init_cond_buff
+real(kind=r8b),allocatable,dimension(:,:)    ::   node_parm_buff2
 
-real(kind=r8b),allocatable,dimension(:,:)  ::   node_parm_buff2
+integer(kind=i4b),allocatable,dimension(:,:) ::   node_type_buff2
 
-integer,allocatable,dimension(:,:)       ::   node_type_buff2
-
-real(kind=r8b),allocatable,dimension(:)  ::   fit_buffer_send
-real(kind=r8b),allocatable,dimension(:)  ::   sse_buffer_send
-integer,allocatable,dimension(:)       ::   buff_parm_send
+real(kind=r8b),allocatable,dimension(:)     ::   fit_buffer_send
+real(kind=r8b),allocatable,dimension(:)     ::   sse_buffer_send
+integer(kind=i4b),allocatable,dimension(:)  ::   buff_parm_send
 
 
 !---------------------------------------------------------------------------------------
