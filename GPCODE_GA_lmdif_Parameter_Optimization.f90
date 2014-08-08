@@ -348,10 +348,12 @@ do  i_GA_generation = 1, n_GA_Generations
 
                 !if( L_ga_print )then
                 !    write(GA_print_unit,'(/A,1x,I6)') &
+                !    write(6,'(/A,1x,I6)') &
                 !    'GP_GA_opt:2 child parameters at start of GA generation:', &
                 !                                            i_GA_generation
                 !    do  i_ga_ind = 1, n_GA_individuals
                 !        write(GA_print_unit,'(I6,1x,10(1x,E15.7)/(10(1x,E15.7)))') &
+                !        write(6,'(I6,1x,10(1x,E15.7)/(10(1x,E15.7)))') &
                 !              i_ga_ind, &
                 !             (child_parameters(jj, i_ga_ind),&
                 !                               jj = 1,n_parameters )

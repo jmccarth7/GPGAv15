@@ -742,10 +742,28 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
             call MPI_BCAST( GP_Adult_Population_Node_Type, message_len,    &
                             MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
 
-            !if( myid == 0 )then
-            !    write(GP_print_unit,'(A,1x,E15.7)') &
-            !      '0: time spent in bcast GP_Adult_Pop_Node_Type 2 = ', t2 - t1
-            !endif ! myid == 0
+            GP_Child_Population_Node_Type =  GP_Adult_Population_Node_Type
+
+            !---------------------------------------------------------------------------------
+    
+            message_len = n_nodes * n_trees * n_GP_individuals                 ! debug only
+            call MPI_BCAST( GP_Population_Node_Parameters, message_len,    &   ! debug only
+                            MPI_DOUBLE_PRECISION,  0, MPI_COMM_WORLD, ierr )   ! debug only
+    
+            message_len = n_code_equations * n_GP_individuals                  ! debug only
+            call MPI_BCAST( GP_Population_Initial_Conditions, message_len, &   ! debug only
+                            MPI_DOUBLE_PRECISION,  0, MPI_COMM_WORLD, ierr )   ! debug only
+    
+    
+            message_len = n_GP_individuals                                     ! debug only
+            call MPI_BCAST( GP_Adult_Population_SSE, message_len,    &         ! debug only
+                            MPI_DOUBLE_PRECISION,  0, MPI_COMM_WORLD, ierr )   ! debug only
+    
+            GP_Child_Individual_SSE       = GP_Adult_Population_SSE   ! needed ??  
+
+            !---------------------------------------------------------------------------------
+
+            L_restart = .FALSE.
 
         endif ! L_restart
 
