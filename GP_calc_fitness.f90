@@ -695,19 +695,19 @@ GP_Adult_Population_SSE  =  GP_Child_Individual_SSE
 
 !!off if( i_GP_Generation .eq. 3) Stop
 
-!-------------------------------------------------------------------------------
-
-! the last line of the call disables the sse_min_time, etc. option for this call
-
-call calc_stats( n_GP_individuals, GP_Population_Ranked_Fitness,  &
-                 mean_fit, rms_fit, std_dev_fit, &
-                 1.0d0, 0.0d0, 1.0d99, 1.0d0 )
-
-write(GP_print_unit,'(/A,1x,I5,3(1x,E15.7))') &
-   'gpcf: GP_Gen, GP_Pop_Rank_Fit mean, rms, std_dev', &
-          i_GP_Generation, mean_fit, rms_fit, std_dev_fit
-
-!-------------------------------------------------------------------------------
+!!-------------------------------------------------------------------------------
+!
+!! the last line of the call disables the sse_min_time, etc. option for this call
+!
+!call calc_stats( n_GP_individuals, GP_Population_Ranked_Fitness,  &
+!                 mean_fit, rms_fit, std_dev_fit, &
+!                 1.0d0, 0.0d0, 1.0d99, 1.0d0 )
+!
+!write(GP_print_unit,'(/A,1x,I5,3(1x,E15.7))') &
+!   'gpcf: GP_Gen, GP_Pop_Rank_Fit mean, rms, std_dev', &
+!          i_GP_Generation, mean_fit, rms_fit, std_dev_fit
+!
+!!-------------------------------------------------------------------------------
 
 if( L_GP_log )then
 
