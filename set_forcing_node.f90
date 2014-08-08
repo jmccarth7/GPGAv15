@@ -41,7 +41,7 @@ data frac_forcing_type(2,4) / 0.210526 /
 !endif !  L_no_forcing 
 
 
-write(GP_print_unit,'(A,1x,E15.7 )') 'sfn: prob_forcing ', prob_forcing
+!write(GP_print_unit,'(A,1x,E15.7 )') 'sfn: prob_forcing ', prob_forcing
 
 !----------------------------------------------------------------------
 
