@@ -68,8 +68,8 @@ integer(kind=i4b) :: comm_world
 !real(kind=r8b) :: t2
 
 
-character(15),parameter :: program_version   = '201402.004_v13'
-character(10),parameter :: modification_date = '20140731'
+character(15),parameter :: program_version   = '201402.005_v13'
+character(10),parameter :: modification_date = '20140808'
 character(50),parameter :: branch  =  'restart2'
 
 integer(kind=i4b), parameter ::  zero = 0
@@ -749,6 +749,18 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
         endif ! L_restart
 
+        !---------------------------------------------------------------------------------
+
+        ! compute a "diversity index" which characterizes each individual with a
+        ! number derived from the number of nodes, etc.
+
+        !if( myid == 0 )then
+        !    call GP_calc_diversity_index( n_GP_individuals,  &
+        !                                  GP_Adult_Population_Node_Type, &
+        !                                  i_diversity, i_gp_generation )
+        !endif ! myid == 0
+
+        !-----------------------------------------------------------------------------
 
     else !  i_GP_Generation > 1
 
