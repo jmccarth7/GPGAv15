@@ -764,7 +764,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
                 !! debug only >>>>>>>>>>>>>>>>
                 !!! fasham model
-                !call fasham_model_debug()   ! debug only
+                call fasham_model_debug()   ! debug only
                 !! debug only <<<<<<<<<<<<<<<<<
 
 
@@ -1065,15 +1065,13 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
     ! to replace function nodes that have both terminals set as parameters
     ! and to set the replaced node to a parameter itself
 
-    if( myid == 0 )then
-
-        write(GP_print_unit,'(/A,1x,I6)') &
-              '0: call GP_Clean_Tree_Nodes  Generation =', i_GP_Generation
-        flush(GP_print_unit)
-
-        call GP_Clean_Tree_Nodes
-
-    endif ! myid == 0
+    ! <<<  remove for fixed fasham_tree option >>>
+    !if( myid == 0 .and. i_GP_generation > 1 )then           ! jjm 20140817
+    !    write(GP_print_unit,'(/A,1x,I6)') &
+    !          '0: call GP_Clean_Tree_Nodes  Generation =', i_GP_Generation
+    !    flush(GP_print_unit)
+    !    call GP_Clean_Tree_Nodes
+    !endif ! myid == 0
 
 
     ! broadcast GP_Adult_Population_Node_Type changed by GP_Clean_Tree_Nodes
