@@ -70,7 +70,7 @@ integer(kind=i4b) :: comm_world
 
 character(15),parameter :: program_version   = '201402.005_v13'
 character(10),parameter :: modification_date = '20140817'
-character(50),parameter :: branch  =  'fix_fasham_IC'
+character(50),parameter :: branch  =  'fix_fasham_tree'
 
 integer(kind=i4b), parameter ::  zero = 0
 
@@ -108,7 +108,7 @@ if( myid == 0 )then
     write(6,'(A,1x,I5)') '0: numprocs = ', numprocs
 endif ! myid == 0
 
-write(6,'(/A,2(1x,I6))') '0: myid, numprocs    ', myid, numprocs    
+!write(6,'(/A,2(1x,I6))') '0: myid, numprocs    ', myid, numprocs    
 
 !------------------------------------------------------------------
 
@@ -137,6 +137,7 @@ CALL RANDOM_SEED(size = n_seed)
 
 if( myid == 0 )then
 
+    write(6,'(/A/)') '0: this version uses a tree fixed to be the truth FASHAM TREE'
     write(6,'(/A/)') '0: this version uses fixed FASHAM INITIAL CONDITIONS'
     write(6,'(/A/)') '0: run lmdif in parallel on each GP generation'
     write(6,'(/A/)') '0: changed RK sub to make it faster'
@@ -156,7 +157,7 @@ if( myid == 0 )then
     '  Last modified on:', trim( modification_date )
     !------------------------------------------------------
 
-    write(6,'(A)')'0: set GP_rank and GP_Fit* to original versions'
+    !write(6,'(A)')'0: set GP_rank and GP_Fit* to original versions'
 
     ! read the control input from file  "GPCODE_cntl"
 
@@ -212,10 +213,10 @@ message_len =  1
 call MPI_BCAST( ierror, message_len,    &
                 MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
 
-if( myid == 0 )then
-    write(6, '(A,2(1x,I6)/)') '0: 1 bcast ierr ', ierr 
-    !flush(6)
-endif ! myid == 0
+!if( myid == 0 )then
+!    write(6, '(A,2(1x,I6)/)') '0: 1 bcast ierr ', ierr 
+!    !flush(6)
+!endif ! myid == 0
 
 if( ierror > 0 ) then
 
@@ -239,8 +240,10 @@ if( n_input_vars > 0 )then
 
         write(6, '(A)') '0: AFTER call read_input_data_size '
 
-        write(6,'(/A,2(1x,I6))') '0: myid, n_input_data_points', myid, n_input_data_points
-        write(6,'(/A,2(1x,I6))') '0: myid, n_input_vars', myid, n_input_vars
+        write(6,'(/A,2(1x,I6))') &
+              '0: myid, n_input_data_points', myid, n_input_data_points
+        write(6,'(/A,2(1x,I6))') &
+              '0: myid, n_input_vars       ', myid, n_input_vars
     endif !   myid == 0
 
 
@@ -252,19 +255,19 @@ if( n_input_vars > 0 )then
     call MPI_BCAST( n_input_data_points, 1,    &
                     MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
     !write(6,'(/A,2(1x,I6))') '0:1 myid, ierr', myid, ierr
-if( myid == 0 )then
-    write(6, '(A,2(1x,I6)/)') '0: 2 bcast ierr ', ierr 
-    !flush(6)
-endif ! myid == 0
+    if( myid == 0 )then
+        write(6, '(A,2(1x,I6)/)') '0: 2 bcast ierr ', ierr 
+        !flush(6)
+    endif ! myid == 0
 
     call MPI_BCAST( n_input_vars, 1,    &
                     MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
 
     !write(6,'(/A,2(1x,I6))') '0:2 myid, ierr ', myid, ierr 
-if( myid == 0 )then
-    write(6, '(A,2(1x,I6)/)') '0: 3 bcast ierr ', ierr 
-    !flush(6)
-endif ! myid == 0
+    if( myid == 0 )then
+        write(6, '(A,2(1x,I6)/)') '0: 3 bcast ierr ', ierr 
+        !flush(6)
+    endif ! myid == 0
 
 !debug only     call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
 
@@ -276,15 +279,17 @@ endif ! myid == 0
 
     !---------------------------------------------------------------------
 
-    if( myid == 0 )then
-    write(6,'(/A,2(1x,I6))') '0: myid, n_input_data_points', myid, n_input_data_points
-    write(6,'(/A,2(1x,I6))') '0: myid, n_input_vars', myid, n_input_vars
-
 
     ! allocate input data names
 
-    write(6, '(/A)') '0: allocate input_data_names'
-    flush(6)
+    if( myid == 0 )then
+        write(6,'(/A,2(1x,I6))') &
+              '0: myid, n_input_data_points', myid, n_input_data_points
+        write(6,'(/A,2(1x,I6))') &
+              '0: myid, n_input_vars       ', myid, n_input_vars
+
+        write(6, '(/A)') '0: allocate input_data_names'
+        flush(6)
     endif !  myid == 0 
 
     allocate( input_data_names( 0:n_input_vars ) )
@@ -292,12 +297,12 @@ endif ! myid == 0
                real( (1+n_input_vars) * name_len * 4, kind=8 )
 
 
-    if( myid == 0 )then
-    write(6, '(/A)') '0: AFT allocate input_data_names'
 
     ! allocate input data array
 
-    write(6, '(/A)') '0: allocate input_data_array'
+    if( myid == 0 )then
+        write(6, '(/A)') '0: AFT allocate input_data_names'
+        write(6, '(/A)') '0: allocate input_data_array'
     endif !  myid == 0 
 
     allocate( input_data_array( 0:n_input_vars, n_input_data_points) )
@@ -305,19 +310,15 @@ endif ! myid == 0
                real( (1+n_input_vars) * n_input_data_points * 8, kind=8 )
 
     if( myid == 0 )then
-    write(6, '(/A)') '0: AFT allocate input_data_array'
-    flush(6)
+        write(6, '(/A)') '0: AFT allocate input_data_array'
+        flush(6)
     endif !  myid == 0 
 
-    !debug only call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
+!debug only call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
 
     !---------------------------------------------------------------------
 
     ! read in the data into the arrays  input_data_names, input_data_array
-
-
-!call MPI_FINALIZE(ierr)  ! debug only 
-!stop  ! debug only 
 
     if( myid == 0 )then
 
@@ -336,23 +337,21 @@ endif ! myid == 0
 
 endif  !  n_input_vars > 0
 
-!call MPI_FINALIZE(ierr)  ! debug only 
-!stop  ! debug only 
 
 !---------------------------------------------------------------------
 
 ! broadcast the values read in by cpu 0 to others
 
-if( myid == 0 )then
-    write(6, '(/A)') '0: call bcast1 '            
-endif !   myid == 0
+!if( myid == 0 )then
+!    write(6, '(/A)') '0: call bcast1 '            
+!endif !   myid == 0
 
 call bcast1()
 
-if( myid == 0 )then
-    write(6, '(/A)') '0: AFT call bcast1 '            
-    flush(6)
-endif !   myid == 0
+!if( myid == 0 )then
+!    write(6, '(/A)') '0: AFT call bcast1 '            
+!    flush(6)
+!endif !   myid == 0
 
 !------------------------------------------------------------------
 
@@ -412,31 +411,30 @@ if( myid == 0 )then
     enddo ! i
 
     write(6,'(A)') ' '
-
-    flush(6)
+    !flush(6)
 
 endif ! myid == 0
 
 
 !---------------------------------------------------------------------------
-if( myid == 0 )then
-    write(6,'(A,3(1x,I6))') '0: call setup1'                             
-    flush(6)
-endif ! myid == 0 )then
+!if( myid == 0 )then
+!    write(6,'(A,3(1x,I6))') '0: call setup1'                             
+!    flush(6)
+!endif ! myid == 0 )then
 
 call setup1( )
 
-if( myid == 0 )then
-    write(6,'(A,3(1x,I6))') '0: AFT call setup1'                             
-    flush(6)
-endif ! myid == 0 )then
+!if( myid == 0 )then
+!    write(6,'(A,3(1x,I6))') '0: AFT call setup1'                             
+!    flush(6)
+!endif ! myid == 0 )then
 
 !---------------------------------------------------------------------------
 
 
 if( myid == 0 )then
     write(6,'(A,3(1x,I6))') '0: myid, numprocs ', myid, numprocs
-    flush(6)
+    !flush(6)
 endif ! myid == 0 )then
 
 
@@ -456,7 +454,7 @@ divider = ( numprocs -1 ) / n_partitions
 if( myid == 0 )then
     write(6,'(A,3(1x,I4))') '0: n_partitions, numprocs, divider', &
                                 n_partitions, numprocs, divider
-    flush(6)
+    !flush(6)
 endif ! myid == 0 )then
 
 
@@ -490,7 +488,7 @@ allocated_memory = allocated_memory + &
 if( myid == 0 )then
     write(6,'(A,3(1x,I4))') '0: ranks( 1:numprocs, n_partitions )', &
                                          numprocs, n_partitions
-    flush(6)
+    !flush(6)
 endif ! myid == 0 )then
 
 ranks      = 0
@@ -594,12 +592,10 @@ call MPI_COMM_SPLIT( comm_world, color, myid, new_comm, ierr )
 call mpi_comm_rank( new_comm, new_rank, ierr )
 call mpi_comm_size( new_comm, my_size , ierr )
 
-write(6,'(A,4(1x,I6))') '0: myid, new_rank, color, my_size ', &
-                            myid, new_rank, color, my_size
-flush(6)
+!write(6,'(A,4(1x,I6))') '0: myid, new_rank, color, my_size ', &
+!                            myid, new_rank, color, my_size
+!flush(6)
 
-!call MPI_FINALIZE(ierr)  ! debug only 
-!stop  ! debug only 
 
 !---------------------------------------------------------------------------
 
@@ -764,7 +760,9 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
                 !! debug only >>>>>>>>>>>>>>>>
                 !!! fasham model
+
                 call fasham_model_debug()   ! debug only
+
                 !! debug only <<<<<<<<<<<<<<<<<
 
 
