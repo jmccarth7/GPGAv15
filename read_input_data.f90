@@ -58,6 +58,7 @@ do  i = 1, n_input_vars
     write(6, '(I2,1x,A)') i, trim(input_data_names(i))
 enddo
 
+flush(6)
 
 !---------------------------------------------------------------------
 
@@ -92,6 +93,7 @@ do  j = 1, n_input_data_points
             ( input_data_array(i,j), i = 0, n_input_vars ) 
 enddo 
 
+flush(6)
 
 
 deallocate( temp_array ) 

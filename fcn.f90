@@ -368,9 +368,20 @@ L_bad_result = .FALSE.
 !----------------------------------------------------------------------
 
 !t1 = MPI_Wtime()
+write(GP_print_unit,'(A,1x,I6)') &
+          'fcn: call Runge_Kutta_Box_Model  n_input_vars ',  n_input_vars
+                                            
+    !flush(GP_print_unit)
 
+if( n_input_vars == 0 )then
 
-call Runge_Kutta_Box_Model( .FALSE. )
+    call Runge_Kutta_Box_Model( .FALSE. )
+
+else
+
+    call Runge_Kutta_Box_Model_data( .FALSE. )
+
+endif ! n_input_vars == 0
 
 !t2 = MPI_Wtime()
 
