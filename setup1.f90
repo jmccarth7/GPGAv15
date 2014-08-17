@@ -221,21 +221,47 @@ endif ! myid == 0
 
 
 if( myid == 0 )then    ! 20131209
-    write(GP_print_unit,'(/A/)') &
-          'set1: time_step   Numerical_Code_Solution(time_step,1:n_CODE_equations)'
-    do  i = 0, n_time_steps
-        write(GP_print_unit,'(I6,2x,10(1x,E14.7))') &
-              i, (Numerical_Code_Solution(i,jj), jj = 1,n_CODE_equations )
-    enddo ! i
+
+    if( n_input_vars == 0 )then
+        write(GP_print_unit,'(/A/)') &
+              'set1: time_step   Numerical_Code_Solution(time_step,1:n_CODE_equations)'
+        do  i = 0, n_time_steps
+            write(GP_print_unit,'(I6,2x,10(1x,E14.7))') &
+                  i, (Numerical_Code_Solution(i,jj), jj = 1,n_CODE_equations )
+        enddo ! i
+    else
+
+        write(6, '(A,2(1x,I6)/)') 'set1: n_input_data_points ', n_input_data_points
+
+        write(GP_print_unit,'(/A/)') &
+              'set1: i, Numerical_CODE_Solution(i,1:n_CODE_equations)'
+        do  i = 0, n_input_data_points
+            write(GP_print_unit,'(I6,2x,10(1x,E14.7))') &
+                  i, (Numerical_CODE_Solution(i,jj), jj = 1,n_CODE_equations )
+        enddo ! i
+
+
+    endif ! n_input_vars == 0
+
+
 endif ! myid == 0
 
 
 
+if( n_input_vars == 0 )then
+    message_len = ( n_time_steps + 1 ) * n_CODE_equations
+else
+    message_len = ( n_input_data_points + 1 ) * n_CODE_equations
+endif ! n_input_vars == 0
 
-message_len = ( n_time_steps + 1 ) * n_CODE_equations
+
 call MPI_BCAST( Numerical_CODE_Solution, message_len,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
+if( myid == 0 )then
+    write(6, '(A,2(1x,I6)/)') 'set1: 1 bcast ierr ', ierr 
+    !flush(6)
+endif ! myid == 0
 
 
 Data_Array=Numerical_CODE_Solution        ! Matrix Operation
@@ -246,9 +272,20 @@ Data_Array=Numerical_CODE_Solution        ! Matrix Operation
 
 Numerical_CODE_Solution(1:n_time_steps, 1:n_code_equations) = 0.0d0
 
-message_len = ( n_time_steps + 1 ) * n_CODE_equations
+!message_len = ( n_time_steps + 1 ) * n_CODE_equations
+if( n_input_vars == 0 )then
+    message_len = ( n_time_steps + 1 ) * n_CODE_equations
+else
+    message_len = ( n_input_data_points + 1 ) * n_CODE_equations
+endif ! n_input_vars == 0
+
 call MPI_BCAST( Numerical_CODE_Solution, message_len,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+
+if( myid == 0 )then
+    write(6, '(A,2(1x,I6)/)') 'set1: 2 bcast ierr ', ierr 
+    !flush(6)
+endif ! myid == 0
 
 !--------------------------------------------------------------------------------
 
@@ -278,6 +315,11 @@ endif ! myid == 0
 message_len =  n_CODE_equations
 call MPI_BCAST( Data_Variance_inv, message_len,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+
+if( myid == 0 )then
+    write(6, '(A,2(1x,I6)/)') 'set1: 3 bcast ierr ', ierr 
+    !flush(6)
+endif ! myid == 0
 
 
 !--------------------------------------------------------------------------------
@@ -339,11 +381,21 @@ call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
 message_len = 1
 call MPI_BCAST( GA_child_print_interval, message_len,    &
                 MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
+if( myid == 0 )then
+    write(6, '(A,2(1x,I6)/)') 'set1: 4 bcast ierr ', ierr 
+    !flush(6)
+endif ! myid == 0
+
 
 
 message_len = 1
 call MPI_BCAST( GP_child_print_interval, message_len,    &
                 MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
+
+if( myid == 0 )then
+    write(6, '(A,2(1x,I6)/)') 'set1: 5 bcast ierr ', ierr 
+    !flush(6)
+endif ! myid == 0
 
 
 !--------------------------------------------------------------------------------
@@ -402,6 +454,11 @@ message_len = 1
 call MPI_BCAST( SSE0, message_len,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
+if( myid == 0 )then
+    write(6, '(A,2(1x,I6)/)') 'set1: 6 bcast ierr ', ierr 
+    !flush(6)
+endif ! myid == 0
+
 !---------------------------------------------------------------------------
 
 ! calculate n_GP_Asexual_Reproductions, n_GP_Crossovers,  etc.
@@ -416,23 +473,23 @@ call set_modified_indiv( )
 !    !flush(6)
 !endif ! myid == 0
 
-!---------------------------------------------------------------------------                                  
-                                                                                                              
-! set L_minSSE to TRUE if there are no elite individuals,                                                     
-!  or prob_no_elite > 0 which means elite individuals might be modified                                       
-                                                                                                              
-L_minSSE = n_GP_Elitists ==  0 .or.   prob_no_elite > 0.0D0                                                   
-                                                                                                              
-if( myid == 0 .and. L_minSSE )then                                                                            
-                                                                                                              
-    open( GP_minSSE_summary_output_unit, file='GP_minSSE_summary_file', &                                     
-          form = 'formatted', access = 'sequential', &                                                        
-          status = 'unknown' )                                                                                
-                                                                                                              
-endif ! myid == 0                                                                                             
-                                                                                                              
-                                                                                                              
-!---------------------------------------------------------------------------                                  
+!---------------------------------------------------------------------------
+
+! set L_minSSE to TRUE if there are no elite individuals,
+!  or prob_no_elite > 0 which means elite individuals might be modified
+
+L_minSSE = n_GP_Elitists ==  0 .or.   prob_no_elite > 0.0D0
+
+if( myid == 0 .and. L_minSSE )then
+
+    open( GP_minSSE_summary_output_unit, file='GP_minSSE_summary_file', &
+          form = 'formatted', access = 'sequential', &
+          status = 'unknown' )
+
+endif ! myid == 0
+
+
+!---------------------------------------------------------------------------
 
 
 

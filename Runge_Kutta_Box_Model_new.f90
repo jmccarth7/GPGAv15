@@ -186,7 +186,9 @@ do  i_Time_Step = 1, n_Time_Steps
 
     !------------------------------------------------------------------------------
 
-    !!!RK_data_array(1:n_input_vars) = input_data_array(1:n_input_vars, i_data_point )
+    !if( n_input_vars > 0 )then
+    !    RK_data_array(1:n_input_vars) = input_data_array(1:n_input_vars, i_data_point )
+    !endif ! n_input_vars > 0 
 
     b_tmp(:) = Numerical_CODE_Solution(i_Time_Step-1,:)  ! Array Assignment
 

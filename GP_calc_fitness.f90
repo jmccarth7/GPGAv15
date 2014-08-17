@@ -76,14 +76,14 @@ character(15) :: flag_string
 output_array = 0.0d0
 
 
-write(GP_print_unit,'(/A,1x,I6)') &
-      'gpcf: i_GP_generation ',  i_GP_generation
-write(GP_print_unit,'(A)') &
-  'gpcf: i_GP_indiv    GP_Child_Indiv_SSE'
-do  i_GP_individual = 1, n_GP_individuals
-    write(GP_print_unit,'(4x,I6,10x,E15.7)')  &
-          i_GP_individual, GP_Child_Individual_SSE(i_GP_individual)
-enddo ! i_GP_individual
+!write(GP_print_unit,'(/A,1x,I6)') &
+!      'gpcf: i_GP_generation ',  i_GP_generation
+!write(GP_print_unit,'(A)') &
+!  'gpcf: i_GP_indiv    GP_Child_Indiv_SSE'
+!do  i_GP_individual = 1, n_GP_individuals
+!    write(GP_print_unit,'(4x,I6,10x,E15.7)')  &
+!          i_GP_individual, GP_Child_Individual_SSE(i_GP_individual)
+!enddo ! i_GP_individual
 
 !-------------------------------------------------------------------------------
 
@@ -131,9 +131,9 @@ enddo ! i_gp_individual
 
 !-------------------------------------------------------------------------------
 
-!if( i_GP_generation == 1                                 .or. &
-!    mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
-!    i_GP_generation == n_GP_generations                          ) then
+if( i_GP_generation == 1                                 .or. &
+    mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
+    i_GP_generation == n_GP_generations                          ) then
 
 
     write(GP_print_unit,'(/A,1x,I6)') &
@@ -147,7 +147,7 @@ enddo ! i_gp_individual
            GP_Child_Individual_SSE(i_GP_Individual)/SSE0
     enddo ! i_gp_individual
 
-!endif ! i_GP_generation ...
+endif ! i_GP_generation ...
 
 
 if( L_GPSSE_log )then
@@ -208,16 +208,16 @@ enddo ! i_GP_Individual
 !    mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
 !    i_GP_generation == n_GP_generations                          ) then
 !
-    write(GP_print_unit,'(/A)') &
-          'gpcf: i_GP_indiv     GP_Child_Indiv_SSE   GP_Pop_Ranked_Fitness'
-
-    do  i_GP_Individual=1,n_GP_Individuals
-        !write(GP_print_unit,'(5x,I6,2x, 2(5x,E20.10))') &
-        write(GP_print_unit,'(5x,I6,7x, 2(1x,E24.16))') &
-              i_GP_individual, GP_Child_Individual_SSE(i_GP_Individual), &
-             GP_Population_Ranked_Fitness(i_GP_Individual)
-    enddo
-
+!    write(GP_print_unit,'(/A)') &
+!          'gpcf: i_GP_indiv     GP_Child_Indiv_SSE   GP_Pop_Ranked_Fitness'
+!
+!    do  i_GP_Individual=1,n_GP_Individuals
+!        !write(GP_print_unit,'(5x,I6,2x, 2(5x,E20.10))') &
+!        write(GP_print_unit,'(5x,I6,7x, 2(1x,E20.10))') &
+!              i_GP_individual, GP_Child_Individual_SSE(i_GP_Individual), &
+!             GP_Population_Ranked_Fitness(i_GP_Individual)
+!    enddo
+!
 !endif ! i_GP_generation == 1 .or. ...
 
 !-------------------------------------------------------------------------------
@@ -272,17 +272,17 @@ enddo ! i_GP_Individual
 !    mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
 !    i_GP_generation == n_GP_generations                          ) then
 !
-    write(GP_print_unit,'(/A)') &
-      'gpcf: i_GP_indiv  GP_Child_Indiv_SSE  GP_Integ_Pop_Ranked_Fitness (norm)'
-
-    do  i_GP_Individual=1,n_GP_Individuals
-
-        write(GP_print_unit,'(5x,I6,2x,2(5x,E24.16))') &
-              i_GP_individual, &
-              GP_Child_Individual_SSE(i_GP_Individual), &
-              GP_Integrated_Population_Ranked_Fitness(i_GP_Individual)
-    enddo
-
+!    write(GP_print_unit,'(/A)') &
+!      'gpcf: i_GP_indiv  GP_Child_Indiv_SSE  GP_Integ_Pop_Ranked_Fitness (norm)'
+!
+!    do  i_GP_Individual=1,n_GP_Individuals
+!
+!        write(GP_print_unit,'(5x,I6,2x,2(5x,E15.7))') &
+!              i_GP_individual, &
+!              GP_Child_Individual_SSE(i_GP_Individual), &
+!              GP_Integrated_Population_Ranked_Fitness(i_GP_Individual)
+!    enddo
+!
 !endif ! i_GP_generation == 1 .or. ...
 
 

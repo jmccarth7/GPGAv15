@@ -32,6 +32,7 @@ integer(kind=i4b) :: i_GP_individual
 integer(kind=i4b) :: i_tree
 integer(kind=i4b) :: i_node
 integer(kind=i4b) :: ii
+integer(kind=i4b) :: i
 
 logical :: buildTrees
 
@@ -111,7 +112,7 @@ endif ! L_unit50_output
 ! initialize the biological data fields
 
 Numerical_CODE_Solution(0,1:n_CODE_equations) = &
-             Numerical_CODE_Initial_Conditions 
+             Numerical_CODE_Initial_Conditions
 
 
 if( myid == 0 )then
@@ -177,8 +178,37 @@ if( myid == 0 )then
 
     ! Runge_Kutta_Box_Model now put the time series in Numerical_CODE_Solution
 
-    call Runge_Kutta_Box_Model( .false. )  ! 1 )
+    !call Runge_Kutta_Box_Model( .false. )  ! 1 )
 
+
+
+    write(GP_print_unit,'(A,1x,I6)') &
+          'saa: call Runge_Kutta_Box_Model  n_input_vars ',  n_input_vars
+
+    !flush(GP_print_unit)
+
+    if( n_input_vars == 0 )then
+
+        call Runge_Kutta_Box_Model( .FALSE. )
+
+    else
+
+
+        do  i = 1, n_input_data_points
+        
+            do  ii = 1, n_CODE_equations
+                Numerical_CODE_Solution( i, ii ) = input_data_array(0,i) 
+                write(6,'(A,2(1x,I6),1x,E20.10)') 'saa: i,ii, Numerical_CODE_Solution(i,ii)', &
+                                                        i,ii, Numerical_CODE_Solution(i,ii)
+            enddo ! ii
+        
+        enddo ! i 
+
+        !Numerical_CODE_Solution(0,1:n_code_equations) = Numerical_CODE_Solution(1,1:n_code_equations)
+
+!!        call Runge_Kutta_Box_Model_data( .FALSE. )
+
+    endif ! n_input_vars == 0
 
 endif ! myid == 0
 

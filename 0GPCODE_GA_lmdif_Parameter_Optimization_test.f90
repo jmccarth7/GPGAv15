@@ -43,13 +43,8 @@ integer(kind=i4b) :: GP_minSSE_generation
 integer(kind=i4b) :: i_Tree
 integer(kind=i4b) :: i_Node
 
-!integer(kind=i4b) :: jj
-!!integer(kind=i4b) :: nn
-
-!integer(kind=i4b) :: i_CODE_equation
 integer(kind=i4b) :: max_n_gp_params
 
-!integer(kind=i4b) :: n_GP_vars
 integer(kind=i4b) :: nop
 
 integer(kind=i4b) :: i_GP_best_parent
@@ -61,11 +56,8 @@ integer(kind=i4b) :: i_start_generation
 
 integer(kind=i4b) :: new_group
 integer(kind=i4b) :: new_comm
-!integer(kind=i4b) :: new_rank
 integer(kind=i4b) :: my_size
 integer(kind=i4b) :: j
-!integer(kind=i4b) :: ierr2
-!integer(kind=i4b) :: i_group_size
 integer(kind=i4b) :: color
 integer,allocatable,dimension(:) :: color_value
 integer,allocatable,dimension(:) :: key
@@ -75,10 +67,9 @@ integer(kind=i4b) :: comm_world
 !real(kind=r8b) :: t1
 !real(kind=r8b) :: t2
 
-!character(200) :: tree_descrip
 
-character(15),parameter :: program_version   = '201402.003_v13'
-character(10),parameter :: modification_date = '20140721'
+character(15),parameter :: program_version   = '201402.004_v13'
+character(10),parameter :: modification_date = '20140731'
 character(50),parameter :: branch  =  'restart2'
 
 integer(kind=i4b), parameter ::  zero = 0
@@ -117,6 +108,7 @@ if( myid == 0 )then
     write(6,'(A,1x,I5)') '0: numprocs = ', numprocs
 endif ! myid == 0
 
+write(6,'(/A,2(1x,I6))') '0: myid, numprocs    ', myid, numprocs    
 
 !------------------------------------------------------------------
 
@@ -219,6 +211,11 @@ message_len =  1
 call MPI_BCAST( ierror, message_len,    &
                 MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
 
+if( myid == 0 )then
+    write(6, '(A,2(1x,I6)/)') '0: 1 bcast ierr ', ierr 
+    !flush(6)
+endif ! myid == 0
+
 if( ierror > 0 ) then
 
     call MPI_FINALIZE(ierr)
@@ -232,11 +229,17 @@ if( n_input_vars > 0 )then
 
     ! read in the data number of points, number of vars
 
+    ! n_input_vars > 0 turns on data processing option
+
     if( myid == 0 )then
 
         write(6, '(/A)') '0: call read_input_data_size '
         call read_input_data_size( )
 
+        write(6, '(A)') '0: AFTER call read_input_data_size '
+
+        write(6,'(/A,2(1x,I6))') '0: myid, n_input_data_points', myid, n_input_data_points
+        write(6,'(/A,2(1x,I6))') '0: myid, n_input_vars', myid, n_input_vars
     endif !   myid == 0
 
 
@@ -247,45 +250,73 @@ if( n_input_vars > 0 )then
 
     call MPI_BCAST( n_input_data_points, 1,    &
                     MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
+    !write(6,'(/A,2(1x,I6))') '0:1 myid, ierr', myid, ierr
+if( myid == 0 )then
+    write(6, '(A,2(1x,I6)/)') '0: 2 bcast ierr ', ierr 
+    !flush(6)
+endif ! myid == 0
 
     call MPI_BCAST( n_input_vars, 1,    &
                     MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
 
+    !write(6,'(/A,2(1x,I6))') '0:2 myid, ierr ', myid, ierr 
+if( myid == 0 )then
+    write(6, '(A,2(1x,I6)/)') '0: 3 bcast ierr ', ierr 
+    !flush(6)
+endif ! myid == 0
 
-    call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
+!debug only     call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
+
+    write(6,'(/A,2(1x,I6))') '0:3 myid, ierr ', myid, ierr 
+    flush(6)
+    !---------------------------------------------------------------------
+
+    n_time_steps = n_input_data_points 
 
     !---------------------------------------------------------------------
 
-    !write(6,'(/A,2(1x,I6))') '0: myid, n_input_data_points', myid, n_input_data_points
-    !write(6,'(/A,2(1x,I6))') '0: myid, n_input_vars', myid, n_input_vars
+    if( myid == 0 )then
+    write(6,'(/A,2(1x,I6))') '0: myid, n_input_data_points', myid, n_input_data_points
+    write(6,'(/A,2(1x,I6))') '0: myid, n_input_vars', myid, n_input_vars
 
 
     ! allocate input data names
 
-    !write(6, '(/A)') '0: allocate input_data_names'
+    write(6, '(/A)') '0: allocate input_data_names'
+    flush(6)
+    endif !  myid == 0 
 
     allocate( input_data_names( 0:n_input_vars ) )
     allocated_memory = allocated_memory + &
                real( (1+n_input_vars) * name_len * 4, kind=8 )
 
 
+    if( myid == 0 )then
+    write(6, '(/A)') '0: AFT allocate input_data_names'
 
     ! allocate input data array
 
-    !write(6, '(/A)') '0: allocate input_data_array'
+    write(6, '(/A)') '0: allocate input_data_array'
+    endif !  myid == 0 
 
     allocate( input_data_array( 0:n_input_vars, n_input_data_points) )
     allocated_memory = allocated_memory + &
                real( (1+n_input_vars) * n_input_data_points * 8, kind=8 )
 
+    if( myid == 0 )then
+    write(6, '(/A)') '0: AFT allocate input_data_array'
+    flush(6)
+    endif !  myid == 0 
 
-
-    call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
+    !debug only call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
 
     !---------------------------------------------------------------------
 
     ! read in the data into the arrays  input_data_names, input_data_array
 
+
+!call MPI_FINALIZE(ierr)  ! debug only 
+!stop  ! debug only 
 
     if( myid == 0 )then
 
@@ -297,17 +328,30 @@ if( n_input_vars > 0 )then
                                      n_input_data_points
         write(6,'(A,2(1x,I6))') '0: n_input_vars      =', n_input_vars
         write(6,'(A,2(1x,I6))') '0: n_functions_input =', n_functions_input
+        flush(6)
 
     endif !   myid == 0
 
 
 endif  !  n_input_vars > 0
 
+!call MPI_FINALIZE(ierr)  ! debug only 
+!stop  ! debug only 
+
 !---------------------------------------------------------------------
 
 ! broadcast the values read in by cpu 0 to others
 
+if( myid == 0 )then
+    write(6, '(/A)') '0: call bcast1 '            
+endif !   myid == 0
+
 call bcast1()
+
+if( myid == 0 )then
+    write(6, '(/A)') '0: AFT call bcast1 '            
+    flush(6)
+endif !   myid == 0
 
 !------------------------------------------------------------------
 
@@ -351,6 +395,7 @@ else
 
 endif ! user_input_random_seed > 0
 
+flush(6)
 
 
 CALL RANDOM_SEED(PUT = seed)
@@ -367,18 +412,30 @@ if( myid == 0 )then
 
     write(6,'(A)') ' '
 
+    flush(6)
+
 endif ! myid == 0
 
 
 !---------------------------------------------------------------------------
+if( myid == 0 )then
+    write(6,'(A,3(1x,I6))') '0: call setup1'                             
+    flush(6)
+endif ! myid == 0 )then
 
 call setup1( )
+
+if( myid == 0 )then
+    write(6,'(A,3(1x,I6))') '0: AFT call setup1'                             
+    flush(6)
+endif ! myid == 0 )then
 
 !---------------------------------------------------------------------------
 
 
 if( myid == 0 )then
     write(6,'(A,3(1x,I6))') '0: myid, numprocs ', myid, numprocs
+    flush(6)
 endif ! myid == 0 )then
 
 
@@ -398,6 +455,7 @@ divider = ( numprocs -1 ) / n_partitions
 if( myid == 0 )then
     write(6,'(A,3(1x,I4))') '0: n_partitions, numprocs, divider', &
                                 n_partitions, numprocs, divider
+    flush(6)
 endif ! myid == 0 )then
 
 
@@ -408,6 +466,7 @@ if( n_partitions < 1  .or. divider < 2 )then
     write(6,'(/A/)') '0: bad values for n_partitions or divider -- stopping'
     write(6,'(A,3(1x,I4))') '0: n_partitions, numprocs, divider', &
                                 n_partitions, numprocs, divider
+    flush(6)
     call MPI_FINALIZE(ierr)
     stop
 
@@ -430,6 +489,7 @@ allocated_memory = allocated_memory + &
 if( myid == 0 )then
     write(6,'(A,3(1x,I4))') '0: ranks( 1:numprocs, n_partitions )', &
                                          numprocs, n_partitions
+    flush(6)
 endif ! myid == 0 )then
 
 ranks      = 0
@@ -462,6 +522,7 @@ if( myid == 0 ) then
     write(6,'(/A)')      '0: populate new group'
     write(6,'(A,1x,I5)') '0: n_partitions = ', n_partitions
     write(6,'(A/)')      '0:  i       ranks2    '
+    flush(6)
 endif ! myid == 0
 
 
@@ -515,6 +576,7 @@ if( myid == 0 )then
     write(6,'(/A/(10(1x,I5)))') '0: color_value = ', color_value(0:numprocs-1)
     write(6,'(A/(10(1x,I5)))') '0: key   = ', key(0: divider-1 )
     write(6,'(A)') ' '
+    flush(6)
 endif ! myid == 0
 
 
@@ -531,8 +593,12 @@ call MPI_COMM_SPLIT( comm_world, color, myid, new_comm, ierr )
 call mpi_comm_rank( new_comm, new_rank, ierr )
 call mpi_comm_size( new_comm, my_size , ierr )
 
-!write(6,'(A,4(1x,I6))') '0: myid, new_rank, color, my_size ', &
-!                            myid, new_rank, color, my_size
+write(6,'(A,4(1x,I6))') '0: myid, new_rank, color, my_size ', &
+                            myid, new_rank, color, my_size
+flush(6)
+
+!call MPI_FINALIZE(ierr)  ! debug only 
+!stop  ! debug only 
 
 !---------------------------------------------------------------------------
 
@@ -577,6 +643,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
           '0: GP Generation # ',i_GP_Generation,&
           ' is underway.   n_Nodes * n_Trees = ', n_Nodes*n_Trees, &
           '==============================================================================='
+        flush(6)
 
         !--------------------------------------------------------------------------------
 
@@ -663,10 +730,13 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
         else
 
+            ! do this section if not restarting the run
+
             if( myid == 0 )then
 
                 write(GP_print_unit,'(/A,1x,I6)') &
                   '0: call GP_Tree_Build        Generation =',i_GP_Generation
+                flush(6)
 
                 ! initialize the GP_Adult_Population_Node_Type array with random trees
 
@@ -716,9 +786,8 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
             !                MPI_INTEGER, 0, MPI_COMM_WORLD, ierr )             ! debug only
 
 
-
-
             !---------------------------------------------------------------------------------
+
 
             !write(6,'(/A,1x,I5/)') '0: broadcast ierror_tb    myid = ', myid
             message_len =  1
@@ -738,7 +807,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
             if( myid == 0 )then
                 write(GP_print_unit,'(A,1x,I6)') &
                   '0: broadcast  GP_Adult_Population_Node_Type Generation = ',i_GP_Generation
-                !flush(GP_print_unit)
+                flush(GP_print_unit)
             endif ! myid == 0
 
 
@@ -827,6 +896,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
                                GP_Child_Individual_SSE(i_GP_Individual), &
                                GP_Child_Individual_SSE(i_GP_Individual)/SSE0
                 enddo ! i_GP_individual
+                flush(GP_print_unit)
 
             endif ! i_GP_generation == 1 .or. ...
 
@@ -861,21 +931,6 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
             endif !  n_GP_Asexual_Reproductions .gt. 0
 
-            !if( i_GP_generation == 1                                  .or. &
-            !    mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
-            !    i_GP_generation == n_GP_generations                          )then
-            !    write(GP_print_unit,'(//A)') '0:3 after Asexual_Reproduction'
-            !    write(GP_print_unit,'(A)')&
-            !          '0:3 i_GP_gen i_GP_indiv    GP_Child_Indiv_SSE&
-            !          &   GP_Child_Indiv_SSE/SSE0'
-            !    do  i_GP_individual = 1, n_GP_individuals
-            !        write(GP_print_unit,'(2(1x,I10), 2(1x, E20.10))') &
-            !                   i_GP_generation, i_GP_individual, &
-            !                   GP_Child_Individual_SSE(i_GP_Individual), &
-            !                   GP_Child_Individual_SSE(i_GP_Individual)/SSE0
-            !    enddo ! i_GP_individual
-            !endif ! i_GP_generation == 1 .or. ...
-
             !----------------------------------------------------------------------------------
 
             !  ii) Carry out "GP Tree Crossover" Operations
@@ -901,22 +956,6 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
                 call GP_Tournament_Style_Sexual_Reproduction( ierror_t )
 
             endif !  n_GP_Crossovers .gt. 0
-
-
-            !if( i_GP_generation == 1                                  .or. &
-            !    mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
-            !    i_GP_generation == n_GP_generations                          )then
-            !    write(GP_print_unit,'(//A)') '0:3 after Crossover '
-            !    write(GP_print_unit,'(A)')&
-            !          '0:3 i_GP_gen i_GP_indiv    GP_Child_Indiv_SSE&
-            !          &   GP_Child_Indiv_SSE/SSE0'
-            !    do  i_GP_individual = 1, n_GP_individuals
-            !        write(GP_print_unit,'(2(1x,I10), 2(1x, E20.10))') &
-            !                   i_GP_generation, i_GP_individual, &
-            !                   GP_Child_Individual_SSE(i_GP_Individual), &
-            !                   GP_Child_Individual_SSE(i_GP_Individual)/SSE0
-            !    enddo ! i_GP_individual
-            !endif ! i_GP_generation == 1 .or. ...
 
 
             !----------------------------------------------------------------------------------
@@ -1029,16 +1068,9 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
         write(GP_print_unit,'(/A,1x,I6)') &
               '0: call GP_Clean_Tree_Nodes  Generation =', i_GP_Generation
-
+        flush(GP_print_unit)
 
         call GP_Clean_Tree_Nodes
-
-
-        !tree_descrip =  ' trees after call to GP_Clean_Tree_Nodes'
-        !call print_trees( i_GP_generation, 1, n_GP_individuals, &
-        !         GP_Adult_Population_Node_Type, trim( tree_descrip )  )
-        !write(GP_print_unit,'(/A,1x,I6/)') &
-        !      '0: AFTER call GP_Clean_Tree_Nodes  Generation =', i_GP_Generation
 
     endif ! myid == 0
 
@@ -1090,7 +1122,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
         write(GP_print_unit,'(A/A,4x,L1)')&
               '0: Are there any individuals to calculate fitness for? ', &
               '0: any( Run_GP_Calculate_Fitness ) = ', any( Run_GP_Calculate_Fitness )
-        !flush(GP_print_unit)
+        flush( GP_print_unit )
     endif !  myid == 0
 
     !-----------------------------------------------------------------------------------
@@ -1148,7 +1180,6 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
                       GP_Child_Individual_SSE(i_GP_Individual)/SSE0
             enddo
 
-            !flush(GP_print_unit)
         endif ! i_GP_generation == 1 .or. ...
 
     endif ! myid == 0
@@ -1195,7 +1226,11 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
                                                i_GP_Generation
         endif ! myid == 0
 
+
+
         call GP_para_lmdif_process( i_GP_generation, max_n_gp_params  )
+
+
 
         if( myid == 0 )then
 

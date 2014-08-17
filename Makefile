@@ -35,17 +35,15 @@ SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 allocate_arrays1.f90 \
 	print_entire_tree.f90 print_time_series.f90 \
 	print_time_series_minSSE.f90 print_trees.f90 print_values1.f90 \
 	print_values2.f90 qrfac.f90 qrsolv.f90 random_real.f90 \
-	read_cntl_stuff.f90 read_input_data.f90 read_input_data_size.f90 \
-	read_all_summary_file.f90 \
-	reduce_constant.f90 reduce_expression.f90 remove_abs_zero.f90 \
-	remove_double_parens.f90 remove_string_blanks.f90 RKBM.f90 \
-	rm_exp_paren.f90 Runge_Kutta_Box_Model_new.f90 \
-	select_best_RK_lmdif_result.f90 serialize_trees.f90 \
-	set_answer_arrays.f90 set_modified_indiv.f90 setup1.f90 \
-	set_forcing_node.f90 \
-	setup_run_fcn.f90 setup_run_lmdif.f90 setup_run_para_lmdif.f90 \
-	sort.f90 sse0_calc.f90 summary_GP_indiv.f90 summary_GP_indiv2.f90 \
-	summary_GP_all.f90 \
+	read_all_summary_file.f90 read_cntl_stuff.f90 read_input_data.f90 \
+	read_input_data_size.f90 reduce_constant.f90 reduce_expression.f90 \
+	remove_abs_zero.f90 remove_double_parens.f90 remove_string_blanks.f90 \
+	RKBM.f90 rm_exp_paren.f90 Runge_Kutta_Box_Model_data.f90 \
+	Runge_Kutta_Box_Model_new.f90 select_best_RK_lmdif_result.f90 \
+	serialize_trees.f90 set_answer_arrays.f90 set_forcing_node.f90 \
+	set_modified_indiv.f90 setup1.f90 setup_run_fcn.f90 \
+	setup_run_lmdif.f90 setup_run_para_lmdif.f90 sort.f90 sse0_calc.f90 \
+	summary_GP_all.f90 summary_GP_indiv.f90 summary_GP_indiv2.f90 \
 	summary_GP_minSSE_indiv.f90 swap_module.f90 Tree_Helper_module.f90 \
 	tree_node_factory_module.f90
 
@@ -79,19 +77,17 @@ OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o allocate_arrays1.o \
 	print_debug_integer_node_tree.o print_debug_real_node_tree.o \
 	print_debug_real_nparm.o print_entire_tree.o print_time_series.o \
 	print_time_series_minSSE.o print_trees.o print_values1.o \
-	print_values2.o qrfac.o qrsolv.o random_real.o read_cntl_stuff.o \
-	read_input_data.o read_input_data_size.o reduce_constant.o \
-	read_all_summary_file.o \
-	reduce_expression.o remove_abs_zero.o remove_double_parens.o \
-	remove_string_blanks.o RKBM.o rm_exp_paren.o \
+	print_values2.o qrfac.o qrsolv.o random_real.o \
+	read_all_summary_file.o read_cntl_stuff.o read_input_data.o \
+	read_input_data_size.o reduce_constant.o reduce_expression.o \
+	remove_abs_zero.o remove_double_parens.o remove_string_blanks.o \
+	RKBM.o rm_exp_paren.o Runge_Kutta_Box_Model_data.o \
 	Runge_Kutta_Box_Model_new.o select_best_RK_lmdif_result.o \
-	serialize_trees.o set_answer_arrays.o set_modified_indiv.o setup1.o \
-	setup_run_fcn.o setup_run_lmdif.o setup_run_para_lmdif.o sort.o \
-	set_forcing_node.o   \
-	sse0_calc.o summary_GP_indiv.o summary_GP_indiv2.o \
-	summary_GP_all.o \
-	summary_GP_minSSE_indiv.o swap_module.o Tree_Helper_module.o \
-	tree_node_factory_module.o
+	serialize_trees.o set_answer_arrays.o set_forcing_node.o \
+	set_modified_indiv.o setup1.o setup_run_fcn.o setup_run_lmdif.o \
+	setup_run_para_lmdif.o sort.o sse0_calc.o summary_GP_all.o \
+	summary_GP_indiv.o summary_GP_indiv2.o summary_GP_minSSE_indiv.o \
+	swap_module.o Tree_Helper_module.o tree_node_factory_module.o
 
 LIBS =	
 
@@ -102,19 +98,19 @@ CFLAGS = -O
 #F90 = gfortran
 #F90FLAGS = -g
 #LDFLAGS = -Wl,-no_pie
-#LIBS= -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib  -L/Developer/SDKs/MacOSX10.6.sdk/usr/lib
-
+#LIBS= -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/usr/lib  -L/Developer/SDKs/MacOSX10.6.sdk/usr/lib
+#
 
 # note: mpif90 is based on gfortran
 FC = /opt/openmpi-1.8.1/bin/mpif90
 #FFLAGS =  -O3 -g -fbacktrace -ffree-form # -fcheck=bounds #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
-FFLAGS =   -O3  -ffree-form  #-ffpe-trap='overflow,underflow,denormal' #-g  -fbacktrace -ffree-form -fcheck=bounds # -Wall  #-fdefault-integer-8  # -FR = -free
+FFLAGS =   -g  -ffree-form -fbacktrace  -fcheck=bounds #-ffpe-trap='overflow,underflow,denormal' #-g  -fbacktrace -ffree-form -fcheck=bounds # -Wall  #-fdefault-integer-8  # -FR = -free
 #FFLAGS =  -O3  -ffree-form #-g -fbacktrace  -fcheck=bounds  # -Wall  # -fdefault-integer-8  # -FR = -free
 
 # note: mpif90 is based on gfortran
 F90 = /opt/openmpi-1.8.1/bin/mpif90
 #F90FLAGS = -O3 -g -fbacktrace -ffree-form  # -fcheck=bounds  #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
-F90FLAGS =  -O3  -ffree-form # -ffpe-trap='overflow,underflow,denormal' #-g  -fbacktrace -ffree-form -fcheck=bounds # -Wall  #-fdefault-integer-8  # -FR = -free
+F90FLAGS =  -g   -ffree-form -fbacktrace -fcheck=bounds # -ffpe-trap='overflow,underflow,denormal' #-g  -fbacktrace -ffree-form -fcheck=bounds # -Wall  #-fdefault-integer-8  # -FR = -free
 #F90FLAGS =  -O3 -ffree-form #-g -fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
 
 LDFLAGS = -L/opt/openmpi-1.8.1/lib \
@@ -122,7 +118,6 @@ LDFLAGS = -L/opt/openmpi-1.8.1/lib \
 LIBS= -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib \
       -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib \
       -L/Developer/SDKs/MacOSX10.6.sdk/usr/lib
-
 
 ##################################################################################
 #FC = mpiifort
@@ -133,7 +128,6 @@ LIBS= -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Dev
 #F90FLAGS = -O3  -free #-check bounds  #  -g -traceback  #-ftrapuv  #-warn all #-C -ftrapuv  # -warn all   #  -ftrace=full    # -fzero -Wall
 #LDFLAGS =
 ####################################################################################
-
 
 
 
@@ -246,7 +240,7 @@ gammln.o: kinds_mod.o
 gammp.o: kinds_mod.o mpi_module.o
 gammq.o: kinds_mod.o mpi_module.o
 gcf.o: kinds_mod.o mpi_module.o
-Generate_Dot_Graph.o: class_tree_node.o kinds_mod.o
+Generate_Dot_Graph.o:  class_tree_node.o kinds_mod.o
 Global_Setup.o: Math_Node_Functions.o fasham_tree_interfaces.o kinds_mod.o \
 	tree_node_factory_module.o
 GP_calc_diversity_index.o: GA_parameters_module.o GA_variables_module.o \
@@ -352,6 +346,9 @@ print_values2.o: GA_parameters_module.o GA_variables_module.o \
 qrfac.o: kinds_mod.o
 qrsolv.o: kinds_mod.o
 random_real.o: GP_parameters_module.o kinds_mod.o
+read_all_summary_file.o: GA_parameters_module.o GA_variables_module.o \
+	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
+	kinds_mod.o mpi_module.o
 read_cntl_stuff.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
 	kinds_mod.o mpi_module.o
@@ -361,9 +358,6 @@ read_input_data.o: GA_parameters_module.o GA_variables_module.o \
 read_input_data_size.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
 	kinds_mod.o mpi_module.o
-read_all_summary_file.o: GA_parameters_module.o GA_variables_module.o \
-	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
-	kinds_mod.o mpi_module.o
 reduce_constant.o: GP_parameters_module.o GP_variables_module.o kinds_mod.o
 reduce_expression.o: GP_parameters_module.o GP_variables_module.o kinds_mod.o
 remove_abs_zero.o: GP_parameters_module.o kinds_mod.o
@@ -371,6 +365,10 @@ remove_double_parens.o: GP_parameters_module.o kinds_mod.o
 remove_string_blanks.o: GP_parameters_module.o kinds_mod.o
 RKBM.o: GP_parameters_module.o GP_variables_module.o kinds_mod.o mpi_module.o
 rm_exp_paren.o: GP_parameters_module.o GP_variables_module.o kinds_mod.o
+Runge_Kutta_Box_Model_data.o: GA_parameters_module.o GA_variables_module.o \
+	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
+	Tree_Helper_module.o class_serialization_visitor.o class_tree_node.o \
+	kinds_mod.o mpi_module.o tree_node_factory_module.o
 Runge_Kutta_Box_Model_new.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
 	Tree_Helper_module.o class_serialization_visitor.o class_tree_node.o \
@@ -383,11 +381,11 @@ serialize_trees.o: Tree_Helper_module.o class_serialization_visitor.o \
 set_answer_arrays.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
 	class_tree_node.o kinds_mod.o mpi_module.o tree_node_factory_module.o
+set_forcing_node.o: GA_parameters_module.o GA_variables_module.o \
+	GP_parameters_module.o GP_variables_module.o kinds_mod.o mpi_module.o
 set_modified_indiv.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
 	kinds_mod.o mpi_module.o
-set_forcing_node.o: GA_parameters_module.o GA_variables_module.o \
-	GP_parameters_module.o GP_variables_module.o kinds_mod.o mpi_module.o
 setup1.o: GA_parameters_module.o GA_variables_module.o GP_data_module.o \
 	GP_parameters_module.o GP_variables_module.o class_tree_node.o \
 	fasham_variables_module.o kinds_mod.o mpi_module.o \
@@ -405,10 +403,10 @@ sort.o: GA_parameters_module.o GP_parameters_module.o kinds_mod.o \
 	mpi_module.o swap_module.o
 sse0_calc.o: GA_variables_module.o GP_data_module.o GP_parameters_module.o \
 	GP_variables_module.o kinds_mod.o mpi_module.o
-summary_GP_indiv.o: GA_parameters_module.o GA_variables_module.o \
+summary_GP_all.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
 	kinds_mod.o mpi_module.o
-summary_GP_all.o: GA_parameters_module.o GA_variables_module.o \
+summary_GP_indiv.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
 	kinds_mod.o mpi_module.o
 summary_GP_indiv2.o: GA_parameters_module.o GA_variables_module.o \
