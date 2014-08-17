@@ -70,7 +70,7 @@ integer(kind=i4b) :: comm_world
 
 character(15),parameter :: program_version   = '201402.005_v13'
 character(10),parameter :: modification_date = '20140817'
-character(50),parameter :: branch  =  'restart2'
+character(50),parameter :: branch  =  'fix_fasham_IC'
 
 integer(kind=i4b), parameter ::  zero = 0
 
@@ -137,6 +137,7 @@ CALL RANDOM_SEED(size = n_seed)
 
 if( myid == 0 )then
 
+    write(6,'(/A/)') '0: this version uses fixed FASHAM INITIAL CONDITIONS'
     write(6,'(/A/)') '0: run lmdif in parallel on each GP generation'
     write(6,'(/A/)') '0: changed RK sub to make it faster'
     write(6,'(/A/)') '0: using the old_elite_scheme in GP_Fit* GP_Tou*, GP_Mut*'
