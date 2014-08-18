@@ -254,25 +254,26 @@ if( n_input_vars > 0 )then
 
     call MPI_BCAST( n_input_data_points, 1,    &
                     MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
+
     !write(6,'(/A,2(1x,I6))') '0:1 myid, ierr', myid, ierr
-    if( myid == 0 )then
-        write(6, '(A,2(1x,I6)/)') '0: 2 bcast ierr ', ierr 
-        !flush(6)
-    endif ! myid == 0
+    !if( myid == 0 )then
+    !    write(6, '(A,2(1x,I6)/)') '0: 2 bcast ierr ', ierr 
+    !    !flush(6)
+    !endif ! myid == 0
 
     call MPI_BCAST( n_input_vars, 1,    &
                     MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
 
     !write(6,'(/A,2(1x,I6))') '0:2 myid, ierr ', myid, ierr 
-    if( myid == 0 )then
-        write(6, '(A,2(1x,I6)/)') '0: 3 bcast ierr ', ierr 
-        !flush(6)
-    endif ! myid == 0
+    !if( myid == 0 )then
+    !    write(6, '(A,2(1x,I6)/)') '0: 3 bcast ierr ', ierr 
+    !    !flush(6)
+    !endif ! myid == 0
 
 !debug only     call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
 
-    write(6,'(/A,2(1x,I6))') '0:3 myid, ierr ', myid, ierr 
-    flush(6)
+    !write(6,'(/A,2(1x,I6))') '0:3 myid, ierr ', myid, ierr 
+    !flush(6)
     !---------------------------------------------------------------------
 
     n_time_steps = n_input_data_points 
