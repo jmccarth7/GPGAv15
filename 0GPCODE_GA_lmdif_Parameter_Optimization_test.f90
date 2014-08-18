@@ -69,7 +69,7 @@ integer(kind=i4b) :: comm_world
 
 
 character(15),parameter :: program_version   = '201402.005_v13'
-character(10),parameter :: modification_date = '20140817'
+character(10),parameter :: modification_date = '20140818'
 character(50),parameter :: branch  =  'fix_fasham_tree'
 
 integer(kind=i4b), parameter ::  zero = 0
@@ -184,7 +184,7 @@ if( myid == 0 )then
               form = 'formatted', access='sequential', &
               status = 'unknown' )
 
-    endif ! L_GP_log
+    endif ! L_GPSSE_log
 
 
 
@@ -200,6 +200,31 @@ if( myid == 0 )then
               form = 'unformatted', access='sequential', &
               status = 'unknown' )
     endif ! L_GA_log
+
+
+!!    write(6,'(A,5x,L1)')'0: L_fort333_output ', L_fort333_output           
+!!    write(6,'(A,1x,I10)')'0: GA_333_unit  ', GA_333_unit  
+!!
+!!    if( L_fort333_output )then
+!!        open( GA_333_unit, file = 'GA_333', &
+!!              form = 'unformatted', access='sequential', &
+!!              status = 'unknown' )
+!!    endif ! L_fort333_output
+
+
+
+    write(6,'(A,5x,L1)')'0: L_fort555_output ', L_fort555_output           
+    write(6,'(A,1x,I10)')'0: GA_555_unit  ', GA_555_unit  
+
+    if( L_fort555_output )then
+        open( GA_555_unit, file = 'GA_555', &
+              form = 'unformatted', access='sequential', &
+              status = 'unknown' )
+
+        ! header record to get number of GP individuals
+        write(GA_555_unit) n_GP_individuals
+
+    endif ! L_fort555_output
 
 
 endif !   myid == 0
@@ -315,7 +340,7 @@ if( n_input_vars > 0 )then
         flush(6)
     endif !  myid == 0 
 
-!debug only call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
+    !debug only call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
 
     !---------------------------------------------------------------------
 
@@ -1500,6 +1525,15 @@ if( myid == 0 )then
     if( L_GA_log )then
         close( GA_log_unit )
     endif ! L_GA_log
+
+!!    if( L_fort333_output )then
+!!        close( GA_333_unit )
+!!    endif ! L_fort333_output 
+
+
+    if( L_fort555_output )then
+        close( GA_555_unit )
+    endif ! L_fort555_output 
 
 
     if( L_GA_output_parameters )then

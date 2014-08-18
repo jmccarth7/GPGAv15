@@ -367,7 +367,22 @@ if( L_GPSSE_log )then
 endif ! L_GPSSE_log
 
 
-!---------------------------------------------------------------------------
+                                                                                                          
+!-------------------------------------------------------------------------------                          
+write(6,'(A,5x,L1)')  'gacf: L_fort555_output ', L_fort555_output                                       
+write(6,'(A,1x,I10)') 'gacf: GA_555_unit ', GA_555_unit                                                 
+                                                                                                        
+if( L_fort555_output )then                                                                             
+                                                                                                        
+    write(6,'(A,3(1x,I10))') 'gacf:555 gp_gen ', i_GP_Generation
+                                                                                                        
+    write(GA_555_unit) i_GP_Generation,  &                             
+               GP_child_individual_SSE(1:n_GP_individuals)                                                       
+                                                                                                        
+endif !  L_fort555_output                                                                              
+                                                                                                        
+!-------------------------------------------------------------------------------                          
+  
 
 ! fill output array of parameters for best individual
 ! and write on GP_print_unit

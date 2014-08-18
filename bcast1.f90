@@ -139,6 +139,10 @@ call MPI_BCAST( L_unit50_output, 1,    &
 call MPI_BCAST( L_GP_output_parameters, 1,    &
                 MPI_LOGICAL,  0, MPI_COMM_WORLD, ierr )
 
+
+call MPI_BCAST( L_fort555_output, 1,    &
+                MPI_LOGICAL,  0, MPI_COMM_WORLD, ierr )
+
 !-----------------------------------------------------------------
 !-----------------------------------------------------------------
 
