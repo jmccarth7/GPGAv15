@@ -32,6 +32,7 @@ integer(kind=i4b) :: GP_log_flag
 integer(kind=i4b) :: GPSSE_log_flag
 integer(kind=i4b) :: fort333_output_flag
 integer(kind=i4b) :: fort444_output_flag
+integer(kind=i4b) :: fort555_output_flag
 integer(kind=i4b) ::  unit50_output_flag
 integer(kind=i4b) ::  GP_all_summary_flag
 
@@ -153,11 +154,15 @@ L_GA_output_parameters = .FALSE.
 GP_output_parameters_flag  = 0
 L_GP_output_parameters = .FALSE.
 
-fort333_output_flag  = 0
-L_fort333_output = .FALSE.
+!fort333_output_flag  = 0
+!L_fort333_output = .FALSE.
 
 fort444_output_flag  = 0
 L_fort444_output = .FALSE.
+
+fort555_output_flag  = 0
+L_fort555_output = .FALSE.
+
 
 GA_log_flag  = 0
 L_GA_log = .FALSE.
@@ -763,36 +768,36 @@ do
         write(GP_print_unit,'(A,4x,L1 )') 'rcntl: L_GP_output_parameters =', &
                                                   L_GP_output_parameters
 
-!--------------------------------------------------------------------
-
-! fort333_output
-
-! if fort333_output_flag >  0 - write printout to fort333_output_unit
-! if fort333_output_flag <= 0 - do not write printout to fort333_output_unit
-
-!  DEFAULT =   fort333_output_flag == 0
-!              - do not write printout to fort333_output_unit
-
-
-
-    elseif( Aline(1:len('fort333_output')) == "fort333_output"  ) then
-
-
-        READ(Aline(len('fort333_output')+1:), * )  fort333_output_flag
-
-        if( fort333_output_flag > 0 )then
-            L_fort333_output = .TRUE.
-        else
-            L_fort333_output = .FALSE.
-        endif ! fort333_output_flag > 0
-
-        write(GP_print_unit,'(A,1x,I12)') 'rcntl: fort333_output_flag =', &
-                                                  fort333_output_flag
-        write(GP_print_unit,'(A,4x,L1 )') 'rcntl: L_fort333_output =', &
-                                                  L_fort333_output
-
-
-!--------------------------------------------------------------------
+!!!--------------------------------------------------------------------
+!!
+!!! fort333_output
+!!
+!!! if fort333_output_flag >  0 - write printout to fort333_output_unit
+!!! if fort333_output_flag <= 0 - do not write printout to fort333_output_unit
+!!
+!!!  DEFAULT =   fort333_output_flag == 0
+!!!              - do not write printout to fort333_output_unit
+!!
+!!
+!!
+!!    elseif( Aline(1:len('fort333_output')) == "fort333_output"  ) then
+!!
+!!
+!!        READ(Aline(len('fort333_output')+1:), * )  fort333_output_flag
+!!
+!!        if( fort333_output_flag > 0 )then
+!!            L_fort333_output = .TRUE.
+!!        else
+!!            L_fort333_output = .FALSE.
+!!        endif ! fort333_output_flag > 0
+!!
+!!        write(GP_print_unit,'(A,1x,I12)') 'rcntl: fort333_output_flag =', &
+!!                                                  fort333_output_flag
+!!        write(GP_print_unit,'(A,4x,L1 )') 'rcntl: L_fort333_output =', &
+!!                                                  L_fort333_output
+!!
+!!
+!!!--------------------------------------------------------------------
 
 ! fort444_output
 
@@ -819,6 +824,35 @@ do
                                                   fort444_output_flag
         write(GP_print_unit,'(A,4x,L1 )') 'rcntl: L_fort444_output =', &
                                                   L_fort444_output
+
+!--------------------------------------------------------------------
+
+! fort555_output
+
+! if fort555_output_flag >  0 - write printout to fort555_output_unit
+! if fort555_output_flag <= 0 - do not write printout to fort555_output_unit
+
+!  DEFAULT =   fort555_output_flag == 0
+!              - do not write printout to fort555_output_unit
+
+
+
+    elseif( Aline(1:len('fort555_output')) == "fort555_output"  ) then
+
+
+        READ(Aline(len('fort555_output')+1:), * )  fort555_output_flag
+
+        if( fort555_output_flag > 0 )then
+            L_fort555_output = .TRUE.
+        else
+            L_fort555_output = .FALSE.
+        endif ! fort555_output_flag > 0
+
+        write(GP_print_unit,'(A,1x,I12)') 'rcntl: fort555_output_flag =', &
+                                                  fort555_output_flag
+        write(GP_print_unit,'(A,4x,L1 )') 'rcntl: L_fort555_output =', &
+                                                  L_fort555_output
+
 
 
 !--------------------------------------------------------------------

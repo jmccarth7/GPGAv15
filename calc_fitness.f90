@@ -510,7 +510,7 @@ enddo ! i_GA_individual
 !    mod(i_GA_generation, GA_child_print_interval ) == 0  .or. &
 !    i_GA_generation == n_GA_generations       )then
 
-if( i_GA_generation == n_GA_generations       )then
+!if( i_GA_generation == n_GA_generations       )then
 
     !if( L_ga_print )then
     !    write(GA_print_unit,'(/A)')&
@@ -525,7 +525,7 @@ if( i_GA_generation == n_GA_generations       )then
     !    enddo ! i_GA_individual
     !endif ! L_ga_print
 
-endif !  i_GA_generation == 1 ...
+!endif !  i_GA_generation == 1 ...
 
 if( L_ga_print )then
     write(GA_print_unit,'(/A)')&
@@ -541,12 +541,19 @@ if( L_ga_print )then
 endif ! L_ga_print
 
 !-------------------------------------------------------------------------------
-
-if( L_fort333_output )then
-    write(333) i_GP_Generation, i_GP_individual, i_GA_generation, &
-               individual_SSE(1:n_GA_individuals)
-endif !  L_fort333_output
-
+!!write(6,'(A,5x,L1)')  'gacf: L_fort333_output ', L_fort333_output 
+!!write(6,'(A,1x,I10)') 'gacf: GA_333_unit ', GA_333_unit 
+!!
+!!!if( L_fort333_output )then
+!!
+!!    write(6,'(A,3(1x,I10))') 'gacf:333 gp_gen, ind, ga_gen ', &
+!!                      i_GP_Generation, i_GP_individual, i_GA_generation
+!!
+!!    write(GA_333_unit) i_GP_Generation, i_GP_individual, i_GA_generation, &
+!!               individual_SSE(1:n_GA_individuals)
+!!
+!!!endif !  L_fort333_output
+!!
 !-------------------------------------------------------------------------------
 
 
