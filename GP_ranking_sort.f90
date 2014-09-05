@@ -1,4 +1,4 @@
-subroutine GP_ranking_sort
+subroutine GP_ranking_sort( i_GP_best_parent ) 
 
 use kinds_mod 
 use GP_Parameters_module
@@ -13,6 +13,9 @@ implicit none
 real(kind=r8b) :: cff
 
 integer(kind=i4b),dimension(n_GP_Individuals)  :: Ranked_Fitness_Index
+
+integer(kind=i4b) :: i_GP_best_parent
+integer(kind=i4b) :: new_GP_best_parent
 
 integer(kind=i4b) :: i_GP_Individual
 integer(kind=i4b) :: j_GP_Individual
@@ -91,7 +94,23 @@ do  i_GP_Individual=1,n_GP_Individuals
 enddo  ! i_GP_Individual
 
 !-------------------------------------------------------------------------------
+do  i_GP_Individual=1,n_GP_Individuals
 
+    if( i_GP_best_parent == Ranked_Fitness_Index(i_GP_Individual) )then
+
+        new_GP_best_parent = i_GP_individual
+
+    endif ! i_GP_best_parent == Ranked_Fitness_Index
+
+enddo  ! i_GP_Individual
+
+write(6,'(/A,2(1x,I6)/)') 'gprs: i_GP_best_parent, new_GP_best_parent ', &
+                                 i_GP_best_parent, new_GP_best_parent 
+
+i_GP_best_parent =  new_GP_best_parent
+
+
+!-------------------------------------------------------------------------------
 !write(6,'(/A)') 'gprs: after  sort '
 !write(6,'(A)')  'gprs:i_GP_Individual, Ranked_Fitness_Index, &
 !                            &GP_Child_Individual_SSE'

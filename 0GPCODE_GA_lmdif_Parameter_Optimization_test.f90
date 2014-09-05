@@ -1076,7 +1076,24 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
         endif ! ierror....
 
         !------------------------------------------------------------------------------------
+        ! for fasham tree version, Run_GP_Calculate_Fitness is set to true at the start
+        ! of a generation for all individuals. The code below sets it to false for the
+        ! best individual of the last generation, with the hope that this will retain
+        ! the best individual over the generations.
+        ! Without this, for each GP generation, all GP individuals are recomputed from the 
+        ! new GA individuals, without regard to what the best GP individuals of the last
+        ! generation were
 
+        if( myid == 0 )then
+            write(6,'(/A,2(1x,I6))') &
+                  '0: generation,i_GP_best_parent  ', &
+                  i_GP_generation, i_GP_best_parent
+
+            Run_GP_Calculate_Fitness(i_GP_best_parent) = .false. 
+
+        endif ! myid == 0
+
+        !------------------------------------------------------------------------------------
 
         ! broadcast:
         ! GP_Child_Population_Node_Type
