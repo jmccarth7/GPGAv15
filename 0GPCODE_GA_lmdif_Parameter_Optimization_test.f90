@@ -69,7 +69,7 @@ integer(kind=i4b) :: comm_world
 
 
 character(15),parameter :: program_version   = '201402.005_v13'
-character(10),parameter :: modification_date = '20140818'
+character(10),parameter :: modification_date = '20140904'
 character(50),parameter :: branch  =  'fix_fasham_tree'
 
 integer(kind=i4b), parameter ::  zero = 0
@@ -137,18 +137,18 @@ CALL RANDOM_SEED(size = n_seed)
 
 if( myid == 0 )then
 
-    write(6,'(/A/)') '0: this version uses a tree fixed to be the truth FASHAM TREE'
-    write(6,'(/A/)') '0: this version uses fixed FASHAM INITIAL CONDITIONS'
-    write(6,'(/A/)') '0: run lmdif in parallel on each GP generation'
-    write(6,'(/A/)') '0: changed RK sub to make it faster'
-    write(6,'(/A/)') '0: using the old_elite_scheme in GP_Fit* GP_Tou*, GP_Mut*'
-    write(6,'(/A/)') '0: fast mod 1: remove GP diversity and tree printout     '
-    write(6,'(/A/)') '0: fast mod 1: remove GP_calc_fit, GP_ranking, summary printout  '
+    write(6,'(/A)') '0: this version uses a tree fixed to be the truth FASHAM TREE'
+    write(6,'(A)') '0:                     and FASHAM INITIAL CONDITIONS'
+    write(6,'(A)') '0: run lmdif in parallel on each GP generation'
+    write(6,'(A)') '0: changed RK sub to make it faster'
+    write(6,'(A)') '0: using the old_elite_scheme in GP_Fit* GP_Tou*, GP_Mut*'
+    write(6,'(A)') '0: fast mod 1: remove GP diversity and tree printout     '
+    write(6,'(A)') '0: fast mod 1: remove GP_calc_fit, GP_ranking, summary printout  '
     write(6,'(A)')'0:  run with clean tree call for only processor 0'
     write(6,'(A)')'0:  run with no barrier before call GPCODE  '
     write(6,'(A)')'0:  and with no barrier after  call GPCODE  '
     write(6,'(A)')'0: removed barrier in GPCODE aft bcast of L_stop'
-    write(6,'(A)')'0: removed several barriers in 0*f90 and GPCODE*f90'
+    write(6,'(A/)')'0: removed several barriers in 0*f90 and GPCODE*f90'
 
     !------------------------------------------------------
     write(GP_print_unit, '(/3(A,1x,A,1x)//)') &
@@ -202,14 +202,17 @@ if( myid == 0 )then
     endif ! L_GA_log
 
 
-!!    write(6,'(A,5x,L1)')'0: L_fort333_output ', L_fort333_output           
-!!    write(6,'(A,1x,I10)')'0: GA_333_unit  ', GA_333_unit  
-!!
-!!    if( L_fort333_output )then
-!!        open( GA_333_unit, file = 'GA_333', &
-!!              form = 'unformatted', access='sequential', &
-!!              status = 'unknown' )
-!!    endif ! L_fort333_output
+    write(6,'(A,5x,L1)')'0: L_fort333_output ', L_fort333_output           
+    write(6,'(A,1x,I10)')'0: GA_333_unit  ', GA_333_unit  
+
+    if( L_fort333_output )then
+        open( GA_333_unit, file = 'GA_333', &
+              form = 'unformatted', access='sequential', &
+              status = 'unknown' )
+
+        write(GA_333_unit) n_GP_individuals, n_GA_individuals
+
+    endif ! L_fort333_output
 
 
 
@@ -315,7 +318,7 @@ if( n_input_vars > 0 )then
               '0: myid, n_input_vars       ', myid, n_input_vars
 
         write(6, '(/A)') '0: allocate input_data_names'
-        flush(6)
+        !flush(6)
     endif !  myid == 0 
 
     allocate( input_data_names( 0:n_input_vars ) )
@@ -337,7 +340,7 @@ if( n_input_vars > 0 )then
 
     if( myid == 0 )then
         write(6, '(/A)') '0: AFT allocate input_data_array'
-        flush(6)
+        !flush(6)
     endif !  myid == 0 
 
     !debug only call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
@@ -356,7 +359,7 @@ if( n_input_vars > 0 )then
                                      n_input_data_points
         write(6,'(A,2(1x,I6))') '0: n_input_vars      =', n_input_vars
         write(6,'(A,2(1x,I6))') '0: n_functions_input =', n_functions_input
-        flush(6)
+        !flush(6)
 
     endif !   myid == 0
 
@@ -421,7 +424,7 @@ else
 
 endif ! user_input_random_seed > 0
 
-flush(6)
+!flush(6)
 
 
 CALL RANDOM_SEED(PUT = seed)
@@ -491,7 +494,7 @@ if( n_partitions < 1  .or. divider < 2 )then
     write(6,'(/A/)') '0: bad values for n_partitions or divider -- stopping'
     write(6,'(A,3(1x,I4))') '0: n_partitions, numprocs, divider', &
                                 n_partitions, numprocs, divider
-    flush(6)
+    !flush(6)
     call MPI_FINALIZE(ierr)
     stop
 
@@ -547,7 +550,7 @@ if( myid == 0 ) then
     write(6,'(/A)')      '0: populate new group'
     write(6,'(A,1x,I5)') '0: n_partitions = ', n_partitions
     write(6,'(A/)')      '0:  i       ranks2    '
-    flush(6)
+    !flush(6)
 endif ! myid == 0
 
 
@@ -601,7 +604,7 @@ if( myid == 0 )then
     write(6,'(/A/(10(1x,I5)))') '0: color_value = ', color_value(0:numprocs-1)
     write(6,'(A/(10(1x,I5)))') '0: key   = ', key(0: divider-1 )
     write(6,'(A)') ' '
-    flush(6)
+    !flush(6)
 endif ! myid == 0
 
 
@@ -666,7 +669,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
           '0: GP Generation # ',i_GP_Generation,&
           ' is underway.   n_Nodes * n_Trees = ', n_Nodes*n_Trees, &
           '==============================================================================='
-        flush(6)
+        !flush(6)
 
         !--------------------------------------------------------------------------------
 
@@ -699,8 +702,9 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
     ! (so it needs no recalculation)
 
 
-    Run_GP_Calculate_Fitness= .false.
+    !Run_GP_Calculate_Fitness= .false.
 
+    Run_GP_Calculate_Fitness=.true.   ! for using the Fasham tree
 
     ! randomly create the initial tree arrays for each individual and
     ! send them all to GA_lmdif for parameter optimization on generation 1
@@ -759,7 +763,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
                 write(GP_print_unit,'(/A,1x,I6)') &
                   '0: call GP_Tree_Build        Generation =',i_GP_Generation
-                flush(6)
+                !flush(6)
 
                 ! initialize the GP_Adult_Population_Node_Type array with random trees
 
@@ -829,11 +833,11 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
             ! broadcast GP_Adult_Population_Node_Type
 
-            if( myid == 0 )then
-                write(GP_print_unit,'(A,1x,I6)') &
-                  '0: broadcast  GP_Adult_Population_Node_Type Generation = ',i_GP_Generation
-                flush(GP_print_unit)
-            endif ! myid == 0
+            !if( myid == 0 )then
+            !    write(GP_print_unit,'(A,1x,I6)') &
+            !      '0: broadcast  GP_Adult_Population_Node_Type Generation = ',i_GP_Generation
+            !    !flush(GP_print_unit)
+            !endif ! myid == 0
 
 
             !write(6,'(A,1x,I5)') '0: broadcast GP_Adult_Population_Node_Type myid = ', myid
@@ -921,7 +925,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
                                GP_Child_Individual_SSE(i_GP_Individual), &
                                GP_Child_Individual_SSE(i_GP_Individual)/SSE0
                 enddo ! i_GP_individual
-                flush(GP_print_unit)
+                !flush(GP_print_unit)
 
             endif ! i_GP_generation == 1 .or. ...
 
@@ -951,6 +955,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
                 write(GP_print_unit,'(A,1x,I6)') &
                       '0: call GP_Fit_Prop_Asexual_Repro &
                       &n_GP_Asexual_Reproductions =', n_GP_Asexual_Reproductions
+                !flush(GP_print_unit)
 
                 call GP_Fitness_Proportionate_Asexual_Reproduction
 
@@ -972,15 +977,16 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
             !    Run_GP_Calculate_Fitness ( to true for modified individuals )
 
 
-            if( n_GP_Crossovers .gt. 0 )then
+            ! <<<  remove for fixed fasham_tree option >>>
+            !if( n_GP_Crossovers .gt. 0 )then
 
-                write(GP_print_unit,'(A,1x,I6)') &
-                      '0: call GP_Tour_Style_Sexual_Repro n_GP_Crossovers =', &
-                                                          n_GP_Crossovers
-                ierror_t = 0
-                call GP_Tournament_Style_Sexual_Reproduction( ierror_t )
+            !    write(GP_print_unit,'(A,1x,I6)') &
+            !          '0: call GP_Tour_Style_Sexual_Repro n_GP_Crossovers =', &
+            !                                              n_GP_Crossovers
+            !    ierror_t = 0
+            !    call GP_Tournament_Style_Sexual_Reproduction( ierror_t )
 
-            endif !  n_GP_Crossovers .gt. 0
+            !endif !  n_GP_Crossovers .gt. 0
 
 
             !----------------------------------------------------------------------------------
@@ -996,16 +1002,17 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
             !  Run_GP_Calculate_Fitness  ( to true for modified individuals )
 
 
-            if( n_GP_Mutations .gt. 0 )then
+            ! <<<  remove for fixed fasham_tree option >>>
+            !if( n_GP_Mutations .gt. 0 )then
 
-                write(GP_print_unit,'(A,13x,I6, 1x, E15.7)')&
-                      '0: call GP_Mutations n_GP_Mutations, prob_no_elite', &
-                                            n_GP_Mutations, prob_no_elite
+            !    write(GP_print_unit,'(A,13x,I6, 1x, E15.7)')&
+            !          '0: call GP_Mutations n_GP_Mutations, prob_no_elite', &
+            !                                n_GP_Mutations, prob_no_elite
 
-                ierror_m = 0
-                call GP_Mutations( ierror_m )
+            !    ierror_m = 0
+            !    call GP_Mutations( ierror_m )
 
-            endif !  n_GP_Mutations .gt. 0
+            !endif !  n_GP_Mutations .gt. 0
 
 
 
@@ -1034,6 +1041,8 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
                                GP_Child_Individual_SSE(i_GP_Individual)/SSE0
                 enddo ! i_GP_individual
 
+                !flush(GP_print_unit)
+
                 !write(GP_print_unit,'(/A/(10(3x,L1)))')&
                 !      '0: Run_GP_Calculate_Fitness ', Run_GP_Calculate_Fitness
 
@@ -1059,7 +1068,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
             write(6,'(A,2(1x,I6))') '0: ierror_t, myid ', ierror_t, myid
             write(6,'(A,2(1x,I6))') '0: ierror_m, myid ', ierror_m, myid
             write(6,'(A,1x,I6)') '0: cycle generation_loop myid =', myid
-            flush(6)
+            !flush(6)
             ierror_t = 0
             ierror_m = 0
             cycle generation_loop
@@ -1145,7 +1154,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
         write(GP_print_unit,'(A/A,4x,L1)')&
               '0: Are there any individuals to calculate fitness for? ', &
               '0: any( Run_GP_Calculate_Fitness ) = ', any( Run_GP_Calculate_Fitness )
-        flush( GP_print_unit )
+        !flush( GP_print_unit )
     endif !  myid == 0
 
     !-----------------------------------------------------------------------------------
@@ -1202,6 +1211,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
                       GP_Child_Individual_SSE(i_GP_Individual), &
                       GP_Child_Individual_SSE(i_GP_Individual)/SSE0
             enddo
+            !flush(GP_print_unit)
 
         endif ! i_GP_generation == 1 .or. ...
 
@@ -1306,7 +1316,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
             write(GP_print_unit,'(A/)')&
             '0:#################################################################'
 
-            !!flush(GP_print_unit)
+            !flush(GP_print_unit)
 
         endif ! i_GP_generation == 1 .or. ...
 
@@ -1330,6 +1340,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
                           n_GP_individuals, i_GP_Generation, i_GP_best_parent
             write(GP_print_unit,'(A)')&
             '0:################################################################'
+            !flush(GP_print_unit)
 
         endif ! i_GP_generation == 1 .or. ...
 
@@ -1441,6 +1452,7 @@ if( myid == 0 )then
         i_GP_best_parent, GP_child_individual_sse(i_GP_best_parent), &
                           GP_child_individual_sse(i_GP_best_parent)/SSE0
 
+    !flush(GP_print_unit)
 
     ! GP_select_best_RK_lmdif_result runs lmdif on the best parent
 
@@ -1493,6 +1505,7 @@ if( myid == 0 )then
     write(GP_print_unit,'(/A,3(1x,I5))') &
     '0:2 call print_time_series  i_GP_best_parent, max_n_gp_params, nop ', &
                                  i_GP_best_parent, max_n_gp_params, nop
+    !flush(GP_print_unit)
 
     call print_time_series( i_GP_best_parent, nop, zero )
 
@@ -1526,9 +1539,9 @@ if( myid == 0 )then
         close( GA_log_unit )
     endif ! L_GA_log
 
-!!    if( L_fort333_output )then
-!!        close( GA_333_unit )
-!!    endif ! L_fort333_output 
+    if( L_fort333_output )then
+        close( GA_333_unit )
+    endif ! L_fort333_output 
 
 
     if( L_fort555_output )then

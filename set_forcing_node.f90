@@ -15,7 +15,7 @@ real(kind=r4b) :: cff
 
 integer(kind=i4b) :: Node_Variable
 
-real(kind=i4b),dimension(2,4) :: frac_forcing_type
+real(kind=r4b),dimension(2,4) :: frac_forcing_type
 
 data frac_forcing_type(1,1) / 0.578947 /
 data frac_forcing_type(2,1) / 1.00000  /
