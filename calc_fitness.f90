@@ -541,14 +541,14 @@ if( L_ga_print )then
 endif ! L_ga_print
 
 !-------------------------------------------------------------------------------
-write(6,'(A,5x,L1)')  'gacf: L_fort333_output ', L_fort333_output 
-write(6,'(A,1x,I10)') 'gacf: GA_333_unit ', GA_333_unit 
+!write(6,'(A,5x,L1)')  'gacf: L_fort333_output ', L_fort333_output 
+!write(6,'(A,1x,I10)') 'gacf: GA_333_unit ', GA_333_unit 
 
 !if( L_fort333_output  )then
 if( L_fort333_output .and. i_GA_generation == n_GA_generations )then
 
-    write(6,'(A,3(1x,I10))') 'gacf:333 gp_gen, ind, ga_gen ', &
-                      i_GP_Generation, i_GP_individual, i_GA_generation
+    !write(6,'(A,3(1x,I10))') 'gacf:333 gp_gen, ind, ga_gen ', &
+    !                  i_GP_Generation, i_GP_individual, i_GA_generation
 
     write(GA_333_unit) i_GP_Generation, i_GP_individual, i_GA_generation, &
                individual_SSE(1:n_GA_individuals)

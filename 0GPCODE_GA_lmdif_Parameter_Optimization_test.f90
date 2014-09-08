@@ -69,7 +69,7 @@ integer(kind=i4b) :: comm_world
 
 
 character(15),parameter :: program_version   = '201402.005_v13'
-character(10),parameter :: modification_date = '20140905'
+character(10),parameter :: modification_date = '20140908'
 character(50),parameter :: branch  =  'fix_fasham_tree'
 
 integer(kind=i4b), parameter ::  zero = 0
@@ -139,6 +139,7 @@ if( myid == 0 )then
 
     write(6,'(/A)') '0: this version uses a tree fixed to be the truth FASHAM TREE'
     write(6,'(A)') '0:                     and FASHAM INITIAL CONDITIONS'
+    write(6,'(A)') '0: fixed problem with sort and the best individual'
     write(6,'(A)') '0: run lmdif in parallel on each GP generation'
     write(6,'(A)') '0: changed RK sub to make it faster'
     write(6,'(A)') '0: using the old_elite_scheme in GP_Fit* GP_Tou*, GP_Mut*'

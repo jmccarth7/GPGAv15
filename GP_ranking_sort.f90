@@ -94,6 +94,9 @@ do  i_GP_Individual=1,n_GP_Individuals
 enddo  ! i_GP_Individual
 
 !-------------------------------------------------------------------------------
+
+! reset the best individual index after sorting
+
 do  i_GP_Individual=1,n_GP_Individuals
 
     if( i_GP_best_parent == Ranked_Fitness_Index(i_GP_Individual) )then
