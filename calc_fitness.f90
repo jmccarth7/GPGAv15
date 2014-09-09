@@ -9,7 +9,7 @@ subroutine calc_fitness( child_parameters, individual_quality, &
 ! program to use a twin experiment to test the effectiveness of
 ! a finding the optimum parameter set for a coupled set of equations
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-use kinds_mod 
+use kinds_mod
 use mpi
 use mpi_module
 
@@ -34,7 +34,7 @@ integer(kind=i4b),intent(in) :: i_GP_individual
 
 integer(kind=i4b),intent(in) :: new_group
 integer(kind=i4b),intent(in) :: new_comm
-!integer(kind=i4b) :: new_rank 
+!integer(kind=i4b) :: new_rank
 
 real(kind=r8b) :: dble_cff
 
@@ -71,6 +71,7 @@ external :: fcn
 real(kind=r8b), external :: indiv_fitness
 
 logical :: L_stop_run
+logical :: op
 
 integer(kind=i4b) :: jj
 integer(kind=i4b) :: i_parameter
@@ -84,11 +85,11 @@ integer(kind=i4b) :: i_GA_individual
 
 !----------------------------------------------------------------------------------
 
-                                                                                                                                
-call mpi_comm_rank( new_comm, new_rank, ierr ) 
+
+call mpi_comm_rank( new_comm, new_rank, ierr )
 
 
-!write(6,'(/A,4x,L1)') 'gacf: L_GA_print      =', L_GA_print  
+!write(6,'(/A,4x,L1)') 'gacf: L_GA_print      =', L_GA_print
 L_stop_run = .FALSE.
 
 !if( L_ga_print )then
@@ -189,7 +190,7 @@ do  i_GA_individual=1,n_GA_individuals  ! calculate the total populations SSE
     if( individual_SSE(i_GA_individual) <= 1.0d-20 ) then
         individual_quality( i_GA_individual ) = -1
     endif !individual_SSE(i_GA_individual) <= 1.0d-20
- 
+
     if( individual_quality(i_GA_individual) > 0 ) then
 
         !if( individual_SSE(i_GA_individual) >  edit_level .or.  &
@@ -541,20 +542,41 @@ if( L_ga_print )then
 endif ! L_ga_print
 
 !-------------------------------------------------------------------------------
-!write(6,'(A,5x,L1)')  'gacf: L_fort333_output ', L_fort333_output 
-!write(6,'(A,1x,I10)') 'gacf: GA_333_unit ', GA_333_unit 
 
-!if( L_fort333_output  )then
-if( L_fort333_output .and. i_GA_generation == n_GA_generations )then
 
-    !write(6,'(A,3(1x,I10))') 'gacf:333 gp_gen, ind, ga_gen ', &
-    !                  i_GP_Generation, i_GP_individual, i_GA_generation
+if( new_rank == 0 )then
 
-    write(GA_333_unit) i_GP_Generation, i_GP_individual, i_GA_generation, &
-               individual_SSE(1:n_GA_individuals)
 
-endif !  L_fort333_output
+    if( L_fort333_output .and. i_GA_generation == n_GA_generations )then
 
+        !write(6,'(A,5x,L1)')  'gacf: L_fort333_output ', L_fort333_output
+        !write(6,'(A,1x,I10)') 'gacf: GA_333_unit ', GA_333_unit
+
+        inquire( unit = GA_333_unit, opened = op )
+
+        !write(6,'(A,2(1x,I5),5x,L1)') 'gacf: myid, new_rank, opened(GA_333_unit) ', &
+        !                                     myid, new_rank, op
+
+        if( .not. op )then
+
+            open( GA_333_unit, file = 'GA_333', &
+                  form = 'unformatted', access='sequential', &
+                  status = 'unknown' )
+
+            write(GA_333_unit) n_GP_individuals, n_GA_individuals
+
+        endif ! L_fort333_output
+
+
+        !write(6,'(A,3(1x,I10))') 'gacf:333 gp_gen, ind, ga_gen ', &
+        !                  i_GP_Generation, i_GP_individual, i_GA_generation
+
+        write(GA_333_unit) i_GP_Generation, i_GP_individual, i_GA_generation, &
+                   individual_SSE(1:n_GA_individuals)
+
+    endif !  L_fort333_output
+
+endif !   myid == 0
 !-------------------------------------------------------------------------------
 
 

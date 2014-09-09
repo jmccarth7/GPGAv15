@@ -203,20 +203,6 @@ if( myid == 0 )then
     endif ! L_GA_log
 
 
-    write(6,'(A,5x,L1)')'0: L_fort333_output ', L_fort333_output           
-    write(6,'(A,1x,I10)')'0: GA_333_unit  ', GA_333_unit  
-
-    if( L_fort333_output )then
-        open( GA_333_unit, file = 'GA_333', &
-              form = 'unformatted', access='sequential', &
-              status = 'unknown' )
-
-        write(GA_333_unit) n_GP_individuals, n_GA_individuals
-
-    endif ! L_fort333_output
-
-
-
     write(6,'(A,5x,L1)')'0: L_fort555_output ', L_fort555_output           
     write(6,'(A,1x,I10)')'0: GA_555_unit  ', GA_555_unit  
 
@@ -378,10 +364,6 @@ endif  !  n_input_vars > 0
 
 call bcast1()
 
-!if( myid == 0 )then
-!    write(6, '(/A)') '0: AFT call bcast1 '            
-!    flush(6)
-!endif !   myid == 0
 
 !------------------------------------------------------------------
 
