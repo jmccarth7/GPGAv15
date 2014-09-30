@@ -100,18 +100,18 @@ integer(kind=i4b),allocatable,dimension(:)  ::   buff_parm_send
 if( .not. allocated( fit_buffer_send ) )then
 
     allocate( fit_buffer_send( n_GP_individuals / n_partitions + 1 ) )
-    allocated_memory = allocated_memory + &
-                       real( (n_GP_Individuals / n_partitions + 1 ) * 8, kind=8 )
+    !allocated_memory = allocated_memory + &
+    !                   real( (n_GP_Individuals / n_partitions + 1 ) * 8, kind=8 )
 
 else
 
     isize = size( fit_buffer_send )
     deallocate( fit_buffer_send )
-    allocated_memory = allocated_memory -  real( isize * 8, kind = 8 )
+    !allocated_memory = allocated_memory -  real( isize * 8, kind = 8 )
 
     allocate( fit_buffer_send( n_GP_individuals / n_partitions + 1 ) )
-    allocated_memory = allocated_memory + &
-                       real( (n_GP_Individuals / n_partitions + 1 ) * 8, kind=8 )
+    !allocated_memory = allocated_memory + &
+    !                   real( (n_GP_Individuals / n_partitions + 1 ) * 8, kind=8 )
 
 
 endif ! .not. allocated( fit_buffer_send )
@@ -125,18 +125,18 @@ endif ! .not. allocated( fit_buffer_send )
 
 if( .not. allocated( sse_buffer_send ) )then
     allocate( sse_buffer_send( n_GP_individuals / n_partitions  + 1) )
-    allocated_memory = allocated_memory + &
-                       real( ( n_GP_Individuals / n_partitions + 1) * 8, kind=8 )
+    !allocated_memory = allocated_memory + &
+    !                   real( ( n_GP_Individuals / n_partitions + 1) * 8, kind=8 )
 else
 
 
     isize = size( sse_buffer_send )
     deallocate( sse_buffer_send )
-    allocated_memory = allocated_memory -  real( isize * 8, kind = 8 )
+    !allocated_memory = allocated_memory -  real( isize * 8, kind = 8 )
 
     allocate( sse_buffer_send( n_GP_individuals / n_partitions  + 1) )
-    allocated_memory = allocated_memory + &
-                       real( ( n_GP_Individuals / n_partitions + 1) * 8, kind=8 )
+    !allocated_memory = allocated_memory + &
+    !                   real( ( n_GP_Individuals / n_partitions + 1) * 8, kind=8 )
 
 
 endif ! .not. allocated( sse_buffer_send )
@@ -149,17 +149,17 @@ endif ! .not. allocated( sse_buffer_send )
 
 if( .not. allocated( buff_parm_send ) )then
     allocate( buff_parm_send(  n_GP_individuals / n_partitions  + 1 ) )
-    allocated_memory = allocated_memory + &
-                       real( (n_GP_Individuals / n_partitions + 1)  * 4, kind=8 )
+    !allocated_memory = allocated_memory + &
+    !                   real( (n_GP_Individuals / n_partitions + 1)  * 4, kind=8 )
 else
 
     isize = size( buff_parm_send )
     deallocate( buff_parm_send )
-    allocated_memory = allocated_memory -  real( isize * 4, kind = 8 )
+    !allocated_memory = allocated_memory -  real( isize * 4, kind = 8 )
 
     allocate( buff_parm_send(  n_GP_individuals / n_partitions  + 1 ) )
-    allocated_memory = allocated_memory + &
-                       real( (n_GP_Individuals / n_partitions + 1)  * 4, kind=8 )
+    !allocated_memory = allocated_memory + &
+    !                   real( (n_GP_Individuals / n_partitions + 1)  * 4, kind=8 )
 
 endif ! .not. allocated( buff_parm_send ) 
 
@@ -173,15 +173,15 @@ endif ! .not. allocated( buff_parm_send )
 
 if( .not. allocated( init_cond_buff ) )then 
     allocate( init_cond_buff(  n_code_equations ) ) 
-    allocated_memory = allocated_memory + real( n_code_equations * 8, kind=8 )
+    !allocated_memory = allocated_memory + real( n_code_equations * 8, kind=8 )
 else
 
     isize = size( init_cond_buff ) 
     deallocate( init_cond_buff ) 
-    allocated_memory = allocated_memory -  real( isize * 8, kind = 8 )
+    !allocated_memory = allocated_memory -  real( isize * 8, kind = 8 )
 
     allocate( init_cond_buff(  n_code_equations ) ) 
-    allocated_memory = allocated_memory + real( n_code_equations * 8, kind=8 )
+    !allocated_memory = allocated_memory + real( n_code_equations * 8, kind=8 )
 
 
 endif !  .not. allocated( init_cond_buff ) 
@@ -194,15 +194,15 @@ endif !  .not. allocated( init_cond_buff )
 
 if( .not. allocated( node_parm_buff2 ) )then 
     allocate( node_parm_buff2(  n_nodes, n_trees ) )
-    allocated_memory = allocated_memory + real( n_nodes * n_trees  * 8, kind=8 )
+    !allocated_memory = allocated_memory + real( n_nodes * n_trees  * 8, kind=8 )
 else
 
     isize = size( node_parm_buff2 )
     deallocate( node_parm_buff2 )
-    allocated_memory = allocated_memory -  real( isize * 8, kind = 8 )
+    !allocated_memory = allocated_memory -  real( isize * 8, kind = 8 )
 
     allocate( node_parm_buff2(  n_nodes, n_trees ) )
-    allocated_memory = allocated_memory + real( n_nodes * n_trees  * 8, kind=8 )
+    !allocated_memory = allocated_memory + real( n_nodes * n_trees  * 8, kind=8 )
 
 endif ! .not. allocated( node_parm_buff2 ) 
 
@@ -216,16 +216,16 @@ endif ! .not. allocated( node_parm_buff2 )
 if( .not. allocated( node_type_buff2 ) )then 
 
     allocate( node_type_buff2(  n_nodes, n_trees ) )
-    allocated_memory = allocated_memory + real( n_nodes * n_trees * 4, kind=8 )
+    !allocated_memory = allocated_memory + real( n_nodes * n_trees * 4, kind=8 )
 
 else
 
     isize = size( node_type_buff2 )
     deallocate( node_type_buff2 )
-    allocated_memory = allocated_memory -  real( isize * 4, kind = 8 )
+    !allocated_memory = allocated_memory -  real( isize * 4, kind = 8 )
 
     allocate( node_type_buff2(  n_nodes, n_trees ) )
-    allocated_memory = allocated_memory + real( n_nodes * n_trees * 4, kind=8 )
+    !allocated_memory = allocated_memory + real( n_nodes * n_trees * 4, kind=8 )
 
 endif ! .not. allocated( node_type_buff2 ) 
 
@@ -998,37 +998,37 @@ call MPI_BCAST( GP_Individual_N_GP_param, message_len,    &
 
 if( allocated( fit_buffer_send ) )then 
     deallocate( fit_buffer_send )
-    allocated_memory = allocated_memory - &
-                       real( ( n_GP_Individuals / n_partitions + 1 )  * 8, kind=8 )
+    !allocated_memory = allocated_memory - &
+    !                   real( ( n_GP_Individuals / n_partitions + 1 )  * 8, kind=8 )
 endif ! allocated( fit_buffer_send ) 
 
 if( allocated( sse_buffer_send ) )then 
     deallocate( sse_buffer_send )
-    allocated_memory = allocated_memory - &
-                       real( ( n_GP_Individuals / n_partitions  + 1 ) * 8, kind=8 )
+    !allocated_memory = allocated_memory - &
+    !                   real( ( n_GP_Individuals / n_partitions  + 1 ) * 8, kind=8 )
 endif ! allocated( sse_buffer_send )
 
 if( allocated( buff_parm_send ) )then 
     deallocate( buff_parm_send  )
-    allocated_memory = allocated_memory - &
-                       real( ( n_GP_Individuals / n_partitions + 1 )  * 4, kind=8 )
+    !allocated_memory = allocated_memory - &
+    !                   real( ( n_GP_Individuals / n_partitions + 1 )  * 4, kind=8 )
 endif ! allocated( buff_parm_send ) 
     
 
 if( allocated( init_cond_buff ) )then 
     deallocate( init_cond_buff  )
-    allocated_memory = allocated_memory - &
-       real( n_code_equations  * 8, kind=8 )
+    !allocated_memory = allocated_memory - &
+    !   real( n_code_equations  * 8, kind=8 )
 endif ! allocated( init_cond_buff ) 
 
 if( allocated( node_parm_buff2 ) )then 
     deallocate( node_parm_buff2  )
-    allocated_memory = allocated_memory - real( n_nodes * n_trees * 8, kind=8 )
+    !allocated_memory = allocated_memory - real( n_nodes * n_trees * 8, kind=8 )
 endif ! allocated( node_parm_buff2 ) 
 
 if( allocated( node_type_buff2 ) )then 
     deallocate( node_type_buff2  )
-    allocated_memory = allocated_memory -  real( n_nodes * n_trees * 4, kind=8 )
+    !allocated_memory = allocated_memory -  real( n_nodes * n_trees * 4, kind=8 )
 endif ! allocated( node_type_buff2 ) 
 
 call MPI_BARRIER( MPI_COMM_WORLD, ierr )

@@ -42,8 +42,8 @@ elseif( trim(model) == 'DATA' .and. &
     if( icall == 0 ) return
 
 
-elseif( trim(model) == 'fasham' .or. &
-        trim(model) == 'FASHAM'          )then
+elseif( trim(model) == 'fasham'            .or. &
+        trim(model) == 'fasham_fixed_tree'       )then
 
     call init_values_fasham( icall )
     if( icall == 0 ) return

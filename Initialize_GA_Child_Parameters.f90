@@ -92,21 +92,24 @@ do  i_GA_Individual=1,n_GA_individuals
     !debug only <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
     !debug only >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    ! fasham model
-    i_parameter = 1                                                                         ! debug only
-    Child_Parameters(i_parameter,i_GA_Individual) = 0.2D+0 ! Nitrate           [mmol N m-3] ! debug only
-    i_parameter = i_parameter + 1                                                           ! debug only
-    Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! Ammonium          [mmol N m-3] ! debug only
-    i_parameter = i_parameter + 1                                                           ! debug only
-    Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! DON               [mmol N m-3] ! debug only
-    i_parameter = i_parameter + 1                                                           ! debug only
-    Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! DET [Detritus]    [mmol N m-3] ! debug only
-    i_parameter = i_parameter + 1                                                           ! debug only
-    Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! Bacteria          [mmol N m-3] ! debug only
-    i_parameter = i_parameter + 1                                                           ! debug only
-    Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! Phytoplankton     [mmol N m-3] ! debug only
-    i_parameter = i_parameter + 1                                                           ! debug only
-    Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! Zooplankton       [mmol N m-3] ! debug only
+
+    if( trim(model) == 'fasham_fixed_tree' ) then 
+        ! fasham model
+        i_parameter = 1                                                                         ! debug only
+        Child_Parameters(i_parameter,i_GA_Individual) = 0.2D+0 ! Nitrate           [mmol N m-3] ! debug only
+        i_parameter = i_parameter + 1                                                           ! debug only
+        Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! Ammonium          [mmol N m-3] ! debug only
+        i_parameter = i_parameter + 1                                                           ! debug only
+        Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! DON               [mmol N m-3] ! debug only
+        i_parameter = i_parameter + 1                                                           ! debug only
+        Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! DET [Detritus]    [mmol N m-3] ! debug only
+        i_parameter = i_parameter + 1                                                           ! debug only
+        Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! Bacteria          [mmol N m-3] ! debug only
+        i_parameter = i_parameter + 1                                                           ! debug only
+        Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! Phytoplankton     [mmol N m-3] ! debug only
+        i_parameter = i_parameter + 1                                                           ! debug only
+        Child_Parameters(i_parameter,i_GA_Individual) = 0.1D+0 ! Zooplankton       [mmol N m-3] ! debug only
+    endif !  trim(model) == 'fasham_fixed_tree' 
 
 !!
 !!    do  ii = 1, 7                                                                           ! debug only

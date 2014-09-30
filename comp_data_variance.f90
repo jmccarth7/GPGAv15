@@ -52,9 +52,9 @@ real(kind=r8b), dimension(1:n_code_equations )  :: Data_Variance
 ! equal weight, and there are other options that can be considered.
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-if( myid == 0 )then
-    write(GP_print_unit,'(A)') ' '
-endif
+!if( myid == 0 )then
+!    write(GP_print_unit,'(A)') ' '
+!endif ! myid == 0
 
 !write(GP_print_unit,'(A,3(1x,I6))') &
 !         'cdv: myid, n_CODE_equations, n_time_steps ', &

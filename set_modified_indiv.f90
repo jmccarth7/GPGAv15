@@ -95,32 +95,35 @@ endif ! myid == 0
 
 !  make sure numbers add up to total number of individuals
 
-if( n_GP_Elitists              + &
-    n_GP_Asexual_Reproductions + &
-    n_GP_Crossovers            + &
-    n_GP_Mutations                 .gt. n_GP_Individuals) then
+if( trim(model) /= 'fasham_fixed_tree' )then 
 
-    write(GP_print_unit,'(/A/)') &
-          'smi: Sum of n_GP_Elitists + n_Asexual_Reproduction + &
-          &n_GP_Crossovers + n_GP_Mutations is too high'
-
-    call MPI_FINALIZE(ierr)
-    stop 'smi: sum too big'
-
-elseif( n_GP_Elitists              + &
+    if( n_GP_Elitists              + &
         n_GP_Asexual_Reproductions + &
         n_GP_Crossovers            + &
-        n_GP_Mutations                 .lt. n_GP_Individuals) then
+        n_GP_Mutations                 .gt. n_GP_Individuals) then
+    
+        write(GP_print_unit,'(/A/)') &
+              'smi: Sum of n_GP_Elitists + n_Asexual_Reproduction + &
+              &n_GP_Crossovers + n_GP_Mutations is too high'
+    
+        call MPI_FINALIZE(ierr)
+        stop 'smi: sum too big'
+    
+    elseif( n_GP_Elitists              + &
+            n_GP_Asexual_Reproductions + &
+            n_GP_Crossovers            + &
+            n_GP_Mutations                 .lt. n_GP_Individuals) then
+    
+        write(GP_print_unit,'(/A/)') &
+              'smi: Sum of n_GP_Elitists + n_Asexual_Reproduction + &
+              &n_GP_Crossovers + n_GP_Mutations is too low'
+    
+        call MPI_FINALIZE(ierr)
+        stop 'smi: sum too small'
+    
+    endif !   n_GP_Elitists + ...
 
-    write(GP_print_unit,'(/A/)') &
-          'smi: Sum of n_GP_Elitists + n_Asexual_Reproduction + &
-          &n_GP_Crossovers + n_GP_Mutations is too low'
-
-    call MPI_FINALIZE(ierr)
-    stop 'smi: sum too small'
-
-endif !   n_GP_Elitists + ...
-
+endif ! trim(model) /= 'fasham_fixed_tree' 
 
 
 

@@ -116,7 +116,6 @@ F90FLAGS =  -g   -ffree-form -fbacktrace -fcheck=bounds # -ffpe-trap='overflow,u
 LDFLAGS = -L/opt/openmpi-1.8.1/lib \
           -I/Developer/SDKs/MacOSX10.6.sdk/usr/include
 LIBS= -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib \
-      -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib \
       -L/Developer/SDKs/MacOSX10.6.sdk/usr/lib
 
 ##################################################################################

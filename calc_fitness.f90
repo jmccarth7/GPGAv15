@@ -547,7 +547,7 @@ endif ! L_ga_print
 if( new_rank == 0 )then
 
 
-    if( L_fort333_output .and. i_GA_generation == n_GA_generations )then
+    if( L_fort333_output  )then
 
         !write(6,'(A,5x,L1)')  'gacf: L_fort333_output ', L_fort333_output
         !write(6,'(A,1x,I10)') 'gacf: GA_333_unit ', GA_333_unit
@@ -576,7 +576,7 @@ if( new_rank == 0 )then
 
     endif !  L_fort333_output
 
-endif !   myid == 0
+endif !   new_rank == 0
 !-------------------------------------------------------------------------------
 
 

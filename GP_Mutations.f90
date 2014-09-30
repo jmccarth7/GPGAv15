@@ -208,16 +208,13 @@ do  i_GP_Mutation = 1,n_GP_Mutations
                     icnt = icnt+1
 
                     if( icnt .eq. Node_to_Mutate) then
-
-                        !write(6,'(A,2(1x,I6))')'gpmut:BEF Node_to_Mutate', Node_to_Mutate 
-
+                        !write(6,'(A,2(1x,I6))')  &
+                        !      'gpmut:BEF Node_to_Mutate', Node_to_Mutate 
                         Node_to_Mutate = i_Node
                         Node_Not_Found=.false.
-
-                        !write(6,'(A,2(1x,I6))') 'gpmut:AFT Node_to_Mutate', Node_to_Mutate 
-
+                        !write(6,'(A,2(1x,I6))')  &
+                        !      'gpmut:AFT Node_to_Mutate', Node_to_Mutate 
                         exit
-
                     endif !   icnt .eq. Node_to_Mutate
 
                 endif !   GP_Adult_Population_Node_Type...

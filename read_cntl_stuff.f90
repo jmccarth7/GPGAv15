@@ -485,7 +485,7 @@ do
 !--------------------------------------------------------------------
 
 
-!model = LV  or  NPZ or data
+!model = LV  or  NPZ or data or fasham or fasham_fixed_tree
 
     elseif( Aline(1:len('model')) == "MODEL" .or.     &
             Aline(1:len('model')) == "model" ) then
@@ -497,6 +497,8 @@ do
         if( trim(model) == 'FASHAM' ) model = 'fasham'
         if( trim(model) == 'Fasham' ) model = 'fasham'
 
+        if( trim(model) == 'FASHAM_FIXED_TREE' ) model = 'fasham_fixed_tree'
+        if( trim(model) == 'Fasham_fixed_tree' ) model = 'fasham_fixed_tree'
 
 !--------------------------------------------------------------------
 
@@ -1297,12 +1299,12 @@ do
 
     else
 
-        write(GP_print_unit,'(/A)') 'rcntl: WARNING: UNRECOGNIZED OPTION '
-
+        write(GP_print_unit,'(/A)')     'rcntl: WARNING: UNRECOGNIZED OPTION '
         write(GP_print_unit,'(A,1x,A)') 'rcntl: Aline =', trim( Aline )
-        write(GP_print_unit,'(A/)') 'rcntl: WARNING: UNRECOGNIZED OPTION '
-        ierror = 1
-        return
+        write(GP_print_unit,'(A/)')     'rcntl: WARNING: UNRECOGNIZED OPTION '
+        !ierror = 1
+        !return
+        continue
 
     endif !   Aline(1:6) == ???
 

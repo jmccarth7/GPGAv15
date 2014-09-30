@@ -245,7 +245,9 @@ do  i_Time_Step = 1, n_Time_Steps
         !write(6,'(/A, 1x, A)') 'rkbm: call DoForcing model = ', trim(model)
         !!flush(6)
 
-        if( trim(model) == 'fasham' )then
+        if( trim(model) == 'fasham' .or. &
+            trim(model) == 'fasham_fixed_tree'      )then
+
             call DoForcing( btmp, Runge_Kutta_Time_Step(iter), i_Time_Step, L_bad_result )
             if( L_bad_result ) then
 
@@ -254,6 +256,7 @@ do  i_Time_Step = 1, n_Time_Steps
             endif ! L_bad_result 
          
         endif ! trim(model) == 'fasham'
+
 
         !write(6,'(/A, 1x, A)') 'rkbm: aft call DoForcing model = ', trim(model)
         !!flush(6)

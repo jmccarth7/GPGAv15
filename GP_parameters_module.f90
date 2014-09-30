@@ -112,7 +112,7 @@ integer(kind=i4b) :: n_GP_Generations
 
 integer(kind=i4b) :: n_GP_parameters
 
-character(30) :: model
+character(80) :: model
 
 
 integer(kind=i4b) :: n_parameters

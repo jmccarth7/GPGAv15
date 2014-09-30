@@ -44,7 +44,8 @@ logical :: buildTrees
 
 write(6,'(/A/)') 'saa: call Initialize_Model  '
 
-if( model == 'fasham' )then
+if( trim(model)  == 'fasham' .or.  &
+    trim(model)  == 'fasham_fixed_tree' )then
 
     call Initialize_Model( .false., .true., 6 )    ! for built-in Fasham function model
 

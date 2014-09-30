@@ -15,6 +15,7 @@ use GP_variables_module
 implicit none
 
 integer(kind=i4b) :: array_len
+integer(kind=i4b) :: len_model 
 !integer(kind=i4b) :: i
 
 !----------------------------------------------------------------------------------------
@@ -74,7 +75,11 @@ call MPI_BCAST( random_scale_fraction, 1,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 !-----------------------------------------------------------------
 
-call MPI_BCAST( model, 30,     &
+len_model = len( model ) 
+
+!write(6,*) 'bcast1: len_model = ' , len_model
+
+call MPI_BCAST( model, len_model,     &
                 MPI_CHARACTER, 0, MPI_COMM_WORLD, ierr )
 
 !-----------------------------------------------------------------

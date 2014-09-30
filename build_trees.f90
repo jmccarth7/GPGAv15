@@ -51,7 +51,8 @@ else
 
     ! build trees using the fasham functions 
 
-    if( trim(model) == 'fasham' )then
+    if( trim(model) == 'fasham'    .or.     &
+        trim(model) == 'fasham_fixed_tree' )then
     
     
         !  Fasham specific trees
@@ -165,7 +166,7 @@ else
 
         !-----------------------------------------------------------------------------
         
-    endif ! model == 'fasham'  
+    endif ! model == 'fasham'   .or. model == 'fasham_fixed_tree'
 
 endif !  buildtrees 
 

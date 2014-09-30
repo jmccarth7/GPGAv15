@@ -27,21 +27,8 @@ integer(kind=i4b) :: n_parms
 integer(kind=i4b) :: n_parms_per_tree
 
 
-
-!real(kind=r4b),dimension(2,4) :: frac_forcing_type
-!
-!data frac_forcing_type(1,1) / 0.578947 /
-!data frac_forcing_type(2,1) / 1.00000  /
-!
-!data frac_forcing_type(1,2) / 0.210526 /
-!data frac_forcing_type(2,2) / 0.578947 /
-!
-!data frac_forcing_type(1,3) / 0.0      /
-!data frac_forcing_type(2,3) / 0.052632 /
-!
-!data frac_forcing_type(1,4) / 0.052632 /
-!data frac_forcing_type(2,4) / 0.210526 /
-
+!real(kind=r4b),parameter :: prob_forcing = 0.045
+real(kind=r4b),parameter :: prob_choose_forcing_type = 0.25
 integer(kind=i4b) :: iforce
 
 !-----------------------------------------------------------------------------

@@ -130,7 +130,6 @@ call allocate_arrays1( )
 
 if( myid == 0 )then
     write(6, '(A,2(1x,I6)/)') 'set1: after allocate_arrays1 '
-    write(6, '(A,1x,E15.7)')  'set1: allocated_memory = ', allocated_memory
     flush(6)
 endif ! myid == 0
 
