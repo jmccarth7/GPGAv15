@@ -54,6 +54,8 @@ integer(kind=i4b) :: ierror_m
 integer(kind=i4b) :: ierror_tb
 integer(kind=i4b) :: i_start_generation
 
+integer(kind=i4b) :: n_indiv_part
+
 integer(kind=i4b) :: new_group
 integer(kind=i4b) :: new_comm
 integer(kind=i4b) :: my_size
@@ -70,7 +72,7 @@ integer(kind=i4b) :: comm_world
 
 character(15),parameter :: program_version   = '201401.001_v15'
 character(10),parameter :: modification_date = '20140930'
-character(50),parameter :: branch  =  'fix_fasham_tree'
+character(50),parameter :: branch  =  'master'
 
 integer(kind=i4b), parameter ::  zero = 0
 
@@ -559,15 +561,15 @@ allocate( color_value(0:numprocs-1 ) )
 !allocated_memory = allocated_memory + &
 !               real( numprocs     * 4, kind=8 )
 
-allocate(  key (0:divider -1 ) )
+!allocate(  key (0:divider -1 ) )
 !allocated_memory = allocated_memory + &
 !               real( divider * 4, kind=8 )
 
 
 
-do  i = 0, divider-1
-    key(i) = i
-enddo ! i
+!do  i = 0, divider-1
+!    key(i) = i
+!enddo ! i
 
 color_value = 0
 color_value(0) = 2 * numprocs  ! MPI_UNDEFINED
@@ -587,7 +589,7 @@ enddo ! j
 
 if( myid == 0 )then
     write(6,'(/A/(10(1x,I5)))') '0: color_value = ', color_value(0:numprocs-1)
-    write(6,'(A/(10(1x,I5)))') '0: key   = ', key(0: divider-1 )
+    !write(6,'(A/(10(1x,I5)))') '0: key   = ', key(0: divider-1 )
     write(6,'(A)') ' '
     !flush(6)
 endif ! myid == 0
@@ -1238,7 +1240,15 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
     !---------------------------------------------------------------
 
-    call GP_individual_loop( new_group, new_comm, i_GP_generation )
+    n_indiv_part = n_GP_individuals / n_partitions + 1
+
+    if( myid == 0 )then
+        write(GP_print_unit,'(/A, 3(1x, I6)/)') &
+         '0: bef call to GP_individual_loop n_GP_individuals, n_partitions, n_indiv_part ', &
+                                            n_GP_individuals, n_partitions, n_indiv_part 
+    endif ! myid == 0
+
+    call GP_individual_loop( new_group, new_comm, i_GP_generation, n_indiv_part )
 
     !---------------------------------------------------------------
 

@@ -30,13 +30,13 @@ integer(kind=i4b) ::  i
 integer(kind=i4b) ::  j                    
 
 
-real(kind=r8b), allocatable, dimension(:) ::  temp_array
+real(kind=r8b), dimension(0:n_input_vars) ::  temp_array
 
 
 !----------------------------------------------------------------------
 
 
-allocate( temp_array( 0:n_input_vars ) ) 
+!allocate( temp_array( 0:n_input_vars ) ) 
 
 
 !---------------------------------------------------------------------
@@ -58,7 +58,7 @@ do  i = 1, n_input_vars
     write(6, '(I2,1x,A)') i, trim(input_data_names(i))
 enddo
 
-flush(6)
+!flush(6)
 
 !---------------------------------------------------------------------
 
@@ -93,10 +93,10 @@ do  j = 1, n_input_data_points
             ( input_data_array(i,j), i = 0, n_input_vars ) 
 enddo 
 
-flush(6)
+!flush(6)
 
 
-deallocate( temp_array ) 
+!deallocate( temp_array ) 
 
 
 return 

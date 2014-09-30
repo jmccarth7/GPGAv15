@@ -1,6 +1,7 @@
 subroutine setup_run_fcn( i_GA_indiv,  &
                           child_parameters, individual_quality, &
-                          new_group, new_comm  )
+                                     new_comm  )
+                          !new_group, new_comm  )
 
 ! written by: Dr. John R. Moisan [NASA/GSFC] 5 December, 2012
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -43,7 +44,7 @@ integer(kind=i4b) ::   info
 integer(kind=i4b) :: i_time_step
 integer(kind=i4b) :: i_parameter
 
-integer(kind=i4b),intent(in) :: new_group
+!integer(kind=i4b),intent(in) :: new_group
 integer(kind=i4b),intent(in) :: new_comm 
 !integer(kind=i4b) :: new_rank       
 

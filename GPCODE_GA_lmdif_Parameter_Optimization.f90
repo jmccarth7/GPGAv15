@@ -1,6 +1,7 @@
 subroutine GPCODE_GA_lmdif_Parameter_Optimization( &
                   i_GP_Generation,i_GP_individual, &
-                  new_group, new_comm ) 
+                             new_comm ) 
+                  !new_group, new_comm ) 
 
 ! written by: Dr. John R. Moisan [NASA/GSFC] 5 December, 2012
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -23,7 +24,7 @@ implicit none
 
 integer(kind=i4b),intent(in) :: i_GP_Generation
 integer(kind=i4b),intent(in) :: i_GP_individual
-integer(kind=i4b),intent(in) :: new_group
+!integer(kind=i4b),intent(in) :: new_group
 integer(kind=i4b),intent(in) :: new_comm 
 
 integer(kind=i4b) :: child_number
@@ -83,7 +84,7 @@ logical :: L_too_many_iters
 
 integer(kind=i4b) :: jj
 integer(kind=i4b) :: i_ga_ind
-integer(kind=i4b) :: i_code_equation
+!integer(kind=i4b) :: i_code_equation
 
 
 integer(kind=i4b) :: n_procs   
@@ -653,7 +654,8 @@ do  i_GA_generation = 1, n_GA_Generations
 
                 call setup_run_fcn( i_2_individual, &
                                     child_parameters,individual_quality, &
-                                    new_group, new_comm )
+                                               new_comm )
+                                    !new_group, new_comm )
 
 
                 !if( L_ga_print )then
@@ -796,7 +798,8 @@ do  i_GA_generation = 1, n_GA_Generations
         call calc_fitness( child_parameters, individual_quality, &
                            i_GA_Best_Parent, Parent_Parameters, L_stop_run, &
                            i_GP_Generation, i_GP_individual, &
-                           new_group, new_comm  )
+                           new_comm  )
+                           !new_group, new_comm  )
 
         !---------------------------------------------------------------------
 
@@ -880,7 +883,8 @@ if( new_rank == 0  )then
                 i_GP_Generation,i_GP_individual, &
                 i_GA_best_parent, parent_parameters, &
                 child_parameters, &
-                L_stop_run, new_group, new_comm  )
+                L_stop_run,            new_comm  )
+                !L_stop_run, new_group, new_comm  )
 
     !if( L_ga_print )then
     !    write(GA_print_unit,'(/A//)') &

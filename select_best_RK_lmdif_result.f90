@@ -2,7 +2,8 @@ subroutine select_best_RK_lmdif_result( &
                 i_GP_Generation,i_GP_individual, &
                 i_GA_best_parent, parent_parameters, &
                 child_parameters, &
-                L_stop_run, new_group, new_comm )
+                L_stop_run,            new_comm )
+                !L_stop_run, new_group, new_comm )
 
 ! written by: Dr. John R. Moisan [NASA/GSFC] 5 December, 2012
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -28,7 +29,7 @@ implicit none
 
 integer(kind=i4b),intent(in) :: i_GP_Generation
 integer(kind=i4b),intent(in) :: i_GP_individual
-integer(kind=i4b),intent(in) :: new_group
+!integer(kind=i4b),intent(in) :: new_group
 integer(kind=i4b),intent(in) :: new_comm 
 !integer(kind=i4b)            :: new_rank 
 
@@ -45,7 +46,7 @@ real(kind=r8b) :: Individual_Fitness_best_1
 real(kind=r8b),dimension(n_GP_parameters) :: parent_parameters_best_1
 
 
-integer(kind=i4b) ::      i
+!integer(kind=i4b) ::      i
 integer(kind=i4b) :: i_GA_Best_Parent
 integer(kind=i4b) :: i_GA_Best_Parent_1
 
