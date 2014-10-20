@@ -71,7 +71,7 @@ integer(kind=i4b) :: comm_world
 
 
 character(15),parameter :: program_version   = '201401.001_v15'
-character(10),parameter :: modification_date = '20140930'
+character(10),parameter :: modification_date = '20141020'
 character(50),parameter :: branch  =  'master'
 
 integer(kind=i4b), parameter ::  zero = 0
@@ -142,6 +142,7 @@ if( myid == 0 )then
     write(6,'(/A)') '0: version 15 derived from version 13 '             
     write(6,'(A)') '0: fixed the problem with sort and the best individual'
     write(6,'(A)') '0: run lmdif in parallel on each GP generation'
+    write(6,'(A)') '0: fixed bug in GA_Tournament* '
     write(6,'(A)') '0: changed RK sub to make it faster'
     write(6,'(A)') '0: using the old_elite_scheme in GP_Fit* GP_Tou*, GP_Mut*'
     write(6,'(A)') '0: fast mod 1: remove GP diversity and tree printout     '

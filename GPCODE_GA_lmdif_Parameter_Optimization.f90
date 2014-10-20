@@ -86,12 +86,15 @@ integer(kind=i4b) :: jj
 integer(kind=i4b) :: i_ga_ind
 !integer(kind=i4b) :: i_code_equation
 
+integer(kind=i4b) :: ierror_tou
 
 integer(kind=i4b) :: n_procs   
 !----------------------------------------------------------------------
 
 !write(6,'(A,1x,I5,4x,L1)') 'GP_GA_opt: myid, L_GA_print   ', myid, L_GA_print
 !write(6,'(A,1x,I5,1x,I5)') 'GP_GA_opt: myid, GA_print_unit', myid, GA_print_unit
+
+ierror_tou = 0
 
 
 
@@ -286,8 +289,11 @@ do  i_GA_generation = 1, n_GA_Generations
                 !  Run_GA_lmdif
                 !  individual_quality
 
+
+                ierror_tou = 0
                 call GA_Tournament_Style_Sexual_Reproduction( &
-                            Parent_Parameters, Child_Parameters, individual_quality )
+                            Parent_Parameters, Child_Parameters, &
+                            individual_quality, ierror_tou )
 
             endif !   n_GA_Crossovers .gt. 0
 
@@ -370,6 +376,17 @@ do  i_GA_generation = 1, n_GA_Generations
 
 
     endif ! new_rank == 0
+
+    call MPI_BCAST( ierror_tou,  1,    &
+                    MPI_INTEGER, 0, MPI_COMM_WORLD, ierr )
+
+
+    ! handle error in GA_Tournament_Style_Sexual_Reproduction
+    if( ierror_tou > 0 )then
+        call MPI_FINALIZE(ierr)
+        stop
+    endif ! ierror_tou > 0 )then
+
 
 
     !------------------------------------------------------------------------

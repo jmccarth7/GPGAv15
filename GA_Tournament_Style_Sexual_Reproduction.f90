@@ -1,5 +1,7 @@
 subroutine GA_Tournament_Style_Sexual_Reproduction(&
-              Parent_Parameters, Child_Parameters, individual_quality  )
+              Parent_Parameters, Child_Parameters, &
+              individual_quality, ierror_tou  )
+
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 !  randomly choose two 'parents' using the Tournament-Style Selection and
@@ -43,8 +45,11 @@ real(kind=r8b) :: cff_2
 
 integer(kind=i4b) :: n_replaced
 integer(kind=i4b) :: i_parameter
+integer(kind=i4b) :: ksafe
+integer(kind=i4b) :: ierror_tou 
 
 !---------------------------------------------------------------------------
+ierror_tou = 0
 
 !if( L_ga_print )then
 !    write(GA_print_unit,'(/A,1x,I6)') &
@@ -74,6 +79,8 @@ do  i_GA_Crossover=1,n_GA_Crossovers
     !      'gato: k_GA_Individual_Male(1)  ', k_GA_Individual_Male(1)
     !    write(GA_print_unit,'(A/(15(1x,I6)))') &
     !      'gato: ga_individual_elites ', ga_individual_elites
+    !    write(GA_print_unit,'(A,1x,I6)') &
+    !      'gato: ga_individual_elites ', ga_individual_elites(1)
     !endif ! L_ga_print
   
   
@@ -90,7 +97,7 @@ do  i_GA_Crossover=1,n_GA_Crossovers
     !      'gato: aft random i_GA_Crossover, k_GA_Individual_Male(1:2)  ', &
     !                        i_GA_Crossover, k_GA_Individual_Male(1:2)
     !endif ! L_ga_print
-  
+ 
     !--------------------------------------------------------------------
   
     ! you picked the same individual for both male parents, so choose another
@@ -104,10 +111,41 @@ do  i_GA_Crossover=1,n_GA_Crossovers
             k_GA_Individual_Male(2)= max( k_GA_Individual_Male(1) - 1, 1 )
         endif !   k_GA_Individual_Male(1) .ne. n_GA_individuals
   
+  
+    
+        !--------------------------------------------------------------------
+    
+        ksafe = 0
+        do
+            call GA_check_for_elite( k_GA_Individual_Male(2) )
+    
+            if( k_GA_Individual_Male(2) /= k_GA_Individual_Male(1)      ) exit
+            ksafe = ksafe + 1
+            if( ksafe > 2 * n_GA_individuals ) then
+                write(6,'(A)') &
+                      'gato: too many iterations to get k_GA_Individual_Male(2)'
+                write(6,'(A,1x,I10)') 'gato: ksafe = ', ksafe
+                ierror_tou = 1
+                return
+            endif ! ksafe
+        enddo
+    
+        ! at this point, male(1) /= male(2) and 
+        ! neither is == any ga_individual_elites
+
+        if( k_GA_Individual_Male(2) == ga_individual_elites(1) )then
+            if( L_ga_print )then
+                write(GA_print_unit,'(//A,3(1x,I6))')&
+                  'gato: MATCH  k_GA_Individual_Male(2), ga_individual_elites(1)  ', &
+                                k_GA_Individual_Male(2), ga_individual_elites(1)
+            endif ! L_ga_print
+        endif !  k_GA_Individual_Male(2) == ga_individual_elites(1) 
+      
+
     endif ! k_GA_Individual_Male(2) .eq. k_GA_Individual_Male(1)
-  
-  
+
     !--------------------------------------------------------------------
+
   
   
     ! select the individual of the two with the best fitness
@@ -170,9 +208,41 @@ do  i_GA_Crossover=1,n_GA_Crossovers
             k_GA_Individual_Female(2) =  max( k_GA_Individual_Female(1) - 1, 1 )
         endif !   k_GA_Individual_Female(1) .ne. n_GA_individuals)
   
+  
+        !---------------------------------------------------------------------------------
+    
+        ksafe = 0
+        do
+            call GA_check_for_elite( k_GA_Individual_Female(2) )
+            if( k_GA_Individual_Female(2) /= k_GA_Individual_Female(1)      ) exit
+            ksafe = ksafe + 1
+            if( ksafe > 2 * n_GA_individuals ) then
+                write(6,'(A)') &
+                      'gato: too many iterations to get k_GA_Individual_Female(2)'
+                write(6,'(A,1x,I10)') 'gato: ksafe = ', ksafe
+                ierror_tou = 1
+                return
+            endif ! ksafe
+        enddo
+    
+        ! at this point, female(1) /= female(2) and 
+        ! neither is == any ga_individual_elites
+    
+    
+      
+        if( k_GA_Individual_Female(2) == ga_individual_elites(1) )then
+    
+            if( L_ga_print )then
+                write(GA_print_unit,'(//A,3(1x,I6))')&
+                  'gato: MATCH  k_GA_Individual_Female(2), ga_individual_elites(1)  ', &
+                                k_GA_Individual_Female(2), ga_individual_elites(1)
+            endif ! L_ga_print
+    
+        endif !  k_GA_Individual_Female(2) == ga_individual_elites(1) 
+
+  
     endif !   k_GA_Individual_Female(2) .eq. k_GA_Individual_Female(1)
-  
-  
+
     !---------------------------------------------------------------------------------
   
   
