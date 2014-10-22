@@ -369,12 +369,12 @@ endif ! L_GPSSE_log
 
                                                                                                           
 !-------------------------------------------------------------------------------                          
-!write(6,'(A,5x,L1)')  'gacf: L_fort555_output ', L_fort555_output                                       
-!write(6,'(A,1x,I10)') 'gacf: GA_555_unit ', GA_555_unit                                                 
+!write(6,'(A,5x,L1)')  'gpcf: L_fort555_output ', L_fort555_output                                       
+!write(6,'(A,1x,I10)') 'gpcf: GA_555_unit ', GA_555_unit                                                 
                                                                                                         
 if( L_fort555_output )then                                                                             
                                                                                                         
-    !write(6,'(A,3(1x,I10))') 'gacf:555 gp_gen ', i_GP_Generation
+    !write(6,'(A,3(1x,I10))') 'gpcf:555 gp_gen ', i_GP_Generation
                                                                                                         
     write(GA_555_unit) i_GP_Generation,  &                             
                GP_child_individual_SSE(1:n_GP_individuals)                                                       

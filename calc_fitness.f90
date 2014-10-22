@@ -89,12 +89,12 @@ integer(kind=i4b) :: i_GA_individual
 call mpi_comm_rank( new_comm, new_rank, ierr )
 
 
-write(6,'(/A,4x,L1)') 'gacf: L_GA_print      =', L_GA_print
+!write(6,'(/A,4x,L1)') 'gacf: L_GA_print      =', L_GA_print
 L_stop_run = .FALSE.
 
-if( L_ga_print )then
-    write(GA_print_unit,'(/A,1x,I6)') 'gacf: n_parameters = ', n_parameters
-endif ! L_ga_print
+!if( L_ga_print )then
+!    write(GA_print_unit,'(/A,1x,I6)') 'gacf: n_parameters = ', n_parameters
+!endif ! L_ga_print
 
 !write(6,'(/A,2(1x,I6))') 'gacf: new_rank, n_parameters    =', new_rank, n_parameters
 !write(6,'(A,2(1x,I6)/)') 'gacf: new_rank, n_GP_parameters =', new_rank, n_GP_parameters
@@ -507,9 +507,9 @@ do  i_GA_individual=1,n_GA_individuals
 enddo ! i_GA_individual
 
 !-------------------------------------------------------------------------------
-!if( i_GA_generation == 1                                 .or. &
-!    mod(i_GA_generation, GA_child_print_interval ) == 0  .or. &
-!    i_GA_generation == n_GA_generations       )then
+if( i_GA_generation == 1                                 .or. &
+    mod(i_GA_generation, GA_child_print_interval ) == 0  .or. &
+    i_GA_generation == n_GA_generations       )then
 
 !if( i_GA_generation == n_GA_generations       )then
 
@@ -526,20 +526,21 @@ enddo ! i_GA_individual
     !    enddo ! i_GA_individual
     !endif ! L_ga_print
 
-!endif !  i_GA_generation == 1 ...
 
-if( L_ga_print )then
-    write(GA_print_unit,'(/A)')&
-     'gacf:i_GA_ind   ind_SSE            ind_ranked_fitness    &
-     &integ_rank_fitness  ind_quality'
-    do  i_GA_individual=1,n_GA_individuals
-        write(GA_print_unit,'(6x,I6,3(1x,E20.12),1x,I6)') &
-              i_GA_individual, individual_SSE(i_GA_individual), &
-                    individual_ranked_fitness(i_GA_individual), &
-                    integrated_ranked_fitness(i_GA_individual), &
-                          individual_quality( i_GA_individual )
-    enddo ! i_GA_individual
-endif ! L_ga_print
+    if( L_ga_print )then
+        write(GA_print_unit,'(/A)')&
+         'gacf:i_GA_ind   ind_SSE            ind_ranked_fitness    &
+         &integ_rank_fitness  ind_quality'
+        do  i_GA_individual=1,n_GA_individuals
+            write(GA_print_unit,'(6x,I6,3(1x,E20.12),1x,I6)') &
+                  i_GA_individual, individual_SSE(i_GA_individual), &
+                        individual_ranked_fitness(i_GA_individual), &
+                        integrated_ranked_fitness(i_GA_individual), &
+                              individual_quality( i_GA_individual )
+        enddo ! i_GA_individual
+    endif ! L_ga_print
+
+endif !  i_GA_generation == 1 ...
 
 !-------------------------------------------------------------------------------
 

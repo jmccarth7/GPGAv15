@@ -128,6 +128,8 @@ do  i_GA_Crossover=1,n_GA_Crossovers
                 ierror_tou = 1
                 return
             endif ! ksafe
+            write(6,'(A,1x,I10)') 'gato:1 ksafe = ', ksafe
+            write(GA_print_unit,'(A,1x,I10)') 'gato:1 ksafe = ', ksafe
         enddo
     
         ! at this point, male(1) /= male(2) and 
@@ -223,6 +225,8 @@ do  i_GA_Crossover=1,n_GA_Crossovers
                 ierror_tou = 1
                 return
             endif ! ksafe
+            write(6,'(A,1x,I10)') 'gato:2 ksafe = ', ksafe
+            write(GA_print_unit,'(A,1x,I10)') 'gato:2 ksafe = ', ksafe
         enddo
     
         ! at this point, female(1) /= female(2) and 

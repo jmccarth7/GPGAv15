@@ -89,6 +89,10 @@ integer(kind=i4b) :: i_ga_ind
 integer(kind=i4b) :: ierror_tou
 
 integer(kind=i4b) :: n_procs   
+
+real(kind=r8b) :: t1
+real(kind=r8b) :: t2
+
 !----------------------------------------------------------------------
 
 !write(6,'(A,1x,I5,4x,L1)') 'GP_GA_opt: myid, L_GA_print   ', myid, L_GA_print
@@ -141,15 +145,15 @@ child_parameters( 1:n_GP_parameters, 1:n_GA_individuals) = 0.0d0
 ! set up MPI process
 
 
-if( new_rank == 0 )then
-
-    if( L_ga_print )then
-        write(GA_print_unit,'(/A,1x,I10, 2(1x,I6)/)')&
-          'GP_GA_opt: divider, n_parameters, n_procs ', &
-                      divider, n_parameters, n_procs
-    endif ! L_ga_print
-
-endif ! new_rank == 0
+!if( new_rank == 0 )then
+!
+!    if( L_ga_print )then
+!        write(GA_print_unit,'(/A,1x,I10, 2(1x,I6)/)')&
+!          'GP_GA_opt: divider, n_parameters, n_procs ', &
+!                      divider, n_parameters, n_procs
+!    endif ! L_ga_print
+!
+!endif ! new_rank == 0
 
 !-----------------------------------------------------------------------------
 
@@ -290,10 +294,19 @@ do  i_GA_generation = 1, n_GA_Generations
                 !  individual_quality
 
 
+                !t1 = MPI_Wtime()
                 ierror_tou = 0
                 call GA_Tournament_Style_Sexual_Reproduction( &
                             Parent_Parameters, Child_Parameters, &
                             individual_quality, ierror_tou )
+                !t2 = MPI_Wtime()
+
+                
+                !if( L_ga_print )then
+                !    write(GA_print_unit,'(A,1x,E15.7)')'GP_GA_opt: time in GA_Tou =    ', t2 - t1
+                !endif ! L_ga_print
+
+                !write(6,'(A,1x,E15.7)')'GP_GA_opt: time in GA_Tou =    ', t2 - t1
 
             endif !   n_GA_Crossovers .gt. 0
 
@@ -378,7 +391,7 @@ do  i_GA_generation = 1, n_GA_Generations
     endif ! new_rank == 0
 
     call MPI_BCAST( ierror_tou,  1,    &
-                    MPI_INTEGER, 0, MPI_COMM_WORLD, ierr )
+                    MPI_INTEGER, 0, new_comm, ierr )
 
 
     ! handle error in GA_Tournament_Style_Sexual_Reproduction
@@ -400,9 +413,9 @@ do  i_GA_generation = 1, n_GA_Generations
     !    write(GA_print_unit,'(A,4(1x,I6)/)') &
     !    'GP_GA_opt: new_rank, n_GA_individuals, n_GP_parameters, child_number =', &
     !                new_rank, n_GA_individuals, n_GP_parameters, child_number
-    !    write(6,'(A,4(1x,I6))') &
-    !    'GP_GA_opt: new_rank, n_GA_individuals, n_GP_parameters, child_number =', &
-    !                new_rank, n_GA_individuals, n_GP_parameters, child_number
+    !!    write(6,'(A,4(1x,I6))') &
+    !!    'GP_GA_opt: new_rank, n_GA_individuals, n_GP_parameters, child_number =', &
+    !!                new_rank, n_GA_individuals, n_GP_parameters, child_number
     !endif ! L_ga_print
 
 
@@ -738,12 +751,12 @@ do  i_GA_generation = 1, n_GA_Generations
                 if( L_GA_print )then
                     write(GA_print_unit,'(A,1x,I10)') &
                       'GP_GA_opt: too many iterations  nsafe =', nsafe
-                    flush(GA_print_unit) 
+                    !flush(GA_print_unit) 
                 endif ! L_GA_print 
 
                 write(6,'(A,1x,I10)') &
                   'GP_GA_opt: too many iterations  nsafe =', nsafe
-                flush(6) 
+                !flush(6) 
 
                 L_too_many_iters = .TRUE.  
                 exit recv_loop
