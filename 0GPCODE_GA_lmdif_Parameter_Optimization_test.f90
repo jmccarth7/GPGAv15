@@ -70,8 +70,8 @@ integer(kind=i4b) :: comm_world
 !real(kind=r8b) :: t2
 
 
-character(15),parameter :: program_version   = '201401.002_v15'
-character(10),parameter :: modification_date = '20141022'
+character(15),parameter :: program_version   = '201401.003_v15'
+character(10),parameter :: modification_date = '20141109'
 character(50),parameter :: branch  =  'master'
 
 integer(kind=i4b), parameter ::  zero = 0
@@ -141,7 +141,8 @@ if( myid == 0 )then
 
     write(6,'(/A)') '0: version 15 derived from version 13 '             
     write(6,'(A)') '0: fixed the problem with sort and the best individual'
-    write(6,'(A)') '0: DO NOT run lmdif in parallel on each GP generation'
+    write(6,'(A)') '0: run lmdif in parallel on each GP generation after 20'
+    !write(6,'(A)') '0: DO NOT run lmdif in parallel on each GP generation'
     write(6,'(A)') '0: fixed bug in GA_Tournament* '
     write(6,'(A)') '0: changed RK sub to make it faster'
     write(6,'(A)') '0: using the old_elite_scheme in GP_Fit* GP_Tou*, GP_Mut*'
@@ -1333,12 +1334,12 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
             write(GP_print_unit,'(/A)')&
             '0:-----------------------------------------------------------------'
-            write(GP_print_unit,'(A,2(1x,I6))') &
-            '0: DO NOT call GP_para_lmdif_process i_GP_generation, max_n_gp_params', &
-                                                  i_GP_Generation, max_n_gp_params
             !write(GP_print_unit,'(A,2(1x,I6))') &
-            !'0: call GP_para_lmdif_process i_GP_generation, max_n_gp_params', &
-            !                               i_GP_Generation, max_n_gp_params
+            !'0: DO NOT call GP_para_lmdif_process i_GP_generation, max_n_gp_params', &
+            !                                      i_GP_Generation, max_n_gp_params
+            write(GP_print_unit,'(A,2(1x,I6))') &
+            '0: call GP_para_lmdif_process i_GP_generation, max_n_gp_params', &
+                                           i_GP_Generation, max_n_gp_params
             write(GP_print_unit,'(A/)')&
             '0:-----------------------------------------------------------------'
 
@@ -1358,11 +1359,11 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
     ! parameter values
 
     !if( i_GP_generation > n_GP_generations / 2 )then
-    !if( i_GP_generation > 20                   )then
+    if( i_GP_generation > 20                   )then
 
-    !    call GP_para_lmdif_process( i_GP_generation, max_n_gp_params  )
+        call GP_para_lmdif_process( i_GP_generation, max_n_gp_params  )
 
-    !endif !  i_GP_generation > n_GP_generations / 2
+    endif !  i_GP_generation > n_GP_generations / 2
 
 
     !---------------------------------------------------------------
