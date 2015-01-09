@@ -178,7 +178,8 @@ do  i_part = 1,  n_partitions
 
 
     fit_buffer_send(1:ind2-ind1+1)  = GP_Population_Ranked_Fitness(ind1:ind2)
-    sse_buffer_send(1:ind2-ind1+1)  = GP_Child_Individual_SSE(ind1:ind2)
+    !orig sse_buffer_send(1:ind2-ind1+1)  = GP_Child_Individual_SSE(ind1:ind2)
+    sse_buffer_send(1:ind2-ind1+1)  = 1.0D+13  ! jjm 20150109
     buff_parm_send(1:ind2-ind1+1)   = GP_Individual_N_GP_param(ind1:ind2)
 
     !write(GP_print_unit,'(A,8(1x,I4))')&
@@ -508,6 +509,7 @@ do  i_part = 1,  n_partitions
 
 
                     individual_fitness = 0.0d0
+                    GP_Child_Individual_SSE(i_GP_individual) = 1.0D+13   ! jjm 20150109
 
                     !if( new_rank == 0 )then
                     !    write(GP_print_unit,'(A,7(1x,I5), 1x, E15.7)')&
