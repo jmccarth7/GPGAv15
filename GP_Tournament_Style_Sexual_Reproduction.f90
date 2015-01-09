@@ -45,12 +45,12 @@ character(1) ::  symbol
 
 i_GP_Individual = n_GP_Elitists + n_GP_Asexual_Reproductions
 
-write(GP_print_unit,'(A,3(1x,I6))' ) &
-  'gptssr: n_GP_Crossovers, n_GP_Elitists, n_GP_Asexual_Reproductions ', &
-           n_GP_Crossovers, n_GP_Elitists, n_GP_Asexual_Reproductions
-write(GP_print_unit,'(A,1x,I6)' ) &
-  'gptssr: start i_GP_individual  =  ', &
-               n_GP_Elitists + n_GP_Asexual_Reproductions +1
+!write(GP_print_unit,'(A,3(1x,I6))' ) &
+!  'gptssr: n_GP_Crossovers, n_GP_Elitists, n_GP_Asexual_Reproductions ', &
+!           n_GP_Crossovers, n_GP_Elitists, n_GP_Asexual_Reproductions
+!write(GP_print_unit,'(A,1x,I6)' ) &
+!  'gptssr: start i_GP_individual  =  ', &
+!               n_GP_Elitists + n_GP_Asexual_Reproductions +1
 
 
 
