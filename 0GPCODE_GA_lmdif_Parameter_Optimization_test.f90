@@ -510,15 +510,15 @@ endif ! n_partitions < 2....
 
 allocate( ranks(      1:numprocs-1, n_partitions ) )
 !allocated_memory = allocated_memory + &
-!               real( (numprocs-1) * n_partitions * 4, kind=8 )
+!               real( (numprocs-1) * n_partitions * 4, kind=r8b )
 
 allocate( ranks_temp( 0: divider-1     ) )
 !allocated_memory = allocated_memory + &
-!               real( divider * 4, kind=8 )
+!               real( divider * 4, kind=r8b )
 
 allocate( ranks2(     0: divider-1, n_partitions ) )
 !allocated_memory = allocated_memory + &
-!               real( divider * n_partitions * 4, kind=8 )
+!               real( divider * n_partitions * 4, kind=r8b )
 
 if( myid == 0 )then
     write(6,'(A,3(1x,I4))') '0: ranks( 1:numprocs, n_partitions )', &
@@ -578,11 +578,11 @@ enddo ! i
 
 allocate( color_value(0:numprocs-1 ) )
 !allocated_memory = allocated_memory + &
-!               real( numprocs     * 4, kind=8 )
+!               real( numprocs     * 4, kind=r8b )
 
 !allocate(  key (0:divider -1 ) )
 !allocated_memory = allocated_memory + &
-!               real( divider * 4, kind=8 )
+!               real( divider * 4, kind=r8b )
 
 
 

@@ -39,7 +39,7 @@ sum2     = 0.0d0
 icount = 0
 do  i = 1, n_array
 
-    xi = real( i, kind=8) * dt
+    xi = real( i, kind=r8b) * dt
     if( xi < sse_min_time )then
         arr = array(i) * sse_low_wt
     else

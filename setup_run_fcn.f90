@@ -32,7 +32,7 @@ integer(kind=i4b) ::  iflag
 
 ! lmdif arrays and variables
 
-real (kind=8) :: x_LMDIF(n_GP_parameters)
+real(kind=r8b) :: x_LMDIF(n_GP_parameters)
 
 real(kind=r8b),dimension(n_time_steps) :: fvec
 
@@ -207,7 +207,7 @@ if( individual_quality( i_GA_indiv ) > 0 ) then
 
     do i_time_step=1,n_time_steps
 
-        x_time_step = real( i_time_step, kind=8 ) * dt
+        x_time_step = real( i_time_step, kind=r8b ) * dt
         if( x_time_step > sse_max_time ) exit
 
         !old   if( isnan(fvec(i_time_step)) )    fvec(i_time_step) = 0.0d0

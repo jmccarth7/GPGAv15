@@ -789,7 +789,7 @@ else  ! not myid == 0
 
             buffer2(max_n_gp_params+1) = GP_Child_Individual_SSE(i_2_individual)
             buffer2(max_n_gp_params+2) = &
-                real( individual_quality(i_2_individual), kind=8 )
+                real( individual_quality(i_2_individual), kind=r8b )
 
         endif ! Run_GP_Calculate_Fitness(i_2_Individual)
 

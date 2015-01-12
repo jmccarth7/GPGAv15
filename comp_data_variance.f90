@@ -90,7 +90,7 @@ if( n_code_equations > 1 )then
     
         do  i_time_step=1,n_time_steps
     
-            x_time_step = real( i_time_step, kind=8 ) * dt
+            x_time_step = real( i_time_step, kind=r8b ) * dt
     
             if( x_time_step < sse_min_time ) then
 
@@ -143,7 +143,7 @@ if( n_code_equations > 1 )then
         !nn = 0
         !sum1 = 0.0D0
         !do  i_time_step=1,n_time_steps
-        !    x_time_step = real( i_time_step, kind=8 ) * dt
+        !    x_time_step = real( i_time_step, kind=r8b ) * dt
         !
         !    if( x_time_step < sse_min_time ) cycle
         !    if( x_time_step > sse_max_time ) exit
@@ -156,7 +156,7 @@ if( n_code_equations > 1 )then
         !sum2 = 0.0D0
         !sum3 = 0.0D0
         !do  i_time_step=1,n_time_steps
-        !    x_time_step = real( i_time_step, kind=8 ) * dt
+        !    x_time_step = real( i_time_step, kind=r8b ) * dt
         !
         !    if( x_time_step < sse_min_time ) cycle
         !    if( x_time_step > sse_max_time ) exit
@@ -165,7 +165,7 @@ if( n_code_equations > 1 )then
         !    sum3 = sum3 + (Data_Array(i_time_step,i_CODE_equation) - mean)
         !enddo
         !
-        !variance = ( sum2 - sum3**2/real(nn, kind=8) ) / real(nn-1, kind=8)
+        !variance = ( sum2 - sum3**2/real(nn, kind=r8b) ) / real(nn-1, kind=r8b)
         !
         !write(GP_print_unit,'(/A,2x,E15.7)') 'cdv: 1 variance     ', variance
         !
@@ -176,18 +176,18 @@ if( n_code_equations > 1 )then
         !
         !
         !do  i_time_step=1,n_time_steps
-        !    x_time_step = real( i_time_step, kind=8 ) * dt
+        !    x_time_step = real( i_time_step, kind=r8b ) * dt
         !
         !    if( x_time_step < sse_min_time ) cycle
         !    if( x_time_step > sse_max_time ) exit
         !
         !    nn = nn + 1
         !    delta = Data_Array(i_time_step,i_CODE_equation) - mean
-        !    mean = mean + delta / real(nn, kind=8)
+        !    mean = mean + delta / real(nn, kind=r8b)
         !    M2 = M2 + delta*(Data_Array(i_time_step,i_CODE_equation) - mean)
         !enddo
         !
-        !variance2 = M2/real(nn - 1, kind=8)
+        !variance2 = M2/real(nn - 1, kind=r8b)
         !
         !write(GP_print_unit,'(/A,2x,E15.7)') 'cdv: 2 variance2    ', variance2
         !

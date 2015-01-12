@@ -478,7 +478,7 @@ do  i_time_step=1,n_time_steps
 
     fvec(i_time_step)=0.0D0
 
-    x_time_step = real( i_time_step, kind=8 ) * dt
+    x_time_step = real( i_time_step, kind=r8b ) * dt
 
     if( x_time_step < sse_min_time )then
         sse_wt = sse_low_wt  

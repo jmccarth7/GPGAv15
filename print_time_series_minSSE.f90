@@ -258,7 +258,7 @@ if( myid == 0 )then
     resid_SSE = 0.0d0
     do  i = 1, n_time_steps
 
-        x_time_step = real( i, kind=8 ) * dt
+        x_time_step = real( i, kind=r8b ) * dt
 
         if( x_time_step < sse_min_time ) then 
             sse_wt = sse_low_wt

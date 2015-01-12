@@ -272,7 +272,7 @@ if( myid == 0 )then
 
     do  i = 1, n_time_steps   !  n_input_data_points
 
-        x_time_step = real( i, kind=8 ) * dt
+        x_time_step = real( i, kind=r8b ) * dt
 
         if( x_time_step < sse_min_time ) then
             sse_wt = sse_low_wt
@@ -306,7 +306,7 @@ if( myid == 0 )then
 
         enddo ! j
 
-        xtime = dt * real(i,kind=8) 
+        xtime = dt * real(i,kind=r8b) 
 
         if( L_myprint )write(GP_print_unit,'(F12.5,1x,I6,2x,50(1x,E12.5))') &
               xtime, i, ( Numerical_CODE_Solution(i,j),  Data_Array(i,j), &

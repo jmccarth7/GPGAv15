@@ -188,12 +188,12 @@ allocate( GP_Adult_Population_SSE( n_GP_Individuals  )  )
 
 allocate( answer( n_maximum_number_parameters ) )
 !allocated_memory = allocated_memory + &
-!               real( n_maximum_number_parameters * 8, kind=8 )
+!               real( n_maximum_number_parameters * 8, kind=r8b )
 
 
 allocate( output_array( n_maximum_number_parameters ) )
 !allocated_memory = allocated_memory + &
-!               real( n_maximum_number_parameters * 8, kind=8 )
+!               real( n_maximum_number_parameters * 8, kind=r8b )
 
 
 

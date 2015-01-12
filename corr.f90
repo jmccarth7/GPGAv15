@@ -164,7 +164,7 @@ integer(kind=i4b) :: I
 
       DO 100 I=1,N 
 
-          !xi = dt * real(i,kind=8)
+          !xi = dt * real(i,kind=r8b)
           !if( xi < sse_min_time )then
           !    sse_wt = sse_low_wt
           !else
@@ -185,7 +185,7 @@ integer(kind=i4b) :: I
       SUM3=0.0d0 
 
       DO 200  I=1,N 
-          !xi = dt * real(i,kind=8)
+          !xi = dt * real(i,kind=r8b)
           !if( xi < sse_min_time )then
           !    sse_wt = sse_low_wt
           !else

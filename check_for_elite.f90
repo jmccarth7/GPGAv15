@@ -48,7 +48,7 @@ do
     call random_number(cff) ! uniform random number generator
     dff = cff
 
-    index0  = 1 + int(  dff * real( n_GA_Individuals-1, kind=8 )  )
+    index0  = 1 + int(  dff * real( n_GA_Individuals-1, kind=r8b )  )
 
 
     !if( L_ga_print )then

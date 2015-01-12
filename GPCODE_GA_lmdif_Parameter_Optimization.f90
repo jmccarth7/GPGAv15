@@ -713,7 +713,7 @@ do  i_GA_generation = 1, n_GA_Generations
                 buffer(n_GP_parameters+1) = &
                       individual_SSE(i_2_individual)
                 buffer(n_GP_parameters+2) = &
-                      real( individual_quality(i_2_individual), kind=8 )
+                      real( individual_quality(i_2_individual), kind=r8b )
 
             endif !  Run_GA_lmdif(i_2_individual)
 

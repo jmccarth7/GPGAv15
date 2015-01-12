@@ -166,7 +166,7 @@ enddo ! i_parameter
 ! to the maximum, user-specified, error
 
 
-edit_level = real(n_time_steps,kind=8) * max_err2
+edit_level = real(n_time_steps,kind=r8b) * max_err2
 
 !if( L_ga_print )then
 !    write(GA_print_unit,'(/A,1x,I6, 2(1x, E12.4))') &
@@ -344,7 +344,7 @@ sum_individual_fit = dble_cff
 
 mean_individual_fit = 0.0d0
 if( n_counted > 0 )then
-    mean_individual_fit = sum_individual_fit / real( n_counted, kind=8)
+    mean_individual_fit = sum_individual_fit / real( n_counted, kind=r8b)
 endif ! n_counted > 0
 
 
@@ -378,7 +378,7 @@ endif ! n_counted > 0
 mean_individual_SSE = 0.0D0
 
 if( n_counted > 0 )then
-    mean_individual_SSE = sum_individual_SSE / real( n_counted, kind=8)
+    mean_individual_SSE = sum_individual_SSE / real( n_counted, kind=r8b)
 endif ! n_counted > 0
 
 
@@ -424,7 +424,7 @@ do  i_GA_individual=1,n_GA_individuals
 
 enddo ! i_GA_individual
 
-xn =  real( icount, kind=8 )
+xn =  real( icount, kind=r8b )
 
 if( icount > 0  ) then
 
