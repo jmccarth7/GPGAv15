@@ -15,34 +15,50 @@ implicit none
 
 integer(kind=i4b) :: array_len
 integer(kind=i4b) :: len_model 
+integer(kind=i4b) :: kind_value
 !integer(kind=i4b) :: i
 
 !----------------------------------------------------------------------------------------
 
 call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
 
+if( myid == 0 )then
+    kind_value = kind( GA_Crossover_Probability )
+    write(6,*) 'bcast1: kind of GA_Crossover_Probability  ', kind_value 
+    flush(6)
+endif ! myid == 0 
+
+
 ! broadcast the values read in by cpu 0 to others
 
 call MPI_BCAST( GA_Crossover_Probability, 1,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
-call MPI_BCAST( GA_Mutation_Probability, 1,    &
-                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
-call MPI_BCAST( GA_save_elites_Probability, 1,    &
-                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
-call MPI_BCAST( GA_rand_replace_Probability, 1,    &
-                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
-call MPI_BCAST( dt, 1,    &
-                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
-call MPI_BCAST( GP_Tree_Probability, 1,    &
-                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
-call MPI_BCAST( GP_Elitist_Probability, 1,    &
-                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
-call MPI_BCAST( GP_Asexual_Reproduction_Probability, 1,    &
-                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
-call MPI_BCAST( GP_Crossover_Probability, 1,    &
-                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
-call MPI_BCAST( GP_Mutation_Probability, 1,    &
-                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+
+if( myid == 0 )then
+    write(6,*) 'bcast1: aft bcast GA_Crossover_Probability  ' 
+    write(6,*) 'bcast1: aft bcast model ierr      = ' , ierr     
+    flush(6)
+endif ! myid == 0 
+
+
+!call MPI_BCAST( GA_Mutation_Probability, 1,    &
+!                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+!call MPI_BCAST( GA_save_elites_Probability, 1,    &
+!                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+!call MPI_BCAST( GA_rand_replace_Probability, 1,    &
+!                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+!call MPI_BCAST( dt, 1,    &
+!                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+!call MPI_BCAST( GP_Tree_Probability, 1,    &
+!                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+!call MPI_BCAST( GP_Elitist_Probability, 1,    &
+!                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+!call MPI_BCAST( GP_Asexual_Reproduction_Probability, 1,    &
+!                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+!call MPI_BCAST( GP_Crossover_Probability, 1,    &
+!                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+!call MPI_BCAST( GP_Mutation_Probability, 1,    &
+!                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
 !-----------------------------------------------------------------
 !
@@ -65,14 +81,14 @@ call MPI_BCAST( GP_Mutation_Probability, 1,    &
 !
 !
 !!-----------------------------------------------------------------
-
-call MPI_BCAST( random_scale_large,    1,    &
-                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
-call MPI_BCAST( random_scale_small,    1,    &
-                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
-call MPI_BCAST( random_scale_fraction, 1,    &
-                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
-!-----------------------------------------------------------------
+!
+!call MPI_BCAST( random_scale_large,    1,    &
+!                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+!call MPI_BCAST( random_scale_small,    1,    &
+!                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+!call MPI_BCAST( random_scale_fraction, 1,    &
+!                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+!!-----------------------------------------------------------------
 
 !?len_model = len( model ) 
 !?
@@ -193,6 +209,52 @@ call MPI_BCAST( random_scale_fraction, 1,    &
 !
 !!-----------------------------------------------------------------
 !!-----------------------------------------------------------------
+
+!
+!!call MPI_BCAST( n_input_data_points, 1,    &
+!!                MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
+!!
+!!call MPI_BCAST( n_input_vars, 1,    &
+!!                MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
+!!
+!!
+!!call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
+!
+!!write(6,'(/A,2(1x,I6))') 'bcast1: myid, n_input_vars', myid, n_input_vars
+!!write(6,'(A,2(1x,I6))')  'bcast1: myid, name_len    ', myid, name_len
+!
+!array_len = (1+n_input_vars) * name_len
+!
+!!write(6,'(A,2(1x,I6))')  'bcast1: myid, array_len   ', myid, array_len
+!
+!call MPI_BCAST( input_data_names, array_len,     &
+!                MPI_CHARACTER, 0, MPI_COMM_WORLD, ierr )
+!
+!!call MPI_FINALIZE(ierr)  ! debug only
+!!stop ! debug only
+!
+!!do  i = 1, n_input_vars + 1
+!!    call MPI_BCAST( input_data_names(i), name_len,     &
+!!                    MPI_CHARACTER, 0, MPI_COMM_WORLD, ierr )
+!!enddo
+!
+!!write(6,'(/A,2(1x,I6))') 'bcast1:1 myid, n_input_vars       ', myid, n_input_vars
+!!write(6,'(A,2(1x,I6))')  'bcast1:1 myid, n_input_data_points', myid, n_input_data_points
+!
+!array_len = (1+n_input_vars) * n_input_data_points
+!
+!!write(6,'(A,2(1x,I6))') 'bcast1:1 myid, array_len          ', myid, array_len
+!
+!!call MPI_FINALIZE(ierr)  ! debug only
+!!stop ! debug only
+!
+!call MPI_BCAST( input_data_array, array_len,    &
+!                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+!
+!
+!!-----------------------------------------------------------------
+!!-----------------------------------------------------------------
+
 
 return
 
