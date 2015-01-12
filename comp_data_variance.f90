@@ -67,6 +67,8 @@ endif ! myid == 0
 
 if( n_code_equations > 1 )then
 
+    ! not the data processing code
+
     do  i_CODE_equation=1,n_CODE_equations
     
         !-------------------------------------------------------------------------------
@@ -279,6 +281,7 @@ if( n_code_equations > 1 )then
 
 else  ! n_code_equations == 1
 
+    ! for data processing code
 
     data_variance(1:n_code_equations)     = 1.0d0
     data_variance_inv(1:n_code_equations) = 1.0d0

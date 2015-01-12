@@ -75,22 +75,46 @@ call MPI_BCAST( random_scale_fraction, 1,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 !-----------------------------------------------------------------
 
-len_model = len( model ) 
+!?len_model = len( model ) 
+!?
+!?if( myid == 0 )then
+!?    write(6,*) 'bcast1: len_model = ' , len_model
+!?    flush(6)
+!?endif ! myid == 0 
+!?
+!?call MPI_BCAST( model, len_model,     &
+!?                MPI_CHARACTER, 0, MPI_COMM_WORLD, ierr )
+!?
+!?!if( myid == 0 )then
+!?    write(6,*) 'bcast1: aft bcast model len_model = ' , len_model
+!?    write(6,*) 'bcast1: aft bcast model ierr      = ' , ierr     
+!?    flush(6)
+!?!endif ! myid == 0 
 
-!write(6,*) 'bcast1: len_model = ' , len_model
-
-call MPI_BCAST( model, len_model,     &
-                MPI_CHARACTER, 0, MPI_COMM_WORLD, ierr )
-
+                                                                                                                   
+!call MPI_FINALIZE(ierr) 
+!stop
 !-----------------------------------------------------------------
 
 
 call MPI_BCAST( n_GA_Generations, 1,    &
                 MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
+
+write(6,*) 'bcast1: aft bcast n_GA_generations = ' , n_GA_generations
+write(6,*) 'bcast1: aft bcast n_GA_generations ierr      = ' , ierr     
+
+call MPI_FINALIZE(ierr) 
+stop
+
 call MPI_BCAST( n_GA_Individuals, 1,    &
                 MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
+
+call MPI_FINALIZE(ierr) 
+stop
+
 call MPI_BCAST( n_time_steps, 1,    &
                 MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
+
 call MPI_BCAST( n_gp_individuals, 1,    &
                 MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
 call MPI_BCAST( n_gp_generations, 1,    &
@@ -111,18 +135,25 @@ call MPI_BCAST( n_levels, 1,    &
 
 call MPI_BCAST( n_partitions, 1,    &
                 MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
+
+call MPI_FINALIZE(ierr) 
+stop
 !-----------------------------------------------------------------
 
-!write(6,'(A,2(1x,I6))') 'bc1: myid, n_seed = ', myid, n_seed
+if( myid == 0 )then
+    write(6,'(A,2(1x,I6))') 'bc1: myid, n_seed = ', myid, n_seed
+    flush(6)
+endif ! myid == 0 
 
 
 
 call MPI_BCAST( temp_seed, n_seed,    &
                 MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
 
-!if( myid == 0 )then
-!    write(6,'(A,5x,L1)') 'bc1: L_restart', L_restart
-!endif ! myid == 0 
+if( myid == 0 )then
+    write(6,'(A,5x,L1)') 'bc1: L_restart', L_restart
+    flush(6)
+endif ! myid == 0 
 
 call MPI_BCAST( L_restart, 1,    &
                 MPI_LOGICAL,  0, MPI_COMM_WORLD, ierr )

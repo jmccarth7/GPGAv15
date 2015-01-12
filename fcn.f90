@@ -428,6 +428,7 @@ endif ! L_bad_result
 ! in this section, check each time function's minimum and maximum
 ! if max of function is zero for any function, flag this as a bad
 ! result and exit 
+
 do  i_CODE_equation=1,n_CODE_equations
 
     !min_x = 0.0d0
@@ -460,6 +461,7 @@ do  i_CODE_equation=1,n_CODE_equations
     endif !  max_x < 1.0d-6
 
 enddo ! i_CODE_equation
+
 !---------------------------------------------------------------------
 
 ! if the result of the RK process was good,

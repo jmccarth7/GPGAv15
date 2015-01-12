@@ -130,8 +130,15 @@ allocate( Numerical_CODE_Initial_Conditions( 1:n_CODE_equations ) )
 
 allocate( Numerical_CODE_Forcing_Functions( n_CODE_forcing ) )
 
-!allocate( Numerical_CODE_Solution( 0:n_input_data_points, n_CODE_equations ) )
-allocate( Numerical_CODE_Solution( 0:n_time_steps, n_CODE_equations ) )
+if( n_input_vars > 0 )then
+
+    allocate( Numerical_CODE_Solution( 0:n_input_data_points, n_CODE_equations ) )
+
+else
+
+    allocate( Numerical_CODE_Solution( 0:n_time_steps, n_CODE_equations ) )
+
+endif ! n_input_vars > 0
 
 
 allocate( RK_Solution( 0:n_time_steps, n_CODE_equations )  )

@@ -194,6 +194,8 @@ if( myid == 0 )then
 
     else
 
+        ! input_data_array(0,:) is the function truth value 
+        ! input_data_array(1:n_input_vars,:) are the inputs to the function
 
         do  i = 1, n_input_data_points
         
@@ -204,10 +206,6 @@ if( myid == 0 )then
             enddo ! ii
         
         enddo ! i 
-
-        !Numerical_CODE_Solution(0,1:n_code_equations) = Numerical_CODE_Solution(1,1:n_code_equations)
-
-!!        call Runge_Kutta_Box_Model_data( .FALSE. )
 
     endif ! n_input_vars == 0
 

@@ -65,8 +65,8 @@ character(200) :: tree_descrip
 !---------------------------------------------------------------------------------------
 
 !------------------------------------------------
-!write(6,'(/A/)') &
-!       'set1: myid,  call load_pow2_level      '
+write(6,'(/A/)') &
+       'set1: myid,  call load_pow2_level      '
 
 ! load table of 2**ilevel - 1  for RK process
 
@@ -89,9 +89,9 @@ call init_values( 0 )
 
 n_Variables = n_CODE_equations
 
-!write(6,'(A,1x,I3,1x,I12, 1x, I6)') &
-!       'set1: myid, n_seed, n_code_equations ', &
-!              myid, n_seed, n_code_equations
+write(6,'(A,1x,I3,1x,I12, 1x, I6)') &
+       'set1: myid, n_seed, n_code_equations ', &
+              myid, n_seed, n_code_equations
 
 !---------------------------------------------------------------------
 
@@ -122,7 +122,7 @@ endif ! myid == 0
 
 if( myid == 0 )then
     write(6, '(A,2(1x,I6)/)') 'set1: call allocate_arrays1 '
-    !flush(6)
+    flush(6)
 endif ! myid == 0
 
 
@@ -130,7 +130,7 @@ call allocate_arrays1( )
 
 if( myid == 0 )then
     write(6, '(A,2(1x,I6)/)') 'set1: after allocate_arrays1 '
-    !flush(6)
+    flush(6)
 endif ! myid == 0
 
 
@@ -199,7 +199,7 @@ call create_tree_node_string()
 
 if( myid == 0 )then
     write(6, '(A,2(1x,I6)/)') 'set1: before set_answer_arrays'
-    !flush(6)
+    flush(6)
 endif ! myid == 0
 
 
@@ -212,8 +212,9 @@ endif ! myid == 0
 
 if( myid == 0 )then
     write(6, '(A,2(1x,I6)/)') 'set1: after set_answer_arrays'
-    !flush(6)
+    flush(6)
 endif ! myid == 0
+
 !------------------------------------------------------------------------
 
 ! then broadcast the R-K result: Runge_Kutta_Solution
@@ -253,13 +254,17 @@ else
     message_len = ( n_input_data_points + 1 ) * n_CODE_equations
 endif ! n_input_vars == 0
 
+write(6, '(A,2(1x,I6)/)') 'set1: n_input_vars, message_len', n_input_vars, message_len
+
+call MPI_FINALIZE(ierr)                                                                                        
+stop 
 
 call MPI_BCAST( Numerical_CODE_Solution, message_len,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
 if( myid == 0 )then
     write(6, '(A,2(1x,I6)/)') 'set1: 1 bcast ierr ', ierr 
-    !flush(6)
+    flush(6)
 endif ! myid == 0
 
 
@@ -272,6 +277,7 @@ Data_Array=Numerical_CODE_Solution        ! Matrix Operation
 Numerical_CODE_Solution(1:n_time_steps, 1:n_code_equations) = 0.0d0
 
 !message_len = ( n_time_steps + 1 ) * n_CODE_equations
+
 if( n_input_vars == 0 )then
     message_len = ( n_time_steps + 1 ) * n_CODE_equations
 else
@@ -283,7 +289,7 @@ call MPI_BCAST( Numerical_CODE_Solution, message_len,    &
 
 if( myid == 0 )then
     write(6, '(A,2(1x,I6)/)') 'set1: 2 bcast ierr ', ierr 
-    !flush(6)
+    flush(6)
 endif ! myid == 0
 
 !--------------------------------------------------------------------------------
@@ -317,7 +323,7 @@ call MPI_BCAST( Data_Variance_inv, message_len,    &
 
 if( myid == 0 )then
     write(6, '(A,2(1x,I6)/)') 'set1: 3 bcast ierr ', ierr 
-    !flush(6)
+    flush(6)
 endif ! myid == 0
 
 
@@ -377,12 +383,13 @@ endif
 
 call MPI_BARRIER( MPI_COMM_WORLD, ierr )  ! necessary ?
 
+
 message_len = 1
 call MPI_BCAST( GA_child_print_interval, message_len,    &
                 MPI_INTEGER,  0, MPI_COMM_WORLD, ierr )
 if( myid == 0 )then
     write(6, '(A,2(1x,I6)/)') 'set1: 4 bcast ierr ', ierr 
-    !flush(6)
+    flush(6)
 endif ! myid == 0
 
 
@@ -393,7 +400,7 @@ call MPI_BCAST( GP_child_print_interval, message_len,    &
 
 if( myid == 0 )then
     write(6, '(A,2(1x,I6)/)') 'set1: 5 bcast ierr ', ierr 
-    !flush(6)
+    flush(6)
 endif ! myid == 0
 
 
@@ -413,10 +420,10 @@ if( myid == 0 )then
 
     call sse0_calc( )
 
-    !if( myid == 0 )then
-    !    write(6, '(A,2(1x,I6)/)') 'set1: after sse0_calc'
-    !    !flush(6)
-    !endif ! myid == 0
+    if( myid == 0 )then
+        write(6, '(A,2(1x,I6)/)') 'set1: after sse0_calc'
+        flush(6)
+    endif ! myid == 0
 
 
     !---------------------------------------------------------------------------
@@ -455,7 +462,7 @@ call MPI_BCAST( SSE0, message_len,    &
 
 if( myid == 0 )then
     write(6, '(A,2(1x,I6)/)') 'set1: 6 bcast ierr ', ierr 
-    !flush(6)
+    flush(6)
 endif ! myid == 0
 
 !---------------------------------------------------------------------------
@@ -467,10 +474,10 @@ endif ! myid == 0
 call set_modified_indiv( )
 
 
-!if( myid == 0 )then
-!    write(6, '(A,2(1x,I6)/)') 'set1: after set_modified_indiv'
-!    !flush(6)
-!endif ! myid == 0
+if( myid == 0 )then
+    write(6, '(A,2(1x,I6)/)') 'set1: after set_modified_indiv'
+    flush(6)
+endif ! myid == 0
 
 !---------------------------------------------------------------------------
 

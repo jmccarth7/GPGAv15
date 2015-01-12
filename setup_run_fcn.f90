@@ -195,13 +195,15 @@ enddo ! i_parameter
 !write(6,'(A,3(1x,E15.7))') 'setrf: sse_min_time, sse_max_time, dt ', &
 !                                   sse_min_time, sse_max_time, dt
 
-individual_SSE(i_GA_indiv)=0.0D+0
+individual_SSE(i_GA_indiv)= 1.0D+13
 
 if( individual_quality( i_GA_indiv ) > 0 ) then
 
     !if( L_ga_print )then
     !    write(GA_print_unit,'(A,1x,I6)') 'setrf: i_GA_indiv ', i_GA_indiv
     !endif ! L_ga_print
+
+    individual_SSE(i_GA_indiv)=0.0D+0
 
     do i_time_step=1,n_time_steps
 
@@ -213,7 +215,7 @@ if( individual_quality( i_GA_indiv ) > 0 ) then
         !new   if( isnan(fvec(i_time_step))  .or.   &
         !new         abs(fvec(i_time_step)) >  1.0d20   ) fvec(i_time_step) =  1.0d20
 
-       if( isnan(fvec(i_time_step)) )         fvec(i_time_step) =  0.0d0
+       if( isnan(fvec(i_time_step)) )         fvec(i_time_step) =  1.0d20
        if( abs(fvec(i_time_step)) >  1.0d20 ) fvec(i_time_step) =  1.0d20
 
 
