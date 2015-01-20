@@ -128,8 +128,8 @@ do  i_GA_Crossover=1,n_GA_Crossovers
                 ierror_tou = 1
                 return
             endif ! ksafe
-            write(6,'(A,1x,I10)') 'gato:1 ksafe = ', ksafe
-            write(GA_print_unit,'(A,1x,I10)') 'gato:1 ksafe = ', ksafe
+            !write(6,'(A,1x,I10)') 'gato:1 ksafe = ', ksafe
+            !write(GA_print_unit,'(A,1x,I10)') 'gato:1 ksafe = ', ksafe
         enddo
     
         ! at this point, male(1) /= male(2) and 
@@ -210,6 +210,42 @@ do  i_GA_Crossover=1,n_GA_Crossovers
             k_GA_Individual_Female(2) =  max( k_GA_Individual_Female(1) - 1, 1 )
         endif !   k_GA_Individual_Female(1) .ne. n_GA_individuals)
   
+  
+        !---------------------------------------------------------------------------------
+    
+        ksafe = 0
+        do
+            call GA_check_for_elite( k_GA_Individual_Female(2) )
+            if( k_GA_Individual_Female(2) /= k_GA_Individual_Female(1)      ) exit
+            ksafe = ksafe + 1
+            if( ksafe > 2 * n_GA_individuals ) then
+                write(6,'(A)') &
+                      'gato: too many iterations to get k_GA_Individual_Female(2)'
+                write(6,'(A,1x,I10)') 'gato: ksafe = ', ksafe
+                ierror_tou = 1
+                return
+            endif ! ksafe
+            !write(6,'(A,1x,I10)') 'gato:2 ksafe = ', ksafe
+            !write(GA_print_unit,'(A,1x,I10)') 'gato:2 ksafe = ', ksafe
+        enddo
+    
+        ! at this point, female(1) /= female(2) and 
+        ! neither is == any ga_individual_elites
+    
+    
+      
+        if( k_GA_Individual_Female(2) == ga_individual_elites(1) )then
+    
+            if( L_ga_print )then
+                write(GA_print_unit,'(//A,3(1x,I6))')&
+                  'gato: MATCH  k_GA_Individual_Female(2), ga_individual_elites(1)  ', &
+                                k_GA_Individual_Female(2), ga_individual_elites(1)
+            endif ! L_ga_print
+    
+        endif !  k_GA_Individual_Female(2) == ga_individual_elites(1) 
+
+  
+    endif !   k_GA_Individual_Female(2) .eq. k_GA_Individual_Female(1)
   
         !---------------------------------------------------------------------------------
     

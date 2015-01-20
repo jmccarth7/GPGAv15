@@ -84,15 +84,20 @@ subroutine GPCODE_GA_lmdif_Parameter_Optimization( &
 
    integer(kind=i4b) :: n_procs   
 
-   real(kind=r8b) :: t1
-   real(kind=r8b) :: t2
+integer(kind=i4b) :: ierror_tou
+
+integer(kind=i4b) :: n_procs   
+
+real(kind=r8b) :: t1
+real(kind=r8b) :: t2
 
 !----------------------------------------------------------------------
 
 !write(6,'(A,1x,I5,4x,L1)') 'GP_GA_opt: myid, L_GA_print   ', myid, L_GA_print
 !write(6,'(A,1x,I5,1x,I5)') 'GP_GA_opt: myid, GA_print_unit', myid, GA_print_unit
 
-   ierror_tou = 0
+ierror_tou = 0
+
 
    call mpi_comm_rank( new_comm, new_rank, ierr ) 
    call MPI_COMM_SIZE( new_comm, n_procs, ierr)  
@@ -111,6 +116,20 @@ subroutine GPCODE_GA_lmdif_Parameter_Optimization( &
    n_parameters = n_GP_parameters
 !-----------------------------------------------------------------------------
    child_parameters( 1:n_GP_parameters, 1:n_GA_individuals) = 0.0d0
+
+! set up MPI process
+
+
+!if( new_rank == 0 )then
+!
+!    if( L_ga_print )then
+!        write(GA_print_unit,'(/A,1x,I10, 2(1x,I6)/)')&
+!          'GP_GA_opt: divider, n_parameters, n_procs ', &
+!                      divider, n_parameters, n_procs
+!    endif ! L_ga_print
+!
+!endif ! new_rank == 0
+
 !-----------------------------------------------------------------------------
 
    L_stop_run  = .FALSE.
@@ -243,6 +262,7 @@ subroutine GPCODE_GA_lmdif_Parameter_Optimization( &
                 !  Run_GA_lmdif
                 !  individual_quality
 
+
                 !t1 = MPI_Wtime()
                 ierror_tou = 0
                 call GA_Tournament_Style_Sexual_Reproduction( &
@@ -336,6 +356,17 @@ subroutine GPCODE_GA_lmdif_Parameter_Optimization( &
 
     call MPI_BCAST( ierror_tou,  1,    &
                     MPI_INTEGER, 0, new_comm, ierr )
+
+    ! handle error in GA_Tournament_Style_Sexual_Reproduction
+    if( ierror_tou > 0 )then
+        call MPI_FINALIZE(ierr)
+        stop
+    endif ! ierror_tou > 0 )then
+
+
+    call MPI_BCAST( ierror_tou,  1,    &
+                    MPI_INTEGER, 0, new_comm, ierr )
+
 
     ! handle error in GA_Tournament_Style_Sexual_Reproduction
     if( ierror_tou > 0 )then

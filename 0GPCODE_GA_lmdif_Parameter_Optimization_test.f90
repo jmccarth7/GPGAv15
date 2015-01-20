@@ -70,9 +70,9 @@ integer(kind=i4b) :: comm_world
 !real(kind=r8b) :: t2
 
 
-character(15),parameter :: program_version   = '201501.001_v15'
-character(10),parameter :: modification_date = '20150109'
-character(50),parameter :: branch  =  'data_processing'
+character(15),parameter :: program_version   = '201501.002_v15'
+character(10),parameter :: modification_date = '20150120'
+character(50),parameter :: branch  =  'master'
 
 integer(kind=i4b), parameter ::  zero = 0
 
@@ -450,15 +450,15 @@ endif ! myid == 0
 
 !---------------------------------------------------------------------------
 if( myid == 0 )then
-    write(6,'(A,3(1x,I6))') '0: call setup1'
+    write(6,'(A,3(1x,I6))') '0: call setup1'                             
     !flush(6)
 endif ! myid == 0 )then
 
 call setup1( )
 
 if( myid == 0 )then
-    write(6,'(A,3(1x,I6))') '0: AFT call setup1'
-    flush(6)
+    write(6,'(A,3(1x,I6))') '0: AFT call setup1'                             
+    !flush(6)
 endif ! myid == 0 )then
 
 
