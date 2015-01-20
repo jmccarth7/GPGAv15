@@ -107,7 +107,7 @@ do i_GA_Individual=1,n_GA_individuals
       !                                  i_GA_individual
       !endif ! L_ga_print
 
-      cycle
+      cycle i_loop
 
   endif   ! any( ga_individual_elites == i_GA_individual )
 
@@ -132,7 +132,7 @@ do i_GA_Individual=1,n_GA_individuals
       ! don't replace with this individual since it is bad
 
       if( individual_quality( j_GA_Individual ) < 0 )then
-          cycle
+          cycle j_loop
       endif
 
       !----------------------------------------------------------------------------------

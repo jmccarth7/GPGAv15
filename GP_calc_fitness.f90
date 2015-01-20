@@ -142,7 +142,7 @@ if( i_GP_generation == 1                                 .or. &
               'gpcf: i_GP_Indiv          GP_Child_Indiv_SSE            SSE/SSE0'
 
     do  i_GP_Individual=1,n_GP_Individuals
-        write(GP_print_unit,'(6x,I6,2(6x,E24.16))') &
+        write(GP_print_unit,'(6x,I6,2(1x,E15.7))') &
            i_GP_Individual, GP_Child_Individual_SSE(i_GP_Individual), &
            GP_Child_Individual_SSE(i_GP_Individual)/SSE0
     enddo ! i_gp_individual
@@ -159,7 +159,7 @@ if( L_GPSSE_log )then
 
     do  i_GP_Individual=1,n_GP_Individuals
 
-        write(GPSSE_log_unit,'(I6, 1x,I6,2(1x,E20.10))') &
+        write(GPSSE_log_unit,'(I6, 1x,I6,2(1x,E15.7))') &
               i_GP_generation, &
               i_GP_Individual, GP_Child_Individual_SSE(i_GP_Individual), &
               GP_Child_Individual_SSE(i_GP_Individual)/ SSE0
@@ -313,7 +313,7 @@ do  i_GP_Individual=2,n_GP_individuals
 
 enddo ! i_GP_Individual
 
-write(GP_print_unit,'(/A,2(1x,I6),3(1x,E24.16))') &
+write(GP_print_unit,'(/A,2(1x,I6),3(1x,E15.7))') &
       'gpcf: i_GP_Gen, Best_Parent, &
             &Pop_Rank_Fit, GP_Child_SSE, SSE/SSE0', &
              i_GP_Generation, i_GP_Best_Parent, &
@@ -356,7 +356,7 @@ if( L_GPSSE_log )then
     !                         GP_Child_Individual_SSE(i_GP_Best_Parent)
 
 
-    write(GPSSE_best_log_unit,'(I6,1x,I6,2(1x,E24.16))') &
+    write(GPSSE_best_log_unit,'(I6,1x,I6,2(1x,E15.7))') &
           i_GP_Generation, i_GP_Best_Parent, &
           GP_Child_Individual_SSE(i_GP_Best_Parent), &
           GP_Child_Individual_SSE(i_GP_Best_Parent)/ SSE0
@@ -369,12 +369,12 @@ endif ! L_GPSSE_log
 
                                                                                                           
 !-------------------------------------------------------------------------------                          
-!write(6,'(A,5x,L1)')  'gacf: L_fort555_output ', L_fort555_output                                       
-!write(6,'(A,1x,I10)') 'gacf: GA_555_unit ', GA_555_unit                                                 
+!write(6,'(A,5x,L1)')  'gpcf: L_fort555_output ', L_fort555_output                                       
+!write(6,'(A,1x,I10)') 'gpcf: GA_555_unit ', GA_555_unit                                                 
                                                                                                         
 if( L_fort555_output )then                                                                             
                                                                                                         
-    !write(6,'(A,3(1x,I10))') 'gacf:555 gp_gen ', i_GP_Generation
+    !write(6,'(A,3(1x,I10))') 'gpcf:555 gp_gen ', i_GP_Generation
                                                                                                         
     write(GA_555_unit) i_GP_Generation,  &                             
                GP_child_individual_SSE(1:n_GP_individuals)                                                       

@@ -1158,7 +1158,7 @@ do
 
         write(GP_print_unit,'(A,1x,i6)') &
               'rcntl: n_seed    = ', n_seed
-        flush( GP_print_unit )
+        !flush( GP_print_unit )
 
 
         READ(Aline(len('restart')+1:), * ) !temp_seed(1:n_seed)

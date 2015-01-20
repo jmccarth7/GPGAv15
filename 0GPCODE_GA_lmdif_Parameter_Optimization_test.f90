@@ -70,8 +70,8 @@ integer(kind=i4b) :: comm_world
 !real(kind=r8b) :: t2
 
 
-character(15),parameter :: program_version   = '201401.001_v15'
-character(10),parameter :: modification_date = '20140930'
+character(15),parameter :: program_version   = '201501.002_v15'
+character(10),parameter :: modification_date = '20150120'
 character(50),parameter :: branch  =  'master'
 
 integer(kind=i4b), parameter ::  zero = 0
@@ -435,14 +435,14 @@ endif ! myid == 0
 !---------------------------------------------------------------------------
 if( myid == 0 )then
     write(6,'(A,3(1x,I6))') '0: call setup1'                             
-    flush(6)
+    !flush(6)
 endif ! myid == 0 )then
 
 call setup1( )
 
 if( myid == 0 )then
     write(6,'(A,3(1x,I6))') '0: AFT call setup1'                             
-    flush(6)
+    !flush(6)
 endif ! myid == 0 )then
 
 !---------------------------------------------------------------------------
@@ -896,24 +896,21 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
             !                  GP_Adult_Population_Node_Type, &
             !                  trim( tree_descrip )  )
 
-            if( i_GP_generation == 1                                  .or. &
-                mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
-                i_GP_generation == n_GP_generations                          )then
-
-                write(GP_print_unit,'(//A)') '0:3 before modifications'
-                write(GP_print_unit,'(A)')&
-                      '0:3 i_GP_gen i_GP_indiv    GP_Child_Indiv_SSE&
-                      &   GP_Child_Indiv_SSE/SSE0'
-
-                do  i_GP_individual = 1, n_GP_individuals
-                    write(GP_print_unit,'(2(1x,I10), 2(1x, E20.10))') &
-                               i_GP_generation, i_GP_individual, &
-                               GP_Child_Individual_SSE(i_GP_Individual), &
-                               GP_Child_Individual_SSE(i_GP_Individual)/SSE0
-                enddo ! i_GP_individual
-                !flush(GP_print_unit)
-
-            endif ! i_GP_generation == 1 .or. ...
+            !if( i_GP_generation == 1                                  .or. &
+            !    mod( i_GP_generation, GP_child_print_interval ) == 0  .or. &
+            !    i_GP_generation == n_GP_generations                          )then
+            !    write(GP_print_unit,'(//A)') '0:3 before modifications'
+            !    write(GP_print_unit,'(A)')&
+            !          '0:3 i_GP_gen i_GP_indiv    GP_Child_Indiv_SSE&
+            !          &   GP_Child_Indiv_SSE/SSE0'
+            !    do  i_GP_individual = 1, n_GP_individuals
+            !        write(GP_print_unit,'(2(1x,I10), 2(1x, E20.10))') &
+            !                   i_GP_generation, i_GP_individual, &
+            !                   GP_Child_Individual_SSE(i_GP_Individual), &
+            !                   GP_Child_Individual_SSE(i_GP_Individual)/SSE0
+            !    enddo ! i_GP_individual
+            !    !flush(GP_print_unit)
+            !endif ! i_GP_generation == 1 .or. ...
 
             !----------------------------------------------------------------------------------
 
@@ -1039,18 +1036,18 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
             !---------------------------------------------------------------------------
 
-            write(GP_print_unit,'(/A)')&
-                  '0: i_GP_gen i_GP_indiv    Run_GP_Calculate_Fitness'
+            !write(GP_print_unit,'(/A)')&
+            !      '0: i_GP_gen i_GP_indiv    Run_GP_Calculate_Fitness'
 
-            do  i_GP_individual = 1, n_GP_individuals
-                if( .not.  Run_GP_Calculate_Fitness(i_GP_Individual)  )then
-                    write(GP_print_unit,'(2(1x,I10), 5x,L1)') &
-                               i_GP_generation, i_GP_individual, &
-                               Run_GP_Calculate_Fitness(i_GP_Individual)
-                endif !.not.  Run_GP_Calculate_Fitness(i_GP_Individual)  )then
-            enddo ! i_GP_individual
+            !do  i_GP_individual = 1, n_GP_individuals
+            !    if( .not.  Run_GP_Calculate_Fitness(i_GP_Individual)  )then
+            !        write(GP_print_unit,'(2(1x,I10), 5x,L1)') &
+            !                   i_GP_generation, i_GP_individual, &
+            !                   Run_GP_Calculate_Fitness(i_GP_Individual)
+            !    endif !.not.  Run_GP_Calculate_Fitness(i_GP_Individual)  )then
+            !enddo ! i_GP_individual
 
-            write(GP_print_unit,'(A)') ' '
+            !write(GP_print_unit,'(A)') ' '
             !flush(GP_print_unit)
 
             !---------------------------------------------------------------------------

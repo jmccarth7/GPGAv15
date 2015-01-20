@@ -122,7 +122,7 @@ endif ! myid == 0
 
 if( myid == 0 )then
     write(6, '(A,2(1x,I6)/)') 'set1: call allocate_arrays1 '
-    flush(6)
+    !flush(6)
 endif ! myid == 0
 
 
@@ -130,7 +130,7 @@ call allocate_arrays1( )
 
 if( myid == 0 )then
     write(6, '(A,2(1x,I6)/)') 'set1: after allocate_arrays1 '
-    flush(6)
+    !flush(6)
 endif ! myid == 0
 
 
@@ -212,7 +212,7 @@ endif ! myid == 0
 
 if( myid == 0 )then
     write(6, '(A,2(1x,I6)/)') 'set1: after set_answer_arrays'
-    flush(6)
+    !flush(6)
 endif ! myid == 0
 !------------------------------------------------------------------------
 

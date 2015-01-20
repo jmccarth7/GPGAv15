@@ -89,12 +89,12 @@ integer(kind=i4b) :: i_GA_individual
 call mpi_comm_rank( new_comm, new_rank, ierr )
 
 
-write(6,'(/A,4x,L1)') 'gacf: L_GA_print      =', L_GA_print
+!write(6,'(/A,4x,L1)') 'gacf: L_GA_print      =', L_GA_print
 L_stop_run = .FALSE.
 
-if( L_ga_print )then
-    write(GA_print_unit,'(/A,1x,I6)') 'gacf: n_parameters = ', n_parameters
-endif ! L_ga_print
+!if( L_ga_print )then
+!    write(GA_print_unit,'(/A,1x,I6)') 'gacf: n_parameters = ', n_parameters
+!endif ! L_ga_print
 
 !write(6,'(/A,2(1x,I6))') 'gacf: new_rank, n_parameters    =', new_rank, n_parameters
 !write(6,'(A,2(1x,I6)/)') 'gacf: new_rank, n_GP_parameters =', new_rank, n_GP_parameters
@@ -382,18 +382,18 @@ if( n_counted > 0 )then
 endif ! n_counted > 0
 
 
-if( L_ga_print )then
-    !write(GA_print_unit,'(/A,1x,I6,1x,E15.7 )')&
-    !      'gacf: generation, sum_individual_SSE  =', &
-    !        i_GA_generation, sum_individual_SSE
-    write(GA_print_unit,'(A,1x,I6,1x,E15.7 )')&
-          'gacf: generation, mean_individual_SSE =', &
-            i_GA_generation, mean_individual_SSE
-endif ! L_ga_print
-write(6,'(A,1x,I6,1x,E15.7 )')&
-      'gacf: generation, mean_individual_SSE =', &
-        i_GA_generation, mean_individual_SSE
-
+!if( L_ga_print )then
+!    !write(GA_print_unit,'(/A,1x,I6,1x,E15.7 )')&
+!    !      'gacf: generation, sum_individual_SSE  =', &
+!    !        i_GA_generation, sum_individual_SSE
+!    write(GA_print_unit,'(A,1x,I6,1x,E15.7 )')&
+!          'gacf: generation, mean_individual_SSE =', &
+!            i_GA_generation, mean_individual_SSE
+!endif ! L_ga_print
+!write(6,'(A,1x,I6,1x,E15.7 )')&
+!      'gacf: generation, mean_individual_SSE =', &
+!        i_GA_generation, mean_individual_SSE
+!
 
 !---------------------------------------------------------------------------------
 
@@ -507,9 +507,9 @@ do  i_GA_individual=1,n_GA_individuals
 enddo ! i_GA_individual
 
 !-------------------------------------------------------------------------------
-!if( i_GA_generation == 1                                 .or. &
-!    mod(i_GA_generation, GA_child_print_interval ) == 0  .or. &
-!    i_GA_generation == n_GA_generations       )then
+if( i_GA_generation == 1                                 .or. &
+    mod(i_GA_generation, GA_child_print_interval ) == 0  .or. &
+    i_GA_generation == n_GA_generations       )then
 
 !if( i_GA_generation == n_GA_generations       )then
 
@@ -526,7 +526,6 @@ enddo ! i_GA_individual
     !    enddo ! i_GA_individual
     !endif ! L_ga_print
 
-!endif !  i_GA_generation == 1 ...
 
 if( L_ga_print )then
     write(GA_print_unit,'(/A)')&
@@ -540,6 +539,8 @@ if( L_ga_print )then
                           individual_quality( i_GA_individual )
     enddo ! i_GA_individual
 endif ! L_ga_print
+
+endif !  i_GA_generation == 1 ...
 
 !-------------------------------------------------------------------------------
 
@@ -622,20 +623,20 @@ if( L_ga_print )then
                  individual_ranked_fitness( i_GA_Best_Parent ), &
                             individual_SSE( i_GA_Best_Parent )
 endif ! L_ga_print
-
-if( L_ga_print )then
-    write(GA_print_unit,'(/A,2(1x,I6),2(1x,E15.7))') &
-          'gacf: Generation, i_GA_Best_Parent, indiv_ranked_fitness, indiv_SSE', &
-                 i_GA_Generation, i_GA_Best_Parent, &
-                 individual_ranked_fitness(i_GA_Best_Parent), &
-                            individual_SSE(i_GA_Best_Parent)
-
-    write(GA_print_unit,'(A,1x,I6,12(1x,E15.7)/(12(1x,E15.7)))') &
-          'gacf: i_GA_Best_Parent, parent_parameters ', &
-                 i_GA_Best_Parent, &
-                 (parent_parameters( jj, i_GA_Best_Parent ),jj=1,n_parameters)
-
-endif ! L_ga_print
+!
+!if( L_ga_print )then
+!    write(GA_print_unit,'(/A,2(1x,I6),2(1x,E15.7))') &
+!          'gacf: Generation, i_GA_Best_Parent, indiv_ranked_fitness, indiv_SSE', &
+!                 i_GA_Generation, i_GA_Best_Parent, &
+!                 individual_ranked_fitness(i_GA_Best_Parent), &
+!                            individual_SSE(i_GA_Best_Parent)
+!
+!    write(GA_print_unit,'(A,1x,I6,12(1x,E15.7)/(12(1x,E15.7)))') &
+!          'gacf: i_GA_Best_Parent, parent_parameters ', &
+!                 i_GA_Best_Parent, &
+!                 (parent_parameters( jj, i_GA_Best_Parent ),jj=1,n_parameters)
+!
+!endif ! L_ga_print
 
 !-----------------------------------------------------------------------
 
@@ -674,9 +675,9 @@ endif ! L_GA_log
 
 !-----------------------------------------------------------------------
 
-if( L_ga_print )then
-    write(GA_print_unit,'(/A/)') 'gacf: at RETURN '
-endif ! L_ga_print
+!if( L_ga_print )then
+!    write(GA_print_unit,'(/A/)') 'gacf: at RETURN '
+!endif ! L_ga_print
 
 
 

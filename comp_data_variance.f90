@@ -77,6 +77,7 @@ if( n_code_equations > 1 )then
         ssum  = 0.0D+0
         ssum2 = 0.0D+0
         n_obs = 0
+        x_obs = 0.0d0
 
         !write(GP_print_unit,'(/A,3(1x,I6))') &
         ! 'cdv: i_CODE_equation', &
