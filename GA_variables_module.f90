@@ -13,7 +13,7 @@ integer(kind=i4b) :: n_GA_rand_replaces
 integer(kind=i4b) :: n_GA_save_elites
 
 !integer(kind=i4b), dimension( n_GA_individuals ) :: ga_individual_elites
-integer(kind=i4b), allocatable, dimension(:) :: ga_individual_elites
+integer(kind=i4b), allocatable, dimension(:) :: GA_individual_elites
 
 real(kind=r8b) :: GA_Individual_Lowest_SSE
 

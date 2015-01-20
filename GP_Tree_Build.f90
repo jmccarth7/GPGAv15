@@ -11,7 +11,7 @@ use GA_Variables_module
 
 implicit none
 
-real(kind=4) :: cff
+real(kind=r4b) :: cff
 
 integer(kind=i4b) :: i_GP_individual
 integer(kind=i4b) :: i_Error
@@ -42,7 +42,7 @@ integer(kind=i4b) :: iforce
 !endif !  L_no_forcing 
 
 
-write(GP_print_unit,'(A,1x,E15.7 )') 'gtb: prob_forcing ', prob_forcing
+!write(GP_print_unit,'(A,1x,E15.7 )') 'gtb: prob_forcing ', prob_forcing
 
 
 
@@ -283,13 +283,24 @@ do  i_GP_Individual=1,n_GP_Individuals
 
                         ! One of the OBSERVATIONS, one for each equations N, P, Z, etc.
 
-                        Node_Variable=1+int(cff*float(n_CODE_Equations))
+                        !Node_Variable=1+int(cff*float(n_CODE_Equations))
+                        !Node_Variable = min( Node_Variable, n_CODE_Equations )
 
-                        Node_Variable = min( Node_Variable, n_CODE_Equations )
+                        if( n_inputs <= n_code_equations )then
 
-                        !write(GP_print_unit,'(A,1x,E15.7, 2(1x,I6))') &
-                        !      'gtb:2 cff, Node_Variable, n_CODE_Equations', &
-                        !             cff, Node_Variable, n_CODE_Equations
+                            Node_Variable = 1+int(cff*float(n_CODE_Equations))
+                            Node_Variable = min( Node_Variable, n_CODE_Equations )
+
+                        else
+
+                            !Node_Variable = 1 + int( cff * float(n_inputs) )
+                            Node_Variable = 2 + int( cff * float(n_inputs) )
+
+                        endif !  n_inputs <= n_code_equations 
+
+                        !write(GP_print_unit,'(A,1x,E15.7, 3(1x,I6))') &
+                        !      'gtb:2 cff, Node_Variable, n_CODE_Equations, n_inputs', &
+                        !             cff, Node_Variable, n_CODE_Equations, n_inputs
 
                         GP_Child_Population_Node_Type(i_Node,i_Tree,i_GP_Individual) = &
                                                                           -Node_Variable

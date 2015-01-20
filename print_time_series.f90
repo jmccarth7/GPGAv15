@@ -81,15 +81,17 @@ integer, parameter :: plot_unit = 177
 
 logical :: L_myprint
 
-!------------------------------------------------------------------------------
-if( myid == 0 )then
-    write(GP_print_unit,'(/A,2(1x,I6)/)') 'pts: i_GP_generation', i_GP_generation 
-endif ! myid == 0
 
-L_myprint = .FALSE.             
-if( i_GP_generation == 0 )then
-    L_myprint = .TRUE. 
-endif ! i_GP_generation == 0
+!------------------------------------------------------------------------------
+
+   if( myid /= 0 ) return
+
+   write(GP_print_unit,'(/A,2(1x,I6)/)') 'pts: i_GP_generation', i_GP_generation 
+
+   L_myprint = .FALSE.             
+   if( i_GP_generation == 0 )then
+      L_myprint = .TRUE. 
+   endif ! i_GP_generation == 0
 
 GP_individual_Initial_Conditions = GP_Population_Initial_Conditions(:, i_GP_best_parent)
 GP_Individual_Node_Parameters    = GP_population_node_parameters(:,:,i_GP_best_parent)
@@ -237,12 +239,12 @@ if( myid == 0 )then
 
 
 
-    if( L_myprint )write(GP_print_unit,'(/A/)') &
-     'pts: data_point   Numerical_CODE_Solution(data_point,1:n_CODE_equations)'
-    do  i = 1, n_time_steps   !n_input_data_points
-        if( L_myprint )write(GP_print_unit,'(I6,2x,10(1x,E14.7))') &
-              i, (Numerical_CODE_Solution(i,jj), jj = 1,n_CODE_equations )
-    enddo ! i
+    !if( L_myprint )write(GP_print_unit,'(/A/)') &
+    ! 'pts: data_point   Numerical_CODE_Solution(data_point,1:n_CODE_equations)'
+    !do  i = 1, n_time_steps   !n_input_data_points
+    !    if( L_myprint )write(GP_print_unit,'(I6,2x,10(1x,E14.7))') &
+    !          i, (Numerical_CODE_Solution(i,jj), jj = 1,n_CODE_equations )
+    !enddo ! i
 
 
 

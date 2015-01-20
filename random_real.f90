@@ -11,11 +11,11 @@ use GP_parameters_module
 
 implicit none
 
-!real(kind=4) :: aff,bff,cff,dff
+!real(kind=r4b) :: aff,bff,cff,dff
 real(kind=r4b) ::     bff,cff
 
 real(kind=r8b) ::     bff8, cff8
-!real(kind=4) :: log_huge,log_tiny,log_range
+!real(kind=r4b) :: log_huge,log_tiny,log_range
 
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 

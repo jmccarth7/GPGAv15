@@ -125,7 +125,7 @@ integer(kind=i4b) :: n_parameters
 integer, parameter :: str_len = 1000  ! 500
 
 character(str_len) :: tree_node_string
-character(3) :: node_element_string
+character(5) :: node_element_string
 !-------------------------------------------------------------------
 
 ! n_trees=((n_CODE_equations+1)**2)-(n_CODE_equations+1)
@@ -137,7 +137,7 @@ character(3) :: node_element_string
 ! GP Probability of a Tree being assigned
 ! Estimated from previous work by Joel Cohen
 
-!real (kind=4), parameter :: GP_Tree_Probability=0.5
+!real(kind=r4b), parameter :: GP_Tree_Probability=0.5
 real(kind=r8b) :: GP_Tree_Probability !=0.5 ! Estimated from previous work by Joel Cohen
 
 
@@ -155,18 +155,18 @@ real(kind=r8b), allocatable, dimension(:) :: Node_Probability
 ! Keeps the top n_GP_Elitists of the
 ! Best Fit Individuals from Generation to Generation
 
-!real (kind=4), parameter :: GP_Elitist_Probability = 0.1
+!real(kind=r4b), parameter :: GP_Elitist_Probability = 0.1
 real(kind=r8b) :: GP_Elitist_Probability
 
-!real(kind=4),parameter :: &
+!real(kind=r4b),parameter :: &
 !  GP_Asexual_Reproduction_Probability =0.4 ! prob of asexual reproduction
 real(kind=r8b) :: GP_Asexual_Reproduction_Probability
 
-!real(kind=4),parameter :: &
+!real(kind=r4b),parameter :: &
 !  GP_Crossover_Probability=0.4 ! prob of sexual crossing of binary string
 real(kind=r8b) :: GP_Crossover_Probability
 
-!real (kind=4), parameter :: &
+!real(kind=r4b), parameter :: &
 !  GP_Mutation_Probability = 0.1 ! prob of mutation in binary string
 real(kind=r8b) :: GP_Mutation_Probability
 
@@ -219,7 +219,7 @@ logical :: L_bad_result
 
 
 
-integer (kind=4) :: ier_file,idummy,iwkid,iwktype  ! NCAR Graphics
+integer(kind=i4b) :: ier_file,idummy,iwkid,iwktype  ! NCAR Graphics
 
 ! orig !character (len=*), parameter :: output_dir = 'Output/'//Model_Name
 character (len=*), parameter :: output_dir = '.'
@@ -229,13 +229,13 @@ character (len=*), parameter :: input_dir = 'Input'
 
 !The temporal unit depends on the delta time in days
 
-!!!!real (kind=4), dimension(0:n_Time_Steps) :: x_Time_Steps = 0.D+0
-!!!real (kind=4), dimension(:),allocatable :: x_Time_Steps
+!!!!real(kind=r4b), dimension(0:n_Time_Steps) :: x_Time_Steps = 0.D+0
+!!!real(kind=r4b), dimension(:),allocatable :: x_Time_Steps
 
 
 
-! real (kind=r8b), parameter :: dt = 1.0D+0 /(24.0D+0*60.0D+0)   ! [d^-1; 1 minute time step]
-!!real (kind=r8b), parameter :: dt = 10.0D+0/(24.0D+0*60.0D+0)   ! [d^-1; 10 minute time step]
+! real(kind=r8b), parameter :: dt = 1.0D+0 /(24.0D+0*60.0D+0)   ! [d^-1; 1 minute time step]
+!!real(kind=r8b), parameter :: dt = 10.0D+0/(24.0D+0*60.0D+0)   ! [d^-1; 10 minute time step]
 
 real(kind=r8b) :: dt
 
@@ -293,7 +293,7 @@ integer, parameter :: name_len = 20
 !----------------------------------------------------------------
 ! big_real is large number for testing if a result is too big
 
-real(kind=r8b),parameter :: big_real = 1.0D20 
+real(kind=r8b),parameter :: big_real = 1.0D13 ! 1.0D20 
 
 !----------------------------------------------------------------
                                                                                                                                 
@@ -307,12 +307,7 @@ integer(kind=i4b) :: n_partitions
                                                                                                                               
 integer(kind=i4b) :: new_rank   !, sendbuf, recvbuf     
                                                                                                                               
-                                                                                                                              
-integer,dimension(:,:),allocatable  :: ranks                                                                                  
-integer,dimension(:,:),allocatable  :: ranks2                                                                                 
-integer,dimension(:),allocatable    :: ranks_temp                                                                             
-                                                                                                                              
-integer(kind=i4b) :: divider                                                                                                            
+integer(kind=i4b) :: color
 integer(kind=i4b) :: orig_group
 
 !!integer(kind=i4b) :: new_group                                                                                              

@@ -181,7 +181,7 @@ use GP_variables_module
     real(kind=r8b), intent(out) :: h, aMLD
     integer(kind=i4b), parameter :: n=14
     real(kind=r8b) :: daym(14),cmld(14)
-    integer (kind=4) nloop,iloop,i
+    integer(kind=i4b) nloop,iloop,i
 
     data daym /0.D+0,16.D+0,46.D+0,75.D+0,105.D+0,136.D+0,&
                166.D+0,197.D+0,228.D+0,258.D+0,289.D+0,319.D+0,350.D+0,365.D+0/

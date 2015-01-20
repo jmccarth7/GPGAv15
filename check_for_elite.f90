@@ -14,7 +14,7 @@ implicit none
 integer(kind=i4b) :: index0
 integer(kind=i4b) :: ksafe
 
-real(kind=4) :: cff
+real(kind=r4b) :: cff
 real(kind=r8b) :: dff
 
 

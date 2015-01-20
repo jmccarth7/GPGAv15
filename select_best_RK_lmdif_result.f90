@@ -172,7 +172,6 @@ if( L_ga_print )then
     write(GA_print_unit,'(/A,1x,I6,1x,E20.10)') &
           'sbrl: i_GA_best_parent, individual_SSE', &
                  i_GA_best_parent, individual_SSE(i_GA_best_parent)
-
 endif ! L_ga_print
 
 
@@ -208,12 +207,8 @@ Individual_Fitness = Individual_Ranked_Fitness(i_GA_Best_Parent)
 !------------------------------------------------------------------------------
 
 !  test if lmdif has improved the best parent parameters
-
-
 !  compare the fitness of the parameter set from the RK integrations
 !  with    the fitness of the parameter set returned by lmdif
-
-
 !  select the set of parameters with the best fitness
 
 

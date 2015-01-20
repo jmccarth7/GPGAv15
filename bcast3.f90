@@ -40,7 +40,7 @@ integer(kind=i4b) :: buffer_length
 !endif ! myid == 0
 
 
-call MPI_BCAST( GP_Child_Individual_SSE, n_GP_individuals,    &
+   call MPI_BCAST( GP_Child_Individual_SSE, n_GP_individuals,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
 !------------------------------------------------------------------------------
@@ -146,7 +146,7 @@ call MPI_BCAST( GP_Integrated_Population_Ranked_Fitness, &
 
 buffer_length = n_CODE_equations  * n_GP_individuals
 
-call MPI_BCAST( GP_Population_Initial_Conditions, &
+   call MPI_BCAST( GP_Population_Initial_Conditions, &
                 buffer_length,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 

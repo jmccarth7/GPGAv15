@@ -79,7 +79,10 @@ integer, parameter :: plotMS_unit = 187
 
 !------------------------------------------------------------------------------
 
+if(myid /=0 ) return
+if( .not. L_minSSE ) return
 
+write(GP_print_unit,'(//A,3(1x,I5))') '0: call print_time_series_minSSE'
 
 GP_individual_Initial_Conditions = GP_minSSE_Individual_Initial_Conditions 
 GP_Individual_Node_Parameters    = GP_minSSE_Individual_Node_Parameters
