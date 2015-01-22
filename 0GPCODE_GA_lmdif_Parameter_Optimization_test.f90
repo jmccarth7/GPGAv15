@@ -71,7 +71,7 @@ integer(kind=i4b) :: comm_world
 
 
 character(15),parameter :: program_version   = '201501.002_v15'
-character(10),parameter :: modification_date = '20150120'
+character(10),parameter :: modification_date = '20150121'
 character(50),parameter :: branch  =  'master'
 
 integer(kind=i4b), parameter ::  zero = 0
