@@ -33,6 +33,7 @@ real(kind=r8b),allocatable, dimension(:,:,:) :: &
 real(kind=r8b),allocatable,dimension(:,:) :: &
                          GP_Population_Initial_Conditions_temp
 
+!------------------------------------------------------------------------------------------------------------
 
 allocate(GP_population_node_parameters_temp(1:n_Nodes,1:n_Trees, 1:n_GP_individuals ))
 allocate(GP_Population_Initial_Conditions_temp(1:n_CODE_equations, 1:n_GP_individuals ))
@@ -352,7 +353,7 @@ GP_Population_Ranked_Fitness = 0.0D0
 
 do  i_GP_Individual=1,n_GP_Individuals
 
-    if( cff > 0.0D0 .and. GP_Child_Individual_SSE(i_GP_Individual) <= 1.0e13 .and. &    ! jjm 20150108
+    if( cff > 0.0D0 .and. GP_Child_Individual_SSE(i_GP_Individual) <= big_real .and. &    ! jjm 20150108
                           GP_Child_Individual_SSE(i_GP_Individual) > 1.0e-30 )then
         GP_Population_Ranked_Fitness(i_GP_Individual) = &
                 abs( ( cff - GP_Child_Individual_SSE(i_GP_Individual) ) / cff  )

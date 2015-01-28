@@ -48,10 +48,10 @@ real(kind=r8b) :: buffer2_recv(max_n_gp_params + 2)
 
 
 integer(kind=i4b) :: i
-integer(kind=i4b) :: ii
+!integer(kind=i4b) :: ii
 integer(kind=i4b) :: jj
 
-integer(kind=i4b) :: nparms_i
+!integer(kind=i4b) :: nparms_i
 integer(kind=i4b) :: n_parms
 integer(kind=i4b) :: n_parms_dim
 integer(kind=i4b) :: nn
@@ -79,16 +79,15 @@ real(kind=r8b) ::  temp_SSE
 
 !! max_n_gp_params = maxval( GP_Individual_N_GP_param ) 
 
-!L_GP_print = .FALSE.
-L_GP_print = .TRUE.
+L_GP_print = .FALSE.
 
-!if( i_GP_generation == 1 .or. &
-!    mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
-!    i_GP_generation == n_GP_generations )then
-!
-!    L_GP_print = .TRUE.
-!
-!endif ! i_GP_generation...
+if( i_GP_generation == 1 .or. &
+    mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
+    i_GP_generation == n_GP_generations )then
+
+    L_GP_print = .TRUE.
+
+endif ! i_GP_generation...
 
 
 

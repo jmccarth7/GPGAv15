@@ -54,6 +54,7 @@ program main
    integer(kind=i4b) :: new_comm
    integer(kind=i4b) :: my_size
    integer(kind=i4b) :: j
+   integer(kind=i4b),allocatable ::    rank0(:)
    integer(kind=i4b),allocatable :: tmprank0(:)
 
    integer(kind=i4b) :: comm_world
@@ -62,8 +63,8 @@ program main
    real(kind=r8b) :: t2
 
 
-character(15),parameter :: program_version   = '201501.001_v15'
-character(10),parameter :: modification_date = '20150116'
+character(75),parameter :: program_version   = '201501.003_v15'
+character(10),parameter :: modification_date = '20150128'
 character(50),parameter :: branch  =  'data_processing'
 
    integer(kind=i4b), parameter ::  zero = 0
@@ -173,6 +174,7 @@ character(50),parameter :: branch  =  'data_processing'
    call MPI_ALLREDUCE(tmprank0(0),rank0(0),n_partitions+1, & 
          & MPI_INTEGER, MPI_SUM, MPI_COMM_WORLD, ierr)
    deallocate(tmprank0)
+   deallocate(rank0)
 
 ! begin the GP generation loop
 

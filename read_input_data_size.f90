@@ -30,7 +30,6 @@ integer(kind=i4b) ::  ncount
 !integer(kind=i4b) ::  j                    
 
 
-!real(kind=r8b), allocatable, dimension(:) ::  temp_array
 
 
 !----------------------------------------------------------------------

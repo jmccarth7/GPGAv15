@@ -1,4 +1,4 @@
-subroutine read_all_summary_file( i_GP_generation )
+subroutine read_all_summary_file( i_GP_generation ) !,  icall  )
 
 ! program written by: Dr. John R. Moisan [NASA/GSFC] 31 January, 2013
 
@@ -26,9 +26,12 @@ subroutine read_all_summary_file( i_GP_generation )
    integer(kind=i4b) :: i
    integer(kind=i4b) :: istat
 
-   integer(kind=i4b),intent(in)  :: i_GP_Generation
-   integer(kind=i4b)             :: i_GP_Gen
-   integer(kind=i4b)             :: i_GP_indiv
+
+integer(kind=i4b),intent(in)  :: i_GP_Generation
+!integer(kind=i4b),intent(in)  :: icall       
+
+integer(kind=i4b)             :: i_GP_Gen
+integer(kind=i4b)             :: i_GP_indiv
 
    integer(kind=i4b) :: i_Tree
    integer(kind=i4b) :: i_Node
@@ -39,6 +42,9 @@ subroutine read_all_summary_file( i_GP_generation )
    character(2) :: arrow2
    character(200) :: Aline 
 
+!----------------------------------------------------------------------------------------
+
+
 !---------------------------------------------------
 ! assume this subroutine is called by all processes. W.J noted
 !---------------------------------------------------
@@ -47,6 +53,7 @@ subroutine read_all_summary_file( i_GP_generation )
    GP_Adult_Population_Node_Type    = -9999
    GP_population_node_parameters    = 0.0d0 
 
+!--------------------------------------------------------------------------------
 
    open( GP_restart_file_input_unit, file='GP_restart_file', &                                        
       form = 'formatted', access = 'sequential', &                                                  
@@ -63,8 +70,10 @@ subroutine read_all_summary_file( i_GP_generation )
      Lprint = .TRUE.
    endif ! i_GP_generation == 1 .or. ...
 
-   readloop:&
-   do
+!--------------------------------------------------------------------------------
+
+readloop:&
+do
 
    ! read the summary file header for each individual
    ! which has n_GP_parameters >= n_code_equations
@@ -122,7 +131,8 @@ subroutine read_all_summary_file( i_GP_generation )
         !       i_GP_Gen, i_GP_indiv, i_code_eq, &
         !  GP_Population_Initial_Conditions(i_code_eq,i_GP_indiv)
     
-       enddo 
+    
+    enddo  ! i
     
     !--------------------------------------------------------------------------------
     
@@ -167,9 +177,14 @@ subroutine read_all_summary_file( i_GP_generation )
          read(GP_restart_file_input_unit, '(A)',iostat=istat ) Aline
          if( istat /= 0 )then
             exit readloop
-         endif ! istat /=0 
+        endif ! istat /=0 
+    
+        !write(6,'(A,1x,A)')'rasf: Aline: ', trim(Aline)
+    
+        !if( Aline(1:2) == '> ' ) exit
+        !if( Aline(1:2) == '>>' ) cycle readloop
            
-         if( Aline(1:2) == '>>' ) exit
+        if( Aline(1:2) == '>>' ) exit
     
          read(Aline,*) &
               i_GP_Gen, i_GP_indiv,i_tree, i_node, &

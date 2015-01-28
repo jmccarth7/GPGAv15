@@ -15,7 +15,7 @@ subroutine read_input_data( )
    integer(kind=i4b) :: istat
    integer(kind=i4b), parameter :: line_length   = 250
 
-!CHARACTER(line_length) :: Aline
+CHARACTER(line_length) :: Aline
 
 
 integer(kind=i4b) ::  ncount               
@@ -24,6 +24,9 @@ integer(kind=i4b) ::  j
 
 
    real(kind=r8b), allocatable, dimension(:) ::  temp_array
+
+!----------------------------------------------------------------------
+
 
    if( n_input_vars <= 0 ) return
 
@@ -95,6 +98,11 @@ integer(kind=i4b) ::  j
    n_time_steps = n_input_data_points
 
    close(data_unitnum)
+
+
+deallocate( temp_array ) 
+
+
 return 
 
 END subroutine read_input_data

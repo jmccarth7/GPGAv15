@@ -83,10 +83,9 @@ logical :: L_myprint
 
 
 !------------------------------------------------------------------------------
-
-   if( myid /= 0 ) return
-
-   write(GP_print_unit,'(/A,2(1x,I6)/)') 'pts: i_GP_generation', i_GP_generation 
+if( myid == 0 )then
+    write(GP_print_unit,'(/A,2(1x,I6)/)') 'pts: i_GP_generation', i_GP_generation 
+endif ! myid == 0
 
    L_myprint = .FALSE.             
    if( i_GP_generation == 0 )then
@@ -234,9 +233,17 @@ if( myid == 0 )then
     ! RK_Box_Model now puts the time series in Numerical_CODE_Solution
 
 
-    !call Runge_Kutta_Box_Model( .true. )  ! print
-    call Runge_Kutta_Box_Model( .false. )   ! don't print
+    if( n_inputs == 0 )then
 
+        !call Runge_Kutta_Box_Model( .true. )  ! print
+        call Runge_Kutta_Box_Model( .false. )   ! don't print
+
+    else
+
+        !call Runge_Kutta_Box_Model_data( .true. )  ! print
+        call Runge_Kutta_Box_Model_data( .false. )   ! don't print
+
+    endif ! n_inputs == 0
 
 
     !if( L_myprint )write(GP_print_unit,'(/A/)') &

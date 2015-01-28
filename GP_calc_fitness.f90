@@ -92,18 +92,29 @@ if( i_GP_generation == 1                                 .or. &
     mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
     i_GP_generation == n_GP_generations                          ) then
 
+!if( i_GP_generation == 1                                 .or. &
+!    mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
+!    i_GP_generation == n_GP_generations                          ) then
+!
+!    write(GP_print_unit,'(/A,1x,I6/)') &
+!          'gpcf: i_GP_generation ',  i_GP_generation
+!
+!    write(GP_print_unit,'(A)') &
+!          'gpcf: i_GP_Indiv, GP_Indiv_N_GP_param(i_GP_Indiv) '
+!
+!    write(GP_print_unit, '(10(1x,I6," :", I3))') &
+!           ( i_GP_Individual, GP_Individual_N_GP_param(i_GP_Individual), &
+!             i_GP_Individual=1,n_GP_Individuals )
+!
+!    write(GP_print_unit,'(/A)')' '
+!
+!endif ! i_GP_generation ...
+!-------------------------------------------------------------------------------
 
-    write(GP_print_unit,'(/A,2(1x,I6))') &
-          'gpcf: i_GP_generation, max_n_gp_parameters ', &
-                 i_GP_generation, max_n_gp_parameters
-    write(GP_print_unit,'(A)') &
-              'gpcf: i_GP_Indiv  GP_Child_Indiv_SSE  SSE/SSE0'
+max_n_gp_parameters = maxval( GP_Individual_N_GP_param )
 
-    do  i_GP_Individual=1,n_GP_Individuals
-        write(GP_print_unit,'(6x,I6,2(1x,E15.7))') &
-           i_GP_Individual, GP_Child_Individual_SSE(i_GP_Individual), &
-           GP_Child_Individual_SSE(i_GP_Individual)/SSE0
-    enddo ! i_gp_individual
+write(GP_print_unit,'(//A,1x, I6)') &
+      'gpcf: max_n_gp_parameters', max_n_gp_parameters
 
 endif ! i_GP_generation ...
 

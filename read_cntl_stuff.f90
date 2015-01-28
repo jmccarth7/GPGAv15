@@ -82,6 +82,10 @@ do
         'rcntl: ERROR *** Problem reading GPGACODE_cntl &
                              &in subroutine read_cntl_stuff'
         ierror = 1
+
+        write(GP_print_unit,*) &
+        'rcntl:1 return ierror = ', ierror
+
         return
    endif
    if( istat < 0 ) then
@@ -223,6 +227,10 @@ do
         write(GP_print_unit,'(/A/)') &
          'rcntl: ERROR *** Problem reading GPGACODE_cntl.'
         ierror = 1
+
+        write(GP_print_unit,*) &
+        'rcntl:2 return ierror = ', ierror
+
         return
     endif
     if( istat < 0 ) then
@@ -1161,7 +1169,7 @@ do
         !flush( GP_print_unit )
 
 
-        READ(Aline(len('restart')+1:), * ) !temp_seed(1:n_seed)
+        READ(Aline(len('restart')+1:), * )
 
 
         L_restart = .true.
@@ -1172,8 +1180,6 @@ do
         write(GP_print_unit,'(A,1x,i6)') &
               'rcntl: n_seed    = ', n_seed
 
-        !write(GP_print_unit,'(A,20(1x,I10))') &
-        !      'rcntl: temp_seed(1:n_seed)   = ', temp_seed(1:n_seed)
 
 
 
@@ -1320,6 +1326,10 @@ if( L_node_functions .and. n_node_functions <=0 )then
 
     !stop 'bad input n_node_functions'
     ierror = 1
+
+    write(GP_print_unit,*) &
+       'rcntl:3 return ierror = ', ierror
+
     return
 
 endif ! .not. L_node_functions
@@ -1337,6 +1347,10 @@ endif ! .not. L_node_functions
 
 write(GP_print_unit,'(//A)') ' '
 
+
+
+write(GP_print_unit,*) &
+       'rcntl: normal return ierror = ', ierror
 
 return
 
