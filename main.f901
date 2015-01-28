@@ -274,6 +274,7 @@ character(50),parameter :: branch  =  'data_processing'
                   '0: call GP_Clean_Tree_Nodes  Generation =', i_GP_Generation
     
             call GP_Clean_Tree_Nodes
+
          endif ! myid == 0
       endif ! trim(model) /= 'fasham_fixed_tree' 
 
@@ -310,6 +311,8 @@ character(50),parameter :: branch  =  'data_processing'
        enddo ! i_gp_individual
     
        write(GP_print_unit,'(/A)') ' '
+       flush(GP_print_unit)
+       
    endif ! myid == 0 
 
     !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

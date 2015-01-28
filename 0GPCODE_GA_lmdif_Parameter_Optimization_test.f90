@@ -372,7 +372,7 @@ if( n_input_vars > 0 )then
 
     if( myid == 0 )then
         write(6, '(/A)') '0: AFT allocate input_data_array'
-        !flush(6)
+        flush(6)
     endif !  myid == 0
 
     !call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
@@ -392,7 +392,7 @@ if( n_input_vars > 0 )then
                                     n_input_data_points
         write(6,'(A,2(1x,I6))') '0: n_input_vars      =', n_input_vars
         write(6,'(A,2(1x,I6))') '0: n_functions_input =', n_functions_input
-        !flush(6)
+        flush(6)
 
     endif !   myid == 0
 

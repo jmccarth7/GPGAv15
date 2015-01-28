@@ -1,6 +1,6 @@
 PROG =	GP_para_tree
 
-SRCS =	allocate_arrays1.f90 \
+SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 allocate_arrays1.f90 \
 	bcast1.f90 bcast2.f90 bcast3.f90 betacf.f90 betai.f90 build_trees.f90 \
 	calc_fitness.f90 calc_stats.f90 check_for_elite.f90 \
 	class_serialization_visitor.f90 class_tree_node.f90 clock_module.f90 \
@@ -28,18 +28,18 @@ SRCS =	allocate_arrays1.f90 \
 	init_values.f90 init_values_data.f90 init_values_fasham.f90 \
 	init_values_LV.f90 init_values_NPZ.f90 \
 	Initialize_GA_Child_Parameters.f90 initialize_model.f90 kinds_mod.f90 \
-	lmdif.f90 lmpar.f90 load_pow2_level.f90 main.f90 \
-	Math_Node_Functions.f90 mpi_module.f90 Numerical_methods.f90 \
-	parse_fbio_strings.f90 pearsn.f90 print4.f90 \
-	print_debug_integer_node_tree.f90 print_debug_real_node_tree.f90 \
-	print_debug_real_nparm.f90 print_entire_tree.f90 \
-	print_time_series.f90 print_time_series_minSSE.f90 print_trees.f90 \
-	print_values1.f90 print_values2.f90 qrfac.f90 qrsolv.f90 \
-	random_real.f90 read_all_summary_file.f90 read_cntl_stuff.f90 \
-	read_cntl_vars.f90 read_GP_restart.f90 read_input_data.f90 \
-	read_input_data_size.f90 reduce_constant.f90 reduce_expression.f90 \
-	remove_abs_zero.f90 remove_double_parens.f90 remove_string_blanks.f90 \
-	RKBM.f90 rm_exp_paren.f90 Runge_Kutta_Box_Model_data.f90 \
+	lmdif.f90 lmpar.f90 load_pow2_level.f90 Math_Node_Functions.f90 \
+	mpi_module.f90 Numerical_methods.f90 parse_fbio_strings.f90 \
+	pearsn.f90 print4.f90 print_debug_integer_node_tree.f90 \
+	print_debug_real_node_tree.f90 print_debug_real_nparm.f90 \
+	print_entire_tree.f90 print_time_series.f90 \
+	print_time_series_minSSE.f90 print_trees.f90 print_values1.f90 \
+	print_values2.f90 qrfac.f90 qrsolv.f90 random_real.f90 \
+	read_all_summary_file.f90 read_cntl_stuff.f90 read_cntl_vars.f90 \
+	read_GP_restart.f90 read_input_data.f90 read_input_data_size.f90 \
+	reduce_constant.f90 reduce_expression.f90 remove_abs_zero.f90 \
+	remove_double_parens.f90 remove_string_blanks.f90 RKBM.f90 \
+	rm_exp_paren.f90 Runge_Kutta_Box_Model_data.f90 \
 	Runge_Kutta_Box_Model_new.f90 select_best_RK_lmdif_result.f90 \
 	serialize_trees.f90 set_answer_arrays.f90 set_forcing_node.f90 \
 	set_modified_indiv.f90 setup1.f90 setup_math_functions.f90 \
@@ -49,7 +49,7 @@ SRCS =	allocate_arrays1.f90 \
 	summary_GP_minSSE_indiv.f90 swap_module.f90 Tree_Helper_module.f90 \
 	tree_node_factory_module.f90 write_GP_restart.f90
 
-OBJS =	allocate_arrays1.o \
+OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o allocate_arrays1.o \
 	bcast1.o bcast2.o bcast3.o betacf.o betai.o build_trees.o \
 	calc_fitness.o calc_stats.o check_for_elite.o \
 	class_serialization_visitor.o class_tree_node.o clock_module.o \
@@ -76,7 +76,7 @@ OBJS =	allocate_arrays1.o \
 	init_values.o init_values_data.o init_values_fasham.o \
 	init_values_LV.o init_values_NPZ.o Initialize_GA_Child_Parameters.o \
 	initialize_model.o kinds_mod.o lmdif.o lmpar.o load_pow2_level.o \
-	main.o Math_Node_Functions.o mpi_module.o Numerical_methods.o \
+	Math_Node_Functions.o mpi_module.o Numerical_methods.o \
 	parse_fbio_strings.o pearsn.o print4.o \
 	print_debug_integer_node_tree.o print_debug_real_node_tree.o \
 	print_debug_real_nparm.o print_entire_tree.o print_time_series.o \
@@ -99,12 +99,12 @@ LIBS =
 
 CC = cc
 CFLAGS = -O
-FC = gfortran
-FFLAGS = -g
-F90 = gfortran
-F90FLAGS = -g
-LDFLAGS = -Wl,-no_pie
-LIBS= -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/usr/lib  -L/Developer/SDKs/MacOSX10.6.sdk/usr/lib
+#FC = gfortran
+#FFLAGS = -g
+#F90 = gfortran
+#F90FLAGS = -g
+#LDFLAGS = -Wl,-no_pie
+#LIBS= -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/usr/lib  -L/Developer/SDKs/MacOSX10.6.sdk/usr/lib
 
 
 # note: mpif90 is based on gfortran
@@ -137,7 +137,9 @@ LIBS= -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Dev
 #F90FLAGS = -g  -free -traceback -debug all  #-check bounds  #  -g -traceback  #-ftrapuv  #-warn all #-C -ftrapuv  # -warn all   #  -ftrace=full    # -fzero -Wall
 #LDFLAGS =
 ####################################################################################
-    
+
+
+
 
 all: $(PROG)
 
@@ -156,6 +158,10 @@ clean:
 .f90.o:
 	$(F90) $(F90FLAGS) -c $<
 
+0GPCODE_GA_lmdif_Parameter_Optimization_test.o: GA_parameters_module.o \
+	GA_variables_module.o GP_data_module.o GP_parameters_module.o \
+	GP_variables_module.o class_tree_node.o fasham_variables_module.o \
+	kinds_mod.o mpi_module.o tree_node_factory_module.o
 allocate_arrays1.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
 	kinds_mod.o mpi_module.o
@@ -247,7 +253,7 @@ gammln.o: kinds_mod.o
 gammp.o: kinds_mod.o mpi_module.o
 gammq.o: kinds_mod.o mpi_module.o
 gcf.o: kinds_mod.o mpi_module.o
-Generate_Dot_Graph.o: class_tree_node.o kinds_mod.o
+Generate_Dot_Graph.o: Generate_Dot_Graph.o class_tree_node.o kinds_mod.o
 Global_Setup.o: Math_Node_Functions.o fasham_tree_interfaces.o kinds_mod.o \
 	tree_node_factory_module.o
 GP_calc_diversity_index.o: GA_parameters_module.o GA_variables_module.o \
@@ -326,10 +332,6 @@ lmpar.o: kinds_mod.o
 load_pow2_level.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
 	kinds_mod.o
-main.o: GA_parameters_module.o GA_variables_module.o GP_data_module.o \
-	GP_parameters_module.o GP_variables_module.o class_tree_node.o \
-	fasham_variables_module.o kinds_mod.o mpi_module.o \
-	tree_node_factory_module.o
 Math_Node_Functions.o: kinds_mod.o
 mpi_module.o: kinds_mod.o
 Numerical_methods.o: kinds_mod.o
