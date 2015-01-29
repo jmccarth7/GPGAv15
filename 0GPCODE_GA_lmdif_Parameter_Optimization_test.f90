@@ -287,8 +287,9 @@ call MPI_BCAST( n_input_vars, 1,    &
 
 !---------------------------------------------------------------------
 
-if( n_input_vars > 0 )then
 
+
+if( n_input_vars > 0 )then
 
     !----------------------------------------------------------------
 
@@ -511,18 +512,20 @@ endif ! myid == 0
 
 
 !---------------------------------------------------------------------------
+
 if( myid == 0 )then
     write(6,'(A,3(1x,I6))') '0: call setup1'                             
     !flush(6)
 endif ! myid == 0 )then
 
+
 call setup1( )
+
 
 if( myid == 0 )then
     write(6,'(A,3(1x,I6))') '0: AFT call setup1'                             
     !flush(6)
 endif ! myid == 0 )then
-
 
 !---------------------------------------------------------------------------
 
@@ -947,7 +950,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
             ! fill child sse for individuals not  modified in this generation
 
-            !!!GP_Child_Individual_SSE  = GP_Adult_Population_SSE   ! needed ??  jjm 20140522
+            GP_Child_Individual_SSE  = GP_Adult_Population_SSE   ! needed ??  jjm 20140522
 
             !----------------------------------------------------------------------------------
 

@@ -199,7 +199,7 @@ do  i_GA_individual=1,n_GA_individuals  ! calculate the total populations SSE
         !orig     individual_quality( i_GA_individual ) = -1
         !orig endif !   individual_SSE(i_GA_individual) >  edit_level
 
-        !orig if( individual_SSE(i_GA_individual) > 1.0d12      ) then
+
         if( individual_SSE(i_GA_individual) > big_real      ) then
             individual_quality( i_GA_individual ) = -1
         endif !   individual_SSE(i_GA_individual) >  edit_level
@@ -331,6 +331,7 @@ do  i_GA_individual=1,n_GA_individuals
     endif !   individual_quality( i_GA_individual ) > 0
 
 enddo ! i_GA_individual
+
 !write(6,'(A)') ' '
 !flush(6)
 
@@ -505,6 +506,7 @@ do  i_GA_individual=1,n_GA_individuals
 enddo ! i_GA_individual
 
 !-------------------------------------------------------------------------------
+
 if( i_GA_generation == 1                                 .or. &
     mod(i_GA_generation, GA_child_print_interval ) == 0  .or. &
     i_GA_generation == n_GA_generations       )then
@@ -621,7 +623,8 @@ if( L_ga_print )then
                  individual_ranked_fitness( i_GA_Best_Parent ), &
                             individual_SSE( i_GA_Best_Parent )
 endif ! L_ga_print
-!
+
+
 !if( L_ga_print )then
 !    write(GA_print_unit,'(/A,2(1x,I6),2(1x,E15.7))') &
 !          'gacf: Generation, i_GA_Best_Parent, indiv_ranked_fitness, indiv_SSE', &
