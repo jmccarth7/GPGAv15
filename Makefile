@@ -1,22 +1,22 @@
 PROG =	GP_para_tree
 
-SRCS =	main.f90 allocate_arrays1.f90 \
+SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 allocate_arrays1.f90 \
 	bcast1.f90 bcast2.f90 bcast3.f90 betacf.f90 betai.f90 build_trees.f90 \
 	calc_stats.f90 check_for_elite.f90 \
 	class_serialization_visitor.f90 class_tree_node.f90 clock_module.f90 \
-	close_output_unit.f90 combine_tree_strings.f90 comp_data_variance.f90 corr.f90 \
-	count_parens.f90 create_equations.f90 create_tree_node_string.f90 \
-	deallocate_arrays1.f90 deserialize_trees.f90 deserialize_trees2.f90 \
-	enorm.f90 erfc.f90 erfcc.f90 Fasham_Forcing.f90 \
-	fasham_model_debug.f90 fasham_tree_functions.f90 \
-	fasham_tree_interfaces.f90 fasham_variables_module.f90 fcn.f90 \
-	fdjac2.f90 fill_string_arrays.f90 GA_calc_fitness.f90 \
-	GA_Fitness_Proportionate_Asexual_Reproduction.f90 GA_Mutations.f90 \
-	GA_parameters_module.f90 GA_random_replace.f90 \
+	close_output_unit.f90 combine_tree_strings.f90 comp_data_variance.f90 \
+	corr.f90 count_parens.f90 create_equations.f90 \
+	create_tree_node_string.f90 deallocate_arrays1.f90 \
+	deserialize_trees.f90 deserialize_trees2.f90 enorm.f90 erfc.f90 \
+	erfcc.f90 Fasham_Forcing.f90 fasham_model_debug.f90 \
+	fasham_tree_functions.f90 fasham_tree_interfaces.f90 \
+	fasham_variables_module.f90 fcn.f90 fdjac2.f90 fill_string_arrays.f90 \
+	GA_calc_fitness.f90 GA_Fitness_Proportionate_Asexual_Reproduction.f90 \
+	GA_Mutations.f90 GA_parameters_module.f90 GA_random_replace.f90 \
 	GA_replace_bad_individuals.f90 GA_save_elites.f90 \
 	GA_Tournament_Style_Sexual_Reproduction.f90 GA_variables_module.f90 \
 	gammln.f90 gammp.f90 gammq.f90 gcf.f90 Generate_Dot_Graph.f90 \
-	GP_calc_diversity_index.f90 GP_calc_fitness.f90 \
+	Global_Setup.f90 GP_calc_diversity_index.f90 GP_calc_fitness.f90 \
 	GP_Check_Terminals.f90 GP_Clean_Tree_Nodes.f90 GP_data_module.f90 \
 	GP_Fitness_Proportionate_Asexual_Reproduction.f90 \
 	GP_individual_loop.f90 GP_Mutations.f90 GP_para_lmdif_process.f90 \
@@ -35,20 +35,65 @@ SRCS =	main.f90 allocate_arrays1.f90 \
 	print_entire_tree.f90 print_time_series.f90 \
 	print_time_series_minSSE.f90 print_trees.f90 print_values1.f90 \
 	print_values2.f90 qrfac.f90 qrsolv.f90 random_real.f90 \
-	read_all_summary_file.f90 read_cntl_vars.f90 read_input_data.f90 \
-	reduce_constant.f90 reduce_expression.f90 \
-	remove_abs_zero.f90 remove_double_parens.f90 remove_string_blanks.f90 \
-	RKBM.f90 rm_exp_paren.f90 Runge_Kutta_Box_Model_data.f90 \
+	read_all_summary_file.f90 read_cntl_stuff.f90 read_cntl_vars.f90 \
+	read_GP_restart.f90 read_input_data.f90 read_input_data_size.f90 \
+	reduce_constant.f90 reduce_expression.f90 remove_abs_zero.f90 \
+	remove_double_parens.f90 remove_string_blanks.f90 RKBM.f90 \
+	rm_exp_paren.f90 Runge_Kutta_Box_Model_data.f90 \
 	Runge_Kutta_Box_Model_new.f90 select_best_RK_lmdif_result.f90 \
 	serialize_trees.f90 set_answer_arrays.f90 set_forcing_node.f90 \
 	set_modified_indiv.f90 setup1.f90 setup_math_functions.f90 \
-	setup_output_unit.f90 setup_run_fcn.f90 \
-	setup_run_lmdif.f90 setup_run_para_lmdif.f90 sort.f90 sse0_calc.f90 \
-	summary_GP_all.f90 summary_GP_indiv.f90 summary_GP_indiv2.f90 \
+	setup_output_unit.f90 setup_run_fcn.f90 setup_run_lmdif.f90 \
+	setup_run_para_lmdif.f90 sort.f90 sse0_calc.f90 summary_GP_all.f90 \
+	summary_GP_indiv.f90 summary_GP_indiv2.f90 \
 	summary_GP_minSSE_indiv.f90 swap_module.f90 Tree_Helper_module.f90 \
-	tree_node_factory_module.f90
+	tree_node_factory_module.f90 write_GP_restart.f90
 
-OBJS =$(SRCS:.f90=.o)
+OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o allocate_arrays1.o \
+	bcast1.o bcast2.o bcast3.o betacf.o betai.o build_trees.o \
+	calc_stats.o check_for_elite.o \
+	class_serialization_visitor.o class_tree_node.o clock_module.o \
+	close_output_unit.o combine_tree_strings.o comp_data_variance.o \
+	corr.o count_parens.o create_equations.o create_tree_node_string.o \
+	deallocate_arrays1.o deserialize_trees.o deserialize_trees2.o enorm.o \
+	erfc.o erfcc.o Fasham_Forcing.o fasham_model_debug.o \
+	fasham_tree_functions.o fasham_tree_interfaces.o \
+	fasham_variables_module.o fcn.o fdjac2.o fill_string_arrays.o \
+	GA_calc_fitness.o GA_Fitness_Proportionate_Asexual_Reproduction.o \
+	GA_Mutations.o GA_parameters_module.o GA_random_replace.o \
+	GA_replace_bad_individuals.o GA_save_elites.o \
+	GA_Tournament_Style_Sexual_Reproduction.o GA_variables_module.o \
+	gammln.o gammp.o gammq.o gcf.o Generate_Dot_Graph.o Global_Setup.o \
+	GP_calc_diversity_index.o GP_calc_fitness.o GP_Check_Terminals.o \
+	GP_Clean_Tree_Nodes.o GP_data_module.o \
+	GP_Fitness_Proportionate_Asexual_Reproduction.o GP_individual_loop.o \
+	GP_Mutations.o GP_para_lmdif_process.o GP_parameters_module.o \
+	GP_produce_first.o GP_produce_next.o GP_ranking_sort.o \
+	GP_select_best_RK_lmdif_result.o \
+	GP_Tournament_Style_Sexual_Reproduction.o GP_Tree_Build.o \
+	GP_Tree_Build_single.o GP_Tree_Swap.o GP_variables_module.o \
+	GPCODE_GA_lmdif_Parameter_Optimization.o gser.o indiv_fitness.o \
+	init_values.o init_values_data.o init_values_fasham.o \
+	init_values_LV.o init_values_NPZ.o Initialize_GA_Child_Parameters.o \
+	initialize_model.o kinds_mod.o lmdif.o lmpar.o load_pow2_level.o \
+	Math_Node_Functions.o mpi_module.o Numerical_methods.o \
+	parse_fbio_strings.o pearsn.o print4.o \
+	print_debug_integer_node_tree.o print_debug_real_node_tree.o \
+	print_debug_real_nparm.o print_entire_tree.o print_time_series.o \
+	print_time_series_minSSE.o print_trees.o print_values1.o \
+	print_values2.o qrfac.o qrsolv.o random_real.o \
+	read_all_summary_file.o read_cntl_stuff.o read_cntl_vars.o \
+	read_GP_restart.o read_input_data.o read_input_data_size.o \
+	reduce_constant.o reduce_expression.o remove_abs_zero.o \
+	remove_double_parens.o remove_string_blanks.o RKBM.o rm_exp_paren.o \
+	Runge_Kutta_Box_Model_data.o Runge_Kutta_Box_Model_new.o \
+	select_best_RK_lmdif_result.o serialize_trees.o set_answer_arrays.o \
+	set_forcing_node.o set_modified_indiv.o setup1.o \
+	setup_math_functions.o setup_output_unit.o setup_run_fcn.o \
+	setup_run_lmdif.o setup_run_para_lmdif.o sort.o sse0_calc.o \
+	summary_GP_all.o summary_GP_indiv.o summary_GP_indiv2.o \
+	summary_GP_minSSE_indiv.o swap_module.o Tree_Helper_module.o \
+	tree_node_factory_module.o write_GP_restart.o
 
 LIBS =	
 
@@ -60,34 +105,38 @@ CFLAGS = -O
 #F90FLAGS = -g
 #LDFLAGS = -Wl,-no_pie
 #LIBS= -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/usr/lib  -L/Developer/SDKs/MacOSX10.6.sdk/usr/lib
-#
 
-## note: mpif90 is based on gfortran
-#FC = /opt/openmpi-1.8.1/bin/mpif90
-##FFLAGS =  -O3 -g -fbacktrace -ffree-form # -fcheck=bounds #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
-#FFLAGS =   -g  -ffree-form -fbacktrace  -fcheck=bounds #-ffpe-trap='overflow,underflow,denormal' #-g  -fbacktrace -ffree-form -fcheck=bounds # -Wall  #-fdefault-integer-8  # -FR = -free
-##FFLAGS =  -O3  -ffree-form #-g -fbacktrace  -fcheck=bounds  # -Wall  # -fdefault-integer-8  # -FR = -free
-#
-## note: mpif90 is based on gfortran
-#F90 = /opt/openmpi-1.8.1/bin/mpif90
-##F90FLAGS = -O3 -g -fbacktrace -ffree-form  # -fcheck=bounds  #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
-#F90FLAGS =  -g   -ffree-form -fbacktrace -fcheck=bounds # -ffpe-trap='overflow,underflow,denormal' #-g  -fbacktrace -ffree-form -fcheck=bounds # -Wall  #-fdefault-integer-8  # -FR = -free
-##F90FLAGS =  -O3 -ffree-form #-g -fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
-#
-#LDFLAGS = -L/opt/openmpi-1.8.1/lib \
-#          -I/Developer/SDKs/MacOSX10.6.sdk/usr/include
-#LIBS= -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib \
-#      -L/Developer/SDKs/MacOSX10.6.sdk/usr/lib
 
-#################################################################################
-FC =/opt/local/bin/mpif90-openmpi-mp 
-#FFLAGS = -O3  -free   -traceback #-warn all #-C -ftrapuv  # -warn all   # -ftrace=full    # -fzero -Wall
-FFLAGS = -O3  -free #-check bounds   #  -g -traceback  #-ftrapuv #-warn all #-C -ftrapuv  # -warn all   # -ftrace=full    # -fzero -Wall
-F90 = /opt/local/bin/mpif90-openmpi-mp
-F90FLAGS = -O3 -free #-fcheck=all -fbacktrace -Wall # -warn all   #  -ftrace=full    # -fzero -Wall 
-#F90FLAGS = -O3  -free #-check bounds  #  -g -traceback  #-ftrapuv  #-warn all #-C -ftrapuv  # -warn all   #  -ftrace=full    # -fzero -Wall
-LDFLAGS =
-###################################################################################
+# note: mpif90 is based on gfortran
+FC = /opt/openmpi-1.8.1/bin/mpif90
+#FFLAGS =  -O3 -g -fbacktrace -ffree-form # -fcheck=bounds #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
+FFLAGS =   -g  -ffree-form #-fbacktrace  #-fcheck=bounds #-ffpe-trap='overflow,underflow,denormal' #-g  -fbacktrace -ffree-form -fcheck=bounds # -Wall  #-fdefault-integer-8  # -FR = -free
+#FFLAGS =  -O3  -ffree-form #-g -fbacktrace  -fcheck=bounds  # -Wall  # -fdefault-integer-8  # -FR = -free
+
+# note: mpif90 is based on gfortran
+F90 = /opt/openmpi-1.8.1/bin/mpif90
+#F90FLAGS = -O3 -g -fbacktrace -ffree-form  # -fcheck=bounds  #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
+F90FLAGS =  -g   -ffree-form #-fbacktrace #-fcheck=bounds # -ffpe-trap='overflow,underflow,denormal' #-g  -fbacktrace -ffree-form -fcheck=bounds # -Wall  #-fdefault-integer-8  # -FR = -free
+#F90FLAGS =  -O3 -ffree-form #-g -fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
+
+LDFLAGS = -L/opt/openmpi-1.8.1/lib \
+          -I/Developer/SDKs/MacOSX10.6.sdk/usr/include
+LIBS= -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib \
+      -L/Developer/SDKs/MacOSX10.6.sdk/usr/lib
+
+##################################################################################
+##FC = mpif90  #mpiifort
+#FC = mpiifort
+##FFLAGS = -O3  -free   -traceback #-warn all #-C -ftrapuv  # -warn all   # -ftrace=full    # -fzero -Wall
+##FFLAGS = -O3  -free #-check bounds   #  -g -traceback  #-ftrapuv #-warn all #-C -ftrapuv  # -warn all   # -ftrace=full    # -fzero -Wall
+#FFLAGS = -g  -free -traceback -debug all #-check bounds   #  -g -traceback  #-ftrapuv #-warn all #-C -ftrapuv  # -warn all   # -ftrace=full    # -fzero -Wall
+##F90 = mpif90  #mpiifort
+#F90 = mpiifort
+##F90FLAGS = -O3  -free -traceback #-warn all #-C -ftrapuv  # -warn all   #  -ftrace=full    # -fzero -Wall 
+##F90FLAGS = -O3  -free #-check bounds  #  -g -traceback  #-ftrapuv  #-warn all #-C -ftrapuv  # -warn all   #  -ftrace=full    # -fzero -Wall
+#F90FLAGS = -g  -free -traceback -debug all  #-check bounds  #  -g -traceback  #-ftrapuv  #-warn all #-C -ftrapuv  # -warn all   #  -ftrace=full    # -fzero -Wall
+#LDFLAGS =
+####################################################################################
 
 
 
@@ -95,7 +144,7 @@ LDFLAGS =
 all: $(PROG)
 
 $(PROG): $(OBJS)
-	$(F90) $(F90FLAGS) $(LDFLAGS) -o $@ $(OBJS) $(LIBS)
+	$(F90) $(LDFLAGS) -o $@ $(OBJS) $(LIBS)
 
 new: $(PROG)
 
@@ -109,7 +158,7 @@ clean:
 .f90.o:
 	$(F90) $(F90FLAGS) -c $<
 
-main.o: GA_parameters_module.o \
+0GPCODE_GA_lmdif_Parameter_Optimization_test.o: GA_parameters_module.o \
 	GA_variables_module.o GP_data_module.o GP_parameters_module.o \
 	GP_variables_module.o class_tree_node.o fasham_variables_module.o \
 	kinds_mod.o mpi_module.o tree_node_factory_module.o
@@ -135,7 +184,8 @@ class_serialization_visitor.o: GP_variables_module.o class_tree_node.o \
 	kinds_mod.o mpi_module.o
 class_tree_node.o: Math_Node_Functions.o kinds_mod.o
 clock_module.o: kinds_mod.o
-close_output_unit.o: GA_parameters_module.o GP_parameters_module.o mpi_module.o
+close_output_unit.o: GA_parameters_module.o GP_parameters_module.o \
+	GP_variables_module.o mpi_module.o
 combine_tree_strings.o: GP_parameters_module.o GP_variables_module.o \
 	kinds_mod.o
 comp_data_variance.o: GA_parameters_module.o GA_variables_module.o \
@@ -166,7 +216,7 @@ fasham_model_debug.o: GA_parameters_module.o GA_variables_module.o \
 	class_tree_node.o fasham_variables_module.o kinds_mod.o mpi_module.o \
 	tree_node_factory_module.o
 fasham_tree_functions.o: GP_variables_module.o fasham_tree_interfaces.o \
-	fasham_variables_module.o tree_node_factory_module.o
+	fasham_variables_module.o kinds_mod.o tree_node_factory_module.o
 fasham_tree_interfaces.o: class_tree_node.o kinds_mod.o
 fasham_variables_module.o: kinds_mod.o
 fcn.o: GA_parameters_module.o GP_data_module.o GP_parameters_module.o \
@@ -201,7 +251,9 @@ gammln.o: kinds_mod.o
 gammp.o: kinds_mod.o mpi_module.o
 gammq.o: kinds_mod.o mpi_module.o
 gcf.o: kinds_mod.o mpi_module.o
-Generate_Dot_Graph.o:  class_tree_node.o kinds_mod.o
+Generate_Dot_Graph.o: Generate_Dot_Graph.o class_tree_node.o kinds_mod.o
+Global_Setup.o: Math_Node_Functions.o fasham_tree_interfaces.o kinds_mod.o \
+	tree_node_factory_module.o
 GP_calc_diversity_index.o: GA_parameters_module.o GA_variables_module.o \
 	GP_parameters_module.o GP_variables_module.o kinds_mod.o
 GP_calc_fitness.o: GA_parameters_module.o GA_variables_module.o \
@@ -225,14 +277,14 @@ GP_para_lmdif_process.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
 	clock_module.o kinds_mod.o mpi_module.o
 GP_parameters_module.o: kinds_mod.o
-GP_produce_first.o: GA_parameters_module.o \
-	GA_variables_module.o GP_data_module.o GP_parameters_module.o \
-	GP_variables_module.o class_tree_node.o fasham_variables_module.o \
-	kinds_mod.o mpi_module.o tree_node_factory_module.o
-GP_produce_next.o: GA_parameters_module.o \
-	GA_variables_module.o GP_data_module.o GP_parameters_module.o \
-	GP_variables_module.o class_tree_node.o fasham_variables_module.o \
-	kinds_mod.o mpi_module.o tree_node_factory_module.o
+GP_produce_first.o: GA_parameters_module.o GA_variables_module.o \
+	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
+	class_tree_node.o fasham_variables_module.o kinds_mod.o mpi_module.o \
+	tree_node_factory_module.o
+GP_produce_next.o: GA_parameters_module.o GA_variables_module.o \
+	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
+	class_tree_node.o fasham_variables_module.o kinds_mod.o mpi_module.o \
+	tree_node_factory_module.o
 GP_ranking_sort.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
 	kinds_mod.o
@@ -316,10 +368,19 @@ random_real.o: GP_parameters_module.o kinds_mod.o
 read_all_summary_file.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
 	kinds_mod.o mpi_module.o
+read_cntl_stuff.o: GA_parameters_module.o GA_variables_module.o \
+	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
+	kinds_mod.o mpi_module.o
 read_cntl_vars.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
 	kinds_mod.o mpi_module.o
+read_GP_restart.o: GA_parameters_module.o GA_variables_module.o \
+	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
+	kinds_mod.o mpi_module.o
 read_input_data.o: GA_parameters_module.o GA_variables_module.o \
+	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
+	kinds_mod.o mpi_module.o
+read_input_data_size.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
 	kinds_mod.o mpi_module.o
 reduce_constant.o: GP_parameters_module.o GP_variables_module.o kinds_mod.o
@@ -354,9 +415,10 @@ setup1.o: GA_parameters_module.o GA_variables_module.o GP_data_module.o \
 	GP_parameters_module.o GP_variables_module.o class_tree_node.o \
 	fasham_variables_module.o kinds_mod.o mpi_module.o \
 	tree_node_factory_module.o
-setup_math_functions.o: Math_Node_Functions.o fasham_tree_interfaces.o kinds_mod.o \
-	tree_node_factory_module.o
-setup_output_unit.o: GA_parameters_module.o GP_parameters_module.o mpi_module.o
+setup_math_functions.o: Math_Node_Functions.o fasham_tree_interfaces.o \
+	kinds_mod.o tree_node_factory_module.o
+setup_output_unit.o: GA_parameters_module.o GP_parameters_module.o \
+	mpi_module.o
 setup_run_fcn.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
 	kinds_mod.o mpi_module.o
@@ -385,3 +447,6 @@ summary_GP_minSSE_indiv.o: GA_parameters_module.o GA_variables_module.o \
 swap_module.o: kinds_mod.o
 Tree_Helper_module.o: class_tree_node.o kinds_mod.o
 tree_node_factory_module.o: class_tree_node.o kinds_mod.o mpi_module.o
+write_GP_restart.o: GA_parameters_module.o GA_variables_module.o \
+	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
+	kinds_mod.o mpi_module.o

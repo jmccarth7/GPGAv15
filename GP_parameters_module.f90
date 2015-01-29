@@ -308,6 +308,12 @@ integer(kind=i4b) :: n_partitions
 integer(kind=i4b) :: new_rank   !, sendbuf, recvbuf     
                                                                                                                               
 integer(kind=i4b) :: color
+                                                                                                                              
+integer,dimension(:,:),allocatable  :: ranks                                                                                  
+integer,dimension(:,:),allocatable  :: ranks2                                                                                 
+integer,dimension(:),allocatable    :: ranks_temp                                                                             
+                                                                                                                              
+integer(kind=i4b) :: divider                                                                                                            
 integer(kind=i4b) :: orig_group
 
 !!integer(kind=i4b) :: new_group                                                                                              

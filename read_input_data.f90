@@ -15,7 +15,7 @@ subroutine read_input_data( )
    integer(kind=i4b) :: istat
    integer(kind=i4b), parameter :: line_length   = 250
 
-!CHARACTER(line_length) :: Aline
+CHARACTER(line_length) :: Aline
 
 
 integer(kind=i4b) ::  ncount               
@@ -23,28 +23,17 @@ integer(kind=i4b) ::  i
 integer(kind=i4b) ::  j                    
 
 
-   real(kind=r8b), allocatable, dimension(:) ::  temp_array
+real(kind=r8b), dimension(0:n_input_vars) ::  temp_array
 
-   if( n_input_vars <= 0 ) return
 
-   open( unit = data_unitnum, file = 'GPGACODE_data', form = 'formatted',&
-        status = 'old' )
+!----------------------------------------------------------------------
 
-! count number of data points
+write(6, '(/A,1x,I6/)') 'rid:  n_input_vars ', n_input_vars
 
-   rewind(data_unitnum)
+!allocate( temp_array( 0:n_input_vars ) ) 
 
-   allocate(input_data_names(0:n_input_vars))
 
-   ncount = 0
-   do
-      read( data_unitnum, '(A)', iostat = istat ) Aline
-      if( istat /= 0 ) exit
-      ncount = ncount + 1
-   enddo
-! subtract 1 because line 1 contains labels
-
-   n_input_data_points = ncount - 1
+!---------------------------------------------------------------------
 
 ! read data names and values
 
@@ -62,13 +51,12 @@ integer(kind=i4b) ::  j
       write(6, '(I2,1x,A)') i, trim(input_data_names(i))
    enddo
 
+!flush(6)
+
 !---------------------------------------------------------------------
 
-   allocate( temp_array( 0:n_input_vars ) ) 
-   allocate( input_data_array( 0:n_input_vars, n_input_data_points) )
-
-   ncount = 0
-   do
+ncount = 0
+do
 
       read( data_unitnum, *, iostat = istat ) temp_array(0:n_input_vars)
       if( istat /= 0 )exit
@@ -91,10 +79,14 @@ integer(kind=i4b) ::  j
       write(6,'(10(1x,E20.10))') &
             ( input_data_array(i,j), i = 0, n_input_vars ) 
    enddo 
+   flush(6)
 
    n_time_steps = n_input_data_points
 
-   close(data_unitnum)
+
+!deallocate( temp_array ) 
+
+
 return 
 
 END subroutine read_input_data

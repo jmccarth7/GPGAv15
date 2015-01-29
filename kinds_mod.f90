@@ -46,12 +46,13 @@ PRIVATE
 INTEGER, PUBLIC, PARAMETER :: i1b = selected_int_kind(r=1)
 INTEGER, PUBLIC, PARAMETER :: i2b = selected_int_kind(r=4)
 INTEGER, PUBLIC, PARAMETER :: i4b = selected_int_kind(r=9)
-
+!INTEGER, PUBLIC, PARAMETER :: i4b = kind( 0 )
 ! real data types
 
 INTEGER, PUBLIC, PARAMETER :: r4b = selected_real_kind(p=6, r=37)
 INTEGER, PUBLIC, PARAMETER :: r8b = selected_real_kind(p=15,r=307)
-
+!INTEGER, PUBLIC, PARAMETER :: r4b = kind( 0.0 )
+!INTEGER, PUBLIC, PARAMETER :: r8b = kind( 0.0D0 )
 ! complex data types
 
 INTEGER, PUBLIC, PARAMETER :: c4b = kind((1.0_r4b,1.0_r4b))

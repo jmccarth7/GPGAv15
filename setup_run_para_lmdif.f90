@@ -97,6 +97,7 @@ external :: fcn
 
 
 !original if( n_parms <= 0 ) then
+
 if( n_parms <= n_code_equations ) then
 
     individual_quality = -1
@@ -228,9 +229,9 @@ ldfjac = n_time_steps
 !        write(myprint_unit,'(A,3(1x,I10))')   'strplm: mode, nprint, ldfjac', &
 !                                                       mode, nprint, ldfjac
 !        write(myprint_unit,'(A,3(1x,E15.7))') 'strplm: ftol, xtol, gtol    ', &
-!                                                        ftol, xtol, gtol
+!                                                       ftol, xtol, gtol
 !        write(myprint_unit,'(A,3(1x,E15.7))') 'strplm: epsfcn, factor  ', &
-!                                                        epsfcn,factor
+!                                                       epsfcn,factor
 !        write(myprint_unit,'(A,1x,I10)')   'strplm: maxfev', maxfev
 !        write(myprint_unit,'(A,1x,I10)')   'strplm: info  ', info
 !    endif ! L_myprint

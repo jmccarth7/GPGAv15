@@ -48,10 +48,10 @@ real(kind=r8b) :: buffer2_recv(max_n_gp_params + 2)
 
 
 integer(kind=i4b) :: i
-integer(kind=i4b) :: ii
+!integer(kind=i4b) :: ii
 integer(kind=i4b) :: jj
 
-integer(kind=i4b) :: nparms_i
+!integer(kind=i4b) :: nparms_i
 integer(kind=i4b) :: n_parms
 integer(kind=i4b) :: n_parms_dim
 integer(kind=i4b) :: nn
@@ -74,21 +74,21 @@ integer(kind=i4b) :: i_Node
 logical :: L_GP_print
 
 real(kind=r8b) ::  temp_SSE
+real(kind=r8b) ::  save_SSE
 
 !----------------------------------------------------------------------
 
 !! max_n_gp_params = maxval( GP_Individual_N_GP_param ) 
 
-!L_GP_print = .FALSE.
-L_GP_print = .TRUE.
+L_GP_print = .FALSE.
 
-!if( i_GP_generation == 1 .or. &
-!    mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
-!    i_GP_generation == n_GP_generations )then
-!
-!    L_GP_print = .TRUE.
-!
-!endif ! i_GP_generation...
+if( i_GP_generation == 1 .or. &
+    mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
+    i_GP_generation == n_GP_generations )then
+
+    L_GP_print = .TRUE.
+
+endif ! i_GP_generation...
 
 
 
@@ -239,6 +239,7 @@ endif ! myid == 0
 !                 maxval( GP_n_parms ) 
 !
 !endif ! myid == 0
+
 !-----------------------------------------------------------------------------
 
 !if( myid == 0  )then
@@ -706,6 +707,7 @@ else  ! not myid == 0
             ! GP_child_individual_SSE array
 
             temp_SSE = GP_child_individual_SSE(i_2_individual)
+            save_SSE = GP_child_individual_SSE(i_2_individual)
 
             !if( L_GP_print .and. myid == 1 )then
             !    write(GP_print_unit,'(A,2(1x,I6),1x,E24.16)') &
@@ -745,6 +747,10 @@ else  ! not myid == 0
             if( info > 0  )then
 
                 GP_child_individual_SSE(i_2_individual) = temp_SSE
+
+            else
+
+                GP_child_individual_SSE(i_2_individual) = save_SSE
 
             endif ! abs(temp_SSE)...
 

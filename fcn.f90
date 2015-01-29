@@ -261,7 +261,8 @@ call Initialize_Model( .true., .true. , 6 )   ! call build_trees
 ! initialize the biological data fields
 
 
-! Numerical_CODE__Solution set above from the x array
+! Numerical_CODE_Solution set above from the  "x" array
+
 
 
 Numerical_CODE_Initial_Conditions(1:n_CODE_equations) = &

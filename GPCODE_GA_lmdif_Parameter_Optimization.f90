@@ -22,9 +22,10 @@ subroutine GPCODE_GA_lmdif_Parameter_Optimization( &
 
    implicit none
 
-   integer(kind=i4b),intent(in) :: i_GP_Generation
-   integer(kind=i4b),intent(in) :: i_GP_individual
-   integer(kind=i4b),intent(in) :: new_comm 
+integer(kind=i4b),intent(in) :: i_GP_Generation
+integer(kind=i4b),intent(in) :: i_GP_individual
+!integer(kind=i4b),intent(in) :: new_group
+integer(kind=i4b),intent(in) :: new_comm 
 
    integer(kind=i4b) :: child_number
 
@@ -46,8 +47,10 @@ subroutine GPCODE_GA_lmdif_Parameter_Optimization( &
    integer(kind=i4b) ::  itag7
 
 
-   real(kind=r8b),&
-     dimension(n_GP_parameters,n_GA_individuals) ::  parent_parameters
+!  divider is the number of cpus in the current partition
+
+real(kind=r8b),&
+  dimension(n_GP_parameters,n_GA_individuals) ::  parent_parameters
 
    real(kind=r8b),&
      dimension(n_GP_parameters,n_GA_individuals) ::  child_parameters
@@ -72,17 +75,16 @@ subroutine GPCODE_GA_lmdif_Parameter_Optimization( &
 
    integer(kind=i4b) :: individual_quality(n_GA_individuals)
 
-   logical :: L_stop_run
+real(kind=r8b), external :: indiv_fitness
+
+logical :: L_stop_run
 
    logical :: L_too_many_iters
 
 
-   integer(kind=i4b) :: jj
-   integer(kind=i4b) :: i_ga_ind
-
-   integer(kind=i4b) :: ierror_tou
-
-   integer(kind=i4b) :: n_procs   
+integer(kind=i4b) :: jj
+integer(kind=i4b) :: i_ga_ind
+!integer(kind=i4b) :: i_code_equation
 
 integer(kind=i4b) :: ierror_tou
 
@@ -102,7 +104,20 @@ ierror_tou = 0
    call mpi_comm_rank( new_comm, new_rank, ierr ) 
    call MPI_COMM_SIZE( new_comm, n_procs, ierr)  
 
-   if( myid == 0 )return
+
+!write(6,'(A,5(1x,I3))') &
+! 'GP_GA_opt: entry  myid, new_rank, n_procs, i_GP_Generation,i_GP_individual', &
+!                    myid, new_rank, n_procs, i_GP_Generation,i_GP_individual
+
+!write(6,'(A,5(1x,I3))') &
+! 'GP_GA_opt: entry  myid, new_rank, n_GP_parameters, n_GA_individuals ', &
+!                    myid, new_rank, n_GP_parameters, n_GA_individuals
+
+!write(6,'(A,5(1x,I3))') &
+! 'GP_GA_opt: at entry  myid, new_rank, n_GA_individuals, divider ', &
+!                       myid, new_rank, n_GA_individuals, divider
+
+if( myid == 0 )return
 
    L_too_many_iters = .FALSE.
    i_dummy = 0
@@ -116,6 +131,9 @@ ierror_tou = 0
    n_parameters = n_GP_parameters
 !-----------------------------------------------------------------------------
    child_parameters( 1:n_GP_parameters, 1:n_GA_individuals) = 0.0d0
+
+
+!-----------------------------------------------------------------------------
 
 ! set up MPI process
 
@@ -352,17 +370,10 @@ ierror_tou = 0
 
         endif ! i_GA_generation .eq. 1
 
+
+
+
     endif ! new_rank == 0
-
-    call MPI_BCAST( ierror_tou,  1,    &
-                    MPI_INTEGER, 0, new_comm, ierr )
-
-    ! handle error in GA_Tournament_Style_Sexual_Reproduction
-    if( ierror_tou > 0 )then
-        call MPI_FINALIZE(ierr)
-        stop
-    endif ! ierror_tou > 0 )then
-
 
     call MPI_BCAST( ierror_tou,  1,    &
                     MPI_INTEGER, 0, new_comm, ierr )
@@ -479,7 +490,7 @@ ierror_tou = 0
                 individual_quality(i_individual) = nint( buffer_recv( n_GP_parameters+2) )
                 if( individual_quality(i_individual) < 0 .or.  &      ! jjm 20150108
                     individual_SSE(i_individual) < 1.0D-20         )then      ! jjm 20150108
-                    individual_SSE(i_individual) = 1.0D+13      ! jjm 20150108
+                    individual_SSE(i_individual) = big_real      ! jjm 20150108
                 endif ! individual_quality(i_individual) < 0      ! jjm 20150108
 
                 !if( L_ga_print )then
@@ -490,6 +501,8 @@ ierror_tou = 0
                 !endif ! L_ga_print
 
             endif ! Run_GA_lmdif(i_individual)
+
+            !endif ! i_individual > 0 
             !--------------------------------------------------------------------------------
 
 
@@ -657,6 +670,7 @@ ierror_tou = 0
                 call setup_run_fcn( i_2_individual, &
                                     child_parameters,individual_quality, &
                                                new_comm )
+                                    !new_group, new_comm )
 
 
                 !if( L_ga_print )then
@@ -707,6 +721,7 @@ ierror_tou = 0
             call MPI_SEND( buffer, n_GP_parameters+2,  &
                            MPI_DOUBLE_PRECISION, 0, &
                            itag7, new_comm, ierr )
+                           !i_2_individual, new_comm, ierr )
 
 
             !---------------------------------------------------------------
@@ -796,6 +811,8 @@ ierror_tou = 0
                            i_GA_Best_Parent, Parent_Parameters, L_stop_run, &
                            i_GP_Generation, i_GP_individual, &
                            new_comm  )
+                           !new_group, new_comm  )
+
         !---------------------------------------------------------------------
 
     endif ! new_rank == 0
@@ -876,6 +893,7 @@ if( new_rank == 0  )then
                 i_GA_best_parent, parent_parameters, &
                 child_parameters, &
                 L_stop_run,            new_comm  )
+                !L_stop_run, new_group, new_comm  )
 
     !if( L_ga_print )then
     !    write(GA_print_unit,'(/A//)') &

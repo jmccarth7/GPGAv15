@@ -15,6 +15,7 @@ use GP_variables_module
         integer(kind=i4b) :: node_id, file_handle
         contains
 
+        !procedure :: Visit_Tree_Node => Serialize_Visit_Tree_Node
         procedure :: Visit_Tree_Math_Node => Serialize_Visit_Math_Node
         procedure :: Visit_Tree_Parameter_Node => Serialize_Visit_Parameter_Node
         procedure :: Visit_Tree_Variable_Node => Serialize_Visit_Variable_Node

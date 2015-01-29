@@ -38,7 +38,10 @@ subroutine summary_GP_all( i_GP_generation,  icall  )
 
    logical :: Lprint,L_open
 
+!----------------------------------------------------------------------------------------
+
    if( .not. L_GP_all_summary ) return
+
 ! assume this subroutine is called only by cpu 0
    if( myid /=0 ) return
 
@@ -59,8 +62,6 @@ subroutine summary_GP_all( i_GP_generation,  icall  )
        i_GP_generation == n_GP_generations                          )then
        Lprint = .TRUE.
    endif ! i_GP_generation == 1 .or. ...
-
-   Lprint = .TRUE.   ! debug only
 
 !--------------------------------------------------------------------------------
 

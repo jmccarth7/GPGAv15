@@ -1,4 +1,4 @@
-subroutine summary_GP_indiv( i_GP_generation, i_GP_indiv, icall  )
+subroutine summary_GP_indiv( i_GP_generation, i_GP_indiv ) !, icall  )
 
 ! program written by: Dr. John R. Moisan [NASA/GSFC] 31 January, 2013
 
@@ -36,7 +36,7 @@ integer(kind=i4b) :: i_code_eq
 
 integer(kind=i4b),intent(in)  :: i_GP_Generation
 integer(kind=i4b),intent(in)  :: i_GP_indiv
-integer(kind=i4b),intent(in)  :: icall       
+!integer(kind=i4b),intent(in)  :: icall       
 
 integer(kind=i4b) :: i_Tree
 integer(kind=i4b) :: i_Node
