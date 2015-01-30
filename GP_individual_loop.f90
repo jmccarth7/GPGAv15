@@ -160,6 +160,10 @@ do  i_part = 1,  n_partitions
     ind2 = min( ind2, n_GP_individuals )   ! redundant given if-block above
 
 
+    write(6,'(A,4(1x,I6))')&
+              'gpind:0 myid, ind1, ind2', &
+                       myid, ind1, ind2
+
 
     !if( myid == 0 )then
     !    write(GP_print_unit,'(A,7(1x,I5))')&
@@ -366,6 +370,10 @@ do  i_part = 1,  n_partitions
 
     elseif( i_gp_1 <= myid  .and.   &
                       myid   <= i_gp_2         )then
+
+    write(6,'(A,4(1x,I6))')&
+              'gpind:1 myid, ind1, ind2', &
+                       myid, ind1, ind2
 
         gp_ind_loop:&
         do  i_GP_individual= ind1, ind2    ! 1,n_GP_individuals

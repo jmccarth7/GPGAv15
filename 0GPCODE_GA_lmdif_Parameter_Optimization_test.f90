@@ -65,14 +65,14 @@ integer,allocatable,dimension(:) :: color_value
 integer,allocatable,dimension(:) :: key
 
 integer(kind=i4b) :: comm_world
-integer(kind=i4b) :: array_len   
+integer(kind=i4b) :: array_len
 
 !real(kind=r8b) :: t1
 !real(kind=r8b) :: t2
 
 
-character(15),parameter :: program_version   = '201501.003_v15'
-character(10),parameter :: modification_date = '20150128'
+character(75),parameter :: program_version   = '201501.004_v15'
+character(10),parameter :: modification_date = '20150130'
 character(50),parameter :: branch  =  'data_processing'
 
 integer(kind=i4b), parameter ::  zero = 0
@@ -399,7 +399,7 @@ if( n_input_vars > 0 )then
 
     !-----------------------------------------------------------------
 
-    ! broadcast input_data_names array 
+    ! broadcast input_data_names array
 
     !write(6,'(/A,2(1x,I6))') '0: myid, n_input_vars', myid, n_input_vars
     !write(6,'(A,2(1x,I6))')  '0: myid, name_len    ', myid, name_len
@@ -413,7 +413,7 @@ if( n_input_vars > 0 )then
 
     !-----------------------------------------------------------------
 
-    ! broadcast input_data_array 
+    ! broadcast input_data_array
 
     !write(6,'(/A,2(1x,I6))') '0:1 myid, n_input_vars       ', myid, n_input_vars
     !write(6,'(A,2(1x,I6))')  '0:1 myid, n_input_data_points', myid, n_input_data_points
@@ -514,7 +514,7 @@ endif ! myid == 0
 !---------------------------------------------------------------------------
 
 if( myid == 0 )then
-    write(6,'(A,3(1x,I6))') '0: call setup1'                             
+    write(6,'(A,3(1x,I6))') '0: call setup1'
     !flush(6)
 endif ! myid == 0 )then
 
@@ -523,7 +523,7 @@ call setup1( )
 
 
 if( myid == 0 )then
-    write(6,'(A,3(1x,I6))') '0: AFT call setup1'                             
+    write(6,'(A,3(1x,I6))') '0: AFT call setup1'
     !flush(6)
 endif ! myid == 0 )then
 
@@ -1324,7 +1324,25 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
     call GP_individual_loop( new_group, new_comm, i_GP_generation, n_indiv_part )
 
+
     !-----------------------------------------------------------------------------------
+    do  i_GP_individual = 1, n_GP_individuals
+        write(GP_print_unit, '(A, 2(1x,I6),1x, E20.10 )') &
+                      '0: aft GPind myid, i_GP_Individual, GP_Child_Individual_SSE',&
+                                    myid, i_GP_Individual,  &
+                                    GP_Child_Individual_SSE(i_GP_Individual)
+    enddo
+    !-----------------------------------------------------------------------------------
+
+
+    !----------------------------------------------------------------------------------
+    ! needed if GP_para_lmdif_process called
+
+    call MPI_BCAST( GP_Child_Individual_SSE, n_GP_individuals,    &    ! jjm 20150130
+                    MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )    ! jjm 20150130
+    !----------------------------------------------------------------------------------
+
+
 
 
     if( L_GP_all_summary .and. myid == 0 )then

@@ -264,8 +264,8 @@ Truth_Model_Match         = .FALSE.
 GP_Adult_Population_Node_Type = -9999
 GP_Child_Population_Node_Type = -9999
 
-GP_Adult_Individual_SSE = 0.0d0
-GP_Child_Individual_SSE = 0.0d0
+GP_Adult_Individual_SSE = -3.3d0 ! 0.0d0
+GP_Child_Individual_SSE = -3.0d0 ! 0.0d0
 
 
 Node_Values = 0.0d0
