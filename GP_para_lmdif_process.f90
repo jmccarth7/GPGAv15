@@ -74,6 +74,7 @@ integer(kind=i4b) :: i_Node
 logical :: L_GP_print
 
 real(kind=r8b) ::  temp_SSE
+real(kind=r8b) ::  save_SSE
 
 !----------------------------------------------------------------------
 
@@ -238,6 +239,7 @@ endif ! myid == 0
 !                 maxval( GP_n_parms ) 
 !
 !endif ! myid == 0
+
 !-----------------------------------------------------------------------------
 
 !if( myid == 0  )then
@@ -705,6 +707,7 @@ else  ! not myid == 0
             ! GP_child_individual_SSE array
 
             temp_SSE = GP_child_individual_SSE(i_2_individual)
+            save_SSE = GP_child_individual_SSE(i_2_individual)
 
             !if( L_GP_print .and. myid == 1 )then
             !    write(GP_print_unit,'(A,2(1x,I6),1x,E24.16)') &
@@ -744,6 +747,10 @@ else  ! not myid == 0
             if( info > 0  )then
 
                 GP_child_individual_SSE(i_2_individual) = temp_SSE
+
+            else
+
+                GP_child_individual_SSE(i_2_individual) = save_SSE
 
             endif ! abs(temp_SSE)...
 
