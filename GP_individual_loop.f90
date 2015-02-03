@@ -100,36 +100,36 @@ call mpi_comm_rank( new_comm, new_rank, ierr )
 call mpi_comm_size( new_comm, n_procs,  ierr )
 
 
-!if( myid == 0 )then
-!    write(GP_print_unit,'(/A,4(1x,i4))')&
-!     'gil: before loop myid, new_rank, n_code_equations,  n_GP_params ',&
-!                       myid, new_rank, n_code_equations,  n_GP_parameters
-!    write(GP_print_unit,'(A,5(1x,i4))')&
-!     'gil: before loop myid, new_rank, numprocs, divider, n_partitions', &
-!                       myid, new_rank, numprocs, divider, n_partitions
-!    write(GP_print_unit,'(A,3(1x,i4))')&
-!     'gil: before loop myid, new_rank, n_procs                        ', &
-!                       myid, new_rank, n_procs
-!    write(GP_print_unit,'(A,1x,i4, 1x,I6)')&
-!     'gil: before loop myid, (n_GP_individuals / n_partitions) + 1 ', &
-!                       myid, (n_GP_individuals / n_partitions) + 1 
-!    !flush( GP_print_unit )
-!endif !  myid == 0
+if( myid == 0 )then
+    write(GP_print_unit,'(/A,4(1x,i4))')&
+     'gil: before loop myid, new_rank, n_code_equations,  n_GP_parameters ',&
+                       myid, new_rank, n_code_equations,  n_GP_parameters
+    write(GP_print_unit,'(A,5(1x,i4))')&
+     'gil: before loop myid, new_rank, numprocs, divider, n_partitions', &
+                       myid, new_rank, numprocs, divider, n_partitions
+    write(GP_print_unit,'(A,3(1x,i4))')&
+     'gil: before loop myid, new_rank, n_procs                        ', &
+                       myid, new_rank, n_procs
+    write(GP_print_unit,'(A,1x,i4, 1x,I6)')&
+     'gil: before loop myid, (n_GP_individuals / n_partitions) + 1 ', &
+                       myid, (n_GP_individuals / n_partitions) + 1 
+    !flush( GP_print_unit )
+endif !  myid == 0
 
-!if( new_rank == 0 )then
-!    write(GP_print_unit,'(/A,4(1x,i4))')&
-!     'gil: before loop myid, new_rank, n_code_equations,  n_GP_params ',&
-!                       myid, new_rank, n_code_equations,  n_GP_parameters
-!    write(GP_print_unit,'(A,5(1x,i4))')&
-!     'gil: before loop myid, new_rank, numprocs, divider, n_partitions', &
-!                       myid, new_rank, numprocs, divider, n_partitions
-!    write(GP_print_unit,'(A,3(1x,i4))')&
-!     'gil: before loop myid, new_rank, n_procs                        ', &
-!                       myid, new_rank, n_procs
-!    write(GP_print_unit,'(A,1x,i4, 1x,I6)')&
-!     'gil: before loop myid, (n_GP_individuals / n_partitions) + 1', &
-!                       myid, (n_GP_individuals / n_partitions) + 1
-!endif !  new_rank == 0
+if( new_rank == 0 )then
+    write(GP_print_unit,'(/A,4(1x,i4))')&
+     'gil: before loop myid, new_rank, n_code_equations,  n_GP_params ',&
+                       myid, new_rank, n_code_equations,  n_GP_parameters
+    write(GP_print_unit,'(A,5(1x,i4))')&
+     'gil: before loop myid, new_rank, numprocs, divider, n_partitions', &
+                       myid, new_rank, numprocs, divider, n_partitions
+    write(GP_print_unit,'(A,3(1x,i4))')&
+     'gil: before loop myid, new_rank, n_procs                        ', &
+                       myid, new_rank, n_procs
+    write(GP_print_unit,'(A,1x,i4, 1x,I6)')&
+     'gil: before loop myid, (n_GP_individuals / n_partitions) + 1', &
+                       myid, (n_GP_individuals / n_partitions) + 1
+endif !  new_rank == 0
 
 
 !-------------------------------------------------------------------------------
@@ -160,17 +160,13 @@ do  i_part = 1,  n_partitions
     ind2 = min( ind2, n_GP_individuals )   ! redundant given if-block above
 
 
-    write(6,'(A,4(1x,I6))')&
-              'gpind:0 myid, ind1, ind2', &
-                       myid, ind1, ind2
 
-
-    !if( myid == 0 )then
-    !    write(GP_print_unit,'(A,7(1x,I5))')&
-    !        'gil:in loop myid, new_rank, i_part, ind1, ind2, i_gp_1, i_gp_2',&
-    !                     myid, new_rank, i_part, ind1, ind2, i_gp_1, i_gp_2
-    !    !flush( GP_print_unit )
-    !endif ! myid == 0 
+    if( myid == 0 )then
+        write(GP_print_unit,'(A,7(1x,I5))')&
+            'gil:in loop myid, new_rank, i_part, ind1, ind2, i_gp_1, i_gp_2',&
+                         myid, new_rank, i_part, ind1, ind2, i_gp_1, i_gp_2
+        !flush( GP_print_unit )
+    endif ! myid == 0 
 
     !---------------------------------------------------------------------------------
 
@@ -185,9 +181,9 @@ do  i_part = 1,  n_partitions
     sse_buffer_send(1:ind2-ind1+1)  = GP_Child_Individual_SSE(ind1:ind2)
     buff_parm_send(1:ind2-ind1+1)   = GP_Individual_N_GP_param(ind1:ind2)
 
-    !write(GP_print_unit,'(A,8(1x,I4))')&
-    !    'gil:in loop myid, new_rank, i_part, ind1, ind2, i_gp_1, i_gp_2, ind2-ind1+1',&
-    !                 myid, new_rank, i_part, ind1, ind2, i_gp_1, i_gp_2, ind2-ind1+1
+    write(GP_print_unit,'(A,8(1x,I4))')&
+        'gil:in loop myid, new_rank, i_part, ind1, ind2, i_gp_1, i_gp_2, ind2-ind1+1',&
+                     myid, new_rank, i_part, ind1, ind2, i_gp_1, i_gp_2, ind2-ind1+1
     !flush( GP_print_unit )
 
     !---------------------------------------------------------------------------------
@@ -260,7 +256,7 @@ do  i_part = 1,  n_partitions
         !               myid, new_rank, i_part, GP_Child_Individual_SSE(ind1:ind2)
         !flush( GP_print_unit )
 
-        !GP_Child_Individual_SSE(ind1:ind2) =  sse_buffer_recv(1:n_indiv)
+        
         GP_Adult_Individual_SSE(ind1:ind2) =  GP_Child_Individual_SSE(ind1:ind2)
         GP_Adult_Population_SSE(ind1:ind2) =  GP_Child_Individual_SSE(ind1:ind2)
 
@@ -370,10 +366,6 @@ do  i_part = 1,  n_partitions
 
     elseif( i_gp_1 <= myid  .and.   &
                       myid   <= i_gp_2         )then
-
-    write(6,'(A,4(1x,I6))')&
-              'gpind:1 myid, ind1, ind2', &
-                       myid, ind1, ind2
 
         gp_ind_loop:&
         do  i_GP_individual= ind1, ind2    ! 1,n_GP_individuals
