@@ -296,9 +296,11 @@ Data_Array=Numerical_CODE_Solution        ! Matrix Operation
 
 Numerical_CODE_Solution(1:n_time_steps, 1:n_code_equations) = 0.0d0
 
-write(6, '(/A,2(1x,I6))') 'set1: n_input_data_points ', n_input_data_points
-write(6, '(A,2(1x,I6))')  'set1: n_input_vars ', n_input_vars
-write(6, '(A,2(1x,I6)/)') 'set1: n_time_steps ', n_time_steps
+if( myid == 0 )then 
+    write(6, '(/A,2(1x,I6))') 'set1: n_input_data_points ', n_input_data_points
+    write(6, '(A,2(1x,I6))')  'set1: n_input_vars ', n_input_vars
+    write(6, '(A,2(1x,I6)/)') 'set1: n_time_steps ', n_time_steps
+endif ! myid == 0
 
 if( n_input_vars == 0 )then
     message_len = ( n_time_steps + 1 ) * n_CODE_equations

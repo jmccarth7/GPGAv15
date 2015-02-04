@@ -547,7 +547,8 @@ call MPI_COMM_GROUP( comm_world, orig_group, ierr )
 
 ! divide tasks into n_partitions -- distinct groups based on rank
 
-divider = ( numprocs -1 ) / n_partitions
+!orig divider = ( numprocs -1 ) / n_partitions
+divider = ( numprocs  ) / n_partitions
 
 if( myid == 0 )then
     write(6,'(A,3(1x,I4))') '0: n_partitions, numprocs, divider', &
@@ -594,7 +595,7 @@ ranks_temp = 0
 
 do  i = 1, n_partitions
 
-    do  j = 1, numprocs !divider
+    do  j = 1, numprocs-1 !divider
 
         if( j >  divider * (i-1)  .and. &
             j <= divider *  i           ) then
@@ -611,8 +612,8 @@ enddo ! i
 if( myid == 0 ) then
     write(6,'(//A/)')       '0:  i  j  ranks(j,i)     '
     do  i = 1, n_partitions
-        do  j = 1, numprocs !divider
-            write(6,'(3(1x,I5))') i, j, ranks2(j, i )
+        do  j = 1, numprocs-1 !divider
+            write(6,'(3(1x,I10))') i, j, ranks(j, i )
         enddo ! j
     enddo ! i
 endif ! myid == 0
@@ -1336,17 +1337,8 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
                                             n_GP_individuals, n_partitions, n_indiv_part
     endif ! myid == 0
 
+
     call GP_individual_loop( new_group, new_comm, i_GP_generation, n_indiv_part )
-
-
-    !-----------------------------------------------------------------------------------
-    do  i_GP_individual = 1, n_GP_individuals
-        write(GP_print_unit, '(A, 2(1x,I6),1x, E20.10 )') &
-                      '0: aft GPind myid, i_GP_Individual, GP_Child_Individual_SSE',&
-                                    myid, i_GP_Individual,  &
-                                    GP_Child_Individual_SSE(i_GP_Individual)
-    enddo
-    !-----------------------------------------------------------------------------------
 
 
     !----------------------------------------------------------------------------------
@@ -1355,6 +1347,18 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
     call MPI_BCAST( GP_Child_Individual_SSE, n_GP_individuals,    &    ! jjm 20150130
                     MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )    ! jjm 20150130
     !----------------------------------------------------------------------------------
+
+    !-----------------------------------------------------------------------------------
+    if( myid == 0 )then
+        do  i_GP_individual = 1, n_GP_individuals
+            write(GP_print_unit, '(A, 2(1x,I6),1x, E20.10 )') &
+                          '0: aft GPind myid, i_GP_Individual, GP_Child_Individual_SSE',&
+                                        myid, i_GP_Individual,  &
+                                        GP_Child_Individual_SSE(i_GP_Individual)
+        enddo
+    endif ! myid == 0
+    !-----------------------------------------------------------------------------------
+
 
 
 
