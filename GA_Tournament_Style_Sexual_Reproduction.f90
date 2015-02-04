@@ -32,7 +32,7 @@ real(kind=r8b) :: child_two_parameters(n_parameters)
 real(kind=r8b) :: temp_male_parameters(n_parameters)
 real(kind=r8b) :: temp_female_parameters(n_parameters)
 
-real(kind=4) :: cff
+real(kind=r4b) :: cff
 real(kind=r8b) :: dff
 
 real(kind=r8b) :: old_male
@@ -97,7 +97,7 @@ do  i_GA_Crossover=1,n_GA_Crossovers
     !      'gato: aft random i_GA_Crossover, k_GA_Individual_Male(1:2)  ', &
     !                        i_GA_Crossover, k_GA_Individual_Male(1:2)
     !endif ! L_ga_print
-  
+ 
     !--------------------------------------------------------------------
   
     ! you picked the same individual for both male parents, so choose another
@@ -246,8 +246,7 @@ do  i_GA_Crossover=1,n_GA_Crossovers
 
   
     endif !   k_GA_Individual_Female(2) .eq. k_GA_Individual_Female(1)
-  
-  
+
     !---------------------------------------------------------------------------------
   
   
@@ -291,7 +290,7 @@ do  i_GA_Crossover=1,n_GA_Crossovers
   
     ! pick a location from 1 to n_parameters-1
   
-    i_GA_Crossover_Point = 1 + int( dff * real(n_Parameters-2,kind=8) )
+    i_GA_Crossover_Point = 1 + int( dff * real(n_Parameters-2,kind=r8b) )
     i_GA_Crossover_Point = min( i_GA_Crossover_Point , n_Parameters )
     i_GA_Crossover_Point = max( i_GA_Crossover_Point , 1            )
   
@@ -384,7 +383,7 @@ do  i_GA_Crossover=1,n_GA_Crossovers
   
   
         call random_number( cff )
-        std_dev_parm = 0.5d0 + real(cff,kind=8) * mean_parm
+        std_dev_parm = 0.5d0 + real(cff,kind=r8b) * mean_parm
   
         !if( L_ga_print )then
         !    write(GA_print_unit,'(A,3(1x,E15.7))') &
@@ -473,7 +472,7 @@ do  i_GA_Crossover=1,n_GA_Crossovers
         !endif ! L_ga_print
   
         call random_number( cff )
-        std_dev_parm = 0.5d0 + real(cff,kind=8) * mean_parm
+        std_dev_parm = 0.5d0 + real(cff,kind=r8b) * mean_parm
   
   
         !if( L_ga_print )then

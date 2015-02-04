@@ -81,15 +81,20 @@ integer, parameter :: plot_unit = 177
 
 logical :: L_myprint
 
+
 !------------------------------------------------------------------------------
+
+
+if( myid /= 0 ) return
+
 if( myid == 0 )then
     write(GP_print_unit,'(/A,2(1x,I6)/)') 'pts: i_GP_generation', i_GP_generation 
 endif ! myid == 0
 
-L_myprint = .FALSE.             
-if( i_GP_generation == 0 )then
-    L_myprint = .TRUE. 
-endif ! i_GP_generation == 0
+   L_myprint = .FALSE.             
+   if( i_GP_generation == 0 )then
+      L_myprint = .TRUE. 
+   endif ! i_GP_generation == 0
 
 GP_individual_Initial_Conditions = GP_Population_Initial_Conditions(:, i_GP_best_parent)
 GP_Individual_Node_Parameters    = GP_population_node_parameters(:,:,i_GP_best_parent)
@@ -232,17 +237,25 @@ if( myid == 0 )then
     ! RK_Box_Model now puts the time series in Numerical_CODE_Solution
 
 
-    !call Runge_Kutta_Box_Model( .true. )  ! print
-    call Runge_Kutta_Box_Model( .false. )   ! don't print
+    if( n_inputs == 0 )then
+
+        !call Runge_Kutta_Box_Model( .true. )  ! print
+        call Runge_Kutta_Box_Model( .false. )   ! don't print
+
+    else
+
+        !call Runge_Kutta_Box_Model_data( .true. )  ! print
+        call Runge_Kutta_Box_Model_data( .false. )   ! don't print
+
+    endif ! n_inputs == 0
 
 
-
-    if( L_myprint )write(GP_print_unit,'(/A/)') &
-     'pts: data_point   Numerical_CODE_Solution(data_point,1:n_CODE_equations)'
-    do  i = 1, n_time_steps   !n_input_data_points
-        if( L_myprint )write(GP_print_unit,'(I6,2x,10(1x,E14.7))') &
-              i, (Numerical_CODE_Solution(i,jj), jj = 1,n_CODE_equations )
-    enddo ! i
+    !if( L_myprint )write(GP_print_unit,'(/A/)') &
+    ! 'pts: data_point   Numerical_CODE_Solution(data_point,1:n_CODE_equations)'
+    !do  i = 1, n_time_steps   !n_input_data_points
+    !    if( L_myprint )write(GP_print_unit,'(I6,2x,10(1x,E14.7))') &
+    !          i, (Numerical_CODE_Solution(i,jj), jj = 1,n_CODE_equations )
+    !enddo ! i
 
 
 
@@ -272,7 +285,7 @@ if( myid == 0 )then
 
     do  i = 1, n_time_steps   !  n_input_data_points
 
-        x_time_step = real( i, kind=8 ) * dt
+        x_time_step = real( i, kind=r8b ) * dt
 
         if( x_time_step < sse_min_time ) then
             sse_wt = sse_low_wt
@@ -306,7 +319,7 @@ if( myid == 0 )then
 
         enddo ! j
 
-        xtime = dt * real(i,kind=8) 
+        xtime = dt * real(i,kind=r8b) 
 
         if( L_myprint )write(GP_print_unit,'(F12.5,1x,I6,2x,50(1x,E12.5))') &
               xtime, i, ( Numerical_CODE_Solution(i,j),  Data_Array(i,j), &

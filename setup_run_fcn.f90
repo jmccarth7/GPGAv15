@@ -32,7 +32,7 @@ integer(kind=i4b) ::  iflag
 
 ! lmdif arrays and variables
 
-real (kind=8) :: x_LMDIF(n_GP_parameters)
+real(kind=r8b) :: x_LMDIF(n_GP_parameters)
 
 real(kind=r8b),dimension(n_time_steps) :: fvec
 
@@ -140,7 +140,7 @@ info = iflag
 if( info < 0 ) then
 
     individual_quality( i_GA_indiv ) = -1
-    individual_SSE(i_GA_indiv) =  1.0D+13
+    individual_SSE(i_GA_indiv) =  big_real  ! 1.0D+13
 
     !if( L_ga_print )then
     !    write(6,'(A, 3(1x, I6),  1x,E15.7/)') &
@@ -195,7 +195,7 @@ enddo ! i_parameter
 !write(6,'(A,3(1x,E15.7))') 'setrf: sse_min_time, sse_max_time, dt ', &
 !                                   sse_min_time, sse_max_time, dt
 
-individual_SSE(i_GA_indiv)=0.0D+0
+individual_SSE(i_GA_indiv) =  big_real  !1.0D+13
 
 if( individual_quality( i_GA_indiv ) > 0 ) then
 
@@ -203,9 +203,11 @@ if( individual_quality( i_GA_indiv ) > 0 ) then
     !    write(GA_print_unit,'(A,1x,I6)') 'setrf: i_GA_indiv ', i_GA_indiv
     !endif ! L_ga_print
 
+    individual_SSE(i_GA_indiv)=0.0D+0
+
     do i_time_step=1,n_time_steps
 
-        x_time_step = real( i_time_step, kind=8 ) * dt
+        x_time_step = real( i_time_step, kind=r8b ) * dt
         if( x_time_step > sse_max_time ) exit
 
         !old   if( isnan(fvec(i_time_step)) )    fvec(i_time_step) = 0.0d0
@@ -213,8 +215,8 @@ if( individual_quality( i_GA_indiv ) > 0 ) then
         !new   if( isnan(fvec(i_time_step))  .or.   &
         !new         abs(fvec(i_time_step)) >  1.0d20   ) fvec(i_time_step) =  1.0d20
 
-       if( isnan(fvec(i_time_step)) )         fvec(i_time_step) =  0.0d0
-       if( abs(fvec(i_time_step)) >  1.0d20 ) fvec(i_time_step) =  1.0d20
+       if( isnan(fvec(i_time_step)) )          fvec(i_time_step) =  big_real !1.0d20
+       if( abs(fvec(i_time_step)) > big_real ) fvec(i_time_step) =  big_real !1.0d20
 
 
        !if( L_ga_print )then

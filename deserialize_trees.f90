@@ -11,17 +11,17 @@ use kinds_mod
     implicit none
 
     ! Input
-    character (len=*), intent(in) :: io_dir
-    integer (kind=4):: Tree_count, num_Tracked_resources
+    character(len=*), intent(in) :: io_dir
+    integer(kind=i4b):: Tree_count, num_Tracked_resources
 
     ! Input/Output
     type(Tree_Node_Pointer), dimension(Tree_count, num_Tracked_resources), intent(inout) :: Trees
 
     ! Local variables
 
-    integer (kind=4):: node_count, file_handle, left, right, node_type
-    integer (kind=4):: node_id, node_operation, variable_index
-    integer (kind=4):: i, j, k, l
+    integer(kind=i4b):: node_count, file_handle, left, right, node_type
+    integer(kind=i4b):: node_id, node_operation, variable_index
+    integer(kind=i4b):: i, j, k, l
 
     real(kind=r8b) :: parameter_value
     type(Tree_Node_Pointer), dimension(:), allocatable :: Nodes

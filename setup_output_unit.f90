@@ -1,4 +1,3 @@
-
 subroutine setup_output_unit()
 
    use mpi
@@ -63,4 +62,4 @@ subroutine setup_output_unit()
 
    endif !   myid == 0
 
-end subroutine  
+end subroutine setup_output_unit

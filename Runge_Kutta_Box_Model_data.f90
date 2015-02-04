@@ -27,11 +27,6 @@ implicit none
 
 
 
-
-!real(kind=r8b),dimension(4) :: Time_Step
-!data Time_Step /0.0D+0,0.5D+0,0.5D+0,1.0D+0/  ! fraction of R-K time step
-
-
 ! Forcing functions are used in computations, so are included here for book keeping purposes
 
 
@@ -159,10 +154,10 @@ do  i_data_point = 1, n_input_data_points
 
     b_tmp(:) = Numerical_CODE_Solution(i_data_point-1,:)
 
-    if( any( isnan( b_tmp ) ) .or.  any( abs(b_tmp)  > 1.0d20 ) ) then
+    if( any( isnan( b_tmp ) ) .or.  any( abs(b_tmp)  > big_real  ) ) then
         L_bad_result = .TRUE.
         return
-    endif !  any( isnan( b_tmp ) ) .or.  any( abs(b_tmp)  > 1.0d20 )
+    endif !  any( isnan( b_tmp ) ) .or.  any( abs(b_tmp)  > big_real )
 
     btmp = b_tmp
 
@@ -240,13 +235,13 @@ do  i_data_point = 1, n_input_data_points
         !          'rkbm: aft size( GP_Trees ) ', size( GP_Trees )
 
         if( isnan( Tree_Value(i_Tree) )          .or.   &
-              abs( Tree_Value(i_Tree) )  > 1.0d20    ) then
+              abs( Tree_Value(i_Tree) )  > big_real  ) then
             L_bad_result = .TRUE.
             !write(6,'(A,1x,I6,1x,I6,1x,E24.16)') &
             !      'rkbm: bad value i_data_point, i_tree, Tree_Value(i_tree)', &
             !                       i_data_point, i_tree, Tree_Value(i_tree)
             return
-        endif !  isnan( Tree_Value(i_Tree) ) .or. abs(Tree_Value(i_Tree)) > 1.0d20 
+        endif !  isnan( Tree_Value(i_Tree) ) .or. abs(Tree_Value(i_Tree)) > big_real
 
 
         !---------------------------------------------------------------------------------
@@ -270,27 +265,11 @@ do  i_data_point = 1, n_input_data_points
     Numerical_CODE_Solution(i_data_point,1) = abs( Tree_Value(i_Tree) )
 
 
-    !write(6,'(//A,2(1x,I6),12(1x,E24.16))') &
-    !      'rkbm: myid, i_data_point, btmp ', &
-    !             myid, i_data_point, btmp(1:n_CODE_equations)
-
-    !if( myid == 0 )then
-    !    write(6,'(/A,1x,I6,1x,6(1x,E24.16)/)') 'rkbm: i_data_point, solution ', &
-    !          i_data_point, Numerical_CODE_Solution(i_data_point,1:n_Variables)
-    !endif ! myid == 0
-
-    !if( L_ga_print )then ! .and. myid == 1 )then
-    !    write(GA_print_unit,'(A,1x,I6,1x,6(1x,E24.16)/)') &
-    !          'rkbm: i_data_point, solution ', &
-    !                 i_data_point, Numerical_CODE_Solution(i_data_point,1:n_Variables)
-    !endif ! L_ga_print .and. myid == 1
-
-    !if( i_data_point < 25 .or. i_data_point == 250 .or. i_data_point == 1 ) then
-        if( L_print_RK )then
-            write(6,'(A,2(1x,I6),12(1x,E24.16))') &
-            'rkbm: myid, i_data_point, RK_Soln ', &
-                   myid, i_data_point, Numerical_CODE_Solution(i_data_point,1:n_CODE_equations)
-        endif ! L_print_RK
+    if( L_print_RK )then
+        write(6,'(A,2(1x,I6),12(1x,E24.16))') &
+        'rkbm: myid, i_data_point, RK_Soln ', &
+               myid, i_data_point, Numerical_CODE_Solution(i_data_point,1:n_CODE_equations)
+    endif ! L_print_RK
 
     !    if( L_GA_print )then
     !        write(GA_print_unit,'(A,2(1x,I6),12(1x,E24.16))') &

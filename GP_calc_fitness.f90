@@ -39,11 +39,11 @@ implicit none
 
 
 
-integer(kind=i4b) :: nop
+integer(kind=i4b),intent(in) :: i_GP_Generation
+integer(kind=i4b),intent(inout) :: i_GP_Best_Parent
+integer(kind=i4b),intent(inout) :: nop
 
 integer(kind=i4b) :: i_GP_individual
-integer(kind=i4b) :: i_GP_Best_Parent
-integer(kind=i4b),intent(in) :: i_GP_Generation
 integer(kind=i4b) :: i_Tree
 integer(kind=i4b) :: i_Node
 
@@ -74,6 +74,7 @@ character(15) :: flag_string
 ! fitness reset region (??)
 
 output_array = 0.0d0
+max_n_gp_parameters = maxval( GP_Individual_N_GP_param )
 
 
 !write(GP_print_unit,'(/A,1x,I6)') &
@@ -87,6 +88,9 @@ output_array = 0.0d0
 
 !-------------------------------------------------------------------------------
 
+if( i_GP_generation == 1                                 .or. &
+    mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
+    i_GP_generation == n_GP_generations                          ) then
 
 !if( i_GP_generation == 1                                 .or. &
 !    mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
@@ -105,7 +109,6 @@ output_array = 0.0d0
 !    write(GP_print_unit,'(/A)')' '
 !
 !endif ! i_GP_generation ...
-
 !-------------------------------------------------------------------------------
 
 max_n_gp_parameters = maxval( GP_Individual_N_GP_param )
@@ -113,6 +116,7 @@ max_n_gp_parameters = maxval( GP_Individual_N_GP_param )
 write(GP_print_unit,'(//A,1x, I6)') &
       'gpcf: max_n_gp_parameters', max_n_gp_parameters
 
+endif ! i_GP_generation ...
 
 !-------------------------------------------------------------------------------
 
@@ -139,7 +143,7 @@ if( i_GP_generation == 1                                 .or. &
     write(GP_print_unit,'(/A,1x,I6)') &
           'gpcf: i_GP_generation ',  i_GP_generation
     write(GP_print_unit,'(A)') &
-              'gpcf: i_GP_Indiv          GP_Child_Indiv_SSE            SSE/SSE0'
+              'gpcf: i_GP_Indiv  GP_Child_Indiv_SSE  SSE/SSE0'
 
     do  i_GP_Individual=1,n_GP_Individuals
         write(GP_print_unit,'(6x,I6,2(6x,E15.7))') &
@@ -248,7 +252,6 @@ enddo
 ! normalize to the integrated ranking values so that
 ! the ranking integration ranges from [0. to 1.]
 
-
 do  i_GP_Individual=1,n_GP_Individuals
 
     if( abs( GP_Integrated_Population_Ranked_Fitness(n_GP_Individuals) ) &
@@ -297,7 +300,6 @@ enddo ! i_GP_Individual
 
 ! find GP_best_parent
 
-
 i_GP_Best_Parent=1
 
 dff=GP_Population_Ranked_Fitness(1)
@@ -335,7 +337,7 @@ write(GP_print_unit,'(A,2(1x,I6))') &
       'gpcf: call summary_GP_indiv i_GP_generation, i_GP_Best_Parent ', &
                                    i_GP_generation, i_GP_Best_Parent
 
-call summary_GP_indiv( i_GP_generation, i_GP_Best_Parent, 1 )
+call summary_GP_indiv( i_GP_generation, i_GP_Best_Parent ) ! , 1 )
 
 !-------------------------------------------------------------------------------
 

@@ -200,8 +200,8 @@ real(kind=r8b),allocatable,target, dimension(:) ::  RK_data_array
 
 !GP_Solution contains columns for forcing functions
 
-!!!!real(kind=4) :: GP_Solution(0:n_Time_Steps,n_Variables)
-!!!real(kind=4), dimension(:,:),allocatable :: GP_Solution
+!!!!real(kind=r4b) :: GP_Solution(0:n_Time_Steps,n_Variables)
+!!!real(kind=r4b), dimension(:,:),allocatable :: GP_Solution
 
 
 !Numerical_CODE_Initial_Conditions contains columns for forcing functions

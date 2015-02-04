@@ -54,7 +54,7 @@ SSE0 = 0.0D+0
 fvec = 0.0d0
 do  i_time_step = 1, n_time_steps
 
-    x_time_step = real( i_time_step, kind=8 ) * dt 
+    x_time_step = real( i_time_step, kind=r8b ) * dt 
 
     fvec(i_time_step)=0.0d0
 
@@ -105,6 +105,7 @@ enddo ! i_time_step
 
 
 write(GP_print_unit,'(/A,1x,I6,2x,E15.7/)') 'ssec: myid, SSE0 = ',myid, SSE0
+!flush( GP_print_unit ) 
 
 return
 end subroutine sse0_calc

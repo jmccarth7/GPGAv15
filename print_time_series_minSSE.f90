@@ -79,6 +79,12 @@ integer, parameter :: plotMS_unit = 187
 
 !------------------------------------------------------------------------------
 
+ 
+if(myid /=0 ) return
+if( .not. L_minSSE ) return
+ 
+write(GP_print_unit,'(//A,3(1x,I5))') '0: call print_time_series_minSSE'
+
 
 
 GP_individual_Initial_Conditions = GP_minSSE_Individual_Initial_Conditions 
@@ -258,7 +264,7 @@ if( myid == 0 )then
     resid_SSE = 0.0d0
     do  i = 1, n_time_steps
 
-        x_time_step = real( i, kind=8 ) * dt
+        x_time_step = real( i, kind=r8b ) * dt
 
         if( x_time_step < sse_min_time ) then 
             sse_wt = sse_low_wt

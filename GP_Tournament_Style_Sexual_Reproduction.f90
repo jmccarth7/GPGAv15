@@ -17,7 +17,7 @@ use GA_Variables_module
 
 implicit none
 
-real(kind=4) :: cff
+real(kind=r4b) :: cff
 real(kind=r8b) :: sse_ind
 
 integer(kind=i4b) :: i_GP_Crossover
@@ -374,9 +374,9 @@ do
 enddo cross_loop
 
 
-write(GP_print_unit,'(/A,3(1x,I6)/)') &
-      'gptssr: at RETURN i_GP_Crossover, i_GP_individual', &
-                         i_GP_Crossover, i_GP_individual
+!write(GP_print_unit,'(/A,2(1x,I6), 5x, L1 /)') &
+!      'gptssr: at RETURN i_GP_Crossover, i_GP_individual, Run_GP_Calculate_Fitness(i_GP_Individual)', &
+!                         i_GP_Crossover, i_GP_individual, Run_GP_Calculate_Fitness(i_GP_Individual)
 
 return
 

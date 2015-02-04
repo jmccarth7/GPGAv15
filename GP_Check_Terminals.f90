@@ -94,8 +94,11 @@ do  i_Tree=1,n_Trees
                 !            i_Node_Left,  i_tree, temp_Node_Type(i_Node_Left,i_Tree)
 
 
-                if( (temp_Node_Type(i_Node_Left,i_Tree) < -n_CODE_Equations .and.       &
-                     temp_Node_Type(i_Node_Left,i_Tree) > max_forcing_index      ) .or. &
+                if( ( n_input_vars == 0 .and. temp_Node_Type(i_Node_Left,i_Tree) < -n_CODE_Equations .and.       &
+                     temp_Node_Type(i_Node_Left,i_Tree) > max_forcing_index       ) .or. &
+                    ( n_input_vars > 0 .and.                                            &
+                      temp_Node_Type(i_Node_Left,i_Tree) <   -(n_inputs+1)  .and.       &
+                      temp_Node_Type(i_Node_Left,i_Tree) > max_forcing_index        ) .or. &
                      temp_Node_Type(i_Node_Left,i_Tree) == -9999                        ) then
 
                     if( myid == 0 )then
@@ -137,8 +140,11 @@ do  i_Tree=1,n_Trees
                 !      'gct: i_Node_Right, i_tree, Node_Type(i_Node_Right,i_Tree)',&
                 !            i_Node_Right, i_tree, temp_Node_Type(i_Node_Right,i_Tree)
 
-                if( (temp_Node_Type(i_Node_Right,i_Tree) < -n_CODE_Equations .and.       &
+                if( (n_input_vars == 0 .and. temp_Node_Type(i_Node_Right,i_Tree) < -n_CODE_Equations .and.       &
                      temp_Node_Type(i_Node_Right,i_Tree) > max_forcing_index      ) .or. &
+                    ( n_input_vars > 0 .and.                                             &
+                      temp_Node_Type(i_Node_Right,i_Tree) <   -(n_inputs+1)   .and.      &
+                      temp_Node_Type(i_Node_Right,i_Tree) > max_forcing_index     ) .or. &
                      temp_Node_Type(i_Node_Right,i_Tree) == -9999                        ) then
 
                     if( myid == 0 )then
