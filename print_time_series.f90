@@ -83,6 +83,10 @@ logical :: L_myprint
 
 
 !------------------------------------------------------------------------------
+
+
+if( myid /= 0 ) return
+
 if( myid == 0 )then
     write(GP_print_unit,'(/A,2(1x,I6)/)') 'pts: i_GP_generation', i_GP_generation 
 endif ! myid == 0

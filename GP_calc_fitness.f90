@@ -337,7 +337,7 @@ write(GP_print_unit,'(A,2(1x,I6))') &
       'gpcf: call summary_GP_indiv i_GP_generation, i_GP_Best_Parent ', &
                                    i_GP_generation, i_GP_Best_Parent
 
-call summary_GP_indiv( i_GP_generation, i_GP_Best_Parent, 1 )
+call summary_GP_indiv( i_GP_generation, i_GP_Best_Parent ) ! , 1 )
 
 !-------------------------------------------------------------------------------
 
