@@ -577,8 +577,12 @@ allocate( ranks_temp( 0: divider-1               ) )
 allocate( ranks2(     0: divider-1, n_partitions ) )
 
 if( myid == 0 )then
-    write(6,'(A,3(1x,I4))') '0: ranks( 1:numprocs, n_partitions )', &
-                                         numprocs, n_partitions
+    write(6,'(A,3(1x,I4))') '0: dim ranks( 1:numprocs-1, n_partitions )', &
+                                             numprocs-1, n_partitions
+    write(6,'(A,3(1x,I4))') '0: dim ranks_temp( 0:divider-1 )', &
+                                                  divider-1                     
+    write(6,'(A,3(1x,I4))') '0: dim ranks2( 0:divider-1, n_partitions )', &
+                                              divider-1, n_partitions   
     !flush(6)
 endif ! myid == 0 )then
 
@@ -603,6 +607,16 @@ do  i = 1, n_partitions
 
 enddo ! i
 
+
+if( myid == 0 ) then
+    write(6,'(//A/)')       '0:  i  j  ranks(j,i)     '
+    do  i = 1, n_partitions
+        do  j = 1, numprocs !divider
+            write(6,'(3(1x,I5))') i, j, ranks2(j, i )
+        enddo ! j
+    enddo ! i
+endif ! myid == 0
+
 !-------------------------------------------------------------
 
 ! populate new group
@@ -623,12 +637,12 @@ do  i = 1, n_partitions
 enddo ! i
 
 
-!if( myid == 0 ) then
-!    write(6,'(//A/)')       '0:  i   ranks2    '
-!    do  i = 1, n_partitions
-!        write(6,'(I5,3x,20(1x,I5))') i, ranks2(:, i )
-!    enddo ! i
-!endif ! myid == 0
+if( myid == 0 ) then
+    write(6,'(//A/)')       '0:  i   ranks2    '
+    do  i = 1, n_partitions
+        write(6,'(I5,3x,20(1x,I5))') i, ranks2(:, i )
+    enddo ! i
+endif ! myid == 0
 
 !-------------------------------------------------------------
 
