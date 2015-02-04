@@ -49,14 +49,15 @@ do  i_GP_Individual=1,n_GP_Individuals
 enddo
 
 
+!-------------------------------------------------------------------------------
+!
 !write(6,'(/A)') 'gprs: before sort '
-!write(6,'(A)')                    &
-! 'gprs:i_GP_Individual, Ranked_Fitness_Index(i_GP_Individual), &
-!                    &GP_Child_Individual_SSE(i_GP_Individual)'
+!write(6,'(A)')  'gprs:i_GP_Individual, Ranked_Fitness_Index, &
+!                            &GP_Child_Individual_SSE'
 !do  i_GP_Individual=1,n_GP_Individuals
-!    write(6,'(I6,1x, I6, 1x, E24.16)') &
-!      i_GP_Individual, Ranked_Fitness_Index(i_GP_Individual), &
-!                    GP_Child_Individual_SSE(i_GP_Individual)
+!    write(6,'(5x,I10,1x, I10, 16x, E15.7)') &
+!          i_GP_Individual, Ranked_Fitness_Index(i_GP_Individual), &
+!                           GP_Child_Individual_SSE(i_GP_Individual)
 !enddo
 
 

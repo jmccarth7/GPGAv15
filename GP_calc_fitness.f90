@@ -142,7 +142,7 @@ if( i_GP_generation == 1                                 .or. &
               'gpcf: i_GP_Indiv          GP_Child_Indiv_SSE            SSE/SSE0'
 
     do  i_GP_Individual=1,n_GP_Individuals
-        write(GP_print_unit,'(6x,I6,2(1x,E15.7))') &
+        write(GP_print_unit,'(6x,I6,2(6x,E15.7))') &
            i_GP_Individual, GP_Child_Individual_SSE(i_GP_Individual), &
            GP_Child_Individual_SSE(i_GP_Individual)/SSE0
     enddo ! i_gp_individual

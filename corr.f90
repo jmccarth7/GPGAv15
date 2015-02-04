@@ -140,22 +140,22 @@ integer(kind=i4b) :: I
 
    90 CONTINUE 
 
-    9 FORMAT(/1x ,'***** NON-FATAL DIAGNOSTIC--THE FIRST  INPUT ARGUMENT&
+    9 FORMAT(/1x ,'>>>>> NON-FATAL DIAGNOSTIC--THE FIRST  INPUT ARGUMENT&
          & (A VECTOR) TO THE CORR   SUBROUTINE HAS ALL ELEMENTS = ', &
-         E15.8,' *****'/)
+         E15.8,' <<<<<'/)
 
 
-   19 FORMAT(/1x ,'***** NON-FATAL DIAGNOSTIC--THE SECOND INPUT ARGUMENT&
+   19 FORMAT(/1x ,'>>>>> NON-FATAL DIAGNOSTIC--THE SECOND INPUT ARGUMENT&
              & (A VECTOR) TO THE CORR   SUBROUTINE HAS ALL ELEMENTS = ', &
-             E15.8,' *****'/)
+             E15.8,' <<<<<'/)
 
-   25 FORMAT(/1x, '***** FATAL ERROR--THE THIRD  INPUT ARGUMENT TO THE  CORR&
-              &   SUBROUTINE IS NON-POSITIVE *****')
+   25 FORMAT(/1x, '>>>>> FATAL ERROR--THE THIRD  INPUT ARGUMENT TO THE  CORR&
+              &   SUBROUTINE IS NON-POSITIVE <<<<<')
 
-   28 FORMAT(/1x ,'***** NON-FATAL DIAGNOSTIC--THE THIRD  INPUT ARGUMENT &
-                  &TO THE CORR   SUBROUTINE HAS THE VALUE 1 *****'/)
+   28 FORMAT(/1x ,'>>>>> NON-FATAL DIAGNOSTIC--THE THIRD  INPUT ARGUMENT &
+                  &TO THE CORR   SUBROUTINE HAS THE VALUE 1 <<<<<'/)
 
-   47 FORMAT(1x, '***** THE VALUE OF THE ARGUMENT IS ',I8   ,' *****'/) 
+   47 FORMAT(1x, '>>>>> THE VALUE OF THE ARGUMENT IS ',I8   ,' <<<<<'/) 
 !                                                                       
 !-----START POINT-----------------------------------------------------  
 !                                                                       
