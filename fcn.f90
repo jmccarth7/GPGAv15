@@ -1,6 +1,4 @@
 subroutine fcn(mm,nn,x,fvec,iflag)
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
 
 use kinds_mod 
 
@@ -479,14 +477,16 @@ do  i_time_step=1,n_time_steps
 
     x_time_step = real( i_time_step, kind=r8b ) * dt
 
-    if( x_time_step < sse_min_time )then
-        sse_wt = sse_low_wt  
-    else
+    if( x_time_step >=  sse_min_time .and. &
+        x_time_step <=  sse_max_time         )then
+
         sse_wt = 1.0d0
-    endif  !   x_time_step < sse_min_time 
+    else
+        sse_wt = sse_low_wt  
+    endif  !   x_time_step >= sse_min_time ...
 
 
-    if( x_time_step > sse_max_time ) exit  
+    !if( x_time_step > sse_max_time ) exit  
 
 
     !if( L_GP_print .and. GP_para_flag .and. new_rank == 1 .and. &

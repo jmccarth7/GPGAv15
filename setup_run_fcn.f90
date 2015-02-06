@@ -1,7 +1,6 @@
 subroutine setup_run_fcn( i_GA_indiv,  &
                           child_parameters, individual_quality, &
                                      new_comm  )
-                          !new_group, new_comm  )
 
 ! written by: Dr. John R. Moisan [NASA/GSFC] 5 December, 2012
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -44,9 +43,7 @@ integer(kind=i4b) ::   info
 integer(kind=i4b) :: i_time_step
 integer(kind=i4b) :: i_parameter
 
-!integer(kind=i4b),intent(in) :: new_group
 integer(kind=i4b),intent(in) :: new_comm 
-!integer(kind=i4b) :: new_rank       
 
 ! individual_quality contains information on the result of lmdif
 ! if lmdif encounters an error, set individual_quality to -1
@@ -208,7 +205,8 @@ if( individual_quality( i_GA_indiv ) > 0 ) then
     do i_time_step=1,n_time_steps
 
         x_time_step = real( i_time_step, kind=r8b ) * dt
-        if( x_time_step > sse_max_time ) exit
+
+        !if( x_time_step > sse_max_time ) exit
 
         !old   if( isnan(fvec(i_time_step)) )    fvec(i_time_step) = 0.0d0
         !old   if( abs(fvec(i_time_step)) >  1.0d20 ) fvec(i_time_step) =  1.0d20

@@ -61,13 +61,18 @@ do  i_time_step = 1, n_time_steps
     !write(GP_print_unit,'(/A,1x,I6, 1x,I10)') &
     !'ssec: myid, i_time_step ', myid, i_time_step
 
-    if( x_time_step < sse_min_time ) then 
-        sse_wt = sse_low_wt
-    else
-        sse_wt = 1.0d0         
-    endif ! x_time_step < sse_min_time 
+    if( x_time_step >= sse_min_time .and. &
+        x_time_step <= sse_max_time        )then
 
-    if( x_time_step > sse_max_time ) exit 
+        sse_wt = 1.0d0         
+
+    else
+
+        sse_wt = sse_low_wt
+
+    endif ! x_time_step >= sse_min_time ...
+
+    !!if( x_time_step > sse_max_time ) exit 
 
 
 
