@@ -806,21 +806,21 @@ call MPI_BCAST( GP_Individual_N_GP_param, message_len,    &
 
 !---------------------------------------------------------------------------------
 
-if( myid == 0 )then
-
-    write(GP_print_unit,'(//A//)' )&
-         '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>'
-    do  ii = 1, n_GP_individuals
-        write(GP_print_unit,'(A,4(1x,I5), 2(1x, E15.7))')&
-         'gil:5 myid, new_rank, i_GP_gen, ii, GP_pop_fit, child_indiv_SSE', &
-                myid, new_rank, i_GP_generation, ii, &
-                           GP_Population_Ranked_Fitness(ii), &
-                         GP_Child_Individual_SSE(ii)
-    enddo ! i_GP_individual
-
-    flush( GP_print_unit )
-
-endif !  myid == 0
+!if( myid == 0 )then
+!
+!    write(GP_print_unit,'(//A//)' )&
+!         '>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>'
+!    do  ii = 1, n_GP_individuals
+!        write(GP_print_unit,'(A,4(1x,I5), 2(1x, E15.7))')&
+!         'gil:5 myid, new_rank, i_GP_gen, ii, GP_pop_fit, child_indiv_SSE', &
+!                myid, new_rank, i_GP_generation, ii, &
+!                           GP_Population_Ranked_Fitness(ii), &
+!                         GP_Child_Individual_SSE(ii)
+!    enddo ! i_GP_individual
+!
+!    flush( GP_print_unit )
+!
+!endif !  myid == 0
 
 
 

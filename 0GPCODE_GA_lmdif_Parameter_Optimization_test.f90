@@ -71,8 +71,8 @@ integer(kind=i4b) :: array_len
 !real(kind=r8b) :: t2
 
 
-character(75),parameter :: program_version   = '201501.004_v15'
-character(10),parameter :: modification_date = '20150204'
+character(75),parameter :: program_version   = '201501.005_v15'
+character(10),parameter :: modification_date = '20150206'
 character(50),parameter :: branch  =  'master'
 
 integer(kind=i4b), parameter ::  zero = 0
@@ -609,26 +609,26 @@ do  i = 1, n_partitions
 enddo ! i
 
 
-if( myid == 0 ) then
-    write(6,'(//A/)')       '0:  i  j  ranks(j,i)     '
-    do  i = 1, n_partitions
-        do  j = 1, numprocs-1 !divider
-            write(6,'(3(1x,I10))') i, j, ranks(j, i )
-        enddo ! j
-    enddo ! i
-endif ! myid == 0
+!if( myid == 0 ) then
+!    write(6,'(//A/)')       '0:  i  j  ranks(j,i)     '
+!    do  i = 1, n_partitions
+!        do  j = 1, numprocs-1 !divider
+!            write(6,'(3(1x,I10))') i, j, ranks(j, i )
+!        enddo ! j
+!    enddo ! i
+!endif ! myid == 0
 
 !-------------------------------------------------------------
 
 ! populate new group
 
 
-if( myid == 0 ) then
-    write(6,'(/A)')      '0: populate new group'
-    write(6,'(A,1x,I5)') '0: n_partitions = ', n_partitions
-    write(6,'(A/)')      '0:  i       ranks2    '
-    !flush(6)
-endif ! myid == 0
+!if( myid == 0 ) then
+!    write(6,'(/A)')      '0: populate new group'
+!    write(6,'(A,1x,I5)') '0: n_partitions = ', n_partitions
+!    write(6,'(A/)')      '0:  i       ranks2    '
+!    !flush(6)
+!endif ! myid == 0
 
 
 do  i = 1, n_partitions
@@ -638,12 +638,12 @@ do  i = 1, n_partitions
 enddo ! i
 
 
-if( myid == 0 ) then
-    write(6,'(//A/)')       '0:  i   ranks2    '
-    do  i = 1, n_partitions
-        write(6,'(I5,3x,20(1x,I5))') i, ranks2(:, i )
-    enddo ! i
-endif ! myid == 0
+!if( myid == 0 ) then
+!    write(6,'(//A/)')       '0:  i   ranks2    '
+!    do  i = 1, n_partitions
+!        write(6,'(I5,3x,20(1x,I5))') i, ranks2(:, i )
+!    enddo ! i
+!endif ! myid == 0
 
 !-------------------------------------------------------------
 
@@ -666,11 +666,11 @@ do  j = 1, numprocs-1
     enddo ! i
 enddo ! j
 
-if( myid == 0 )then
-    write(6,'(/A/(10(1x,I5)))') '0: color_value = ', color_value(0:numprocs-1)
-    write(6,'(A)') ' '
-    !flush(6)
-endif ! myid == 0
+!if( myid == 0 )then
+!    write(6,'(/A/(10(1x,I5)))') '0: color_value = ', color_value(0:numprocs-1)
+!    write(6,'(A)') ' '
+!    !flush(6)
+!endif ! myid == 0
 
 
 
@@ -686,8 +686,8 @@ call MPI_COMM_SPLIT( comm_world, color, myid, new_comm, ierr )
 call mpi_comm_rank( new_comm, new_rank, ierr )
 call mpi_comm_size( new_comm, my_size , ierr )
 
-write(6,'(A,4(1x,I6))') '0: myid, new_rank, color, my_size ', &
-                            myid, new_rank, color, my_size
+!write(6,'(A,4(1x,I6))') '0: myid, new_rank, color, my_size ', &
+!                            myid, new_rank, color, my_size
 !flush(6)
 
 
@@ -1330,11 +1330,11 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
     n_indiv_part = n_GP_individuals / n_partitions + 1
 
-    if( myid == 0 )then
-        write(GP_print_unit,'(/A, 3(1x, I6)/)') &
-         '0: bef call to GP_individual_loop n_GP_individuals, n_partitions, n_indiv_part ', &
-                                            n_GP_individuals, n_partitions, n_indiv_part
-    endif ! myid == 0
+    !if( myid == 0 )then
+    !    write(GP_print_unit,'(/A, 3(1x, I6)/)') &
+    !     '0: bef call to GP_individual_loop n_GP_individuals, n_partitions, n_indiv_part ', &
+    !                                        n_GP_individuals, n_partitions, n_indiv_part
+    !endif ! myid == 0
 
 
     call GP_individual_loop( new_group, new_comm, i_GP_generation, n_indiv_part )
@@ -1348,14 +1348,14 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
     !----------------------------------------------------------------------------------
 
     !-----------------------------------------------------------------------------------
-    if( myid == 0 )then
-        do  i_GP_individual = 1, n_GP_individuals
-            write(GP_print_unit, '(A, 2(1x,I6),1x, E20.10 )') &
-                          '0: aft GPind myid, i_GP_Individual, GP_Child_Individual_SSE',&
-                                        myid, i_GP_Individual,  &
-                                        GP_Child_Individual_SSE(i_GP_Individual)
-        enddo
-    endif ! myid == 0
+    !if( myid == 0 )then
+    !    do  i_GP_individual = 1, n_GP_individuals
+    !        write(GP_print_unit, '(A, 2(1x,I6),1x, E20.10 )') &
+    !                      '0: aft GPind myid, i_GP_Individual, GP_Child_Individual_SSE',&
+    !                                    myid, i_GP_Individual,  &
+    !                                    GP_Child_Individual_SSE(i_GP_Individual)
+    !    enddo
+    !endif ! myid == 0
     !-----------------------------------------------------------------------------------
 
 
