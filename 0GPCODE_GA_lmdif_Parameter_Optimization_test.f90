@@ -141,6 +141,7 @@ CALL RANDOM_SEED(size = n_seed)
 if( myid == 0 )then
 
     write(6,'(/A)') '0: version 15 derived from version 13 '
+    write(6,'(/A/)') '0: new compiler options  -assume realloc_lhs -mkl -heap-arrays '
     write(6,'(A)') '0: fixed the problem with sort and the best individual'
     write(6,'(A)') '0: run lmdif in parallel on each GP generation after 20'
     !write(6,'(A)') '0: DO NOT run lmdif in parallel on each GP generation'
