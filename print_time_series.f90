@@ -503,39 +503,40 @@ if( myid == 0 )then
 
     !--------------------------------------------------------------------------------
 
-    !if( L_myprint )write(GP_print_unit, '(//A,1x, I6,1x,E24.16/)') &
-    !     'pts: n_input_data_points, resid_SSE', &
-    !           n_input_data_points, resid_SSE
+    if( L_myprint )then
 
-    if( L_myprint )write(GP_print_unit, '(//A,1x, I6,1x,E15.7, 1x,E24.16/)') &
-         'pts: n_time_steps, dt, resid_SSE', &
-               n_time_steps, dt, resid_SSE
+        !write(GP_print_unit, '(//A,1x, I6,1x,E15.7, 1x,E24.16/)') &
+        !     'pts: n_time_steps, dt, resid_SSE', &
+        !           n_time_steps, dt, resid_SSE
 
-    !--------------------------------------------------------------------------------
+        ! print results
+    
+        do  j = 1, n_code_equations
+    
+            write(GP_print_unit, '(/A)') &
+                  'pts: i_code_eq           mean            rms             &
+                  &stddev            min            max'
+            write(GP_print_unit, '(A,1x,I2, 5(1x,E15.7))') &
+                  'pts: RK_Soln', &
+                  j, RKmean(j), RKrms(j), RKstddev(j), RK_min(j), RK_max(j)
+            write(GP_print_unit, '(A,1x,I2, 5(1x,E15.7))') &
+                  'pts: data   ', &
+                  j, data_mean(j), data_rms(j), data_stddev(j), data_min(j), data_max(j)
+            write(GP_print_unit, '(A,1x,I2, 5(1x,E15.7)/)') &
+                  'pts: resid  ', &
+                  j, resid_mean(j), resid_rms(j), resid_stddev(j), resid_min(j), resid_max(j)
+            write(GP_print_unit, '(A,1x,I2, 5(1x,E15.7))') &
+                  'pts: corr coef. ', j, r_corr(j)
+    
+        enddo ! j
 
-    ! print results
+        write(GP_print_unit, '(/A,1x,E15.7)') 'pts: y_min', y_min
+        write(GP_print_unit, '(A,1x,E15.7/)') 'pts: y_max', y_max
 
-    do  j = 1, n_code_equations
-
-        if( L_myprint )write(GP_print_unit, '(/A)') &
-              'pts: i_code_eq           mean            rms             &
-              &stddev            min            max'
-        if( L_myprint )write(GP_print_unit, '(A,1x,I2, 5(1x,E15.7))') &
-              'pts: RK_Soln', &
-              j, RKmean(j), RKrms(j), RKstddev(j), RK_min(j), RK_max(j)
-        if( L_myprint )write(GP_print_unit, '(A,1x,I2, 5(1x,E15.7))') &
-              'pts: data   ', &
-              j, data_mean(j), data_rms(j), data_stddev(j), data_min(j), data_max(j)
-        if( L_myprint )write(GP_print_unit, '(A,1x,I2, 5(1x,E15.7)/)') &
-              'pts: resid  ', &
-              j, resid_mean(j), resid_rms(j), resid_stddev(j), resid_min(j), resid_max(j)
-        if( L_myprint )write(GP_print_unit, '(A,1x,I2, 5(1x,E15.7))') &
-              'pts: corr coef. ', j, r_corr(j)
-
-    enddo ! j
-
-    if( L_myprint )write(GP_print_unit, '(/A,1x,E15.7)') 'pts: y_min', y_min
-    if( L_myprint )write(GP_print_unit, '(A,1x,E15.7/)') 'pts: y_max', y_max
+        write(GP_print_unit, '(A,2(1x, I6),1x,E15.7, 1x,E24.16/)') &
+         '#pts: i_GP_generation, n_time_steps, dt, resid_SSE', &
+                i_GP_generation, n_time_steps, dt, resid_SSE
+    endif ! L_myprint
 
     !if( L_myprint )write(GP_print_unit, '(A,1x,5(1x,E15.7))') &
     !      'pts: R probability     ', prob_r

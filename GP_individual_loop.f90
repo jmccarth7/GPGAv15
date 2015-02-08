@@ -504,12 +504,12 @@ do  i_part = 1,  n_partitions
                     n_GP_parameters > n_maximum_number_parameters .or.  &
                     n_GP_parameters <=  n_code_equations                 ) then
 
-                    if( new_rank == 0 )then
-                        write(GP_print_unit,'(A,1x,I5,A,1x,i5)')&
-                              'gil: skipping this i_GP_Individual', i_GP_individual, &
-                              ' --  the number of parameters is ', n_GP_parameters
-                        !flush(GP_print_unit)
-                    endif !  new_rank == 0
+                    !if( new_rank == 0 )then
+                    !    write(GP_print_unit,'(A,1x,I5,A,1x,i5)')&
+                    !          'gil: skipping this i_GP_Individual', i_GP_individual, &
+                    !          ' --  the number of parameters is ', n_GP_parameters
+                    !    !flush(GP_print_unit)
+                    !endif !  new_rank == 0
 
 
                     individual_fitness = 0.0d0
