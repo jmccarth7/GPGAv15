@@ -1,6 +1,4 @@
 subroutine fcn(mm,nn,x,fvec,iflag)
-!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
 
 use kinds_mod 
 
@@ -25,6 +23,7 @@ integer(kind=i4b),intent(in)  :: nn  ! n_parms
 
 
 real(kind=r8b),dimension(n_time_steps) :: fvec
+real(kind=r8b),dimension(n_time_steps) :: fvec_nolog10
 
 real(kind=r8b) :: x_time_step 
 real(kind=r8b) :: fvec_before 
@@ -33,6 +32,7 @@ real(kind=r8b) :: fvec_before
 real(kind=r8b) :: x( nn )
 
 real(kind=r8b) :: sse_local
+!real(kind=r8b) :: sse_local_nolog10
 
 real(kind=r8b) :: min_x
 real(kind=r8b) :: max_x
@@ -470,23 +470,30 @@ enddo ! i_CODE_equation
 !      'fcn: new_rank, dt, sse_min_time, sse_max_time', &
 !            new_rank, dt, sse_min_time, sse_max_time
 
-sse_local=0.0D0  ! 20131209
+sse_local = 0.0D0  ! 20131209
+sse_local_nolog10 = 0.0D0  ! 20131209
+sse_wt = 1.0d0
 fvec = 0.0D0
 
 do  i_time_step=1,n_time_steps
 
     fvec(i_time_step)=0.0D0
 
-    x_time_step = real( i_time_step, kind=r8b ) * dt
+    if( index( model, 'data' ) == 0 .and. &
+        index( model, 'DATA' ) == 0         )then
 
-    if( x_time_step < sse_min_time )then
-        sse_wt = sse_low_wt  
-    else
-        sse_wt = 1.0d0
-    endif  !   x_time_step < sse_min_time 
+        x_time_step = real( i_time_step, kind=r8b ) * dt
+    
+        if( x_time_step >=  sse_min_time .and. &
+            x_time_step <=  sse_max_time         )then
+    
+            sse_wt = 1.0d0
+        else
+            sse_wt = sse_low_wt  
+        endif  !   x_time_step >= sse_min_time ...
 
+    endif ! index( model, 'data' ) == 0 .and. ...
 
-    if( x_time_step > sse_max_time ) exit  
 
 
     !if( L_GP_print .and. GP_para_flag .and. new_rank == 1 .and. &
@@ -526,11 +533,28 @@ do  i_time_step=1,n_time_steps
         !                new_rank, i_CODE_equation, data_variance(i_CODE_equation)
         !endif ! L_ga_print
   
-  
-        fvec(i_time_step) = fvec(i_time_step)  +                                &
-            (   Data_Array(i_time_step,i_CODE_equation) -                       &
-                Numerical_CODE_Solution(i_time_step,i_CODE_equation)   )**2  *     &
-                                  Data_Variance_inv(i_CODE_equation)
+        if( index( model,'LOG10') > 0 .or. &
+            index( model,'log10') > 0         )then
+    
+            fvec(i_time_step) = fvec(i_time_step)  +                                      &
+                (  Data_Array_log10(i_time_step,i_CODE_equation)  -                       &
+                   Numerical_CODE_Solution_log10(i_time_step,i_CODE_equation)    )**2  *  &
+                                      Data_Variance_inv(i_CODE_equation)
+!
+!            fvec_nolog10(i_time_step) = fvec_nolog10(i_time_step)  +                                &
+!                (   Data_Array(i_time_step,i_CODE_equation) -                       &
+!                    Numerical_CODE_Solution(i_time_step,i_CODE_equation)   )**2  *  &
+!                                      Data_Variance_inv(i_CODE_equation)
+!    
+        else
+    
+            fvec(i_time_step) = fvec(i_time_step)  +                                &
+                (   Data_Array(i_time_step,i_CODE_equation) -                       &
+                    Numerical_CODE_Solution(i_time_step,i_CODE_equation)   )**2  *  &
+                                      Data_Variance_inv(i_CODE_equation)
+      
+        endif!  index( model,'LOG10') > 0 ...
+
   
     enddo ! i_CODE_equation
 
@@ -540,7 +564,15 @@ do  i_time_step=1,n_time_steps
     fvec(i_time_step) = fvec(i_time_step)  * sse_wt   
   
     sse_local = sse_local + fvec(i_time_step)  ! 20131209
-  
+
+!    if( index( model,'LOG10') > 0 .or. &
+!        index( model,'log10') > 0         )then
+!    
+!        sse_local_nolog10 = sse_local_nolog10 + fvec_nolog10(i_time_step)  ! 20150306
+!  
+!    endif!  index( model,'LOG10') > 0 ...
+
+
     !if( abs(fvec_before) > 0.0d0 .and. &
     !    L_GP_print .and. new_rank == 1 .and. i_time_step <= 5 )then
     !    write(GP_print_unit,'(A,1x,I3, 1x,I6, 4(1x, E15.7))')&
@@ -558,6 +590,40 @@ do  i_time_step=1,n_time_steps
     !endif ! L_ga_print
 
 enddo ! i_time_step
+
+!---------------------------------------------------------------------------------
+
+! compute the SSE (not the SSE with log10) for output in the GPSSE*log files
+
+if( index( model,'LOG10') > 0 .or. &
+    index( model,'log10') > 0         )then
+    
+
+    sse_local_nolog10 = 0.0D0  ! 20131209
+    sse_wt = 1.0d0
+    fvec_nolog10 = 0.0D0
+    
+    do  i_time_step=1,n_time_steps
+    
+        fvec_nolog10(i_time_step)=0.0D0
+      
+        do  i_CODE_equation=1,n_CODE_equations
+    
+            fvec_nolog10(i_time_step) = fvec_nolog10(i_time_step)  +                &
+                (   Data_Array(i_time_step,i_CODE_equation) -                       &
+                    Numerical_CODE_Solution(i_time_step,i_CODE_equation)   )**2  *  &
+                                      Data_Variance_inv(i_CODE_equation)
+          
+        enddo ! i_CODE_equation
+    
+        sse_local_nolog10 = sse_local_nolog10 + fvec_nolog10(i_time_step)  ! 20150306
+    
+    enddo ! i_time_step
+
+
+endif!  index( model,'LOG10') > 0 ...
+
+!---------------------------------------------------------------------------------
 
 !if( L_GP_print .and. GP_para_flag .and. new_rank == 1  )then
 !if( L_GP_print .and.  new_rank == 1  )then

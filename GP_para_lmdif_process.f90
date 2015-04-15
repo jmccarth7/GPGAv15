@@ -43,8 +43,8 @@ real(kind=r8b),&
  dimension(max_n_gp_params,n_GP_individuals) ::  child_parameters
 
 
-real(kind=r8b) :: buffer2(max_n_gp_params+ 2)
-real(kind=r8b) :: buffer2_recv(max_n_gp_params + 2)
+real(kind=r8b) :: buffer2(max_n_gp_params+ 3)
+real(kind=r8b) :: buffer2_recv(max_n_gp_params + 3)
 
 
 integer(kind=i4b) :: i
@@ -96,7 +96,7 @@ endif ! i_GP_generation...
 i_dummy = 0
 
 
-do  jj = 1, max_n_gp_params+2
+do  jj = 1, max_n_gp_params+3
     buffer2(jj)      = 0.0D0
     buffer2_recv(jj) = 0.0D0
 enddo ! jj
@@ -437,7 +437,7 @@ if( myid == 0  )then
 
 
         buffer2_recv = 0.0d0
-        call MPI_RECV( buffer2_recv, max_n_gp_params+2, &
+        call MPI_RECV( buffer2_recv, max_n_gp_params+3, &
                        MPI_DOUBLE_PRECISION, &
                        MPI_ANY_SOURCE, MPI_ANY_TAG,  &
                        MPI_COMM_WORLD, MPI_STAT,  ierr )
@@ -483,6 +483,8 @@ if( myid == 0  )then
                                  buffer2_recv( max_n_gp_params+1)
             individual_quality(i_individual) = &
                            nint( buffer2_recv( max_n_gp_params+2) )
+            GP_Child_Individual_SSE_nolog10(i_individual) =  &
+                                 buffer2_recv( max_n_gp_params+3)
 
         endif ! Run_GP_Calculate_Fitness
 
@@ -797,12 +799,13 @@ else  ! not myid == 0
             buffer2(max_n_gp_params+1) = GP_Child_Individual_SSE(i_2_individual)
             buffer2(max_n_gp_params+2) = &
                 real( individual_quality(i_2_individual), kind=r8b )
+            buffer2(max_n_gp_params+3) = GP_Child_Individual_SSE_nolog10(i_2_individual)
 
         endif ! Run_GP_Calculate_Fitness(i_2_Individual)
 
         ! send the R-K integration results for individual i_2_individual to processor 0
 
-        call MPI_SEND( buffer2, max_n_gp_params+2, &
+        call MPI_SEND( buffer2, max_n_gp_params+3, &
                        MPI_DOUBLE_PRECISION, 0, i_2_individual, MPI_COMM_WORLD, ierr )
 
 

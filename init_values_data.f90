@@ -80,6 +80,12 @@ if(  icall  == 0  )then
 
 
     if( myid == 0 )then
+
+        if( index( model, 'LOG10') > 0 .or. &
+            index( model, 'log10') > 0       ) then
+            write(GP_print_unit,'(/A)') 'ivDA: LOG10 DATA option'
+        endif ! index( model, 'LOG10') > 0 ...
+
         write(GP_print_unit,'(A,1x,I6)') 'ivDA: n_levels          ', n_levels
         write(GP_print_unit,'(A,2(1x,I6))')&
               'ivDA: int(2**n_levels)-1 , pow2_table( n_levels )', &

@@ -242,7 +242,7 @@ real(kind=r8b) :: dt
 !------------------------------------------------------------------------------
 
 ! sse_min_time and sse_max_time are used for setting start and stop times 
-! for inclusion of data into the SSE value
+! for weighting of data into the SSE value
 
 real(kind=r8b) :: sse_min_time
 real(kind=r8b) :: sse_max_time

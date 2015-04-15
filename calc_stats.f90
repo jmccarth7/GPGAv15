@@ -40,12 +40,14 @@ icount = 0
 do  i = 1, n_array
 
     xi = real( i, kind=r8b) * dt
-    if( xi < sse_min_time )then
-        arr = array(i) * sse_low_wt
-    else
+    if( xi >= sse_min_time .and. &
+        xi <= sse_max_time        )then
+
         arr = array(i) 
+    else
+        arr = array(i) * sse_low_wt
     endif 
-    if( xi > sse_max_time ) exit
+    !if( xi > sse_max_time ) exit
 
     
     !sum1 = sum1 + array(i)

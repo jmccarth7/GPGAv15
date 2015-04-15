@@ -269,8 +269,8 @@ endif ! n_input_vars == 0
 
 
 if( myid == 0 )then 
-    write(6,'(A,2(1x,I6))') 'set1: n_input_vars, message_len       ', &
-                                   n_input_vars, message_len
+    write(6,'(/A,2(1x,I6))') 'set1: n_input_vars, message_len       ', &
+                                    n_input_vars, message_len
     !write(6,'(A,2(1x,I6))') 'set1: n_input_data_points, message_len', &
     !                               n_input_data_points, message_len
 endif ! myid == 0
@@ -288,6 +288,18 @@ call MPI_BCAST( Numerical_CODE_Solution, message_len,    &
 
 Data_Array=Numerical_CODE_Solution        ! Matrix Operation
 
+if( index( model,'LOG10') > 0 .or. &
+    index( model,'log10') > 0         )then
+
+    message_len = ( n_input_data_points + 1 ) * n_CODE_equations
+
+    call MPI_BCAST( Numerical_CODE_Solution_log10, message_len,    &
+                    MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+
+    Data_Array_log10 = Numerical_CODE_Solution_log10        ! Matrix Operation
+
+endif!  index( model,'LOG10') > 0 ...
+
 !--------------------------------------------------------------------------------
 
 ! zero out Numerical_CODE_Solution array 
@@ -296,9 +308,18 @@ Data_Array=Numerical_CODE_Solution        ! Matrix Operation
 
 Numerical_CODE_Solution(1:n_time_steps, 1:n_code_equations) = 0.0d0
 
-write(6, '(/A,2(1x,I6))') 'set1: n_input_data_points ', n_input_data_points
-write(6, '(A,2(1x,I6))')  'set1: n_input_vars ', n_input_vars
-write(6, '(A,2(1x,I6)/)') 'set1: n_time_steps ', n_time_steps
+if( index( model,'LOG10') > 0 .or. &
+    index( model,'log10') > 0         )then
+
+    Numerical_CODE_Solution_log10(1:n_time_steps, 1:n_code_equations) = 0.0d0
+
+endif!  index( model,'LOG10') > 0 ...
+
+if( myid == 0 )then 
+    write(6, '(/A,2(1x,I6))') 'set1: n_input_data_points ', n_input_data_points
+    write(6, '(A,2(1x,I6))')  'set1: n_input_vars ', n_input_vars
+    write(6, '(A,2(1x,I6)/)') 'set1: n_time_steps ', n_time_steps
+endif ! myid == 0
 
 if( n_input_vars == 0 )then
     message_len = ( n_time_steps + 1 ) * n_CODE_equations
@@ -309,6 +330,13 @@ endif ! n_input_vars == 0
 call MPI_BCAST( Numerical_CODE_Solution, message_len,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
+if( index( model,'LOG10') > 0 .or. &
+    index( model,'log10') > 0         )then
+
+    call MPI_BCAST( Numerical_CODE_Solution_log10, message_len,    &
+                MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+
+endif!  index( model,'LOG10') > 0 ...
 !if( myid == 0 )then
 !    write(6, '(A,2(1x,I6)/)') 'set1: 2 bcast ierr ', ierr 
 !    !flush(6)
@@ -445,6 +473,14 @@ if( myid == 0 )then
 
     ! note:  sse0 is only used by cpu 0 which does all fitness calculations
 
+    if( index( model,'LOG10') > 0 .or. &
+        index( model,'log10') > 0         )then
+
+        call sse0_calc_log10( )
+
+    endif!  index( model,'LOG10') > 0 ...
+
+
     call sse0_calc( )
 
     !if( myid == 0 )then
@@ -481,6 +517,16 @@ endif ! myid == 0
 message_len = 1
 call MPI_BCAST( SSE0, message_len,    &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+
+if( index( model,'LOG10') > 0 .or. &
+    index( model,'log10') > 0         )then
+
+    message_len = 1
+    call MPI_BCAST( SSE0_nolog10, message_len,    &
+                    MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
+
+endif!  index( model,'LOG10') > 0 ...
+
 
 !if( myid == 0 )then
 !    write(6, '(A,2(1x,I6)/)') 'set1: 6 bcast ierr ', ierr 

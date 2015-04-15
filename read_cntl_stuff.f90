@@ -440,7 +440,8 @@ do
 !--------------------------------------------------------------------
 
 
-! sse_low_wt  -  weight for data before sse_min_time
+! sse_low_wt  -  weight for data outside the 
+!                [sse_min_time , sse_max_time] interval
 
     elseif( Aline(1:len('sse_low_wt')) == "sse_low_wt" .or.     &
             Aline(1:len('sse_low_wt')) == "SSE_LOW_WT" ) then
@@ -457,7 +458,8 @@ do
 !--------------------------------------------------------------------
 
 
-! sse_min_time  -  calculate sse only with data after this time
+
+! sse_min_time  -  start time of interval where data is weighted with 1.0 
 
     elseif( Aline(1:len('sse_min_time')) == "sse_min_time" .or.     &
             Aline(1:len('sse_min_time')) == "SSE_MIN_TIME" ) then
@@ -475,7 +477,7 @@ do
 !--------------------------------------------------------------------
 
 
-! sse_max_time  -  calculate sse only with data before this time
+! sse_max_time  -  stop  time of interval where data is weighted with 1.0 
 
     elseif( Aline(1:len('sse_max_time')) == "sse_max_time" .or.     &
             Aline(1:len('sse_max_time')) == "SSE_MAX_TIME" ) then

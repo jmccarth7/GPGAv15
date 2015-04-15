@@ -59,6 +59,7 @@ real(kind=r8b) ::  dff
 real(kind=r8b) ::  mean_fit
 real(kind=r8b) ::  rms_fit
 real(kind=r8b) ::  std_dev_fit
+real(kind=r8b) ::  sse_local      
 
 
 logical :: L_node_match
@@ -161,7 +162,36 @@ if( L_GPSSE_log )then
         write(GPSSE_log_unit,'(A)') '#gpcf: gen  indiv      SSE     SSE/SSE0'
     endif  ! i_GP_generation == 1
 
-    do  i_GP_Individual=1,n_GP_Individuals
+    if( index( model, 'LOG10') > 0 .or. &
+        index( model, 'log10') > 0        )then
+
+        !write(6,'(A,1x, I6, 1x,E15.7)') &
+        !      'gpcf: i_GP_gen, sse0_nolog10 ', &
+        !      i_GP_generation,  SSE0_nolog10
+
+        do  i_GP_Individual=1,n_GP_Individuals
+
+            !call GP_calc_SSE( i_GP_Individual, sse_local )
+
+            !write(6,'(A,1x,I6, 1x,I6,2(1x,E15.7))') &
+            !      'gpcf: i_GP_gen, i_GP_ind, sse_nolog10, sse_nolog10/sse0_nolog10 ', &
+            !      i_GP_generation, &
+            !      i_GP_Individual, GP_Child_Individual_SSE_nolog10(i_GP_Individual), &
+            !      GP_Child_Individual_SSE_nolog10(i_GP_Individual)/ SSE0_nolog10
+
+            write(GPSSE_log_unit,'(I6, 1x,I6,2(1x,E15.7))') &
+                  i_GP_generation, &
+                  i_GP_Individual, GP_Child_Individual_SSE_nolog10(i_GP_Individual), &
+                  GP_Child_Individual_SSE_nolog10(i_GP_Individual)/ SSE0_nolog10
+                  !i_GP_Individual, sse_local, &
+                  !sse_local / SSE0_nolog10
+
+        enddo ! i_gp_individual
+
+
+    else
+
+        do  i_GP_Individual=1,n_GP_Individuals
 
         write(GPSSE_log_unit,'(I6, 1x,I6,2(1x,E15.7))') &
               i_GP_generation, &
@@ -169,6 +199,8 @@ if( L_GPSSE_log )then
               GP_Child_Individual_SSE(i_GP_Individual)/ SSE0
 
     enddo ! i_gp_individual
+
+    endif !
 
     !flush( GPSSE_log_unit )
 
@@ -330,14 +362,33 @@ write(GP_print_unit,'(/A,2(1x,I6),3(1x,E15.7))') &
 ! parameters,  and node types for the i_GP_Best_Parent
 ! and writes the tree to the summary_best file
 
-write(GP_print_unit,'(/A)') &
-      'gpcf:------------------------------------------&
-      &-----------------------------'
-write(GP_print_unit,'(A,2(1x,I6))') &
-      'gpcf: call summary_GP_indiv i_GP_generation, i_GP_Best_Parent ', &
-                                   i_GP_generation, i_GP_Best_Parent
+if( i_GP_generation == 1                                 .or. &
+    mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
+    i_GP_generation == n_GP_generations                          ) then
+
+    write(GP_print_unit,'(/A/)') &
+          'gpcf:------------------------------------------&
+          &-----------------------------'
+    
+    
+    write(GP_print_unit,'(A,2(1x,I6))') &
+          'gpcf: call summary_GP_indiv i_GP_generation, i_GP_Best_Parent ', &
+                                       i_GP_generation, i_GP_Best_Parent
+
+endif ! i_GP_generation == 1 .or. ...
 
 call summary_GP_indiv( i_GP_generation, i_GP_Best_Parent, 1 )
+
+
+if( i_GP_generation == 1                                 .or. &
+    mod( i_GP_generation, GP_child_print_interval ) == 0 .or. &
+    i_GP_generation == n_GP_generations                          ) then
+
+    write(GP_print_unit,'(/A/)') &
+          'gpcf:------------------------------------------&
+          &-----------------------------'
+
+endif ! i_GP_generation == 1 .or. ...
 
 !-------------------------------------------------------------------------------
 
@@ -357,11 +408,44 @@ if( L_GPSSE_log )then
     !                         i_GP_generation, i_GP_Best_Parent, &
     !                         GP_Child_Individual_SSE(i_GP_Best_Parent)
 
+    if( index( model, 'LOG10') > 0 .or. &
+        index( model, 'log10') > 0        )then
+
+
+        !call GP_calc_SSE( i_GP_Best_Parent, sse_local )
+        write(6,'(/A,1x, I6, 1x,E15.7)') &
+              'gpcf: i_GP_gen, sse0_nolog10 ', &
+              i_GP_generation,  SSE0_nolog10
+        write(6,'(A,1x, I6, 1x,I6,2(1x,E15.7)/)') &
+              'gpcf: i_GP_gen, i_GP_best_parent, sse_nolog10, sse_nolog10/sse0_nolog10 ', &
+              i_GP_generation, &
+              i_GP_Best_Parent, &
+              GP_Child_Individual_SSE_nolog10(i_GP_best_parent), &
+              GP_Child_Individual_SSE_nolog10(i_GP_best_parent)/ SSE0_nolog10
+
+
+              !sse_local, &
+              !sse_local / SSE0_nolog10
+
+        write(GPSSE_best_log_unit,'(I6, 1x,I6,2(1x,E15.7))') &
+              i_GP_generation, &
+              i_GP_Best_Parent, &
+              GP_Child_Individual_SSE_nolog10(i_GP_best_parent), &
+              GP_Child_Individual_SSE_nolog10(i_GP_best_parent)/ SSE0_nolog10
+              !sse_local, &
+              !sse_local / SSE0_nolog10
+
+    else
 
     write(GPSSE_best_log_unit,'(I6,1x,I6,2(1x,E15.7))') &
           i_GP_Generation, i_GP_Best_Parent, &
           GP_Child_Individual_SSE(i_GP_Best_Parent), &
           GP_Child_Individual_SSE(i_GP_Best_Parent)/ SSE0
+
+
+    endif !
+
+
 
     flush( GPSSE_best_log_unit ) ! DO NOT COMMENT OUT
 
@@ -456,8 +540,7 @@ nop = n_CODE_equations
 !                              n_code_equations, nop
 
 write(GP_print_unit,'(/A)') &
-     'gpcf: i_tree  i_node  nop   &
-     &GP_pop_node_params'
+     'gpcf: i_tree  i_node  nop   GP_pop_node_params'
 
 
 tree_loop:&

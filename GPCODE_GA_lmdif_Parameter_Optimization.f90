@@ -56,8 +56,8 @@ real(kind=r8b),&
      dimension(n_GP_parameters,n_GA_individuals) ::  child_parameters
 
 
-   real(kind=r8b), dimension(n_GP_parameters + 2)  :: buffer
-   real(kind=r8b), dimension(n_GP_parameters + 2)  :: buffer_recv
+   real(kind=r8b), dimension(n_GP_parameters + 3)  :: buffer
+   real(kind=r8b), dimension(n_GP_parameters + 3)  :: buffer_recv
 
 
    integer(kind=i4b) ::      i
@@ -122,7 +122,7 @@ if( myid == 0 )return
    L_too_many_iters = .FALSE.
    i_dummy = 0
 
-   do  jj = 1, n_GP_parameters+2
+   do  jj = 1, n_GP_parameters+3
       buffer(jj)      = 0.0D0
       buffer_recv(jj) = 0.0D0
    enddo ! jj
@@ -463,7 +463,7 @@ if( myid == 0 )return
 
 
             buffer_recv = 0.0d0
-            call MPI_RECV( buffer_recv, n_GP_parameters+2, &
+            call MPI_RECV( buffer_recv, n_GP_parameters+3, &
                            MPI_DOUBLE_PRECISION, &
                            MPI_ANY_SOURCE, MPI_ANY_TAG,  &
                            new_comm, MPI_STAT,  ierr )
@@ -488,10 +488,17 @@ if( myid == 0 )return
 
                 individual_SSE(i_individual)     =       buffer_recv( n_GP_parameters+1)
                 individual_quality(i_individual) = nint( buffer_recv( n_GP_parameters+2) )
-                if( individual_quality(i_individual) < 0 .or.  &      ! jjm 20150108
-                    individual_SSE(i_individual) < 1.0D-20         )then      ! jjm 20150108
-                    individual_SSE(i_individual) = big_real      ! jjm 20150108
-                endif ! individual_quality(i_individual) < 0      ! jjm 20150108
+                !origGP_Child_Individual_SSE_nolog10(i_individual) = buffer_recv( n_GP_parameters+3)
+                GP_Child_Individual_SSE_nolog10(i_GP_individual) = buffer_recv( n_GP_parameters+3)
+
+                if( individual_quality(i_individual) < 0 .or.  &                         ! jjm 20150108
+                    individual_SSE(i_individual) < 1.0D-20         )then                 ! jjm 20150108
+
+                    individual_SSE(i_individual) = big_real                              ! jjm 20150108
+                    !origGP_Child_Individual_SSE_nolog10(i_individual)  =       big_real      ! jjm 20150306
+                    GP_Child_Individual_SSE_nolog10(i_GP_individual)  =       big_real      ! jjm 20150306
+
+                endif ! individual_quality(i_individual) < 0                             ! jjm 20150108
 
                 !if( L_ga_print )then
                 !    write(GA_print_unit,'(A,2(1x,I3),1x,E15.7, 1x,I3)') &
@@ -698,6 +705,9 @@ if( myid == 0 )return
                       individual_SSE(i_2_individual)
                 buffer(n_GP_parameters+2) = &
                       real( individual_quality(i_2_individual), kind=r8b )
+                buffer(n_GP_parameters+3) = &
+                      GP_Child_Individual_SSE_nolog10(i_GP_individual)
+                      !orig GP_Child_Individual_SSE_nolog10(i_2_individual)
 
             endif !  Run_GA_lmdif(i_2_individual)
 
@@ -712,13 +722,18 @@ if( myid == 0 )return
             !endif ! L_ga_print
 
 
+            !    write(6,'(A,2(1x,I6), 1x, E15.7)') &
+            !    'GP_GA_opt:3 send results &
+            !      &new_rank, i_2_individual, GP_Child_Individual_SSE_nolog10(i_2_individual)', &
+            !       new_rank, i_2_individual, GP_Child_Individual_SSE_nolog10(i_2_individual)
+
 
             ! send the R-K integration results
             ! for individual i_2_individual to processor 0
 
             itag7 = i_2_individual ! + itag4
 
-            call MPI_SEND( buffer, n_GP_parameters+2,  &
+            call MPI_SEND( buffer, n_GP_parameters+3,  &
                            MPI_DOUBLE_PRECISION, 0, &
                            itag7, new_comm, ierr )
                            !i_2_individual, new_comm, ierr )
@@ -954,6 +969,28 @@ call MPI_BCAST( Individual_SSE_best_parent, message_len,    &
 !                              myid, new_rank, ierr, Individual_SSE_best_parent
 !endif ! new_rank == 0
 
+
+
+!------------------------------------------------------------------------
+
+! broadcast Individual_SSE_best_parent_nolog10
+
+Individual_SSE_best_parent_nolog10 = GP_Child_Individual_SSE_nolog10(i_GP_individual)
+message_len = 1
+call MPI_BCAST( Individual_SSE_best_parent_nolog10, message_len,    &
+                MPI_DOUBLE_PRECISION, 0, new_comm, ierr )
+
+!if( L_ga_print )then
+!    write(GA_print_unit,'(/A,1x,I6)') &
+!     'GP_GA_opt: aft broadcast Individual_SSE_best_parent  ierr = ', ierr
+!endif ! L_ga_print
+
+!if( new_rank == 0 )then 
+!write(6,'(A,3(1x,I6),1x,E15.7)') &
+!    'GP_GA_opt: aft broadcast myid, new_rank, ierr, Individual_SSE_best_parent_nolog10 = ', &
+!                              myid, new_rank, ierr, Individual_SSE_best_parent_nolog10
+!endif ! new_rank == 0
+
 !------------------------------------------------------------------------
 
 ! broadcast GP_Individual_Node_Parameters
@@ -974,7 +1011,16 @@ call MPI_BCAST( GP_Individual_Initial_Conditions, message_len,    &
                 MPI_DOUBLE_PRECISION, 0, new_comm, ierr )
 
 !------------------------------------------------------------------------
-
+!
+!
+!! broadcast GP_Child_Individual_SSE_nolog10
+!
+!message_len = n_GP_individuals 
+!
+!call MPI_BCAST( GP_Child_Individual_SSE_nolog10, message_len,    &
+!                MPI_DOUBLE_PRECISION, 0, new_comm, ierr )
+!
+!------------------------------------------------------------------------
 
 !if( new_rank == 0  )then
 !    if( L_ga_print )then

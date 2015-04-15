@@ -32,7 +32,6 @@ real(kind=r8b),dimension( n_GP_parameters,n_GA_individuals ) :: child_parameters
 integer(kind=i4b),intent(in) :: i_GP_Generation
 integer(kind=i4b),intent(in) :: i_GP_individual
 
-!integer(kind=i4b),intent(in) :: new_group
 integer(kind=i4b),intent(in) :: new_comm
 !integer(kind=i4b) :: new_rank 
 
