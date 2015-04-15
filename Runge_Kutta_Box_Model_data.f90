@@ -265,6 +265,13 @@ do  i_data_point = 1, n_input_data_points
     Numerical_CODE_Solution(i_data_point,1) = abs( Tree_Value(i_Tree) )
 
 
+    if( index( model, 'LOG10') > 0 .or. &
+        index( model, 'log10') > 0        )then
+
+        Numerical_CODE_Solution_log10(i_data_point,1) = log10( abs( Tree_Value(i_Tree) ) ) 
+
+    endif ! index( model, 'DATA') > 0 ...
+
     if( L_print_RK )then
         write(6,'(A,2(1x,I6),12(1x,E24.16))') &
         'rkbm: myid, i_data_point, RK_Soln ', &

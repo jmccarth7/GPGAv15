@@ -73,7 +73,9 @@ integer(kind=i4b),parameter :: tag_node_parm    = 800000
 integer(kind=i4b) :: tag_fit_r
 integer(kind=i4b) :: tag_fit_s
 integer(kind=i4b) :: tag_sse_r
+integer(kind=i4b) :: tag_sse_r2
 integer(kind=i4b) :: tag_sse_s
+integer(kind=i4b) :: tag_sse_s2
 
 
 
@@ -84,6 +86,7 @@ integer(kind=i4b),dimension(n_nodes, n_trees) ::   node_type_buff2
 
 real(kind=r8b),dimension(n_indiv_part) ::   fit_buffer_send
 real(kind=r8b),dimension(n_indiv_part) ::   sse_buffer_send
+real(kind=r8b),dimension(n_indiv_part) ::   sse_buffer_send2
 integer(kind=i4b),dimension(n_indiv_part)  ::   buff_parm_send
 
 
@@ -180,6 +183,7 @@ do  i_part = 1,  n_partitions
 
     fit_buffer_send(1:ind2-ind1+1)  = GP_Population_Ranked_Fitness(ind1:ind2)
     sse_buffer_send(1:ind2-ind1+1)  = GP_Child_Individual_SSE(ind1:ind2)
+    sse_buffer_send2(1:ind2-ind1+1)  = GP_Child_Individual_SSE_nolog10(ind1:ind2)
     buff_parm_send(1:ind2-ind1+1)   = GP_Individual_N_GP_param(ind1:ind2)
 
     !write(GP_print_unit,'(A,8(1x,I3))')&
@@ -239,7 +243,8 @@ do  i_part = 1,  n_partitions
 
         ! receive the SSE information
 
-        tag_sse_r = tag_ind_sse
+        tag_sse_r  = tag_ind_sse
+        tag_sse_r2 = tag_ind_sse*2
 
         n_indiv = ind2 - ind1 + 1
 
@@ -252,9 +257,18 @@ do  i_part = 1,  n_partitions
                        MPI_ANY_SOURCE, tag_sse_r,                       &
                        MPI_COMM_WORLD, MPI_STAT, ierr )
 
+
+        call MPI_RECV( GP_Child_Individual_SSE_nolog10(ind1), n_indiv, MPI_DOUBLE_PRECISION, &
+                       MPI_ANY_SOURCE, tag_sse_r2,                       &
+                       MPI_COMM_WORLD, MPI_STAT, ierr )
+
         !write(GP_print_unit,'(A,3(1x,I4)/(5(1x,E15.7)))')&
         !      'gil:32r myid, new_rank, i_part, GP_Child_Individual_SSE(ind1:ind2)', &
         !               myid, new_rank, i_part, GP_Child_Individual_SSE(ind1:ind2)
+        !flush( GP_print_unit )
+        !write(GP_print_unit,'(A,3(1x,I4)/(5(1x,E15.7)))')&
+        !      'gil:32r myid, new_rank, i_part, GP_Child_Individual_SSE_nolog10(ind1:ind2)', &
+        !               myid, new_rank, i_part, GP_Child_Individual_SSE_nolog10(ind1:ind2)
         !flush( GP_print_unit )
 
         
@@ -502,6 +516,7 @@ do  i_part = 1,  n_partitions
 
                 if( n_GP_parameters == 0 .or. &
                     n_GP_parameters > n_maximum_number_parameters .or.  &
+                    ( n_GP_parameters <=  n_code_equations .and. n_input_vars > 0 ) .or. &
                     n_GP_parameters <=  n_code_equations                 ) then
 
                     !if( new_rank == 0 )then
@@ -514,6 +529,7 @@ do  i_part = 1,  n_partitions
 
                     individual_fitness = 0.0d0
                     GP_Child_Individual_SSE(i_GP_individual) = big_real  !  1.0D+13   ! jjm 20150109
+                    GP_Child_Individual_SSE_nolog10(i_GP_individual) = big_real  !  1.0D+13   ! jjm 20150109
 
                     !if( new_rank == 0 )then
                     !    write(GP_print_unit,'(A,7(1x,I5), 1x, E15.7)')&
@@ -601,12 +617,13 @@ do  i_part = 1,  n_partitions
 
 
                 sse_buffer_send( i_GP_individual-ind1+1 ) = Individual_SSE_best_parent
+                sse_buffer_send2( i_GP_individual-ind1+1 ) = Individual_SSE_best_parent_nolog10
 
                 !if( new_rank == 0 )then
                 !    write(GP_print_unit,'(A,3(1x,I7),1x,E15.7)')&
-                !     'gil:9t myid, new_rank, i_GP_indiv, sse_buf_send(i_GP_indiv-ind1+1)', &
+                !     'gil:9t myid, new_rank, i_GP_indiv, sse_buf_send2(i_GP_indiv-ind1+1)', &
                 !             myid, new_rank, i_GP_individual, &
-                !             sse_buffer_send(i_GP_individual-ind1+1)
+                !             sse_buffer_send2(i_GP_individual-ind1+1)
                 !endif ! new_rank == 0
 
 
@@ -690,7 +707,8 @@ do  i_part = 1,  n_partitions
 
             !  send the SSE buffer for the GP individuals already completed
 
-            tag_sse_s = tag_ind_sse
+            tag_sse_s  = tag_ind_sse
+            tag_sse_s2 = tag_ind_sse * 2 
             n_indiv = ind2 - ind1 + 1
 
             !write(GP_print_unit,'(/A,4(1x,I7)/)')&
@@ -703,6 +721,10 @@ do  i_part = 1,  n_partitions
 
             call MPI_SEND( sse_buffer_send, n_indiv, MPI_DOUBLE_PRECISION, &
                            0, tag_sse_s, MPI_COMM_WORLD, ierr )
+
+
+            call MPI_SEND( sse_buffer_send2, n_indiv, MPI_DOUBLE_PRECISION, &
+                           0, tag_sse_s2, MPI_COMM_WORLD, ierr )
 
             !--------------------------------------------------------------------------------
 

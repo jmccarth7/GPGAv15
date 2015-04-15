@@ -21,6 +21,8 @@ use GP_Data_module
 
 implicit none
 
+integer :: maxno
+
 !----------------------------------------------------------------------------------------
 
 
@@ -41,6 +43,7 @@ allocate( ga_individual_elites( n_GA_individuals )  )
 allocate( Run_GA_lmdif( n_GA_individuals )  )
 
 allocate( Data_Array( 0:n_time_steps, n_CODE_equations )  )
+allocate( Data_Array_log10( 0:n_time_steps, n_CODE_equations )  )
 
 allocate( Data_Variance_inv( n_CODE_equations )  )
 allocate( ratio_Data_Variance_inv( n_CODE_equations )  )
@@ -51,6 +54,13 @@ allocate( Run_GP_Calculate_Fitness(n_GP_Individuals) )
 
 allocate( GP_Adult_Individual_SSE(n_GP_Individuals) )
 allocate( GP_Child_Individual_SSE(n_GP_Individuals) )
+
+!if( index( model, 'log10') > 0 .or. &
+!    index( model, 'LOG10') > 0        )then
+    maxno= max( n_GA_individuals, n_GP_individuals ) 
+    allocate( GP_Child_Individual_SSE_nolog10(maxno) )
+
+!endif ! index( model, 'log10') > 0 .or. ...
 
 
 allocate( individual_SSE( n_GA_individuals )  )
@@ -133,6 +143,7 @@ allocate( Numerical_CODE_Forcing_Functions( n_CODE_forcing ) )
 if( n_input_vars > 0 )then
 
     allocate( Numerical_CODE_Solution( 0:n_input_data_points, n_CODE_equations ) )
+    allocate( Numerical_CODE_Solution_log10( 0:n_input_data_points, n_CODE_equations ) )
 
 else
 
@@ -267,6 +278,7 @@ GP_Child_Population_Node_Type = -9999
 GP_Adult_Individual_SSE = -3.3d0  ! 0.0d0
 GP_Child_Individual_SSE = -3.0d0  ! 0.0d0
 
+GP_Child_Individual_SSE_nolog10 = -4.0d0
 
 Node_Values = 0.0d0
 Tree_Evaluation = 0.0d0
@@ -305,7 +317,7 @@ endif ! L_print_equations
 
 Node_Probability = 0.0d0
 !>>>>>>>>>>>>>
-GP_Adult_Population_SSE = 0.0d0
+GP_Adult_Population_SSE = -6.0d0
 !ppex = 0.0d0
 !!>>>>>>>>>>>>>
 answer       = 0.0d0

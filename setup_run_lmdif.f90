@@ -221,7 +221,7 @@ call lmdif( fcn, n_time_steps, n_parameters, x_LMDIF, fvec, &
 
 if( Lprint_lmdif )then
 
-    if( L_myprint )then
+    !if( L_myprint )then
 
         !write(myprint_unit,'(A,3(1x,I3),1x,I10/)') &
         !      'setrlm: aft call lmdif, myid, n_parameters, info, n_time_steps', &
@@ -262,7 +262,7 @@ if( Lprint_lmdif )then
         !!    '######################################################################################'
         !!
         !!endif ! info > 0
-    endif ! L_myprint
+    !endif ! L_myprint
 
     Lprint_lmdif = .FALSE.
 endif ! Lprint_lmdif

@@ -43,7 +43,7 @@ SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 allocate_arrays1.f90 \
 	serialize_trees.f90 set_answer_arrays.f90 set_forcing_node.f90 \
 	set_modified_indiv.f90 setup1.f90 setup_math_functions.f90 \
 	setup_run_fcn.f90 setup_run_lmdif.f90 setup_run_para_lmdif.f90 \
-	sort.f90 sse0_calc.f90 summary_GP_all.f90 summary_GP_indiv.f90 \
+	sort.f90 sse0_calc.f90 sse0_calc_log10.f90 summary_GP_all.f90 summary_GP_indiv.f90 \
 	summary_GP_minSSE_indiv.f90 swap_module.f90 Tree_Helper_module.f90 \
 	tree_node_factory_module.f90 write_GP_restart.f90
 
@@ -86,7 +86,7 @@ OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o allocate_arrays1.o \
 	select_best_RK_lmdif_result.o serialize_trees.o set_answer_arrays.o \
 	set_forcing_node.o set_modified_indiv.o setup1.o \
 	setup_math_functions.o setup_run_fcn.o setup_run_lmdif.o \
-	setup_run_para_lmdif.o sort.o sse0_calc.o summary_GP_all.o \
+	setup_run_para_lmdif.o sort.o sse0_calc.o  sse0_calc_log10.o summary_GP_all.o \
 	summary_GP_indiv.o summary_GP_minSSE_indiv.o swap_module.o \
 	Tree_Helper_module.o tree_node_factory_module.o write_GP_restart.o
 
@@ -101,7 +101,8 @@ CFLAGS = -O
 #LDFLAGS = -Wl,-no_pie
 #LIBS= -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/usr/lib  -L/Developer/SDKs/MacOSX10.6.sdk/usr/lib
 
-
+####################################################################################
+#
 ## note: mpif90 is based on gfortran
 #FC = /opt/openmpi-1.8.1/bin/mpif90
 ##FFLAGS =  -O3 -g -fbacktrace -ffree-form # -fcheck=bounds #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
@@ -119,7 +120,7 @@ CFLAGS = -O
 #LIBS= -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib \
 #      -L/Developer/SDKs/MacOSX10.6.sdk/usr/lib
 #
-###################################################################################
+#####################################################################################
 #FC = mpif90  #mpiifort
 FC = mpiifort
 #FFLAGS = -O3  -free   -traceback #-warn all #-C -ftrapuv  # -warn all   # -ftrace=full    # -fzero -Wall
@@ -133,7 +134,7 @@ F90 = mpiifort
 F90FLAGS = -O3  -free  -assume realloc_lhs -mkl -heap-arrays
 #F90FLAGS = -g  -free -traceback -debug all  #-check bounds  #  -g -traceback  #-ftrapuv  #-warn all #-C -ftrapuv  # -warn all   #  -ftrace=full    # -fzero -Wall
 LDFLAGS =
-####################################################################################
+#####################################################################################
 
 
 all: $(PROG)
@@ -411,6 +412,8 @@ setup_run_para_lmdif.o: GA_parameters_module.o GA_variables_module.o \
 sort.o: GA_parameters_module.o GP_parameters_module.o kinds_mod.o \
 	mpi_module.o swap_module.o
 sse0_calc.o: GA_variables_module.o GP_data_module.o GP_parameters_module.o \
+	GP_variables_module.o kinds_mod.o mpi_module.o
+sse0_calc_log10.o: GA_variables_module.o GP_data_module.o GP_parameters_module.o \
 	GP_variables_module.o kinds_mod.o mpi_module.o
 summary_GP_all.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
