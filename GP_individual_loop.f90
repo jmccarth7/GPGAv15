@@ -94,10 +94,6 @@ integer(kind=i4b),dimension(n_indiv_part)  ::   buff_parm_send
 
 
 
-
-
-
-!orig divider = ( numprocs - 1 ) / n_partitions
 divider = ( numprocs ) / n_partitions
 
 call mpi_comm_rank( new_comm, new_rank, ierr )
@@ -119,7 +115,7 @@ call mpi_comm_size( new_comm, n_procs,  ierr )
 !                       myid, (n_GP_individuals / n_partitions) + 1 
 !    !flush( GP_print_unit )
 !endif !  myid == 0
-!
+
 !if( new_rank == 0 )then
 !    write(GP_print_unit,'(/A,4(1x,i3))')&
 !     'gil: before loop myid, new_rank, n_code_equations,  n_GP_params ',&
@@ -183,7 +179,7 @@ do  i_part = 1,  n_partitions
 
     fit_buffer_send(1:ind2-ind1+1)  = GP_Population_Ranked_Fitness(ind1:ind2)
     sse_buffer_send(1:ind2-ind1+1)  = GP_Child_Individual_SSE(ind1:ind2)
-    sse_buffer_send2(1:ind2-ind1+1)  = GP_Child_Individual_SSE_nolog10(ind1:ind2)
+    sse_buffer_send2(1:ind2-ind1+1) = GP_Child_Individual_SSE_nolog10(ind1:ind2)
     buff_parm_send(1:ind2-ind1+1)   = GP_Individual_N_GP_param(ind1:ind2)
 
     !write(GP_print_unit,'(A,8(1x,I3))')&
@@ -379,7 +375,7 @@ do  i_part = 1,  n_partitions
 
 
 
-    elseif( i_gp_1 <= myid  .and.   &
+    elseif( i_gp_1 <= myid              .and.   &
                       myid   <= i_gp_2         )then
 
         gp_ind_loop:&
@@ -430,23 +426,23 @@ do  i_part = 1,  n_partitions
             buff_parm_send(i_GP_individual-ind1+1) = n_GP_parameters
 
 
-
             !------------------------------------------------------------------------------
 
 
             ! run GPCODE_... to evaluate this individual  if Run_GP_Calculate_Fitness is true
 
             !write(GP_print_unit,'(A,8(1x,I3),4x,L1)')&
-            ! 'gil: myid, new_rank, i_part, i_gp_1, i_gp_2, ind1, ind2, i_GP_individual, Run_GP_Calculate_Fit',&
-            !       myid, new_rank, i_part, i_gp_1, i_gp_2, ind1, ind2, i_GP_individual, &
-            !                                  Run_GP_Calculate_Fitness(i_GP_Individual)
+            ! 'gil: myid, new_rank, i_part, i_gp_1, i_gp_2, &
+            !       ind1, ind2, i_GP_individual, Run_GP_Calculate_Fit',&
+            !       myid, new_rank, i_part, i_gp_1, i_gp_2, &
+            !       ind1, ind2, i_GP_individual, Run_GP_Calculate_Fitness(i_GP_Individual)
 
             if( Run_GP_Calculate_Fitness(i_GP_Individual) ) then
 
                 !-----------------------------------------------------------------------------------
 
                 ! these get set randomly in the GA-lmdif search algorithm ( in GPCODE* )
-                !GP_Individual_Node_Parameters(1:n_Nodes,1:n_Trees) = 0.0d0               ! 20131209
+                ! GP_Individual_Node_Parameters(1:n_Nodes,1:n_Trees) = 0.0d0             ! 20131209
 
                 !-----------------------------------------------------------------------------------
 
@@ -461,9 +457,6 @@ do  i_part = 1,  n_partitions
                 !    'gil:----------------------------------------------------------------------'
                 !    !!flush(GP_print_unit)
                 !endif !  new_rank == 0
-
-                !-----------------------------------------------------------------------------------
-
                 !if( new_rank == 0 )then
                 !    write(GP_print_unit,'(/A,4(1x,i6))') &
                 !      'gil: i_GP_individual, n_trees, n_nodes, n_GP_parameters ', &
@@ -492,6 +485,8 @@ do  i_part = 1,  n_partitions
 
                         if( GP_Individual_Node_Type(i_Node,i_Tree) < 0  .and. &
                             GP_Individual_Node_Type(i_Node,i_Tree) > -9999  ) then
+                            ! should the above be > -5000  to account for Fasham forcing?
+
                             n_GP_vars = n_GP_vars + 1
                         endif ! GP_Individual_Node_Type(i_Node,i_Tree) > 0 ....
 
@@ -508,7 +503,6 @@ do  i_part = 1,  n_partitions
                 !    !flush(GP_print_unit)
                 !endif !  new_rank == 0
 
-
                 !-------------------------------------------------------------------
 
                 ! cycle the i_GP_individual loop if there are no GP parameters
@@ -516,8 +510,9 @@ do  i_part = 1,  n_partitions
 
                 if( n_GP_parameters == 0 .or. &
                     n_GP_parameters > n_maximum_number_parameters .or.  &
-                    ( n_GP_parameters <=  n_code_equations .and. n_input_vars > 0 ) .or. &
                     n_GP_parameters <=  n_code_equations                 ) then
+
+                    !( n_GP_parameters <=  n_code_equations .and. n_input_vars > 0 ) .or. &
 
                     !if( new_rank == 0 )then
                     !    write(GP_print_unit,'(A,1x,I5,A,1x,i5)')&
@@ -528,8 +523,8 @@ do  i_part = 1,  n_partitions
 
 
                     individual_fitness = 0.0d0
-                    GP_Child_Individual_SSE(i_GP_individual) = big_real  !  1.0D+13   ! jjm 20150109
-                    GP_Child_Individual_SSE_nolog10(i_GP_individual) = big_real  !  1.0D+13   ! jjm 20150109
+                    GP_Child_Individual_SSE(i_GP_individual)         = big_real  ! jjm 20150109
+                    GP_Child_Individual_SSE_nolog10(i_GP_individual) = big_real  ! jjm 20150109
 
                     !if( new_rank == 0 )then
                     !    write(GP_print_unit,'(A,7(1x,I5), 1x, E15.7)')&
@@ -616,7 +611,7 @@ do  i_part = 1,  n_partitions
                 !--------------------------------------------------------------------------------
 
 
-                sse_buffer_send( i_GP_individual-ind1+1 ) = Individual_SSE_best_parent
+                sse_buffer_send(  i_GP_individual-ind1+1 ) = Individual_SSE_best_parent
                 sse_buffer_send2( i_GP_individual-ind1+1 ) = Individual_SSE_best_parent_nolog10
 
                 !if( new_rank == 0 )then

@@ -1122,21 +1122,6 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
             !call print_trees( i_GP_generation, 1, n_GP_individuals, &
             !     GP_Adult_Population_Node_Type, trim( tree_descrip )  )
 
-            !---------------------------------------------------------------------------
-
-            !write(GP_print_unit,'(/A)')&
-            !      '0: i_GP_gen i_GP_indiv    Run_GP_Calculate_Fitness'
-
-            !do  i_GP_individual = 1, n_GP_individuals
-            !    if( .not.  Run_GP_Calculate_Fitness(i_GP_Individual)  )then
-            !        write(GP_print_unit,'(2(1x,I10), 5x,L1)') &
-            !                   i_GP_generation, i_GP_individual, &
-            !                   Run_GP_Calculate_Fitness(i_GP_Individual)
-            !    endif !.not.  Run_GP_Calculate_Fitness(i_GP_Individual)  )then
-            !enddo ! i_GP_individual
-
-            !write(GP_print_unit,'(A)') ' '
-            !flush(GP_print_unit)
 
             !---------------------------------------------------------------------------
 
@@ -1204,7 +1189,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
         ! the best individual over the generations.
         ! Without this, for each GP generation, all GP individuals are recomputed from the
         ! new GA individuals, without regard to what the best GP individuals of the last
-        ! generation were
+        ! generation were.
 
         if( trim(model) == 'fasham_fixed_tree' )then
             if( myid == 0 )then
@@ -1316,6 +1301,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
     ! GA_lmdif subroutine segment
     !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+
     if( myid == 0 )then
         write(GP_print_unit,'(/A/A)')&
               '0:-----------------------------------------------------------------', &
@@ -1364,9 +1350,9 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
     !if( myid == 0 )then
     !    do  i_GP_individual = 1, n_GP_individuals
     !        write(GP_print_unit, '(A, 2(1x,I6),1x, E20.10 )') &
-    !                      '0: aft GPind myid, i_GP_Individual, GP_Child_Individual_SSE',&
-    !                                    myid, i_GP_Individual,  &
-    !                                    GP_Child_Individual_SSE(i_GP_Individual)
+    !              '0: aft GPind myid, i_GP_Individual, GP_Child_Individual_SSE',&
+    !                            myid, i_GP_Individual,  &
+    !                            GP_Child_Individual_SSE(i_GP_Individual)
     !    enddo
     !endif ! myid == 0
     !-----------------------------------------------------------------------------------
