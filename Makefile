@@ -2,7 +2,7 @@ PROG =	GP_para_tree
 
 SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 allocate_arrays1.f90 \
 	bcast1.f90 bcast2.f90 bcast3.f90 betacf.f90 betai.f90 build_trees.f90 \
-	calc_fitness.f90 calc_stats.f90 check_for_elite.f90 \
+	calc_stats.f90 check_for_elite.f90 \
 	class_serialization_visitor.f90 class_tree_node.f90 clock_module.f90 \
 	close_output_unit.f90 combine_tree_strings.f90 comp_data_variance.f90 \
 	corr.f90 count_parens.f90 create_equations.f90 \
@@ -50,7 +50,7 @@ SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 allocate_arrays1.f90 \
 
 OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o allocate_arrays1.o \
 	bcast1.o bcast2.o bcast3.o betacf.o betai.o build_trees.o \
-	calc_fitness.o calc_stats.o check_for_elite.o \
+	calc_stats.o check_for_elite.o \
 	class_serialization_visitor.o class_tree_node.o clock_module.o \
 	close_output_unit.o combine_tree_strings.o comp_data_variance.o \
 	corr.o count_parens.o create_equations.o create_tree_node_string.o \
@@ -177,8 +177,8 @@ betai.o: kinds_mod.o mpi_module.o
 build_trees.o: GP_variables_module.o class_tree_node.o \
 	fasham_tree_interfaces.o fasham_variables_module.o kinds_mod.o \
 	mpi_module.o tree_node_factory_module.o
-calc_fitness.o: GA_parameters_module.o GA_variables_module.o \
-	GP_parameters_module.o GP_variables_module.o kinds_mod.o mpi_module.o
+#calc_fitness.o: GA_parameters_module.o GA_variables_module.o \
+#	GP_parameters_module.o GP_variables_module.o kinds_mod.o mpi_module.o
 calc_stats.o: kinds_mod.o
 check_for_elite.o: GA_parameters_module.o GA_variables_module.o \
 	GP_data_module.o GP_parameters_module.o GP_variables_module.o \

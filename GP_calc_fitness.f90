@@ -448,12 +448,6 @@ if( L_GPSSE_log )then
     endif !
 
 
-
-
-    endif !
-
-
-
     flush( GPSSE_best_log_unit ) ! DO NOT COMMENT OUT
 
 
