@@ -71,8 +71,8 @@ integer(kind=i4b) :: array_len
 !real(kind=r8b) :: t2
 
 
-character(75),parameter :: program_version   = '201501.008_v15'
-character(10),parameter :: modification_date = '20150414'
+character(75),parameter :: program_version   = '201501.009_v15'
+character(10),parameter :: modification_date = '20150420'
 character(50),parameter :: branch  =  'master'
 
 integer(kind=i4b), parameter ::  zero = 0
