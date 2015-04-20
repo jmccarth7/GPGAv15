@@ -114,7 +114,19 @@ do  i_time_step = 1, n_time_steps
 enddo ! i_time_step
 
 
-write(GP_print_unit,'(/A,1x,I6,2x,E15.7/)') 'ssec: myid, SSE0_nolog10 =  ',myid, SSE0_nolog10
+if( index( model,'LOG10') > 0 .or. &
+    index( model,'log10') > 0         )then
+
+    write(GP_print_unit,'(/A,1x,I6,2x,E15.7/)') 'ssec: myid, SSE0_nolog10 =  ',myid, SSE0_nolog10
+
+else
+
+    SSE0 = SSE0_nolog10
+
+    write(GP_print_unit,'(/A,1x,I6,2x,E15.7/)') 'ssec: myid, SSE0 =  ',myid, SSE0
+
+endif !   index( model,'LOG10') > 0 .or. ...
+
 !flush( GP_print_unit ) 
 
 return

@@ -477,6 +477,13 @@ if( myid == 0 )then
         index( model,'log10') > 0         )then
 
         call sse0_calc_log10( )
+        call sse0_calc( )
+
+    else
+
+        call sse0_calc( )
+
+        SSE0 = SSE0_nolog10
 
     endif!  index( model,'LOG10') > 0 ...
 
