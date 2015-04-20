@@ -8,7 +8,7 @@ subroutine print_time_series( i_GP_best_parent,  nop, i_GP_generation )
 ! coupled ordinary differential equations
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-use kinds_mod 
+use kinds_mod
 
 use mpi
 use mpi_module
@@ -31,7 +31,7 @@ character(1000) :: title_string
 
 integer(kind=i4b),intent(in) :: i_GP_best_parent
 integer(kind=i4b),intent(in) :: nop
-integer(kind=i4b),intent(in) :: i_GP_generation 
+integer(kind=i4b),intent(in) :: i_GP_generation
 integer(kind=i4b) :: i_tree
 integer(kind=i4b) :: i_node
 integer(kind=i4b) :: ii
@@ -91,9 +91,9 @@ if( myid == 0 )then
     write(GP_print_unit,'(/A,2(1x,I6))') 'pts: i_GP_generation', i_GP_generation
 endif ! myid == 0
 
-   L_myprint = .FALSE.             
+   L_myprint = .FALSE.
    if( i_GP_generation == 0 )then
-      L_myprint = .TRUE. 
+      L_myprint = .TRUE.
    endif ! i_GP_generation == 0
 
 GP_individual_Initial_Conditions = GP_Population_Initial_Conditions(:, i_GP_best_parent)
@@ -334,7 +334,7 @@ if( myid == 0 )then
 
         enddo ! j
 
-        xtime = dt * real(i,kind=r8b) 
+        xtime = dt * real(i,kind=r8b)
 
         if( L_myprint )write(GP_print_unit,'(F12.5,1x,I6,2x,50(1x,E12.5))') &
               xtime, i, ( Numerical_CODE_Solution(i,j),  Data_Array(i,j), &
@@ -429,7 +429,6 @@ if( myid == 0 )then
         !             j, data_min(j), data_max(j)
 
 
-
         temp_data_array = 0.0d0
         do  i = 1, n_time_steps
             temp_data_array(i) = resid(i,j)
@@ -438,10 +437,10 @@ if( myid == 0 )then
         resid_min(j) =  minval( temp_data_array )
         resid_max(j) =  maxval( temp_data_array )
 
+
         !if( L_myprint )write(GP_print_unit,'(A,1x,I3,2x,2(1x,E12.5))') &
         !      'pts:2 j, resid_min(j), resid_max(j)', &
         !             j, resid_min(j), resid_max(j)
-
 
         !if( L_myprint )write(GP_print_unit,'(A,1x,I6,2x,2(1x,E12.5))') &
         !      'pts: j, RK_min(j), RK_max(j)      ', &
@@ -466,6 +465,7 @@ if( myid == 0 )then
             temp_data_array(i) = Numerical_CODE_Solution(i,j)
         enddo ! i
 
+
         !if( L_myprint )write(GP_print_unit,'(A,1x,I6,2x,2(1x,E12.5))') &
         !      'pts:2 j, RK_min(j), RK_max(j)      ', &
         !             j, minval( temp_data_array ), maxval( temp_data_array )
@@ -476,10 +476,10 @@ if( myid == 0 )then
             temp_data_array(i) = data_array(i,j)
         enddo ! i
 
+
         !if( L_myprint )write(GP_print_unit,'(A,1x,I6,2x,2(1x,E12.5))') &
         !      'pts:2 j, data_min(j), data_max(j)      ', &
         !             j, minval( temp_data_array ), maxval( temp_data_array )
-
 
 
         temp_data_array = 0.0d0
@@ -521,9 +521,9 @@ if( myid == 0 )then
         !     'pts: n_time_steps, dt, resid_SSE', &
         !           n_time_steps, dt, resid_SSE
 
-    ! print results
+        ! print results
 
-    do  j = 1, n_code_equations
+        do  j = 1, n_code_equations
 
             write(GP_print_unit, '(/A)') &
                   'pts: i_code_eq           mean            rms             &
@@ -540,7 +540,7 @@ if( myid == 0 )then
             write(GP_print_unit, '(A,1x,I2, 5(1x,E15.7))') &
                   'pts: corr coef. ', j, r_corr(j)
 
-    enddo ! j
+        enddo ! j
 
         write(GP_print_unit, '(/A,1x,E15.7)') 'pts: y_min', y_min
         write(GP_print_unit, '(A,1x,E15.7/)') 'pts: y_max', y_max
@@ -555,7 +555,7 @@ if( myid == 0 )then
     !if( L_myprint )write(GP_print_unit, '(A,1x,5(1x,E15.7)/)') &
     !      'pts: Fisher''s Z        ', fisher_z
 
-    !flush(GP_print_unit) 
+    !flush(GP_print_unit)
 
 
     !--------------------------------------------------------------------------------

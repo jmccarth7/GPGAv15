@@ -367,6 +367,29 @@ do  i_GP_Mutation = 1,n_GP_Mutations
     !----------------------------------------------------------------------------------
 
 
+
+!!!!    !  if you found an error in the tree, reset i_GP_Crossover
+!!!!    !  and try making a new tree and with a new random i_GP_Individual
+!!!!
+!!!!    if( i_Error > 0 )then
+!!!!
+!!!!        write(6,'(/A/)')&
+!!!!              'gptssr: ERROR: i_Error = 1 so subtract 1 &
+!!!!              &from i_GP_Crossover and i_GP_Individual&
+!!!!              & and go through the loop again'
+!!!!        write(6,'(A,3(1x,I6))') &
+!!!!              'gptssr: i_GP_Crossover, i_GP_individual, i_safe ', &
+!!!!                       i_GP_Crossover, i_GP_individual, i_safe
+!!!!        i_GP_Crossover  = i_GP_Crossover  - 1
+!!!!        i_GP_Individual = i_GP_Individual - 1
+!!!!        i_Error = 0
+!!!!        cycle cross_loop
+!!!!
+!!!!    endif ! i_Error > 0
+
+
+
+
 enddo !  i_GP_Mutation
 
 !write(6,'(A)') 'gpmut: GP_Mutation at RETURN '

@@ -97,6 +97,7 @@ L_stop_run = .FALSE.
 !write(6,'(/A,2(1x,I6))') 'gacf: new_rank, n_parameters    =', new_rank, n_parameters
 !write(6,'(A,2(1x,I6)/)') 'gacf: new_rank, n_GP_parameters =', new_rank, n_GP_parameters
 
+
 do  i_parameter=1,n_parameters
     do  i_GA_individual=1,n_GA_individuals
 
@@ -197,7 +198,6 @@ do  i_GA_individual=1,n_GA_individuals  ! calculate the total populations SSE
         !orig if( individual_SSE(i_GA_individual) > edit_level  ) then
         !orig     individual_quality( i_GA_individual ) = -1
         !orig endif !   individual_SSE(i_GA_individual) >  edit_level
-
 
         if( individual_SSE(i_GA_individual) > big_real      ) then
             individual_quality( i_GA_individual ) = -1

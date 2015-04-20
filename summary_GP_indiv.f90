@@ -170,6 +170,7 @@ if( Lprint )then
 
     call print_trees( i_GP_generation, i_GP_indiv, i_GP_indiv, &
                       GP_Adult_Population_Node_Type, ' ' )
+
 endif ! Lprint
 
 

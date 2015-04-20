@@ -325,4 +325,8 @@ real(kind=r8b) :: allocated_memory
 
 real(kind=r4b) :: prob_forcing
 
+integer(kind=i4b)           :: max_forcing_index 
+integer(kind=i4b),parameter :: fasham_max_forcing_index = -5001
+
+
 end module GP_parameters_module

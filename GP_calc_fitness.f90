@@ -398,10 +398,12 @@ endif ! i_GP_generation == 1 .or. ...
 if( L_GPSSE_log )then
 
     ! write header for GPSSE_best_log
+
     if( i_GP_generation == 1 )then
         write(GPSSE_best_log_unit,'(A)') &
               '#gpcf: gen Best_Parent SSE    SSE/SSE0'
     endif !  i_GP_generation == 1
+
 
     !write(GP_print_unit,'(A,2(1x,I6),1x,E20.10)') &
     !  'gpcf: best parent SSE i_GP_generation, i_GP_Best_Parent, SSE ', &
@@ -437,10 +439,15 @@ if( L_GPSSE_log )then
 
     else
 
-    write(GPSSE_best_log_unit,'(I6,1x,I6,2(1x,E15.7))') &
-          i_GP_Generation, i_GP_Best_Parent, &
-          GP_Child_Individual_SSE(i_GP_Best_Parent), &
-          GP_Child_Individual_SSE(i_GP_Best_Parent)/ SSE0
+        write(GPSSE_best_log_unit,'(I6,1x,I6,2(1x,E15.7))') &
+              i_GP_Generation, i_GP_Best_Parent, &
+              GP_Child_Individual_SSE(i_GP_Best_Parent), &
+              GP_Child_Individual_SSE(i_GP_Best_Parent)/ SSE0
+
+
+    endif !
+
+
 
 
     endif !
@@ -455,9 +462,11 @@ endif ! L_GPSSE_log
 
                                                                                                           
 !-------------------------------------------------------------------------------                          
+
 !write(6,'(A,5x,L1)')  'gpcf: L_fort555_output ', L_fort555_output                                       
 !write(6,'(A,1x,I10)') 'gpcf: GA_555_unit ', GA_555_unit                                                 
                                                                                                         
+
 if( L_fort555_output )then                                                                             
                                                                                                         
     !write(6,'(A,3(1x,I10))') 'gpcf:555 gp_gen ', i_GP_Generation
@@ -584,18 +593,24 @@ do  i_tree=1,n_trees
 
 
         if( nop > max_n_gp_parameters ) then
+
             write(GP_print_unit,'(A)') &
                   'gpcf: nop >  max_n_gp_parameters  '
             write(GP_print_unit,'(A,3(1x,I6))') &
                   'gpcf: nop, max_n_gp_parameters  ', &
                          nop, max_n_gp_parameters
+
             nop = min( nop, max_n_gp_parameters )
+
             exit tree_loop
+
         endif  ! nop > ...
 
     enddo node_loop ! i_node
 
 enddo tree_loop ! i_tree
+
+
 
 !write(GP_print_unit,'(/A,3(1x,I6)/)') &
 !  'gpcf: after tree loop &

@@ -94,6 +94,10 @@ integer(kind=i4b),dimension(n_indiv_part)  ::   buff_parm_send
 
 
 
+
+
+
+!orig divider = ( numprocs - 1 ) / n_partitions
 divider = ( numprocs ) / n_partitions
 
 call mpi_comm_rank( new_comm, new_rank, ierr )
@@ -115,7 +119,7 @@ call mpi_comm_size( new_comm, n_procs,  ierr )
 !                       myid, (n_GP_individuals / n_partitions) + 1 
 !    !flush( GP_print_unit )
 !endif !  myid == 0
-
+!
 !if( new_rank == 0 )then
 !    write(GP_print_unit,'(/A,4(1x,i3))')&
 !     'gil: before loop myid, new_rank, n_code_equations,  n_GP_params ',&
@@ -417,8 +421,8 @@ do  i_part = 1,  n_partitions
             GP_Individual_N_GP_param(i_GP_individual) = n_GP_parameters
 
             !write(GP_print_unit,'(A,8(1x,I4))')&
-            !   'gil: buff_parm_send  myid, new_rank, i_part, i_gp_1, i_gp_2, ind1, ind2, i_GP_individual ', &
-            !                         myid, new_rank, i_part, i_gp_1, i_gp_2, ind1, ind2, i_GP_individual
+            ! 'gil: buff_parm_send  myid, new_rank, i_part, i_gp_1, i_gp_2, ind1, ind2, i_GP_individual',&
+            !                       myid, new_rank, i_part, i_gp_1, i_gp_2, ind1, ind2, i_GP_individual
             !write(GP_print_unit,'(A,8(1x,I4))')&
             !   'gil: buff_parm_send  myid, new_rank, i_part, i_GP_individual - ind1 + 1 ', &
             !                         myid, new_rank, i_part, i_GP_individual - ind1 + 1
@@ -510,6 +514,7 @@ do  i_part = 1,  n_partitions
 
                 if( n_GP_parameters == 0 .or. &
                     n_GP_parameters > n_maximum_number_parameters .or.  &
+                    ( n_GP_parameters <=  n_code_equations .and. n_input_vars > 0 ) .or. &
                     n_GP_parameters <=  n_code_equations                 ) then
 
                     !( n_GP_parameters <=  n_code_equations .and. n_input_vars > 0 ) .or. &

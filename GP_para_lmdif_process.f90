@@ -348,8 +348,8 @@ child_number =  n_GP_individuals * max_n_gp_params
 if( myid == 0 )then
     if( L_GP_print )then
         write(GP_print_unit,'(/A,2(1x,I6))') &
-        'gplp:  broadcast child parameters myid, i_GP_generation', &
-                                           myid, i_GP_generation
+        'gplp: broadcast child parameters myid, i_GP_generation', &
+                                          myid, i_GP_generation
         write(GP_print_unit,'(A,3(1x,I6))') &
           'gplp: myid,  maxval( GP_n_parms ), max_n_gp_params ', &
                  myid,  maxval( GP_n_parms ), max_n_gp_params

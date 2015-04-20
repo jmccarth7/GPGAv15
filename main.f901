@@ -54,7 +54,6 @@ program main
    integer(kind=i4b) :: new_comm
    integer(kind=i4b) :: my_size
    integer(kind=i4b) :: j
-   integer(kind=i4b),allocatable ::    rank0(:)
    integer(kind=i4b),allocatable :: tmprank0(:)
 
    integer(kind=i4b) :: comm_world
@@ -63,8 +62,8 @@ program main
    real(kind=r8b) :: t2
 
 
-character(75),parameter :: program_version   = '201501.003_v15'
-character(10),parameter :: modification_date = '20150128'
+character(15),parameter :: program_version   = '201501.001_v15'
+character(10),parameter :: modification_date = '20150116'
 character(50),parameter :: branch  =  'data_processing'
 
    integer(kind=i4b), parameter ::  zero = 0
@@ -174,7 +173,6 @@ character(50),parameter :: branch  =  'data_processing'
    call MPI_ALLREDUCE(tmprank0(0),rank0(0),n_partitions+1, & 
          & MPI_INTEGER, MPI_SUM, MPI_COMM_WORLD, ierr)
    deallocate(tmprank0)
-   deallocate(rank0)
 
 ! begin the GP generation loop
 
@@ -274,7 +272,6 @@ character(50),parameter :: branch  =  'data_processing'
                   '0: call GP_Clean_Tree_Nodes  Generation =', i_GP_Generation
     
             call GP_Clean_Tree_Nodes
-
          endif ! myid == 0
       endif ! trim(model) /= 'fasham_fixed_tree' 
 
@@ -311,8 +308,6 @@ character(50),parameter :: branch  =  'data_processing'
        enddo ! i_gp_individual
     
        write(GP_print_unit,'(/A)') ' '
-       flush(GP_print_unit)
-       
    endif ! myid == 0 
 
     !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
