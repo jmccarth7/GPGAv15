@@ -717,6 +717,40 @@ if( L_restart )then
     Run_GP_Calculate_Fitness=.true.
 endif ! L_restart
 
+!----------------------------------------------------------------------
+! now have 2 summary files:
+
+! 1) if L_GP_all_summary .and. GP_all_summary_flag > 1
+!    write GP_ALL_summary_file containing ALL generations
+! 2) if L_GP_all_summary .and. GP_all_summary_flag == 1
+!    write GP_last_gen_summary_file containing the
+!    last completed generation
+
+if( myid == 0 )then
+
+    !write(6,'(/A,5x,L1,2x,I5)')  &
+    !      '0: L_GP_all_summary, GP_all_summary_flag', &
+    !          L_GP_all_summary, GP_all_summary_flag
+
+    if( L_GP_all_summary .and. GP_all_summary_flag > 1 )then
+
+        inquire( GP_summary_output_unit_all, opened = op )
+        if( op ) close( GP_summary_output_unit_all )
+    
+        !write(6,'(/A,1x,I5)')&
+        !     '0: open GP_ALL_summary_file GP_summary_output_unit_all = ', &
+        !                                  GP_summary_output_unit_all 
+    
+        open( GP_summary_output_unit_all, file='GP_ALL_summary_file', &
+              form = 'formatted', access = 'sequential', &
+              status = 'unknown' )
+
+    endif ! L_GP_all_summary
+
+endif ! myid == 0
+
+!----------------------------------------------------------------------
+
 if( myid == 0 )then
     write(6,'(/A,1x,I5)')     '0: start generation loop  myid = ', myid
 endif ! myid == 0
@@ -726,16 +760,36 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
     if( myid == 0 )then
 
-        if( L_GP_all_summary  )then
+        !----------------------------------------------------------------------
 
-            inquire( GP_summary_output_unit, opened = op )
-            if( op ) close( GP_summary_output_unit )
-            open( GP_summary_output_unit, file='GP_ALL_summary_file', &
+        ! now have 2 summary files:
+
+        ! 1) if L_GP_all_summary .and. GP_all_summary_flag > 1
+        !    write GP_ALL_summary_file containing ALL generations
+        ! 2) if L_GP_all_summary .and. GP_all_summary_flag == 1
+        !    write GP_last_gen_summary_file containing the
+        !    last completed generation
+
+        !write(6,'(/A,5x,L1,2(2x,I5))')  &
+        !      '0: L_GP_all_summary, GP_all_summary_flag, i_gp_generation', &
+        !          L_GP_all_summary, GP_all_summary_flag, i_gp_generation
+
+        if( L_GP_all_summary )then
+
+            inquire( GP_summary_output_unit_lgen, opened = op )
+            if( op ) close( GP_summary_output_unit_lgen )
+
+            !write(6,'(/A,1x,I5)')&
+            !     '0: open GP_last_gen_summary_file GP_summary_output_unit_lgen = ', &
+            !                                       GP_summary_output_unit_lgen 
+
+            open( GP_summary_output_unit_lgen, file='GP_last_gen_summary_file', &
                   form = 'formatted', access = 'sequential', &
                   status = 'unknown' )
 
         endif ! L_GP_all_summary
 
+        !----------------------------------------------------------------------
 
         write(GP_print_unit,'(/A/A,1x,I6,1x,A,1x,I6/A/)') &
           '===============================================================================', &
@@ -1344,6 +1398,11 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
     call GP_individual_loop( new_group, new_comm, i_GP_generation, n_indiv_part )
 
+    !if( myid == 0 )then
+    !    write(GP_print_unit,'(/A, 3(1x, I6)/)') &
+    !     '0: AFT call to GP_individual_loop n_GP_individuals, n_partitions, n_indiv_part ', &
+    !                                        n_GP_individuals, n_partitions, n_indiv_part
+    !endif ! myid == 0
 
     !----------------------------------------------------------------------------------
     ! needed if GP_para_lmdif_process called
@@ -1372,9 +1431,37 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
     if( L_GP_all_summary .and. myid == 0 )then
 
-        ! write this generation out to the GP_all_summary_file
+        !write(6,'(/A,5x,L1,2x,I5)')  &
+        !      '0: L_GP_all_summary, GP_all_summary_flag', &
+        !          L_GP_all_summary, GP_all_summary_flag
+        !flush(6)
 
-        call summary_GP_all(  i_GP_generation, zero )
+        !----------------------------------------------------------------------------
+        if( GP_all_summary_flag > 1 )then
+            ! write this generation out to the GP_all_summary_file
+            !write(6,'(/A)')  &
+            !      '0: call summary_GP_all GP_summary_output_unit_all ' 
+            !flush(6)
+
+            call summary_GP_all( GP_summary_output_unit_all, i_GP_generation, zero )
+
+            !write(6,'(/A)')  &
+            !      '0: AFT call summary_GP_all GP_summary_output_unit_all ' 
+            !flush(6)
+        endif ! GP_all_summary_flag > 1 
+        !----------------------------------------------------------------------------
+
+        ! write this generation out to the GP_last_gen_summary_file
+        !write(6,'(/A)')  &
+        !      '0: call summary_GP_all GP_summary_output_unit_lgen ' 
+        !flush(6)
+
+        call summary_GP_all( GP_summary_output_unit_lgen, i_GP_generation, zero )
+
+        !write(6,'(/A)')  &
+        !      '0: AFT call summary_GP_all GP_summary_output_unit_lgen ' 
+        !flush(6)
+    
 
     endif ! myid == 0
 
@@ -1696,8 +1783,14 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
 
         if( L_GP_all_summary )then
-            inquire( GP_summary_output_unit, opened = op )
-            if( op ) close( GP_summary_output_unit )
+
+            inquire( GP_summary_output_unit_lgen, opened = op )
+
+            !write(GP_print_unit,'(/A,5x,L1)') &
+            !'0: GP_summary_output_unit_lgen op = ', op
+
+            if( op ) close( GP_summary_output_unit_lgen )
+
         endif ! L_GP_all_summary
 
 
@@ -1857,6 +1950,25 @@ if( myid == 0 )then
     if( L_minSSE )then
         close( GP_minSSE_summary_output_unit )
     endif ! L_minSSE
+
+
+    if( L_GP_all_summary )then
+
+        inquire( GP_summary_output_unit_all, opened = op )
+
+        !write(GP_print_unit,'(/A,5x,L1)') &
+        !'0: GP_summary_output_unit_all op = ', op
+
+        if( op ) close( GP_summary_output_unit_all )
+
+        inquire( GP_summary_output_unit_lgen, opened = op )
+
+        !write(GP_print_unit,'(/A,5x,L1)') &
+        !'0: GP_summary_output_unit_lgen op = ', op
+
+        if( op ) close( GP_summary_output_unit_lgen )
+
+    endif ! L_GP_all_summary
 
 endif ! myid == 0
 

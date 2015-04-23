@@ -265,10 +265,10 @@ if( myid == 0 )then
 
     title_string = '#pts: time       pt'
     title_string = trim( title_string ) // &
-                       '   RK_Soln      input_data  resid'
+                       '    RK_Soln      input_data  resid'
     do  j = 2, n_code_equations
         title_string = trim( title_string ) // &
-                       '         RK_Soln      input_data  resid'
+                       '          RK_Soln      input_data  resid'
     enddo
 
 

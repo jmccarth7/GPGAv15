@@ -34,7 +34,7 @@ integer(kind=i4b) :: fort333_output_flag
 integer(kind=i4b) :: fort444_output_flag
 integer(kind=i4b) :: fort555_output_flag
 integer(kind=i4b) ::  unit50_output_flag
-integer(kind=i4b) ::  GP_all_summary_flag
+!integer(kind=i4b) ::  GP_all_summary_flag
 
 integer(kind=i4b) :: print_equations_flag
 integer(kind=i4b) :: run_GP_para_lmdif_flag 

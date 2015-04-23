@@ -46,7 +46,7 @@ SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 allocate_arrays1.f90 \
 	setup_run_lmdif.f90 setup_run_para_lmdif.f90 sort.f90 sse0_calc.f90 \
 	sse0_calc_log10.f90 summary_GP_all.f90 summary_GP_indiv.f90 \
 	summary_GP_minSSE_indiv.f90 swap_module.f90 Tree_Helper_module.f90 \
-	tree_node_factory_module.f90 write_GP_restart.f90
+	tree_node_factory_module.f90
 
 OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o allocate_arrays1.o \
 	bcast1.o bcast2.o bcast3.o betacf.o betai.o build_trees.o \
@@ -90,8 +90,8 @@ OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o allocate_arrays1.o \
 	setup_math_functions.o setup_run_fcn.o setup_run_lmdif.o \
 	setup_run_para_lmdif.o sort.o sse0_calc.o sse0_calc_log10.o \
 	summary_GP_all.o summary_GP_indiv.o summary_GP_minSSE_indiv.o \
-	swap_module.o Tree_Helper_module.o tree_node_factory_module.o \
-	write_GP_restart.o
+	swap_module.o Tree_Helper_module.o tree_node_factory_module.o
+	
 
 LIBS =	
 
@@ -252,7 +252,7 @@ gammln.o: kinds_mod.o
 gammp.o: kinds_mod.o mpi_module.o
 gammq.o: kinds_mod.o mpi_module.o
 gcf.o: kinds_mod.o mpi_module.o
-Generate_Dot_Graph.o: GP_parameters_module.o Generate_Dot_Graph.o \
+Generate_Dot_Graph.o: GP_parameters_module.o  \
 	class_tree_node.o kinds_mod.o
 Global_Setup.o: Math_Node_Functions.o fasham_tree_interfaces.o kinds_mod.o \
 	tree_node_factory_module.o
@@ -435,6 +435,3 @@ summary_GP_minSSE_indiv.o: GA_parameters_module.o GA_variables_module.o \
 swap_module.o: kinds_mod.o
 Tree_Helper_module.o: class_tree_node.o kinds_mod.o
 tree_node_factory_module.o: class_tree_node.o kinds_mod.o mpi_module.o
-write_GP_restart.o: GA_parameters_module.o GA_variables_module.o \
-	GP_data_module.o GP_parameters_module.o GP_variables_module.o \
-	kinds_mod.o mpi_module.o
