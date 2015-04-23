@@ -121,18 +121,20 @@ CFLAGS = -O
 #
 ###################################################################################
 #FC = mpif90  #mpiifort
-FC = mpiifort
+#FC = mpiifort
+FC = ifort
 #FFLAGS = -O3  -free   -traceback #-warn all #-C -ftrapuv  # -warn all   # -ftrace=full    # -fzero -Wall
 FFLAGS = -O3  -free #-check bounds   #  -g -traceback  #-ftrapuv #-warn all #-C -ftrapuv  # -warn all   # -ftrace=full    # -fzero -Wall
 FFLAGS = -O3  -free  -assume realloc_lhs -mkl -heap-arrays
 #FFLAGS = -g  -free -traceback -debug all #-check bounds   #  -g -traceback  #-ftrapuv #-warn all #-C -ftrapuv  # -warn all   # -ftrace=full    # -fzero -Wall
 #F90 = mpif90  #mpiifort
-F90 = mpiifort
+#F90 = mpiifort
+F90 = ifort
 #F90FLAGS = -O3  -free -traceback #-warn all #-C -ftrapuv  # -warn all   #  -ftrace=full    # -fzero -Wall 
 #F90FLAGS = -O3  -free #-check bounds  #  -g -traceback  #-ftrapuv  #-warn all #-C -ftrapuv  # -warn all   #  -ftrace=full    # -fzero -Wall
 F90FLAGS = -O3  -free  -assume realloc_lhs -mkl -heap-arrays
 #F90FLAGS = -g  -free -traceback -debug all  #-check bounds  #  -g -traceback  #-ftrapuv  #-warn all #-C -ftrapuv  # -warn all   #  -ftrace=full    # -fzero -Wall
-LDFLAGS =
+LDFLAGS = -lmpi
 ####################################################################################
 
 
