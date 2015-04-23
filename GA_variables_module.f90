@@ -65,6 +65,7 @@ real(kind=r8b),allocatable, dimension(:) :: integrated_ranked_fitness
 real(kind=r8b) :: sum_individual_SSE
 real(kind=r8b) :: sum_individual_fit
 real(kind=r8b) :: SSE0
+real(kind=r8b) :: SSE0_nolog10
 real(kind=r8b) :: max_sse
 
 !logical, dimension(n_GA_Individuals) :: Run_GA_lmdif

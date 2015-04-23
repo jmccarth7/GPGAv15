@@ -33,10 +33,21 @@ real(kind=r8b),allocatable, dimension(:,:,:) :: &
 real(kind=r8b),allocatable,dimension(:,:) :: &
                          GP_Population_Initial_Conditions_temp
 
+real(kind=r8b),allocatable,dimension(:) :: &
+                         GP_Child_Individual_SSE_nolog10_temp
 !------------------------------------------------------------------------------------------------------------
 
 allocate(GP_population_node_parameters_temp(1:n_Nodes,1:n_Trees, 1:n_GP_individuals ))
 allocate(GP_Population_Initial_Conditions_temp(1:n_CODE_equations, 1:n_GP_individuals ))
+
+if( index( model, 'log10') > 0 .or. &                                                                                   
+    index( model, 'LOG10') > 0        )then                                                                             
+ 
+    allocate(GP_Child_Individual_SSE_nolog10_temp( 1:n_GP_individuals ) )
+
+    GP_Child_Individual_SSE_nolog10_temp( 1:n_GP_individuals )  = 0.0d0
+
+endif ! index( model, 'log10') > 0 .or. ...   
 
 GP_population_node_parameters_temp(1:n_Nodes,1:n_Trees, 1:n_GP_individuals   ) = 0.0d0
 GP_Population_Initial_Conditions_temp(1:n_CODE_equations, 1:n_GP_individuals ) = 0.0d0
@@ -141,6 +152,32 @@ enddo
 ! Re-rank ALL of the Individuals to keep the code simple 
 ! and not replicate copies of children
 !-------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
+
+!-------------------------------------------------------------------------------
+if( index( model, 'log10') > 0 .or. &                                                                                   
+    index( model, 'LOG10') > 0        )then                                                                             
+ 
+    ! sort the GP_Child_Individual_SSE_nolog10
+    
+    do  i_GP_individual = 1, n_GP_individuals
+    
+            GP_Child_Individual_SSE_nolog10_temp(i_GP_individual ) = &
+                 GP_Child_Individual_SSE_nolog10(  &
+                                 Ranked_Fitness_Index(i_GP_individual) )
+    
+    enddo ! i_GP_individual
+    
+    
+    do  i_GP_individual = 1, n_GP_individuals
+    
+            GP_Child_Individual_SSE_nolog10(i_GP_individual ) = &
+              GP_Child_Individual_SSE_nolog10_temp(i_GP_individual )
+    
+    enddo ! i_GP_individual
+
+endif ! index( model, 'log10') > 0 .or. ...   
+
 !-------------------------------------------------------------------------------
 
 !! debug
@@ -439,6 +476,17 @@ endif ! GP_Integrated_Population_Ranked_Fitness(n_GP_Individuals) > 0.0d0
 !enddo   ! i_GP_Individual
 !
 !write(6,'(/A)') 'gprs: at return   '
+
+deallocate(GP_population_node_parameters_temp)
+deallocate(GP_Population_Initial_Conditions_temp)
+
+if( index( model, 'log10') > 0 .or. &                                                                                   
+    index( model, 'LOG10') > 0        )then                                                                             
+ 
+    deallocate(GP_Child_Individual_SSE_nolog10_temp)
+
+endif ! index( model, 'log10') > 0 .or. ...   
+
 
 return
 

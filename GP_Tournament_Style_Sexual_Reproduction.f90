@@ -264,7 +264,7 @@ do
            'gptssr: i_GP_Individual, k_GP_Indiv_Male(1), i_Error  ', &
                     i_GP_Individual, k_GP_Individual_Male(1), i_Error
 
-        return 
+        !return 
     endif
 
     !-----------------------------------------------------------------------------------------
@@ -279,7 +279,7 @@ do
         write(6,'(A,3(1x,I6)/)') &
            'gptssr: i_GP_Individual, k_GP_Indiv_Female(1), i_Error  ', &
                     i_GP_Individual, k_GP_Individual_Female(1), i_Error
-        return
+        !return
     endif
 
     !-----------------------------------------------------------------------------------
@@ -338,7 +338,7 @@ do
            &Post-GP_Check_Error in GP_Tournament_Style_Sexual_Reproduction'
         write(6,'(A,3(1x,I6)/)') 'gptssr: i_GP_Indiv, i_Male_Tree, i_Error  ', &
                                           i_GP_Individual, i_Male_Tree, i_Error
-        return
+        !return
     endif
 
     !-----------------------------------------------------------------------------------

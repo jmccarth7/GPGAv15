@@ -84,7 +84,8 @@ integer(kind=i4b),parameter :: min_N_param = 2
 
 integer(kind=i4b),parameter :: GP_print_unit                 =  6
 integer(kind=i4b),parameter :: GP_output_unit                = 30
-integer(kind=i4b),parameter :: GP_summary_output_unit        = 40
+integer(kind=i4b),parameter :: GP_summary_output_unit_all    = 39
+integer(kind=i4b),parameter :: GP_summary_output_unit_lgen   = 40
 integer(kind=i4b),parameter :: GP_minSSE_summary_output_unit = 41
 integer(kind=i4b),parameter :: GP_best_summary_output_unit   = 42
 integer(kind=i4b),parameter :: GP_restart_file_input_unit    = 45
@@ -94,6 +95,7 @@ integer(kind=i4b),parameter :: GPSSE_log_unit                = 90
 integer(kind=i4b),parameter :: GPSSE_best_log_unit           = 91
 
 logical ::   L_GP_all_summary
+integer(kind=i4b) ::  GP_all_summary_flag 
 
 logical ::   L_unit50_output
 logical ::   L_GP_log
@@ -324,5 +326,9 @@ real(kind=r8b) :: sum_if
 real(kind=r8b) :: allocated_memory 
 
 real(kind=r4b) :: prob_forcing
+
+integer(kind=i4b)           :: max_forcing_index 
+integer(kind=i4b),parameter :: fasham_max_forcing_index = -5001
+
 
 end module GP_parameters_module

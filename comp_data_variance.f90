@@ -92,8 +92,6 @@ if( n_code_equations > 1 )then
     
             x_time_step = real( i_time_step, kind=r8b ) * dt
 
-            !if( x_time_step < sse_min_time ) then
-
             if( x_time_step >= sse_min_time .and. &
                 x_time_step <= sse_max_time        )then
 
@@ -103,7 +101,6 @@ if( n_code_equations > 1 )then
                 sse_wt = sse_low_wt
             endif
 
-            !if( x_time_step > sse_max_time ) exit
 
             !n_obs = n_obs + 1
             x_obs = x_obs + sse_wt

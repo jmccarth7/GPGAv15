@@ -34,7 +34,7 @@ integer(kind=i4b) :: fort333_output_flag
 integer(kind=i4b) :: fort444_output_flag
 integer(kind=i4b) :: fort555_output_flag
 integer(kind=i4b) ::  unit50_output_flag
-integer(kind=i4b) ::  GP_all_summary_flag
+!integer(kind=i4b) ::  GP_all_summary_flag
 
 integer(kind=i4b) :: print_equations_flag
 integer(kind=i4b) :: run_GP_para_lmdif_flag 
@@ -189,6 +189,8 @@ L_run_GP_para_lmdif = .FALSE.
 L_no_forcing = .FALSE.            
 
 prob_forcing = 0.20
+
+max_forcing_index = -9999                    
 
 number_GA_child_prints  = 10
 number_GP_child_prints  = 10
@@ -504,11 +506,30 @@ do
 
         write(GP_print_unit,'(A,1x,A)') 'rcntl: model = ', trim( model )
 
-        if( trim(model) == 'FASHAM' ) model = 'fasham'
-        if( trim(model) == 'Fasham' ) model = 'fasham'
+        if( trim(model) == 'FASHAM' .or. &
+            trim(model) == 'Fasham'        )then
+            model = 'fasham'
+        endif  ! trim(model) == 'FASHAM' .or....
 
-        if( trim(model) == 'FASHAM_FIXED_TREE' ) model = 'fasham_fixed_tree'
-        if( trim(model) == 'Fasham_fixed_tree' ) model = 'fasham_fixed_tree'
+        if( trim(model) == 'FASHAM_FIXED_TREE' .or. &
+            trim(model) == 'Fasham_fixed_tree'      ) then 
+            model = 'fasham_fixed_tree'
+        endif ! trim(model) == 'FASHAM_FIXED_TREE' .or. &
+
+
+        ! set up max_forcing_index for use in GP_Check_Tree
+
+        if( index( model, 'fasham') > 0 )then
+
+            max_forcing_index = fasham_max_forcing_index
+        else
+            
+            max_forcing_index = -9999                    
+
+        endif !  index( model, 'fasham') > 0 
+
+
+
 
 !--------------------------------------------------------------------
 

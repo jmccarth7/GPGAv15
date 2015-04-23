@@ -33,7 +33,7 @@ integer(kind=i4b) :: i
 !----------------------------------------------------------------------------------------
 
 write(GP_print_unit,'(/A,1x,I6/)') 'pv2: Total Parameters for this run = ',n_parameters
-write(GP_print_unit,'(A,1x,I6)')   'pv2: n_GA_individuals ', n_GA_individuals
+write(GP_print_unit,'(A,1x,I6)')   'pv2: n_GA_individuals    ', n_GA_individuals
 
 !write(GP_print_unit,'(A,1x,I6)') 'number of initial conditions   = ',n_initial_conditions
 write(GP_print_unit,'(A,1x,I6)')   'pv2: n_GA_Generations    ', n_GA_Generations
