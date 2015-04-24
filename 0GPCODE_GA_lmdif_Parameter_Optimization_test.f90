@@ -71,7 +71,7 @@ integer(kind=i4b) :: array_len
 !real(kind=r8b) :: t2
 
 
-character(50),parameter :: branch  =  'jjmv15_d_dlog10_test'
+character(50),parameter :: branch  =  'jjmv15_data_datalog10'
 character(75),parameter :: program_version   = '201501.010_v15'
 character(10),parameter :: modification_date = '20150424'
 
@@ -318,6 +318,7 @@ if( n_input_vars > 0 )then
               '0: myid, n_input_data_points', myid, n_input_data_points
         write(6,'(/A,2(1x,I6))') &
               '0: myid, n_input_vars       ', myid, n_input_vars
+
     endif !   myid == 0
 
 
@@ -345,7 +346,6 @@ if( n_input_vars > 0 )then
         write(6,'(A,2(1x,I6))') &
               '0: myid, n_input_data_points', myid, n_input_data_points
 
-        !flush(6)
     endif !   myid == 0
 
     !---------------------------------------------------------------------
@@ -360,14 +360,12 @@ if( n_input_vars > 0 )then
               '0: myid, n_input_data_points', myid, n_input_data_points
         write(6,'(A,2(1x,I6)/)') &
               '0: myid, n_input_vars       ', myid, n_input_vars
-        !flush(6)
     endif !  myid == 0
 
     allocate( input_data_names( 0:n_input_vars ) )
 
     if( myid == 0 )then
         write(6, '(/A)') '0: AFT allocate input_data_names'
-        !flush(6)
     endif !  myid == 0
 
     !---------------------------------------------------------------------
@@ -376,14 +374,12 @@ if( n_input_vars > 0 )then
 
     if( myid == 0 )then
         write(6, '(/A)') '0: allocate input_data_array'
-        !flush(6)
     endif !  myid == 0
 
     allocate( input_data_array( 0:n_input_vars, n_input_data_points) )
 
     if( myid == 0 )then
         write(6, '(/A)') '0: AFT allocate input_data_array'
-        !flush(6)
     endif !  myid == 0
 
     !call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
@@ -594,7 +590,6 @@ if( myid == 0 )then
                                                   divider-1                     
     write(6,'(A,3(1x,I4))') '0: dim ranks2( 0:divider-1, n_partitions )', &
                                               divider-1, n_partitions   
-    !flush(6)
 endif ! myid == 0 )then
 
 ranks      = 0
@@ -1447,31 +1442,21 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
         !flush(6)
 
         !----------------------------------------------------------------------------
+
         if( GP_all_summary_flag > 1 )then
+
             ! write this generation out to the GP_all_summary_file
-            !write(6,'(/A)')  &
-            !      '0: call summary_GP_all GP_summary_output_unit_all ' 
-            !flush(6)
 
             call summary_GP_all( GP_summary_output_unit_all, i_GP_generation, zero )
 
-            !write(6,'(/A)')  &
-            !      '0: AFT call summary_GP_all GP_summary_output_unit_all ' 
-            !flush(6)
         endif ! GP_all_summary_flag > 1 
+
         !----------------------------------------------------------------------------
 
         ! write this generation out to the GP_last_gen_summary_file
-        !write(6,'(/A)')  &
-        !      '0: call summary_GP_all GP_summary_output_unit_lgen ' 
-        !flush(6)
 
         call summary_GP_all( GP_summary_output_unit_lgen, i_GP_generation, zero )
 
-        !write(6,'(/A)')  &
-        !      '0: AFT call summary_GP_all GP_summary_output_unit_lgen ' 
-        !flush(6)
-    
 
     endif ! myid == 0
 
@@ -1528,7 +1513,7 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
                     GP_Child_Individual_SSE_nolog10(i_GP_Individual)/SSE0_nolog10
                 enddo
 
-            !flush(GP_print_unit)
+                !flush(GP_print_unit)
 
             endif ! index( model, 'log10') > 0 .or. index( model, 'LOG10') > 0 
 
@@ -1965,17 +1950,9 @@ if( myid == 0 )then
     if( L_GP_all_summary )then
 
         inquire( GP_summary_output_unit_all, opened = op )
-
-        !write(GP_print_unit,'(/A,5x,L1)') &
-        !'0: GP_summary_output_unit_all op = ', op
-
         if( op ) close( GP_summary_output_unit_all )
 
         inquire( GP_summary_output_unit_lgen, opened = op )
-
-        !write(GP_print_unit,'(/A,5x,L1)') &
-        !'0: GP_summary_output_unit_lgen op = ', op
-
         if( op ) close( GP_summary_output_unit_lgen )
 
     endif ! L_GP_all_summary

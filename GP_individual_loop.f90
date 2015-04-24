@@ -540,15 +540,6 @@ do  i_part = 1,  n_partitions
                     GP_Adult_Population_SSE(i_GP_individual)         = big_real  ! jjm 20150109
                     GP_Child_Individual_SSE_nolog10(i_GP_individual) = big_real  ! jjm 20150109
 
-                    !message_len =  1
-                    !call MPI_BCAST( GP_Child_Individual_SSE(i_GP_individual) , message_len,    &
-                    !                MPI_double_precision,  0, MPI_COMM_WORLD, ierr )
-                    !call MPI_BCAST( GP_Child_Individual_SSE_nolog10(i_GP_individual) , message_len,    &
-                    !                MPI_double_precision,  0, MPI_COMM_WORLD, ierr )
-                    !call MPI_BCAST( GP_Adult_Individual_SSE(i_GP_individual) , message_len,    &
-                    !                MPI_double_precision,  0, MPI_COMM_WORLD, ierr )
-                    !call MPI_BCAST( GP_Adult_Population_SSE(i_GP_individual) , message_len,    &
-                    !                MPI_double_precision,  0, MPI_COMM_WORLD, ierr )
 
                     !if( new_rank == 0 )then
                     !    write(GP_print_unit,'(A,7(1x,I5), 1x, E15.7)')&
@@ -559,7 +550,6 @@ do  i_part = 1,  n_partitions
                     !           individual_fitness
                     !endif !  new_rank == 0
 
-                    !!cycle gp_ind_loop
                 else
 
                     L_skip = .FALSE.

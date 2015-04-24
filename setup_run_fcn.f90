@@ -100,20 +100,6 @@ enddo ! i_parameter
 ! call fcn
 
 
-!if( new_rank == 1 )then
-!    if( L_ga_print )then
-!        write(GA_print_unit,'(/A,4(1x,I10))') &
-!              'setrf: call fcn, new_rank, i_GA_indiv, n_time_steps, n_parameters', &
-!                                new_rank, i_GA_indiv, n_time_steps, n_parameters
-!    endif ! L_ga_print
-!    write(6,'(/A,4(1x,I10))') &
-!          'setrf: call fcn, new_rank, i_GA_indiv, n_time_steps, n_parameters', &
-!                            new_rank, i_GA_indiv, n_time_steps, n_parameters
-!    !flush(6)
-!endif ! new_rank == 1
-
-!----------------------------------------------------------------------------------------
-
 iflag = 1
 
 call fcn( n_time_steps, n_parameters, x_LMDIF, fvec, iflag )
@@ -184,6 +170,8 @@ enddo ! i_parameter
 !  fvec(i) = ( fcn(i) - truth(i) )**2
 !  so SSE is calculated by summing fvec, not fvec**2
 
+
+
 !if( L_ga_print )then
 !    write(GA_print_unit,'(/A/)')'setrf: calculate the individual SSE values '
 !    write(6,'(/A/)')'setrf: calculate the individual SSE values '
@@ -192,6 +180,7 @@ enddo ! i_parameter
 !                                i_GA_indiv, individual_quality(i_GA_indiv) 
 !write(6,'(A,3(1x,E15.7))') 'setrf: sse_min_time, sse_max_time, dt ', &
 !                                   sse_min_time, sse_max_time, dt
+
 
 individual_SSE(i_GA_indiv) =  big_real  !1.0D+13
 individual_SSE_nolog10(i_GA_indiv) = big_real
@@ -204,35 +193,27 @@ if( individual_quality( i_GA_indiv ) > 0 ) then
 
     individual_SSE(i_GA_indiv)=0.0D+0
 
-    do i_time_step=1,n_time_steps
+    do  i_time_step=1,n_time_steps
 
         x_time_step = real( i_time_step, kind=r8b ) * dt
-        !x_time_step = real( i_time_step, kind=r8b ) * dt
 
-        !if( x_time_step > sse_max_time ) exit
-
-        !old   if( isnan(fvec(i_time_step)) )    fvec(i_time_step) = 0.0d0
-        !old   if( abs(fvec(i_time_step)) >  1.0d20 ) fvec(i_time_step) =  1.0d20
-        !new   if( isnan(fvec(i_time_step))  .or.   &
-        !new         abs(fvec(i_time_step)) >  1.0d20   ) fvec(i_time_step) =  1.0d20
-
-       if( isnan(fvec(i_time_step)) )          fvec(i_time_step) =  big_real !1.0d20
-       if( abs(fvec(i_time_step)) > big_real ) fvec(i_time_step) =  big_real !1.0d20
+        if( isnan(fvec(i_time_step)) )          fvec(i_time_step) =  big_real !1.0d20
+        if( abs(fvec(i_time_step)) > big_real ) fvec(i_time_step) =  big_real !1.0d20
 
 
-       !if( L_ga_print )then
-       !    write(GA_print_unit,'(A,1x,I6,1x,E15.7)' ) &
-       !          'setrf: i_time_step, fvec(i_time_step) ', &
-       !                  i_time_step, fvec(i_time_step)
-       !if( abs( fvec(i_time_step) ) > 0.0d0 )then
-       !    write(6,'(A,1x,I6,1x,E15.7)' ) &
-       !          'setrf: i_time_step, fvec(i_time_step) ', &
-       !                  i_time_step, fvec(i_time_step)
-       !endif ! abs( fvec(i_time_step) ) > 0.0d0 
-       !endif ! L_ga_print
+        !if( L_ga_print )then
+        !    write(GA_print_unit,'(A,1x,I6,1x,E15.7)' ) &
+        !          'setrf: i_time_step, fvec(i_time_step) ', &
+        !                  i_time_step, fvec(i_time_step)
+        !if( abs( fvec(i_time_step) ) > 0.0d0 )then
+        !    write(6,'(A,1x,I6,1x,E15.7)' ) &
+        !          'setrf: i_time_step, fvec(i_time_step) ', &
+        !                  i_time_step, fvec(i_time_step)
+        !endif ! abs( fvec(i_time_step) ) > 0.0d0 
+        !endif ! L_ga_print
 
-       individual_SSE(i_GA_indiv) = individual_SSE(i_GA_indiv) + &
-                                    fvec(i_time_step)
+        individual_SSE(i_GA_indiv) = individual_SSE(i_GA_indiv) + &
+                                     fvec(i_time_step)
 
     enddo ! i_time_step
 
