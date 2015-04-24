@@ -89,10 +89,11 @@ real(kind=r8b),dimension(n_indiv_part) ::   sse_buffer_send
 real(kind=r8b),dimension(n_indiv_part) ::   sse_buffer_send2
 integer(kind=i4b),dimension(n_indiv_part)  ::   buff_parm_send
 
+logical :: L_skip
 
 !---------------------------------------------------------------------------------------
 
-
+L_skip = .FALSE. 
 
 
 
@@ -512,12 +513,17 @@ do  i_part = 1,  n_partitions
                 ! cycle the i_GP_individual loop if there are no GP parameters
                 ! or if n_GP_parameters <=  n_code_equations
 
+                !write(GP_print_unit,'(A,5(1x,I5))')&
+                !   'gil: i_GP_individual, n_GP_parameters, n_maximum_number_parameters, &
+                !          &n_code_equations, n_input_vars ', &
+                !         i_GP_individual, n_GP_parameters, n_maximum_number_parameters, &
+                !           n_code_equations, n_input_vars
+
                 if( n_GP_parameters == 0 .or. &
                     n_GP_parameters > n_maximum_number_parameters .or.  &
                     ( n_GP_parameters <=  n_code_equations .and. n_input_vars > 0 ) .or. &
                     n_GP_parameters <=  n_code_equations                 ) then
 
-                    !( n_GP_parameters <=  n_code_equations .and. n_input_vars > 0 ) .or. &
 
                     !if( new_rank == 0 )then
                     !    write(GP_print_unit,'(A,1x,I5,A,1x,i5)')&
@@ -527,9 +533,22 @@ do  i_part = 1,  n_partitions
                     !endif !  new_rank == 0
 
 
+                    L_skip = .TRUE. 
                     individual_fitness = 0.0d0
                     GP_Child_Individual_SSE(i_GP_individual)         = big_real  ! jjm 20150109
+                    GP_Adult_Individual_SSE(i_GP_individual)         = big_real  ! jjm 20150109
+                    GP_Adult_Population_SSE(i_GP_individual)         = big_real  ! jjm 20150109
                     GP_Child_Individual_SSE_nolog10(i_GP_individual) = big_real  ! jjm 20150109
+
+                    !message_len =  1
+                    !call MPI_BCAST( GP_Child_Individual_SSE(i_GP_individual) , message_len,    &
+                    !                MPI_double_precision,  0, MPI_COMM_WORLD, ierr )
+                    !call MPI_BCAST( GP_Child_Individual_SSE_nolog10(i_GP_individual) , message_len,    &
+                    !                MPI_double_precision,  0, MPI_COMM_WORLD, ierr )
+                    !call MPI_BCAST( GP_Adult_Individual_SSE(i_GP_individual) , message_len,    &
+                    !                MPI_double_precision,  0, MPI_COMM_WORLD, ierr )
+                    !call MPI_BCAST( GP_Adult_Population_SSE(i_GP_individual) , message_len,    &
+                    !                MPI_double_precision,  0, MPI_COMM_WORLD, ierr )
 
                     !if( new_rank == 0 )then
                     !    write(GP_print_unit,'(A,7(1x,I5), 1x, E15.7)')&
@@ -540,7 +559,10 @@ do  i_part = 1,  n_partitions
                     !           individual_fitness
                     !endif !  new_rank == 0
 
-                    cycle gp_ind_loop
+                    !!cycle gp_ind_loop
+                else
+
+                    L_skip = .FALSE.
 
                 endif ! n_GP_parameters == 0
 
@@ -587,10 +609,18 @@ do  i_part = 1,  n_partitions
                 !      'gil: call GPCODE myid, new_rank, i_GP_individual',&
                 !                        myid, new_rank, i_GP_individual
 
-                call GPCODE_GA_lmdif_Parameter_Optimization( &
+                if( L_skip )then
+
+                    Individual_SSE_best_parent         = big_real
+                    Individual_SSE_best_parent_nolog10 = big_real
+
+                else
+
+                    call GPCODE_GA_lmdif_Parameter_Optimization( &
                                   i_GP_Generation,i_GP_individual, &
                                              new_comm  )
                         
+                endif !  .not. L_skip 
 
                 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 

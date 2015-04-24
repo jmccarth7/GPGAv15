@@ -64,6 +64,7 @@ allocate( GP_Child_Individual_SSE(n_GP_Individuals) )
 
 
 allocate( individual_SSE( n_GA_individuals )  )
+allocate( individual_SSE_nolog10( n_GA_individuals )  )
 
 allocate( GA_Integrated_SSE(n_GA_Individuals) )
 allocate( integrated_SSE( n_GA_individuals )  )
@@ -225,6 +226,7 @@ Run_GP_Calculate_Fitness = .FALSE.
 
 
 individual_SSE  = 0.0d0
+individual_SSE_nolog10  = -7.0d0
 
 GA_Integrated_SSE = 0.0d0
 integrated_SSE  = 0.0d0

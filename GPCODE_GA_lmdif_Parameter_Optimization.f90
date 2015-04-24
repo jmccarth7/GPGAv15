@@ -8,43 +8,43 @@ subroutine GPCODE_GA_lmdif_Parameter_Optimization( &
 ! program to use a twin experiment to test the effectiveness of
 ! a finding the optimum parameter set for a coupled set of equations
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-   use kinds_mod 
-   use mpi
-   use mpi_module
-   use clock_module
+use kinds_mod 
+use mpi
+use mpi_module
+use clock_module
 
-   use GP_parameters_module
-   use GA_parameters_module
-   use GP_variables_module
-   use GA_variables_module
-   use GP_data_module
+use GP_parameters_module
+use GA_parameters_module
+use GP_variables_module
+use GA_variables_module
+use GP_data_module
 
 
-   implicit none
+implicit none
 
 integer(kind=i4b),intent(in) :: i_GP_Generation
 integer(kind=i4b),intent(in) :: i_GP_individual
 !integer(kind=i4b),intent(in) :: new_group
 integer(kind=i4b),intent(in) :: new_comm 
 
-   integer(kind=i4b) :: child_number
+integer(kind=i4b) :: child_number
 
-   integer(kind=i4b) ::  isource
-   integer(kind=i4b) ::  message_len
-   integer(kind=i4b) ::  numsent
-   integer(kind=i4b) ::  sender
-   integer(kind=i4b) ::  nsafe
-   integer(kind=i4b) ::  i_dummy
-   integer(kind=i4b) ::  i_individual
-   integer(kind=i4b) ::  i_2_individual
+integer(kind=i4b) ::  isource
+integer(kind=i4b) ::  message_len
+integer(kind=i4b) ::  numsent
+integer(kind=i4b) ::  sender
+integer(kind=i4b) ::  nsafe
+integer(kind=i4b) ::  i_dummy
+integer(kind=i4b) ::  i_individual
+integer(kind=i4b) ::  i_2_individual
 
-   integer,parameter ::  itag  = 1
-   integer,parameter ::  itag2 = 2
-   integer,parameter ::  itag3 = 3
+integer,parameter ::  itag  = 1
+integer,parameter ::  itag2 = 2
+integer,parameter ::  itag3 = 3
 
-   integer,parameter ::  itag4 = 50000
+integer,parameter ::  itag4 = 50000
 
-   integer(kind=i4b) ::  itag7
+integer(kind=i4b) ::  itag7
 
 
 !  divider is the number of cpus in the current partition
@@ -52,21 +52,21 @@ integer(kind=i4b),intent(in) :: new_comm
 real(kind=r8b),&
   dimension(n_GP_parameters,n_GA_individuals) ::  parent_parameters
 
-   real(kind=r8b),&
+real(kind=r8b),&
      dimension(n_GP_parameters,n_GA_individuals) ::  child_parameters
 
 
-   real(kind=r8b), dimension(n_GP_parameters + 3)  :: buffer
-   real(kind=r8b), dimension(n_GP_parameters + 3)  :: buffer_recv
+real(kind=r8b), dimension(n_GP_parameters + 3)  :: buffer
+real(kind=r8b), dimension(n_GP_parameters + 3)  :: buffer_recv
 
 
-   integer(kind=i4b) ::      i
-   integer(kind=i4b) :: i_GA_Best_Parent
+integer(kind=i4b) ::      i
+integer(kind=i4b) :: i_GA_Best_Parent
 
-   integer(kind=i4b) :: i_GA_generation_last
+integer(kind=i4b) :: i_GA_generation_last
 
 
-   real(kind=r8b),parameter :: zero = 0.0d0
+real(kind=r8b),parameter :: zero = 0.0d0
 
 
 ! individual_quality contains information on the result of lmdif
@@ -101,18 +101,18 @@ real(kind=r8b) :: t2
 ierror_tou = 0
 
 
-   call mpi_comm_rank( new_comm, new_rank, ierr ) 
-   call MPI_COMM_SIZE( new_comm, n_procs, ierr)  
+call mpi_comm_rank( new_comm, new_rank, ierr ) 
+call MPI_COMM_SIZE( new_comm, n_procs, ierr)  
 
 
 !write(6,'(A,5(1x,I3))') &
 ! 'GP_GA_opt: entry  myid, new_rank, n_procs, i_GP_Generation,i_GP_individual', &
 !                    myid, new_rank, n_procs, i_GP_Generation,i_GP_individual
-
+!
 !write(6,'(A,5(1x,I3))') &
 ! 'GP_GA_opt: entry  myid, new_rank, n_GP_parameters, n_GA_individuals ', &
 !                    myid, new_rank, n_GP_parameters, n_GA_individuals
-
+!
 !write(6,'(A,5(1x,I3))') &
 ! 'GP_GA_opt: at entry  myid, new_rank, n_GA_individuals, divider ', &
 !                       myid, new_rank, n_GA_individuals, divider
@@ -128,9 +128,11 @@ if( myid == 0 )return
    enddo ! jj
 
 
-   n_parameters = n_GP_parameters
+n_parameters = n_GP_parameters
+
 !-----------------------------------------------------------------------------
-   child_parameters( 1:n_GP_parameters, 1:n_GA_individuals) = 0.0d0
+
+child_parameters( 1:n_GP_parameters, 1:n_GA_individuals) = 0.0d0
 
 
 !-----------------------------------------------------------------------------
@@ -488,15 +490,13 @@ if( myid == 0 )return
 
                 individual_SSE(i_individual)     =       buffer_recv( n_GP_parameters+1)
                 individual_quality(i_individual) = nint( buffer_recv( n_GP_parameters+2) )
-                !origGP_Child_Individual_SSE_nolog10(i_individual) = buffer_recv( n_GP_parameters+3)
-                GP_Child_Individual_SSE_nolog10(i_GP_individual) = buffer_recv( n_GP_parameters+3)
+                individual_SSE_nolog10(i_individual) =   buffer_recv( n_GP_parameters+3)
 
                 if( individual_quality(i_individual) < 0 .or.  &                         ! jjm 20150108
                     individual_SSE(i_individual) < 1.0D-20         )then                 ! jjm 20150108
 
                     individual_SSE(i_individual) = big_real                              ! jjm 20150108
-                    !origGP_Child_Individual_SSE_nolog10(i_individual)  =       big_real      ! jjm 20150306
-                    GP_Child_Individual_SSE_nolog10(i_GP_individual)  =       big_real      ! jjm 20150306
+                    individual_SSE_nolog10(i_individual) =   big_real
 
                 endif ! individual_quality(i_individual) < 0                             ! jjm 20150108
 
@@ -706,8 +706,7 @@ if( myid == 0 )return
                 buffer(n_GP_parameters+2) = &
                       real( individual_quality(i_2_individual), kind=r8b )
                 buffer(n_GP_parameters+3) = &
-                      GP_Child_Individual_SSE_nolog10(i_GP_individual)
-                      !orig GP_Child_Individual_SSE_nolog10(i_2_individual)
+                      individual_SSE_nolog10(i_2_individual)
 
             endif !  Run_GA_lmdif(i_2_individual)
 
@@ -975,7 +974,6 @@ call MPI_BCAST( Individual_SSE_best_parent, message_len,    &
 
 ! broadcast Individual_SSE_best_parent_nolog10
 
-Individual_SSE_best_parent_nolog10 = GP_Child_Individual_SSE_nolog10(i_GP_individual)
 message_len = 1
 call MPI_BCAST( Individual_SSE_best_parent_nolog10, message_len,    &
                 MPI_DOUBLE_PRECISION, 0, new_comm, ierr )

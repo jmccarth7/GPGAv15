@@ -40,6 +40,7 @@ real(kind=r8b),&
 
 
 real(kind=r8b) :: individual_SSE_best_1
+real(kind=r8b) :: individual_SSE_best_1_nolog10
 real(kind=r8b) :: individual_ranked_fitness_best_1
 real(kind=r8b) :: Individual_Fitness_best_1
 
@@ -114,6 +115,7 @@ n_parameters = n_GP_parameters
 
 i_GA_best_parent_1               = i_GA_best_parent
 individual_SSE_best_1            = individual_SSE(i_GA_best_parent)
+individual_SSE_best_1_nolog10    = individual_SSE_nolog10(i_GA_best_parent)
 individual_ranked_fitness_best_1 = individual_ranked_fitness(i_GA_best_parent)
 
 Individual_Fitness        = Individual_Ranked_Fitness(i_GA_Best_Parent)
@@ -258,6 +260,7 @@ if( individual_ranked_fitness(i_GA_best_parent) <= &
 
     individual_fitness         = individual_ranked_fitness_best_1
     Individual_SSE_best_parent = individual_SSE_best_1
+    Individual_SSE_best_parent_nolog10 = individual_SSE_best_1_nolog10
 
     do  jj = 1, n_parameters
         child_parameters(jj,i_GA_Best_Parent) =  &
@@ -378,6 +381,7 @@ else  ! lmdif is best
 
     individual_fitness         = individual_ranked_fitness(i_GA_best_parent)
     Individual_SSE_best_parent = individual_SSE(i_GA_best_parent)
+    Individual_SSE_best_parent_nolog10 = individual_SSE_nolog10(i_GA_best_parent)
 
     do  jj = 1, n_parameters
         child_parameters(jj,i_GA_Best_Parent) =  &
