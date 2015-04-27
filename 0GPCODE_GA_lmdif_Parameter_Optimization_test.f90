@@ -1395,19 +1395,11 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
 
     call GP_individual_loop( new_group, new_comm, i_GP_generation, n_indiv_part )
 
-    if( myid == 0 )then
-        write(GP_print_unit,'(/A, 3(1x, I6)/)') &
-         '0: AFT call to GP_individual_loop n_GP_individuals, n_partitions, n_indiv_part ', &
-                                            n_GP_individuals, n_partitions, n_indiv_part
-        !write(GP_print_unit,'(/A/(5(1x,E15.7)))') &                                                               
-        !          '0: aft GP_ind_loop  GP_Child_Individual_SSE ', GP_Child_Individual_SSE       
-        !write(GP_print_unit,'(/A/(5(1x,E15.7)))') &                                                               
-        !          '0: aft GP_ind_loop  GP_Child_Individual_SSE_nolog10 ', &
-        !                               GP_Child_Individual_SSE_nolog10       
-        !write(GP_print_unit,'(/A/(5(1x,E15.7)))') &                                                               
-        !          '0: aft GP_ind_loop  GP_Adult_Population_SSE ', GP_Adult_Population_SSE       
-
-    endif ! myid == 0
+    !if( myid == 0 )then
+    !    write(GP_print_unit,'(/A, 3(1x, I6)/)') &
+    !     '0: AFT call to GP_individual_loop n_GP_individuals, n_partitions, n_indiv_part ', &
+    !                                        n_GP_individuals, n_partitions, n_indiv_part
+    !endif ! myid == 0
 
     !----------------------------------------------------------------------------------
     ! needed if GP_para_lmdif_process called

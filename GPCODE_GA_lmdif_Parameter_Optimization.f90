@@ -105,11 +105,11 @@ call MPI_COMM_SIZE( new_comm, n_procs, ierr)
 !write(6,'(A,5(1x,I3))') &
 ! 'GP_GA_opt: entry  myid, new_rank, n_procs, i_GP_Generation,i_GP_individual', &
 !                    myid, new_rank, n_procs, i_GP_Generation,i_GP_individual
-!
+
 !write(6,'(A,5(1x,I3))') &
 ! 'GP_GA_opt: entry  myid, new_rank, n_GP_parameters, n_GA_individuals ', &
 !                    myid, new_rank, n_GP_parameters, n_GA_individuals
-!
+
 !write(6,'(A,5(1x,I3))') &
 ! 'GP_GA_opt: at entry  myid, new_rank, n_GA_individuals, divider ', &
 !                       myid, new_rank, n_GA_individuals, divider
