@@ -171,7 +171,6 @@ if( L_GPSSE_log )then
 
         do  i_GP_Individual=1,n_GP_Individuals
 
-            !call GP_calc_SSE( i_GP_Individual, sse_local )
 
             !write(6,'(A,1x,I6, 1x,I6,2(1x,E15.7))') &
             !      'gpcf: i_GP_gen, i_GP_ind, sse_nolog10, sse_nolog10/sse0_nolog10 ', &
@@ -418,6 +417,7 @@ if( L_GPSSE_log )then
         write(6,'(/A,1x, I6, 1x,E15.7)') &
               'gpcf: i_GP_gen, sse0_nolog10 ', &
               i_GP_generation,  SSE0_nolog10
+
         write(6,'(A,1x, I6, 1x,I6,2(1x,E15.7)/)') &
               'gpcf: i_GP_gen, i_GP_best_parent, sse_nolog10, sse_nolog10/sse0_nolog10 ', &
               i_GP_generation, &

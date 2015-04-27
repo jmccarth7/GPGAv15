@@ -34,6 +34,7 @@ implicit none
 
 deallocate( ga_individual_elites )
 deallocate( individual_SSE )
+deallocate( individual_SSE_nolog10 )
 deallocate( integrated_SSE )
 
 deallocate( GP_N_parms )

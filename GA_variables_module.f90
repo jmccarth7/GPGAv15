@@ -44,6 +44,7 @@ real(kind=r8b), allocatable, dimension(:) :: GA_Integrated_Ranked_Fitness
 ! must be kept for re-evaluations of next generations
 !real (kind=r8b) :: individual_SSE(n_GA_individuals)
 real(kind=r8b),allocatable, dimension(:) :: individual_SSE
+real(kind=r8b),allocatable, dimension(:) :: individual_SSE_nolog10
 
 !     needed to support sexual and "tournament-style" reproduction
 !real (kind=r8b) :: integrated_SSE(n_GA_individuals)

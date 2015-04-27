@@ -1,50 +1,48 @@
 subroutine GPCODE_GA_lmdif_Parameter_Optimization( &
                   i_GP_Generation,i_GP_individual, &
                              new_comm ) 
-                  !new_group, new_comm ) 
 
 ! written by: Dr. John R. Moisan [NASA/GSFC] 5 December, 2012
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ! program to use a twin experiment to test the effectiveness of
 ! a finding the optimum parameter set for a coupled set of equations
 !xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-   use kinds_mod 
-   use mpi
-   use mpi_module
-   use clock_module
+use kinds_mod 
+use mpi
+use mpi_module
+use clock_module
 
-   use GP_parameters_module
-   use GA_parameters_module
-   use GP_variables_module
-   use GA_variables_module
-   use GP_data_module
+use GP_parameters_module
+use GA_parameters_module
+use GP_variables_module
+use GA_variables_module
+use GP_data_module
 
 
-   implicit none
+implicit none
 
 integer(kind=i4b),intent(in) :: i_GP_Generation
 integer(kind=i4b),intent(in) :: i_GP_individual
-!integer(kind=i4b),intent(in) :: new_group
 integer(kind=i4b),intent(in) :: new_comm 
 
-   integer(kind=i4b) :: child_number
+integer(kind=i4b) :: child_number
 
-   integer(kind=i4b) ::  isource
-   integer(kind=i4b) ::  message_len
-   integer(kind=i4b) ::  numsent
-   integer(kind=i4b) ::  sender
-   integer(kind=i4b) ::  nsafe
-   integer(kind=i4b) ::  i_dummy
-   integer(kind=i4b) ::  i_individual
-   integer(kind=i4b) ::  i_2_individual
+integer(kind=i4b) ::  isource
+integer(kind=i4b) ::  message_len
+integer(kind=i4b) ::  numsent
+integer(kind=i4b) ::  sender
+integer(kind=i4b) ::  nsafe
+integer(kind=i4b) ::  i_dummy
+integer(kind=i4b) ::  i_individual
+integer(kind=i4b) ::  i_2_individual
 
-   integer,parameter ::  itag  = 1
-   integer,parameter ::  itag2 = 2
-   integer,parameter ::  itag3 = 3
+integer,parameter ::  itag  = 1
+integer,parameter ::  itag2 = 2
+integer,parameter ::  itag3 = 3
 
-   integer,parameter ::  itag4 = 50000
+integer,parameter ::  itag4 = 50000
 
-   integer(kind=i4b) ::  itag7
+integer(kind=i4b) ::  itag7
 
 
 !  divider is the number of cpus in the current partition
@@ -52,21 +50,21 @@ integer(kind=i4b),intent(in) :: new_comm
 real(kind=r8b),&
   dimension(n_GP_parameters,n_GA_individuals) ::  parent_parameters
 
-   real(kind=r8b),&
+real(kind=r8b),&
      dimension(n_GP_parameters,n_GA_individuals) ::  child_parameters
 
 
-   real(kind=r8b), dimension(n_GP_parameters + 3)  :: buffer
-   real(kind=r8b), dimension(n_GP_parameters + 3)  :: buffer_recv
+real(kind=r8b), dimension(n_GP_parameters + 3)  :: buffer
+real(kind=r8b), dimension(n_GP_parameters + 3)  :: buffer_recv
 
 
-   integer(kind=i4b) ::      i
-   integer(kind=i4b) :: i_GA_Best_Parent
+integer(kind=i4b) ::      i
+integer(kind=i4b) :: i_GA_Best_Parent
 
-   integer(kind=i4b) :: i_GA_generation_last
+integer(kind=i4b) :: i_GA_generation_last
 
 
-   real(kind=r8b),parameter :: zero = 0.0d0
+real(kind=r8b),parameter :: zero = 0.0d0
 
 
 ! individual_quality contains information on the result of lmdif
@@ -84,7 +82,6 @@ logical :: L_stop_run
 
 integer(kind=i4b) :: jj
 integer(kind=i4b) :: i_ga_ind
-!integer(kind=i4b) :: i_code_equation
 
 integer(kind=i4b) :: ierror_tou
 
@@ -101,8 +98,8 @@ real(kind=r8b) :: t2
 ierror_tou = 0
 
 
-   call mpi_comm_rank( new_comm, new_rank, ierr ) 
-   call MPI_COMM_SIZE( new_comm, n_procs, ierr)  
+call mpi_comm_rank( new_comm, new_rank, ierr ) 
+call MPI_COMM_SIZE( new_comm, n_procs, ierr)  
 
 
 !write(6,'(A,5(1x,I3))') &
@@ -128,9 +125,11 @@ if( myid == 0 )return
    enddo ! jj
 
 
-   n_parameters = n_GP_parameters
+n_parameters = n_GP_parameters
+
 !-----------------------------------------------------------------------------
-   child_parameters( 1:n_GP_parameters, 1:n_GA_individuals) = 0.0d0
+
+child_parameters( 1:n_GP_parameters, 1:n_GA_individuals) = 0.0d0
 
 
 !-----------------------------------------------------------------------------
@@ -205,7 +204,6 @@ if( myid == 0 )return
             !    enddo ! i_ga_ind
             !endif ! L_ga_print
 
-            !!flush(6)
 
 
         else  ! i_GA_generation > 1
@@ -281,12 +279,10 @@ if( myid == 0 )return
                 !  individual_quality
 
 
-                !t1 = MPI_Wtime()
                 ierror_tou = 0
                 call GA_Tournament_Style_Sexual_Reproduction( &
                             Parent_Parameters, Child_Parameters, &
                             individual_quality, ierror_tou )
-                !t2 = MPI_Wtime()
 
                 
                 !if( L_ga_print )then
@@ -397,9 +393,6 @@ if( myid == 0 )return
     !    write(GA_print_unit,'(A,4(1x,I6)/)') &
     !    'GP_GA_opt: new_rank, n_GA_individuals, n_GP_parameters, child_number =', &
     !                new_rank, n_GA_individuals, n_GP_parameters, child_number
-    !!    write(6,'(A,4(1x,I6))') &
-    !!    'GP_GA_opt: new_rank, n_GA_individuals, n_GP_parameters, child_number =', &
-    !!                new_rank, n_GA_individuals, n_GP_parameters, child_number
     !endif ! L_ga_print
 
 
@@ -471,7 +464,6 @@ if( myid == 0 )return
             sender       = MPI_STAT( MPI_SOURCE )
             i_individual = MPI_STAT( MPI_TAG ) ! - itag4
 
-            !if( i_individual > 0 )then
 
             ! received a message from processor "sender" which processed
             ! individual "i_individual"
@@ -488,15 +480,13 @@ if( myid == 0 )return
 
                 individual_SSE(i_individual)     =       buffer_recv( n_GP_parameters+1)
                 individual_quality(i_individual) = nint( buffer_recv( n_GP_parameters+2) )
-                !origGP_Child_Individual_SSE_nolog10(i_individual) = buffer_recv( n_GP_parameters+3)
-                GP_Child_Individual_SSE_nolog10(i_GP_individual) = buffer_recv( n_GP_parameters+3)
+                individual_SSE_nolog10(i_individual) =   buffer_recv( n_GP_parameters+3)
 
                 if( individual_quality(i_individual) < 0 .or.  &                         ! jjm 20150108
                     individual_SSE(i_individual) < 1.0D-20         )then                 ! jjm 20150108
 
                     individual_SSE(i_individual) = big_real                              ! jjm 20150108
-                    !origGP_Child_Individual_SSE_nolog10(i_individual)  =       big_real      ! jjm 20150306
-                    GP_Child_Individual_SSE_nolog10(i_GP_individual)  =       big_real      ! jjm 20150306
+                    individual_SSE_nolog10(i_individual) =   big_real
 
                 endif ! individual_quality(i_individual) < 0                             ! jjm 20150108
 
@@ -509,7 +499,7 @@ if( myid == 0 )return
 
             endif ! Run_GA_lmdif(i_individual)
 
-            !endif ! i_individual > 0 
+
             !--------------------------------------------------------------------------------
 
 
@@ -689,12 +679,6 @@ if( myid == 0 )return
                 !    !flush(GA_print_unit)
                 !endif ! L_ga_print
 
-                !write(6,'(A,2(1x,I3),1x,E15.7,1x,I4)') &
-                !  'GP_GA_opt:3 AFTER call setup new_rank, i_2_individual, indiv_SSE, indiv_qual', &
-                !                                new_rank, i_2_individual, &
-                !                                individual_SSE( i_2_individual ), &
-                !                                individual_quality(i_2_individual) 
-                !flush(6)
 
                 !-------------------------------------------------------------------------
                 do  jj = 1, n_GP_parameters
@@ -706,8 +690,7 @@ if( myid == 0 )return
                 buffer(n_GP_parameters+2) = &
                       real( individual_quality(i_2_individual), kind=r8b )
                 buffer(n_GP_parameters+3) = &
-                      GP_Child_Individual_SSE_nolog10(i_GP_individual)
-                      !orig GP_Child_Individual_SSE_nolog10(i_2_individual)
+                      individual_SSE_nolog10(i_2_individual)
 
             endif !  Run_GA_lmdif(i_2_individual)
 
@@ -720,12 +703,6 @@ if( myid == 0 )return
             !      &new_rank, i_2_individual, individual_SSE(i_2_individual)', &
             !       new_rank, i_2_individual, individual_SSE(i_2_individual)
             !endif ! L_ga_print
-
-
-            !    write(6,'(A,2(1x,I6), 1x, E15.7)') &
-            !    'GP_GA_opt:3 send results &
-            !      &new_rank, i_2_individual, GP_Child_Individual_SSE_nolog10(i_2_individual)', &
-            !       new_rank, i_2_individual, GP_Child_Individual_SSE_nolog10(i_2_individual)
 
 
             ! send the R-K integration results
@@ -771,8 +748,6 @@ if( myid == 0 )return
     !if( L_ga_print )then
     !    write(GA_print_unit,'(A,2(1x,I6))') &
     !      'GP_GA_opt: after recv_loop  new_rank = ', new_rank
-    !    write(6,'(A,2(1x,I3))') &
-    !      'GP_GA_opt: after recv_loop  new_rank = ', new_rank
     !endif ! L_ga_print
 
     if( L_too_many_iters )then
@@ -805,11 +780,6 @@ if( myid == 0 )return
         !                      GP_Individual_Initial_Conditions(1:n_code_equations)
         !endif ! L_ga_print
 
-        !write(6,'(/A,1x,I3)') &
-        !      'GP_GA_opt: call calc_fitness i_GA_generation ', &
-        !                                    i_GA_generation
-        !flush(6)
-
         ! uses:
         !  child_parameters
         !  individual_quality
@@ -826,7 +796,6 @@ if( myid == 0 )return
                            i_GA_Best_Parent, Parent_Parameters, L_stop_run, &
                            i_GP_Generation, i_GP_individual, &
                            new_comm  )
-                           !new_group, new_comm  )
 
         !---------------------------------------------------------------------
 
@@ -864,9 +833,6 @@ enddo  ! i_generation
 !    write(GA_print_unit,'(//A,1x,I6/)') &
 !      'GP_GA_opt:  finished the loop on i_GA_generation  new_rank =', &
 !                                                         new_rank
-    !write(6,'(/A,1x,I3)') &
-    !  'GP_GA_opt:  finished the loop on i_GA_generation  new_rank =', &
-    !                                                     new_rank
 !endif ! L_ga_print
 
 !----------------------------------------------------------------------
@@ -908,7 +874,6 @@ if( new_rank == 0  )then
                 i_GA_best_parent, parent_parameters, &
                 child_parameters, &
                 L_stop_run,            new_comm  )
-                !L_stop_run, new_group, new_comm  )
 
     !if( L_ga_print )then
     !    write(GA_print_unit,'(/A//)') &
@@ -975,7 +940,6 @@ call MPI_BCAST( Individual_SSE_best_parent, message_len,    &
 
 ! broadcast Individual_SSE_best_parent_nolog10
 
-Individual_SSE_best_parent_nolog10 = GP_Child_Individual_SSE_nolog10(i_GP_individual)
 message_len = 1
 call MPI_BCAST( Individual_SSE_best_parent_nolog10, message_len,    &
                 MPI_DOUBLE_PRECISION, 0, new_comm, ierr )
@@ -1010,16 +974,6 @@ message_len = n_CODE_equations
 call MPI_BCAST( GP_Individual_Initial_Conditions, message_len,    &
                 MPI_DOUBLE_PRECISION, 0, new_comm, ierr )
 
-!------------------------------------------------------------------------
-!
-!
-!! broadcast GP_Child_Individual_SSE_nolog10
-!
-!message_len = n_GP_individuals 
-!
-!call MPI_BCAST( GP_Child_Individual_SSE_nolog10, message_len,    &
-!                MPI_DOUBLE_PRECISION, 0, new_comm, ierr )
-!
 !------------------------------------------------------------------------
 
 !if( new_rank == 0  )then
