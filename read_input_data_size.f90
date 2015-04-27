@@ -26,6 +26,7 @@ CHARACTER(line_length) :: Aline
 
 
 integer(kind=i4b) ::  ncount               
+integer(kind=i4b) ::  istat_op                
 !integer(kind=i4b) ::  i                    
 !integer(kind=i4b) ::  j                    
 
@@ -40,7 +41,13 @@ integer(kind=i4b) ::  ncount
 ! open the control input file
 
 open( unit = data_unitnum, file = 'GPGACODE_data', form = 'formatted',&
-      status = 'old' )
+      status = 'old', iostat = istat_op )
+
+if( istat_op /= 0 )then
+    write(6,'(/A/)') 'ris: ERROR opening data_unitnum in read_input_data_size'
+    write(6,'(/A/)') 'ris: check that file GPGACODE_data exists'              
+    stop 'bad open data file'
+endif ! istat /= 0
 
 
 rewind(data_unitnum)
