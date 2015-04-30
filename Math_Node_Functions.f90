@@ -285,7 +285,7 @@ use kinds_mod
 
     !-------------------------------------------------------
 
-!orig     ! math_funcs(9)
+!orig     ! math_funcs (9)
 !orig     ! Minimum: a or b, whichever is lower
 !orig     real(kind=r8b) function f_Minimize(a, b)
 !orig         implicit none
@@ -297,7 +297,7 @@ use kinds_mod
     !-------------------------------------------------------
 
 
-!orig     ! math_funcs(10)
+!orig     ! math_funcs (10)
 !orig     ! Maximum: a or b, whichever is greater
 !orig     real(kind=r8b) function f_Maximize(a, b)
 !orig         implicit none
@@ -309,7 +309,7 @@ use kinds_mod
 
     !-------------------------------------------------------
 
-!orig     ! math_funcs(11)
+!orig     ! math_funcs (11)
 !orig     ! EXP: exp(-*a*b)
 !orig     real(kind=r8b) function f_ExponentialDecay(a, b)
 !orig         implicit none
