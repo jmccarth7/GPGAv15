@@ -33,7 +33,6 @@ integer(kind=i4b),intent(in) :: i_GP_Generation
 integer(kind=i4b),intent(in) :: i_GP_individual
 
 integer(kind=i4b),intent(in) :: new_comm
-!integer(kind=i4b) :: new_rank 
 
 real(kind=r8b) :: dble_cff
 
@@ -63,8 +62,6 @@ real(kind=r8b) :: sigma_fitness
 integer(kind=i4b) :: individual_quality(n_GA_individuals)
 
 
-!integer(kind=i4b) :: n_retry
-
 external :: fcn
 
 real(kind=r8b), external :: indiv_fitness
@@ -88,6 +85,7 @@ call mpi_comm_rank( new_comm, new_rank, ierr )
 
 
 !write(6,'(/A,4x,L1)') 'gacf: L_GA_print      =', L_GA_print
+
 L_stop_run = .FALSE.
 
 !if( L_ga_print )then
