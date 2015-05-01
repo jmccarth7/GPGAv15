@@ -283,6 +283,14 @@ do
     Parent_Tree_Swap_Node_Type(1:n_Nodes,2)  =  &
         GP_Adult_Population_Node_Type(1:n_Nodes,i_Female_Tree, k_GP_Individual_Female(1))
 
+
+    !write(GP_print_unit,'(/A,2(1x,I6))' ) &
+    !   'gptssr: i_Male_Tree,   k_GP_Individual_Male(1)   ', &
+    !            i_Male_Tree,   k_GP_Individual_Male(1) 
+    !write(GP_print_unit,'(A,2(1x,I6))' ) &
+    !   'gptssr: i_Female_Tree, k_GP_Individual_Female(1) ', &
+    !            i_Female_Tree, k_GP_Individual_Female(1) 
+
     !-----------------------------------------------------------------------------------------
 
 
@@ -318,19 +326,17 @@ do
 
     !-----------------------------------------------------------------------------------
 
-    !write(6,'(/A)') 'gptssr: bef call GP_Tree_Swap '
-    !! >> debug
+    write(6,'(/A)') 'gptssr: bef call GP_Tree_Swap '
+    ! >> debug
     !call print_trees( 1, i_GP_Individual, i_GP_Individual, &
     !                      GP_Child_Population_Node_Type,  &
     !                      'tree bef tree swap'  )
-    !! << debug
+    ! << debug
 
     ! GP_Tree_Swap modifies Parent_Tree_Swap_Node_Type
 
     call GP_Tree_Swap    !   perform the random tree swap
 
-
-    !write(6,'(A/)') 'gptssr: aft call GP_Tree_Swap '
 
     !-----------------------------------------------------------------------------------
 

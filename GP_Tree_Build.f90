@@ -30,6 +30,7 @@ integer(kind=i4b) :: n_parms_per_tree
 !real(kind=r4b),parameter :: prob_forcing = 0.045
 real(kind=r4b),parameter :: prob_choose_forcing_type = 0.25
 integer(kind=i4b) :: iforce
+integer(kind=i4b) :: n_trees_made
 
 !-----------------------------------------------------------------------------
 
@@ -62,6 +63,7 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
     !write(GP_print_unit,'(/A,1(1x,I6))') &
     !             'gtb: i_GP_individual ', i_GP_individual
 
+    !n_trees_made = 0
 
     do  i_Tree=1,n_Trees                ! for each GPCODE tree
 
@@ -71,10 +73,13 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
 
         call random_number(cff) ! uniform random number generator
 
-        !write(GP_print_unit,'(/A,2(1x,E15.7))') 'gtb: cff, GP_Tree_Probability ', &
-        !                                              cff, GP_Tree_Probability
+        !write(GP_print_unit,'(A,2(1x,E15.7))') 'gtb: cff, GP_Tree_Probability ', &
+        !                                             cff, GP_Tree_Probability
 
         if( cff .le. GP_Tree_Probability ) then  ! go ahead - put in an equation
+
+            !write(GP_print_unit,'(A,1x,I5)') 'gtb: make tree ', i_tree             
+            !n_trees_made = n_trees_made + 1
 
             ! always set the first node to zero
             GP_Child_Population_Node_Type(1,i_Tree,i_GP_Individual)=0
@@ -230,7 +235,11 @@ do  i_GP_Individual=1,n_GP_Individuals  ! for each GP individual
     !enddo ! i_tree
     !write(GP_print_unit,'(/A)') ' '
 
+    !write(GP_print_unit,'(/A,2(1x,I6))') &
+    !      'gtb:1 i_GP_individual, n_trees_made ',  i_GP_individual, n_trees_made
+
 enddo !  i_GP_Individual
+
 
 
 !------------------------------------------------------------------------------------------------

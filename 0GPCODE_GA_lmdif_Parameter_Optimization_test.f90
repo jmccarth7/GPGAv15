@@ -1565,11 +1565,11 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
     ! parameter values
 
     !if( i_GP_generation > n_GP_generations / 2 )then
-    !if( i_GP_generation > 20                   )then
+    if( i_GP_generation > min( 20, n_GP_generations / 2 ) )then
 
         call GP_para_lmdif_process( i_GP_generation, max_n_gp_params  )
 
-    !endif !  i_GP_generation > n_GP_generations / 2
+    endif !  i_GP_generation > min( 20, n_GP_generations / 2 )
 
 
     !---------------------------------------------------------------
