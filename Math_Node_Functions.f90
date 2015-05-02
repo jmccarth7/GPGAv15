@@ -475,9 +475,9 @@ use kinds_mod
 
     !-------------------------------------------------------
 
-    ! math_funcs(20)         EXP_RM: exp(b)
+    ! math_funcs(20)         EXP_RM: exp(-b)
 
-    ! EXP_RM: exp(b)
+    ! EXP_RM: exp(-b)
 
     real(kind=r8b) function f_ExponentialRightMinus(a, b)
         use kinds_mod

@@ -29,7 +29,6 @@ implicit none
 
 
 integer(kind=i4b) :: i
-!integer(kind=i4b) :: i_diversity
 integer(kind=i4b) :: message_len
 
 integer(kind=i4b) :: i_GP_individual
@@ -40,7 +39,6 @@ integer(kind=i4b) :: i_Tree
 integer(kind=i4b) :: i_Node
 
 integer(kind=i4b) :: jj
-!!integer(kind=i4b) :: nn
 
 integer(kind=i4b) :: i_CODE_equation
 integer(kind=i4b) :: max_n_gp_params
@@ -56,8 +54,6 @@ integer(kind=i4b) :: ierror_tb
 integer(kind=i4b) :: i_start_generation
 
 
-!real(kind=r8b) :: t1
-!real(kind=r8b) :: t2
 
 character(200) :: tree_descrip
 
@@ -220,6 +216,7 @@ endif ! myid == 0
 !    write(6, '(A,2(1x,I6)/)') 'set1: after set_answer_arrays'
 !    !flush(6)
 !endif ! myid == 0
+
 !------------------------------------------------------------------------
 
 ! then broadcast the R-K result: Runge_Kutta_Solution
@@ -337,6 +334,8 @@ if( index( model,'LOG10') > 0 .or. &
                 MPI_DOUBLE_PRECISION, 0, MPI_COMM_WORLD, ierr )
 
 endif!  index( model,'LOG10') > 0 ...
+
+
 !if( myid == 0 )then
 !    write(6, '(A,2(1x,I6)/)') 'set1: 2 bcast ierr ', ierr 
 !    !flush(6)
@@ -576,4 +575,4 @@ endif ! myid == 0
 
 return
 
-endsubroutine setup1
+end subroutine setup1

@@ -135,10 +135,16 @@ subroutine Generate_Dot_Graph( Trees, Tree_count, output_dir1 )
     ! Local variables
     integer(kind=i4b) :: i, gFile
     character(len=80) :: Graph_File
+    character(len=80) :: command    
 
 !------------------------------------------------------------------------------------------------
 
     gFile = 85;
+
+    ! clear directory of Trees written into it before this call 
+    command = 'rm -f '// output_dir1 // '/Trees/*'
+    call system( command ) 
+
 
     do  i = 1,Tree_count
         if( associated(Trees(i)%n) ) then
@@ -157,8 +163,7 @@ subroutine Generate_Dot_Graph( Trees, Tree_count, output_dir1 )
 
             close(gFile)
 
-            !call system('dot '//trim(Graph_File)// &
-            call system('/usr/bin/dot '//trim(Graph_File)// &
+            call system('dot '//trim(Graph_File)// &
                         '.dot -T pdf -Nheight=0.5 -Nwidth=0.02 -o'//trim(Graph_File)//'.pdf')
         endif ! associated
 
