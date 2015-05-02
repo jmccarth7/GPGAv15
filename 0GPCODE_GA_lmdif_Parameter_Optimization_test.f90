@@ -72,8 +72,8 @@ integer(kind=i4b) :: array_len
 
 
 character(50),parameter :: branch  =  'jjmv15_data_datalog10'
-character(75),parameter :: program_version   = '201501.010_v15'
-character(10),parameter :: modification_date = '20150427'
+character(75),parameter :: program_version   = '201501.011_v15'
+character(10),parameter :: modification_date = '20150502'
 
 integer(kind=i4b), parameter ::  zero = 0
 
@@ -278,6 +278,9 @@ endif  ! ierror > 0
 
 call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
 
+
+!---------------------------------------------------------------------
+
 ! data processing section
 
 !---------------------------------------------------------------------
@@ -291,8 +294,6 @@ call MPI_BCAST( n_input_vars, 1,    &
 !    write(6, '(A,2(1x,I6)/)') '0: 3 bcast ierr ', ierr
 !    !flush(6)
 !endif ! myid == 0
-
-!call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
 
 
 !---------------------------------------------------------------------
@@ -310,6 +311,7 @@ if( n_input_vars > 0 )then
     if( myid == 0 )then
 
         write(6, '(/A)') '0: call read_input_data_size '
+
         call read_input_data_size( )
 
         write(6, '(A)') '0: AFTER call read_input_data_size '
@@ -350,8 +352,6 @@ if( n_input_vars > 0 )then
 
     !---------------------------------------------------------------------
 
-    !call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
-
     ! allocate input data names
 
     if( myid == 0 )then
@@ -382,7 +382,6 @@ if( n_input_vars > 0 )then
         write(6, '(/A)') '0: AFT allocate input_data_array'
     endif !  myid == 0
 
-    !call MPI_BARRIER( MPI_COMM_WORLD, ierr )    ! necessary?
 
     !---------------------------------------------------------------------
 
@@ -553,16 +552,13 @@ call MPI_COMM_GROUP( comm_world, orig_group, ierr )
 
 ! divide tasks into n_partitions -- distinct groups based on rank
 
-!orig divider = ( numprocs -1 ) / n_partitions
 divider = ( numprocs  ) / n_partitions
 
 if( myid == 0 )then
     write(6,'(A,3(1x,I4))') '0: n_partitions, numprocs, divider', &
                                 n_partitions, numprocs, divider
-    !flush(6)
 endif ! myid == 0 )then
 
-!if( divider < 2 ) divider = 2    ! jjm 20150115
 
 !-------------------------------------------------------------------------------
 
@@ -693,7 +689,6 @@ call mpi_comm_size( new_comm, my_size , ierr )
 
 !write(6,'(A,4(1x,I6))') '0: myid, new_rank, color, my_size ', &
 !                            myid, new_rank, color, my_size
-!flush(6)
 
 
 !---------------------------------------------------------------------------
@@ -791,7 +786,6 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
           '0: GP Generation # ',i_GP_Generation,&
           ' is underway.   n_Nodes * n_Trees = ', n_Nodes*n_Trees, &
           '==============================================================================='
-        !flush(6)
 
         !--------------------------------------------------------------------------------
 
@@ -1570,12 +1564,12 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
     ! work well, so allow 2 generations to (hopefully) refine the
     ! parameter values
 
-    !if( i_GP_generation > n_GP_generations / 2 )then
-    if( i_GP_generation > 20                   )then
+
+    if( i_GP_generation > min( 20, n_GP_generations / 2 ) )then
 
         call GP_para_lmdif_process( i_GP_generation, max_n_gp_params  )
 
-    endif !  i_GP_generation > 20
+    endif !  i_GP_generation > min( 20, n_GP_generations / 2 )
 
 
     !---------------------------------------------------------------
