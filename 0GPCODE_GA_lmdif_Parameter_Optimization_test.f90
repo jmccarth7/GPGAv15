@@ -72,8 +72,8 @@ integer(kind=i4b) :: array_len
 
 
 character(50),parameter :: branch  =  'jjmv15_data_datalog10'
-character(75),parameter :: program_version   = '201501.010_v15'
-character(10),parameter :: modification_date = '20150427'
+character(75),parameter :: program_version   = '201501.011_v15'
+character(10),parameter :: modification_date = '20150502'
 
 integer(kind=i4b), parameter ::  zero = 0
 
