@@ -326,7 +326,7 @@ do
 
     !-----------------------------------------------------------------------------------
 
-    write(6,'(/A)') 'gptssr: bef call GP_Tree_Swap '
+    !write(6,'(/A)') 'gptssr: bef call GP_Tree_Swap '
     ! >> debug
     !call print_trees( 1, i_GP_Individual, i_GP_Individual, &
     !                      GP_Child_Population_Node_Type,  &
