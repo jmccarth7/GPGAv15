@@ -73,9 +73,9 @@ if( cff < prob_forcing )then
         node_variable = -5004
 
         ! turn off the daily forcing only
-        if( L_no_forcing ) then
-            node_variable = 0
-        endif ! L_no_forcing 
+        !if( L_no_forcing ) then
+        !    node_variable = 0
+        !endif ! L_no_forcing 
 
     elseif( cff >  frac_forcing_type(1, 2) .and.  &
             cff <= frac_forcing_type(2, 2)         )then
