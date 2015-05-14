@@ -117,11 +117,11 @@ deallocate( Numerical_CODE_Solution  )
 
 !---------------------------------------------------------------                                        
                                                                                                         
-deallocate( Truth_Initial_Conditions )
-deallocate( Truth_Node_Type          )
-deallocate( Truth_Node_Parameters    )
+!deallocate( Truth_Initial_Conditions )
+!deallocate( Truth_Node_Type          )
+!deallocate( Truth_Node_Parameters    )
                                                                                                         
-deallocate( Truth_Model_Match  ) 
+!deallocate( Truth_Model_Match  ) 
 !---------------------------------------------------------------                                        
 
 

@@ -114,12 +114,12 @@ allocate( GP_diversity_index( n_GP_individuals ) )
 
 !---------------------------------------------------------------
 
-allocate( Truth_Initial_Conditions( 1:n_code_equations )  )
-allocate( Truth_Node_Type( n_nodes, n_trees )  )
-allocate( Truth_Node_Parameters( n_nodes, n_trees )  )
+!allocate( Truth_Initial_Conditions( 1:n_code_equations )  )
+!allocate( Truth_Node_Type( n_nodes, n_trees )  )
+!allocate( Truth_Node_Parameters( n_nodes, n_trees )  )
 
 
-allocate( Truth_Model_Match( n_gp_generations ) )
+!allocate( Truth_Model_Match( n_gp_generations ) )
 
 
 
@@ -266,10 +266,10 @@ GP_Node_Type_for_Plotting = -9999
 
 !---------------------------------------------------------------
 
-Truth_Initial_Conditions  = 0.0d0
-Truth_Node_Type           = -9999
-Truth_Node_Parameters     = 0.0d0
-Truth_Model_Match         = .FALSE.
+!Truth_Initial_Conditions  = 0.0d0
+!Truth_Node_Type           = -9999
+!Truth_Node_Parameters     = 0.0d0
+!Truth_Model_Match         = .FALSE.
 
 !---------------------------------------------------------------
 

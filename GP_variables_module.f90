@@ -149,11 +149,11 @@ real(kind=r8b),allocatable, dimension(:,:)   :: RK_Solution
 
 ! store the node types and parameters for the truth model here
 
-real(kind=r8b),allocatable,dimension(:)          :: Truth_Initial_Conditions
-integer(kind=i4b),allocatable,dimension(:,:)     :: Truth_Node_Type
-real(kind=r8b),target,allocatable,dimension(:,:) :: Truth_Node_Parameters
+!real(kind=r8b),allocatable,dimension(:)          :: Truth_Initial_Conditions
+!integer(kind=i4b),allocatable,dimension(:,:)     :: Truth_Node_Type
+!real(kind=r8b),target,allocatable,dimension(:,:) :: Truth_Node_Parameters
 
-logical,allocatable, dimension(:) :: Truth_Model_Match       
+!logical,allocatable, dimension(:) :: Truth_Model_Match       
 
 !------------------------------------------------------------------------------
 
