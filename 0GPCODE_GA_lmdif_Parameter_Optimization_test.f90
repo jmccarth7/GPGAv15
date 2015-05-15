@@ -1564,6 +1564,10 @@ do  i_GP_Generation= i_start_generation, n_GP_Generations
     ! work well, so allow 2 generations to (hopefully) refine the
     ! parameter values
 
+    !orig if( i_GP_generation > min( 20, n_GP_generations / 2 ) )then
+
+!    if( i_GP_generation > min( 20, n_GP_generations / 2 ) .and. &
+!        mod( i_GP_generation, 10 ) == 0                   ) then      ! jjm 20150514
 
     if( i_GP_generation > min( 20, n_GP_generations / 2 ) )then
 
