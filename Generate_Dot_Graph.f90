@@ -163,6 +163,8 @@ subroutine Generate_Dot_Graph( Trees, Tree_count, output_dir1 )
 
             close(gFile)
 
+            ! to access dot, must load module pkgsrc/YYYYQn  (current version pkgsrc/2015Q1)
+
             call system('dot '//trim(Graph_File)// &
                         '.dot -T pdf -Nheight=0.5 -Nwidth=0.02 -o'//trim(Graph_File)//'.pdf')
         endif ! associated

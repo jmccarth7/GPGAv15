@@ -426,16 +426,14 @@ if( L_GPSSE_log )then
               GP_Child_Individual_SSE_nolog10(i_GP_best_parent)/ SSE0_nolog10
 
 
-              !sse_local, &
-              !sse_local / SSE0_nolog10
 
         write(GPSSE_best_log_unit,'(I6, 1x,I6,2(1x,E15.7))') &
               i_GP_generation, &
               i_GP_Best_Parent, &
               GP_Child_Individual_SSE_nolog10(i_GP_best_parent), &
               GP_Child_Individual_SSE_nolog10(i_GP_best_parent)/ SSE0_nolog10
-              !sse_local, &
-              !sse_local / SSE0_nolog10
+              
+             
 
     else
 

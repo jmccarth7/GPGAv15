@@ -4,7 +4,7 @@ SRCS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.f90 allocate_arrays1.f90 \
 	bcast1.f90 bcast2.f90 bcast3.f90 betacf.f90 betai.f90 build_trees.f90 \
 	calc_stats.f90 check_for_elite.f90 \
 	class_serialization_visitor.f90 class_tree_node.f90 clock_module.f90 \
-	close_output_unit.f90 combine_tree_strings.f90 comp_data_variance.f90 \
+	combine_tree_strings.f90 comp_data_variance.f90 \
 	corr.f90 count_parens.f90 create_equations.f90 \
 	create_tree_node_string.f90 deallocate_arrays1.f90 \
 	deserialize_trees2.f90 enorm.f90 erfc.f90 erfcc.f90 \
@@ -52,7 +52,7 @@ OBJS =	0GPCODE_GA_lmdif_Parameter_Optimization_test.o allocate_arrays1.o \
 	bcast1.o bcast2.o bcast3.o betacf.o betai.o build_trees.o \
 	calc_stats.o check_for_elite.o \
 	class_serialization_visitor.o class_tree_node.o clock_module.o \
-	close_output_unit.o combine_tree_strings.o comp_data_variance.o \
+	combine_tree_strings.o comp_data_variance.o \
 	corr.o count_parens.o create_equations.o create_tree_node_string.o \
 	deallocate_arrays1.o deserialize_trees2.o enorm.o erfc.o erfcc.o \
 	Fasham_Forcing.o fasham_model_debug.o fasham_tree_functions.o \
@@ -105,39 +105,39 @@ CFLAGS = -O
 #LIBS= -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/lib -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/usr/lib  -L/Developer/SDKs/MacOSX10.6.sdk/usr/lib
 
 #################################################################################################
-# note: mpif90 is based on gfortran
-FC = /opt/openmpi-1.8.1/bin/mpif90
-#FFLAGS =  -O3 -g -fbacktrace -ffree-form # -fcheck=bounds #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
-FFLAGS =   -g  -ffree-form #-fbacktrace  #-fcheck=bounds #-ffpe-trap='overflow,underflow,denormal' #-g  -fbacktrace -ffree-form -fcheck=bounds # -Wall  #-fdefault-integer-8  # -FR = -free
-#FFLAGS =  -O3  -ffree-form #-g -fbacktrace  -fcheck=bounds  # -Wall  # -fdefault-integer-8  # -FR = -free
-
-# note: mpif90 is based on gfortran
-F90 = /opt/openmpi-1.8.1/bin/mpif90
-#F90FLAGS = -O3 -g -fbacktrace -ffree-form  # -fcheck=bounds  #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
-F90FLAGS =  -g   -ffree-form #-fbacktrace #-fcheck=bounds # -ffpe-trap='overflow,underflow,denormal' #-g  -fbacktrace -ffree-form -fcheck=bounds # -Wall  #-fdefault-integer-8  # -FR = -free
-#F90FLAGS =  -O3 -ffree-form #-g -fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
-
-LDFLAGS = -L/opt/openmpi-1.8.1/lib \
-          -I/Developer/SDKs/MacOSX10.6.sdk/usr/include
-LIBS= -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib \
-      -L/Developer/SDKs/MacOSX10.6.sdk/usr/lib
-
+## note: mpif90 is based on gfortran
+#FC = /opt/openmpi-1.8.1/bin/mpif90
+##FFLAGS =  -O3 -g -fbacktrace -ffree-form # -fcheck=bounds #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
+#FFLAGS =   -g  -ffree-form #-fbacktrace  #-fcheck=bounds #-ffpe-trap='overflow,underflow,denormal' #-g  -fbacktrace -ffree-form -fcheck=bounds # -Wall  #-fdefault-integer-8  # -FR = -free
+##FFLAGS =  -O3  -ffree-form #-g -fbacktrace  -fcheck=bounds  # -Wall  # -fdefault-integer-8  # -FR = -free
+#
+## note: mpif90 is based on gfortran
+#F90 = /opt/openmpi-1.8.1/bin/mpif90
+##F90FLAGS = -O3 -g -fbacktrace -ffree-form  # -fcheck=bounds  #-fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
+#F90FLAGS =  -g   -ffree-form #-fbacktrace #-fcheck=bounds # -ffpe-trap='overflow,underflow,denormal' #-g  -fbacktrace -ffree-form -fcheck=bounds # -Wall  #-fdefault-integer-8  # -FR = -free
+##F90FLAGS =  -O3 -ffree-form #-g -fbacktrace  -fcheck=bounds  # -Wall  #-fdefault-integer-8  # -FR = -free
+#
+#LDFLAGS = -L/opt/openmpi-1.8.1/lib \
+#          -I/Developer/SDKs/MacOSX10.6.sdk/usr/include
+#LIBS= -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib \
+#      -L/Developer/SDKs/MacOSX10.6.sdk/usr/lib
+#
 ###################################################################################
-##FC = mpif90  #mpiifort
-##FC = mpiifort
-#FC = ifort
-##FFLAGS = -O3  -free   -traceback #-warn all #-C -ftrapuv  # -warn all   # -ftrace=full    # -fzero -Wall
-#FFLAGS = -O3  -free #-check bounds   #  -g -traceback  #-ftrapuv #-warn all #-C -ftrapuv  # -warn all   # -ftrace=full    # -fzero -Wall
-#FFLAGS = -O3  -free  -assume realloc_lhs -mkl -heap-arrays
-##FFLAGS = -g  -free -traceback -debug all #-check bounds   #  -g -traceback  #-ftrapuv #-warn all #-C -ftrapuv  # -warn all   # -ftrace=full    # -fzero -Wall
-##F90 = mpif90  #mpiifort
-##F90 = mpiifort
-#F90 = ifort
-##F90FLAGS = -O3  -free -traceback #-warn all #-C -ftrapuv  # -warn all   #  -ftrace=full    # -fzero -Wall 
-##F90FLAGS = -O3  -free #-check bounds  #  -g -traceback  #-ftrapuv  #-warn all #-C -ftrapuv  # -warn all   #  -ftrace=full    # -fzero -Wall
-#F90FLAGS = -O3  -free  -assume realloc_lhs -mkl -heap-arrays
-##F90FLAGS = -g  -free -traceback -debug all  #-check bounds  #  -g -traceback  #-ftrapuv  #-warn all #-C -ftrapuv  # -warn all   #  -ftrace=full    # -fzero -Wall
-#LDFLAGS = -lmpi
+#FC = mpif90  #mpiifort
+#FC = mpiifort
+FC = ifort
+#FFLAGS = -O3  -free   -traceback #-warn all #-C -ftrapuv  # -warn all   # -ftrace=full    # -fzero -Wall
+FFLAGS = -O3  -free #-check bounds   #  -g -traceback  #-ftrapuv #-warn all #-C -ftrapuv  # -warn all   # -ftrace=full    # -fzero -Wall
+FFLAGS = -O3  -free  -assume realloc_lhs -mkl -heap-arrays
+#FFLAGS = -g  -free -traceback -debug all #-check bounds   #  -g -traceback  #-ftrapuv #-warn all #-C -ftrapuv  # -warn all   # -ftrace=full    # -fzero -Wall
+#F90 = mpif90  #mpiifort
+#F90 = mpiifort
+F90 = ifort
+#F90FLAGS = -O3  -free -traceback #-warn all #-C -ftrapuv  # -warn all   #  -ftrace=full    # -fzero -Wall 
+#F90FLAGS = -O3  -free #-check bounds  #  -g -traceback  #-ftrapuv  #-warn all #-C -ftrapuv  # -warn all   #  -ftrace=full    # -fzero -Wall
+F90FLAGS = -O3  -free  -assume realloc_lhs -mkl -heap-arrays
+#F90FLAGS = -g  -free -traceback -debug all  #-check bounds  #  -g -traceback  #-ftrapuv  #-warn all #-C -ftrapuv  # -warn all   #  -ftrace=full    # -fzero -Wall
+LDFLAGS = -lmpi
 ####################################################################################
 
 
@@ -186,8 +186,8 @@ class_serialization_visitor.o: GP_variables_module.o class_tree_node.o \
 	kinds_mod.o mpi_module.o
 class_tree_node.o: Math_Node_Functions.o kinds_mod.o
 clock_module.o: kinds_mod.o
-close_output_unit.o: GA_parameters_module.o GP_parameters_module.o \
-	GP_variables_module.o mpi_module.o
+#close_output_unit.o: GA_parameters_module.o GP_parameters_module.o \
+#	GP_variables_module.o mpi_module.o
 combine_tree_strings.o: GP_parameters_module.o GP_variables_module.o \
 	kinds_mod.o
 comp_data_variance.o: GA_parameters_module.o GA_variables_module.o \
